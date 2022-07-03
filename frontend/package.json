@@ -1,0 +1,38 @@
+{
+  "packageManager": "yarn@3.2.1",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --progress --mode production"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack": "^5.73.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/webpack-plugin-serve": "^1",
+    "babel-loader": "^8.2.5",
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "pnp-webpack-plugin": "^1.7.0",
+    "react-refresh": "^0.14.0",
+    "typescript": "^4.7.4",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3",
+    "webpack-plugin-serve": "^1.6.0"
+  },
+  "installConfig": {
+    "pnp": true
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
