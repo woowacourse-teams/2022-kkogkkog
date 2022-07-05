@@ -1,34 +1,32 @@
-const path = require("path");
-const WebpackPluginServe = require("webpack-plugin-serve");
-
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = (env, args) => {
-  const isDevelopment = args.mode === "development";
+  const isDevelopment = args.mode === 'development';
 
   return {
-    entry: "./src/index.tsx",
+    entry: './src/index.tsx',
     output: {
-      path: path.resolve(__dirname, "build"),
-      filename: "bundle.[hash].js",
+      path: path.resolve(__dirname, 'build'),
+      filename: 'bundle.[hash].js',
       clean: true,
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, "build"),
+        directory: path.join(__dirname, 'build'),
       },
       compress: true,
       port: 3000,
       historyApiFallback: true,
-      host: "localhost",
+      host: 'localhost',
     },
     resolve: {
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
-      modules: ["node_modules"],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      modules: ['node_modules'],
       alias: {
-        "@": path.resolve(__dirname, "src/"),
+        '@': path.resolve(__dirname, 'src/'),
       },
     },
     module: {
@@ -36,18 +34,18 @@ module.exports = (env, args) => {
         {
           test: /\.(js|jsx|ts|tsx)$/,
           use: {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: {
               presets: [
-                "@babel/preset-env",
-                "@babel/preset-react",
-                "@babel/preset-typescript",
+                '@babel/preset-env',
+                ['@babel/preset-react', { runtime: 'automatic' }],
+                '@babel/preset-typescript',
               ],
               env: {
                 development: {
-                  plugins: [
-                    isDevelopment && require.resolve("react-refresh/babel"),
-                  ].filter(Boolean),
+                  plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(
+                    Boolean
+                  ),
                 },
               },
             },
@@ -57,8 +55,8 @@ module.exports = (env, args) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./public/index.html",
-        filename: "index.html",
+        template: './public/index.html',
+        filename: 'index.html',
       }),
       isDevelopment && new ReactRefreshWebpackPlugin(),
     ].filter(Boolean),
