@@ -9,8 +9,10 @@
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "axios": "^0.27.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.1",
     "react-router-dom": "6",
     "webpack": "^5.73.0"
   },
@@ -53,6 +55,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-storybook": "^0.5.13",
     "html-webpack-plugin": "^5.5.0",
+    "msw": "^0.43.0",
     "pnp-webpack-plugin": "^1.7.0",
     "prettier": "^2.7.1",
     "react-refresh": "^0.14.0",
