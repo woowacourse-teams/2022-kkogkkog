@@ -22,14 +22,14 @@
     "jsx-a11y"
   ],
   "extends": [
+    "react-app",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier/prettier",
     "plugin:import/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
-    "react-app"
+    "plugin:react-hooks/recommended"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
@@ -41,11 +41,15 @@
         "html": true
       }
     ],
+
     "import/no-anonymous-default-export": "error",
     "import/newline-after-import": "error",
     "import/first": "error",
     "import/no-unresolved": "off",
+
     "@typescript-eslint/no-empty-function": ["off"],
+    "@typescript-eslint/no-var-requires": "off",
+
     "simple-import-sort/imports": "error",
     "eol-last": ["error", "always"],
     "object-curly-spacing": ["error", "always"],
