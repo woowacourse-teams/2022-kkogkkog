@@ -38,7 +38,7 @@ module.exports = (env, args) => {
             options: {
               presets: [
                 '@babel/preset-env',
-                ['@babel/preset-react', { runtime: 'automatic' }],
+                ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
                 '@babel/preset-typescript',
               ],
               env: {
@@ -48,6 +48,7 @@ module.exports = (env, args) => {
                   ),
                 },
               },
+              plugins: ['@emotion/babel-plugin'],
             },
           },
         },
