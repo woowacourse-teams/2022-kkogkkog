@@ -42,7 +42,7 @@
       }
     ],
 
-    "import/no-anonymous-default-export": "error",
+    "import/no-anonymous-default-export": "off",
     "import/newline-after-import": "error",
     "import/first": "error",
     "import/no-unresolved": "off",
