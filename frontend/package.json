@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "6",
     "webpack": "^5.73.0"
   },
   "devDependencies": {
