@@ -1,9 +1,20 @@
+import { PropsWithChildren } from 'react';
+
+import Header from '@/@components/@shared/Header';
+
 import * as Styled from './style';
 
-const PageTemplate = ({ children }) => {
+interface PageTemplateProps {
+  title: string;
+}
+
+const PageTemplate = ({ title, children }: PropsWithChildren<PageTemplateProps>) => {
   return (
     <Styled.Root>
-      <Styled.Container>{children}</Styled.Container>
+      <Styled.Container>
+        <Header title={title} />
+        {children}
+      </Styled.Container>
     </Styled.Root>
   );
 };
