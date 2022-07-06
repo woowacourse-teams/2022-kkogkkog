@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, args) => {
   const isDevelopment = args.mode === 'development';
@@ -59,6 +60,17 @@ module.exports = (env, args) => {
         filename: 'index.html',
       }),
       isDevelopment && new ReactRefreshWebpackPlugin(),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'public/',
+            to: '',
+            globOptions: {
+              ignore: ['**/*.html'],
+            },
+          },
+        ],
+      }),
     ].filter(Boolean),
   };
 };
