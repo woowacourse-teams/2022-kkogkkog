@@ -1,5 +1,5 @@
-const KkogkkogCreate = () => {
+const KkogkkogCreatePage = () => {
   return <div>KkogkkogCreate</div>;
 };
 
-export default KkogkkogCreate;
+export default KkogkkogCreatePage;
