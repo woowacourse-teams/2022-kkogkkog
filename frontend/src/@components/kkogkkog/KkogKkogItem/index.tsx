@@ -1,4 +1,16 @@
+import { css } from '@emotion/react';
+
 import * as Styled from './style';
+
+const mediaQuery = css`
+  @media (max-width: 400px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 14px;
+  }
+`;
 
 const KkogKkogItem = ({
   id,
@@ -11,10 +23,19 @@ const KkogKkogItem = ({
 }) => {
   return (
     <Styled.Root>
-      <Styled.TextContainer>
-        {senderName}이(가) {modifier}
+      <Styled.TextContainer css={mediaQuery}>
+        From. {senderName}
         <br />
-        {type} 꼭꼭
+        {modifier}
+        &nbsp;
+        <span
+          css={css`
+            text-decoration: underline 2px;
+          `}
+        >
+          {type}
+        </span>
+        &nbsp;꼭꼭
       </Styled.TextContainer>
       <Styled.ImageContainer backgroundColor={backgroundColor}>
         <img src={thumbnail} alt='쿠폰' />
@@ -24,3 +45,6 @@ const KkogKkogItem = ({
 };
 
 export default KkogKkogItem;
+
+// 글자 수 제한 - 8글자?
+// 미디어 쿼리 적용

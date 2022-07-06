@@ -10,12 +10,14 @@ export const Root = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  padding-left: 20px;
+  padding-left: 15px;
 
   border-radius: 4px;
   box-shadow: 0 4px 4px 0 #00000025;
 
   aspect-ratio: 3/1;
+
+  cursor: pointer;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
