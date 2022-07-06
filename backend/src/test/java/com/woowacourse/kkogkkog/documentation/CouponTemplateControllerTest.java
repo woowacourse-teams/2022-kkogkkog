@@ -2,12 +2,7 @@ package com.woowacourse.kkogkkog.documentation;
 
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
-import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.BDDMockito.given;
-
-import com.woowacourse.kkogkkog.application.dto.CouponTemplateResponse;
-import com.woowacourse.kkogkkog.application.dto.CouponTemplatesResponse;
-
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -16,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.kkogkkog.application.dto.CouponTemplateResponse;
+import com.woowacourse.kkogkkog.application.dto.CouponTemplatesResponse;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import java.util.List;
 import org.junit.jupiter.api.Test;
