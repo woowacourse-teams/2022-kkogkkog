@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
-import com.woowacourse.kkogkkog.exception.SameSenderReceiverException;
+import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

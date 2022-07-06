@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.exception.SameSenderReceiverException;
+import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")

@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
-import com.woowacourse.kkogkkog.exception.CouponTypeNotFoundException;
+import com.woowacourse.kkogkkog.exception.coupon.CouponTypeNotFoundException;
 import java.util.Arrays;
 import lombok.Getter;
 

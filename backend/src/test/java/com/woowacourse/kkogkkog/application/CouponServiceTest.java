@@ -9,7 +9,7 @@ import com.woowacourse.kkogkkog.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +78,7 @@ public class CouponServiceTest {
         CouponsResponse expected = new CouponsResponse(List.of(
                 new CouponResponse(couponId1, "루키", "아서", "red", "한턱내는",
                         "추가 메세지", "커피", CouponStatus.READY.name()),
-                new CouponResponse(couponId2, "루키", "정", "red", "한턱내는", 
+                new CouponResponse(couponId2, "루키", "정", "red", "한턱내는",
                         "추가 메세지", "커피", CouponStatus.READY.name())));
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }

@@ -8,8 +8,8 @@ import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.CouponNotFoundException;
-import com.woowacourse.kkogkkog.exception.MemberNotFoundException;
+import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
+import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +31,7 @@ public class CouponService {
     public Long save(CouponCreateRequest couponCreateRequest) {
         Coupon coupon = saveCoupon(couponCreateRequest);
         Coupon savedCoupon = couponRepository.save(coupon);
-        
+
         return savedCoupon.getId();
     }
 
@@ -56,7 +56,7 @@ public class CouponService {
     public CouponResponse findById(Long couponId) {
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(CouponNotFoundException::new);
-        
+
         return CouponResponse.of(coupon);
     }
 
@@ -65,7 +65,7 @@ public class CouponService {
        List<CouponResponse> couponResponses = couponRepository.findAll().stream()
                 .map(CouponResponse::of)
                 .collect(Collectors.toList());
-       
+
        return new CouponsResponse(couponResponses);
     }
 }
