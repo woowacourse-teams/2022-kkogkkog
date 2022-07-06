@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.jvm.convert' version '3.3.0'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'java'
 }
 
@@ -10,17 +10,18 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+    asciidoctorExtensions
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
 
-repositories {
-    mavenCentral()
+ext {
+    snippetsDir = file('build/generated-snippets')
 }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -28,22 +29,45 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Guava
+    implementation group: 'com.google.guava', name: 'guava', version: 'r05'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     runtimeOnly 'com.h2database:h2'
+
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
 }
 
-tasks.named('test') {
-    outputs.dir snippetsDir
+test {
     useJUnitPlatform()
+    outputs.dir snippetsDir
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
+asciidoctor {
     dependsOn test
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+
+    baseDirFollowsSourceFile()
+}
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+    delete file('src/main/resources/static/index.html')
+    from file("build/docs/asciidoc/index.html")
+    into file("src/main/resources/static")
+}
+
+build {
+    dependsOn createDocument
+}
+
+bootJar {
+    dependsOn createDocument
 }
