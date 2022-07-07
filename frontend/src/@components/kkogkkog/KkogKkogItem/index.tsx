@@ -18,22 +18,21 @@ const KkogKkogItem = ({
   receiverName,
   backgroundColor,
   modifier,
-  type,
+  couponType,
   thumbnail,
 }) => {
   return (
     <Styled.Root>
       <Styled.TextContainer css={mediaQuery}>
         From. {senderName}
-        <br />
-        {modifier}
+        <br />#{modifier}
         &nbsp;
         <span
           css={css`
             text-decoration: underline 2px;
           `}
         >
-          {type}
+          {couponType}
         </span>
         &nbsp;꼭꼭
       </Styled.TextContainer>
