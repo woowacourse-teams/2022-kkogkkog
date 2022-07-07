@@ -1,6 +1,6 @@
 export default {
   current: {
-    coupons: [
+    data: [
       {
         id: 1,
         senderName: '준찌',

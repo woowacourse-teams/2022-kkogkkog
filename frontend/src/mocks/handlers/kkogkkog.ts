@@ -12,11 +12,11 @@ export const kkogkkogHandler = [
     const { body: info } = req;
 
     const newKkogkkog = {
-      id: kkogkkogList.current.coupons.length + 1,
+      id: kkogkkogList.current.data.length + 1,
       ...info,
     };
 
-    kkogkkogList.current.coupons = [newKkogkkog, ...kkogkkogList.current.coupons];
+    kkogkkogList.current.data = [newKkogkkog, ...kkogkkogList.current.data];
 
     return res(ctx.status(200), ctx.json(newKkogkkog));
   }),
