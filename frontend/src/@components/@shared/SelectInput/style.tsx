@@ -9,6 +9,8 @@ export const Root = styled.div`
 
     margin-bottom: 8px;
   }
+
+  box-shadow: 0 1px 1px 0 #00000025;
 `;
 
 export const SelectContainer = styled.ul`
@@ -28,5 +30,11 @@ export const SelectContainer = styled.ul`
 
   & > li {
     cursor: pointer;
+  }
+
+  & > li:hover {
+    opacity: 0.99;
+
+    transition: opacity 0.2s ease-in;
   }
 `;
