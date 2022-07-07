@@ -9,12 +9,13 @@ export const FormRoot = styled.form`
 
 export const FeelOption = styled.li<{ isSelected: boolean }>`
   font-weight: bold;
+  opacity: 0.3;
 
   ${({ isSelected }) =>
     isSelected &&
     css`
-      transform: scale(1.2);
-      transition: transform 0.3s ease-in-out;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
     `}
 `;
 
@@ -26,6 +27,8 @@ export const ColorOption = styled.li<{ color: string; isSelected: boolean }>`
 
   box-shadow: 0 4px 4px 0 #00000025;
 
+  opacity: 0.3;
+
   ${({ color }) =>
     css`
       background-color: ${color};
@@ -34,8 +37,8 @@ export const ColorOption = styled.li<{ color: string; isSelected: boolean }>`
   ${({ isSelected }) =>
     isSelected &&
     css`
-      transform: scale(1.2);
-      transition: transform 0.3s ease-in-out;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
     `}
 `;
 
@@ -50,11 +53,13 @@ export const TypeOption = styled.li<{ isSelected: boolean }>`
     border-radius: 50%;
   }
 
+  opacity: 0.3;
+
   ${({ isSelected }) =>
     isSelected &&
     css`
-      transform: scale(1.2);
-      transition: transform 0.2s ease-in-out;
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
     `}
 `;
 
