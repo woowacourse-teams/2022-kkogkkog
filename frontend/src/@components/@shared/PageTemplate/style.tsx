@@ -7,6 +7,8 @@ export const Root = styled.div`
 `;
 
 export const Container = styled.div`
+  min-height: 100vh;
+
   max-width: 414px;
   min-width: 320px;
 
@@ -15,4 +17,6 @@ export const Container = styled.div`
   position: relative;
 
   box-shadow: 0 4px 4px 0 #00000025;
+
+  background-color: ${({ theme }) => theme.colors.white_100};
 `;

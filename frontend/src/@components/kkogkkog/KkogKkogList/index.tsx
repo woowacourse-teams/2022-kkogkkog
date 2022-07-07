@@ -1,6 +1,6 @@
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import { KkogKkog } from '@/types/domain';
-import { THUMNAIL } from '@/utils/constants/kkogkkog';
+import { THUMBNAIL } from '@/utils/constants/kkogkkog';
 
 import * as Styled from './style';
 
@@ -12,7 +12,7 @@ const KkogKkogList = ({ kkogkkogList }: KkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList.map(kkogkkog => (
-        <KkogKkogItem key={kkogkkog.id} {...kkogkkog} thumbnail={THUMNAIL[kkogkkog.type]} />
+        <KkogKkogItem key={kkogkkog.id} {...kkogkkog} thumbnail={THUMBNAIL[kkogkkog.couponType]} />
       ))}
     </Styled.Root>
   );
