@@ -13,3 +13,5 @@ export const getKkogkkog = () =>
       return parsedData.coupons;
     },
   });
+
+export const createKkogkkog = (info: Omit<KkogKkog, 'id'>) => client.post('/coupons', info);
