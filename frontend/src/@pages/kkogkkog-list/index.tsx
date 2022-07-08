@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Suspense } from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +9,24 @@ import { getKkogkkog } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
 import { KkogKkog } from '@/types/domain';
 
-const Loading = () => {
+const KkogkkogListPage = () => {
+  const { data } = useQuery<{ data: KkogKkog[] }>('kkogkkogList', getKkogkkog);
+
+  const { data: kkogkkogList } = data;
+
+  return (
+    <PageTemplate title='꼭꼭 모아보기'>
+      <StyledRoot>
+        <Link to={PATH.KKOGKKOG_CREATE}>
+          <KkogKkogItem.CreateLinkButton />
+        </Link>
+        <KkogKkogList kkogkkogList={kkogkkogList} />
+      </StyledRoot>
+    </PageTemplate>
+  );
+};
+
+KkogkkogListPage.Skeleton = function Skeleton() {
   return (
     <PageTemplate title='꼭꼭 리스트'>
       <StyledRoot>
@@ -20,27 +36,11 @@ const Loading = () => {
         <KkogKkogItem.Skeleton />
         <KkogKkogItem.Skeleton />
         <KkogKkogItem.Skeleton />
+        <KkogKkogItem.Skeleton />
+        <KkogKkogItem.Skeleton />
+        <KkogKkogItem.Skeleton />
       </StyledRoot>
     </PageTemplate>
-  );
-};
-
-const KkogkkogListPage = () => {
-  const { data } = useQuery<{ data: KkogKkog[] }>('kkogkkogList', getKkogkkog);
-
-  const { data: kkogkkogList } = data;
-
-  return (
-    <Suspense fallback={<Loading />}>
-      <PageTemplate title='꼭꼭 리스트'>
-        <StyledRoot>
-          <Link to={PATH.KKOGKKOG_CREATE}>
-            <KkogKkogItem.CreateLinkButton />
-          </Link>
-          <KkogKkogList kkogkkogList={kkogkkogList} />
-        </StyledRoot>
-      </PageTemplate>
-    </Suspense>
   );
 };
 

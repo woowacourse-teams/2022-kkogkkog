@@ -29,15 +29,7 @@ root.render(
     <Global styles={globalStyle} />
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <Suspense
-          fallback={
-            <Loading>
-              <img src='/assets/images/logo.png' alt='logo' width='80' />
-            </Loading>
-          }
-        >
-          <App />
-        </Suspense>
+        <App />
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
