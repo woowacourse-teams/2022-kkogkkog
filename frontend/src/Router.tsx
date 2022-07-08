@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
@@ -15,7 +16,14 @@ const Router = () => {
   return (
     <Routes>
       <Route path={PATH.LANDING} element={<LandingPage />} />
-      <Route path={PATH.KKOGKKOG_LIST} element={<KkogkkogListPage />} />
+      <Route
+        path={PATH.KKOGKKOG_LIST}
+        element={
+          <Suspense fallback={<KkogkkogListPage.Skeleton />}>
+            <KkogkkogListPage />
+          </Suspense>
+        }
+      />
       <Route path={PATH.KKOGKKOG_CREATE} element={<KkogkkogCreatePage />} />
     </Routes>
   );
