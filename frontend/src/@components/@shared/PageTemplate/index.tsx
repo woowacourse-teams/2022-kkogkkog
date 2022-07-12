@@ -10,7 +10,7 @@ interface PageTemplateProps {
 
 const PageTemplate = ({ title, children }: PropsWithChildren<PageTemplateProps>) => {
   useEffect(() => {
-    document.title = `${title} | 세상에 고마움을 전달하는 꼭꼭`;
+    document.title = `${title} | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게`;
   }, [title]);
 
   return (
