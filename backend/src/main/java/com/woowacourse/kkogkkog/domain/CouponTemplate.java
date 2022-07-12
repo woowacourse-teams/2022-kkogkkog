@@ -16,7 +16,6 @@ public class CouponTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coupon_template_id")
     private Long id;
 
     @Column(name = "member_id")
