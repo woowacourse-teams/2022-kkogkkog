@@ -47,17 +47,10 @@ const KkogKkogItem = ({
   );
 };
 
-KkogKkogItem.CreateLinkButton = function CreateLinkButton() {
+KkogKkogItem.LinkButton = function LinkButton() {
   return (
     <Styled.Root>
-      <div
-        css={css`
-          font-size: 32px;
-
-          text-align: center;
-          width: 100%;
-        `}
-      >
+      <Styled.LinkButtonContainer>
         <div>+</div>
         <div
           css={css`
@@ -66,7 +59,7 @@ KkogKkogItem.CreateLinkButton = function CreateLinkButton() {
         >
           꼭꼭을 생성해보세요 !
         </div>
-      </div>
+      </Styled.LinkButtonContainer>
     </Styled.Root>
   );
 };

@@ -18,7 +18,7 @@ const KkogkkogListPage = () => {
     <PageTemplate title='꼭꼭 모아보기'>
       <StyledRoot>
         <Link to={PATH.KKOGKKOG_CREATE}>
-          <KkogKkogItem.CreateLinkButton />
+          <KkogKkogItem.LinkButton />
         </Link>
         <KkogKkogList kkogkkogList={kkogkkogList} />
       </StyledRoot>
@@ -31,7 +31,7 @@ KkogkkogListPage.Skeleton = function Skeleton() {
     <PageTemplate title='꼭꼭 리스트'>
       <StyledRoot>
         <Link to={PATH.KKOGKKOG_CREATE}>
-          <KkogKkogItem.CreateLinkButton />
+          <KkogKkogItem.LinkButton />
         </Link>
         <KkogKkogItem.Skeleton />
         <KkogKkogItem.Skeleton />

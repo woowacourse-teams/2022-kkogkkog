@@ -52,3 +52,10 @@ export const ImageContainer = styled.div<{ backgroundColor: string }>`
     box-shadow: 0 4px 4px 0 #00000025;
   }
 `;
+
+export const LinkButtonContainer = styled.div`
+  font-size: 32px;
+
+  text-align: center;
+  width: 100%;
+`;
