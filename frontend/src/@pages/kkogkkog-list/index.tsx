@@ -28,7 +28,7 @@ const KkogkkogListPage = () => {
 
 KkogkkogListPage.Skeleton = function Skeleton() {
   return (
-    <PageTemplate title='꼭꼭 리스트'>
+    <PageTemplate title='꼭꼭 모아보기'>
       <StyledRoot>
         <Link to={PATH.KKOGKKOG_CREATE}>
           <KkogKkogItem.LinkButton />
