@@ -69,6 +69,3 @@ KkogKkogItem.Skeleton = function Skeleton() {
 };
 
 export default KkogKkogItem;
-
-// 글자 수 제한 - 8글자?
-// 미디어 쿼리 적용
