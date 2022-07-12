@@ -27,8 +27,14 @@ const colors = {
   background_0: '#FDFDFD',
 };
 
+const layers = {
+  header: 4900,
+  dimmed: 5000,
+};
+
 const theme = {
   colors,
+  layers,
 };
 
 export default theme;

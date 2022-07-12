@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Dimmed = styled.div`
@@ -14,5 +15,7 @@ export const Dimmed = styled.div`
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  z-index: 10000;
+  ${({ theme }) => css`
+    z-index: ${theme.layers.dimmed};
+  `}
 `;
