@@ -67,7 +67,7 @@ const Login = () => {
           />
           <button type='submit'>로그인</button>
         </Styled.LoginForm>
-        <Link to={PATH.SIGNUP}>회원가입</Link>
+        <Link to={PATH.JOIN}>회원가입</Link>
       </Styled.Root>
     </PageTemplate>
   );
