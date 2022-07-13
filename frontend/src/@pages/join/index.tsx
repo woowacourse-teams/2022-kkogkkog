@@ -7,7 +7,6 @@ import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useAuthenticateForm } from '@/hooks/useAuthenticateForm';
 import { PATH } from '@/Router';
-import theme from '@/styles/theme';
 
 const Join = () => {
   const {
@@ -26,21 +25,10 @@ const Join = () => {
 
             justify-content: center;
             align-items: center;
-
-            & > img {
-              width: 40px;
-            }
-
-            & > h1 {
-              font-size: 20px;
-              font-weight: bold;
-              margin-left: 10px;
-              color: ${theme.colors.primary_400};
-            }
           `}
         >
-          <img src='/assets/images/logo.png' alt='로고' />
-          <h1>꼭꼭</h1>
+          <img src='/assets/images/logo.png' alt='로고' width={40} />
+          <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         <Styled.FormRoot onSubmit={onSubmitJoinForm}>
           <Input
@@ -103,5 +91,11 @@ const Styled = {
     & > div {
       margin-bottom: 15px;
     }
+  `,
+  BrandName: styled.h1`
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: ${({ theme }) => theme.colors.primary_400};
   `,
 };
