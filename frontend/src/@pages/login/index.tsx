@@ -88,7 +88,7 @@ const Styled = {
   LoginForm: styled.form`
     width: 100%;
 
-    & > div > input {
+    & input {
       width: 100%;
       height: 50px;
       font-size: 14px;
@@ -97,7 +97,7 @@ const Styled = {
       padding: 0 10px;
     }
 
-    & > div > input::placeholder {
+    & input::placeholder {
       ${({ theme }) => css`
         color: ${theme.colors.light_grey_100};
       `}
