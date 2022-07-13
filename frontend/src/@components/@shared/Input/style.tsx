@@ -1,8 +1,12 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+import { hideWithA11y } from '@/styles/mixin';
+
+export const Root = styled.div<{ isShowLabel: boolean }>`
   display: flex;
   flex-direction: column;
+  position: relative;
 
   & > label {
     display: inline-block;
@@ -11,14 +15,19 @@ export const Root = styled.div`
     font-size: 14px;
 
     margin-bottom: 8px;
-  }
 
-  & > input {
-    border-radius: 4px;
-    padding: 10px;
-    border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
+    ${({ isShowLabel }) =>
+      isShowLabel ||
+      css`
+        ${hideWithA11y}
+      `}
   }
+`;
 
+export const Input = styled.input`
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
   box-shadow: 0 1px 1px 0 #00000025;
 `;
 

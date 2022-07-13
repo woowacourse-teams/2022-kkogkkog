@@ -12,8 +12,8 @@ const Join = () => {
   const {
     state: { email, password, confirmPassword, name },
     changeHandler: { onChangeEmail, onChangePassword, onChangeConfirmPassword, onChangeName },
-    submitHandler: { onSubmitJoinForm },
-  } = useAuthenticateForm();
+    onSubmitForm,
+  } = useAuthenticateForm({ type: 'Join' });
 
   return (
     <PageTemplate title='회원가입' hasHeader={false}>
@@ -30,7 +30,7 @@ const Join = () => {
           <img src='/assets/images/logo.png' alt='로고' width={40} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
-        <Styled.FormRoot onSubmit={onSubmitJoinForm}>
+        <Styled.FormRoot onSubmit={onSubmitForm}>
           <Input
             id='email'
             type='email'
