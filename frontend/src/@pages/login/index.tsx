@@ -1,39 +1,21 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import { useAuthenticateForm } from '@/hooks/useAuthenticateForm';
 import { PATH } from '@/Router';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-
-    setEmail(value);
-  };
-
-  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-
-    setPassword(value);
-  };
-
-  const handleSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // @TODO: Logic
-  };
+  const {
+    state: { email, password },
+    changeHandler: { onChangeEmail, onChangePassword },
+    onSubmitForm,
+  } = useAuthenticateForm({ type: 'Login' });
 
   return (
-    <PageTemplate title='로그인'>
+    <PageTemplate title='로그인' hasHeader={false}>
       <Styled.Root>
         <Link
           to={PATH.LANDING}
@@ -47,23 +29,31 @@ const Login = () => {
           <img src='/assets/images/logo.png' alt='로고' width='36' />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
-        <Styled.LoginForm onSubmit={handleSubmitLoginForm}>
+        <Styled.LoginForm onSubmit={onSubmitForm}>
           <Input
             id='email'
             type='email'
             label='이메일'
+            isShowLabel={false}
             placeholder='이메일'
             value={email}
             onChange={onChangeEmail}
+            css={css`
+              border-radius: 4px 4px 0 0;
+            `}
           />
           <Input
             id='password'
             type='password'
             label='비밀번호'
-            description='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
+            isShowLabel={false}
             placeholder='비밀번호'
             value={password}
             onChange={onChangePassword}
+            css={css`
+              border-radius: 0 0 4px 4px;
+              margin-bottom: 36px;
+            `}
           />
           <button type='submit'>로그인</button>
         </Styled.LoginForm>
@@ -81,6 +71,7 @@ const Styled = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0 40px;
 
     height: 100vh;
   `,
@@ -95,7 +86,9 @@ const Styled = {
     `}
   `,
   LoginForm: styled.form`
-    & > input {
+    width: 100%;
+
+    & > div > input {
       width: 100%;
       height: 50px;
       font-size: 14px;
@@ -104,18 +97,10 @@ const Styled = {
       padding: 0 10px;
     }
 
-    & > input::placeholder {
+    & > div > input::placeholder {
       ${({ theme }) => css`
         color: ${theme.colors.light_grey_100};
       `}
-    }
-
-    & > input:nth-child(1) {
-      border-radius: 4px 4px 0 0;
-    }
-    & > input:nth-child(2) {
-      border-radius: 0 0 4px 4px;
-      margin-bottom: 36px;
     }
 
     & > button {

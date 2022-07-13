@@ -1,26 +1,20 @@
 import { useState } from 'react';
 
 type UseAuthenticateFormProps = {
-  defaultEmail: string;
-  defaultPassword: string;
-  defaultConfirmPassword: string;
-  defaultName: string;
+  defaultEmail?: string;
+  defaultPassword?: string;
+  defaultConfirmPassword?: string;
+  defaultName?: string;
+  type: 'Login' | 'Join' | 'Edit';
 };
 
-export const useAuthenticateForm = (
-  props: UseAuthenticateFormProps = {
-    defaultEmail: '',
-    defaultPassword: '',
-    defaultConfirmPassword: '',
-    defaultName: '',
-  }
-) => {
-  const { defaultEmail, defaultPassword, defaultConfirmPassword, defaultName } = props;
+export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
+  const { defaultEmail, defaultPassword, defaultConfirmPassword, defaultName, type } = props;
 
-  const [email, setEmail] = useState(defaultEmail);
-  const [password, setPassword] = useState(defaultPassword);
-  const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
-  const [name, setName] = useState(defaultName);
+  const [email, setEmail] = useState(defaultEmail || '');
+  const [password, setPassword] = useState(defaultPassword || '');
+  const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword || '');
+  const [name, setName] = useState(defaultName || '');
 
   const onChangeEmail = e => {
     const {
@@ -62,8 +56,20 @@ export const useAuthenticateForm = (
     setName(nameValue);
   };
 
-  const onSubmitJoinForm = e => {
+  const onSubmitForm = e => {
     e.preventDefault();
+
+    switch (type) {
+      case 'Join':
+        break;
+      case 'Login':
+        break;
+      case 'Edit':
+        break;
+
+      default:
+        break;
+    }
   };
 
   return {
@@ -79,8 +85,6 @@ export const useAuthenticateForm = (
       onChangeConfirmPassword,
       onChangeName,
     },
-    submitHandler: {
-      onSubmitJoinForm,
-    },
+    onSubmitForm,
   };
 };
