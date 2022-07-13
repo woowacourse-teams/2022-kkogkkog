@@ -36,7 +36,7 @@ const Login = () => {
     <PageTemplate>
       <Styled.Root>
         <Link
-          to={PATH.KKOGKKOG_LIST}
+          to={PATH.LANDING}
           css={css`
             display: flex;
             justify-content: center;
