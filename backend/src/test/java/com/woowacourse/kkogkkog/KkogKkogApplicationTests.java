@@ -9,5 +9,4 @@ class KkogKkogApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
