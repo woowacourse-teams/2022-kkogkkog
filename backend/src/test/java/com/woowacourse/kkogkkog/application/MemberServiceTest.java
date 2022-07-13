@@ -21,24 +21,19 @@ class MemberServiceTest {
     @Test
     @DisplayName("회원가입을 할 수 있다.")
     void save() {
-        // given
         MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com", "password1234!", "nickname");
 
-        // when
         Long memberId = memberService.save(memberCreateRequest);
 
-        // then
         assertThat(memberId).isNotNull();
     }
 
     @Test
     @DisplayName("중복된 회원의 이메일이 있을 경우 예외가 발생한다.")
     void save_fail_duplicatedEmail() {
-        // given
         MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com", "password1234!", "nickname");
 
-        // when & then
-        Long memberId = memberService.save(memberCreateRequest);
+        memberService.save(memberCreateRequest);
         assertThatThrownBy(() -> memberService.save(memberCreateRequest))
             .isInstanceOf(MemberDuplicatedEmail.class);
     }
