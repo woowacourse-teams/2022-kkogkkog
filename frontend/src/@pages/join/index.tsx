@@ -42,7 +42,7 @@ const Join = () => {
           <img src='/assets/images/logo.png' alt='로고' />
           <h1>꼭꼭</h1>
         </Link>
-        <Styled.Form onSubmit={onSubmitJoinForm}>
+        <Styled.FormRoot onSubmit={onSubmitJoinForm}>
           <Input
             id='email'
             type='email'
@@ -55,7 +55,7 @@ const Join = () => {
             id='password'
             type='password'
             label='비밀번호'
-            additional='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
+            additionalLabel='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
             placeholder='비밀번호'
             value={password}
             onChange={onChangePassword}
@@ -72,13 +72,13 @@ const Join = () => {
             id='name'
             type='text'
             label='닉네임'
-            additional='2~8자 사이의 닉네임을 입력해주세요'
+            additionalLabel='2~8자 사이의 닉네임을 입력해주세요'
             placeholder='닉네임'
             value={name}
             onChange={onChangeName}
           />
           <Button>회원가입</Button>
-        </Styled.Form>
+        </Styled.FormRoot>
       </Styled.Root>
     </PageTemplate>
   );
@@ -94,7 +94,7 @@ const Styled = {
     flex-direction: column;
     justify-content: center;
   `,
-  Form: styled.form`
+  FormRoot: styled.form`
     display: flex;
     flex-direction: column;
 

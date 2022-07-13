@@ -7,14 +7,14 @@ import * as Styled from './style';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  additional?: string;
+  additionalLabel?: string;
 }
 
-const Input = ({ label, additional, id, type = 'text', ...props }: InputProps) => {
+const Input = ({ label, additionalLabel, id, type = 'text', ...props }: InputProps) => {
   return (
     <Styled.Root>
       <label htmlFor={id}>{label}</label>
-      {additional && (
+      {additionalLabel && (
         <div
           css={css`
             font-size: 12px;
@@ -22,7 +22,7 @@ const Input = ({ label, additional, id, type = 'text', ...props }: InputProps) =
             margin-bottom: 8px;
           `}
         >
-          {additional}
+          {additionalLabel}
         </div>
       )}
       <input id={id} type={type} {...props} />
