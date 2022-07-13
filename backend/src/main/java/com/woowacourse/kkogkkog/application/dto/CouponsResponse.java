@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CouponsResponse {
+
     private List<CouponResponse> data;
 
     public CouponsResponse(List<CouponResponse> data) {

@@ -27,6 +27,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     private static final String MODIFIER = "한턱내는";
     private static final String MESSAGE = "추가 메세지";
     private static final String COUPON_TYPE = "커피";
+
     @Autowired
     private MemberRepository memberRepository;
 
