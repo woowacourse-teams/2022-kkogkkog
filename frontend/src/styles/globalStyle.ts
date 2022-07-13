@@ -27,6 +27,7 @@ const globalStyle = css`
 
   button {
     cursor: pointer;
+    border: 0;
   }
 
   @font-face {
