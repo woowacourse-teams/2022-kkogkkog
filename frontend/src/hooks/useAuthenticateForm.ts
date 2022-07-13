@@ -9,12 +9,18 @@ type UseAuthenticateFormProps = {
 };
 
 export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
-  const { defaultEmail, defaultPassword, defaultConfirmPassword, defaultName, type } = props;
+  const {
+    defaultEmail = '',
+    defaultPassword = '',
+    defaultConfirmPassword = '',
+    defaultName = '',
+    type,
+  } = props;
 
-  const [email, setEmail] = useState(defaultEmail || '');
-  const [password, setPassword] = useState(defaultPassword || '');
-  const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword || '');
-  const [name, setName] = useState(defaultName || '');
+  const [email, setEmail] = useState(defaultEmail);
+  const [password, setPassword] = useState(defaultPassword);
+  const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
+  const [name, setName] = useState(defaultName);
 
   const onChangeEmail = e => {
     const {
