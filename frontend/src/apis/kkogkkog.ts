@@ -1,5 +1,6 @@
 import { client } from '@/apis';
 import { KkogKkog } from '@/types/domain';
+//@TODO transformer 객체 만들기
 
 export const getKkogkkog = () =>
   client.get<KkogKkog[]>('/coupons', {
@@ -14,4 +15,5 @@ export const getKkogkkog = () =>
     },
   });
 
-export const createKkogkkog = (info: Omit<KkogKkog, 'id'>) => client.post('/coupons', info);
+export const createKkogkkog = (info: Omit<KkogKkog, 'id' | 'thumbnail'>) =>
+  client.post('/coupons', info);
