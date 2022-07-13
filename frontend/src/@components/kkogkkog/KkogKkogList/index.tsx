@@ -8,7 +8,9 @@ interface KkogKkogListProps {
   kkogkkogList: KkogKkog[];
 }
 
-const KkogKkogList = ({ kkogkkogList }: KkogKkogListProps) => {
+const KkogKkogList = (props: KkogKkogListProps) => {
+  const { kkogkkogList } = props;
+
   return (
     <Styled.Root>
       {kkogkkogList.map(kkogkkog => (

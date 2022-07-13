@@ -1,9 +1,8 @@
 import { Global, ThemeProvider } from '@emotion/react';
-import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import Loading from '@/@components/@shared/Loading';
 import App from '@/App';
 import globalStyle from '@/styles/globalStyle';
 import theme from '@/styles/theme';

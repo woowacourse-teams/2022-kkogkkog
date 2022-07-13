@@ -14,8 +14,6 @@ export const PATH = {
   KKOGKKOG_CREATE: '/kkogkkog-list/create',
   LOGIN: '/login',
   JOIN: '/join',
-  // KKOGKKOG_DETAIL: '/kkogkkog-list/:id',
-  JOIN: '/join',
 };
 
 const Router = () => {

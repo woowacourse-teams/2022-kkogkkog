@@ -34,6 +34,18 @@ export const TextContainer = styled.div`
   line-height: 40px;
 
   white-space: nowrap;
+
+  @media (max-width: 400px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 14px;
+  }
+`;
+
+export const TypeText = styled.span`
+  text-decoration: underline 2px;
 `;
 
 export const ImageContainer = styled.div<{ backgroundColor: string }>`
@@ -58,4 +70,8 @@ export const LinkButtonContainer = styled.div`
 
   text-align: center;
   width: 100%;
+`;
+
+export const LinkButtonText = styled.div`
+  font-size: 14px;
 `;

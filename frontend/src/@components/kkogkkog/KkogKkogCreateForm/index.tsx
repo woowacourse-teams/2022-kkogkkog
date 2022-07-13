@@ -1,27 +1,46 @@
-import { css } from '@emotion/react';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
 import { colors, couponTypes, modifiers } from '@/@pages/kkogkkog-list/create';
+import { KkogKkogType } from '@/types/domain';
 
 import * as Styled from './style';
 
-const KkogKkogCreateForm = ({
-  currentSenderName,
-  onChangeSenderName,
-  currentReceiverName,
-  onChangeReceiverName,
-  currentType,
-  onSelectType,
-  currentModifier,
-  onSelectModifier,
-  currentColor,
-  onSelectColor,
-  currentMessage,
-  onChangeMessage,
-  onSubmitCreateForm,
-}) => {
+interface KkogKkogCreateFormProps {
+  currentSenderName: string;
+  onChangeSenderName: ChangeEventHandler<HTMLInputElement>;
+  currentReceiverName: string;
+  onChangeReceiverName: ChangeEventHandler<HTMLInputElement>;
+  currentType: KkogKkogType;
+  onSelectType: (type: KkogKkogType) => void;
+  currentModifier: '재미있게' | '활기차게' | '한턱쏘는';
+  onSelectModifier: (modifier: '재미있게' | '활기차게' | '한턱쏘는') => void;
+  currentColor: typeof colors[number];
+  onSelectColor: (color: typeof colors[number]) => void;
+  currentMessage: string;
+  onChangeMessage: ChangeEventHandler<HTMLInputElement>;
+  onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
+}
+
+const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
+  const {
+    currentSenderName,
+    onChangeSenderName,
+    currentReceiverName,
+    onChangeReceiverName,
+    currentType,
+    onSelectType,
+    currentModifier,
+    onSelectModifier,
+    currentColor,
+    onSelectColor,
+    currentMessage,
+    onChangeMessage,
+    onSubmitCreateForm,
+  } = props;
+
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
       <Input
@@ -81,13 +100,9 @@ const KkogKkogCreateForm = ({
       />
 
       <Styled.ButtonContainer>
-        <div
-          css={css`
-            width: 30%;
-          `}
-        >
+        <Styled.ButtonInner>
           <Button>꼭꼭 발급하기</Button>
-        </div>
+        </Styled.ButtonInner>
       </Styled.ButtonContainer>
     </Styled.FormRoot>
   );

@@ -5,32 +5,36 @@ import { IconNames } from '@/@components/@shared/Icon/Icons';
 
 import Icons from './Icons';
 
-interface IconPropsType {
+interface IconProps {
   iconName: IconNames;
   size?: string;
   color?: string;
 }
 
-const Icon = ({ iconName, size = '24', color = '#ffffff', ...props }: IconPropsType) => {
+const Icon = (props: IconProps) => {
+  const { iconName, size = '24', color = '#ffffff', ...rest } = props;
+
   const IconComponent = Icons[iconName];
 
   return (
-    <StyledWrapper size={size} color={color} {...props}>
+    <Styled.Wrapper size={size} color={color} {...rest}>
       <IconComponent width='100%' height='100%' />
-    </StyledWrapper>
+    </Styled.Wrapper>
   );
 };
 
 export default Icon;
 
-const StyledWrapper = styled.div`
-  & * {
-    fill: currentColor;
-  }
+const Styled = {
+  Wrapper: styled.div`
+    & * {
+      fill: currentColor;
+    }
 
-  ${({ size, color }: Pick<IconPropsType, 'size' | 'color'>) => css`
-    color: ${color};
-    width: ${size}px;
-    height: ${size}px;
-  `}
-`;
+    ${({ size, color }: Pick<IconProps, 'size' | 'color'>) => css`
+      color: ${color};
+      width: ${size}px;
+      height: ${size}px;
+    `}
+  `,
+};

@@ -1,6 +1,14 @@
+import { PropsWithChildren } from 'react';
+
 import * as Styled from './style';
 
-const SelectInput = ({ label, children }) => {
+interface SelectInputProps {
+  label: string;
+}
+
+const SelectInput = (props: PropsWithChildren<SelectInputProps>) => {
+  const { label, children } = props;
+
   return (
     <Styled.Root>
       <label>{label}</label>

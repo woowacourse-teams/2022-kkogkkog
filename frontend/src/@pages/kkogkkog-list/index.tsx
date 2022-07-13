@@ -16,12 +16,12 @@ const KkogkkogListPage = () => {
 
   return (
     <PageTemplate title='꼭꼭 모아보기'>
-      <StyledRoot>
+      <Styled.Root>
         <Link to={PATH.KKOGKKOG_CREATE}>
           <KkogKkogItem.LinkButton />
         </Link>
         <KkogKkogList kkogkkogList={kkogkkogList} />
-      </StyledRoot>
+      </Styled.Root>
     </PageTemplate>
   );
 };
@@ -29,7 +29,7 @@ const KkogkkogListPage = () => {
 KkogkkogListPage.Skeleton = function Skeleton() {
   return (
     <PageTemplate title='꼭꼭 모아보기'>
-      <StyledRoot>
+      <Styled.Root>
         <Link to={PATH.KKOGKKOG_CREATE}>
           <KkogKkogItem.LinkButton />
         </Link>
@@ -39,19 +39,21 @@ KkogkkogListPage.Skeleton = function Skeleton() {
         <KkogKkogItem.Skeleton />
         <KkogKkogItem.Skeleton />
         <KkogKkogItem.Skeleton />
-      </StyledRoot>
+      </Styled.Root>
     </PageTemplate>
   );
 };
 
 export default KkogkkogListPage;
 
-export const StyledRoot = styled.div`
-  padding: 20px;
+export const Styled = {
+  Root: styled.div`
+    padding: 20px;
 
-  border-radius: 4px;
+    border-radius: 4px;
 
-  & > div {
-    margin-top: 20px;
-  }
-`;
+    & > div {
+      margin-top: 20px;
+    }
+  `,
+};
