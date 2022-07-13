@@ -5,10 +5,15 @@ import Header from '@/@components/@shared/Header';
 import * as Styled from './style';
 
 interface PageTemplateProps {
-  title?: string;
+  title: string;
+  hasHeader?: boolean;
 }
 
-const PageTemplate = ({ title, children }: PropsWithChildren<PageTemplateProps>) => {
+const PageTemplate = ({
+  title,
+  hasHeader = true,
+  children,
+}: PropsWithChildren<PageTemplateProps>) => {
   useEffect(() => {
     document.title = `${title || '꼭꼭'} | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게`;
   }, [title]);
@@ -16,7 +21,7 @@ const PageTemplate = ({ title, children }: PropsWithChildren<PageTemplateProps>)
   return (
     <Styled.Root>
       <Styled.Container>
-        {title && <Header title={title} />}
+        {hasHeader && <Header title={title} />}
         {children}
       </Styled.Container>
     </Styled.Root>
