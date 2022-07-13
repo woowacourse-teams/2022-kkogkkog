@@ -1,30 +1,17 @@
-import { css } from '@emotion/react';
 import { InputHTMLAttributes } from 'react';
-
-import theme from '@/styles/theme';
 
 import * as Styled from './style';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  additionalLabel?: string;
+  description?: string;
 }
 
-const Input = ({ label, additionalLabel, id, type = 'text', ...props }: InputProps) => {
+const Input = ({ label, description, id, type = 'text', ...props }: InputProps) => {
   return (
     <Styled.Root>
       <label htmlFor={id}>{label}</label>
-      {additionalLabel && (
-        <div
-          css={css`
-            font-size: 12px;
-            color: ${theme.colors.grey_200};
-            margin-bottom: 8px;
-          `}
-        >
-          {additionalLabel}
-        </div>
-      )}
+      {description && <Styled.Description>{description}</Styled.Description>}
       <input id={id} type={type} {...props} />
     </Styled.Root>
   );

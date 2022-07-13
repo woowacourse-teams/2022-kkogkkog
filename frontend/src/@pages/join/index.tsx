@@ -55,7 +55,7 @@ const Join = () => {
             id='password'
             type='password'
             label='비밀번호'
-            additionalLabel='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
+            description='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
             placeholder='비밀번호'
             value={password}
             onChange={onChangePassword}
@@ -72,7 +72,7 @@ const Join = () => {
             id='name'
             type='text'
             label='닉네임'
-            additionalLabel='2~8자 사이의 닉네임을 입력해주세요'
+            description='2~8자 사이의 닉네임을 입력해주세요'
             placeholder='닉네임'
             value={name}
             onChange={onChangeName}
