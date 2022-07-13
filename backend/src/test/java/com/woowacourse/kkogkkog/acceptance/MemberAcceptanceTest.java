@@ -15,7 +15,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 회원_가입을_할_수_있다() {
-        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("rookie@gmailc.com",
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("rookie@gmail.com",
             "password1234!", "rookie");
 
         회원_가입에_성공한다(memberCreateRequest);
@@ -35,7 +35,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 회원_가입을_할때_이메일이_중복된_경우_실패한다() {
-        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("rookie@gmailc.com",
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("rookie@gmail.com",
             "password1234!", "rookie");
         회원_가입에_성공한다(memberCreateRequest);
 
