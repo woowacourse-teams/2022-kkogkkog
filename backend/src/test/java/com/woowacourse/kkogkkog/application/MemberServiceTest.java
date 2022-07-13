@@ -1,7 +1,9 @@
 package com.woowacourse.kkogkkog.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,5 +29,17 @@ class MemberServiceTest {
 
         // then
         assertThat(memberId).isNotNull();
+    }
+
+    @Test
+    @DisplayName("중복된 회원의 이메일이 있을 경우 예외가 발생한다.")
+    void save_fail_duplicatedEmail() {
+        // given
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com", "password1234!", "nickname");
+
+        // when & then
+        Long memberId = memberService.save(memberCreateRequest);
+        assertThatThrownBy(() -> memberService.save(memberCreateRequest))
+            .isInstanceOf(MemberDuplicatedEmail.class);
     }
 }
