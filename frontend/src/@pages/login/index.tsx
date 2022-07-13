@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { PATH } from '@/Router';
 
@@ -47,17 +48,20 @@ const Login = () => {
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         <Styled.LoginForm onSubmit={handleSubmitLoginForm}>
-          <input
+          <Input
+            id='email'
             type='email'
+            label='이메일'
             placeholder='이메일'
-            required
             value={email}
             onChange={onChangeEmail}
           />
-          <input
+          <Input
+            id='password'
             type='password'
+            label='비밀번호'
+            description='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
             placeholder='비밀번호'
-            required
             value={password}
             onChange={onChangePassword}
           />
