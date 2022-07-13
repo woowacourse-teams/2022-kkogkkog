@@ -21,3 +21,9 @@ export const Root = styled.div`
 
   box-shadow: 0 1px 1px 0 #00000025;
 `;
+
+export const Description = styled.div`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.grey_200};
+  margin-bottom: 8px;
+`;

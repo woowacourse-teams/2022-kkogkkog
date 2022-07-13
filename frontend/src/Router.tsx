@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import Join from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
 import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
 import LandingPage from '@/@pages/landing';
@@ -14,6 +15,7 @@ export const PATH = {
   LOGIN: '/login',
   JOIN: '/join',
   // KKOGKKOG_DETAIL: '/kkogkkog-list/:id',
+  JOIN: '/join',
 };
 
 const Router = () => {
@@ -30,6 +32,7 @@ const Router = () => {
       />
       <Route path={PATH.KKOGKKOG_CREATE} element={<KkogkkogCreatePage />} />
       <Route path={PATH.LOGIN} element={<Login />} />
+      <Route path={PATH.JOIN} element={<Join />} />
     </Routes>
   );
 };

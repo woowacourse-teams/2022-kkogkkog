@@ -4,13 +4,15 @@ import * as Styled from './style';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  description?: string;
 }
 
-const Input = ({ label, ...props }: InputProps) => {
+const Input = ({ label, description, id, type = 'text', ...props }: InputProps) => {
   return (
     <Styled.Root>
-      <label>{label}</label>
-      <input type='text' {...props} />
+      <label htmlFor={id}>{label}</label>
+      {description && <Styled.Description>{description}</Styled.Description>}
+      <input id={id} type={type} {...props} />
     </Styled.Root>
   );
 };
