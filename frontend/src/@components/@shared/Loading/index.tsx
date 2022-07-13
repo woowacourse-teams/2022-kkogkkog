@@ -5,7 +5,11 @@ import { Dimmed } from '@/@components/@shared/Dimmed';
 
 import * as Styled from './style';
 
-function Loading({ children }: React.PropsWithChildren) {
+type LoadingProps = React.PropsWithChildren;
+
+function Loading(props: LoadingProps) {
+  const { children } = props;
+
   return ReactDOM.createPortal(
     <Dimmed>
       <Styled.Root>{children}</Styled.Root>

@@ -7,12 +7,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   description?: string;
 }
 
-const Input = ({ label, description, id, type = 'text', ...props }: InputProps) => {
+const Input = (props: InputProps) => {
+  const { label, description, id, type = 'text', ...rest } = props;
+
   return (
     <Styled.Root>
       <label htmlFor={id}>{label}</label>
       {description && <Styled.Description>{description}</Styled.Description>}
-      <input id={id} type={type} {...props} />
+      <input id={id} type={type} {...rest} />
     </Styled.Root>
   );
 };

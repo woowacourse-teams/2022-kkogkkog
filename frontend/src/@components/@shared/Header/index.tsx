@@ -6,7 +6,13 @@ import theme from '@/styles/theme';
 
 import * as Styled from './style';
 
-const Header = ({ title }) => {
+interface HeaderProps {
+  title: string;
+}
+
+const Header = (props: HeaderProps) => {
+  const { title } = props;
+
   return (
     <Styled.Root>
       <Styled.Logo>

@@ -9,11 +9,9 @@ interface PageTemplateProps {
   hasHeader?: boolean;
 }
 
-const PageTemplate = ({
-  title,
-  hasHeader = true,
-  children,
-}: PropsWithChildren<PageTemplateProps>) => {
+const PageTemplate = (props: PropsWithChildren<PageTemplateProps>) => {
+  const { title, hasHeader = true, children } = props;
+
   useEffect(() => {
     document.title = `${title || '꼭꼭'} | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게`;
   }, [title]);

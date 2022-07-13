@@ -101,14 +101,11 @@ const KkogkkogCreatePage = () => {
 
   return (
     <PageTemplate title='꼭꼭 만들기'>
-      <StyledRoot>
-        <div
-          css={css`
-            padding: 25px 0;
-          `}
-        >
+      <Styled.Root>
+        <Styled.Inner>
           <KkogKkogItem
-            id='1'
+            id={1}
+            message={message}
             backgroundColor={color}
             modifier={modifier}
             receiverName={receiverName}
@@ -116,7 +113,7 @@ const KkogkkogCreatePage = () => {
             thumbnail={THUMBNAIL[couponType]}
             couponType={couponType}
           />
-        </div>
+        </Styled.Inner>
         <KkogKkogCreateForm
           currentSenderName={senderName}
           onChangeSenderName={onChangeSenderName}
@@ -132,15 +129,20 @@ const KkogkkogCreatePage = () => {
           onChangeMessage={onChangeMessage}
           onSubmitCreateForm={onSubmitCreateForm}
         />
-      </StyledRoot>
+      </Styled.Root>
     </PageTemplate>
   );
 };
 
 export default KkogkkogCreatePage;
 
-export const StyledRoot = styled.div`
-  padding: 0 20px 40px 20px;
+export const Styled = {
+  Root: styled.div`
+    padding: 0 20px 40px 20px;
 
-  border-radius: 4px;
-`;
+    border-radius: 4px;
+  `,
+  Inner: styled.div`
+    padding: 25px 0;
+  `,
+};

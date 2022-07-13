@@ -1,43 +1,26 @@
 import { css } from '@emotion/react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
+import { KkogKkog } from '@/types/domain';
 
 import * as Styled from './style';
 
-const mediaQuery = css`
-  @media (max-width: 400px) {
-    font-size: 16px;
-  }
+type KkogKkogItemProps = KkogKkog;
 
-  @media (max-width: 360px) {
-    font-size: 14px;
-  }
-`;
+const KkogKkogItem = (props: KkogKkogItemProps) => {
+  const { senderName, receiverName, backgroundColor, modifier, couponType, thumbnail } = props;
 
-const KkogKkogItem = ({
-  id,
-  senderName,
-  receiverName,
-  backgroundColor,
-  modifier,
-  couponType,
-  thumbnail,
-}) => {
   return (
     <Styled.Root>
-      <Styled.TextContainer css={mediaQuery}>
+      <Styled.TextContainer>
         <div>From. {senderName}</div>
         <div>To. {receiverName}</div>
         <div>
           #{modifier} &nbsp;
-          <span
-            css={css`
-              text-decoration: underline 2px;
-            `}
-          >
+          <Styled.TypeText>
             {couponType}
             &nbsp;꼭꼭
-          </span>
+          </Styled.TypeText>
         </div>
       </Styled.TextContainer>
       <Styled.ImageContainer backgroundColor={backgroundColor}>
@@ -52,13 +35,7 @@ KkogKkogItem.LinkButton = function LinkButton() {
     <Styled.Root>
       <Styled.LinkButtonContainer>
         <div>+</div>
-        <div
-          css={css`
-            font-size: 14px;
-          `}
-        >
-          꼭꼭을 생성해보세요 !
-        </div>
+        <Styled.LinkButtonText>꼭꼭을 생성해보세요 !</Styled.LinkButtonText>
       </Styled.LinkButtonContainer>
     </Styled.Root>
   );

@@ -67,3 +67,7 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+export const ButtonInner = styled.div`
+  width: 30%;
+`;
