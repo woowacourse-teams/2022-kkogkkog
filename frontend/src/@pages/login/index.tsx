@@ -33,7 +33,7 @@ const Login = () => {
   };
 
   return (
-    <PageTemplate>
+    <PageTemplate title='로그인'>
       <Styled.Root>
         <Link
           to={PATH.LANDING}
