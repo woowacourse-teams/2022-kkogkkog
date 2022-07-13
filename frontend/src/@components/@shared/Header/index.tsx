@@ -10,7 +10,9 @@ const Header = ({ title }) => {
   return (
     <Styled.Root>
       <Styled.Logo>
-        <Link to={PATH.KKOGKKOG_LIST}>로고</Link>
+        <Link to={PATH.KKOGKKOG_LIST}>
+          <img src='/assets/images/logo.png' alt='로고' width='36' />
+        </Link>
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>

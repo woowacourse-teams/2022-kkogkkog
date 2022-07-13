@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
@@ -19,6 +20,12 @@ export const Root = styled.div`
   font-weight: bold;
 
   border-radius: 4px 4px 0 0;
+
+  box-shadow: 0 4px 4px 0 #00000025;
+
+  ${({ theme }) => css`
+    z-index: ${theme.layers.header};
+  `}
 `;
 
 export const Logo = styled.div``;

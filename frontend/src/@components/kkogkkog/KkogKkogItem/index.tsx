@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import Placeholder from '@/@components/@shared/Placeholder';
+
 import * as Styled from './style';
 
 const mediaQuery = css`
@@ -24,17 +26,19 @@ const KkogKkogItem = ({
   return (
     <Styled.Root>
       <Styled.TextContainer css={mediaQuery}>
-        From. {senderName}
-        <br />#{modifier}
-        &nbsp;
-        <span
-          css={css`
-            text-decoration: underline 2px;
-          `}
-        >
-          {couponType}
-        </span>
-        &nbsp;꼭꼭
+        <div>From. {senderName}</div>
+        <div>To. {receiverName}</div>
+        <div>
+          #{modifier} &nbsp;
+          <span
+            css={css`
+              text-decoration: underline 2px;
+            `}
+          >
+            {couponType}
+            &nbsp;꼭꼭
+          </span>
+        </div>
       </Styled.TextContainer>
       <Styled.ImageContainer backgroundColor={backgroundColor}>
         <img src={thumbnail} alt='쿠폰' />
@@ -43,7 +47,25 @@ const KkogKkogItem = ({
   );
 };
 
-export default KkogKkogItem;
+KkogKkogItem.LinkButton = function LinkButton() {
+  return (
+    <Styled.Root>
+      <Styled.LinkButtonContainer>
+        <div>+</div>
+        <div
+          css={css`
+            font-size: 14px;
+          `}
+        >
+          꼭꼭을 생성해보세요 !
+        </div>
+      </Styled.LinkButtonContainer>
+    </Styled.Root>
+  );
+};
 
-// 글자 수 제한 - 8글자?
-// 미디어 쿼리 적용
+KkogKkogItem.Skeleton = function Skeleton() {
+  return <Placeholder aspectRatio='3/1' />;
+};
+
+export default KkogKkogItem;

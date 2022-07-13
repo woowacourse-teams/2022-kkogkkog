@@ -1,5 +1,7 @@
+import PageTemplate from '@/@components/@shared/PageTemplate';
+
 const LandingPage = () => {
-  return <div>Landing</div>;
+  return <PageTemplate title='꼭꼭' />;
 };
 
 export default LandingPage;

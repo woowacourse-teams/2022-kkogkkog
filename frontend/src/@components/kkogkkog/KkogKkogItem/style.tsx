@@ -25,12 +25,15 @@ export const Root = styled.div`
 `;
 
 export const TextContainer = styled.div`
+  overflow-x: scroll;
+
   width: 70%;
 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 40px;
-  /** font-size는 Root Width에 따라 변경된다. */
+
+  white-space: nowrap;
 `;
 
 export const ImageContainer = styled.div<{ backgroundColor: string }>`
@@ -48,4 +51,11 @@ export const ImageContainer = styled.div<{ backgroundColor: string }>`
     width: 80%;
     box-shadow: 0 4px 4px 0 #00000025;
   }
+`;
+
+export const LinkButtonContainer = styled.div`
+  font-size: 32px;
+
+  text-align: center;
+  width: 100%;
 `;

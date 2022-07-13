@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 import Header from '@/@components/@shared/Header';
 
@@ -9,6 +9,10 @@ interface PageTemplateProps {
 }
 
 const PageTemplate = ({ title, children }: PropsWithChildren<PageTemplateProps>) => {
+  useEffect(() => {
+    document.title = `${title} | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게`;
+  }, [title]);
+
   return (
     <Styled.Root>
       <Styled.Container>

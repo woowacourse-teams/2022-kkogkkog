@@ -25,15 +25,15 @@ const KkogKkogCreateForm = ({
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
       <Input
-        label='누가 주는건가요 ?'
-        placeholder='From에 보일 닉네임을 입력해주세요'
+        label='누가 주는건가요?'
+        placeholder='보여질 닉네임을 자유롭게 적어주세요!'
         value={currentSenderName}
         onChange={onChangeSenderName}
       />
 
       <Input
-        label='누구에게 주고 싶나요 ?'
-        placeholder='상대방 닉네임을 입력해주세요'
+        label='누구에게 주고 싶나요?'
+        placeholder='상대방의 닉네임을 입력해주세요!'
         value={currentReceiverName}
         onChange={onChangeReceiverName}
       />
@@ -74,8 +74,8 @@ const KkogKkogCreateForm = ({
       </SelectInput>
 
       <Input
-        label='하고 싶은 말을 적어주세요 !'
-        placeholder='사용이 불가능 한 시간을 적어주시면 더 좋습니다!'
+        label='하고 싶은 말을 적어주세요'
+        placeholder='쿠폰을 사용하는 사람을 생각하며 적어주세요!'
         value={currentMessage}
         onChange={onChangeMessage}
       />

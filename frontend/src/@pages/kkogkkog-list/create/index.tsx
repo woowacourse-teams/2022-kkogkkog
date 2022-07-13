@@ -83,6 +83,12 @@ const KkogkkogCreatePage = () => {
   const onSubmitCreateForm = e => {
     e.preventDefault();
 
+    if (senderName.length === 0 || receiverName.length === 0) {
+      alert('정보를 모두 입력해주세요 !');
+
+      return;
+    }
+
     mutate({
       senderName,
       receiverName,

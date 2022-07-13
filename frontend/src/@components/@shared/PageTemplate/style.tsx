@@ -18,5 +18,5 @@ export const Container = styled.div`
 
   box-shadow: 0 4px 4px 0 #00000025;
 
-  background-color: ${({ theme }) => theme.colors.white_100};
+  background-color: ${({ theme }) => theme.colors.background_0};
 `;

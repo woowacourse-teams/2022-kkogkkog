@@ -24,10 +24,17 @@ const colors = {
   background_3: '#F7F7F7',
   background_2: '#F6F4EE',
   background_1: '#FAFAF6',
+  background_0: '#FDFDFD',
+};
+
+const layers = {
+  header: 4900,
+  dimmed: 5000,
 };
 
 const theme = {
   colors,
+  layers,
 };
 
 export default theme;

@@ -10,7 +10,7 @@ export const getKkogkkog = () =>
         return parsedData;
       }
 
-      return parsedData.coupons;
+      return parsedData.data;
     },
   });
 

@@ -18,4 +18,6 @@ export const Root = styled.div`
     padding: 10px;
     border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
   }
+
+  box-shadow: 0 1px 1px 0 #00000025;
 `;

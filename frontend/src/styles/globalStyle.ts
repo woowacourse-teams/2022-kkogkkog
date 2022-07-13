@@ -11,7 +11,7 @@ const globalStyle = css`
   }
 
   body {
-    font-family: Noto Sans CJK KR, sans-serif;
+    font-family: 'Pretendard';
     letter-spacing: -0.03px;
   }
 
@@ -27,6 +27,34 @@ const globalStyle = css`
 
   button {
     cursor: pointer;
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: lighter;
+    src: url('/assets/font/Pretendard-Light.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/assets/font/Pretendard-Regular.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: bold;
+    src: url('/assets/font/Pretendard-Bold.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: bolder;
+    src: url('/assets/font/Pretendard-ExtraBolder.woff') format('woff');
   }
 `;
 
