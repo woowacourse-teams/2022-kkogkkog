@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
+import com.woowacourse.kkogkkog.exception.auth.UnauthorizedTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +31,15 @@ class JwtTokenProviderTest {
         String fakeToken = "FakeToken";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(fakeToken))
-                .isInstanceOf(UnauthenticatedTokenException.class);
+                .isInstanceOf(UnauthorizedTokenException.class);
     }
 
     @Test
     @DisplayName("만료기간이 지난 토큰을 받으면 예외를 던진다.")
     void validateExpirationDate() {
-        String expiredToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBwZXJAd29vd2Fjb3Vyc2UuY29tIiwiaWF0IjoxNjU0NDkzMDM0LCJleHAiOjE2NTQ0OTMxMzR9.CiCFn0f42ro8nhoH__Fs2wXQTPi5g8GVTN7Ae4sc5k_2RQNNAx0gcxtaDcxDZgLbqk7ploc7GJxZUfXTWnq3uQ";
+        String expiredToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjU3Nzg3Mzk3LCJleHAiOjE2NTc3ODc0MzN9.B1dAhi-5oyQSeZjAPYYNPA_eeYxF00HO6YPqq58bk1_Yr7tsV44LhY_n4RVpLW8StdbbLuui7uwgSBLu_uM2cQ";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(expiredToken))
-                .isInstanceOf(UnauthenticatedTokenException.class);
+                .isInstanceOf(UnauthorizedTokenException.class);
     }
 }
