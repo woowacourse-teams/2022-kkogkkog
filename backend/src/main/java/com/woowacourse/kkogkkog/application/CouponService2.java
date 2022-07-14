@@ -8,6 +8,7 @@ import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,14 @@ public class CouponService2 {
     public CouponService2(CouponRepository couponRepository, MemberRepository memberRepository) {
         this.couponRepository = couponRepository;
         this.memberRepository = memberRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public CouponResponse2 findById(Long couponId) {
+        Coupon coupon = couponRepository.findById(couponId)
+                .orElseThrow(CouponNotFoundException::new);
+
+        return CouponResponse2.of(coupon);
     }
 
     public List<CouponResponse2> save(CouponSaveRequest couponSaveRequest) {
