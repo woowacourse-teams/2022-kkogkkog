@@ -5,10 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.application.CouponService;
-import com.woowacourse.kkogkkog.application.CouponTemplateService;
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.presentation.CouponController;
-import com.woowacourse.kkogkkog.presentation.CouponTemplateController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +25,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @AutoConfigureRestDocs
 @WebMvcTest({
         CouponController.class,
-        CouponTemplateController.class,
         MemberController.class
 })
 public abstract class Documentation {
@@ -40,9 +37,6 @@ public abstract class Documentation {
 
     @MockBean
     protected CouponService couponService;
-
-    @MockBean
-    protected CouponTemplateService couponTemplateService;
 
     @MockBean
     protected MemberService memberService;
