@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.presentation.dto;
 
+import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,20 +10,22 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponCreateRequest {
 
-    private Long senderId;
-    private Long receiverId;
-    private String backgroundColor;
+    private List<Long> receivers;
     private String modifier;
     private String message;
+    private String backgroundColor;
     private String couponType;
 
-    public CouponCreateRequest(Long senderId, Long receiverId, String backgroundColor, String modifier, String message,
+    public CouponCreateRequest(List<Long> receivers, String backgroundColor, String modifier, String message,
                                String couponType) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.backgroundColor = backgroundColor;
+        this.receivers = receivers;
         this.modifier = modifier;
         this.message = message;
+        this.backgroundColor = backgroundColor;
         this.couponType = couponType;
+    }
+
+    public CouponSaveRequest toCouponSaveRequest(Long senderId) {
+        return new CouponSaveRequest(senderId, receivers, modifier, message, backgroundColor, couponType);
     }
 }
