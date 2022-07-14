@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
+import { join } from '@/apis/kkogkkog';
 
 type UseAuthenticateFormProps = {
   defaultEmail?: string;
@@ -21,6 +25,13 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
   const [password, setPassword] = useState(defaultPassword);
   const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
   const [name, setName] = useState(defaultName);
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation(join, {
+    onSuccess: () => {
+      navigate('/');
+    },
+  });
 
   const onChangeEmail = e => {
     const {
@@ -67,6 +78,11 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
 
     switch (type) {
       case 'Join':
+        mutate({
+          email,
+          password,
+          nickname: name,
+        });
         break;
       case 'Login':
         break;
