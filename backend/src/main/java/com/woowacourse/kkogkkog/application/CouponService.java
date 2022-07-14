@@ -1,7 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
-import com.woowacourse.kkogkkog.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.domain.Coupon;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
@@ -11,8 +10,6 @@ import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,14 +55,5 @@ public class CouponService {
                 .orElseThrow(CouponNotFoundException::new);
 
         return CouponResponse.of(coupon);
-    }
-
-    @Transactional(readOnly = true)
-    public CouponsResponse findAll() {
-       List<CouponResponse> couponResponses = couponRepository.findAll().stream()
-                .map(CouponResponse::of)
-                .collect(Collectors.toList());
-
-       return new CouponsResponse(couponResponses);
     }
 }

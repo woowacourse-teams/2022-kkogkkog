@@ -5,13 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
-import com.woowacourse.kkogkkog.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,22 +62,5 @@ public class CouponServiceTest {
     void findById_notFound() {
         assertThatThrownBy(() -> couponService.findById(1L))
                 .isInstanceOf(CouponNotFoundException.class);
-    }
-
-    @Test
-    @DisplayName("쿠폰 목록을 전체 조회할 수 있다.")
-    void findAll() {
-        CouponCreateRequest couponCreateRequest1 = new CouponCreateRequest(1L, 2L, "red", "한턱내는", "추가 메세지", "커피");
-        CouponCreateRequest couponCreateRequest2 = new CouponCreateRequest(1L, 3L, "red", "한턱내는", "추가 메세지", "커피");
-        Long couponId1 = couponService.save(couponCreateRequest1);
-        Long couponId2 = couponService.save(couponCreateRequest2);
-
-        CouponsResponse actual = couponService.findAll();
-        CouponsResponse expected = new CouponsResponse(List.of(
-                new CouponResponse(couponId1, "루키", "아서", "red", "한턱내는",
-                        "추가 메세지", "커피", CouponStatus.READY.name()),
-                new CouponResponse(couponId2, "루키", "정", "red", "한턱내는",
-                        "추가 메세지", "커피", CouponStatus.READY.name())));
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }
