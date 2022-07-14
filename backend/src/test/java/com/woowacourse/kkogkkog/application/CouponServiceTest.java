@@ -1,10 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.ARTHUR;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.JEONG;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.fixture.MemberFixture.NON_EXISTING_MEMBER;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.ROOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -25,6 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CouponServiceTest extends ServiceTest {
+
+    private static final Member JEONG = new Member(null, "jeong@gmail.com", "password1234!", "정");
+    private static final Member LEO = new Member(null, "leo@gmail.com", "password1234!", "레오");
+    private static final Member ROOKIE = new Member(null, "rookie@gmail.com", "password1234!", "루키");
+    private static final Member ARTHUR = new Member(null, "arthur@gmail.com", "password1234!", "아서");
 
     @Autowired
     private CouponService couponService;
