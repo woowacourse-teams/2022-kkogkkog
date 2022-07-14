@@ -7,5 +7,6 @@
 
 = KkogKkog API
 
+include::auth.adoc[]
 include::member.adoc[]
 include::coupon.adoc[]
