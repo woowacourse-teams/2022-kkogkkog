@@ -4,9 +4,11 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.kkogkkog.application.AuthService;
 import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.CouponTemplateService;
 import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.presentation.AuthController;
 import com.woowacourse.kkogkkog.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.CouponTemplateController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
@@ -28,7 +30,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @WebMvcTest({
         CouponController.class,
         CouponTemplateController.class,
-        MemberController.class
+        MemberController.class,
+        AuthController.class
 })
 public abstract class Documentation {
 
@@ -46,6 +49,9 @@ public abstract class Documentation {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected AuthService authService;
 
     @BeforeEach
     public void setUp(WebApplicationContext ctx, RestDocumentationContextProvider restDocumentationContextProvider) {
