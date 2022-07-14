@@ -15,7 +15,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   const { kkogkkogList } = props;
   const [clickedKkogKkog, setClickedKkogKkog] = useState<KkogKkog | null>(null);
 
-  const handleClickKkogKkog = (kkogkkog: KkogKkog) => () => {
+  const handleClickKkogKkog = (kkogkkog: KkogKkog) => {
     setClickedKkogKkog(kkogkkog);
   };
 
@@ -28,12 +28,11 @@ const KkogKkogList = (props: KkogKkogListProps) => {
       {kkogkkogList.map(kkogkkog => (
         <KkogKkogItem
           key={kkogkkog.id}
-          {...kkogkkog}
           thumbnail={THUMBNAIL[kkogkkog.couponType]}
-          onClick={handleClickKkogKkog({
-            ...kkogkkog,
-            thumbnail: THUMBNAIL[kkogkkog.couponType],
-          })}
+          onClick={() =>
+            handleClickKkogKkog({ ...kkogkkog, thumbnail: THUMBNAIL[kkogkkog.couponType] })
+          }
+          {...kkogkkog}
         />
       ))}
       {clickedKkogKkog && (
