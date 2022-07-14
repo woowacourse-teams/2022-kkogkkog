@@ -1,21 +1,26 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import { PropsWithChildren } from 'react';
 
-export const Dimmed = styled.div`
-  width: 100vw;
-  height: 100vh;
+import * as Styled from './style';
 
-  position: fixed;
-  top: 0;
-  left: 0;
+interface DimmedProps {
+  position?: 'top' | 'middle' | 'bottom';
+  onCloseModal?: () => void;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const Dimmed = (props: PropsWithChildren<DimmedProps>) => {
+  const { position, onCloseModal, children } = props;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  return (
+    <Styled.Root
+      position={position}
+      onClick={e => {
+        if (e.target !== e.currentTarget) return;
+        onCloseModal();
+      }}
+    >
+      {children}
+    </Styled.Root>
+  );
+};
 
-  ${({ theme }) => css`
-    z-index: ${theme.layers.dimmed};
-  `}
-`;
+export default Dimmed;
