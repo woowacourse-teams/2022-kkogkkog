@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import com.woowacourse.kkogkkog.acceptance.support.DatabaseCleaner;
+import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
