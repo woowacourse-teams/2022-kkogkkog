@@ -30,6 +30,11 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(ForbiddenException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
     @Getter
     private static class ErrorResponse {
 
