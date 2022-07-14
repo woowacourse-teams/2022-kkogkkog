@@ -34,10 +34,22 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
       <Styled.ButtonContainer>
         <Styled.ButtonInner>
-          <Button>사용 완료</Button>
+          <Button
+            css={css`
+              padding-right: 10px;
+            `}
+          >
+            사용 완료
+          </Button>
         </Styled.ButtonInner>
         <Styled.ButtonInner>
-          <Button>사용 요청</Button>
+          <Button
+            css={css`
+              padding-left: 10px;
+            `}
+          >
+            사용 요청
+          </Button>
         </Styled.ButtonInner>
       </Styled.ButtonContainer>
     </Modal>

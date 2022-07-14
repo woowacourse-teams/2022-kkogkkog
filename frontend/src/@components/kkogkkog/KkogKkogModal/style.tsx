@@ -41,14 +41,6 @@ export const ButtonContainer = styled.div`
 export const ButtonInner = styled.div`
   width: 50%;
 
-  &:nth-child(1) {
-    padding-right: 10px;
-  }
-
-  &:nth-child(2) {
-    padding-left: 10px;
-  }
-
   & > button {
     font-size: 18px;
     height: 50px;
