@@ -4,7 +4,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.kkogkkog.application.CouponService;
+import com.woowacourse.kkogkkog.application.CouponService2;
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
@@ -36,7 +36,7 @@ public abstract class Documentation {
     protected ObjectMapper objectMapper;
 
     @MockBean
-    protected CouponService couponService;
+    protected CouponService2 couponService;
 
     @MockBean
     protected MemberService memberService;
