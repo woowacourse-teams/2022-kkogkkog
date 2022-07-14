@@ -4,6 +4,7 @@ import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import { KkogKkog } from '@/types/domain';
 import { THUMBNAIL } from '@/utils/constants/kkogkkog';
 
+import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 interface KkogKkogListProps {
@@ -36,7 +37,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
         />
       ))}
       {clickedKkogKkog && (
-        <KkogKkogItem.Modal clickedKkogKkog={clickedKkogKkog} handleCloseModal={handleCloseModal} />
+        <KkogKkogModal clickedKkogKkog={clickedKkogKkog} handleCloseModal={handleCloseModal} />
       )}
     </Styled.Root>
   );
