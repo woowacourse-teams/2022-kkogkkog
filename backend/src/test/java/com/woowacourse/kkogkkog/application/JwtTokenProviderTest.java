@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.exception.auth.InvalidTokenException;
+import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ class JwtTokenProviderTest {
         String fakeToken = "FakeToken";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(fakeToken))
-                .isInstanceOf(InvalidTokenException.class);
+                .isInstanceOf(UnauthenticatedTokenException.class);
     }
 
     @Test
@@ -40,6 +40,6 @@ class JwtTokenProviderTest {
         String expiredToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBwZXJAd29vd2Fjb3Vyc2UuY29tIiwiaWF0IjoxNjU0NDkzMDM0LCJleHAiOjE2NTQ0OTMxMzR9.CiCFn0f42ro8nhoH__Fs2wXQTPi5g8GVTN7Ae4sc5k_2RQNNAx0gcxtaDcxDZgLbqk7ploc7GJxZUfXTWnq3uQ";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(expiredToken))
-                .isInstanceOf(InvalidTokenException.class);
+                .isInstanceOf(UnauthenticatedTokenException.class);
     }
 }
