@@ -7,9 +7,9 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
-import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
+import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,9 +33,9 @@ public class CouponServiceTest {
 
     @BeforeEach
     void setUp() {
-        memberRepository.save(new Member(1L, "루키"));
-        memberRepository.save(new Member(2L, "아서"));
-        memberRepository.save(new Member(3L, "정"));
+        memberRepository.save(MemberFixture.ROOKIE);
+        memberRepository.save(MemberFixture.ARTHUR);
+        memberRepository.save(MemberFixture.JEONG);
     }
 
     @Test

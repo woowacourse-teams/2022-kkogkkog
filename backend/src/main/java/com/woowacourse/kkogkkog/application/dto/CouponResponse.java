@@ -31,7 +31,7 @@ public class CouponResponse {
     }
 
     public static CouponResponse of(Coupon coupon) {
-        return new CouponResponse(coupon.getId(), coupon.getSender().getName(), coupon.getReceiver().getName(),
+        return new CouponResponse(coupon.getId(), coupon.getSender().getNickname(), coupon.getReceiver().getNickname(),
                 coupon.getBackgroundColor(), coupon.getModifier(), coupon.getMessage(),
                 coupon.getCouponType().getValue(), coupon.getCouponStatus().name());
     }

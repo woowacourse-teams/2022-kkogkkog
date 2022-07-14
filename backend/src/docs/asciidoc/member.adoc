@@ -1,0 +1,10 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+
+== Member
+=== 회원가입
+operation::member-create[snippets='http-request,http-response,request-fields']

@@ -18,10 +18,19 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    public Member(Long id, String name) {
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String nickname;
+
+    public Member(Long id, String email, String password, String nickname) {
         this.id = id;
-        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
     }
 }
