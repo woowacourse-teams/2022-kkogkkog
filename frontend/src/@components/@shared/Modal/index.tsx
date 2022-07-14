@@ -17,8 +17,9 @@ function Modal(props: React.PropsWithChildren<ModalProps>) {
     <Dimmed
       position={position}
       onClick={e => {
-        if (e.target !== e.currentTarget) return;
-        onCloseModal();
+        if (e.target === e.currentTarget) {
+          onCloseModal();
+        }
       }}
     >
       <Styled.Root position={position}>{children}</Styled.Root>
