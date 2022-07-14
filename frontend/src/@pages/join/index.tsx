@@ -22,7 +22,6 @@ const Join = () => {
           to={PATH.LANDING}
           css={css`
             display: inline-flex;
-
             justify-content: center;
             align-items: center;
           `}

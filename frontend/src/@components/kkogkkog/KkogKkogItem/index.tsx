@@ -10,6 +10,7 @@ type KkogKkogItemProps = KkogKkog & {
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
   const {
+    className,
     senderName,
     receiverName,
     backgroundColor,
@@ -17,7 +18,6 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
     couponType,
     thumbnail,
     onClick,
-    className,
   } = props;
 
   return (

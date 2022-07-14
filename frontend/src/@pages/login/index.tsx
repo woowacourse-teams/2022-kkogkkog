@@ -37,10 +37,10 @@ const Login = () => {
             isShowLabel={false}
             placeholder='이메일'
             value={email}
-            onChange={onChangeEmail}
             css={css`
               border-radius: 4px 4px 0 0;
             `}
+            onChange={onChangeEmail}
           />
           <Input
             id='password'
@@ -49,11 +49,11 @@ const Login = () => {
             isShowLabel={false}
             placeholder='비밀번호'
             value={password}
-            onChange={onChangePassword}
             css={css`
               border-radius: 0 0 4px 4px;
               margin-bottom: 36px;
             `}
+            onChange={onChangePassword}
           />
           <button type='submit'>로그인</button>
         </Styled.LoginForm>

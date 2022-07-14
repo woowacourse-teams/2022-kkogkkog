@@ -24,11 +24,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       </Styled.ModalTop>
       <KkogKkogItem
         key={clickedKkogKkog.id}
-        {...clickedKkogKkog}
         thumbnail={THUMBNAIL[clickedKkogKkog.couponType]}
         css={css`
           margin-bottom: 30px;
         `}
+        {...clickedKkogKkog}
       />
       <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
       <Styled.ButtonContainer>
