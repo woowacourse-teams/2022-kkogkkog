@@ -6,11 +6,6 @@
 
 
 == Coupon
-=== 쿠폰 생성
-operation::coupon-create[snippets='http-request,http-response,request-fields']
-
-=== 쿠폰 전체 조회
-operation::coupon-showAll[snippets='http-request,http-response,response-fields']
 
 === 쿠폰 단일 조회
 operation::coupon-show[snippets='http-request,http-response,response-fields']
