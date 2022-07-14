@@ -3,7 +3,6 @@ package com.woowacourse.kkogkkog.presentation;
 
 import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PAYLOAD;
 
-import com.woowacourse.kkogkkog.presentation.dto.LoginMember;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -15,7 +14,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(AuthenticationPrincipal.class);
+        return parameter.hasParameterAnnotation(LoginMember.class);
     }
 
     @Override
@@ -23,6 +22,6 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String payload = (String) request.getAttribute(PAYLOAD);
-        return new LoginMember(Long.valueOf(payload));
+        return Long.valueOf(payload);
     }
 }
