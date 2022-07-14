@@ -4,8 +4,7 @@ import styled from '@emotion/styled';
 export const ModalTop = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
-  font-size: 20px;
+  margin-bottom: 16px;
 `;
 
 export const Message = styled.div`
@@ -25,7 +24,7 @@ export const Message = styled.div`
   aspect-ratio: 3/1;
 
   cursor: pointer;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
@@ -42,7 +41,6 @@ export const ButtonInner = styled.div`
   width: 50%;
 
   & > button {
-    font-size: 18px;
-    height: 50px;
+    height: 40px;
   }
 `;

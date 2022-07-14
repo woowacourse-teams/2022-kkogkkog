@@ -26,7 +26,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
         key={clickedKkogKkog.id}
         thumbnail={THUMBNAIL[clickedKkogKkog.couponType]}
         css={css`
-          margin-bottom: 30px;
+          margin-bottom: 16px;
         `}
         {...clickedKkogKkog}
       />
