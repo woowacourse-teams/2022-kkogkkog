@@ -4,9 +4,8 @@ import { KkogKkog } from '@/types/domain';
 import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKkog & {
-  onClickKkogKkog?: () => void;
+  onClick?: () => void;
   className?: string;
-  hasCursor?: boolean;
 };
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
@@ -17,13 +16,12 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
     modifier,
     couponType,
     thumbnail,
-    hasCursor = true,
-    onClickKkogKkog,
+    onClick,
     className,
   } = props;
 
   return (
-    <Styled.Root onClick={onClickKkogKkog} className={className} hasCursor={hasCursor}>
+    <Styled.Root onClick={onClick} className={className} hasCursor={!!onClick}>
       <Styled.TextContainer>
         <div>From. {senderName}</div>
         <div>To. {receiverName}</div>

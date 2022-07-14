@@ -112,7 +112,6 @@ const KkogkkogCreatePage = () => {
             senderName={senderName}
             thumbnail={THUMBNAIL[couponType]}
             couponType={couponType}
-            hasCursor={false}
           />
         </Styled.Inner>
         <KkogKkogCreateForm

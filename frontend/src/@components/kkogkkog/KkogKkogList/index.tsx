@@ -30,7 +30,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
           key={kkogkkog.id}
           {...kkogkkog}
           thumbnail={THUMBNAIL[kkogkkog.couponType]}
-          onClickKkogKkog={handleClickKkogKkog({
+          onClick={handleClickKkogKkog({
             ...kkogkkog,
             thumbnail: THUMBNAIL[kkogkkog.couponType],
           })}
