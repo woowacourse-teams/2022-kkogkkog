@@ -33,4 +33,8 @@ public class Member {
         this.password = password;
         this.nickname = nickname;
     }
+
+    public boolean isNotSamePassword(String password) {
+        return !this.password.equals(password);
+    }
 }
