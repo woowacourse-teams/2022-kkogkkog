@@ -3,7 +3,11 @@ import { KkogKkog } from '@/types/domain';
 
 import * as Styled from './style';
 
-type KkogKkogItemProps = KkogKkog & { onClickKkogKkog?: () => void; className?: string };
+type KkogKkogItemProps = KkogKkog & {
+  onClickKkogKkog?: () => void;
+  className?: string;
+  hasCursor?: boolean;
+};
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
   const {
@@ -13,12 +17,13 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
     modifier,
     couponType,
     thumbnail,
+    hasCursor = true,
     onClickKkogKkog,
     className,
   } = props;
 
   return (
-    <Styled.Root onClick={onClickKkogKkog} className={className}>
+    <Styled.Root onClick={onClickKkogKkog} className={className} hasCursor={hasCursor}>
       <Styled.TextContainer>
         <div>From. {senderName}</div>
         <div>To. {receiverName}</div>
