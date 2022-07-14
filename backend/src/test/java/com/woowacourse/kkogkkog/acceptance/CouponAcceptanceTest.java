@@ -6,8 +6,8 @@ import static com.woowacourse.kkogkkog.fixture.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.fixture.MemberFixture.ROOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.kkogkkog.application.CouponService2;
-import com.woowacourse.kkogkkog.application.dto.CouponResponse2;
+import com.woowacourse.kkogkkog.application.CouponService;
+import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
@@ -35,7 +35,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     private MemberRepository memberRepository;
 
     @Autowired
-    private CouponService2 couponService;
+    private CouponService couponService;
 
     @Override
     @BeforeEach
@@ -53,8 +53,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 단일_쿠폰_조회를_할_수_있다() {
-            CouponResponse2 expected = 쿠폰_발급에_성공한다(JEONG, List.of(LEO)).get(0);
-            CouponResponse2 actual = 쿠폰_조회에_성공한다(expected.getId());
+            CouponResponse expected = 쿠폰_발급에_성공한다(JEONG, List.of(LEO)).get(0);
+            CouponResponse actual = 쿠폰_조회에_성공한다(expected.getId());
 
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         }
@@ -68,15 +68,15 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     // TODO: should be replaced with REST ASSURED after AUTHENTICATION
-    public  List<CouponResponse2> 쿠폰_발급에_성공한다(Member sender, List<Member> receivers) {
+    public  List<CouponResponse> 쿠폰_발급에_성공한다(Member sender, List<Member> receivers) {
         return couponService.save(toCouponSaveRequest(sender, receivers));
     }
 
-    public static CouponResponse2 쿠폰_조회에_성공한다(Long couponId) {
+    public static CouponResponse 쿠폰_조회에_성공한다(Long couponId) {
         ExtractableResponse<Response> extract = 쿠폰_조회를_요청한다(couponId);
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
-        return extract.as(CouponResponse2.class);
+        return extract.as(CouponResponse.class);
     }
 
     private static ExtractableResponse<Response> 쿠폰_조회를_요청한다(Long couponId) {

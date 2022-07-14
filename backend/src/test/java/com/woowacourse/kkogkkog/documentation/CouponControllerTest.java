@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
-import com.woowacourse.kkogkkog.application.dto.CouponResponse2;
+import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
@@ -37,7 +37,7 @@ class CouponControllerTest extends Documentation {
     void 단일_쿠폰_조회를_요청한다() throws Exception {
         // given
         CouponSaveRequest couponSaveRequest = toCouponSaveRequest(JEONG, List.of(LEO));
-        CouponResponse2 couponResponse = toCouponResponse(1L, JEONG, LEO);
+        CouponResponse couponResponse = toCouponResponse(1L, JEONG, LEO);
         given(couponService.save(couponSaveRequest)).willReturn(List.of(couponResponse));
         given(couponService.findById(1L)).willReturn(couponResponse);
 
@@ -80,10 +80,10 @@ class CouponControllerTest extends Documentation {
         return new CouponSaveRequest(senderId, receiverIds, BACKGROUND_COLOR, MODIFIER, MESSAGE, COUPON_TYPE.name());
     }
 
-    private CouponResponse2 toCouponResponse(Long couponId, Member sender, Member receiver) {
+    private CouponResponse toCouponResponse(Long couponId, Member sender, Member receiver) {
         CouponMemberResponse senderResponse = CouponMemberResponse.of(sender);
         CouponMemberResponse receiverResponse = CouponMemberResponse.of(receiver);
-        return new CouponResponse2(couponId, senderResponse, receiverResponse,
+        return new CouponResponse(couponId, senderResponse, receiverResponse,
                 BACKGROUND_COLOR, MODIFIER, MESSAGE, COUPON_TYPE.name(), CouponStatus.READY.name());
     }
 }
