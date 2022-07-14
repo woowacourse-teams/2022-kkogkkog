@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.application.AuthService;
 import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.CouponTemplateService;
+import com.woowacourse.kkogkkog.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.presentation.AuthController;
 import com.woowacourse.kkogkkog.presentation.CouponController;
@@ -52,6 +53,9 @@ public abstract class Documentation {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
     public void setUp(WebApplicationContext ctx, RestDocumentationContextProvider restDocumentationContextProvider) {

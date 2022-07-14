@@ -17,6 +17,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor(jwtTokenProvider));
+        registry.addInterceptor(new LoginInterceptor(jwtTokenProvider))
+                .excludePathPatterns("/**");
     }
 }
