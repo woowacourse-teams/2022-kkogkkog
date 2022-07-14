@@ -17,7 +17,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { clickedKkogKkog, handleCloseModal } = props;
 
   return (
-    <Modal position='bottom' title='쿠폰을 사용하시겠어요?' onCloseModal={handleCloseModal}>
+    <Modal position='bottom' onCloseModal={handleCloseModal}>
+      <Styled.ModalTop>
+        <header>쿠폰을 사용하시겠어요?</header>
+        <button onClick={handleCloseModal}>X</button>
+      </Styled.ModalTop>
       <KkogKkogItem
         key={clickedKkogKkog.id}
         {...clickedKkogKkog}

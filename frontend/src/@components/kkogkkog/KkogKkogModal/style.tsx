@@ -1,6 +1,13 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+export const ModalTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  font-size: 20px;
+`;
+
 export const Message = styled.div`
   width: 100%;
   max-width: 380px;
