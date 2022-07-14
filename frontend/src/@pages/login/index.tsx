@@ -30,11 +30,10 @@ const Login = () => {
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         <Styled.LoginForm onSubmit={onSubmitForm}>
-          <Input
+          <Input.HiddenLabel
             id='email'
             type='email'
             label='이메일'
-            isShowLabel={false}
             placeholder='이메일'
             value={email}
             onChange={onChangeEmail}
@@ -42,11 +41,10 @@ const Login = () => {
               border-radius: 4px 4px 0 0;
             `}
           />
-          <Input
+          <Input.HiddenLabel
             id='password'
             type='password'
             label='비밀번호'
-            isShowLabel={false}
             placeholder='비밀번호'
             value={password}
             onChange={onChangePassword}
