@@ -16,7 +16,7 @@ public class CouponCreateRequest {
     private String backgroundColor;
     private String couponType;
 
-    public CouponCreateRequest(List<Long> receivers, String backgroundColor, String modifier, String message,
+    public CouponCreateRequest(List<Long> receivers, String modifier, String message, String backgroundColor,
                                String couponType) {
         this.receivers = receivers;
         this.modifier = modifier;
