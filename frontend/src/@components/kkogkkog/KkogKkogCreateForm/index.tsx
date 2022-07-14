@@ -27,16 +27,16 @@ interface KkogKkogCreateFormProps {
 const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
   const {
     currentSenderName,
-    onChangeSenderName,
     currentReceiverName,
-    onChangeReceiverName,
     currentType,
-    onSelectType,
     currentModifier,
-    onSelectModifier,
     currentColor,
-    onSelectColor,
     currentMessage,
+    onChangeSenderName,
+    onChangeReceiverName,
+    onSelectType,
+    onSelectModifier,
+    onSelectColor,
     onChangeMessage,
     onSubmitCreateForm,
   } = props;
@@ -61,8 +61,8 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
         {couponTypes.map(({ type, imageURL }) => (
           <Styled.TypeOption
             key={type}
-            onClick={() => onSelectType(type)}
             isSelected={type === currentType}
+            onClick={() => onSelectType(type)}
           >
             <img src={imageURL} alt='hi' />
           </Styled.TypeOption>
@@ -73,8 +73,8 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
         {modifiers.map(modifier => (
           <Styled.FeelOption
             key={modifier}
-            onClick={() => onSelectModifier(modifier)}
             isSelected={modifier === currentModifier}
+            onClick={() => onSelectModifier(modifier)}
           >
             #{modifier}
           </Styled.FeelOption>
@@ -86,8 +86,8 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
           <Styled.ColorOption
             key={color}
             color={color}
-            onClick={() => onSelectColor(color)}
             isSelected={color === currentColor}
+            onClick={() => onSelectColor(color)}
           />
         ))}
       </SelectInput>

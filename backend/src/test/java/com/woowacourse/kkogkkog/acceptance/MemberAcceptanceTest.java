@@ -21,7 +21,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         회원_가입에_성공한다(memberCreateRequest);
     }
 
-    private void 회원_가입에_성공한다(MemberCreateRequest memberCreateRequest) {
+    public static void 회원_가입에_성공한다(MemberCreateRequest memberCreateRequest) {
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .body(memberCreateRequest)
             .contentType(MediaType.APPLICATION_JSON_VALUE)

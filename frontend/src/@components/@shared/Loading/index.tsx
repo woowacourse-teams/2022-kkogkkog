@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Dimmed } from '@/@components/@shared/Dimmed';
+import Dimmed from '@/@components/@shared/Dimmed';
 
 import * as Styled from './style';
 

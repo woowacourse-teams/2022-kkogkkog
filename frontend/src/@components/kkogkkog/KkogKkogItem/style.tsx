@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;
   max-width: 380px;
   min-width: 125px;
@@ -17,11 +17,15 @@ export const Root = styled.div`
 
   aspect-ratio: 3/1;
 
-  cursor: pointer;
-
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
   `}
+
+  ${({ hasCursor }) =>
+    hasCursor &&
+    css`
+      cursor: pointer;
+    `}
 `;
 
 export const TextContainer = styled.div`

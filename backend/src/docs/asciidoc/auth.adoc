@@ -1,0 +1,10 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+
+== Auth
+=== 로그인
+operation::auth-login[snippets='http-request,http-response,request-fields,response-fields']

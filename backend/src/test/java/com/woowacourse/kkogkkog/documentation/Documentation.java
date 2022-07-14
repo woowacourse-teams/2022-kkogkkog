@@ -4,8 +4,11 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.kkogkkog.application.AuthService;
 import com.woowacourse.kkogkkog.application.CouponService;
+import com.woowacourse.kkogkkog.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.presentation.AuthController;
 import com.woowacourse.kkogkkog.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +27,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs
 @WebMvcTest({
+        AuthController.class,
         CouponController.class,
-        MemberController.class
+        MemberController.class,
 })
 public abstract class Documentation {
 
@@ -40,6 +44,12 @@ public abstract class Documentation {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected AuthService authService;
+
+    @MockBean
+    protected JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
     public void setUp(WebApplicationContext ctx, RestDocumentationContextProvider restDocumentationContextProvider) {

@@ -1,17 +1,27 @@
-import { css } from '@emotion/react';
-
 import Placeholder from '@/@components/@shared/Placeholder';
 import { KkogKkog } from '@/types/domain';
 
 import * as Styled from './style';
 
-type KkogKkogItemProps = KkogKkog;
+type KkogKkogItemProps = KkogKkog & {
+  onClick?: () => void;
+  className?: string;
+};
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const { senderName, receiverName, backgroundColor, modifier, couponType, thumbnail } = props;
+  const {
+    className,
+    senderName,
+    receiverName,
+    backgroundColor,
+    modifier,
+    couponType,
+    thumbnail,
+    onClick,
+  } = props;
 
   return (
-    <Styled.Root>
+    <Styled.Root onClick={onClick} className={className} hasCursor={!!onClick}>
       <Styled.TextContainer>
         <div>From. {senderName}</div>
         <div>To. {receiverName}</div>
@@ -40,7 +50,6 @@ KkogKkogItem.LinkButton = function LinkButton() {
     </Styled.Root>
   );
 };
-
 KkogKkogItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
 };

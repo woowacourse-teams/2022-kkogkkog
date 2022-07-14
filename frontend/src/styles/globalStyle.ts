@@ -28,6 +28,7 @@ const globalStyle = css`
   button {
     cursor: pointer;
     border: 0;
+    background-color: inherit;
   }
 
   @font-face {

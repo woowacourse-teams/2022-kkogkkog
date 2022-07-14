@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Dimmed = styled.div`
+interface DimmedProps {
+  position?: 'top' | 'middle' | 'bottom';
+}
+
+export const Dimmed = styled.div<DimmedProps>`
   width: 100vw;
   height: 100vh;
 
@@ -11,11 +15,29 @@ export const Dimmed = styled.div`
 
   display: flex;
   justify-content: center;
-  align-items: center;
 
   background-color: rgba(0, 0, 0, 0.5);
 
   ${({ theme }) => css`
     z-index: ${theme.layers.dimmed};
   `}
+
+  ${({ position }) => {
+    switch (position) {
+      case 'top':
+        return css`
+          align-items: flex-start;
+        `;
+      case 'bottom':
+        return css`
+          align-items: flex-end;
+        `;
+      default:
+        return css`
+          align-items: center;
+        `;
+    }
+  }}
 `;
+
+export default Dimmed;

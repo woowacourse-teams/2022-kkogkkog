@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { hideWithA11y } from '@/styles/mixin';
 
-export const Root = styled.div<{ isShowLabel: boolean }>`
+export const Root = styled.div<{ isShowLabel?: boolean }>`
   display: flex;
   flex-direction: column;
   position: relative;
