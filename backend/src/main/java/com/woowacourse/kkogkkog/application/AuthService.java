@@ -4,7 +4,7 @@ import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.exception.member.MemberWrongPasswordException;
+import com.woowacourse.kkogkkog.exception.member.MemberWrongInputException;
 import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ public class AuthService {
         Member findMember = memberRepository.findByEmail(tokenRequest.getEmail())
                 .orElseThrow(MemberNotFoundException::new);
         if (findMember.isNotSamePassword(tokenRequest.getPassword())) {
-            throw new MemberWrongPasswordException();
+            throw new MemberWrongInputException();
         }
         return new TokenResponse(jwtTokenProvider.createToken(findMember.getId().toString()));
     }
