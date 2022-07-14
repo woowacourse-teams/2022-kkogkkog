@@ -21,7 +21,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(UnauthorizedException e) {
+    public ResponseEntity<ErrorResponse> handleException(UnauthenticatedException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
