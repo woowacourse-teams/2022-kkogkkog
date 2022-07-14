@@ -49,7 +49,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("GET /api/coupons/{couponId}")
     @Nested
-    class ShowCouponTest {
+    class ShowTest {
 
         @Test
         void 단일_쿠폰_조회를_할_수_있다() {
