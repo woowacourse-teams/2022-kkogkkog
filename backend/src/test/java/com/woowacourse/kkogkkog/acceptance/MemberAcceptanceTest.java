@@ -1,7 +1,9 @@
 package com.woowacourse.kkogkkog.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -52,5 +54,28 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             .extract();
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 회원_가입된_전체_사용자_조회를_할_수_있다() {
+        MemberCreateRequest memberCreateRequest1 = new MemberCreateRequest("rookie@gmail.com",
+            "password1234!", "rookie");
+        MemberCreateRequest memberCreateRequest2 = new MemberCreateRequest("arthur@gmail.com",
+            "password1234!", "arthur");
+        회원_가입에_성공한다(memberCreateRequest1);
+        회원_가입에_성공한다(memberCreateRequest2);
+
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+            .when()
+            .get("/api/members")
+            .then().log().all()
+            .extract();
+
+        MembersResponse membersResponse = extract.as(MembersResponse.class);
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(membersResponse.getData()).hasSize(2)
+        );
     }
 }
