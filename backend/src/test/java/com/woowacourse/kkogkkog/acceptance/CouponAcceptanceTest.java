@@ -27,10 +27,10 @@ import org.springframework.http.MediaType;
 @SuppressWarnings("NonAsciiCharacters")
 public class CouponAcceptanceTest extends AcceptanceTest {
 
-    public static Member LEO = new Member(1L, "leo@gmail.com", "password1234!", "레오");
-    public static Member ROOKIE = new Member(2L, "rookie@gmail.com", "password1234!", "루키");
-    public static Member ARTHUR = new Member(3L, "arthur@gmail.com", "password1234!", "아서");
-    public static Member JEONG = new Member(4L, "jeong@gmail.com", "password1234!", "정");
+    private static final Member LEO = new Member(1L, "leo@gmail.com", "password1234!", "레오");
+    private static final Member ROOKIE = new Member(2L, "rookie@gmail.com", "password1234!", "루키");
+    private static final Member ARTHUR = new Member(3L, "arthur@gmail.com", "password1234!", "아서");
+    private static final Member JEONG = new Member(4L, "jeong@gmail.com", "password1234!", "정");
 
     private static final String BACKGROUND_COLOR = "#123456";
     private static final String MODIFIER = "한턱내는";
