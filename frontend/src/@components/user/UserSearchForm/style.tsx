@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 export const Root = styled.div`
   min-height: 250px;
-
-  position: relative;
 `;
 
 export const SelectedContainer = styled.div`
@@ -40,7 +38,6 @@ export const SelectedContainer = styled.div`
 `;
 
 export const InputContainer = styled.div`
-  position: relative;
   & input {
     padding-right: 30px;
   }
@@ -69,18 +66,15 @@ export const SearchContainer = styled.div`
 
   border-radius: 4px;
 
+  animation: drop-down 0.2s ease-in;
+
   ${({ theme }) => css`
     background-color: ${theme.colors.background_0};
     border: 1px solid ${theme.colors.light_grey_100};
   `}
-
-  animation:drop-down 0.2s ease-in;
-
-  position: absolute;
-  z-index: 99999;
 `;
 
-export const HasNotResult = styled.div`
+export const TextContainer = styled.div`
   width: 100%;
 
   height: 100%;
