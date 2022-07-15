@@ -10,10 +10,11 @@ import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +34,14 @@ public class CouponService {
                 .orElseThrow(CouponNotFoundException::new);
 
         return CouponResponse.of(coupon);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllBySender(Long senderId) {
+        return couponRepository.findAllBySender(findMember(senderId))
+                .stream()
+                .map(CouponResponse::of)
+                .collect(Collectors.toList());
     }
 
     public List<CouponResponse> save(CouponSaveRequest couponSaveRequest) {
