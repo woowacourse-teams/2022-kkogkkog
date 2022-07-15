@@ -101,7 +101,7 @@ const KkogkkogCreatePage = () => {
   };
 
   const onSelectReceiver = user => {
-    const isSelected = !!receiverList.find(receiver => receiver.id === user.id);
+    const isSelected = receiverList.some(receiver => receiver.id === user.id);
 
     if (isSelected) {
       setReceiverList(prev => prev.filter(({ id: receiverId }) => receiverId !== user.id));
