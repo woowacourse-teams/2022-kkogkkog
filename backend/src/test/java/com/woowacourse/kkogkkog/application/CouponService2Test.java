@@ -72,6 +72,37 @@ public class CouponService2Test extends ServiceTest {
         }
     }
 
+    @DisplayName("사용자가 받은 쿠폰들이 조회된다.")
+    @Nested
+    class FindByReceiverTest {
+
+        @DisplayName("조회되는 쿠폰 개수 확인")
+        @Test
+        void couponCount() {
+            couponService.save(toCouponSaveRequest(ARTHUR, List.of(JEONG, LEO)));
+            couponService.save(toCouponSaveRequest(LEO, List.of(JEONG, ARTHUR)));
+            List<CouponResponse> actual = couponService.findAllByReceiver(JEONG.getId());
+
+            assertThat(actual.size()).isEqualTo(2);
+        }
+
+        @DisplayName("조회되는 쿠폰의 받은 사람 정보 확인")
+        @Test
+        void receiverId() {
+            couponService.save(toCouponSaveRequest(ARTHUR, List.of(JEONG, LEO)));
+            couponService.save(toCouponSaveRequest(LEO, List.of(JEONG, ARTHUR)));
+            Long receiverId = JEONG.getId();
+
+            List<Long> actual = couponService.findAllByReceiver(receiverId)
+                    .stream().map(CouponResponse::getReceiver)
+                    .map(CouponMemberResponse::getId)
+                    .collect(Collectors.toList());
+            List<Long> expected = List.of(receiverId, receiverId);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+    }
+
     private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
         List<Long> receiverIds = receivers.stream()
                 .map(Member::getId)

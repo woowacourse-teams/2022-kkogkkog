@@ -44,6 +44,14 @@ public class CouponService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllByReceiver(Long receiverId) {
+        return couponRepository.findAllByReceiver(findMember(receiverId))
+                .stream()
+                .map(CouponResponse::of)
+                .collect(Collectors.toList());
+    }
+
     public List<CouponResponse> save(CouponSaveRequest couponSaveRequest) {
         List<Coupon> coupons = toCoupons(couponSaveRequest);
         List<Coupon> savedCoupons = couponRepository.saveAll(coupons);

@@ -11,4 +11,6 @@ import java.util.List;
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     List<Coupon> findAllBySender(Member sender);
+
+    List<Coupon> findAllByReceiver(Member receiver);
 }
