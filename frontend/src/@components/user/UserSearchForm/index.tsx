@@ -30,28 +30,10 @@ const users = [
   },
 ];
 
-const UserSearchResult = ({ findUserList, currentReceiverList, onSelectReceiver }) => {
-  if (findUserList === null) {
-    return <Styled.HasNotResult>🔍 유저를 찾아보세요 🔍</Styled.HasNotResult>;
-  }
+const UserSearchForm = props => {
+  const { currentReceiverList, onSelectReceiver } = props;
 
-  if (findUserList.length === 0) {
-    return <Styled.HasNotResult>😱 검색된 유저가 존재하지 않습니다. 😱</Styled.HasNotResult>;
-  }
-
-  return findUserList.map(user => (
-    <Styled.SearchedUser
-      key={user.id}
-      onClick={() => onSelectReceiver(user)}
-      isSelected={!!currentReceiverList.find(receiver => receiver.id === user.id)}
-    >
-      {user.name}({user.email})
-    </Styled.SearchedUser>
-  ));
-};
-
-const UserSearchForm = ({ currentReceiverList, onSelectReceiver }) => {
-  const [findUserList, setFindUserList] = useState(null);
+  const [searchedUserList, setSearchedUserList] = useState(null);
 
   const onChangeSearchInput = e => {
     const {
@@ -60,7 +42,7 @@ const UserSearchForm = ({ currentReceiverList, onSelectReceiver }) => {
 
     const findUserList = users.filter(({ name }) => name === searchUserNameValue);
 
-    setFindUserList(findUserList);
+    setSearchedUserList(findUserList);
   };
 
   return (
@@ -87,17 +69,40 @@ const UserSearchForm = ({ currentReceiverList, onSelectReceiver }) => {
         label='누구에게 주고 싶나요?'
         placeholder='🔍 유저 검색'
         onChange={onChangeSearchInput}
+        autoFocus
       />
 
       <Styled.SearchContainer>
         <UserSearchResult
-          findUserList={findUserList}
+          searchedUserList={searchedUserList}
           currentReceiverList={currentReceiverList}
           onSelectReceiver={onSelectReceiver}
         />
       </Styled.SearchContainer>
     </Styled.Root>
   );
+};
+
+const UserSearchResult = props => {
+  const { searchedUserList, currentReceiverList, onSelectReceiver } = props;
+
+  if (searchedUserList === null) {
+    return <Styled.TextContainer>🔍 유저를 찾아보세요 🔍</Styled.TextContainer>;
+  }
+
+  if (searchedUserList.length === 0) {
+    return <Styled.TextContainer>😱 검색된 유저가 존재하지 않습니다. 😱</Styled.TextContainer>;
+  }
+
+  return searchedUserList.map(user => (
+    <Styled.SearchedUser
+      key={user.id}
+      isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
+      onClick={() => onSelectReceiver(user)}
+    >
+      {user.name}({user.email})
+    </Styled.SearchedUser>
+  ));
 };
 
 export default UserSearchForm;
