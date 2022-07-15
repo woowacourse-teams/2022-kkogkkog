@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     private Long id;
-    private String nickname;
     private String email;
+    private String nickname;
 
-    public MemberResponse(Long id, String nickname, String email) {
+    public MemberResponse(Long id, String email, String nickname) {
         this.id = id;
-        this.nickname = nickname;
         this.email = email;
+        this.nickname = nickname;
     }
 }
