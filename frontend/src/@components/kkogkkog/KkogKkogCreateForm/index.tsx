@@ -1,39 +1,39 @@
-import { ChangeEventHandler, FormEventHandler } from 'react';
+import { css } from '@emotion/react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
+import Modal from '@/@components/@shared/Modal';
 import SelectInput from '@/@components/@shared/SelectInput';
+import UserSearchForm from '@/@components/user/UserSearchForm';
 import { colors, couponTypes, modifiers } from '@/@pages/kkogkkog-list/create';
+import { useModal } from '@/hooks/useModal';
 import { KkogKkogType } from '@/types/domain';
 
 import * as Styled from './style';
 
 interface KkogKkogCreateFormProps {
-  currentSenderName: string;
-  onChangeSenderName: ChangeEventHandler<HTMLInputElement>;
-  currentReceiverName: string;
-  onChangeReceiverName: ChangeEventHandler<HTMLInputElement>;
+  currentReceiverList: any[];
   currentType: KkogKkogType;
-  onSelectType: (type: KkogKkogType) => void;
   currentModifier: '재미있게' | '활기차게' | '한턱쏘는';
-  onSelectModifier: (modifier: '재미있게' | '활기차게' | '한턱쏘는') => void;
   currentColor: typeof colors[number];
-  onSelectColor: (color: typeof colors[number]) => void;
   currentMessage: string;
+  onSelectReceiver: ({ id: number }) => void;
+  onSelectType: (type: KkogKkogType) => void;
+  onSelectModifier: (modifier: '재미있게' | '활기차게' | '한턱쏘는') => void;
+  onSelectColor: (color: typeof colors[number]) => void;
   onChangeMessage: ChangeEventHandler<HTMLInputElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
 const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
   const {
-    currentSenderName,
-    currentReceiverName,
+    currentReceiverList,
     currentType,
     currentModifier,
     currentColor,
     currentMessage,
-    onChangeSenderName,
-    onChangeReceiverName,
+    onSelectReceiver,
     onSelectType,
     onSelectModifier,
     onSelectColor,
@@ -41,21 +41,23 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
     onSubmitCreateForm,
   } = props;
 
+  const { isShowModal, openModal, closeModal } = useModal();
+
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
-      <Input
-        label='누가 주는건가요?'
-        placeholder='보여질 닉네임을 자유롭게 적어주세요!'
-        value={currentSenderName}
-        onChange={onChangeSenderName}
-      />
+      <Styled.FindUserContainer>
+        <div>누구에게 보내시나요?</div>
+        <div onClick={openModal}>🔍 유저를 찾아보세요</div>
+      </Styled.FindUserContainer>
 
-      <Input
-        label='누구에게 주고 싶나요?'
-        placeholder='상대방의 닉네임을 입력해주세요!'
-        value={currentReceiverName}
-        onChange={onChangeReceiverName}
-      />
+      {isShowModal && (
+        <Modal onCloseModal={closeModal} position='bottom'>
+          <UserSearchForm
+            currentReceiverList={currentReceiverList}
+            onSelectReceiver={onSelectReceiver}
+          />
+        </Modal>
+      )}
 
       <SelectInput label='어떤 쿠폰인가요?'>
         {couponTypes.map(({ type, imageURL }) => (

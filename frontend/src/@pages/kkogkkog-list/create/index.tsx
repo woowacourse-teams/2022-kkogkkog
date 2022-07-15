@@ -32,6 +32,7 @@ export const couponTypes = Object.entries(THUMBNAIL).map(([key, value]) => ({
 const KkogkkogCreatePage = () => {
   const [senderName, setSenderName] = useState('');
   const [receiverName, setReceiverName] = useState('');
+  const [receiverList, setReceiverList] = useState([]);
   const [couponType, setCouponType] = useState<KkogKkogType>(couponTypes[0].type);
   const [modifier, setModifier] = useState<typeof modifiers[number]>(modifiers[0]);
   const [color, setColor] = useState<typeof colors[number]>(colors[0]);
@@ -99,6 +100,18 @@ const KkogkkogCreatePage = () => {
     });
   };
 
+  const onSelectReceiver = user => {
+    const isSelected = !!receiverList.find(receiver => receiver.id === user.id);
+
+    if (isSelected) {
+      setReceiverList(prev => prev.filter(({ id: receiverId }) => receiverId !== user.id));
+
+      return;
+    }
+
+    setReceiverList(prev => [...prev, user]);
+  };
+
   return (
     <PageTemplate title='꼭꼭 만들기'>
       <Styled.Root>
@@ -115,17 +128,15 @@ const KkogkkogCreatePage = () => {
           />
         </Styled.Inner>
         <KkogKkogCreateForm
-          currentSenderName={senderName}
-          onChangeSenderName={onChangeSenderName}
-          currentReceiverName={receiverName}
-          onChangeReceiverName={onChangeReceiverName}
+          currentReceiverList={receiverList}
           currentType={couponType}
-          onSelectType={onSelectType}
           currentModifier={modifier}
-          onSelectModifier={onSelectModifier}
           currentColor={color}
-          onSelectColor={onSelectColor}
           currentMessage={message}
+          onSelectReceiver={onSelectReceiver}
+          onSelectType={onSelectType}
+          onSelectModifier={onSelectModifier}
+          onSelectColor={onSelectColor}
           onChangeMessage={onChangeMessage}
           onSubmitCreateForm={onSubmitCreateForm}
         />
