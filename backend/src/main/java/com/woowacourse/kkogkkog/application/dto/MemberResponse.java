@@ -19,10 +19,10 @@ public class MemberResponse {
         this.nickname = nickname;
     }
 
-    public static MemberResponse of(Member findMember) {
+    public static MemberResponse of(Member member) {
         return new MemberResponse(
-            findMember.getId(),
-            findMember.getEmail(),
-            findMember.getNickname());
+            member.getId(),
+            member.getEmail(),
+            member.getNickname());
     }
 }
