@@ -151,7 +151,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         List<Long> receiverIds = receivers.stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
-        return new CouponCreateRequest(receiverIds, BACKGROUND_COLOR, MODIFIER, MESSAGE, COUPON_TYPE);
+        return new CouponCreateRequest(receiverIds, MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE);
     }
 
     private MemberCreateRequest toMemberCreateRequest(Member member) {

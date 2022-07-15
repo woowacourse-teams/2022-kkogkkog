@@ -77,7 +77,7 @@ class CouponControllerTest extends Documentation {
         List<Long> receiverIds = receivers.stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
-        return new CouponSaveRequest(senderId, receiverIds, BACKGROUND_COLOR, MODIFIER, MESSAGE, COUPON_TYPE.name());
+        return new CouponSaveRequest(senderId, receiverIds, MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE.name());
     }
 
     private CouponResponse toCouponResponse(Long couponId, Member sender, Member receiver) {
