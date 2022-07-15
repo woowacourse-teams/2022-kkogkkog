@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.documentation;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -19,14 +20,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
-import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,7 +35,7 @@ import org.springframework.test.web.servlet.ResultActions;
 @SuppressWarnings("NonAsciiCharacters")
 class CouponControllerTest extends Documentation {
 
-    private static final String BEARER = "Bearer ";
+    private static final String BEARER_TOKEN = "Bearer asdfghjkla.qwertyuuio.zxcvbnmzcv";
     private static final String BACKGROUND_COLOR = "#123456";
     private static final String MODIFIER = "한턱내는";
     private static final String MESSAGE = "추가 메세지";
@@ -56,7 +55,7 @@ class CouponControllerTest extends Documentation {
 
         // when
         ResultActions perform = mockMvc.perform(post("/api/coupons")
-                        .header(HttpHeaders.AUTHORIZATION, BEARER + "asdasdasdasd.asdasdasd.asdasdads")
+                        .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                         .content(objectMapper.writeValueAsString(couponCreateRequest))
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));
@@ -102,10 +101,8 @@ class CouponControllerTest extends Documentation {
     @Test
     void 단일_쿠폰_조회를_요청한다() throws Exception {
         // given
-        CouponSaveRequest couponSaveRequest = toCouponSaveRequest(JEONG, List.of(LEO));
         CouponResponse couponResponse = toCouponResponse(1L, JEONG, LEO);
-        given(couponService.save(couponSaveRequest)).willReturn(List.of(couponResponse));
-        given(couponService.findById(1L)).willReturn(couponResponse);
+        given(couponService.findById(anyLong())).willReturn(couponResponse);
 
         // when
         ResultActions perform = mockMvc.perform(get("/api/coupons/{couponId}", 1L));
@@ -136,14 +133,6 @@ class CouponControllerTest extends Documentation {
                                 fieldWithPath("couponStatus").type(JsonFieldType.STRING).description("쿠폰 상태")
                         ))
                 );
-    }
-
-    private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
-        Long senderId = sender.getId();
-        List<Long> receiverIds = receivers.stream()
-                .map(Member::getId)
-                .collect(Collectors.toList());
-        return new CouponSaveRequest(senderId, receiverIds, MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE.name());
     }
 
     private CouponResponse toCouponResponse(Long couponId, Member sender, Member receiver) {
