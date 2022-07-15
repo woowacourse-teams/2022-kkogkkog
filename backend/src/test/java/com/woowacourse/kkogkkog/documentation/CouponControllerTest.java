@@ -3,7 +3,6 @@ package com.woowacourse.kkogkkog.documentation;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -102,7 +101,7 @@ class CouponControllerTest extends Documentation {
     void 단일_쿠폰_조회를_요청한다() throws Exception {
         // given
         CouponResponse couponResponse = toCouponResponse(1L, JEONG, LEO);
-        given(couponService.findById(anyLong())).willReturn(couponResponse);
+        given(couponService.findById(any())).willReturn(couponResponse);
 
         // when
         ResultActions perform = mockMvc.perform(get("/api/coupons/{couponId}", 1L));
