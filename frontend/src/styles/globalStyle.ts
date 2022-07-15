@@ -70,12 +70,14 @@ const globalStyle = css`
   }
 
   @keyframes drop-down {
-    from {
-      height: 0px;
+    0% {
+      transform: scaleY(0);
     }
-
-    to {
-      height: 100%;
+    80% {
+      transform: scaleY(1.1);
+    }
+    100% {
+      transform: scaleY(1);
     }
   }
 `;
