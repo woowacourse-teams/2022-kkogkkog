@@ -58,6 +58,28 @@ const globalStyle = css`
     font-weight: bolder;
     src: url('/assets/font/Pretendard-ExtraBolder.woff') format('woff');
   }
+
+  @keyframes show-up {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 0.99;
+    }
+  }
+
+  @keyframes drop-down {
+    0% {
+      transform: scaleY(0);
+    }
+    80% {
+      transform: scaleY(1.1);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }
 `;
 
 export default globalStyle;

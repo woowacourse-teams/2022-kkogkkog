@@ -7,6 +7,23 @@ export const FormRoot = styled.form`
   }
 `;
 
+export const FindUserContainer = styled.div`
+  & > div:first-child {
+    font-size: 14px;
+
+    margin-bottom: 8px;
+  }
+
+  ${({ theme }) => css`
+    & > div:last-child {
+      border: 1px solid ${theme.colors.light_grey_200};
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  `}
+`;
+
 export const FeelOption = styled.li<{ isSelected: boolean }>`
   font-weight: bold;
   opacity: 0.3;

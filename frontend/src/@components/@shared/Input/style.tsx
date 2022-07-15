@@ -16,7 +16,7 @@ export const Root = styled.div<{ isShowLabel?: boolean }>`
 
     margin-bottom: 8px;
 
-    ${({ isShowLabel }) =>
+    ${({ isShowLabel = true }) =>
       isShowLabel ||
       css`
         ${hideWithA11y}
