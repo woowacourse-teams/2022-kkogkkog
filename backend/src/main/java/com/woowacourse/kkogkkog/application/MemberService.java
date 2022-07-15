@@ -1,8 +1,10 @@
 package com.woowacourse.kkogkkog.application;
 
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
+import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -27,5 +29,13 @@ public class MemberService {
         Member member = memberCreateRequest.toEntity();
 
         return memberRepository.save(member).getId();
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse findById(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+
+        return MemberResponse.of(findMember);
     }
 }
