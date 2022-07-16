@@ -5,6 +5,7 @@ import Join from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
 import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
 import LandingPage from '@/@pages/landing';
+import ProfilePage from '@/@pages/profile';
 
 import Login from './@pages/login';
 
@@ -14,6 +15,7 @@ export const PATH = {
   KKOGKKOG_CREATE: '/kkogkkog-list/create',
   LOGIN: '/login',
   JOIN: '/join',
+  PROFILE: '/profile',
 };
 
 const Router = () => {
@@ -31,6 +33,7 @@ const Router = () => {
       <Route path={PATH.KKOGKKOG_CREATE} element={<KkogkkogCreatePage />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.JOIN} element={<Join />} />
+      <Route path={PATH.PROFILE} element={<ProfilePage />} />
     </Routes>
   );
 };
