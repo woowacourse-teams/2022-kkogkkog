@@ -3,11 +3,14 @@ package com.woowacourse.kkogkkog.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MembersResponse;
+import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -75,7 +78,12 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(membersResponse.getData()).hasSize(2)
-        );
+            () -> assertThat(membersResponse.getData()).hasSize(2),
+            () -> assertThat(membersResponse.getData()).usingRecursiveComparison().isEqualTo(
+                List.of(
+                    MemberResponse.of(new Member(1L, "rookie@gmail.com", null, "rookie")),
+                    MemberResponse.of(new Member(2L, "arthur@gmail.com", null, "arthur"))
+                )
+        ));
     }
 }
