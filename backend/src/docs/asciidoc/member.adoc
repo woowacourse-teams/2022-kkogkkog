@@ -8,3 +8,7 @@
 == Member
 === 회원가입
 operation::member-create[snippets='http-request,http-response,request-fields']
+
+=== 전체 조회
+operation::member-showAll[snippets='http-request,http-response,response-fields']
+
