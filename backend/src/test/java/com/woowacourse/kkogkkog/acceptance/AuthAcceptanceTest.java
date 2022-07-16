@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
@@ -9,8 +11,6 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class AuthAcceptanceTest extends AcceptanceTest {
@@ -34,7 +34,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
-
         return extract.as(TokenResponse.class);
     }
 }
