@@ -36,7 +36,7 @@ public class MemberService {
 
     public MembersResponse findAll() {
         List<MemberResponse> memberResponses = memberRepository.findAll().stream()
-            .map(it -> new MemberResponse(it.getId(), it.getEmail(), it.getNickname()))
+            .map(it -> MemberResponse.of(it))
             .collect(toList());
 
         return new MembersResponse(memberResponses);
