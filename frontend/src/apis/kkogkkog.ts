@@ -17,6 +17,3 @@ export const getKkogkkog = () =>
 
 export const createKkogkkog = (info: Omit<KkogKkog, 'id' | 'thumbnail'>) =>
   client.post('/coupons', info);
-
-export const join = (args: { nickname: string; email: string; password: string }) =>
-  client.post('/members', args);
