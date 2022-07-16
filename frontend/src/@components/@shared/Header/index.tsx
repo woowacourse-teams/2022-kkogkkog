@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
+import useMe from '@/hooks/useMe';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 
@@ -13,6 +14,8 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { title } = props;
 
+  const { me } = useMe();
+
   return (
     <Styled.Root>
       <Styled.Logo>
@@ -22,7 +25,13 @@ const Header = (props: HeaderProps) => {
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
-        <Icon iconName='profile' size='30' color={theme.colors.primary_400} />
+        {me ? (
+          <Link to={PATH.PROFILE}>{me.nickname}</Link>
+        ) : (
+          <Link to={PATH.LOGIN}>
+            <Icon iconName='profile' size='30' color={theme.colors.primary_400} />
+          </Link>
+        )}
       </Styled.Profile>
     </Styled.Root>
   );
