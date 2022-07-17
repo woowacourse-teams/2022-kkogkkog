@@ -11,8 +11,8 @@ const LoginPage = () => {
   const {
     state: { email, password },
     changeHandler: { onChangeEmail, onChangePassword },
-    onSubmitForm,
-  } = useAuthenticateForm({ type: 'Login' });
+    submitHandler: { login: onSubmitForm },
+  } = useAuthenticateForm();
 
   return (
     <PageTemplate title='로그인' hasHeader={false}>

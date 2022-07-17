@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogCreateForm from '@/@components/kkogkkog/KkogKkogCreateForm';
-import { useKkogKKogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
+import { useKkogKkogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
 import theme from '@/styles/theme';
 import { KkogKkogType } from '@/types/domain';
 import { THUMBNAIL } from '@/utils/constants/kkogkkog';
@@ -27,14 +27,14 @@ const KkogkkogCreatePage = () => {
   const {
     state: { receiverList, couponType, modifier, color, message },
     changeHandler: {
+      onSelectReceiver,
       onSelectType,
       onSelectModifier,
       onSelectColor,
       onChangeMessage,
-      onSelectReceiver,
     },
-    submitHandler: { onSubmitCreateForm },
-  } = useKkogKKogForm();
+    submitHandler: { create: onSubmitForm },
+  } = useKkogKkogForm();
 
   return (
     <PageTemplate title='꼭꼭 만들기'>
@@ -61,7 +61,7 @@ const KkogkkogCreatePage = () => {
           onSelectModifier={onSelectModifier}
           onSelectColor={onSelectColor}
           onChangeMessage={onChangeMessage}
-          onSubmitCreateForm={onSubmitCreateForm}
+          onSubmitCreateForm={onSubmitForm}
         />
       </Styled.Root>
     </PageTemplate>

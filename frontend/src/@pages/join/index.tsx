@@ -12,8 +12,8 @@ const JoinPage = () => {
   const {
     state: { email, password, confirmPassword, name },
     changeHandler: { onChangeEmail, onChangePassword, onChangeConfirmPassword, onChangeName },
-    onSubmitForm,
-  } = useAuthenticateForm({ type: 'Join' });
+    submitHandler: { join: onSubmitForm },
+  } = useAuthenticateForm();
 
   return (
     <PageTemplate title='회원가입' hasHeader={false}>

@@ -7,7 +7,7 @@ import { createKkogkkog } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
 import { KkogKkogType, User } from '@/types/domain';
 
-export const useKkogKKogForm = () => {
+export const useKkogKkogForm = () => {
   const navigate = useNavigate();
 
   const [receiverList, setReceiverList] = useState<User[]>([]);
@@ -81,14 +81,14 @@ export const useKkogKKogForm = () => {
       message,
     },
     changeHandler: {
+      onSelectReceiver,
       onSelectType,
       onSelectModifier,
       onSelectColor,
       onChangeMessage,
-      onSelectReceiver,
     },
     submitHandler: {
-      onSubmitCreateForm,
+      create: onSubmitCreateForm,
     },
   };
 };
