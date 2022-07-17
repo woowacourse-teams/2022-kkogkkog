@@ -35,13 +35,16 @@ export const kkogkkogHandler = [
   }),
 
   rest.post<any>(`${BASE_URL}/coupons`, (req, res, ctx) => {
-    const { body, headers } = req;
+    const {
+      body: { receivers, ...body },
+      headers,
+    } = req;
 
     const loggedUser = users.findLoggedUser(headers);
 
-    const receivers = body.receivers.map(receiverId => users.findUserById(receiverId));
+    const receiverList = receivers.map(receiverId => users.findUser(receiverId));
 
-    const newKkogKkogList = receivers.map(receiver => {
+    const newKkogKkogList = receiverList.map(receiver => {
       const newKkogkkog = {
         id: kkogkkogs.current.length + 1,
         sender: loggedUser,
