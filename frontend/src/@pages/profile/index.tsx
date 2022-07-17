@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import useMe from '@/@hooks/user/useMe';
 import { client } from '@/apis';
-import useMe from '@/hooks/useMe';
 import { PATH } from '@/Router';
 
 const ProfilePage = () => {

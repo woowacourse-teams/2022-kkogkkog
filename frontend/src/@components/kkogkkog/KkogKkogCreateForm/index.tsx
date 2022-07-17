@@ -1,13 +1,12 @@
-import { css } from '@emotion/react';
-import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import Modal from '@/@components/@shared/Modal';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchForm from '@/@components/user/UserSearchForm';
+import { useModal } from '@/@hooks/@common/useModal';
 import { colors, couponTypes, modifiers } from '@/@pages/kkogkkog-list/create';
-import { useModal } from '@/hooks/useModal';
 import { KkogKkogType } from '@/types/domain';
 
 import * as Styled from './style';

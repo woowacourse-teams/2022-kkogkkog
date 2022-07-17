@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { getMe } from '@/apis/user';
 
 const useMe = () => {
-  const { data, remove, refetch } = useQuery(['me'], getMe, {
+  const { data, isLoading, isError, remove } = useQuery(['me'], getMe, {
     onError: error => {
       console.log(error);
     },
@@ -12,7 +12,9 @@ const useMe = () => {
   });
 
   return {
-    me: data?.data?.data,
+    me: data?.data,
+    isLoading,
+    isError,
     remove,
   };
 };

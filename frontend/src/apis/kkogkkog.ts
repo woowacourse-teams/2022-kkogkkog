@@ -1,6 +1,14 @@
 import { client } from '@/apis';
-import { KkogKkog } from '@/types/domain';
+import { KkogKkog, KkogKkogType } from '@/types/domain';
 //@TODO transformer 객체 만들기
+
+type CreateRequestKkogKKogBody = {
+  receivers: number[];
+  backgroundColor: string;
+  modifier: string;
+  couponType: KkogKkogType;
+  message: string;
+};
 
 export const getKkogkkog = () =>
   client.get<KkogKkog[]>('/coupons', {
@@ -15,5 +23,4 @@ export const getKkogkkog = () =>
     },
   });
 
-export const createKkogkkog = (info: Omit<KkogKkog, 'id' | 'thumbnail'>) =>
-  client.post('/coupons', info);
+export const createKkogkkog = (info: CreateRequestKkogKKogBody) => client.post('/coupons', info);

@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useAuthenticateForm } from '@/hooks/useAuthenticateForm';
+import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
 import { PATH } from '@/Router';
 
-const Join = () => {
+const JoinPage = () => {
   const {
     state: { email, password, confirmPassword, name },
     changeHandler: { onChangeEmail, onChangePassword, onChangeConfirmPassword, onChangeName },
-    onSubmitForm,
-  } = useAuthenticateForm({ type: 'Join' });
+    submitHandler: { join: onSubmitForm },
+  } = useAuthenticateForm();
 
   return (
     <PageTemplate title='회원가입' hasHeader={false}>
@@ -71,7 +71,7 @@ const Join = () => {
   );
 };
 
-export default Join;
+export default JoinPage;
 
 const Styled = {
   Root: styled.div`

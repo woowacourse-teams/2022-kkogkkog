@@ -10,16 +10,14 @@ type UseAuthenticateFormProps = {
   defaultPassword?: string;
   defaultConfirmPassword?: string;
   defaultName?: string;
-  type: 'Login' | 'Join' | 'Edit';
 };
 
-export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
+export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const {
     defaultEmail = '',
     defaultPassword = '',
     defaultConfirmPassword = '',
     defaultName = '',
-    type,
   } = props;
 
   const [email, setEmail] = useState(defaultEmail);
@@ -89,29 +87,23 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
     setName(nameValue);
   };
 
-  const onSubmitForm = e => {
+  const onSubmitJoinForm = e => {
     e.preventDefault();
 
-    switch (type) {
-      case 'Join':
-        joinMutate({
-          email,
-          password,
-          nickname: name,
-        });
-        break;
-      case 'Login':
-        loginMutate({
-          email,
-          password,
-        });
-        break;
-      case 'Edit':
-        break;
+    joinMutate({
+      email,
+      password,
+      nickname: name,
+    });
+  };
 
-      default:
-        break;
-    }
+  const onSubmitLoginForm = e => {
+    e.preventDefault();
+
+    loginMutate({
+      email,
+      password,
+    });
   };
 
   return {
@@ -127,6 +119,9 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps) => {
       onChangeConfirmPassword,
       onChangeName,
     },
-    onSubmitForm,
+    submitHandler: {
+      join: onSubmitJoinForm,
+      login: onSubmitLoginForm,
+    },
   };
 };

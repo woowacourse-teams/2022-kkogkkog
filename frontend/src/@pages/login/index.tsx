@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useAuthenticateForm } from '@/hooks/useAuthenticateForm';
+import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
 import { PATH } from '@/Router';
 
-const Login = () => {
+const LoginPage = () => {
   const {
     state: { email, password },
     changeHandler: { onChangeEmail, onChangePassword },
-    onSubmitForm,
-  } = useAuthenticateForm({ type: 'Login' });
+    submitHandler: { login: onSubmitForm },
+  } = useAuthenticateForm();
 
   return (
     <PageTemplate title='로그인' hasHeader={false}>
@@ -61,7 +61,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
 
 const Styled = {
   Root: styled.div`
