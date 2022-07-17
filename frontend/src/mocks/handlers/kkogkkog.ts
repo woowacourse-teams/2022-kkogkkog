@@ -42,9 +42,9 @@ export const kkogkkogHandler = [
 
     const loggedUser = users.findLoggedUser(headers);
 
-    const receiverList = receivers.map(receiverId => users.findUser(receiverId));
+    const newKkogKkogList = receivers.map(receiverId => {
+      const receiver = users.findUser(receiverId);
 
-    const newKkogKkogList = receiverList.map(receiver => {
       const newKkogkkog = {
         id: kkogkkogs.current.length + 1,
         sender: loggedUser,
