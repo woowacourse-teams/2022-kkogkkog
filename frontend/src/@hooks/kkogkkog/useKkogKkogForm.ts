@@ -42,7 +42,7 @@ export const useKkogKkogForm = () => {
     setMessage(value);
   };
 
-  const onSelectReceiver = user => {
+  const onSelectReceiver = (user: User) => {
     const isSelected = receiverList.some(receiver => receiver.id === user.id);
 
     if (isSelected) {
