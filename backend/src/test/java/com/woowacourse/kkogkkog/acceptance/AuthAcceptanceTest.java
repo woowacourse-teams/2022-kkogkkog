@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;

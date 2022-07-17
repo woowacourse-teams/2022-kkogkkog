@@ -1,18 +1,18 @@
-package com.woowacourse.kkogkkog.application.dto;
+package com.woowacourse.kkogkkog.presentation.dto;
 
+import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// TODO: refactor to Response<T>
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CouponsResponse {
+public class CouponCreateResponse {
 
     private List<CouponResponse> data;
 
-    public CouponsResponse(List<CouponResponse> data) {
+    public CouponCreateResponse(List<CouponResponse> data) {
         this.data = data;
     }
 }
