@@ -11,6 +11,6 @@ export default {
   },
 
   findUser(id: number) {
-    return this.current.find(({ userId }) => userId === id);
+    return this.current.find(({ id: userId }) => id === userId);
   },
 };

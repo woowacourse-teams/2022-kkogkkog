@@ -23,11 +23,11 @@ export default {
   ],
 
   findReceivedKkogKkogList(loggedUser: User) {
-    return this.current.filter(({ receiver: { id: receiverId } }) => receiverId === loggedUser.id);
+    return this.current.filter(({ receiver: { id: receiverId } }) => loggedUser.id === receiverId);
   },
 
   findSentKkogKkogList(loggedUser: User) {
-    return this.current.filter(({ sender: { id: senderId } }) => senderId === loggedUser.id);
+    return this.current.filter(({ sender: { id: senderId } }) => loggedUser.id === senderId);
   },
 
   findKkogKkog(id: string | readonly string[]) {
@@ -35,6 +35,6 @@ export default {
       throw new Error('잘못된 접근입니다.');
     }
 
-    return this.current.find(({ id: kkogkkogId }) => kkogkkogId === Number(id));
+    return this.current.find(({ id: kkogkkogId }) => Number(id) === kkogkkogId);
   },
 };
