@@ -8,14 +8,14 @@ import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 interface KkogKkogListProps {
-  kkogkkogList: KkogKkog[];
+  kkogkkogList: KkogKkog[] | undefined;
 }
 
 const KkogKkogList = (props: KkogKkogListProps) => {
   const { kkogkkogList } = props;
   const [clickedKkogKkog, setClickedKkogKkog] = useState<KkogKkog | null>(null);
 
-  const handleClickKkogKkog = (kkogkkog: KkogKkog) => {
+  const handleClickKkogKkog = (kkogkkog: KkogKkog & { thumbnail: string }) => {
     setClickedKkogKkog(kkogkkog);
   };
 
@@ -25,7 +25,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
 
   return (
     <Styled.Root>
-      {kkogkkogList.map(kkogkkog => (
+      {kkogkkogList?.map(kkogkkog => (
         <KkogKkogItem
           key={kkogkkog.id}
           thumbnail={THUMBNAIL[kkogkkog.couponType]}

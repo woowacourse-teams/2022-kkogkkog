@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,7 +47,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     },
   });
 
-  const onChangeEmail = e => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: emailValue },
     } = e;
@@ -57,7 +57,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     setEmail(emailValue);
   };
 
-  const onChangePassword = e => {
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: passwordValue },
     } = e;
@@ -67,7 +67,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     setPassword(passwordValue);
   };
 
-  const onChangeConfirmPassword = e => {
+  const onChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: confirmPasswordValue },
     } = e;
@@ -77,7 +77,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     setConfirmPassword(confirmPasswordValue);
   };
 
-  const onChangeName = e => {
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: nameValue },
     } = e;
@@ -87,7 +87,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     setName(nameValue);
   };
 
-  const onSubmitJoinForm = e => {
+  const onSubmitJoinForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     joinMutate({
@@ -97,7 +97,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     });
   };
 
-  const onSubmitLoginForm = e => {
+  const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     loginMutate({

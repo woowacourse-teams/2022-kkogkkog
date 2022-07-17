@@ -6,21 +6,28 @@ import Modal from '@/@components/@shared/Modal';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchForm from '@/@components/user/UserSearchForm';
 import { useModal } from '@/@hooks/@common/useModal';
-import { colors, couponTypes, modifiers } from '@/@pages/kkogkkog-list/create';
-import { KkogKkogType } from '@/types/domain';
+import {
+  KKOGKKOG_COLORS,
+  kkogkkog_colors,
+  KKOGKKOG_KOREAN_TYPE,
+  KKOGKKOG_MODIFIERS,
+  kkogkkog_modifiers,
+  kkogkkog_type,
+  User,
+} from '@/types/domain';
 
 import * as Styled from './style';
 
 interface KkogKkogCreateFormProps {
   currentReceiverList: any[];
-  currentType: KkogKkogType;
-  currentModifier: '재미있게' | '활기차게' | '한턱쏘는';
-  currentColor: typeof colors[number];
+  currentType: KKOGKKOG_KOREAN_TYPE;
+  currentModifier: KKOGKKOG_MODIFIERS;
+  currentColor: KKOGKKOG_COLORS;
   currentMessage: string;
-  onSelectReceiver: ({ id: number }) => void;
-  onSelectType: (type: KkogKkogType) => void;
-  onSelectModifier: (modifier: '재미있게' | '활기차게' | '한턱쏘는') => void;
-  onSelectColor: (color: typeof colors[number]) => void;
+  onSelectReceiver: (user: User) => void;
+  onSelectType: (type: KKOGKKOG_KOREAN_TYPE) => void;
+  onSelectModifier: (modifier: KKOGKKOG_MODIFIERS) => void;
+  onSelectColor: (color: KKOGKKOG_COLORS) => void;
   onChangeMessage: ChangeEventHandler<HTMLInputElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
@@ -59,19 +66,19 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       )}
 
       <SelectInput label='어떤 쿠폰인가요?'>
-        {couponTypes.map(({ type, imageURL }) => (
+        {kkogkkog_type.map(({ koreanType, imageUrl }) => (
           <Styled.TypeOption
-            key={type}
-            isSelected={type === currentType}
-            onClick={() => onSelectType(type)}
+            key={koreanType}
+            isSelected={koreanType === currentType}
+            onClick={() => onSelectType(koreanType)}
           >
-            <img src={imageURL} alt='hi' />
+            <img src={imageUrl} alt='hi' />
           </Styled.TypeOption>
         ))}
       </SelectInput>
 
       <SelectInput label='당신의 기분을 골라주세요'>
-        {modifiers.map(modifier => (
+        {kkogkkog_modifiers.map(modifier => (
           <Styled.FeelOption
             key={modifier}
             isSelected={modifier === currentModifier}
@@ -83,7 +90,7 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       </SelectInput>
 
       <SelectInput label='쿠폰의 색상을 골라주세요'>
-        {colors.map(color => (
+        {kkogkkog_colors.map(color => (
           <Styled.ColorOption
             key={color}
             color={color}
