@@ -10,7 +10,7 @@ export default {
     );
   },
 
-  findUserById(id: number) {
+  findUser(id: number) {
     return this.current.find(({ userId }) => userId === id);
   },
 };
