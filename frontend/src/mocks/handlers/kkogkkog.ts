@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 import { BASE_URL } from '@/apis';
-import kkogkkogList from '@/mocks/fixtures/kkogkkogList';
+import kkogkkogs from '@/mocks/fixtures/kkogkkogs';
 import users from '@/mocks/fixtures/users';
 
 export const kkogkkogHandler = [
@@ -10,9 +10,9 @@ export const kkogkkogHandler = [
 
     const loggedUser = users.findLoggedUser(headers);
 
-    const receivedKkogKkogList = kkogkkogList.findReceivedKkogKkogList(loggedUser);
+    const receivedKkogKkogList = kkogkkogs.findReceivedKkogKkogList(loggedUser);
 
-    const sentKkogKkogList = kkogkkogList.findSentKkogKkogList(loggedUser);
+    const sentKkogKkogList = kkogkkogs.findSentKkogKkogList(loggedUser);
 
     return res(
       ctx.status(200),
@@ -26,7 +26,7 @@ export const kkogkkogHandler = [
     } = req;
 
     try {
-      const kkogkkog = kkogkkogList.findKkogKkog(id);
+      const kkogkkog = kkogkkogs.findKkogKkog(id);
 
       return res(ctx.status(200), ctx.json(kkogkkog));
     } catch ({ message }) {
@@ -43,7 +43,7 @@ export const kkogkkogHandler = [
 
     const newKkogKkogList = receivers.map(receiver => {
       const newKkogkkog = {
-        id: kkogkkogList.current.length + 1,
+        id: kkogkkogs.current.length + 1,
         sender: loggedUser,
         receiver,
         ...body,
@@ -52,7 +52,7 @@ export const kkogkkogHandler = [
       return newKkogkkog;
     });
 
-    kkogkkogList.current = [...kkogkkogList.current, ...newKkogKkogList];
+    kkogkkogs.current = [...kkogkkogs.current, ...newKkogKkogList];
 
     return res(ctx.status(200), ctx.json({ data: newKkogKkogList }));
   }),

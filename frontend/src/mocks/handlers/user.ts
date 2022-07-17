@@ -4,25 +4,13 @@ import { BASE_URL } from '@/apis';
 import users from '@/mocks/fixtures/users';
 
 export const userHandler = [
-  rest.post<any>(`${BASE_URL}/members`, (req, res, ctx) => {
-    const { body: info } = req;
+  rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
+    const { headers } = req;
 
-    const user = { id: users.current.data.length + 1, ...info };
+    const user = users.findLoggedUser(headers);
 
-    users.current.data.push(user);
-
-    return res(ctx.status(201));
-  }),
-
-  rest.post<any>(`${BASE_URL}/login`, (req, res, ctx) => {
-    const { password, email } = req.body;
-
-    if (
-      users.current.data.some(
-        customer => customer.email === email && customer.password === password
-      )
-    ) {
-      return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
+    if (user) {
+      return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
     }
 
     return res(
@@ -31,15 +19,27 @@ export const userHandler = [
     );
   }),
 
-  rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
-    const { headers } = req;
+  rest.get<any>(`${BASE_URL}/members`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ data: users.current }));
+  }),
 
-    const user = users.current.data.find(
-      ({ email: userToken }) => headers.headers.authorization === `Bearer ${userToken}`
-    );
+  rest.post<any>(`${BASE_URL}/members`, (req, res, ctx) => {
+    const { body: info } = req;
 
-    if (user) {
-      return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
+    const user = { id: users.current.length + 1, ...info };
+
+    users.current.push(user);
+
+    return res(ctx.status(201));
+  }),
+
+  rest.post<any>(`${BASE_URL}/login`, (req, res, ctx) => {
+    const { password, email } = req.body;
+
+    if (
+      users.current.some(customer => customer.email === email && customer.password === password)
+    ) {
+      return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
     }
 
     return res(
