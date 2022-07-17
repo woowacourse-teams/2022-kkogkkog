@@ -6,11 +6,11 @@ import { createKkogkkog } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
 import {
   KKOGKKOG_COLORS,
-  kkogkkog_colors,
   KKOGKKOG_KOREAN_TYPE,
   KKOGKKOG_MODIFIERS,
-  kkogkkog_modifiers,
-  kkogkkog_type,
+  kkogkkogColors,
+  kkogkkogModifiers,
+  kkogkkogType,
   User,
 } from '@/types/domain';
 
@@ -19,8 +19,8 @@ export const useKkogKkogForm = () => {
 
   const [receiverList, setReceiverList] = useState<User[]>([]);
   const [couponType, setCouponType] = useState<KKOGKKOG_KOREAN_TYPE>('커피');
-  const [modifier, setModifier] = useState<KKOGKKOG_MODIFIERS>(kkogkkog_modifiers[0]);
-  const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkog_colors[0]);
+  const [modifier, setModifier] = useState<KKOGKKOG_MODIFIERS>(kkogkkogModifiers[0]);
+  const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkogColors[0]);
   const [message, setMessage] = useState('');
 
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
@@ -76,7 +76,7 @@ export const useKkogKkogForm = () => {
       modifier,
       message,
       couponType:
-        kkogkkog_type[kkogkkog_type.findIndex(type => type.koreanType === couponType)].engType,
+        kkogkkogType[kkogkkogType.findIndex(type => type.koreanType === couponType)].engType,
     });
   };
 

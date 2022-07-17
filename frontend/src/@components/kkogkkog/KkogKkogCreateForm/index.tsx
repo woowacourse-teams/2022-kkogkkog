@@ -8,11 +8,11 @@ import UserSearchForm from '@/@components/user/UserSearchForm';
 import { useModal } from '@/@hooks/@common/useModal';
 import {
   KKOGKKOG_COLORS,
-  kkogkkog_colors,
   KKOGKKOG_KOREAN_TYPE,
   KKOGKKOG_MODIFIERS,
-  kkogkkog_modifiers,
-  kkogkkog_type,
+  kkogkkogColors,
+  kkogkkogModifiers,
+  kkogkkogType,
   User,
 } from '@/types/domain';
 
@@ -66,7 +66,7 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       )}
 
       <SelectInput label='어떤 쿠폰인가요?'>
-        {kkogkkog_type.map(({ koreanType, imageUrl }) => (
+        {kkogkkogType.map(({ koreanType, imageUrl }) => (
           <Styled.TypeOption
             key={koreanType}
             isSelected={koreanType === currentType}
@@ -78,7 +78,7 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       </SelectInput>
 
       <SelectInput label='당신의 기분을 골라주세요'>
-        {kkogkkog_modifiers.map(modifier => (
+        {kkogkkogModifiers.map(modifier => (
           <Styled.FeelOption
             key={modifier}
             isSelected={modifier === currentModifier}
@@ -90,7 +90,7 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       </SelectInput>
 
       <SelectInput label='쿠폰의 색상을 골라주세요'>
-        {kkogkkog_colors.map(color => (
+        {kkogkkogColors.map(color => (
           <Styled.ColorOption
             key={color}
             color={color}

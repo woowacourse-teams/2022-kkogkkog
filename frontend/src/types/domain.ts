@@ -19,15 +19,15 @@ export interface User {
   nickname: string;
 }
 
-export const kkogkkog_type = [
+export const kkogkkogType = [
   { imageUrl: '/assets/images/coffee.png', koreanType: '커피', engType: 'COFFEE' } as const,
   { imageUrl: '/assets/images/beer.png', koreanType: '술', engType: 'DRINK' } as const,
 ] as const;
 
-export type KKOGKKOG_ENG_TYPE = typeof kkogkkog_type[number]['engType'];
-export type KKOGKKOG_KOREAN_TYPE = typeof kkogkkog_type[number]['koreanType'];
+export type KKOGKKOG_ENG_TYPE = typeof kkogkkogType[number]['engType'];
+export type KKOGKKOG_KOREAN_TYPE = typeof kkogkkogType[number]['koreanType'];
 
-export const kkogkkog_colors = [
+export const kkogkkogColors = [
   theme.colors.white_100,
   theme.colors.primary_100,
   theme.colors.primary_200,
@@ -36,8 +36,8 @@ export const kkogkkog_colors = [
   theme.colors.primary_500,
 ] as const;
 
-export type KKOGKKOG_COLORS = typeof kkogkkog_colors[number];
+export type KKOGKKOG_COLORS = typeof kkogkkogColors[number];
 
-export const kkogkkog_modifiers = ['재미있게', '활기차게', '한턱쏘는'] as const;
+export const kkogkkogModifiers = ['재미있게', '활기차게', '한턱쏘는'] as const;
 
-export type KKOGKKOG_MODIFIERS = typeof kkogkkog_modifiers[number];
+export type KKOGKKOG_MODIFIERS = typeof kkogkkogModifiers[number];
