@@ -1,16 +1,20 @@
 import styled from '@emotion/styled';
+import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
-import { getKkogkkog } from '@/apis/kkogkkog';
+import { getKkogkkogList } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
 import { KkogKkog } from '@/types/domain';
 
 const KkogkkogListPage = () => {
-  const { data } = useQuery<{ data: KkogKkog[] }>('kkogkkogList', getKkogkkog);
+  const { data } = useQuery<{ data: { received: KkogKkog[]; sent: KkogKkog[] } }>(
+    'kkogkkogList',
+    getKkogkkogList
+  );
 
   const kkogkkogList = data?.data;
 
@@ -20,7 +24,10 @@ const KkogkkogListPage = () => {
         <Link to={PATH.KKOGKKOG_CREATE}>
           <KkogKkogItem.LinkButton />
         </Link>
-        <KkogKkogList kkogkkogList={kkogkkogList} />
+        <div>received</div>
+        <KkogKkogList kkogkkogList={kkogkkogList?.received} />
+        <div>sent</div>
+        <KkogKkogList kkogkkogList={kkogkkogList?.sent} />
       </Styled.Root>
     </PageTemplate>
   );
