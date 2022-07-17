@@ -1,12 +1,15 @@
 package com.woowacourse.kkogkkog.acceptance;
 
+import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.로그인에_성공한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MembersResponse;
+import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -84,6 +87,30 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                     MemberResponse.of(new Member(1L, "rookie@gmail.com", null, "rookie")),
                     MemberResponse.of(new Member(2L, "arthur@gmail.com", null, "arthur"))
                 )
-        ));
+            ));
+    }
+
+    @Test
+    void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("rookie@gmail.com",
+            "password1234!", "rookie");
+        회원_가입에_성공한다(memberCreateRequest);
+        TokenRequest tokenRequest = new TokenRequest("rookie@gmail.com", "password1234!");
+        TokenResponse tokenResponse = 로그인에_성공한다(tokenRequest);
+
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(tokenResponse.getAccessToken())
+            .get("/api/members/me")
+            .then().log().all()
+            .extract();
+
+        MemberResponse memberResponse = extract.as(MemberResponse.class);
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
+                MemberResponse.of(new Member(1L, "rookie@gmail.com", null, "rookie")))
+        );
     }
 }

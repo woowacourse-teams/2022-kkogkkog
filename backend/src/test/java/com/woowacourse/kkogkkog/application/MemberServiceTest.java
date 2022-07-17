@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
@@ -39,6 +40,19 @@ class MemberServiceTest {
             .isInstanceOf(MemberDuplicatedEmail.class);
     }
 
+    @Test
+    @DisplayName("회원 ID를 통해 회원 정보를 조회할 수 있다.")
+    void findById() {
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com", "password1234!", "nickname");
+        Long memberId = memberService.save(memberCreateRequest);
+
+        MemberResponse memberResponse = memberService.findById(memberId);
+
+        assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
+            new MemberResponse(null, "email@gmail.com", "nickname")
+        );
+    }
+    
     @Test
     @DisplayName("회원가입된 회원들의 정보를 조회할 수 있다.")
     void findAll() {

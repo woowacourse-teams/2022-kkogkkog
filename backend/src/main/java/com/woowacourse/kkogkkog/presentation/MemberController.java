@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.presentation;
 
 import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,13 @@ public class MemberController {
         memberService.save(memberCreateRequest);
 
         return ResponseEntity.created(null).build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponse> showMe(@LoginMember Long id) {
+        MemberResponse memberResponse = memberService.findById(id);
+
+        return ResponseEntity.ok(memberResponse);
     }
 
     @GetMapping

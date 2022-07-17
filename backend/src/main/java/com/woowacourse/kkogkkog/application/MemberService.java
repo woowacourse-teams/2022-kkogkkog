@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
+import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,14 @@ public class MemberService {
         Member member = memberCreateRequest.toEntity();
 
         return memberRepository.save(member).getId();
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse findById(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+
+        return MemberResponse.of(findMember);
     }
 
     public MembersResponse findAll() {
