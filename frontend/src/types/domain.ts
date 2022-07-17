@@ -1,4 +1,4 @@
-export type KkogKkogType = '커피' | '식사' | '술';
+export type KkogKkogType = 'COFFEE' | '' | 'DRINK';
 
 export interface KkogKkog {
   id: number;
@@ -9,6 +9,12 @@ export interface KkogKkog {
   couponType: KkogKkogType;
   message: string;
   thumbnail: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  nickname: string;
 }
 
 export const KKOGKKOG_THUMBNAIL = {
