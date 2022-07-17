@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     open-in-view: false
     properties:
       hibernate:
@@ -13,3 +13,9 @@ spring:
     url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+
+security:
+  jwt:
+    token:
+      secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      expire-length: 3600000

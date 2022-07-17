@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -50,5 +51,18 @@ class MemberServiceTest {
         assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
             new MemberResponse(null, "email@gmail.com", "nickname")
         );
+    }
+    
+    @Test
+    @DisplayName("회원가입된 회원들의 정보를 조회할 수 있다.")
+    void findAll() {
+        MemberCreateRequest memberCreateRequest1 = new MemberCreateRequest("email1@gmail.com", "password1234!", "nickname1");
+        MemberCreateRequest memberCreateRequest2 = new MemberCreateRequest("email2@gmail.com", "password1234!", "nickname2");
+        memberService.save(memberCreateRequest1);
+        memberService.save(memberCreateRequest2);
+
+        MembersResponse membersResponse = memberService.findAll();
+
+        assertThat(membersResponse.getData()).hasSize(2);
     }
 }

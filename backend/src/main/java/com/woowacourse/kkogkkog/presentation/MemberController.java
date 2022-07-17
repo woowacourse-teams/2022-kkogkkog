@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.presentation;
 
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,11 @@ public class MemberController {
         MemberResponse memberResponse = memberService.findById(id);
 
         return ResponseEntity.ok(memberResponse);
+        
+    @GetMapping
+    public ResponseEntity<MembersResponse> showAll() {
+        MembersResponse membersResponse = memberService.findAll();
+
+        return ResponseEntity.ok(membersResponse);
     }
 }

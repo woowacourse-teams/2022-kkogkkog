@@ -17,7 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -50,6 +52,35 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임")
+                ))
+            );
+    }
+
+    @Test
+    void 회원_전체를_조회할_수_있다() throws Exception {
+        // given
+        MembersResponse membersResponse = new MembersResponse(List.of(
+            new MemberResponse(1L,"user1@gmail.com", "user1"),
+            new MemberResponse(2L, "user2@gmail.com", "user2")
+        ));
+        given(memberService.findAll()).willReturn(membersResponse);
+
+        // when
+        ResultActions perform = mockMvc.perform(get("/api/members"));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-showAll",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                responseFields(
+                    fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("ID"),
+                    fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
+                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("닉네임")
                 ))
             );
     }
