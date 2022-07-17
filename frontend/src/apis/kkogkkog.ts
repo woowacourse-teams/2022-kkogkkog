@@ -10,8 +10,10 @@ type CreateRequestKkogKKogBody = {
   message: string;
 };
 
-export const getKkogkkog = () =>
-  client.get<KkogKkog[]>('/coupons', {
+export const getKkogkkog = id => client.get<KkogKkog>(`/coupons/${id}`);
+
+export const getKkogkkogList = () =>
+  client.get<{ received: KkogKkog[]; sent: KkogKkog[] }>('/coupons', {
     transformResponse: stringResponse => {
       const parsedData = JSON.parse(stringResponse);
 
