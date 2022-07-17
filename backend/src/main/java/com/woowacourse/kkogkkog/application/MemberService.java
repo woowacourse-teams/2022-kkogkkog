@@ -41,6 +41,7 @@ public class MemberService {
             .orElseThrow(MemberNotFoundException::new);
 
         return MemberResponse.of(findMember);
+    }
 
     public MembersResponse findAll() {
         List<MemberResponse> memberResponses = memberRepository.findAll().stream()

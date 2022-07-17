@@ -33,7 +33,8 @@ public class MemberController {
         MemberResponse memberResponse = memberService.findById(id);
 
         return ResponseEntity.ok(memberResponse);
-        
+    }
+
     @GetMapping
     public ResponseEntity<MembersResponse> showAll() {
         MembersResponse membersResponse = memberService.findAll();
