@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useAuthenticateForm } from '@/hooks/useAuthenticateForm';
+import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
 import { PATH } from '@/Router';
 
-const Login = () => {
+const LoginPage = () => {
   const {
     state: { email, password },
     changeHandler: { onChangeEmail, onChangePassword },
@@ -61,7 +61,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
 
 const Styled = {
   Root: styled.div`

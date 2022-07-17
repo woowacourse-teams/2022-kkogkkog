@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Join from '@/@pages/join';
+import JoinPage from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
 import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
-import Login from './@pages/login';
+import LoginPage from './@pages/login';
 
 export const PATH = {
   LANDING: '/',
@@ -31,8 +31,8 @@ const Router = () => {
         }
       />
       <Route path={PATH.KKOGKKOG_CREATE} element={<KkogkkogCreatePage />} />
-      <Route path={PATH.LOGIN} element={<Login />} />
-      <Route path={PATH.JOIN} element={<Join />} />
+      <Route path={PATH.LOGIN} element={<LoginPage />} />
+      <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route path={PATH.PROFILE} element={<ProfilePage />} />
     </Routes>
   );
