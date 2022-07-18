@@ -1,4 +1,5 @@
 import Placeholder from '@/@components/@shared/Placeholder';
+import { KKOGKKOG_TYPE_KOR } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -20,10 +21,8 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
         <div>To. {receiver.nickname}</div>
         <div>
           #{modifier} &nbsp;
-          <Styled.TypeText>
-            {couponType}
-            &nbsp;꼭꼭
-          </Styled.TypeText>
+          <Styled.TypeText>{KKOGKKOG_TYPE_KOR[couponType]}</Styled.TypeText>
+          &nbsp;꼭꼭
         </div>
       </Styled.TextContainer>
       <Styled.ImageContainer backgroundColor={backgroundColor}>

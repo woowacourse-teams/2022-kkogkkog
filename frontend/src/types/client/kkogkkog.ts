@@ -22,6 +22,11 @@ export const THUMBNAIL = {
   DRINK: '/assets/images/beer.png',
 } as const;
 
+export const KKOGKKOG_TYPE_KOR = {
+  COFFEE: '커피',
+  DRINK: '술',
+} as const;
+
 export interface KkogKkog {
   id: number;
   sender: User;
