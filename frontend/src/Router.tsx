@@ -21,7 +21,14 @@ export const PATH = {
 const Router = () => {
   return (
     <Routes>
-      <Route path={PATH.LANDING} element={<LandingPage />} />
+      <Route
+        path={PATH.LANDING}
+        element={
+          <Suspense fallback={<LandingPage.Skeleton />}>
+            <LandingPage />
+          </Suspense>
+        }
+      />
       <Route
         path={PATH.KKOGKKOG_LIST}
         element={
