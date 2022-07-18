@@ -1,8 +1,9 @@
 import { client } from '@/apis';
-import { User } from '@/types/domain';
+import { JoinRequest, LoginRequest } from '@/types/remote/request';
+import { MeResponse, UserListResponse } from '@/types/remote/response';
 
 export const getMe = () =>
-  client.get<User>('/members/me', {
+  client.get<MeResponse>('/members/me', {
     transformResponse: stringResponse => {
       const parsedData = JSON.parse(stringResponse);
 
@@ -15,7 +16,7 @@ export const getMe = () =>
   });
 
 export const getUserList = () =>
-  client.get('/members', {
+  client.get<UserListResponse>('/members', {
     transformResponse: stringResponse => {
       const parsedData = JSON.parse(stringResponse);
 
@@ -27,7 +28,6 @@ export const getUserList = () =>
     },
   });
 
-export const join = (args: { nickname: string; email: string; password: string }) =>
-  client.post('/members', args);
+export const join = (args: JoinRequest) => client.post('/members', args);
 
-export const login = (args: { email: string; password: string }) => client.post('/login', args);
+export const login = (args: LoginRequest) => client.post('/login', args);

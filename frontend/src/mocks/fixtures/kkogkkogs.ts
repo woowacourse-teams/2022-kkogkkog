@@ -1,4 +1,4 @@
-import { User } from '@/types/domain';
+import { UserResponse } from '@/types/remote/response';
 
 export default {
   current: [
@@ -22,11 +22,11 @@ export default {
     },
   ],
 
-  findReceivedKkogKkogList(loggedUser: User) {
+  findReceivedKkogKkogList(loggedUser: UserResponse) {
     return this.current.filter(({ receiver: { id: receiverId } }) => loggedUser.id === receiverId);
   },
 
-  findSentKkogKkogList(loggedUser: User) {
+  findSentKkogKkogList(loggedUser: UserResponse) {
     return this.current.filter(({ sender: { id: senderId } }) => loggedUser.id === senderId);
   },
 

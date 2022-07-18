@@ -7,16 +7,13 @@ export const userHandler = [
   rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
     const { headers } = req;
 
-    const user = users.findLoggedUser(headers);
+    try {
+      const user = users.findLoggedUser(headers.get('authorization'));
 
-    if (user) {
       return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
+    } catch ({ message }) {
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
     }
-
-    return res(
-      ctx.status(400, 'unauthorized'),
-      ctx.json({ error: { messages: ['login failed'] } })
-    );
   }),
 
   rest.get<any>(`${BASE_URL}/members`, (req, res, ctx) => {
@@ -42,9 +39,6 @@ export const userHandler = [
       return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
     }
 
-    return res(
-      ctx.status(400, 'unauthorized'),
-      ctx.json({ error: { messages: ['login failed'] } })
-    );
+    return res(ctx.status(400, 'unauthorized'), ctx.json({ error: 'login failed' }));
   }),
 ];

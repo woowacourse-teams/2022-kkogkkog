@@ -2,14 +2,14 @@ import { css } from '@emotion/react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import { KkogKkog } from '@/types/domain';
-import { THUMBNAIL } from '@/utils/constants/kkogkkog';
+import { THUMBNAIL } from '@/types/client/kkogkkog';
+import { KkogKKogResponse } from '@/types/remote/response';
 
 import KkogKkogItem from '../KkogKkogItem';
 import * as Styled from './style';
 
 interface KkogKkogItemProps {
-  clickedKkogKkog: KkogKkog;
+  clickedKkogKkog: KkogKKogResponse;
   handleCloseModal: () => void;
 }
 

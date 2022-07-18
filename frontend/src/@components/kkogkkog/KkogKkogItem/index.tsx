@@ -1,31 +1,23 @@
 import Placeholder from '@/@components/@shared/Placeholder';
-import { KkogKkog } from '@/types/domain';
+import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
-type KkogKkogItemProps = KkogKkog & {
+type KkogKkogItemProps = KkogKKogResponse & {
   onClick?: () => void;
   className?: string;
   thumbnail: string;
 };
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const {
-    className,
-    senderName,
-    receiverName,
-    backgroundColor,
-    modifier,
-    couponType,
-    thumbnail,
-    onClick,
-  } = props;
+  const { className, sender, receiver, backgroundColor, modifier, couponType, thumbnail, onClick } =
+    props;
 
   return (
     <Styled.Root onClick={onClick} className={className} hasCursor={!!onClick}>
       <Styled.TextContainer>
-        <div>From. {senderName}</div>
-        <div>To. {receiverName}</div>
+        <div>From. {sender.nickname}</div>
+        <div>To. {receiver.nickname}</div>
         <div>
           #{modifier} &nbsp;
           <Styled.TypeText>

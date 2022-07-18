@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 
 import { getMe } from '@/apis/user';
-import { User } from '@/types/domain';
+import { MeResponse } from '@/types/remote/response';
 
 const useMe = () => {
-  const { data, isLoading, isError, remove } = useQuery<{ data: User }>(['me'], getMe, {
+  const { data, isLoading, isError, remove } = useQuery<{ data: MeResponse }>(['me'], getMe, {
     onError: error => {
       console.log(error);
     },

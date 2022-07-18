@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
@@ -8,13 +7,10 @@ import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { getKkogkkogList } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
-import { KkogKkog } from '@/types/domain';
+import { KkogKkogListResponse } from '@/types/remote/response';
 
 const KkogkkogListPage = () => {
-  const { data } = useQuery<{ data: { received: KkogKkog[]; sent: KkogKkog[] } }>(
-    'kkogkkogList',
-    getKkogkkogList
-  );
+  const { data } = useQuery<{ data: KkogKkogListResponse }>('kkogkkogList', getKkogkkogList);
 
   const kkogkkogList = data?.data;
 

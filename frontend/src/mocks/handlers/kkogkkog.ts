@@ -3,21 +3,26 @@ import { rest } from 'msw';
 import { BASE_URL } from '@/apis';
 import kkogkkogs from '@/mocks/fixtures/kkogkkogs';
 import users from '@/mocks/fixtures/users';
+import { CreateKkogKkogRequest } from '@/types/remote/request';
 
 export const kkogkkogHandler = [
   rest.get(`${BASE_URL}/coupons`, (req, res, ctx) => {
     const { headers } = req;
 
-    const loggedUser = users.findLoggedUser(headers);
+    try {
+      const loggedUser = users.findLoggedUser(headers.get('authorization'));
 
-    const receivedKkogKkogList = kkogkkogs.findReceivedKkogKkogList(loggedUser);
+      const receivedKkogKkogList = kkogkkogs.findReceivedKkogKkogList(loggedUser);
 
-    const sentKkogKkogList = kkogkkogs.findSentKkogKkogList(loggedUser);
+      const sentKkogKkogList = kkogkkogs.findSentKkogKkogList(loggedUser);
 
-    return res(
-      ctx.status(200),
-      ctx.json({ data: { received: receivedKkogKkogList, sent: sentKkogKkogList } })
-    );
+      return res(
+        ctx.status(200),
+        ctx.json({ data: { received: receivedKkogKkogList, sent: sentKkogKkogList } })
+      );
+    } catch ({ message }) {
+      return res(ctx.status(400), ctx.json({ error: message }));
+    }
   }),
 
   rest.get(`${BASE_URL}/coupons/:id`, (req, res, ctx) => {
@@ -30,33 +35,37 @@ export const kkogkkogHandler = [
 
       return res(ctx.status(200), ctx.json(kkogkkog));
     } catch ({ message }) {
-      return res(ctx.status(400), ctx.json(message));
+      return res(ctx.status(400), ctx.json({ error: message }));
     }
   }),
 
-  rest.post<any>(`${BASE_URL}/coupons`, (req, res, ctx) => {
+  rest.post<CreateKkogKkogRequest>(`${BASE_URL}/coupons`, (req, res, ctx) => {
     const {
       body: { receivers, ...body },
       headers,
     } = req;
 
-    const loggedUser = users.findLoggedUser(headers);
+    const loggedUser = users.findLoggedUser(headers.get('authorization'));
 
-    const newKkogKkogList = receivers.map(receiverId => {
-      const receiver = users.findUser(receiverId);
+    try {
+      const newKkogKkogList = receivers.map(receiverId => {
+        const receiver = users.findUser(receiverId);
 
-      const newKkogkkog = {
-        id: kkogkkogs.current.length + 1,
-        sender: loggedUser,
-        receiver,
-        ...body,
-      };
+        const newKkogkkog = {
+          id: kkogkkogs.current.length + 1,
+          sender: loggedUser,
+          receiver,
+          ...body,
+        };
 
-      return newKkogkkog;
-    });
+        return newKkogkkog;
+      });
 
-    kkogkkogs.current = [...kkogkkogs.current, ...newKkogKkogList];
+      kkogkkogs.current = [...kkogkkogs.current, ...newKkogKkogList];
 
-    return res(ctx.status(200), ctx.json({ data: newKkogKkogList }));
+      return res(ctx.status(200), ctx.json({ data: newKkogKkogList }));
+    } catch ({ message }) {
+      return res(ctx.status(400), ctx.json({ error: message }));
+    }
   }),
 ];
