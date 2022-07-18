@@ -12,7 +12,7 @@ import { KkogKkog } from '@/types/domain';
 const KkogkkogListPage = () => {
   const { data } = useQuery<{ data: KkogKkog[] }>('kkogkkogList', getKkogkkog);
 
-  const { data: kkogkkogList } = data;
+  const kkogkkogList = data?.data;
 
   return (
     <PageTemplate title='꼭꼭 모아보기'>

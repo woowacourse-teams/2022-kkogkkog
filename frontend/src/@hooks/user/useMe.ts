@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query';
 
 import { getMe } from '@/apis/user';
+import { User } from '@/types/domain';
 
 const useMe = () => {
-  const { data, isLoading, isError, remove } = useQuery(['me'], getMe, {
+  const { data, isLoading, isError, remove } = useQuery<{ data: User }>(['me'], getMe, {
     onError: error => {
       console.log(error);
     },

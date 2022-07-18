@@ -1,12 +1,12 @@
 import { client } from '@/apis';
-import { KkogKkog, KkogKkogType } from '@/types/domain';
+import { KkogKkog, KKOGKKOG_ENG_TYPE } from '@/types/domain';
 //@TODO transformer 객체 만들기
 
 type CreateRequestKkogKKogBody = {
   receivers: number[];
   backgroundColor: string;
   modifier: string;
-  couponType: KkogKkogType;
+  couponType: KKOGKKOG_ENG_TYPE;
   message: string;
 };
 

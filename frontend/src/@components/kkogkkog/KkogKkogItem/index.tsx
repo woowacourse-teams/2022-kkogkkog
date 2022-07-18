@@ -6,6 +6,7 @@ import * as Styled from './style';
 type KkogKkogItemProps = KkogKkog & {
   onClick?: () => void;
   className?: string;
+  thumbnail: string;
 };
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {

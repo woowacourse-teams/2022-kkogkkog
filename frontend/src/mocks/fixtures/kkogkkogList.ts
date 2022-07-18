@@ -8,7 +8,7 @@ export default {
         backgroundColor: '#FFFFFF',
         modifier: '한턱쏘는',
         message: 'hi',
-        couponType: '커피',
+        couponType: 'COFFEE',
       },
     ],
   },

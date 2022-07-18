@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { colors, couponTypes, modifiers } from '@/@pages/kkogkkog-list/create';
 import { createKkogkkog } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
-import { KkogKkogType, User } from '@/types/domain';
+import {
+  KKOGKKOG_COLORS,
+  KKOGKKOG_KOREAN_TYPE,
+  KKOGKKOG_MODIFIERS,
+  kkogkkogColors,
+  kkogkkogModifiers,
+  kkogkkogType,
+  User,
+} from '@/types/domain';
 
 export const useKkogKkogForm = () => {
   const navigate = useNavigate();
 
   const [receiverList, setReceiverList] = useState<User[]>([]);
-  const [couponType, setCouponType] = useState<KkogKkogType>(couponTypes[0].type);
-  const [modifier, setModifier] = useState<typeof modifiers[number]>(modifiers[0]);
-  const [color, setColor] = useState<typeof colors[number]>(colors[0]);
+  const [couponType, setCouponType] = useState<KKOGKKOG_KOREAN_TYPE>('커피');
+  const [modifier, setModifier] = useState<KKOGKKOG_MODIFIERS>(kkogkkogModifiers[0]);
+  const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkogColors[0]);
   const [message, setMessage] = useState('');
 
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
@@ -22,19 +29,19 @@ export const useKkogKkogForm = () => {
     },
   });
 
-  const onSelectType = (type: KkogKkogType) => {
+  const onSelectType = (type: KKOGKKOG_KOREAN_TYPE) => {
     setCouponType(type);
   };
 
-  const onSelectModifier = (modifier: typeof modifiers[number]) => {
+  const onSelectModifier = (modifier: KKOGKKOG_MODIFIERS) => {
     setModifier(modifier);
   };
 
-  const onSelectColor = (color: typeof colors[number]) => {
+  const onSelectColor = (color: KKOGKKOG_COLORS) => {
     setColor(color);
   };
 
-  const onChangeMessage = e => {
+  const onChangeMessage = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
@@ -54,7 +61,7 @@ export const useKkogKkogForm = () => {
     setReceiverList(prev => [...prev, user]);
   };
 
-  const onSubmitCreateForm = e => {
+  const onSubmitCreateForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (receiverList.length === 0) {
@@ -68,7 +75,8 @@ export const useKkogKkogForm = () => {
       backgroundColor: color,
       modifier,
       message,
-      couponType,
+      couponType:
+        kkogkkogType[kkogkkogType.findIndex(type => type.koreanType === couponType)].engType,
     });
   };
 

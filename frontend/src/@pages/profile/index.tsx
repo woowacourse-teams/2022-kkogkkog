@@ -12,7 +12,7 @@ const ProfilePage = () => {
   const { remove } = useMe();
 
   const onClickLogoutButton = () => {
-    client.defaults.headers['Authorization'] = undefined;
+    client.defaults.headers['Authorization'] = '';
 
     localStorage.removeItem('user-token');
 
