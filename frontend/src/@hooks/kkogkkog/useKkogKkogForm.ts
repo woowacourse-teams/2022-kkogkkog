@@ -11,14 +11,14 @@ import {
   kkogkkogColors,
   kkogkkogModifiers,
   kkogkkogType,
-  User,
-} from '@/types/domain';
+} from '@/types/client/kkogkkog';
+import { UserResponse } from '@/types/remote/response';
 
 export const useKkogKkogForm = () => {
   const navigate = useNavigate();
 
-  const [receiverList, setReceiverList] = useState<User[]>([]);
-  const [couponType, setCouponType] = useState<KKOGKKOG_KOREAN_TYPE>('커피');
+  const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
+  const [couponType, setCouponType] = useState<KKOGKKOG_KOREAN_TYPE>(kkogkkogType[0].koreanType);
   const [modifier, setModifier] = useState<KKOGKKOG_MODIFIERS>(kkogkkogModifiers[0]);
   const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkogColors[0]);
   const [message, setMessage] = useState('');
@@ -49,7 +49,7 @@ export const useKkogKkogForm = () => {
     setMessage(value);
   };
 
-  const onSelectReceiver = (user: User) => {
+  const onSelectReceiver = (user: UserResponse) => {
     const isSelected = receiverList.some(receiver => receiver.id === user.id);
 
     if (isSelected) {

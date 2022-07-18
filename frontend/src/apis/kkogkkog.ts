@@ -1,17 +1,12 @@
 import { client } from '@/apis';
-import { KkogKkog, KKOGKKOG_ENG_TYPE } from '@/types/domain';
+import { CreateKkogKkogRequest } from '@/types/remote/request';
+import { KkogKkogListResponse, KkogKKogResponse } from '@/types/remote/response';
 //@TODO transformer 객체 만들기
 
-type CreateRequestKkogKKogBody = {
-  receivers: number[];
-  backgroundColor: string;
-  modifier: string;
-  couponType: KKOGKKOG_ENG_TYPE;
-  message: string;
-};
+export const getKkogkkog = (id: number) => client.get<KkogKKogResponse>(`/coupons/${id}`);
 
-export const getKkogkkog = () =>
-  client.get<KkogKkog[]>('/coupons', {
+export const getKkogkkogList = () =>
+  client.get<KkogKkogListResponse>('/coupons', {
     transformResponse: stringResponse => {
       const parsedData = JSON.parse(stringResponse);
 
@@ -23,4 +18,4 @@ export const getKkogkkog = () =>
     },
   });
 
-export const createKkogkkog = (info: CreateRequestKkogKKogBody) => client.post('/coupons', info);
+export const createKkogkkog = (info: CreateKkogKkogRequest) => client.post('/coupons', info);

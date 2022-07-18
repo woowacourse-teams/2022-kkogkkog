@@ -4,12 +4,28 @@ import { BASE_URL } from '@/apis';
 import users from '@/mocks/fixtures/users';
 
 export const userHandler = [
+  rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
+    const { headers } = req;
+
+    try {
+      const user = users.findLoggedUser(headers.get('authorization'));
+
+      return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
+    } catch ({ message }) {
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+    }
+  }),
+
+  rest.get<any>(`${BASE_URL}/members`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ data: users.current }));
+  }),
+
   rest.post<any>(`${BASE_URL}/members`, (req, res, ctx) => {
     const { body: info } = req;
 
-    const user = { id: users.current.data.length + 1, ...info };
+    const user = { id: users.current.length + 1, ...info };
 
-    users.current.data.push(user);
+    users.current.push(user);
 
     return res(ctx.status(201));
   }),
@@ -18,33 +34,11 @@ export const userHandler = [
     const { password, email } = req.body;
 
     if (
-      users.current.data.some(
-        customer => customer.email === email && customer.password === password
-      )
+      users.current.some(customer => customer.email === email && customer.password === password)
     ) {
       return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
     }
 
-    return res(
-      ctx.status(400, 'unauthorized'),
-      ctx.json({ error: { messages: ['login failed'] } })
-    );
-  }),
-
-  rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
-    const { headers } = req;
-
-    const user = users.current.data.find(
-      ({ email: userToken }) => headers.headers.authorization === `Bearer ${userToken}`
-    );
-
-    if (user) {
-      return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
-    }
-
-    return res(
-      ctx.status(400, 'unauthorized'),
-      ctx.json({ error: { messages: ['login failed'] } })
-    );
+    return res(ctx.status(400, 'unauthorized'), ctx.json({ error: 'login failed' }));
   }),
 ];

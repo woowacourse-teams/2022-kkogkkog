@@ -1,46 +1,52 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import Icon from '@/@components/@shared/Icon';
 import Input from '@/@components/@shared/Input';
 import theme from '@/styles/theme';
+import { UserListResponse, UserResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
 const users = [
   {
     id: 1,
-    name: '준찌',
+    nickname: '준찌',
     email: 'wnsgur8397@naver.com',
   },
   {
     id: 3,
-    name: '정',
+    nickname: '정',
     email: 'wnsgur8397@naver.com',
   },
   {
     id: 4,
-    name: '아서',
+    nickname: '아서',
     email: 'wnsgur8397@naver.com',
   },
   {
     id: 5,
-    name: '레오',
+    nickname: '레오',
     email: 'wnsgur8397@naver.com',
   },
 ];
 
-const UserSearchForm = props => {
+interface UserSearchFormProps {
+  currentReceiverList: UserListResponse;
+  onSelectReceiver: (user: UserResponse) => void;
+}
+
+const UserSearchForm = (props: UserSearchFormProps) => {
   const { currentReceiverList, onSelectReceiver } = props;
 
-  const [searchedUserList, setSearchedUserList] = useState(null);
+  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | null>(null);
 
-  const onChangeSearchInput = e => {
+  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: searchUserNameValue },
     } = e;
 
-    const findUserList = users.filter(({ name }) => name === searchUserNameValue);
+    const findUserList = users.filter(({ nickname }) => nickname === searchUserNameValue);
 
     setSearchedUserList(findUserList);
   };
@@ -51,7 +57,7 @@ const UserSearchForm = props => {
         <Styled.SelectedContainer>
           {currentReceiverList.map(user => (
             <div key={user.id} onClick={() => onSelectReceiver(user)}>
-              {user.name}
+              {user.nickname}
               <Icon
                 iconName='close'
                 size='15'
@@ -83,7 +89,13 @@ const UserSearchForm = props => {
   );
 };
 
-const UserSearchResult = props => {
+interface UserSearchResultProps {
+  searchedUserList: UserListResponse | null;
+  currentReceiverList: UserListResponse;
+  onSelectReceiver: (user: UserResponse) => void;
+}
+
+const UserSearchResult = (props: UserSearchResultProps) => {
   const { searchedUserList, currentReceiverList, onSelectReceiver } = props;
 
   if (searchedUserList === null) {
@@ -94,15 +106,19 @@ const UserSearchResult = props => {
     return <Styled.TextContainer>😱 검색된 유저가 존재하지 않습니다. 😱</Styled.TextContainer>;
   }
 
-  return searchedUserList.map(user => (
-    <Styled.SearchedUser
-      key={user.id}
-      isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
-      onClick={() => onSelectReceiver(user)}
-    >
-      {user.name}({user.email})
-    </Styled.SearchedUser>
-  ));
+  return (
+    <>
+      {searchedUserList.map(user => (
+        <Styled.SearchedUser
+          key={user.id}
+          isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
+          onClick={() => onSelectReceiver(user)}
+        >
+          {user.nickname}({user.email})
+        </Styled.SearchedUser>
+      ))}
+    </>
+  );
 };
 
 export default UserSearchForm;

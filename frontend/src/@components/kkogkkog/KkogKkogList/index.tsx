@@ -1,21 +1,21 @@
 import { useState } from 'react';
 
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
-import { KkogKkog } from '@/types/domain';
-import { THUMBNAIL } from '@/utils/constants/kkogkkog';
+import { THUMBNAIL } from '@/types/client/kkogkkog';
+import { KkogKKogResponse } from '@/types/remote/response';
 
 import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 interface KkogKkogListProps {
-  kkogkkogList: KkogKkog[] | undefined;
+  kkogkkogList: KkogKKogResponse[] | undefined;
 }
 
 const KkogKkogList = (props: KkogKkogListProps) => {
   const { kkogkkogList } = props;
-  const [clickedKkogKkog, setClickedKkogKkog] = useState<KkogKkog | null>(null);
+  const [clickedKkogKkog, setClickedKkogKkog] = useState<KkogKKogResponse | null>(null);
 
-  const handleClickKkogKkog = (kkogkkog: KkogKkog & { thumbnail: string }) => {
+  const handleClickKkogKkog = (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
     setClickedKkogKkog(kkogkkog);
   };
 

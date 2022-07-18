@@ -13,18 +13,18 @@ import {
   kkogkkogColors,
   kkogkkogModifiers,
   kkogkkogType,
-  User,
-} from '@/types/domain';
+} from '@/types/client/kkogkkog';
+import { UserResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
 interface KkogKkogCreateFormProps {
-  currentReceiverList: any[];
+  currentReceiverList: UserResponse[];
   currentType: KKOGKKOG_KOREAN_TYPE;
   currentModifier: KKOGKKOG_MODIFIERS;
   currentColor: KKOGKKOG_COLORS;
   currentMessage: string;
-  onSelectReceiver: (user: User) => void;
+  onSelectReceiver: (user: UserResponse) => void;
   onSelectType: (type: KKOGKKOG_KOREAN_TYPE) => void;
   onSelectModifier: (modifier: KKOGKKOG_MODIFIERS) => void;
   onSelectColor: (color: KKOGKKOG_COLORS) => void;
