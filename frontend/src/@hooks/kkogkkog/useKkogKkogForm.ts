@@ -23,9 +23,10 @@ export const useKkogKkogForm = () => {
   const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkogColors[0]);
   const [message, setMessage] = useState('');
 
+  /** Add Typing */
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
     onSuccess() {
-      navigate(PATH.LANDING, { state: { sent: true } });
+      navigate(PATH.LANDING, { state: { status: 'sent' } });
     },
   });
 
