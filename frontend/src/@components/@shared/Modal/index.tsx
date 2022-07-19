@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 import Dimmed from '@/@components/@shared/Dimmed';
 
+import Button from '../Button';
 import * as Styled from './style';
 
 interface ModalProps {
@@ -27,5 +28,34 @@ function Modal(props: React.PropsWithChildren<ModalProps>) {
     document.querySelector('#root') as Element
   );
 }
+
+interface ModalWithHeader extends ModalProps {
+  title: string;
+  buttons: {
+    text: string;
+    onClick: () => void;
+  }[];
+}
+
+Modal.ModalWithHeader = function ModalWithHeader(props: PropsWithChildren<ModalWithHeader>) {
+  const { position, onCloseModal, title, buttons, children } = props;
+
+  return (
+    <Modal position={position} onCloseModal={onCloseModal}>
+      <Styled.ModalTop>
+        <header>{title}</header>
+        <button onClick={onCloseModal}>X</button>
+      </Styled.ModalTop>
+      {children}
+      <Styled.ButtonContainer>
+        {buttons.map(({ text, onClick }) => (
+          <Styled.ButtonInner key={text} onClick={onClick}>
+            <Button>{text}</Button>
+          </Styled.ButtonInner>
+        ))}
+      </Styled.ButtonContainer>
+    </Modal>
+  );
+};
 
 export default Modal;

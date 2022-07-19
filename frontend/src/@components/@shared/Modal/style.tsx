@@ -33,3 +33,34 @@ export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom' }>`
     }
   }}
 `;
+
+export const ModalTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`;
+
+export const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  & > div {
+    padding: 0 10px;
+  }
+
+  & > div:nth-child(1) {
+    padding-left: 0;
+  }
+
+  & > div:nth-last-child() {
+    padding-right: 0;
+  }
+`;
+
+export const ButtonInner = styled.div`
+  flex: 1;
+  & > button {
+    height: 40px;
+  }
+`;
