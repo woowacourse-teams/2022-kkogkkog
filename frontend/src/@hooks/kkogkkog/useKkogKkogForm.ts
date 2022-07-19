@@ -25,7 +25,7 @@ export const useKkogKkogForm = () => {
 
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
     onSuccess() {
-      navigate(PATH.KKOGKKOG_LIST);
+      navigate(PATH.LANDING);
     },
   });
 
