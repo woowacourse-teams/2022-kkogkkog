@@ -18,11 +18,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
+import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import java.util.List;
@@ -192,6 +194,36 @@ class CouponControllerTest extends Documentation {
                                 fieldWithPath("data.sent.[].message").type(JsonFieldType.STRING).description("추가 메시지"),
                                 fieldWithPath("data.sent.[].couponType").type(JsonFieldType.STRING).description("쿠폰 타입"),
                                 fieldWithPath("data.sent.[].couponStatus").type(JsonFieldType.STRING).description("쿠폰 상태")
+                        ))
+                );
+    }
+
+    @Test
+    void 쿠폰_상태_변경을_요청한다() throws Exception {
+        // given
+        CouponEventRequest couponEventRequest = new CouponEventRequest(CouponEvent.REQUEST.name());
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+
+        // when
+        ResultActions perform = mockMvc.perform(post("/api/coupons/{couponId}/event", 1L)
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .content(objectMapper.writeValueAsString(couponEventRequest))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform
+                .andDo(print())
+                .andDo(document("coupon-action",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("couponEvent").type(JsonFieldType.STRING).description("쿠폰 이벤트")
                         ))
                 );
     }
