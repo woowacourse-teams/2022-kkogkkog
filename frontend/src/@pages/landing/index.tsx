@@ -1,26 +1,26 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { useStatus } from '@/@hooks/@common/useStatus';
+import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
-import { getKkogkkogList } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
-import { KkogKkogListResponse } from '@/types/remote/response';
 
 type STATUS_TYPE = 'received' | 'sent';
 
 const LandingPage = () => {
   const { me } = useMe();
 
-  const { data } = useQuery<{ data: KkogKkogListResponse }>('kkogkkogList', getKkogkkogList);
+  const { state } = useLocation() as { state: { sent: boolean } };
 
-  const { status, changeStatus } = useStatus<STATUS_TYPE>('received');
+  const { kkogkkogList } = useKkogKkogList();
+
+  const { status, changeStatus } = useStatus<STATUS_TYPE>(state.sent ? 'sent' : 'received');
 
   if (!me) {
     return (
@@ -37,8 +37,6 @@ const LandingPage = () => {
       </PageTemplate>
     );
   }
-
-  const kkogkkogList = data?.data;
 
   return (
     <PageTemplate title='꼭꼭'>

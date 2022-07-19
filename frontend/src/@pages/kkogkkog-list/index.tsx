@@ -5,14 +5,11 @@ import { Link } from 'react-router-dom';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
-import { getKkogkkogList } from '@/apis/kkogkkog';
+import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import { PATH } from '@/Router';
-import { KkogKkogListResponse } from '@/types/remote/response';
 
 const KkogkkogListPage = () => {
-  const { data } = useQuery<{ data: KkogKkogListResponse }>('kkogkkogList', getKkogkkogList);
-
-  const kkogkkogList = data?.data;
+  const { kkogkkogList } = useKkogKkogList();
 
   return (
     <PageTemplate title='꼭꼭 모아보기'>
