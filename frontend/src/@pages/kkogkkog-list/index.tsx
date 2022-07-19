@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';

@@ -6,7 +6,7 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogCreateForm from '@/@components/kkogkkog/KkogKkogCreateForm';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import { useKkogKkogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
-import { KKOGKKOG_TYPE_MAPPER, THUMBNAIL } from '@/types/client/kkogkkog';
+import { THUMBNAIL } from '@/types/client/kkogkkog';
 
 const KkogkkogCreatePage = () => {
   const {
@@ -42,7 +42,7 @@ const KkogkkogCreatePage = () => {
                 message={message}
                 modifier={modifier}
                 couponType={couponType}
-                thumbnail={THUMBNAIL[KKOGKKOG_TYPE_MAPPER[couponType] as any]}
+                thumbnail={THUMBNAIL[couponType]}
               />
             ))
           )}

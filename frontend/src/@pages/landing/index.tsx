@@ -20,7 +20,7 @@ const LandingPage = () => {
 
   const { kkogkkogList } = useKkogKkogList();
 
-  const { status, changeStatus } = useStatus<STATUS_TYPE>(state.sent ? 'sent' : 'received');
+  const { status, changeStatus } = useStatus<STATUS_TYPE>(state?.sent ? 'sent' : 'received');
 
   if (!me) {
     return (
