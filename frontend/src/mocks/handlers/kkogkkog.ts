@@ -45,9 +45,9 @@ export const kkogkkogHandler = [
       headers,
     } = req;
 
-    const loggedUser = users.findLoggedUser(headers.get('authorization'));
-
     try {
+      const loggedUser = users.findLoggedUser(headers.get('authorization'));
+
       const newKkogKkogList = receivers.map(receiverId => {
         const receiver = users.findUser(receiverId);
 
