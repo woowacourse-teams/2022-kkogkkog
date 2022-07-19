@@ -10,4 +10,5 @@ public class KkogKkogApplication {
         SpringApplication.run(KkogKkogApplication.class, args);
     }
 
+
 }
