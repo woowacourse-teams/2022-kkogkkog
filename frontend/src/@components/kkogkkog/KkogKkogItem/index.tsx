@@ -1,5 +1,5 @@
 import Placeholder from '@/@components/@shared/Placeholder';
-import { KKOGKKOG_TYPE_ENG_TO_KOR } from '@/types/client/kkogkkog';
+import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -27,7 +27,7 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
         <div>To. {receiver.nickname}</div>
         <div>
           #{modifier} &nbsp;
-          <Styled.TypeText>{KKOGKKOG_TYPE_ENG_TO_KOR[couponType]}</Styled.TypeText>
+          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
           &nbsp;꼭꼭
         </div>
       </Styled.TextContainer>
@@ -47,7 +47,7 @@ KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
         <div>To. {receiver.nickname}</div>
         <div>
           #{modifier} &nbsp;
-          <Styled.TypeText>{KKOGKKOG_TYPE_ENG_TO_KOR[couponType]}</Styled.TypeText>
+          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
           &nbsp;꼭꼭
         </div>
       </Styled.TextContainer>

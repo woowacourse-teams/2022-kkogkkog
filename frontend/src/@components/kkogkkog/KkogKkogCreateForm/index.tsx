@@ -8,7 +8,7 @@ import UserSearchForm from '@/@components/user/UserSearchForm';
 import { useModal } from '@/@hooks/@common/useModal';
 import {
   KKOGKKOG_COLORS,
-  KKOGKKOG_KOREAN_TYPE,
+  KKOGKKOG_ENG_TYPE,
   KKOGKKOG_MODIFIERS,
   kkogkkogColors,
   kkogkkogModifiers,
@@ -20,12 +20,12 @@ import * as Styled from './style';
 
 interface KkogKkogCreateFormProps {
   currentReceiverList: UserResponse[];
-  currentType: KKOGKKOG_KOREAN_TYPE;
+  currentType: KKOGKKOG_ENG_TYPE;
   currentModifier: KKOGKKOG_MODIFIERS;
   currentColor: KKOGKKOG_COLORS;
   currentMessage: string;
   onSelectReceiver: (user: UserResponse) => void;
-  onSelectType: (type: KKOGKKOG_KOREAN_TYPE) => void;
+  onSelectType: (type: KKOGKKOG_ENG_TYPE) => void;
   onSelectModifier: (modifier: KKOGKKOG_MODIFIERS) => void;
   onSelectColor: (color: KKOGKKOG_COLORS) => void;
   onChangeMessage: ChangeEventHandler<HTMLInputElement>;
@@ -66,11 +66,11 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
       )}
 
       <SelectInput label='어떤 쿠폰인가요?'>
-        {kkogkkogType.map(({ koreanType, imageUrl }) => (
+        {kkogkkogType.map(({ engType, imageUrl }) => (
           <Styled.TypeOption
-            key={koreanType}
-            isSelected={koreanType === currentType}
-            onClick={() => onSelectType(koreanType)}
+            key={engType}
+            isSelected={engType === currentType}
+            onClick={() => onSelectType(engType)}
           >
             <img src={imageUrl} alt='hi' />
           </Styled.TypeOption>
