@@ -19,6 +19,7 @@ const queryClient = new QueryClient({
       suspense: true,
       retry: false,
       useErrorBoundary: false,
+      staleTime: 6000,
     },
   },
 });

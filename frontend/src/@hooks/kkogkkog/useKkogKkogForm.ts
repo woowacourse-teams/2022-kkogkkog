@@ -6,7 +6,7 @@ import { createKkogkkog } from '@/apis/kkogkkog';
 import { PATH } from '@/Router';
 import {
   KKOGKKOG_COLORS,
-  KKOGKKOG_KOREAN_TYPE,
+  KKOGKKOG_ENG_TYPE,
   KKOGKKOG_MODIFIERS,
   kkogkkogColors,
   kkogkkogModifiers,
@@ -18,18 +18,19 @@ export const useKkogKkogForm = () => {
   const navigate = useNavigate();
 
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
-  const [couponType, setCouponType] = useState<KKOGKKOG_KOREAN_TYPE>(kkogkkogType[0].koreanType);
+  const [couponType, setCouponType] = useState<KKOGKKOG_ENG_TYPE>(kkogkkogType[0].engType);
   const [modifier, setModifier] = useState<KKOGKKOG_MODIFIERS>(kkogkkogModifiers[0]);
   const [color, setColor] = useState<KKOGKKOG_COLORS>(kkogkkogColors[0]);
   const [message, setMessage] = useState('');
 
+  /** Add Typing */
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
     onSuccess() {
-      navigate(PATH.KKOGKKOG_LIST);
+      navigate(PATH.LANDING, { state: { status: 'sent' } });
     },
   });
 
-  const onSelectType = (type: KKOGKKOG_KOREAN_TYPE) => {
+  const onSelectType = (type: KKOGKKOG_ENG_TYPE) => {
     setCouponType(type);
   };
 
@@ -75,8 +76,7 @@ export const useKkogKkogForm = () => {
       backgroundColor: color,
       modifier,
       message,
-      couponType:
-        kkogkkogType[kkogkkogType.findIndex(type => type.koreanType === couponType)].engType,
+      couponType,
     });
   };
 
