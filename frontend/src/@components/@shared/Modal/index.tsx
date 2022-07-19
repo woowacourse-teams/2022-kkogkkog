@@ -37,7 +37,7 @@ interface ModalWithHeader extends ModalProps {
   }[];
 }
 
-Modal.ModalWithHeader = function ModalWithHeader(props: PropsWithChildren<ModalWithHeader>) {
+Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>) {
   const { position, onCloseModal, title, buttons, children } = props;
 
   return (

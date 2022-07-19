@@ -22,7 +22,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   ];
 
   return (
-    <Modal.ModalWithHeader
+    <Modal.WithHeader
       position='bottom'
       onCloseModal={handleCloseModal}
       title='쿠폰을 사용하시겠어요?'
@@ -37,7 +37,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
         {...clickedKkogKkog}
       />
       <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
-    </Modal.ModalWithHeader>
+    </Modal.WithHeader>
   );
 };
 
