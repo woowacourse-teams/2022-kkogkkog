@@ -16,11 +16,11 @@ type STATUS_TYPE = 'received' | 'sent';
 const LandingPage = () => {
   const { me } = useMe();
 
-  const { state } = useLocation() as { state: { sent: boolean } };
+  const { state } = useLocation() as { state: { status: STATUS_TYPE } };
 
   const { kkogkkogList } = useKkogKkogList();
 
-  const { status, changeStatus } = useStatus<STATUS_TYPE>(state?.sent ? 'sent' : 'received');
+  const { status, changeStatus } = useStatus<STATUS_TYPE>(state?.status ?? 'received');
 
   if (!me) {
     return (
