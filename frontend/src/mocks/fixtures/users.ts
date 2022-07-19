@@ -2,6 +2,8 @@ export default {
   current: [
     { id: 0, email: 'wnsgur8397@naver.com', password: '1234', nickname: '준찌' },
     { id: 1, email: 'lll@naver.com', password: '1234', nickname: '시지프' },
+    { id: 2, email: 'lllafssfa@naver.com', password: '1234', nickname: '아서' },
+    { id: 3, email: 'lllafasdfasdfasdfssfa@naver.com', password: '1234', nickname: '정' },
   ],
 
   findLoggedUser(authorizationToken: string | null) {
