@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
+import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import java.util.List;
@@ -46,5 +47,13 @@ public class CouponController {
     public ResponseEntity<CouponResponse> show(@PathVariable Long couponId) {
         CouponResponse couponResponse = couponService.findById(couponId);
         return ResponseEntity.ok(couponResponse);
+    }
+
+    @PostMapping("/{couponId}/event")
+    public ResponseEntity<Void> action(@LoginMember Long authMemberId,
+                                       @PathVariable Long couponId,
+                                       @RequestBody CouponEventRequest couponEventRequest) {
+        couponService.changeStatus(couponEventRequest.toCouponChangeStatusRequest(authMemberId, couponId));
+        return ResponseEntity.ok().build();
     }
 }
