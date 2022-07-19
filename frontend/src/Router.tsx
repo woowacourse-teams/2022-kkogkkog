@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import Loading from '@/@components/@shared/Loading';
 import JoinPage from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
 import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
@@ -37,7 +38,14 @@ const Router = () => {
           </Suspense>
         }
       />
-      <Route path={PATH.KKOGKKOG_CREATE} element={<KkogkkogCreatePage />} />
+      <Route
+        path={PATH.KKOGKKOG_CREATE}
+        element={
+          <Suspense fallback={<Loading>👻</Loading>}>
+            <KkogkkogCreatePage />
+          </Suspense>
+        }
+      />
       <Route path={PATH.LOGIN} element={<LoginPage />} />
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route path={PATH.PROFILE} element={<ProfilePage />} />
