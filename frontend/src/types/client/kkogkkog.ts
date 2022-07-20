@@ -17,10 +17,20 @@ export const kkogkkogColors = [
 
 export const kkogkkogModifiers = ['재미있게', '활기차게', '한턱쏘는'] as const;
 
-export const THUMBNAIL = {
+export const THUMBNAIL: { [x: string]: string } = {
   COFFEE: '/assets/images/coffee.png',
   DRINK: '/assets/images/beer.png',
 } as const;
+
+export const KKOGKKOG_TYPE_MAPPER = kkogkkogType.reduce((prev, current) => {
+  const { engType, koreanType } = current;
+
+  return {
+    ...prev,
+    [engType]: koreanType,
+    [koreanType]: engType,
+  };
+}, {} as any);
 
 export interface KkogKkog {
   id: number;

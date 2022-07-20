@@ -19,7 +19,7 @@ const Header = (props: HeaderProps) => {
   return (
     <Styled.Root>
       <Styled.Logo>
-        <Link to={PATH.KKOGKKOG_LIST}>
+        <Link to={PATH.LANDING}>
           <img src='/assets/images/logo.png' alt='로고' width='36' />
         </Link>
       </Styled.Logo>

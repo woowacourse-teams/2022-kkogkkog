@@ -1,35 +1,13 @@
 import { css } from '@emotion/react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 
 import Icon from '@/@components/@shared/Icon';
 import Input from '@/@components/@shared/Input';
+import { useSearchUser } from '@/@hooks/user/useSearchUser';
 import theme from '@/styles/theme';
 import { UserListResponse, UserResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
-
-const users = [
-  {
-    id: 1,
-    nickname: '준찌',
-    email: 'wnsgur8397@naver.com',
-  },
-  {
-    id: 3,
-    nickname: '정',
-    email: 'wnsgur8397@naver.com',
-  },
-  {
-    id: 4,
-    nickname: '아서',
-    email: 'wnsgur8397@naver.com',
-  },
-  {
-    id: 5,
-    nickname: '레오',
-    email: 'wnsgur8397@naver.com',
-  },
-];
 
 interface UserSearchFormProps {
   currentReceiverList: UserListResponse;
@@ -39,16 +17,14 @@ interface UserSearchFormProps {
 const UserSearchForm = (props: UserSearchFormProps) => {
   const { currentReceiverList, onSelectReceiver } = props;
 
-  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | null>(null);
+  const { searchedUserList, searchUser } = useSearchUser();
 
   const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value: searchUserNameValue },
+      target: { value: searchInput },
     } = e;
 
-    const findUserList = users.filter(({ nickname }) => nickname === searchUserNameValue);
-
-    setSearchedUserList(findUserList);
+    searchUser(searchInput);
   };
 
   return (

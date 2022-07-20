@@ -7,10 +7,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
+import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
@@ -170,6 +172,50 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             return RestAssured.given().log().all()
                     .when()
                     .get("/api/coupons/" + couponId)
+                    .then().log().all()
+                    .extract();
+        }
+    }
+
+    @DisplayName("POST /api/coupons/{couponId}/event - 쿠폰 이벤트 발생")
+    @Nested
+    class ActionTest {
+
+        @Test
+        void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청을_보낼_수_있다() {
+            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
+            회원_가입에_성공한다(toMemberCreateRequest(LEO));
+            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
+
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
+
+        @Test
+        void 존재하지_않는_이벤트를_보낼_수_없다() {
+            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
+            회원_가입에_성공한다(toMemberCreateRequest(LEO));
+            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
+
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, "존재하지_않는_이벤트");
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        }
+
+        private ExtractableResponse<Response> 쿠폰_상태_변경을_요청한다(String accessToken,
+                                                             Long couponId,
+                                                             String couponEvent) {
+            return RestAssured.given().log().all()
+                    .auth().oauth2(accessToken)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(new CouponEventRequest(couponEvent))
+                    .when()
+                    .post("/api/coupons/{couponId}/event", couponId)
                     .then().log().all()
                     .extract();
         }

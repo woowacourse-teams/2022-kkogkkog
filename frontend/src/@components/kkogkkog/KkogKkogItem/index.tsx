@@ -1,10 +1,17 @@
 import Placeholder from '@/@components/@shared/Placeholder';
+import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
+/** 폼에서 미리 생성될 쿠폰 UI를 보여준다면 이 때는 id, couponStatus가 존재하지 않는다... */
 type KkogKkogItemProps = KkogKKogResponse & {
   onClick?: () => void;
+  className?: string;
+  thumbnail: string;
+};
+
+type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'sender' | 'couponStatus'> & {
   className?: string;
   thumbnail: string;
 };
@@ -20,10 +27,28 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
         <div>To. {receiver.nickname}</div>
         <div>
           #{modifier} &nbsp;
-          <Styled.TypeText>
-            {couponType}
-            &nbsp;꼭꼭
-          </Styled.TypeText>
+          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
+          &nbsp;꼭꼭
+        </div>
+      </Styled.TextContainer>
+      <Styled.ImageContainer backgroundColor={backgroundColor}>
+        <img src={thumbnail} alt='쿠폰' />
+      </Styled.ImageContainer>
+    </Styled.Root>
+  );
+};
+
+KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
+  const { className, receiver, backgroundColor, modifier, couponType, thumbnail } = props;
+
+  return (
+    <Styled.Root className={className}>
+      <Styled.TextContainer>
+        <div>To. {receiver.nickname}</div>
+        <div>
+          #{modifier} &nbsp;
+          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
+          &nbsp;꼭꼭
         </div>
       </Styled.TextContainer>
       <Styled.ImageContainer backgroundColor={backgroundColor}>
@@ -43,6 +68,7 @@ KkogKkogItem.LinkButton = function LinkButton() {
     </Styled.Root>
   );
 };
+
 KkogKkogItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
 };

@@ -71,4 +71,9 @@ public class Coupon {
             throw new SameSenderReceiverException();
         }
     }
+
+    public void changeStatus(CouponEvent event, Member member) {
+        event.checkExecutable(sender.equals(member), receiver.equals(member));
+        this.couponStatus = couponStatus.handle(event);
+    }
 }

@@ -4,11 +4,15 @@ import static com.woowacourse.kkogkkog.fixture.MemberFixture.NON_EXISTING_MEMBER
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.kkogkkog.application.dto.CouponChangeStatusRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.domain.CouponEvent;
+import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import java.util.List;
@@ -158,6 +162,38 @@ public class CouponServiceTest extends ServiceTest {
 
             assertThatThrownBy(() -> couponService.save(couponSaveRequest))
                     .isInstanceOf(MemberNotFoundException.class);
+        }
+    }
+
+    @DisplayName("쿠폰 이벤트에 따라 쿠폰의 상태를 수정할 수 있다")
+    @Nested
+    class ChangeStatusTest {
+
+        @Test
+        @DisplayName("받은 사람은 READY 상태의 쿠폰에 대한 사용 요청을 보낼 수 있다")
+        void request() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                    couponId, CouponEvent.REQUEST);
+
+            couponService.changeStatus(couponChangeStatusRequest);
+            CouponResponse actual = couponService.findById(couponId);
+
+            assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.REQUESTED.name());
+        }
+
+        @Test
+        @DisplayName("보낸 사람은 쿠폰 사용 요청을 보낼 수 없다.")
+        void request_senderNotAllowed() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+
+            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ROOKIE.getId(),
+                    couponId, CouponEvent.REQUEST);
+
+            assertThatThrownBy(() -> couponService.changeStatus(couponChangeStatusRequest))
+                    .isInstanceOf(ForbiddenException.class);
         }
     }
 

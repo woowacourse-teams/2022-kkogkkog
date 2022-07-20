@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
+import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import java.util.List;
@@ -27,19 +28,18 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long authMemberId) {
+    public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
         MyCouponsResponse myCouponsResponse = new MyCouponsResponse(new CouponsResponse(
-                couponService.findAllBySender(authMemberId),
-                couponService.findAllByReceiver(authMemberId)));
+                couponService.findAllBySender(loginMemberId),
+                couponService.findAllByReceiver(loginMemberId)));
 
         return ResponseEntity.ok(myCouponsResponse);
     }
 
     @PostMapping
-    public ResponseEntity<CouponCreateResponse> create(@LoginMember Long authMemberId,
-                                                       @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
-        List<CouponResponse> couponResponses = couponService.save(
-                couponCreateRequest.toCouponSaveRequest(authMemberId));
+        public ResponseEntity<CouponCreateResponse> create(@LoginMember Long loginMemberId,
+                                                           @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
+        List<CouponResponse> couponResponses = couponService.save(couponCreateRequest.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponCreateResponse(couponResponses));
     }
 
@@ -47,5 +47,13 @@ public class CouponController {
     public ResponseEntity<CouponResponse> show(@PathVariable Long couponId) {
         CouponResponse couponResponse = couponService.findById(couponId);
         return ResponseEntity.ok(couponResponse);
+    }
+
+    @PostMapping("/{couponId}/event")
+    public ResponseEntity<Void> action(@LoginMember Long loginMemberId,
+                                       @PathVariable Long couponId,
+                                       @RequestBody CouponEventRequest couponEventRequest) {
+        couponService.changeStatus(couponEventRequest.toCouponChangeStatusRequest(loginMemberId, couponId));
+        return ResponseEntity.ok().build();
     }
 }
