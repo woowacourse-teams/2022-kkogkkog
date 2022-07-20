@@ -35,6 +35,18 @@ export const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  & > button {
+    margin: 0 10px;
+  }
+
+  & > button:nth-child(1) {
+    margin-left: 0;
+  }
+
+  & > button:nth-last-child(1) {
+    margin-right: 0;
+  }
 `;
 
 export const ButtonInner = styled.div`
@@ -43,4 +55,10 @@ export const ButtonInner = styled.div`
   & > button {
     height: 40px;
   }
+`;
+
+export const ButtonStyle = css`
+  width: auto;
+  height: 40px;
+  flex: 1;
 `;

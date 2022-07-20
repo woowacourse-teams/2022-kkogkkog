@@ -1,10 +1,8 @@
-import { css } from '@emotion/react';
 import React, { PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 import Dimmed from '@/@components/@shared/Dimmed';
 
-import Button from '../Button';
 import * as Styled from './style';
 
 interface ModalProps {
@@ -32,14 +30,10 @@ function Modal(props: React.PropsWithChildren<ModalProps>) {
 
 interface ModalWithHeader extends ModalProps {
   title: string;
-  buttons: {
-    text: string;
-    onClick: () => void;
-  }[];
 }
 
 Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>) {
-  const { position, onCloseModal, title, buttons, children } = props;
+  const { position, onCloseModal, title, children } = props;
 
   return (
     <Modal position={position} onCloseModal={onCloseModal}>
@@ -48,21 +42,6 @@ Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>
         <button onClick={onCloseModal}>X</button>
       </Styled.ModalTop>
       {children}
-      <Styled.ButtonContainer>
-        {buttons.map(({ text, onClick }) => (
-          <Button
-            key={text}
-            onClick={onClick}
-            css={css`
-              width: auto;
-              height: 40px;
-              flex: 1;
-            `}
-          >
-            {text}
-          </Button>
-        ))}
-      </Styled.ButtonContainer>
     </Modal>
   );
 };

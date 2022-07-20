@@ -39,21 +39,3 @@ export const ModalTop = styled.div`
   justify-content: space-between;
   margin-bottom: 16px;
 `;
-
-export const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-
-  & > button {
-    margin: 0 10px;
-  }
-
-  & > button:nth-child(1) {
-    margin-left: 0;
-  }
-
-  & > button:nth-last-child() {
-    margin-right: 0;
-  }
-`;
