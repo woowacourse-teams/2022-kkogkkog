@@ -65,7 +65,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
       modalButtons: [
         {
           text: '요청 취소',
-          onClick({ id, message = '' }) {
+          onClick({ id, message }) {
             changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
           },
         },
