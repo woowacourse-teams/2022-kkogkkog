@@ -9,8 +9,8 @@ const useMe = () => {
   });
 
   return {
-    ...meQuery,
     me: meQuery.data?.data,
+    ...meQuery,
   };
 };
 
