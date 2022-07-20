@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class CouponController {
 
     @PostMapping
     public ResponseEntity<CouponCreateResponse> create(@LoginMember Long authMemberId,
-                                                       @RequestBody CouponCreateRequest couponCreateRequest) {
+                                                       @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
         List<CouponResponse> couponResponses = couponService.save(
                 couponCreateRequest.toCouponSaveRequest(authMemberId));
         return ResponseEntity.created(null).body(new CouponCreateResponse(couponResponses));
