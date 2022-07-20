@@ -12,7 +12,11 @@ import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
 
 const LandingPage = () => {
-  const { me } = useMe();
+  const { me, isFetched } = useMe();
+
+  if (!isFetched) {
+    return <></>;
+  }
 
   return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
 };
@@ -21,7 +25,7 @@ export default LandingPage;
 
 LandingPage.Skeleton = function Skeleton() {
   return (
-    <PageTemplate title='꼭꼭'>
+    <PageTemplate title='꼭꼭' hasHeader={false}>
       <Styled.Root>
         <Styled.LinkContainer>
           <Link to={PATH.KKOGKKOG_CREATE}>
