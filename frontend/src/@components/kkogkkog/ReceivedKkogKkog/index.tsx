@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
-import { SentKkogKkogFilterOptionType } from '@/@components/kkogkkog/SentKkogKkog';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { KkogKKogResponse } from '@/types/remote/response';
 
@@ -19,9 +18,9 @@ export type ReceivedKkogKkogFilterOptionType = typeof filterOption[number];
 const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
   const { kkogkkogList } = props;
 
-  const { status, changeStatus } = useStatus<SentKkogKkogFilterOptionType>('요청');
+  const { status, changeStatus } = useStatus<ReceivedKkogKkogFilterOptionType>('요청');
 
-  const onClickFilterButton = (status: SentKkogKkogFilterOptionType) => {
+  const onClickFilterButton = (status: ReceivedKkogKkogFilterOptionType) => {
     changeStatus(status);
   };
 
@@ -43,7 +42,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
 
   return (
     <Styled.Root>
-      <ListFilter<SentKkogKkogFilterOptionType>
+      <ListFilter<ReceivedKkogKkogFilterOptionType>
         status={status}
         onClickFilterButton={onClickFilterButton}
         options={filterOption}
