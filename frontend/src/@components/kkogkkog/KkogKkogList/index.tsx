@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { useState } from 'react';
 
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
@@ -15,13 +16,22 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   const { kkogkkogList } = props;
   const [clickedKkogKkog, setClickedKkogKkog] = useState<KkogKKogResponse | null>(null);
 
-  const handleClickKkogKkog = (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
+  const onClickKkogKkog = (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
     setClickedKkogKkog(kkogkkog);
   };
 
-  const handleCloseModal = () => {
+  const onCloseModal = () => {
     setClickedKkogKkog(null);
   };
+
+  if (kkogkkogList?.length === 0) {
+    return (
+      <Styled.Root>
+        <Styled.TextContainer fontSize='40px'>😱</Styled.TextContainer>
+        <Styled.TextContainer>해당 꼭꼭이 존재하지 않아요 ㅠㅠ</Styled.TextContainer>
+      </Styled.Root>
+    );
+  }
 
   return (
     <Styled.Root>
@@ -30,13 +40,13 @@ const KkogKkogList = (props: KkogKkogListProps) => {
           key={kkogkkog.id}
           thumbnail={THUMBNAIL[kkogkkog.couponType]}
           onClick={() =>
-            handleClickKkogKkog({ ...kkogkkog, thumbnail: THUMBNAIL[kkogkkog.couponType] })
+            onClickKkogKkog({ ...kkogkkog, thumbnail: THUMBNAIL[kkogkkog.couponType] })
           }
           {...kkogkkog}
         />
       ))}
       {clickedKkogKkog && (
-        <KkogKkogModal clickedKkogKkog={clickedKkogKkog} handleCloseModal={handleCloseModal} />
+        <KkogKkogModal clickedKkogKkog={clickedKkogKkog} onCloseModal={onCloseModal} />
       )}
     </Styled.Root>
   );

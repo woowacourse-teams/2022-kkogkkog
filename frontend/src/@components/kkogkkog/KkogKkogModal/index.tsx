@@ -10,18 +10,14 @@ import * as Styled from './style';
 
 interface KkogKkogItemProps {
   clickedKkogKkog: KkogKKogResponse;
-  handleCloseModal: () => void;
+  onCloseModal: () => void;
 }
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
-  const { clickedKkogKkog, handleCloseModal } = props;
+  const { clickedKkogKkog, onCloseModal } = props;
 
   return (
-    <Modal.WithHeader
-      position='bottom'
-      onCloseModal={handleCloseModal}
-      title='쿠폰을 사용하시겠어요?'
-    >
+    <Modal.WithHeader title='쿠폰을 사용하시겠어요?' position='bottom' onCloseModal={onCloseModal}>
       <KkogKkogItem
         key={clickedKkogKkog.id}
         thumbnail={THUMBNAIL[clickedKkogKkog.couponType]}
