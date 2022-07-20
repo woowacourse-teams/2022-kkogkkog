@@ -222,7 +222,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         }
 
         @Test
-        void 요청하지_않은_쿠폰은_취소할_수_없다() {
+        void 사용_요청_상태가_아닌_쿠폰은_요청을_취소할_수_없다() {
             회원_가입에_성공한다(toMemberCreateRequest(JEONG));
             회원_가입에_성공한다(toMemberCreateRequest(LEO));
             String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
