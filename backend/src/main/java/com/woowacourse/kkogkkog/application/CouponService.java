@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
+import com.woowacourse.kkogkkog.application.dto.CouponChangeStatusRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.domain.Coupon;
@@ -10,11 +11,10 @@ import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -30,8 +30,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public CouponResponse findById(Long couponId) {
-        Coupon coupon = couponRepository.findById(couponId)
-                .orElseThrow(CouponNotFoundException::new);
+        Coupon coupon = findCoupon(couponId);
 
         return CouponResponse.of(coupon);
     }
@@ -81,8 +80,19 @@ public class CouponService {
         return receivers;
     }
 
+    public void changeStatus(CouponChangeStatusRequest couponChangeStatusRequest) {
+        Member loginMember = findMember(couponChangeStatusRequest.getLoginMemberId());
+        Coupon coupon = findCoupon(couponChangeStatusRequest.getCouponId());
+        coupon.changeStatus(couponChangeStatusRequest.getEvent(), loginMember);
+    }
+
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    private Coupon findCoupon(Long couponId) {
+        return couponRepository.findById(couponId)
+                .orElseThrow(CouponNotFoundException::new);
     }
 }
