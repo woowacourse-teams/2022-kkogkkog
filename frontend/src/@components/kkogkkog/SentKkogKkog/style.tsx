@@ -18,7 +18,7 @@ export const Container = styled.div`
   `}
 
   ${({ theme }) => css`
-    & > div:first-child {
+    & > div:first-of-child {
       padding: 10px;
       text-align: center;
 

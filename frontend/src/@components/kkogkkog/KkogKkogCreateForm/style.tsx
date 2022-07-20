@@ -8,7 +8,7 @@ export const FormRoot = styled.form`
 `;
 
 export const FindUserContainer = styled.div`
-  & > div:first-child {
+  & > div:first-of-type {
     font-size: 14px;
 
     margin-bottom: 8px;
