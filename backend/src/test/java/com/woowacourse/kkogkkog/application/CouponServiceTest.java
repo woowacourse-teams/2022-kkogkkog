@@ -173,7 +173,7 @@ public class CouponServiceTest extends ServiceTest {
         @DisplayName("받은 사람은 READY 상태의 쿠폰에 대한 사용 요청을 보낼 수 있다")
         void request() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
-            long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
                     couponId, CouponEvent.REQUEST);
 
@@ -187,7 +187,7 @@ public class CouponServiceTest extends ServiceTest {
         @DisplayName("보낸 사람은 쿠폰 사용 요청을 보낼 수 없다.")
         void request_senderNotAllowed() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
-            long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
 
             CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ROOKIE.getId(),
                     couponId, CouponEvent.REQUEST);
