@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { BASE_URL } from '@/apis';
 import kkogkkogs from '@/mocks/fixtures/kkogkkogs';
 import users from '@/mocks/fixtures/users';
-import { CreateKkogKkogRequest } from '@/types/remote/request';
+import { ChangeKkogKkogStatusRequest, CreateKkogKkogRequest } from '@/types/remote/request';
 
 export const kkogkkogHandler = [
   rest.get(`${BASE_URL}/coupons`, (req, res, ctx) => {
@@ -68,5 +68,26 @@ export const kkogkkogHandler = [
     } catch ({ message }) {
       return res(ctx.status(400), ctx.json({ error: message }));
     }
+  }),
+
+  rest.post<ChangeKkogKkogStatusRequest>(`${BASE_URL}/coupons/:couponId/event`, (req, res, ctx) => {
+    const {
+      body: { couponEvent },
+      params: { couponId },
+    } = req;
+
+    const newKkogKkogList = kkogkkogs.current.map(kkogkkog =>
+      kkogkkog.id === Number(couponId)
+        ? { ...kkogkkog, couponStatus: kkogkkogs.onEvent(couponEvent) }
+        : kkogkkog
+    );
+
+    const a = newKkogKkogList.map(kkogkkog => kkogkkog.couponStatus);
+
+    console.log('a', a);
+
+    kkogkkogs.current = newKkogKkogList;
+
+    return res(ctx.status(200), ctx.json({ data: newKkogKkogList }));
   }),
 ];
