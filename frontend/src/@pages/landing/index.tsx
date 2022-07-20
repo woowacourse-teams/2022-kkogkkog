@@ -5,7 +5,8 @@ import { Link, useLocation } from 'react-router-dom';
 import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
-import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
+import ReceivedKkogKkog from '@/@components/kkogkkog/ReceivedKkogKkog';
+import SentKkogKkog from '@/@components/kkogkkog/SentKkogKkog';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
@@ -61,8 +62,9 @@ const LandingPage = () => {
               보낸 쿠폰
             </Styled.ListHeaderItem>
           </Styled.ListHeaderContainer>
-          {status === 'received' && <KkogKkogList kkogkkogList={kkogkkogList?.received} />}
-          {status === 'sent' && <KkogKkogList kkogkkogList={kkogkkogList?.sent} />}
+
+          {status === 'received' && <ReceivedKkogKkog kkogkkogList={kkogkkogList?.received} />}
+          {status === 'sent' && <SentKkogKkog kkogkkogList={kkogkkogList?.sent} />}
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate>
@@ -112,11 +114,7 @@ export const Styled = {
   LinkContainer: styled.div`
     padding: 20px;
   `,
-  ListContainer: styled.div`
-    & > div {
-      margin-top: 20px;
-    }
-  `,
+  ListContainer: styled.div``,
   ListHeaderContainer: styled.div`
     display: flex;
 
@@ -125,10 +123,6 @@ export const Styled = {
     & > div {
       margin-right: 30px;
     }
-
-    ${({ theme }) => css`
-      border-bottom: 1px solid ${theme.colors.light_grey_100};
-    `}
   `,
   ListHeaderItem: styled.div<{ isSelected?: boolean }>`
     padding-bottom: 8px;

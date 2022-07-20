@@ -32,9 +32,19 @@ const layers = {
   dimmed: 5000,
 } as const;
 
+const shadow = {
+  type_1: '0px 0px 2px rgba(0, 0, 0, 0.2)',
+  type_2: '0px 8px 20px rgba(0, 0, 0, 0.1)',
+  type_3: '0px 0px 4px rgba(0, 0, 0, 0.12)',
+  type_4: '0px 0px 2px rgba(0, 0, 0, 0.24)',
+  type_5: '0px 0px 2px rgba(0, 0, 0, 0.2)',
+  type_6: '0px 4px 12px rgba(0, 0, 0, 0.16)',
+};
+
 const theme = {
   colors,
   layers,
+  shadow,
 };
 
 export default theme;

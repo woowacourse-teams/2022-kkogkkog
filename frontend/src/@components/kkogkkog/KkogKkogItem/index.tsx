@@ -1,4 +1,5 @@
 import Placeholder from '@/@components/@shared/Placeholder';
+import useMe from '@/@hooks/user/useMe';
 import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
@@ -20,11 +21,16 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { className, sender, receiver, backgroundColor, modifier, couponType, thumbnail, onClick } =
     props;
 
+  const { me } = useMe();
+
   return (
     <Styled.Root onClick={onClick} className={className} hasCursor={!!onClick}>
       <Styled.TextContainer>
-        <div>From. {sender.nickname}</div>
-        <div>To. {receiver.nickname}</div>
+        {sender.id === me?.id ? (
+          <div>To. {receiver.nickname}</div>
+        ) : (
+          <div>From. {sender.nickname}</div>
+        )}
         <div>
           #{modifier} &nbsp;
           <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
