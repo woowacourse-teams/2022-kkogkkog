@@ -4,16 +4,13 @@ import { getKkogkkogList } from '@/apis/kkogkkog';
 import { KkogKkogListResponse } from '@/types/remote/response';
 
 export const useKkogKkogList = () => {
-  const { data, isLoading, isError, remove, refetch } = useQuery<{ data: KkogKkogListResponse }>(
+  const kkogkkogListQuery = useQuery<{ data: KkogKkogListResponse }>(
     ['kkogkkogList'],
     getKkogkkogList
   );
 
   return {
-    kkogkkogList: data?.data,
-    isLoading,
-    isError,
-    remove,
-    refetch,
+    kkogkkogList: kkogkkogListQuery.data?.data,
+    ...kkogkkogListQuery,
   };
 };
