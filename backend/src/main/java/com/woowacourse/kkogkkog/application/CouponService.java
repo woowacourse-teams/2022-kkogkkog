@@ -81,9 +81,9 @@ public class CouponService {
     }
 
     public void changeStatus(CouponChangeStatusRequest couponChangeStatusRequest) {
-        Member member = findMember(couponChangeStatusRequest.getAuthUserId());
+        Member loginMember = findMember(couponChangeStatusRequest.getLoginMemberId());
         Coupon coupon = findCoupon(couponChangeStatusRequest.getCouponId());
-        coupon.changeStatus(couponChangeStatusRequest.getEvent(), member);
+        coupon.changeStatus(couponChangeStatusRequest.getEvent(), loginMember);
     }
 
     private Member findMember(Long memberId) {

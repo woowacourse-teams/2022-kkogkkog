@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponChangeStatusRequest {
 
-    private Long authUserId;
+    private Long loginMemberId;
     private Long couponId;
     private CouponEvent event;
 
-    public CouponChangeStatusRequest(Long authUserId, Long couponId, CouponEvent event) {
-        this.authUserId = authUserId;
+    public CouponChangeStatusRequest(Long loginMemberId, Long couponId, CouponEvent event) {
+        this.loginMemberId = loginMemberId;
         this.couponId = couponId;
         this.event = event;
     }
