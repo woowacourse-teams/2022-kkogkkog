@@ -19,7 +19,7 @@ public enum CouponEvent {
     public static CouponEvent of(String value) {
         try {
             return CouponEvent.valueOf(value);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new InvalidRequestException("처리할 수 없는 요청입니다.");
         }
     }
