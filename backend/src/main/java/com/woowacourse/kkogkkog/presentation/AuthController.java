@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.presentation;
 import com.woowacourse.kkogkkog.application.AuthService;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<TokenResponse> login(@Valid @RequestBody TokenRequest tokenRequest) {
         TokenResponse tokenResponse = authService.login(tokenRequest);
 
         return ResponseEntity.ok(tokenResponse);

@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody MemberCreateRequest memberCreateRequest) {
+    public ResponseEntity<Void> create(@Valid @RequestBody MemberCreateRequest memberCreateRequest) {
         memberService.save(memberCreateRequest);
 
         return ResponseEntity.created(null).build();
