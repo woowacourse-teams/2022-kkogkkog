@@ -82,10 +82,6 @@ export const kkogkkogHandler = [
         : kkogkkog
     );
 
-    const a = newKkogKkogList.map(kkogkkog => kkogkkog.couponStatus);
-
-    console.log('a', a);
-
     kkogkkogs.current = newKkogKkogList;
 
     return res(ctx.status(200), ctx.json({ data: newKkogKkogList }));
