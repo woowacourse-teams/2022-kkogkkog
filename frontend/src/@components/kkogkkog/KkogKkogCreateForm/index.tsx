@@ -53,7 +53,24 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
       <Styled.FindUserContainer>
         <div>누구에게 보내시나요?</div>
-        <div onClick={openModal}>🔍 유저를 찾아보세요</div>
+        <Styled.FindUserInput>
+          {currentReceiverList.length === 0 && <span onClick={openModal}>유저를 찾아보세요</span>}
+
+          {currentReceiverList.length !== 0 && (
+            <Styled.SelectedUserListContainer>
+              {currentReceiverList.map(receiver => (
+                <Styled.SelectedUserContainer
+                  key={receiver.id}
+                  onClick={() => onSelectReceiver(receiver)}
+                >
+                  <span>{receiver.nickname}</span>
+                </Styled.SelectedUserContainer>
+              ))}
+            </Styled.SelectedUserListContainer>
+          )}
+
+          <span onClick={openModal}>🔍</span>
+        </Styled.FindUserInput>
       </Styled.FindUserContainer>
 
       {isShowModal && (
