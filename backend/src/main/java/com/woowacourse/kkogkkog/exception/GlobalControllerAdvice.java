@@ -43,14 +43,13 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleInvalidRequest(
-        MethodArgumentNotValidException bindingResult) {
+    public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException bindingResult) {
         String causes = bindingResult.getFieldErrors()
             .stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage)
             .collect(Collectors.joining(INVALID_REQUEST_DELIMITER));
         String errorMessage = String.format(INVALID_REQUEST_EXCEPTION_MESSAGE_FORMAT, causes);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(errorMessage));
+        return new ResponseEntity<>(new ErrorResponse(errorMessage), HttpStatus.BAD_REQUEST);
     }
 
     @Getter
