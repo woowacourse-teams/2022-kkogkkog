@@ -56,7 +56,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             List<CouponResponse> receivedCoupons = 쿠폰_발급에_성공한다(leoAccessToken, List.of(JEONG)).getData();
 
             MyCouponsResponse actual = 쿠폰_전체_조회에_성공한다(jeongAccessToken);
-            MyCouponsResponse expected = new MyCouponsResponse(new CouponsResponse(sentCoupons, receivedCoupons));
+            MyCouponsResponse expected = new MyCouponsResponse(new CouponsResponse(receivedCoupons, sentCoupons));
 
             assertThat(actual).usingRecursiveComparison()
                     .isEqualTo(expected);
