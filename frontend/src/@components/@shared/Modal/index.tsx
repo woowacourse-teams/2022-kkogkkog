@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import React, { PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -49,9 +50,17 @@ Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>
       {children}
       <Styled.ButtonContainer>
         {buttons.map(({ text, onClick }) => (
-          <Styled.ButtonInner key={text} onClick={onClick}>
-            <Button>{text}</Button>
-          </Styled.ButtonInner>
+          <Button
+            key={text}
+            onClick={onClick}
+            css={css`
+              width: auto;
+              height: 40px;
+              flex: 1;
+            `}
+          >
+            {text}
+          </Button>
         ))}
       </Styled.ButtonContainer>
     </Modal>

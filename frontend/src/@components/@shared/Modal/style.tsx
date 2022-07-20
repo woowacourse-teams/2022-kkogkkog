@@ -45,22 +45,15 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
 
-  & > div {
-    padding: 0 10px;
-  }
-
-  & > div:nth-child(1) {
-    padding-left: 0;
-  }
-
-  & > div:nth-last-child() {
-    padding-right: 0;
-  }
-`;
-
-export const ButtonInner = styled.div`
-  flex: 1;
   & > button {
-    height: 40px;
+    margin: 0 10px;
+  }
+
+  & > button:nth-child(1) {
+    margin-left: 0;
+  }
+
+  & > button:nth-last-child() {
+    margin-right: 0;
   }
 `;

@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 
-import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
 import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
