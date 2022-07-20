@@ -55,6 +55,7 @@ export const kkogkkogHandler = [
           id: kkogkkogs.current.length + 1,
           sender: loggedUser,
           receiver,
+          couponStatus: 'READY',
           ...body,
         };
 
