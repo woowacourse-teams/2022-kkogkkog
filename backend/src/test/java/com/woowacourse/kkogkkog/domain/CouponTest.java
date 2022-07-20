@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.exception.ForbiddenException;
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,40 @@ public class CouponTest {
                 CouponStatus.READY);
 
         assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.REQUEST, sender))
+                .isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void 받은_사람은_REQUESTED_상태의_쿠폰에_대한_사용_요청_취소를_보낼_수_있다() {
+        Member sender = MemberFixture.ROOKIE;
+        Member receiver = MemberFixture.ARTHUR;
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                CouponStatus.REQUESTED);
+
+        coupon.changeStatus(CouponEvent.CANCEL, receiver);
+
+        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.READY);
+    }
+
+    @Test
+    void 받은_사람은_READY_상태의_쿠폰에_대한_사용_요청_취소를_보낼_수_없다() {
+        Member sender = MemberFixture.ROOKIE;
+        Member receiver = MemberFixture.ARTHUR;
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                CouponStatus.READY);
+
+        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, receiver))
+                .isInstanceOf(InvalidRequestException.class);
+    }
+
+    @Test
+    void 보낸_사람은_쿠폰_사용_요청_취소를_보낼_수_없다() {
+        Member sender = MemberFixture.ROOKIE;
+        Member receiver = MemberFixture.ARTHUR;
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                CouponStatus.REQUESTED);
+
+        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, sender))
                 .isInstanceOf(ForbiddenException.class);
     }
 }
