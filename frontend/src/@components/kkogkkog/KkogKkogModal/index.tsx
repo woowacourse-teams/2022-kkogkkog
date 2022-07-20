@@ -32,8 +32,8 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       />
       <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
       <Styled.ButtonContainer>
-        <Button css={Styled.ButtonStyle}>사용 완료</Button>
-        <Button css={Styled.ButtonStyle}>사용 요청</Button>
+        <Button css={Styled.ExtendedButton}>사용 완료</Button>
+        <Button css={Styled.ExtendedButton}>사용 요청</Button>
       </Styled.ButtonContainer>
     </Modal.WithHeader>
   );

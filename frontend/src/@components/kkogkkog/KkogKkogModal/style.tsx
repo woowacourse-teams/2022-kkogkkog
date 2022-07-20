@@ -57,7 +57,7 @@ export const ButtonInner = styled.div`
   }
 `;
 
-export const ButtonStyle = css`
+export const ExtendedButton = css`
   width: auto;
   height: 40px;
   flex: 1;
