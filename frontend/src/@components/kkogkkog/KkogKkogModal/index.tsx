@@ -17,11 +17,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { clickedKkogKkog, handleCloseModal } = props;
 
   return (
-    <Modal position='bottom' onCloseModal={handleCloseModal}>
-      <Styled.ModalTop>
-        <header>쿠폰을 사용하시겠어요?</header>
-        <button onClick={handleCloseModal}>X</button>
-      </Styled.ModalTop>
+    <Modal.WithHeader
+      position='bottom'
+      onCloseModal={handleCloseModal}
+      title='쿠폰을 사용하시겠어요?'
+    >
       <KkogKkogItem
         key={clickedKkogKkog.id}
         thumbnail={THUMBNAIL[clickedKkogKkog.couponType]}
@@ -32,22 +32,10 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       />
       <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
       <Styled.ButtonContainer>
-        <Styled.ButtonInner
-          css={css`
-            padding-right: 10px;
-          `}
-        >
-          <Button>사용 완료</Button>
-        </Styled.ButtonInner>
-        <Styled.ButtonInner
-          css={css`
-            padding-left: 10px;
-          `}
-        >
-          <Button>사용 요청</Button>
-        </Styled.ButtonInner>
+        <Button css={Styled.ExtendedButton}>사용 완료</Button>
+        <Button css={Styled.ExtendedButton}>사용 요청</Button>
       </Styled.ButtonContainer>
-    </Modal>
+    </Modal.WithHeader>
   );
 };
 
