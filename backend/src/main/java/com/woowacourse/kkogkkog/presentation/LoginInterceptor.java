@@ -4,7 +4,7 @@ import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PA
 
 import com.woowacourse.kkogkkog.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.config.AuthorizationExtractor;
-import com.woowacourse.kkogkkog.exception.auth.UnauthorizedTokenException;
+import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
@@ -30,7 +30,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             String payload = jwtTokenProvider.getValidatedPayload(token);
             request.setAttribute(PAYLOAD, payload);
             return true;
-        } catch (UnauthorizedTokenException e) {
+        } catch (UnauthenticatedTokenException e) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }

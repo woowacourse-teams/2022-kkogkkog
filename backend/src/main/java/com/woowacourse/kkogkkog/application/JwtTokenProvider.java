@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
-import com.woowacourse.kkogkkog.exception.auth.UnauthorizedTokenException;
+import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -45,8 +45,7 @@ public class JwtTokenProvider {
                     .getBody()
                     .getSubject();
         } catch (JwtException | IllegalArgumentException e) {
-            throw new UnauthorizedTokenException();
+            throw new UnauthenticatedTokenException();
         }
     }
 }
-
