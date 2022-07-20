@@ -51,7 +51,7 @@ export default {
     return this.current.find(({ id: kkogkkogId }) => Number(id) === kkogkkogId);
   },
 
-  onEvent(couponEvent: COUPON_EVENT): COUPON_STATUS {
+  getStatusAfterEvent(couponEvent: COUPON_EVENT): COUPON_STATUS {
     switch (couponEvent) {
       case 'REQUEST':
         return 'REQUESTED';

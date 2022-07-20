@@ -78,7 +78,7 @@ export const kkogkkogHandler = [
 
     const newKkogKkogList = kkogkkogs.current.map(kkogkkog =>
       kkogkkog.id === Number(couponId)
-        ? { ...kkogkkog, couponStatus: kkogkkogs.onEvent(couponEvent) }
+        ? { ...kkogkkog, couponStatus: kkogkkogs.getStatusAfterEvent(couponEvent) }
         : kkogkkog
     );
 
