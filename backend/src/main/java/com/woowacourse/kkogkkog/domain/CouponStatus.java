@@ -37,7 +37,7 @@ public enum CouponStatus {
 
     private CouponStatus handleDecline() {
         if (this != REQUESTED) {
-            throw new InvalidRequestException("사용 요청을 취소할 수 없는 상태의 쿠폰입니다.");
+            throw new InvalidRequestException("사용 요청을 거절할 수 없는 상태의 쿠폰입니다.");
         }
         return READY;
     }
