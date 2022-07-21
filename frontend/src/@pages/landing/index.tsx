@@ -20,13 +20,15 @@ const UnAuthorizedLanding = () => {
   return (
     <PageTemplate title='꼭꼭'>
       <Styled.UnAuthorizedRoot>
-        <Button
-          css={css`
-            padding: 15px;
-          `}
-        >
-          꼭꼭 시작하기
-        </Button>
+        <Link to='/login'>
+          <Button
+            css={css`
+              padding: 15px;
+            `}
+          >
+            꼭꼭 시작하기
+          </Button>
+        </Link>
       </Styled.UnAuthorizedRoot>
     </PageTemplate>
   );
