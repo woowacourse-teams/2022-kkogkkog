@@ -30,16 +30,17 @@ public class CouponController {
     @GetMapping
     public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
         MyCouponsResponse myCouponsResponse = new MyCouponsResponse(new CouponsResponse(
-                couponService.findAllBySender(loginMemberId),
-                couponService.findAllByReceiver(loginMemberId)));
+                couponService.findAllByReceiver(loginMemberId),
+                couponService.findAllBySender(loginMemberId)));
 
         return ResponseEntity.ok(myCouponsResponse);
     }
 
     @PostMapping
-        public ResponseEntity<CouponCreateResponse> create(@LoginMember Long loginMemberId,
-                                                           @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
-        List<CouponResponse> couponResponses = couponService.save(couponCreateRequest.toCouponSaveRequest(loginMemberId));
+    public ResponseEntity<CouponCreateResponse> create(@LoginMember Long loginMemberId,
+                                                       @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
+        List<CouponResponse> couponResponses = couponService.save(
+                couponCreateRequest.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponCreateResponse(couponResponses));
     }
 

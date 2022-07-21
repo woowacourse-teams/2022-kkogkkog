@@ -153,8 +153,8 @@ class CouponControllerTest extends Documentation {
 
         // then
         MyCouponsResponse myCouponsResponse = new MyCouponsResponse(new CouponsResponse(
-                List.of(toCouponResponse(1L, JEONG, LEO), toCouponResponse(2L, JEONG, ARTHUR)),
-                List.of(toCouponResponse(3L, LEO, JEONG), toCouponResponse(4L, ARTHUR, JEONG))));
+                List.of(toCouponResponse(3L, LEO, JEONG), toCouponResponse(4L, ARTHUR, JEONG)),
+                List.of(toCouponResponse(1L, JEONG, LEO), toCouponResponse(2L, JEONG, ARTHUR))));
 
         perform.andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(myCouponsResponse)));
