@@ -16,7 +16,7 @@ export const useSearchUser = () => {
     const users = userList || [];
 
     if (keyword === '') {
-      setSearchedUserList([]);
+      setSearchedUserList(null);
 
       return;
     }
