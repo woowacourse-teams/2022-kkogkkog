@@ -230,7 +230,7 @@ public class CouponServiceTest extends ServiceTest {
         }
 
         @Test
-        @DisplayName("보낸 사람은 REQUESTED 상태의 쿠폰에 대한 사용 거절 요청을 할 수 있다.")
+        @DisplayName("보낸 사람은 REQUESTED 상태의 쿠폰에 대한 사용 요청을 거절할 수 있다.")
         void decline() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
@@ -247,8 +247,8 @@ public class CouponServiceTest extends ServiceTest {
         }
 
         @Test
-        @DisplayName("받은 사람은 쿠폰 사용 거절을 할 수 없다.")
-        void decline_receivedNotAllowed() {
+        @DisplayName("받은 사람은 쿠폰 사용 요청을 거절할 수 없다.")
+        void decline_receiverNotAllowed() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),

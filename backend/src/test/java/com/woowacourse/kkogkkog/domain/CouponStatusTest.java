@@ -55,7 +55,7 @@ class CouponStatusTest {
 
     @Test
     @DisplayName("REQUESTED 상태의 쿠폰은 DECLINE 이벤트를 받으면 READY 상태로 변경된다.")
-    void requestedChangesToDeclineOnReadyEvent() {
+    void requestedChangesToReadyOnDeclineEvent() {
         CouponStatus currentStatus = CouponStatus.REQUESTED;
         CouponEvent event = CouponEvent.DECLINE;
 
@@ -67,7 +67,7 @@ class CouponStatusTest {
 
     @Test
     @DisplayName("READY 상태의 쿠폰은 DECLINE 이벤트를 받으면 예외가 발생된다.")
-    void requestedCanNotHandleReadyEvent() {
+    void readyCanNotHandleDeclineEvent() {
         CouponStatus currentStatus = CouponStatus.READY;
         CouponEvent event = CouponEvent.DECLINE;
 

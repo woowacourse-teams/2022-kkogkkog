@@ -61,7 +61,7 @@ class CouponEventTest {
 
     @Test
     @DisplayName("쿠폰을 받은 사람이 쿠폰 사용 요청 거절을 보내는 경우 예외가 발생한다.")
-    void receiverCanDecline() {
+    void receiverCanNotDecline() {
         boolean isSender = false;
         boolean isReceiver = true;
 
