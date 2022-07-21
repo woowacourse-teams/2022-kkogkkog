@@ -15,8 +15,16 @@ export const useSearchUser = () => {
   const searchUser = (keyword: string) => {
     const users = userList || [];
 
+    if (keyword === '') {
+      setSearchedUserList([]);
+
+      return;
+    }
+
     // 이 부분은 검색 API 도입시 비동기 요청하는 코드로 변경됨
-    const findUserList = users.filter(({ id, nickname }) => nickname === keyword && me?.id !== id);
+    const findUserList = users.filter(
+      ({ id, nickname }) => nickname.includes(keyword) && me?.id !== id
+    );
 
     setSearchedUserList(findUserList);
   };
