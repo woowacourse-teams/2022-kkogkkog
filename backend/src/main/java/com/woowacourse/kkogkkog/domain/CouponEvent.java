@@ -8,7 +8,8 @@ public enum CouponEvent {
 
     REQUEST(CouponEvent::canRequest),
     CANCEL(CouponEvent::canCancel),
-    DECLINE(CouponEvent::canDecline);
+    DECLINE(CouponEvent::canDecline),
+    ;
 
     private final BiConsumer<Boolean, Boolean> canChange;
 
