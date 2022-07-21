@@ -30,3 +30,14 @@ const KkogKkogList = (props: KkogKkogListProps) => {
 };
 
 export default KkogKkogList;
+
+KkogKkogList.Skeleton = function Skeleton() {
+  return (
+    <Styled.Root>
+      <KkogKkogItem.Skeleton />
+      <KkogKkogItem.Skeleton />
+      <KkogKkogItem.Skeleton />
+      <KkogKkogItem.Skeleton />
+    </Styled.Root>
+  );
+};
