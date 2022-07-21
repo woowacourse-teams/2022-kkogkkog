@@ -1,54 +1,20 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
+import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import ReceivedKkogKkog from '@/@components/kkogkkog/ReceivedKkogKkog';
 import SentKkogKkog from '@/@components/kkogkkog/SentKkogKkog';
+import { useRouterState } from '@/@hooks/@common/useRouterState';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
 
-const LandingPage = () => {
-  const { me, isFetched } = useMe();
-
-  if (!isFetched) {
-    return <></>;
-  }
-
-  return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
-};
-
-export default LandingPage;
-
-LandingPage.Skeleton = function Skeleton() {
-  return (
-    <PageTemplate title='꼭꼭' hasHeader={false}>
-      <Styled.Root>
-        <Styled.LinkContainer>
-          <Link to={PATH.KKOGKKOG_CREATE}>
-            <KkogKkogItem.LinkButton />
-          </Link>
-        </Styled.LinkContainer>
-        <Styled.ListContainer>
-          <Styled.ListHeaderContainer>
-            <Styled.ListHeaderItem>받은 쿠폰</Styled.ListHeaderItem>
-            <Styled.ListHeaderItem>보낸 쿠폰</Styled.ListHeaderItem>
-          </Styled.ListHeaderContainer>
-          <KkogKkogItem.Skeleton />
-          <KkogKkogItem.Skeleton />
-          <KkogKkogItem.Skeleton />
-          <KkogKkogItem.Skeleton />
-          <KkogKkogItem.Skeleton />
-          <KkogKkogItem.Skeleton />
-        </Styled.ListContainer>
-      </Styled.Root>
-    </PageTemplate>
-  );
-};
+type STATUS_TYPE = 'received' | 'sent';
 
 const UnAuthorizedLanding = () => {
   return (
@@ -66,15 +32,13 @@ const UnAuthorizedLanding = () => {
   );
 };
 
-type STATUS_TYPE = 'received' | 'sent';
-
 const AuthorizedLanding = () => {
-  const { state } = useLocation() as { state: { action: string } };
+  const { kkogkkogList, isLoading } = useKkogKkogList();
 
-  const { kkogkkogList } = useKkogKkogList();
+  const routerState = useRouterState('action');
 
   const { status, changeStatus } = useStatus<STATUS_TYPE>(
-    state?.action === 'create' ? 'sent' : 'received'
+    routerState === 'create' ? 'sent' : 'received'
   );
 
   return (
@@ -100,14 +64,30 @@ const AuthorizedLanding = () => {
               보낸 쿠폰
             </Styled.ListHeaderItem>
           </Styled.ListHeaderContainer>
+          {status === 'received' && (
+            <CustomSuspense fallback={<ReceivedKkogKkog.Skeleton />} isLoading={isLoading}>
+              <ReceivedKkogKkog kkogkkogList={kkogkkogList?.received} />
+            </CustomSuspense>
+          )}
 
-          {status === 'received' && <ReceivedKkogKkog kkogkkogList={kkogkkogList?.received} />}
-          {status === 'sent' && <SentKkogKkog kkogkkogList={kkogkkogList?.sent} />}
+          {status === 'sent' && (
+            <CustomSuspense fallback={<SentKkogKkog.Skeleton />} isLoading={isLoading}>
+              <SentKkogKkog kkogkkogList={kkogkkogList?.sent} />
+            </CustomSuspense>
+          )}
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate>
   );
 };
+
+const LandingPage = () => {
+  const { me } = useMe();
+
+  return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
+};
+
+export default LandingPage;
 
 export const Styled = {
   UnAuthorizedRoot: styled.div`
