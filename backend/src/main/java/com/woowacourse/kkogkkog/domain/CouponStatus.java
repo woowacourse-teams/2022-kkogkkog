@@ -15,6 +15,9 @@ public enum CouponStatus {
         if (event == CouponEvent.CANCEL) {
             return handleCancel();
         }
+        if (event == CouponEvent.DECLINE) {
+            return handleDecline();
+        }
         throw new InvalidRequestException("처리할 수 없는 요청입니다.");
     }
 
@@ -26,6 +29,13 @@ public enum CouponStatus {
     }
 
     private CouponStatus handleCancel() {
+        if (this != REQUESTED) {
+            throw new InvalidRequestException("사용 요청을 취소할 수 없는 상태의 쿠폰입니다.");
+        }
+        return READY;
+    }
+
+    private CouponStatus handleDecline() {
         if (this != REQUESTED) {
             throw new InvalidRequestException("사용 요청을 취소할 수 없는 상태의 쿠폰입니다.");
         }
