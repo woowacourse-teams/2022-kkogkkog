@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
@@ -18,7 +19,11 @@ export type SentKkogKkogFilterOptionType = typeof filterOption[number];
 const SentKkogKkog = (props: SentkogKkogProps) => {
   const { kkogkkogList } = props;
 
-  const { status, changeStatus } = useStatus<SentKkogKkogFilterOptionType>('요청');
+  const { state } = useLocation() as { state: { action: string } };
+
+  const { status, changeStatus } = useStatus<SentKkogKkogFilterOptionType>(
+    state?.action === 'create' ? '대기' : '요청'
+  );
 
   const onClickFilterButton = (status: SentKkogKkogFilterOptionType) => {
     changeStatus(status);

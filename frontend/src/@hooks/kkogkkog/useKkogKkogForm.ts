@@ -26,7 +26,11 @@ export const useKkogKkogForm = () => {
   /** Add Typing */
   const { mutate: createKkogKKogMutate } = useMutation(createKkogkkog, {
     onSuccess() {
-      navigate(PATH.LANDING, { state: { status: 'sent' } });
+      navigate(PATH.LANDING, {
+        state: {
+          action: 'create',
+        },
+      });
     },
   });
 

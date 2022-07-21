@@ -69,11 +69,13 @@ const UnAuthorizedLanding = () => {
 type STATUS_TYPE = 'received' | 'sent';
 
 const AuthorizedLanding = () => {
-  const { state } = useLocation() as { state: { status: STATUS_TYPE } };
+  const { state } = useLocation() as { state: { action: string } };
 
   const { kkogkkogList } = useKkogKkogList();
 
-  const { status, changeStatus } = useStatus<STATUS_TYPE>(state?.status ?? 'received');
+  const { status, changeStatus } = useStatus<STATUS_TYPE>(
+    state?.action === 'create' ? 'sent' : 'received'
+  );
 
   return (
     <PageTemplate title='꼭꼭'>
