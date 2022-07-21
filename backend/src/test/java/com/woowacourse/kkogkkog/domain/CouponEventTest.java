@@ -16,7 +16,7 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatNoException()
-                .isThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver));
+            .isThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver));
     }
 
     @Test
@@ -26,7 +26,7 @@ class CouponEventTest {
         boolean isReceiver = false;
 
         assertThatThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test
@@ -36,7 +36,7 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatNoException()
-                .isThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver));
+            .isThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver));
     }
 
     @Test
@@ -46,7 +46,7 @@ class CouponEventTest {
         boolean isReceiver = false;
 
         assertThatThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test
@@ -66,6 +66,26 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatThrownBy(() -> CouponEvent.DECLINE.checkExecutable(isSender, isReceiver))
+            .isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    @DisplayName("쿠폰을 보낸 사람만 사용 요청 승인을 할 수 있다.")
+    void senderCanExecute() {
+        boolean isSender = true;
+        boolean isReceiver = false;
+
+        assertThatNoException()
+            .isThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver));
+    }
+
+    @Test
+    @DisplayName("쿠폰을 받은 사람이 쿠폰 사용 요청 승인을 보내는 경우 예외가 발생한다.")
+    void senderCanNotAccept() {
+        boolean isSender = false;
+        boolean isReceiver = true;
+
+        assertThatThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver))
             .isInstanceOf(ForbiddenException.class);
     }
 }
