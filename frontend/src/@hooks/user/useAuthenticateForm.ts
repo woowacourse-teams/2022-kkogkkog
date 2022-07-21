@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { client } from '@/apis';
 import { join, login } from '@/apis/user';
 
+import useMe from './useMe';
+
 type UseAuthenticateFormProps = {
   defaultEmail?: string;
   defaultPassword?: string;
@@ -27,6 +29,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
   const navigate = useNavigate();
 
+  const { remove } = useMe();
+
   const { mutate: joinMutate } = useMutation(join, {
     onSuccess: () => {
       navigate('/login');
@@ -42,6 +46,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+      remove();
 
       navigate('/');
     },
