@@ -1,12 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const ModalTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`;
-
 export const Message = styled.div`
   width: 100%;
   max-width: 380px;
@@ -40,11 +34,11 @@ export const ButtonContainer = styled.div`
     margin: 0 10px;
   }
 
-  & > button:nth-child(1) {
+  & > button:nth-of-type(1) {
     margin-left: 0;
   }
 
-  & > button:nth-last-child(1) {
+  & > button:nth-last-of-type(1) {
     margin-right: 0;
   }
 `;

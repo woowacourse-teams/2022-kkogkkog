@@ -1,5 +1,5 @@
 import { client } from '@/apis';
-import { CreateKkogKkogRequest } from '@/types/remote/request';
+import { ChangeKkogKkogStatusRequest, CreateKkogKkogRequest } from '@/types/remote/request';
 import { KkogKkogListResponse, KkogKKogResponse } from '@/types/remote/response';
 //@TODO transformer 객체 만들기
 
@@ -19,3 +19,11 @@ export const getKkogkkogList = () =>
   });
 
 export const createKkogkkog = (info: CreateKkogKkogRequest) => client.post('/coupons', info);
+
+export const changeKkogkkogStatus = ({
+  id,
+  body,
+}: {
+  id: number;
+  body: ChangeKkogKkogStatusRequest;
+}) => client.post(`/coupons/${id}/event`, body);

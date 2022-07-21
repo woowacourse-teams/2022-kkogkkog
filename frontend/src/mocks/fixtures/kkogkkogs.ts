@@ -1,34 +1,35 @@
+import { COUPON_EVENT, COUPON_STATUS } from '@/types/client/kkogkkog';
 import { UserResponse } from '@/types/remote/response';
 
 export default {
   current: [
     {
       id: 0,
-      sender: { id: 1, email: 'lll@naver.com', password: '1234', nickname: '시지프' },
+      sender: { id: 1, email: 'euijinkk97@gmail.com', password: '1234', nickname: '시지프' },
       receiver: { id: 0, email: 'wnsgur8397@naver.com', password: '1234', nickname: '준찌' },
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
-      message: 'hi',
+      message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
       couponStatus: 'READY',
     },
     {
       id: 1,
       sender: { id: 0, email: 'wnsgur8397@naver.com', password: '1234', nickname: '준찌' },
-      receiver: { id: 1, email: 'lll@naver.com', password: '1234', nickname: '시지프' },
+      receiver: { id: 1, email: 'euijinkk97@gmail.com', password: '1234', nickname: '시지프' },
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
-      message: 'hi',
+      message: '준찌가 시지프에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
       couponStatus: 'READY',
     },
     {
       id: 2,
       sender: { id: 0, email: 'wnsgur8397@naver.com', password: '1234', nickname: '준찌' },
-      receiver: { id: 1, email: 'lll@naver.com', password: '1234', nickname: '시지프' },
+      receiver: { id: 1, email: 'euijinkk97@gmail.com', password: '1234', nickname: '시지프' },
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
-      message: 'hi',
+      message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'COFFEE',
       couponStatus: 'REQUESTED',
     },
@@ -48,5 +49,22 @@ export default {
     }
 
     return this.current.find(({ id: kkogkkogId }) => Number(id) === kkogkkogId);
+  },
+
+  getStatusAfterEvent(couponEvent: COUPON_EVENT): COUPON_STATUS {
+    switch (couponEvent) {
+      case 'REQUEST':
+        return 'REQUESTED';
+      case 'CANCEL':
+        return 'READY';
+      case 'DECLINE':
+        return 'READY';
+      case 'ACCEPT':
+        return 'ACCEPTED';
+      case 'FINISH':
+        return 'FINISHED';
+      default:
+        return 'READY';
+    }
   },
 };

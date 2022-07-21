@@ -6,6 +6,9 @@ export const kkogkkogType = [
   { imageUrl: '/assets/images/beer.png', koreanType: '술', engType: 'DRINK' } as const,
 ] as const;
 
+export const couponEvent = ['REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
+export const couponStatus = ['REQUESTED', 'READY', 'ACCEPTED', 'FINISHED'] as const;
+
 export const kkogkkogColors = [
   theme.colors.white_100,
   theme.colors.primary_100,
@@ -51,3 +54,6 @@ export type KKOGKKOG_KOREAN_TYPE = typeof kkogkkogType[number]['koreanType'];
 export type KKOGKKOG_COLORS = typeof kkogkkogColors[number];
 
 export type KKOGKKOG_MODIFIERS = typeof kkogkkogModifiers[number];
+
+export type COUPON_EVENT = typeof couponEvent[number];
+export type COUPON_STATUS = typeof couponStatus[number];

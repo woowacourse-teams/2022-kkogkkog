@@ -1,4 +1,4 @@
-import { KKOGKKOG_ENG_TYPE } from '@/types/client/kkogkkog';
+import { COUPON_EVENT, KKOGKKOG_ENG_TYPE } from '@/types/client/kkogkkog';
 
 export interface JoinRequest {
   nickname: string;
@@ -17,4 +17,9 @@ export interface CreateKkogKkogRequest {
   modifier: string;
   couponType: KKOGKKOG_ENG_TYPE;
   message: string;
+}
+
+export interface ChangeKkogKkogStatusRequest {
+  couponEvent: COUPON_EVENT;
+  message?: string;
 }

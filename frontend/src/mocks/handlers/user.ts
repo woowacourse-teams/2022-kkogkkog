@@ -10,7 +10,7 @@ export const userHandler = [
     try {
       const user = users.findLoggedUser(headers.get('authorization'));
 
-      return res(ctx.status(200, 'authorized'), ctx.json({ data: user }));
+      return res(ctx.status(200, 'authorized'), ctx.json(user));
     } catch ({ message }) {
       return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
     }

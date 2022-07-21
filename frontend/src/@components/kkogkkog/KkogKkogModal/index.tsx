@@ -2,34 +2,48 @@ import { css } from '@emotion/react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import KkogKkogItem from '../KkogKkogItem';
 import * as Styled from './style';
 
 interface KkogKkogItemProps {
-  clickedKkogKkog: KkogKKogResponse;
+  kkogkkog: KkogKKogResponse & { thumbnail: string };
+  modalTitle: string;
+  modalButtons: {
+    text: string;
+    onClick: (args: { id: number; message?: string }) => void;
+  }[];
   onCloseModal: () => void;
 }
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
-  const { clickedKkogKkog, onCloseModal } = props;
+  const { kkogkkog, modalTitle, modalButtons, onCloseModal } = props;
+  const { id, message } = kkogkkog;
 
   return (
-    <Modal.WithHeader title='쿠폰을 사용하시겠어요?' position='bottom' onCloseModal={onCloseModal}>
-      <KkogKkogItem
-        key={clickedKkogKkog.id}
-        thumbnail={THUMBNAIL[clickedKkogKkog.couponType]}
+    <Modal.WithHeader title={modalTitle} position='bottom' onCloseModal={onCloseModal}>
+      <KkogKkogItem.Preview
+        key={id}
         css={css`
           margin-bottom: 16px;
         `}
-        {...clickedKkogKkog}
+        {...kkogkkog}
       />
-      <Styled.Message>{clickedKkogKkog.message}</Styled.Message>
+      <Styled.Message>{message}</Styled.Message>
       <Styled.ButtonContainer>
-        <Button css={Styled.ExtendedButton}>사용 완료</Button>
-        <Button css={Styled.ExtendedButton}>사용 요청</Button>
+        {modalButtons.map(({ text, onClick }) => (
+          <Button
+            key={text}
+            onClick={() => {
+              onClick({ id });
+              onCloseModal();
+            }}
+            css={Styled.ExtendedButton}
+          >
+            {text}
+          </Button>
+        ))}
       </Styled.ButtonContainer>
     </Modal.WithHeader>
   );
