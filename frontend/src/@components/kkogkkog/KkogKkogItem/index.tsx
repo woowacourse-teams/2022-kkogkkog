@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import { useModal } from '@/@hooks/@common/useModal';
-import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
 import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
@@ -32,14 +31,11 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
 
   const { isShowModal, openModal, closeModal } = useModal();
 
-  const { refetch } = useKkogKkogList();
-
   const queryClient = useQueryClient();
 
   const changeStatusMutate = useMutation(changeKkogkkogStatus, {
     onSuccess() {
       queryClient.invalidateQueries('kkogkkogList');
-      refetch();
     },
   });
 
