@@ -1,3 +1,5 @@
+import { css } from '@emotion/react';
+
 import Placeholder from '@/@components/@shared/Placeholder';
 import { useModal } from '@/@hooks/@common/useModal';
 import useMe from '@/@hooks/user/useMe';
@@ -91,7 +93,11 @@ KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
 
 KkogKkogItem.LinkButton = function LinkButton() {
   return (
-    <Styled.Root>
+    <Styled.Root
+      css={css`
+        padding: 0;
+      `}
+    >
       <Styled.LinkButtonContainer>
         <div>+</div>
         <Styled.LinkButtonText>꼭꼭을 생성해보세요 !</Styled.LinkButtonText>
