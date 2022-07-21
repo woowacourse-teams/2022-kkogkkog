@@ -4,6 +4,7 @@ import { User } from '@/types/client/user';
 export const kkogkkogType = [
   { imageUrl: '/assets/images/coffee.png', koreanType: '커피', engType: 'COFFEE' } as const,
   { imageUrl: '/assets/images/beer.png', koreanType: '술', engType: 'DRINK' } as const,
+  { imageUrl: '/assets/images/meal.png', koreanType: '식사', engType: 'MEAL' } as const,
 ] as const;
 
 export const couponEvent = ['REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
@@ -23,6 +24,7 @@ export const kkogkkogModifiers = ['재미있게', '활기차게', '한턱쏘는'
 export const THUMBNAIL: { [x: string]: string } = {
   COFFEE: '/assets/images/coffee.png',
   DRINK: '/assets/images/beer.png',
+  MEAL: '/assets/images/meal.png',
 } as const;
 
 export const KKOGKKOG_TYPE_MAPPER = kkogkkogType.reduce((prev, current) => {
@@ -45,8 +47,6 @@ export interface KkogKkog {
   message: string;
   // thumbnail: string;
 }
-
-export type KkogKkogType = 'COFFEE' | 'DRINK';
 
 export type KKOGKKOG_ENG_TYPE = typeof kkogkkogType[number]['engType'];
 export type KKOGKKOG_KOREAN_TYPE = typeof kkogkkogType[number]['koreanType'];
