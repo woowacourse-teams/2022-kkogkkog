@@ -52,4 +52,26 @@ class CouponStatusTest {
         assertThatThrownBy(() -> currentStatus.handle(event))
                 .isInstanceOf(InvalidRequestException.class);
     }
+
+    @Test
+    @DisplayName("REQUESTED 상태의 쿠폰은 DECLINE 이벤트를 받으면 READY 상태로 변경된다.")
+    void requestedChangesToReadyOnDeclineEvent() {
+        CouponStatus currentStatus = CouponStatus.REQUESTED;
+        CouponEvent event = CouponEvent.DECLINE;
+
+        CouponStatus actual = currentStatus.handle(event);
+        CouponStatus expected = CouponStatus.READY;
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("READY 상태의 쿠폰은 DECLINE 이벤트를 받으면 예외가 발생된다.")
+    void readyCanNotHandleDeclineEvent() {
+        CouponStatus currentStatus = CouponStatus.READY;
+        CouponEvent event = CouponEvent.DECLINE;
+
+        assertThatThrownBy(() -> currentStatus.handle(event))
+            .isInstanceOf(InvalidRequestException.class);
+    }
 }
