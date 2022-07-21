@@ -6,7 +6,10 @@ import { KkogKkogListResponse } from '@/types/remote/response';
 export const useKkogKkogList = () => {
   const kkogkkogListQuery = useQuery<{ data: KkogKkogListResponse }>(
     ['kkogkkogList'],
-    getKkogkkogList
+    getKkogkkogList,
+    {
+      suspense: false,
+    }
   );
 
   return {
