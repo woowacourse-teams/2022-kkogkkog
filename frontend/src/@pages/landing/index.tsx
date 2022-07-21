@@ -8,7 +8,7 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import ReceivedKkogKkog from '@/@components/kkogkkog/ReceivedKkogKkog';
 import SentKkogKkog from '@/@components/kkogkkog/SentKkogKkog';
-import { useRouterState } from '@/@hooks/@common/useRouterState';
+import useRouterState from '@/@hooks/@common/useRouterState';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
@@ -35,7 +35,7 @@ const UnAuthorizedLanding = () => {
 const AuthorizedLanding = () => {
   const { kkogkkogList, isLoading } = useKkogKkogList();
 
-  const routerState = useRouterState('action');
+  const routerState = useRouterState<'create'>('action');
 
   const { status, changeStatus } = useStatus<STATUS_TYPE>(
     routerState === 'create' ? 'sent' : 'received'

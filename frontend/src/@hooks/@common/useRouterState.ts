@@ -1,15 +1,15 @@
 import { useLocation } from 'react-router-dom';
 
-export const useRouterState = (key: string) => {
+import { hasKey } from '@/types/utils';
+
+const useRouterState = <ValueType>(key: string) => {
   const { state } = useLocation();
 
-  if (state === null) {
-    return null;
-  }
-
-  if (key in state) {
+  if (hasKey<ValueType>(state, key)) {
     return state[key];
   }
 
   return null;
 };
+
+export default useRouterState;
