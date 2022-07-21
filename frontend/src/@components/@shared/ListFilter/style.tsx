@@ -31,3 +31,7 @@ export const FilterButton = styled.button<{ isFocus?: boolean }>`
     color: ${isFocus ? theme.colors.white_100 : theme.colors.grey_100};
   `}
 `;
+
+export const ExtendedPlaceholder = css`
+  margin-right: 20px;
+`;

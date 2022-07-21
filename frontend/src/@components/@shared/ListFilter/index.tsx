@@ -1,3 +1,7 @@
+import { css } from '@emotion/react';
+
+import Placeholder from '@/@components/@shared/Placeholder';
+
 import * as Styled from './style';
 
 interface ListFilterProps<T> {
@@ -25,3 +29,13 @@ const ListFilter = <T extends string>(props: ListFilterProps<T>) => {
 };
 
 export default ListFilter;
+
+ListFilter.Skeleton = function Skeleton() {
+  return (
+    <Styled.Root>
+      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
+      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
+      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
+    </Styled.Root>
+  );
+};
