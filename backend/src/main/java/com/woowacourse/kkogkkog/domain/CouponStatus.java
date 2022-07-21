@@ -48,7 +48,7 @@ public enum CouponStatus {
 
     private CouponStatus handleAccept() {
         if (this != REQUESTED) {
-            throw new InvalidRequestException("사용 요청을 수락할 수 없는 상태의 쿠폰입니다.");
+            throw new InvalidRequestException("사용 요청 상태의 쿠폰이 아닙니다.");
         }
         return ACCEPTED;
     }
