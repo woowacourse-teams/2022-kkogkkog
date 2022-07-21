@@ -13,14 +13,43 @@ export const FindUserContainer = styled.div`
 
     margin-bottom: 8px;
   }
+`;
+
+export const FindUserInput = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 4px;
+
+  font-size: 14px;
+
+  & span {
+    cursor: pointer;
+  }
 
   ${({ theme }) => css`
-    & > div:last-child {
-      border: 1px solid ${theme.colors.light_grey_200};
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    border: 1px solid ${theme.colors.light_grey_200};
+  `}
+`;
+
+export const SelectedUserListContainer = styled.div`
+  display: flex;
+`;
+
+export const SelectedUserContainer = styled.div`
+  margin-right: 10px;
+
+  padding: 5px;
+
+  border-radius: 4px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.primary_400};
+    color: ${theme.colors.white_100};
+
+    box-shadow: ${theme.shadow.type_6};
   `}
 `;
 

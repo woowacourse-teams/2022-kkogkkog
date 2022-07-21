@@ -7,13 +7,13 @@ import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
+const filterOption = ['요청', '대기'] as const;
+
+type ReceivedKkogKkogFilterOptionType = typeof filterOption[number];
+
 interface ReceivedKkogKkogProps {
   kkogkkogList: KkogKKogResponse[] | undefined;
 }
-
-const filterOption = ['요청', '대기'] as const;
-
-export type ReceivedKkogKkogFilterOptionType = typeof filterOption[number];
 
 const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
   const { kkogkkogList } = props;
