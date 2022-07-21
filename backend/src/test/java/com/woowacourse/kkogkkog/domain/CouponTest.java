@@ -7,85 +7,115 @@ import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@SuppressWarnings("NonAsciiCharacters")
+@Nested
+@DisplayName("Coupon 의")
 public class CouponTest {
 
-    @Test
-    void 쿠폰을_생성할_수_있다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
+    @Nested
+    @DisplayName("생성자는")
+    class constructor {
 
-        Coupon actual = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.READY);
+        @Test
+        @DisplayName("쿠폰의 정보를 받으면, 쿠폰을 생성한다.")
+        void success() {
+            Member sender = MemberFixture.ROOKIE;
+            Member receiver = MemberFixture.ARTHUR;
 
-        assertThat(actual).isNotNull();
+            Coupon actual = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                    CouponStatus.READY);
+
+            assertThat(actual).isNotNull();
+        }
+
+        @Test
+        @DisplayName("보낸 사람과 받는 사람이 동일하면, 예외를 던진다.")
+        void fail_sameSenderAndReceiver() {
+            Member member = MemberFixture.ROOKIE;
+            assertThatThrownBy(
+                    () -> new Coupon(null, member, member, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                            CouponStatus.READY)
+            ).isInstanceOf(SameSenderReceiverException.class);
+        }
     }
 
-    @Test
-    void 보낸_사람과_받는_사람이_같은_경우_예외를_던진다() {
-        Member member = MemberFixture.ROOKIE;
-        assertThatThrownBy(
-                () -> new Coupon(null, member, member, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                        CouponStatus.READY)
-        ).isInstanceOf(SameSenderReceiverException.class);
-    }
+    @Nested
+    @DisplayName("changeStatus 메서드는")
+    class ChangeStatus {
 
-    @Test
-    void 받은_사람은_READY_상태의_쿠폰에_대한_사용_요청을_보낼_수_있다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
-        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.READY);
+        @Nested
+        @DisplayName("READY 상태의 쿠폰에")
+        class Ready {
 
-        coupon.changeStatus(CouponEvent.REQUEST, receiver);
+            @Test
+            @DisplayName("받은 사람이 REQUEST 를 보내면, REQUESTED 로 변경한다.")
+            void success_request() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                        CouponStatus.READY);
 
-        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.REQUESTED);
-    }
+                coupon.changeStatus(CouponEvent.REQUEST, receiver);
 
-    @Test
-    void 보낸_사람은_쿠폰_사용_요청을_보낼_수_없다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
-        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.READY);
+                assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.REQUESTED);
+            }
 
-        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.REQUEST, sender))
-                .isInstanceOf(ForbiddenException.class);
-    }
+            @Test
+            @DisplayName("보낸 사람이 REQUEST 를 보내면, 예외를 던진다.")
+            void fail_requestBySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                        CouponStatus.READY);
 
-    @Test
-    void 받은_사람은_REQUESTED_상태의_쿠폰에_대한_사용_요청_취소를_보낼_수_있다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
-        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.REQUESTED);
+                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.REQUEST, sender))
+                        .isInstanceOf(ForbiddenException.class);
+            }
 
-        coupon.changeStatus(CouponEvent.CANCEL, receiver);
+            @Test
+            @DisplayName("받은 사람이 CANCEL 을 보내면, 예외를 던진다.")
+            void fail_cancelReady() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                        CouponStatus.READY);
 
-        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.READY);
-    }
+                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, receiver))
+                        .isInstanceOf(InvalidRequestException.class);
+            }
+        }
 
-    @Test
-    void 받은_사람은_READY_상태의_쿠폰에_대한_사용_요청_취소를_보낼_수_없다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
-        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.READY);
+        @Nested
+        @DisplayName("REQUESTED 상태의 쿠폰에")
+        class Requested {
 
-        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, receiver))
-                .isInstanceOf(InvalidRequestException.class);
-    }
+            @Test
+            @DisplayName("받은 사람이 CANCEL 을 보내면, READY 로 변경한다.")
+            void success_cancel() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                        CouponStatus.REQUESTED);
 
-    @Test
-    void 보낸_사람은_쿠폰_사용_요청_취소를_보낼_수_없다() {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
-        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
-                CouponStatus.REQUESTED);
+                coupon.changeStatus(CouponEvent.CANCEL, receiver);
 
-        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, sender))
-                .isInstanceOf(ForbiddenException.class);
+                assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.READY);
+            }
+
+            @Test
+            @DisplayName("보낸 사람이 CANCEL 을 보내면, 예외를 던진다.")
+            void fail_cancelBySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+                        CouponStatus.REQUESTED);
+
+                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.CANCEL, sender))
+                        .isInstanceOf(ForbiddenException.class);
+            }
+        }
     }
 }

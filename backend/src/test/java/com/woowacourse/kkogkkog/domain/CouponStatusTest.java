@@ -5,51 +5,64 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+@Nested
+@DisplayName("CouponStatus 의")
 class CouponStatusTest {
 
-    @Test
-    @DisplayName("READY 상태의 쿠폰은 REQUEST 이벤트를 받으면 REQUESTED 상태로 변경된다.")
-    void readyChangesToRequestedOnRequestEvent() {
-        CouponStatus currentStatus = CouponStatus.READY;
-        CouponEvent event = CouponEvent.REQUEST;
+    @Nested
+    @DisplayName("READY 상태는")
+    class Ready {
 
-        CouponStatus actual = currentStatus.handle(event);
-        CouponStatus expected = CouponStatus.REQUESTED;
+        @Test
+        @DisplayName("REQUEST 이벤트를 받으면, REQUESTED 를 반환한다.")
+        void success_request() {
+            CouponStatus currentStatus = CouponStatus.READY;
+            CouponEvent event = CouponEvent.REQUEST;
 
-        assertThat(actual).isEqualTo(expected);
+            CouponStatus actual = currentStatus.handle(event);
+            CouponStatus expected = CouponStatus.REQUESTED;
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("CANCEL 이벤트를 받으면, 예외를 던진다.")
+        void fail_cancel() {
+            CouponStatus currentStatus = CouponStatus.READY;
+            CouponEvent event = CouponEvent.CANCEL;
+
+            assertThatThrownBy(() -> currentStatus.handle(event))
+                    .isInstanceOf(InvalidRequestException.class);
+        }
     }
 
-    @Test
-    @DisplayName("REQUESTED 상태의 쿠폰은 REQUEST 이벤트를 받으면 예외가 발생된다.")
-    void requestedCanNotHandleRequestEvent() {
-        CouponStatus currentStatus = CouponStatus.REQUESTED;
-        CouponEvent event = CouponEvent.REQUEST;
+    @Nested
+    @DisplayName("REQUESTED 상태는")
+    class Requested {
 
-        assertThatThrownBy(() -> currentStatus.handle(event))
-                .isInstanceOf(InvalidRequestException.class);
-    }
+        @Test
+        @DisplayName("REQUEST 이벤트를 받으면, 예외를 던진다.")
+        void fail_request() {
+            CouponStatus currentStatus = CouponStatus.REQUESTED;
+            CouponEvent event = CouponEvent.REQUEST;
 
-    @Test
-    @DisplayName("REQUESTED 상태의 쿠폰은 CANCEL 이벤트를 받으면 READY 상태로 변경된다.")
-    void requestedChangesToReadyOnCancelEvent() {
-        CouponStatus currentStatus = CouponStatus.REQUESTED;
-        CouponEvent event = CouponEvent.CANCEL;
+            assertThatThrownBy(() -> currentStatus.handle(event))
+                    .isInstanceOf(InvalidRequestException.class);
+        }
 
-        CouponStatus actual = currentStatus.handle(event);
-        CouponStatus expected = CouponStatus.READY;
+        @Test
+        @DisplayName("CANCEL 이벤트를 받으면, READY 를 반환한다.")
+        void fail_cancel() {
+            CouponStatus currentStatus = CouponStatus.REQUESTED;
+            CouponEvent event = CouponEvent.CANCEL;
 
-        assertThat(actual).isEqualTo(expected);
-    }
+            CouponStatus actual = currentStatus.handle(event);
+            CouponStatus expected = CouponStatus.READY;
 
-    @Test
-    @DisplayName("READY 상태의 쿠폰은 CANCEL 이벤트를 받으면 예외가 발생된다.")
-    void readyCanNotHandleCancelEvent() {
-        CouponStatus currentStatus = CouponStatus.READY;
-        CouponEvent event = CouponEvent.CANCEL;
-
-        assertThatThrownBy(() -> currentStatus.handle(event))
-                .isInstanceOf(InvalidRequestException.class);
+            assertThat(actual).isEqualTo(expected);
+        }
     }
 }
