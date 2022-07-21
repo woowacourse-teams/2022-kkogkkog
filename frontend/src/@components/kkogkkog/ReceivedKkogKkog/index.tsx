@@ -69,3 +69,12 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
 };
 
 export default ReceivedKkogKkog;
+
+ReceivedKkogKkog.Skeleton = function Skeleton() {
+  return (
+    <Styled.Root>
+      <ListFilter.Skeleton />
+      <KkogKkogList.Skeleton />
+    </Styled.Root>
+  );
+};
