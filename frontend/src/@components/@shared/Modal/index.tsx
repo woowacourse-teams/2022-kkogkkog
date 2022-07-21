@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 import Dimmed from '@/@components/@shared/Dimmed';
@@ -7,11 +7,12 @@ import * as Styled from './style';
 
 interface ModalProps {
   position: 'top' | 'middle' | 'bottom';
+  animation?: boolean;
   onCloseModal: () => void;
 }
 
-function Modal(props: React.PropsWithChildren<ModalProps>) {
-  const { position, onCloseModal, children } = props;
+function Modal(props: PropsWithChildren<ModalProps>) {
+  const { position, animation, onCloseModal, children } = props;
 
   return ReactDOM.createPortal(
     <Dimmed
@@ -22,7 +23,9 @@ function Modal(props: React.PropsWithChildren<ModalProps>) {
         }
       }}
     >
-      <Styled.Root position={position}>{children}</Styled.Root>
+      <Styled.Root position={position} animation={animation}>
+        {children}
+      </Styled.Root>
     </Dimmed>,
     document.querySelector('#root') as Element
   );
@@ -33,10 +36,10 @@ interface ModalWithHeader extends ModalProps {
 }
 
 Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>) {
-  const { position, onCloseModal, title, children } = props;
+  const { position, animation, title, onCloseModal, children } = props;
 
   return (
-    <Modal position={position} onCloseModal={onCloseModal}>
+    <Modal position={position} onCloseModal={onCloseModal} animation={animation}>
       <Styled.ModalTop>
         <header>{title}</header>
         <button onClick={onCloseModal}>X</button>

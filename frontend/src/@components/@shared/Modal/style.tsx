@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom' }>`
+import { ANIMATION_DURATION } from '@/constants/animation';
+
+export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom'; animation?: boolean }>`
   max-width: 414px;
   width: 100%;
   border-radius: 20px;
@@ -10,10 +12,39 @@ export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom' }>`
   display: flex;
   flex-direction: column;
 
+  @keyframes slideUp {
+    0% {
+      transform: translateY(50%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  animation: slideUp ${ANIMATION_DURATION.modal}ms ease-out;
+  animation-fill-mode: forwards;
+
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+
+  ${({ animation }) =>
+    animation &&
+    css`
+      animation: slideDown ${ANIMATION_DURATION.modal}ms ease-out;
+      animation-fill-mode: forwards;
+    `}
+
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
   `}
-
   ${({ position }) => {
     switch (position) {
       case 'top':
@@ -31,7 +62,7 @@ export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom' }>`
       default:
         break;
     }
-  }}
+  }};
 `;
 
 export const ModalTop = styled.div`

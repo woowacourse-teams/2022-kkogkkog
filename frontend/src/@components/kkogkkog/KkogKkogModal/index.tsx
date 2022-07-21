@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
+import { useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
 import { KkogKKogResponse } from '@/types/remote/response';
 
+import { ANIMATION_DURATION } from '../../../constants/animation';
 import KkogKkogItem from '../KkogKkogItem';
 import * as Styled from './style';
 
@@ -21,8 +23,20 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { kkogkkog, modalTitle, modalButtons, onCloseModal } = props;
   const { id, message } = kkogkkog;
 
+  const [animation, setAnimation] = useState(false);
+
   return (
-    <Modal.WithHeader title={modalTitle} position='bottom' onCloseModal={onCloseModal}>
+    <Modal.WithHeader
+      title={modalTitle}
+      position='bottom'
+      animation={animation}
+      onCloseModal={() => {
+        setAnimation(true);
+        setTimeout(() => {
+          onCloseModal();
+        }, ANIMATION_DURATION.modal);
+      }}
+    >
       <KkogKkogItem.Preview
         key={id}
         css={css`
