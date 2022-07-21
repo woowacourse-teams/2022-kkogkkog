@@ -29,7 +29,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
   const { mutate: joinMutate } = useMutation(join, {
     onSuccess: () => {
-      navigate('/');
+      navigate('/login');
     },
   });
 
