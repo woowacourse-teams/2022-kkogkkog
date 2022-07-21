@@ -1,9 +1,6 @@
-import { useMutation, useQueryClient } from 'react-query';
-
 import Placeholder from '@/@components/@shared/Placeholder';
 import { useModal } from '@/@hooks/@common/useModal';
 import useMe from '@/@hooks/user/useMe';
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
@@ -13,6 +10,13 @@ import * as Styled from './style';
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
   thumbnail: string;
+  modalType: Record<
+    string,
+    {
+      modalTitle: string;
+      modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
+    }
+  >;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'sender' | 'couponStatus'> & {
@@ -22,7 +26,7 @@ type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'sender' | 'coupon
 
 /* 클릭 시 모달을 띄우는 쿠폰 컴포넌트 */
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const { className, ...kkogkkog } = props;
+  const { className, modalType, ...kkogkkog } = props;
 
   const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } =
     kkogkkog;
@@ -30,51 +34,6 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { me } = useMe();
 
   const { isShowModal, openModal, closeModal } = useModal();
-
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-  });
-
-  const modalType: Record<
-    string,
-    {
-      modalTitle: string;
-      modalButtons: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
-    }
-  > = {
-    REQUESTED: {
-      modalTitle: '쿠폰 사용 요청을 취소하시겠어요?',
-      modalButtons: [
-        {
-          text: '요청 취소',
-          onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
-          },
-        },
-      ],
-    },
-    READY: {
-      modalTitle: '쿠폰을 사용하시겠어요?',
-      modalButtons: [
-        {
-          text: '사용 요청',
-          onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', message } });
-          },
-        },
-        {
-          text: '사용 완료',
-          onClick() {
-            console.log('사용 완료합니다.');
-          },
-        },
-      ],
-    },
-  };
 
   const modalInfo = modalType[couponStatus];
 

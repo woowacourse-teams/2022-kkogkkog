@@ -6,10 +6,17 @@ import * as Styled from './style';
 
 interface KkogKkogListProps {
   kkogkkogList: KkogKKogResponse[] | undefined;
+  modalType: Record<
+    string,
+    {
+      modalTitle: string;
+      modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
+    }
+  >;
 }
 
 const KkogKkogList = (props: KkogKkogListProps) => {
-  const { kkogkkogList } = props;
+  const { kkogkkogList, modalType } = props;
 
   if (kkogkkogList?.length === 0) {
     return (
@@ -23,7 +30,12 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList?.map(kkogkkog => (
-        <KkogKkogItem key={kkogkkog.id} thumbnail={THUMBNAIL[kkogkkog.couponType]} {...kkogkkog} />
+        <KkogKkogItem
+          key={kkogkkog.id}
+          thumbnail={THUMBNAIL[kkogkkog.couponType]}
+          modalType={modalType}
+          {...kkogkkog}
+        />
       ))}
     </Styled.Root>
   );

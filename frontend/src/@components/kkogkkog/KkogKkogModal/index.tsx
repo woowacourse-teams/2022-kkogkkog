@@ -10,7 +10,7 @@ import * as Styled from './style';
 interface KkogKkogItemProps {
   kkogkkog: KkogKKogResponse & { thumbnail: string };
   modalTitle: string;
-  modalButtons: {
+  modalButtons?: {
     text: string;
     onClick: (args: { id: number; message?: string }) => void;
   }[];
@@ -32,7 +32,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       />
       <Styled.Message>{message}</Styled.Message>
       <Styled.ButtonContainer>
-        {modalButtons.map(({ text, onClick }) => (
+        {modalButtons?.map(({ text, onClick }) => (
           <Button
             key={text}
             onClick={() => {
