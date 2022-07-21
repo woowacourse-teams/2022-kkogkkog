@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { QueryClient, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
@@ -28,7 +28,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
     changeStatus(status);
   };
 
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const changeStatusMutate = useMutation(changeKkogkkogStatus, {
     onSuccess() {
