@@ -5,7 +5,7 @@ import { MeResponse } from '@/types/remote/response';
 
 const useMe = () => {
   const meQuery = useQuery<{ data: MeResponse }>(['me'], getMe, {
-    suspense: false,
+    suspense: true,
   });
 
   return {

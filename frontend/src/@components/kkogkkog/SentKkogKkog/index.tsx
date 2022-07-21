@@ -74,3 +74,12 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
 };
 
 export default SentKkogKkog;
+
+SentKkogKkog.Skeleton = function Skeleton() {
+  return (
+    <Styled.Root>
+      <ListFilter.Skeleton />
+      <KkogKkogList.Skeleton />
+    </Styled.Root>
+  );
+};

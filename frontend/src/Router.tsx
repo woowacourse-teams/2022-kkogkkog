@@ -26,7 +26,7 @@ const Router = () => {
       <Route
         path={PATH.LANDING}
         element={
-          <Suspense fallback={<LandingPage.Skeleton />}>
+          <Suspense fallback={<Loading>👻</Loading>}>
             <LandingPage />
           </Suspense>
         }
