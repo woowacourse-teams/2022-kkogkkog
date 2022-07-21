@@ -52,13 +52,6 @@ const globalStyle = css`
     src: url('/assets/font/Pretendard-Bold.woff') format('woff');
   }
 
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: bolder;
-    src: url('/assets/font/Pretendard-ExtraBolder.woff') format('woff');
-  }
-
   @keyframes show-up {
     from {
       opacity: 0;
