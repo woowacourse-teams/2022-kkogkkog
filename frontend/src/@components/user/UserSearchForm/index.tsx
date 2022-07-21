@@ -1,10 +1,7 @@
-import { css } from '@emotion/react';
 import { ChangeEvent } from 'react';
 
-import Icon from '@/@components/@shared/Icon';
 import Input from '@/@components/@shared/Input';
 import { useSearchUser } from '@/@hooks/user/useSearchUser';
-import theme from '@/styles/theme';
 import { UserListResponse, UserResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -30,21 +27,13 @@ const UserSearchForm = (props: UserSearchFormProps) => {
   return (
     <Styled.Root>
       {currentReceiverList.length !== 0 && (
-        <Styled.SelectedContainer>
+        <Styled.SelectedUserListContainer>
           {currentReceiverList.map(user => (
-            <div key={user.id} onClick={() => onSelectReceiver(user)}>
-              {user.nickname}
-              <Icon
-                iconName='close'
-                size='15'
-                color={theme.colors.grey_400}
-                css={css`
-                  margin-left: 5px;
-                `}
-              />
-            </div>
+            <Styled.SelectedUserContainer key={user.id} onClick={() => onSelectReceiver(user)}>
+              <span> {user.nickname}</span>
+            </Styled.SelectedUserContainer>
           ))}
-        </Styled.SelectedContainer>
+        </Styled.SelectedUserListContainer>
       )}
 
       <Input.HiddenLabel

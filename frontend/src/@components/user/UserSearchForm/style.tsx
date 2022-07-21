@@ -5,7 +5,7 @@ export const Root = styled.div`
   min-height: 250px;
 `;
 
-export const SelectedContainer = styled.div`
+export const SelectedUserListContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
 
@@ -34,6 +34,21 @@ export const SelectedContainer = styled.div`
 
   ${({ theme }) => css`
     background-color: ${theme.colors.background_0};
+  `}
+`;
+
+export const SelectedUserContainer = styled.div`
+  margin-right: 10px;
+
+  padding: 5px;
+
+  border-radius: 4px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.primary_400};
+    color: ${theme.colors.white_100};
+
+    box-shadow: ${theme.shadow.type_6};
   `}
 `;
 
