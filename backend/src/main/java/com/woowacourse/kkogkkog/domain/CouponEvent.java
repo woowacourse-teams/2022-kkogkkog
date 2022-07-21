@@ -7,6 +7,7 @@ import java.util.function.BiConsumer;
 public enum CouponEvent {
 
     REQUEST(CouponEvent::canRequest),
+    CANCEL(CouponEvent::canCancel),
     ;
 
     private final BiConsumer<Boolean, Boolean> canChange;
@@ -18,7 +19,7 @@ public enum CouponEvent {
     public static CouponEvent of(String value) {
         try {
             return CouponEvent.valueOf(value);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new InvalidRequestException("처리할 수 없는 요청입니다.");
         }
     }
@@ -29,7 +30,13 @@ public enum CouponEvent {
 
     private static void canRequest(boolean isSender, boolean isReceiver) {
         if (!isReceiver) {
-            throw new ForbiddenException("쿠폰을 받은 사람만 쿠폰을 사용할 수 있습니다.");
+            throw new ForbiddenException("쿠폰을 받은 사람만 사용할 수 있습니다.");
+        }
+    }
+
+    private static void canCancel(boolean isSender, boolean isReceiver) {
+        if (!isReceiver) {
+            throw new ForbiddenException("쿠폰을 받은 사람만 사용 요청을 취소할 수 있습니다.");
         }
     }
 }
