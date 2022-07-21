@@ -9,6 +9,7 @@ public enum CouponEvent {
     REQUEST(CouponEvent::canRequest),
     CANCEL(CouponEvent::canCancel),
     DECLINE(CouponEvent::canDecline),
+    ACCEPT(CouponEvent::canAccept),
     ;
 
     private final BiConsumer<Boolean, Boolean> canChange;
@@ -44,6 +45,12 @@ public enum CouponEvent {
     private static void canDecline(boolean isSender, boolean isReceiver) {
         if (!isSender) {
             throw new ForbiddenException("쿠폰을 보낸 사람만 사용 요청을 거절할 수 있습니다.");
+        }
+    }
+
+    private static void canAccept(boolean isSender, boolean isReceiver) {
+        if (!isSender) {
+            throw new ForbiddenException("쿠폰을 보낸 사람만 사용 요청을 수락할 수 있습니다.");
         }
     }
 }

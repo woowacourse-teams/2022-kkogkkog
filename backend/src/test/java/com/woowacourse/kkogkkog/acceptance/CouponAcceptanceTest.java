@@ -262,6 +262,34 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
 
+        @Test
+        void 로그인된_사용자가_보낸_쿠폰에_대해_사용_요청을_받으면_요청을_수락할_수_있다() {
+            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
+            회원_가입에_성공한다(toMemberCreateRequest(LEO));
+            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
+
+            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
+                    CouponEvent.ACCEPT.name());
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        }
+
+        @Test
+        void 쿠폰이_사용_준비_상태이면_사용_요청을_수락할_수_없다() {
+            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
+            회원_가입에_성공한다(toMemberCreateRequest(LEO));
+            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
+
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
+                    CouponEvent.ACCEPT.name());
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        }
+
         private ExtractableResponse<Response> 쿠폰_상태_변경을_요청한다(String accessToken,
                                                              Long couponId,
                                                              String couponEvent) {

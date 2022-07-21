@@ -261,6 +261,39 @@ public class CouponServiceTest extends ServiceTest {
             assertThatThrownBy(() -> couponService.changeStatus(couponDecline))
                 .isInstanceOf(ForbiddenException.class);
         }
+
+        @Test
+        @DisplayName("보낸 사람은 REQUESTED 상태의 쿠폰에 대한 사용 요청을 수락할 수 있다.")
+        void accept() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                    couponId, CouponEvent.REQUEST);
+            couponService.changeStatus(couponRequest);
+
+            CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(ROOKIE.getId(),
+                    couponId, CouponEvent.ACCEPT);
+            couponService.changeStatus(couponDecline);
+
+            CouponResponse actual = couponService.findById(couponId);
+            assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.ACCEPTED.name());
+        }
+
+        @Test
+        @DisplayName("받은 사람은 쿠폰 사용 요청을 수락할 수 없다.")
+        void accept_receiverNotAllowed() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                    couponId, CouponEvent.REQUEST);
+            couponService.changeStatus(couponRequest);
+
+            CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(ARTHUR.getId(),
+                    couponId, CouponEvent.ACCEPT);
+
+            assertThatThrownBy(() -> couponService.changeStatus(couponDecline))
+                    .isInstanceOf(ForbiddenException.class);
+        }
     }
 
     private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
