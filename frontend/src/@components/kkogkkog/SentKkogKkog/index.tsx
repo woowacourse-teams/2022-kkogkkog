@@ -68,7 +68,13 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
       modalTitle: '쿠폰 사용 요청을 승인하시겠어요?',
       modalButtons: [
         {
-          text: '사용 승인',
+          text: '거절',
+          onClick({ id, message }) {
+            changeStatusMutate.mutate({ id, body: { couponEvent: 'DECLINE', message } });
+          },
+        },
+        {
+          text: '승인',
           onClick({ id, message }) {
             changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
           },
