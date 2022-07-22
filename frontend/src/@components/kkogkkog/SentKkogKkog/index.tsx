@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { useStatus } from '@/@hooks/@common/useStatus';
+import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -12,7 +14,7 @@ interface SentkogKkogProps {
   kkogkkogList: KkogKKogResponse[] | undefined;
 }
 
-const filterOption = ['요청', '대기'] as const;
+const filterOption = ['요청', '승인', '대기', '사용'] as const;
 
 export type SentKkogKkogFilterOptionType = typeof filterOption[number];
 
@@ -40,10 +42,59 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
         {
           REQUESTED: [],
           READY: [],
+          ACCEPTED: [],
+          FINISHED: [],
         } as any
       ),
     [kkogkkogList]
   );
+
+  const queryClient = useQueryClient();
+
+  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
+    onSuccess() {
+      queryClient.invalidateQueries('kkogkkogList');
+    },
+  });
+
+  const modalType: Record<
+    string,
+    {
+      modalTitle: string;
+      modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
+    }
+  > = {
+    REQUESTED: {
+      modalTitle: '쿠폰 사용 요청을 승인하시겠어요?',
+      modalButtons: [
+        {
+          text: '사용 승인',
+          onClick({ id, message }) {
+            changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
+          },
+        },
+      ],
+    },
+    // 현재 Sender는 쿠폰 사용을 요청할 수 없다.
+    READY: {
+      modalTitle: '보낸 쿠폰입니다.',
+    },
+    ACCEPTED: {
+      modalTitle: '쿠폰 사용하셨나요??',
+      modalButtons: [
+        {
+          text: '사용 완료',
+          onClick({ id, message }) {
+            console.log('사용 완료!');
+            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+          },
+        },
+      ],
+    },
+    FINISHED: {
+      modalTitle: '이미 사용한 쿠폰입니다.',
+    },
+  };
 
   return (
     <Styled.Root>
@@ -57,7 +108,16 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             사용 <span>요청이 온</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['REQUESTED']} />
+          <KkogKkogList kkogkkogList={parsedKkogKkogList['REQUESTED']} modalType={modalType} />
+        </Styled.Container>
+      )}
+
+      {status === '승인' && (
+        <Styled.Container>
+          <div>
+            사용 <span>승인한</span> 꼭꼭
+          </div>
+          <KkogKkogList kkogkkogList={parsedKkogKkogList['ACCEPTED']} modalType={modalType} />
         </Styled.Container>
       )}
 
@@ -66,7 +126,16 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             사용을 <span>기다리는</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} />
+          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} modalType={modalType} />
+        </Styled.Container>
+      )}
+
+      {status === '사용' && (
+        <Styled.Container>
+          <div>
+            <span>사용된</span> 꼭꼭
+          </div>
+          <KkogKkogList kkogkkogList={parsedKkogKkogList['FINISHED']} modalType={modalType} />
         </Styled.Container>
       )}
     </Styled.Root>

@@ -2,6 +2,7 @@
   "packageManager": "yarn@3.2.1",
   "scripts": {
     "start": "webpack serve --mode development",
+    "start:prod": "webpack serve --mode production",
     "build": "webpack --progress --mode production",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-
 import Placeholder from '@/@components/@shared/Placeholder';
 
 import * as Styled from './style';
@@ -7,18 +5,20 @@ import * as Styled from './style';
 interface ListFilterProps<T> {
   status: T;
   options: readonly T[];
+  horizontalScroll?: boolean;
   onClickFilterButton: (status: T) => void;
 }
 
 const ListFilter = <T extends string>(props: ListFilterProps<T>) => {
-  const { status, options, onClickFilterButton } = props;
+  const { status, options, horizontalScroll = false, onClickFilterButton } = props;
 
   return (
-    <Styled.Root>
+    <Styled.Root horizontalScroll={horizontalScroll}>
       {options.map(option => (
         <Styled.FilterButton
           key={option}
           isFocus={status === option}
+          horizontalScroll={horizontalScroll}
           onClick={() => onClickFilterButton(option)}
         >
           {option}

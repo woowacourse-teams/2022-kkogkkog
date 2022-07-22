@@ -31,6 +31,11 @@ module.exports = (env, args) => {
         '@': path.resolve(__dirname, 'src/'),
       },
     },
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000,
+    },
     module: {
       rules: [
         {
