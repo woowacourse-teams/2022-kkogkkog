@@ -1,49 +1,37 @@
 import { css } from '@emotion/react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
-import { useModal } from '@/@hooks/@common/useModal';
 import useMe from '@/@hooks/user/useMe';
-import { KKOGKKOG_TYPE_MAPPER } from '@/types/client/kkogkkog';
+import { KKOGKKOG_TYPE_MAPPER, THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
-import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
-  thumbnail: string;
-  modalType: Record<
-    string,
-    {
-      modalTitle: string;
-      modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
-    }
-  >;
+  onClickCoupon: (kkogkkog: KkogKKogResponse) => void;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'sender' | 'couponStatus'> & {
   className?: string;
-  thumbnail: string;
 };
 
 /* 클릭 시 모달을 띄우는 쿠폰 컴포넌트 */
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const { className, modalType, ...kkogkkog } = props;
+  const { className, onClickCoupon, ...kkogkkog } = props;
 
-  const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } =
-    kkogkkog;
+  const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } = {
+    ...kkogkkog,
+    thumbnail: THUMBNAIL[kkogkkog.couponType],
+  };
 
   const { me } = useMe();
-
-  const { isShowModal, openModal, closeModal } = useModal();
-
-  const modalInfo = modalType[couponStatus];
 
   return (
     <>
       <Styled.Root
         onClick={() => {
-          openModal();
+          onClickCoupon(kkogkkog);
         }}
         className={className}
       >
@@ -63,16 +51,16 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
           <img src={thumbnail} alt='쿠폰' />
         </Styled.ImageContainer>
       </Styled.Root>
-      {isShowModal && (
-        <KkogKkogModal kkogkkog={kkogkkog} onCloseModal={closeModal} {...modalInfo} />
-      )}
     </>
   );
 };
 
 /* UI에서 보이지 않는 id, couponStatus를 제외한 props만 받는 프로토타입 컴포넌트 */
 KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
-  const { className, receiver, backgroundColor, modifier, couponType, thumbnail } = props;
+  const { className, receiver, backgroundColor, modifier, couponType, thumbnail } = {
+    ...props,
+    thumbnail: THUMBNAIL[props.couponType],
+  };
 
   return (
     <Styled.Root className={className} hasCursor={false}>

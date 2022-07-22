@@ -10,7 +10,7 @@ import KkogKkogItem from '../KkogKkogItem';
 import * as Styled from './style';
 
 interface KkogKkogItemProps {
-  kkogkkog: KkogKKogResponse & { thumbnail: string };
+  kkogkkog: KkogKKogResponse;
   modalTitle: string;
   modalButtons?: {
     text: string;
@@ -51,7 +51,10 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
             key={text}
             onClick={() => {
               onClick({ id });
-              onCloseModal();
+              setAnimation(true);
+              setTimeout(() => {
+                onCloseModal();
+              }, ANIMATION_DURATION.modal);
             }}
             css={Styled.ExtendedButton}
           >

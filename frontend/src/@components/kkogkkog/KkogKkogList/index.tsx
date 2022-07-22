@@ -1,22 +1,15 @@
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
-import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
 interface KkogKkogListProps {
   kkogkkogList: KkogKKogResponse[] | undefined;
-  modalType: Record<
-    string,
-    {
-      modalTitle: string;
-      modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
-    }
-  >;
+  onClickCoupon: (kkogkkog: KkogKKogResponse) => void;
 }
 
 const KkogKkogList = (props: KkogKkogListProps) => {
-  const { kkogkkogList, modalType } = props;
+  const { kkogkkogList, onClickCoupon } = props;
 
   if (kkogkkogList?.length === 0) {
     return (
@@ -30,12 +23,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList?.map(kkogkkog => (
-        <KkogKkogItem
-          key={kkogkkog.id}
-          thumbnail={THUMBNAIL[kkogkkog.couponType]}
-          modalType={modalType}
-          {...kkogkkog}
-        />
+        <KkogKkogItem key={kkogkkog.id} onClickCoupon={onClickCoupon} {...kkogkkog} />
       ))}
     </Styled.Root>
   );

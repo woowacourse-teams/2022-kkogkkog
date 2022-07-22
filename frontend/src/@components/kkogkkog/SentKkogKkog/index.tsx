@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import { useStatus } from '@/@hooks/@common/useStatus';
 import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
+import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 interface SentkogKkogProps {
@@ -56,6 +57,16 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
       queryClient.invalidateQueries('kkogkkogList');
     },
   });
+
+  const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
+
+  const onClickCoupon = (kkogkkog: KkogKKogResponse) => {
+    setClickedCoupon(kkogkkog);
+  };
+
+  const onCloseModal = () => {
+    setClickedCoupon(null);
+  };
 
   const modalType: Record<
     string,
@@ -114,7 +125,10 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             사용 <span>요청이 온</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['REQUESTED']} modalType={modalType} />
+          <KkogKkogList
+            kkogkkogList={parsedKkogKkogList['REQUESTED']}
+            onClickCoupon={onClickCoupon}
+          />
         </Styled.Container>
       )}
 
@@ -123,7 +137,10 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             사용 <span>승인한</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['ACCEPTED']} modalType={modalType} />
+          <KkogKkogList
+            kkogkkogList={parsedKkogKkogList['ACCEPTED']}
+            onClickCoupon={onClickCoupon}
+          />
         </Styled.Container>
       )}
 
@@ -132,7 +149,7 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             사용을 <span>기다리는</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} modalType={modalType} />
+          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} onClickCoupon={onClickCoupon} />
         </Styled.Container>
       )}
 
@@ -141,8 +158,18 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           <div>
             <span>사용된</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['FINISHED']} modalType={modalType} />
+          <KkogKkogList
+            kkogkkogList={parsedKkogKkogList['FINISHED']}
+            onClickCoupon={onClickCoupon}
+          />
         </Styled.Container>
+      )}
+      {clickedCoupon && (
+        <KkogKkogModal
+          kkogkkog={clickedCoupon}
+          onCloseModal={onCloseModal}
+          {...modalType[clickedCoupon.couponStatus]}
+        />
       )}
     </Styled.Root>
   );
