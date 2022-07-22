@@ -56,6 +56,9 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
     onSuccess() {
       queryClient.invalidateQueries('kkogkkogList');
     },
+    onError() {
+      alert('잘못된 접근입니다. 다시 시도해주세요.');
+    },
   });
 
   const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
