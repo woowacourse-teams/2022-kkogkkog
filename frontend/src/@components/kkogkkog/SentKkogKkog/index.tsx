@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
+import { useChangeKkogKkogStatus } from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import KkogKkogModal from '../KkogKkogModal';
@@ -30,16 +29,7 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
     state?.action === 'create' ? '대기' : '요청'
   );
 
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
-    },
-  });
+  const changeKkogKkogStatusMutation = useChangeKkogKkogStatus();
 
   const onClickCoupon = (kkogkkog: KkogKKogResponse) => {
     setClickedCoupon(kkogkkog);
@@ -84,13 +74,13 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
         {
           text: '거절',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'DECLINE', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'DECLINE', message } });
           },
         },
         {
           text: '승인',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
           },
         },
       ],
@@ -106,7 +96,7 @@ const SentKkogKkog = (props: SentkogKkogProps) => {
           text: '사용 완료',
           onClick({ id, message }) {
             console.log('사용 완료!');
-            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+            // changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'FINISH', message } });
           },
         },
       ],

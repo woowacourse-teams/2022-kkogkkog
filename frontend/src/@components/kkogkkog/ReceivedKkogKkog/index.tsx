@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
+import { useChangeKkogKkogStatus } from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import KkogKkogModal from '../KkogKkogModal';
@@ -25,16 +24,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
 
   const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
 
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
-    },
-  });
+  const changeKkogKkogStatusMutation = useChangeKkogKkogStatus();
 
   const onClickFilterButton = (status: ReceivedKkogKkogFilterOptionType) => {
     changeStatus(status);
@@ -79,7 +69,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
         {
           text: '요청 취소',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'CANCEL', message } });
           },
         },
       ],
@@ -90,14 +80,14 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
         {
           text: '사용 요청',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'REQUEST', message } });
           },
         },
         {
           text: '사용 완료',
           onClick({ id, message }) {
             console.log('사용 완료!');
-            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+            // changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'FINISH', message } });
           },
         },
       ],
@@ -109,7 +99,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
           text: '사용 완료',
           onClick({ id, message }) {
             console.log('사용 완료!');
-            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+            // changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'FINISH', message } });
           },
         },
       ],
