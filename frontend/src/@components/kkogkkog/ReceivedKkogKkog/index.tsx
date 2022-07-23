@@ -23,8 +23,29 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
 
   const { status, changeStatus } = useStatus<ReceivedKkogKkogFilterOptionType>('요청');
 
+  const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
+    onSuccess() {
+      queryClient.invalidateQueries('kkogkkogList');
+    },
+    onError() {
+      alert('잘못된 접근입니다. 다시 시도해주세요.');
+    },
+  });
+
   const onClickFilterButton = (status: ReceivedKkogKkogFilterOptionType) => {
     changeStatus(status);
+  };
+
+  const onClickCoupon = (kkogkkog: KkogKKogResponse) => {
+    setClickedCoupon(kkogkkog);
+  };
+
+  const onCloseModal = () => {
+    setClickedCoupon(null);
   };
 
   const parsedKkogKkogList = useMemo(
@@ -44,27 +65,6 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
       ),
     [kkogkkogList]
   );
-
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
-    },
-  });
-
-  const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
-
-  const onClickCoupon = (kkogkkog: KkogKKogResponse) => {
-    setClickedCoupon(kkogkkog);
-  };
-
-  const onCloseModal = () => {
-    setClickedCoupon(null);
-  };
 
   const modalType: Record<
     string,
