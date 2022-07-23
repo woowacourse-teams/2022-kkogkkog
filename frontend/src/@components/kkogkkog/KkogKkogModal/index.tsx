@@ -37,7 +37,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
         }, ANIMATION_DURATION.modal);
       }}
     >
-      <KkogKkogItem.Preview
+      <KkogKkogItem
         key={id}
         css={css`
           margin-bottom: 16px;

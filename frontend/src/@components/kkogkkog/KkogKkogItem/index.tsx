@@ -9,7 +9,7 @@ import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
-  onClickCoupon: (kkogkkog: KkogKKogResponse) => void;
+  onClickCoupon?: (kkogkkog: KkogKKogResponse) => void;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & {
@@ -28,56 +28,43 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { me } = useMe();
 
   return (
-    <>
-      <Styled.Root
-        onClick={() => {
-          onClickCoupon(kkogkkog);
-        }}
-        className={className}
-      >
-        <Styled.TextContainer>
-          {sender.id === me?.id ? (
-            <div>To. {receiver.nickname}</div>
-          ) : (
-            <div>From. {sender.nickname}</div>
-          )}
-          <div>
-            #{modifier} &nbsp;
-            <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
-            &nbsp;꼭꼭
-          </div>
-        </Styled.TextContainer>
-        <Styled.ImageContainer backgroundColor={backgroundColor}>
-          <img src={thumbnail} alt='쿠폰' />
-        </Styled.ImageContainer>
-      </Styled.Root>
-    </>
+    <Styled.Root
+      className={className}
+      hasCursor={!!onClickCoupon}
+      onClick={() => {
+        onClickCoupon?.(kkogkkog);
+      }}
+    >
+      <Styled.TextContainer>
+        {sender.id === me?.id ? (
+          <div>To. {receiver.nickname}</div>
+        ) : (
+          <div>From. {sender.nickname}</div>
+        )}
+        <div>
+          #{modifier} &nbsp;
+          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
+          &nbsp;꼭꼭
+        </div>
+      </Styled.TextContainer>
+      <Styled.ImageContainer backgroundColor={backgroundColor}>
+        <img src={thumbnail} alt='쿠폰' />
+      </Styled.ImageContainer>
+    </Styled.Root>
   );
 };
 
-/* UI에서 보이지 않는 id, couponStatus를 제외한 props만 받는 프로토타입 컴포넌트 */
+/* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
 KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
-  const { className, sender, receiver, backgroundColor, modifier, couponType, thumbnail } = {
+  const { className, receiver, backgroundColor, modifier, couponType, thumbnail } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
   };
 
-  const { me } = useMe();
-
   return (
     <Styled.Root className={className} hasCursor={false}>
       <Styled.TextContainer>
-        {sender ? (
-          // sender가 있고, 자신이 보낸 사람일 때는 받은 사람을 보여준다.
-          sender.id === me?.id ? (
-            <div>To. {receiver?.nickname}</div>
-          ) : (
-            <div>From. {sender?.nickname}</div>
-          )
-        ) : (
-          // 쿠폰 생성 시에는 sender가 없다. 받은 사람을 보여준다.
-          <div>To. {receiver?.nickname}</div>
-        )}
+        <div>To. {receiver?.nickname}</div>
         <div>
           #{modifier} &nbsp;
           <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
