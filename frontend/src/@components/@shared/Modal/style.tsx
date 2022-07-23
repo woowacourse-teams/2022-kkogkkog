@@ -30,17 +30,18 @@ export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom'; animatio
     }
   }
 
-  animation: slideUp ${ANIMATION_DURATION.modal}ms ease-out;
-  animation-fill-mode: forwards;
-
-  animation: name duration timing-function delay iteration-count direction fill-mode;
-
   ${({ animation }) =>
-    animation &&
-    css`
-      animation: slideDown ${ANIMATION_DURATION.modal}ms ease-out;
-      animation-fill-mode: forwards;
-    `}
+    animation !== undefined && animation === true
+      ? css`
+          animation: slideDown ${ANIMATION_DURATION.modal}ms ease-out;
+          animation-fill-mode: forwards;
+        `
+      : css`
+          animation: slideUp ${ANIMATION_DURATION.modal}ms ease-out;
+          animation-fill-mode: forwards;
+
+          animation: name duration timing-function delay iteration-count direction fill-mode;
+        `}
 
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
