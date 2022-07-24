@@ -6,8 +6,7 @@ import Button from '@/@components/@shared/Button';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
-import ReceivedKkogKkog from '@/@components/kkogkkog/ReceivedKkogKkog';
-import SentKkogKkog from '@/@components/kkogkkog/SentKkogKkog';
+import KkogKkogListContainer from '@/@components/kkogkkog/KkogKkogListContainer';
 import useRouterState from '@/@hooks/@common/useRouterState';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
@@ -66,17 +65,10 @@ const AuthorizedLanding = () => {
               보낸 쿠폰
             </Styled.ListHeaderItem>
           </Styled.ListHeaderContainer>
-          {status === 'received' && (
-            <CustomSuspense fallback={<ReceivedKkogKkog.Skeleton />} isLoading={isLoading}>
-              <ReceivedKkogKkog kkogkkogList={kkogkkogList?.received} />
-            </CustomSuspense>
-          )}
 
-          {status === 'sent' && (
-            <CustomSuspense fallback={<SentKkogKkog.Skeleton />} isLoading={isLoading}>
-              <SentKkogKkog kkogkkogList={kkogkkogList?.sent} />
-            </CustomSuspense>
-          )}
+          <CustomSuspense fallback={<KkogKkogListContainer.Skeleton />} isLoading={isLoading}>
+            <KkogKkogListContainer kkogkkogList={kkogkkogList && kkogkkogList[status]} />
+          </CustomSuspense>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate>
