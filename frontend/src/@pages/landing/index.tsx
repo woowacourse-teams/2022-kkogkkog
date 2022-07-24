@@ -33,6 +33,8 @@ const UnAuthorizedLanding = () => {
   );
 };
 
+/** ListHeaderContainer는 어디에 있어야하는가? */
+
 const AuthorizedLanding = () => {
   const { kkogkkogList, isLoading } = useKkogKkogList();
 
