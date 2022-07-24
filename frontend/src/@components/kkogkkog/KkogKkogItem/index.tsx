@@ -16,7 +16,6 @@ type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & 
   className?: string;
 };
 
-/* 클릭 시 모달을 띄우는 쿠폰 컴포넌트 */
 const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { className, onClickCoupon, ...kkogkkog } = props;
 
