@@ -16,11 +16,11 @@ interface KkogKkogItemProps {
     text: string;
     onClick: (args: { id: number; message?: string }) => void;
   }[];
-  onCloseModal: () => void;
+  closeModal: () => void;
 }
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
-  const { kkogkkog, modalTitle, modalButtons, onCloseModal } = props;
+  const { kkogkkog, modalTitle, modalButtons, closeModal } = props;
   const { id, message } = kkogkkog;
 
   const [animation, setAnimation] = useState(false);
@@ -30,10 +30,10 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       title={modalTitle}
       position='bottom'
       animation={animation}
-      onCloseModal={() => {
+      closeModal={() => {
         setAnimation(true);
         setTimeout(() => {
-          onCloseModal();
+          closeModal();
         }, ANIMATION_DURATION.modal);
       }}
     >
@@ -53,7 +53,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
               onClick({ id });
               setAnimation(true);
               setTimeout(() => {
-                onCloseModal();
+                closeModal();
               }, ANIMATION_DURATION.modal);
             }}
             css={Styled.ExtendedButton}

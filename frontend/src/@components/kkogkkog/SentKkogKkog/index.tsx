@@ -42,7 +42,7 @@ const SentKkogKkog = (props: SentKkogKkogProps) => {
     setClickedCoupon(kkogkkog);
   };
 
-  const onCloseModal = () => {
+  const closeModal = () => {
     setClickedCoupon(null);
   };
 
@@ -135,7 +135,7 @@ const SentKkogKkog = (props: SentKkogKkogProps) => {
       {clickedCoupon && (
         <KkogKkogModal
           kkogkkog={clickedCoupon}
-          onCloseModal={onCloseModal}
+          closeModal={closeModal}
           modalTitle={statusData[clickedCoupon.couponStatus].modalTitle}
           modalButtons={statusData[clickedCoupon.couponStatus].modalButtons}
         />

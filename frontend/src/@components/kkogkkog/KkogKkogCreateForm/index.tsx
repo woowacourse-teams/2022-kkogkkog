@@ -82,7 +82,7 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
         <UserSearchModal
           currentReceiverList={currentReceiverList}
           onSelectReceiver={onSelectReceiver}
-          onCloseModal={closeModal}
+          closeModal={closeModal}
         />
       )}
 

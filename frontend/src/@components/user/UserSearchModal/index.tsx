@@ -9,21 +9,21 @@ import UserSearchForm from '../UserSearchForm';
 interface UserSearchModalProps {
   currentReceiverList: UserResponse[];
   onSelectReceiver: (user: UserResponse) => void;
-  onCloseModal: () => void;
+  closeModal: () => void;
 }
 
 const UserSearchModal = (props: UserSearchModalProps) => {
-  const { currentReceiverList, onSelectReceiver, onCloseModal } = props;
+  const { currentReceiverList, onSelectReceiver, closeModal } = props;
   const [animation, setAnimation] = useState(false);
 
   return (
     <Modal
       position='bottom'
       animation={animation}
-      onCloseModal={() => {
+      closeModal={() => {
         setAnimation(true);
         setTimeout(() => {
-          onCloseModal();
+          closeModal();
         }, ANIMATION_DURATION.modal);
       }}
     >

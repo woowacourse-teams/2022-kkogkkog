@@ -37,11 +37,11 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
     changeStatus(status);
   };
 
-  const onClickCoupon = (kkogkkog: KkogKKogResponse) => {
+  const openModal = (kkogkkog: KkogKKogResponse) => {
     setClickedCoupon(kkogkkog);
   };
 
-  const onCloseModal = () => {
+  const closeModal = () => {
     setClickedCoupon(null);
   };
 
@@ -132,13 +132,13 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
         <div>{statusData[translateKorean[status]].description} 꼭꼭</div>
         <KkogKkogList
           kkogkkogList={parsedKkogKkogList[translateKorean[status]]}
-          onClickCoupon={onClickCoupon}
+          onClickCoupon={openModal}
         />
       </Styled.ListContainer>
       {clickedCoupon && (
         <KkogKkogModal
           kkogkkog={clickedCoupon}
-          onCloseModal={onCloseModal}
+          closeModal={closeModal}
           modalTitle={statusData[clickedCoupon.couponStatus].modalTitle}
           modalButtons={statusData[clickedCoupon.couponStatus].modalButtons}
         />
