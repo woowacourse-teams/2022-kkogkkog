@@ -11,6 +11,13 @@ import * as Styled from './style';
 
 const filterOption = ['요청', '승인', '대기', '사용'] as const;
 
+const translateKorean = {
+  요청: 'REQUESTED',
+  승인: 'ACCEPTED',
+  대기: 'READY',
+  사용: 'FINISHED',
+} as const;
+
 type ReceivedKkogKkogFilterOptionType = typeof filterOption[number];
 
 interface ReceivedKkogKkogProps {
@@ -56,14 +63,16 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
     [kkogkkogList]
   );
 
-  const modalType: Record<
+  const statusData: Record<
     string,
     {
+      description: string;
       modalTitle: string;
       modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
     }
   > = {
     REQUESTED: {
+      description: '사용 요청을 한',
       modalTitle: '쿠폰 사용 요청을 취소하시겠어요?',
       modalButtons: [
         {
@@ -75,6 +84,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
       ],
     },
     READY: {
+      description: '사용 하지 않은',
       modalTitle: '쿠폰을 사용하시겠어요?',
       modalButtons: [
         {
@@ -93,6 +103,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
       ],
     },
     ACCEPTED: {
+      description: '사용 승인 받은',
       modalTitle: '쿠폰 사용하셨나요??',
       modalButtons: [
         {
@@ -105,6 +116,7 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
       ],
     },
     FINISHED: {
+      description: '사용한',
       modalTitle: '이미 사용한 쿠폰입니다.',
     },
   };
@@ -116,55 +128,19 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
         onClickFilterButton={onClickFilterButton}
         options={filterOption}
       />
-      {status === '요청' && (
-        <Styled.Container>
-          <div>
-            사용 <span>요청을 한</span> 꼭꼭
-          </div>
-          <KkogKkogList
-            kkogkkogList={parsedKkogKkogList['REQUESTED']}
-            onClickCoupon={onClickCoupon}
-          />
-        </Styled.Container>
-      )}
-
-      {status === '승인' && (
-        <Styled.Container>
-          <div>
-            사용 <span>승인 받은</span> 꼭꼭
-          </div>
-          <KkogKkogList
-            kkogkkogList={parsedKkogKkogList['ACCEPTED']}
-            onClickCoupon={onClickCoupon}
-          />
-        </Styled.Container>
-      )}
-
-      {status === '대기' && (
-        <Styled.Container>
-          <div>
-            사용 <span>하지 않은</span> 꼭꼭
-          </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} onClickCoupon={onClickCoupon} />
-        </Styled.Container>
-      )}
-
-      {status === '사용' && (
-        <Styled.Container>
-          <div>
-            <span>사용한</span> 꼭꼭
-          </div>
-          <KkogKkogList
-            kkogkkogList={parsedKkogKkogList['FINISHED']}
-            onClickCoupon={onClickCoupon}
-          />
-        </Styled.Container>
-      )}
+      <Styled.ListContainer>
+        <div>{statusData[translateKorean[status]].description} 꼭꼭</div>
+        <KkogKkogList
+          kkogkkogList={parsedKkogKkogList[translateKorean[status]]}
+          onClickCoupon={onClickCoupon}
+        />
+      </Styled.ListContainer>
       {clickedCoupon && (
         <KkogKkogModal
           kkogkkog={clickedCoupon}
           onCloseModal={onCloseModal}
-          {...modalType[clickedCoupon.couponStatus]}
+          modalTitle={statusData[clickedCoupon.couponStatus].modalTitle}
+          modalButtons={statusData[clickedCoupon.couponStatus].modalButtons}
         />
       )}
     </Styled.Root>
