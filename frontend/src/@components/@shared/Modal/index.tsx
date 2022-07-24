@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { MouseEvent, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 import Dimmed from '@/@components/@shared/Dimmed';
@@ -14,15 +14,14 @@ interface ModalProps {
 function Modal(props: PropsWithChildren<ModalProps>) {
   const { position, animation, closeModal, children } = props;
 
+  const onClickDimmed = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   return ReactDOM.createPortal(
-    <Dimmed
-      position={position}
-      onClick={e => {
-        if (e.target === e.currentTarget) {
-          closeModal();
-        }
-      }}
-    >
+    <Dimmed position={position} onClick={onClickDimmed}>
       <Styled.Root position={position} animation={animation}>
         {children}
       </Styled.Root>
