@@ -9,7 +9,7 @@ import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
-  onClickCoupon?: (kkogkkog: KkogKKogResponse) => void;
+  onClick?: () => void;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & {
@@ -17,7 +17,7 @@ type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & 
 };
 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const { className, onClickCoupon, ...kkogkkog } = props;
+  const { className, onClick, ...kkogkkog } = props;
 
   const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } = {
     ...kkogkkog,
@@ -29,10 +29,8 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   return (
     <Styled.Root
       className={className}
-      hasCursor={!!onClickCoupon}
-      onClick={() => {
-        onClickCoupon?.(kkogkkog);
-      }}
+      hasCursor={!!onClick}
+      onClick={onClick}
     >
       <Styled.TextContainer>
         {sender.id === me?.id ? (

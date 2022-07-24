@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
-import KkogKkogModalJuunzzi from '@/@components/kkogkkog/KkogKkogModalJuunzzi';
+import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import { KkogKKogResponse } from '@/types/remote/response';
@@ -27,7 +27,8 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     state?.action === 'create' ? '대기' : '요청'
   );
 
-  const { clickedKkogKkog, clickKkogKkog, isShowModal, closeModal } = useKkogKkogModal();
+  const { currentKkogKkog, isShowKkogKkogModal, openKkogKkogModal, closeKkogKkogModal } =
+    useKkogKkogModal();
 
   const parsedKkogKkogList = useMemo(
     () =>
@@ -51,6 +52,10 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     changeStatus(status);
   };
 
+  const onClickKkogKkogItem = () => (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
+    openKkogKkogModal(kkogkkog);
+  };
+
   return (
     <Styled.Root>
       <ListFilter<KkogKkogListContainerFilterOptionType>
@@ -65,7 +70,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['REQUESTED']}
-            clickKkogKkog={clickKkogKkog}
+            onClickKkogKkogItem={onClickKkogKkogItem}
           />
         </Styled.Container>
       )}
@@ -77,7 +82,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['ACCEPTED']}
-            clickKkogKkog={clickKkogKkog}
+            onClickKkogKkogItem={onClickKkogKkogItem}
           />
         </Styled.Container>
       )}
@@ -87,7 +92,10 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           <div>
             사용을 <span>기다리는</span> 꼭꼭
           </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} clickKkogKkog={clickKkogKkog} />
+          <KkogKkogList
+            kkogkkogList={parsedKkogKkogList['READY']}
+            onClickKkogKkogItem={onClickKkogKkogItem}
+          />
         </Styled.Container>
       )}
 
@@ -98,13 +106,13 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['FINISHED']}
-            clickKkogKkog={clickKkogKkog}
+            onClickKkogKkogItem={onClickKkogKkogItem}
           />
         </Styled.Container>
       )}
 
-      {isShowModal && clickedKkogKkog && (
-        <KkogKkogModalJuunzzi kkogkkog={clickedKkogKkog} closeModal={closeModal} />
+      {isShowKkogKkogModal && currentKkogKkog && (
+        <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
       )}
     </Styled.Root>
   );
