@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { MouseEvent, MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import useMe from '@/@hooks/user/useMe';
@@ -20,7 +20,7 @@ type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { className, onClick, ...kkogkkog } = props;
 
-  const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } = {
+  const { sender, receiver, backgroundColor, modifier, couponType, thumbnail } = {
     ...kkogkkog,
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
@@ -28,11 +28,7 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { me } = useMe();
 
   return (
-    <Styled.Root
-      className={className}
-      hasCursor={!!onClick}
-      onClick={onClick}
-    >
+    <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.TextContainer>
         {sender.id === me?.id ? (
           <div>To. {receiver.nickname}</div>

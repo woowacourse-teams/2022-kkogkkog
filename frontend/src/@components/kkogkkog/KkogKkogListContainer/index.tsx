@@ -52,7 +52,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     changeStatus(status);
   };
 
-  const onClickCouponItem = (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
+  const onClickCouponItem = (kkogkkog: KkogKKogResponse) => {
     openKkogKkogModal(kkogkkog);
   };
 
