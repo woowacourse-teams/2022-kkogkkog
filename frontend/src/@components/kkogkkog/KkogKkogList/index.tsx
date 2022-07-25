@@ -4,10 +4,12 @@ import { KkogKKogResponse } from '@/types/remote/response';
 import * as Styled from './style';
 
 interface KkogKkogListProps {
-  kkogkkogList: KkogKKogResponse[] | undefined;
-  onClickCouponItem: (kkogkkog: KkogKKogResponse) => void;
+  kkogkkogList?: KkogKKogResponse[];
+  onClickCouponItem?: (kkogkkog: KkogKKogResponse) => void;
 }
 
+// onClickCouponItem -> 이 함수에는 항상 kkogkkog을 보내줄거고 이런 함수만 와야해!
+// 이 컴포넌트가 다양한 기능을 수행할 수 있다고 볼 순 없겠다.
 const KkogKkogList = (props: KkogKkogListProps) => {
   const { kkogkkogList, onClickCouponItem } = props;
 
