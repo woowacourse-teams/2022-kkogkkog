@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Coupon 의")
+@DisplayName("Coupon 클래스의")
 public class CouponTest {
 
     @Nested

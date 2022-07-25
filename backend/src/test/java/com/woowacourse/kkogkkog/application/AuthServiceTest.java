@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@DisplayName("AuthService 의")
+@DisplayName("AuthService 클래스의")
 class AuthServiceTest extends ServiceTest {
 
     @Autowired

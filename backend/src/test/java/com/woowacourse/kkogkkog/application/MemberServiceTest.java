@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@DisplayName("MemberService 의")
+@DisplayName("MemberService 클래스의")
 class MemberServiceTest extends ServiceTest {
 
     @Autowired

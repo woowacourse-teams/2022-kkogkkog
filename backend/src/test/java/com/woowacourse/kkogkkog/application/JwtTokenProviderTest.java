@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@DisplayName("JwtTokenProvider 의")
+@DisplayName("JwtTokenProvider 클래스의")
 class JwtTokenProviderTest {
 
     @Autowired

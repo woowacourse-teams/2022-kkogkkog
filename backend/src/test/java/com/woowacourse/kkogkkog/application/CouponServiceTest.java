@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@DisplayName("CouponService 의")
+@DisplayName("CouponService 클래스의")
 public class CouponServiceTest extends ServiceTest {
 
     private static final Member JEONG = new Member(null, "jeong@gmail.com", "password1234!", "정");
