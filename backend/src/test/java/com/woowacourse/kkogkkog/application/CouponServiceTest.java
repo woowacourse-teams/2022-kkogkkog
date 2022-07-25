@@ -13,6 +13,7 @@ import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.ForbiddenException;
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import java.util.List;
@@ -293,6 +294,79 @@ public class CouponServiceTest extends ServiceTest {
 
             assertThatThrownBy(() -> couponService.changeStatus(couponDecline))
                     .isInstanceOf(ForbiddenException.class);
+        }
+
+        @Test
+        @DisplayName("보낸 사람은 READY 상태의 쿠폰에 대한 사용 완료를 할 수 있다.")
+        void finish_ready() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.FINISH);
+
+            couponService.changeStatus(couponRequest);
+            CouponResponse actual = couponService.findById(couponId);
+
+            assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.FINISHED.name());
+        }
+
+        @Test
+        @DisplayName("보낸 사람은 REQUESTED 상태의 쿠폰에 대한 사용 완료를 할 수 있다.")
+        void finish_requested() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                couponId, CouponEvent.REQUEST);
+            couponService.changeStatus(couponRequest);
+
+            CouponChangeStatusRequest couponFinish = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.FINISH);
+            couponService.changeStatus(couponFinish);
+
+            CouponResponse actual = couponService.findById(couponId);
+            assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.FINISHED.name());
+        }
+
+        @Test
+        @DisplayName("보낸 사람은 ACCEPTED 상태의 쿠폰에 대한 사용 완료를 할 수 있다.")
+        void finish_accepted() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                couponId, CouponEvent.REQUEST);
+            couponService.changeStatus(couponRequest);
+
+            CouponChangeStatusRequest couponAccept = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.ACCEPT);
+            couponService.changeStatus(couponAccept);
+
+            CouponChangeStatusRequest couponFinish = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.FINISH);
+            couponService.changeStatus(couponFinish);
+
+            CouponResponse actual = couponService.findById(couponId);
+            assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.FINISHED.name());
+        }
+
+        @Test
+        @DisplayName("보낸 사람은 FINISHED 상태의 쿠폰에 대한 사용 완료를 할 수 없다.")
+        void finish_finished() {
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+            Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+            CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
+                couponId, CouponEvent.REQUEST);
+            couponService.changeStatus(couponRequest);
+
+            CouponChangeStatusRequest couponAccept = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.ACCEPT);
+            couponService.changeStatus(couponAccept);
+
+            CouponChangeStatusRequest couponFinish = new CouponChangeStatusRequest(ROOKIE.getId(),
+                couponId, CouponEvent.FINISH);
+            couponService.changeStatus(couponFinish);
+
+            assertThatThrownBy(() -> couponService.changeStatus(couponFinish))
+                .isInstanceOf(InvalidRequestException.class);
         }
     }
 
