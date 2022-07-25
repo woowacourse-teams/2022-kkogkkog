@@ -28,7 +28,7 @@ class CouponEventTest {
 
         @Test
         @DisplayName("보낸 사람이 보내면, 예외를 던진다.")
-        void senderCanNotRequest() {
+        void fail_SenderRequest() {
             boolean isSender = true;
             boolean isReceiver = false;
 
@@ -43,7 +43,7 @@ class CouponEventTest {
 
         @Test
         @DisplayName("받은 사람이 보낼 수 있다.")
-        void receiverCanCancel() {
+        void success() {
             boolean isSender = false;
             boolean isReceiver = true;
 
@@ -53,7 +53,7 @@ class CouponEventTest {
 
         @Test
         @DisplayName("보낸 사람이 보내면, 예외를 던진다.")
-        void senderCanNotCancel() {
+        void fail_SenderCancel() {
             boolean isSender = true;
             boolean isReceiver = false;
 

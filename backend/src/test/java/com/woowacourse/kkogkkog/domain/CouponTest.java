@@ -17,7 +17,7 @@ public class CouponTest {
 
     @Nested
     @DisplayName("생성자는")
-    class constructor {
+    class Constructor {
 
         @Test
         @DisplayName("쿠폰의 정보를 받으면, 쿠폰을 생성한다.")
