@@ -1,9 +1,8 @@
 package com.woowacourse.kkogkkog.application;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
@@ -43,11 +42,9 @@ public class MemberService {
         return MemberResponse.of(findMember);
     }
 
-    public MembersResponse findAll() {
-        List<MemberResponse> memberResponses = memberRepository.findAll().stream()
-            .map(it -> MemberResponse.of(it))
+    public List<MemberResponse> findAll() {
+        return memberRepository.findAll().stream()
+            .map(MemberResponse::of)
             .collect(toList());
-
-        return new MembersResponse(memberResponses);
     }
 }

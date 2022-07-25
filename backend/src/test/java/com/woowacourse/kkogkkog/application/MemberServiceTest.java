@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +61,8 @@ class MemberServiceTest {
         memberService.save(memberCreateRequest1);
         memberService.save(memberCreateRequest2);
 
-        MembersResponse membersResponse = memberService.findAll();
+        List<MemberResponse> membersResponse = memberService.findAll();
 
-        assertThat(membersResponse.getData()).hasSize(2);
+        assertThat(membersResponse).hasSize(2);
     }
 }

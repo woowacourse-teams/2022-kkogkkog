@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MyCouponsResponse {
+public class SuccessResponse<T> {
 
-    private CouponsResponse data;
+    private T data;
 
-    public MyCouponsResponse(CouponsResponse data) {
+    public SuccessResponse(T data) {
         this.data = data;
     }
 }

@@ -3,10 +3,9 @@ package com.woowacourse.kkogkkog.presentation;
 import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
-import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
+import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +27,8 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
-        MyCouponsResponse myCouponsResponse = new MyCouponsResponse(new CouponsResponse(
+    public ResponseEntity<SuccessResponse<CouponsResponse>> showAll(@LoginMember Long loginMemberId) {
+        SuccessResponse<CouponsResponse> myCouponsResponse = new SuccessResponse<>(new CouponsResponse(
                 couponService.findAllByReceiver(loginMemberId),
                 couponService.findAllBySender(loginMemberId)));
 
@@ -37,11 +36,11 @@ public class CouponController {
     }
 
     @PostMapping
-    public ResponseEntity<CouponCreateResponse> create(@LoginMember Long loginMemberId,
+    public ResponseEntity<SuccessResponse<List<CouponResponse>>> create(@LoginMember Long loginMemberId,
                                                        @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
         List<CouponResponse> couponResponses = couponService.save(
                 couponCreateRequest.toCouponSaveRequest(loginMemberId));
-        return ResponseEntity.created(null).body(new CouponCreateResponse(couponResponses));
+        return ResponseEntity.created(null).body(new SuccessResponse<>(couponResponses));
     }
 
     @GetMapping("/{couponId}")

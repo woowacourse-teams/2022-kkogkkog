@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -59,10 +58,10 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
-        MembersResponse membersResponse = new MembersResponse(List.of(
+        List<MemberResponse> membersResponse = List.of(
             new MemberResponse(1L,"user1@gmail.com", "user1"),
             new MemberResponse(2L, "user2@gmail.com", "user2")
-        ));
+        );
         given(memberService.findAll()).willReturn(membersResponse);
 
         // when
