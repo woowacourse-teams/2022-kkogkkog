@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Nested
 @DisplayName("AuthService 의")
 class AuthServiceTest extends ServiceTest {
 
