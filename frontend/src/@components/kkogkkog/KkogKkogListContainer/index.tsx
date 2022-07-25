@@ -52,7 +52,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     changeStatus(status);
   };
 
-  const onClickKkogKkogItem = () => (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
+  const onClickCouponItem = (kkogkkog: KkogKKogResponse & { thumbnail: string }) => {
     openKkogKkogModal(kkogkkog);
   };
 
@@ -60,8 +60,8 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     <Styled.Root>
       <ListFilter<KkogKkogListContainerFilterOptionType>
         status={status}
-        onClickFilterButton={onClickFilterButton}
         options={filterOption}
+        onClickFilterButton={onClickFilterButton}
       />
       {status === '요청' && (
         <Styled.Container>
@@ -70,7 +70,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['REQUESTED']}
-            onClickKkogKkogItem={onClickKkogKkogItem}
+            onClickCouponItem={onClickCouponItem}
           />
         </Styled.Container>
       )}
@@ -82,7 +82,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['ACCEPTED']}
-            onClickKkogKkogItem={onClickKkogKkogItem}
+            onClickCouponItem={onClickCouponItem}
           />
         </Styled.Container>
       )}
@@ -94,7 +94,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['READY']}
-            onClickKkogKkogItem={onClickKkogKkogItem}
+            onClickCouponItem={onClickCouponItem}
           />
         </Styled.Container>
       )}
@@ -106,7 +106,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           </div>
           <KkogKkogList
             kkogkkogList={parsedKkogKkogList['FINISHED']}
-            onClickKkogKkogItem={onClickKkogKkogItem}
+            onClickCouponItem={onClickCouponItem}
           />
         </Styled.Container>
       )}
