@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { MouseEvent, MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import useMe from '@/@hooks/user/useMe';
@@ -9,7 +10,7 @@ import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & {
