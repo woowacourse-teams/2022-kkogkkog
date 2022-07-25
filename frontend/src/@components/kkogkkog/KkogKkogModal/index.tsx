@@ -55,9 +55,7 @@ const kkogkkogModalMapperSent = {
 };
 
 // 꼭꼭의 상태에 따라, 로그인 한 유저에게 어떤 꼭꼭인지에 따라 (내가 보낸건지, 받은건지) -> 모달은 이 정보에만 따라야함
-
 // 꼭꼭의 상태를 변경하는 모달이니.. 이름을 제대로 줘봐야하지 않을까?
-
 // 버튼은 상태 변경 액션 별로 한개씩 있다.
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
@@ -117,41 +115,30 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       <Styled.Message>{message}</Styled.Message>
 
       <Styled.ButtonContainer>
-        {buttons.map(buttonType => {
-          if (buttonType === '취소') {
-            return (
+        {buttons.map(buttonType => (
+          <>
+            {buttonType === '취소' && (
               <Button onClick={onClickCancelButton} css={Styled.ExtendedButton}>
                 사용 취소
               </Button>
-            );
-          }
-
-          if (buttonType === '완료') {
-            return (
+            )}
+            {buttonType === '완료' && (
               <Button onClick={onClickFinishButton} css={Styled.ExtendedButton}>
                 사용 완료
               </Button>
-            );
-          }
-
-          if (buttonType === '요청') {
-            return (
+            )}
+            {buttonType === '요청' && (
               <Button onClick={onClickRequestButton} css={Styled.ExtendedButton}>
                 사용 요청
               </Button>
-            );
-          }
-
-          if (buttonType === '승인') {
-            return (
+            )}
+            {buttonType === '승인' && (
               <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
                 사용 승인
               </Button>
-            );
-          }
-
-          return <></>;
-        })}
+            )}
+          </>
+        ))}
       </Styled.ButtonContainer>
     </Modal.WithHeader>
   );
