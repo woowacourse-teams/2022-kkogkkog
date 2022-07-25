@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MembersResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -77,7 +77,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             .then().log().all()
             .extract();
 
-        MembersResponse membersResponse = extract.as(MembersResponse.class);
+        List<MemberResponse> members = extract.body().jsonPath().getList("data", MemberResponse.class);
+        SuccessResponse<List<MemberResponse>> membersResponse = new SuccessResponse<>(members);
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
