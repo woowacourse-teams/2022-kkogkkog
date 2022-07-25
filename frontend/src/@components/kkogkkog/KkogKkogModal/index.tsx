@@ -16,7 +16,7 @@ interface KkogKkogItemProps {
   closeModal: () => void;
 }
 
-const kkogkkogModalMapperReceived = {
+const receivedKkogkkogModalMapper = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 취소하시겠어요?',
     buttons: ['취소'],
@@ -35,7 +35,7 @@ const kkogkkogModalMapperReceived = {
   },
 };
 
-const kkogkkogModalMapperSent = {
+const sentKkogkkogModalMapper = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 승인하시겠어요?',
     buttons: ['승인'],
@@ -71,8 +71,8 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
 
   const { title, buttons } =
     me?.id === sender.id
-      ? kkogkkogModalMapperSent[couponStatus]
-      : kkogkkogModalMapperReceived[couponStatus];
+      ? sentKkogkkogModalMapper[couponStatus]
+      : receivedKkogkkogModalMapper[couponStatus];
 
   const onCloseModal = () => {
     setAnimation(true);
