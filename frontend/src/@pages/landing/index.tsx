@@ -44,6 +44,14 @@ const AuthorizedLanding = () => {
     routerState === 'create' ? 'sent' : 'received'
   );
 
+  const onClickReceivedCouponButton = () => {
+    changeStatus('received');
+  };
+
+  const onClickSentCouponButton = () => {
+    changeStatus('sent');
+  };
+
   return (
     <PageTemplate title='꼭꼭'>
       <Styled.Root>
@@ -56,14 +64,11 @@ const AuthorizedLanding = () => {
           <Styled.ListHeaderContainer>
             <Styled.ListHeaderItem
               isSelected={status === 'received'}
-              onClick={() => changeStatus('received')}
+              onClick={onClickReceivedCouponButton}
             >
               받은 쿠폰
             </Styled.ListHeaderItem>
-            <Styled.ListHeaderItem
-              isSelected={status === 'sent'}
-              onClick={() => changeStatus('sent')}
-            >
+            <Styled.ListHeaderItem isSelected={status === 'sent'} onClick={onClickSentCouponButton}>
               보낸 쿠폰
             </Styled.ListHeaderItem>
           </Styled.ListHeaderContainer>
