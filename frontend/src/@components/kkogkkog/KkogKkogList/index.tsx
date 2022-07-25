@@ -4,12 +4,12 @@ import { KkogKKogResponse } from '@/types/remote/response';
 import * as Styled from './style';
 
 interface KkogKkogListProps {
-  kkogkkogList: KkogKKogResponse[] | undefined;
-  onClickCoupon: (kkogkkog: KkogKKogResponse) => void;
+  kkogkkogList?: KkogKKogResponse[];
+  onClickCouponItem?: (kkogkkog: KkogKKogResponse) => void;
 }
 
 const KkogKkogList = (props: KkogKkogListProps) => {
-  const { kkogkkogList, onClickCoupon } = props;
+  const { kkogkkogList, onClickCouponItem } = props;
 
   if (kkogkkogList?.length === 0) {
     return (
@@ -23,7 +23,11 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList?.map(kkogkkog => (
-        <KkogKkogItem key={kkogkkog.id} onClickCoupon={onClickCoupon} {...kkogkkog} />
+        <KkogKkogItem
+          key={kkogkkog.id}
+          onClick={() => onClickCouponItem?.(kkogkkog)}
+          {...kkogkkog}
+        />
       ))}
     </Styled.Root>
   );

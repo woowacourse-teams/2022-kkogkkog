@@ -7,7 +7,7 @@ export const Root = styled.div`
   `}
 `;
 
-export const ListContainer = styled.div`
+export const Container = styled.div`
   padding-bottom: 20px;
   margin-bottom: 10px;
 

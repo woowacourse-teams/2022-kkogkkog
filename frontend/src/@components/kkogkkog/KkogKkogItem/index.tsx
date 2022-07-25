@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import useMe from '@/@hooks/user/useMe';
@@ -9,18 +10,17 @@ import * as Styled from './style';
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
-  onClickCoupon?: (kkogkkog: KkogKKogResponse) => void;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & {
   className?: string;
 };
 
-/* 클릭 시 모달을 띄우는 쿠폰 컴포넌트 */
 const KkogKkogItem = (props: KkogKkogItemProps) => {
-  const { className, onClickCoupon, ...kkogkkog } = props;
+  const { className, onClick, ...kkogkkog } = props;
 
-  const { sender, receiver, backgroundColor, modifier, couponType, couponStatus, thumbnail } = {
+  const { sender, receiver, backgroundColor, modifier, couponType, thumbnail } = {
     ...kkogkkog,
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
@@ -28,13 +28,7 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { me } = useMe();
 
   return (
-    <Styled.Root
-      className={className}
-      hasCursor={!!onClickCoupon}
-      onClick={() => {
-        onClickCoupon?.(kkogkkog);
-      }}
-    >
+    <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.TextContainer>
         {sender.id === me?.id ? (
           <div>To. {receiver.nickname}</div>

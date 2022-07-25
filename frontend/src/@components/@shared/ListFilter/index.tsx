@@ -33,9 +33,9 @@ export default ListFilter;
 ListFilter.Skeleton = function Skeleton() {
   return (
     <Styled.Root>
-      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
-      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
-      <Placeholder width={'100px'} height={'40px'} css={Styled.ExtendedPlaceholder} />
+      <Placeholder width='100px' height='40px' css={Styled.ExtendedPlaceholder} />
+      <Placeholder width='100px' height='40px' css={Styled.ExtendedPlaceholder} />
+      <Placeholder width='100px' height='40px' css={Styled.ExtendedPlaceholder} />
     </Styled.Root>
   );
 };

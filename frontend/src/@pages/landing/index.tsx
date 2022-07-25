@@ -6,8 +6,7 @@ import Button from '@/@components/@shared/Button';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
-import ReceivedKkogKkog from '@/@components/kkogkkog/ReceivedKkogKkog';
-import SentKkogKkog from '@/@components/kkogkkog/SentKkogKkog';
+import KkogKkogListContainer from '@/@components/kkogkkog/KkogKkogListContainer';
 import useRouterState from '@/@hooks/@common/useRouterState';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
@@ -34,6 +33,8 @@ const UnAuthorizedLanding = () => {
   );
 };
 
+/** ListHeaderContainer는 어디에 있어야하는가? */
+
 const AuthorizedLanding = () => {
   const { kkogkkogList, isLoading } = useKkogKkogList();
 
@@ -42,6 +43,14 @@ const AuthorizedLanding = () => {
   const { status, changeStatus } = useStatus<STATUS_TYPE>(
     routerState === 'create' ? 'sent' : 'received'
   );
+
+  const onClickReceivedCouponButton = () => {
+    changeStatus('received');
+  };
+
+  const onClickSentCouponButton = () => {
+    changeStatus('sent');
+  };
 
   return (
     <PageTemplate title='꼭꼭'>
@@ -55,28 +64,18 @@ const AuthorizedLanding = () => {
           <Styled.ListHeaderContainer>
             <Styled.ListHeaderItem
               isSelected={status === 'received'}
-              onClick={() => changeStatus('received')}
+              onClick={onClickReceivedCouponButton}
             >
               받은 쿠폰
             </Styled.ListHeaderItem>
-            <Styled.ListHeaderItem
-              isSelected={status === 'sent'}
-              onClick={() => changeStatus('sent')}
-            >
+            <Styled.ListHeaderItem isSelected={status === 'sent'} onClick={onClickSentCouponButton}>
               보낸 쿠폰
             </Styled.ListHeaderItem>
           </Styled.ListHeaderContainer>
-          {status === 'received' && (
-            <CustomSuspense fallback={<ReceivedKkogKkog.Skeleton />} isLoading={isLoading}>
-              <ReceivedKkogKkog kkogkkogList={kkogkkogList?.received} />
-            </CustomSuspense>
-          )}
 
-          {status === 'sent' && (
-            <CustomSuspense fallback={<SentKkogKkog.Skeleton />} isLoading={isLoading}>
-              <SentKkogKkog kkogkkogList={kkogkkogList?.sent} />
-            </CustomSuspense>
-          )}
+          <CustomSuspense fallback={<KkogKkogListContainer.Skeleton />} isLoading={isLoading}>
+            <KkogKkogListContainer kkogkkogList={kkogkkogList && kkogkkogList[status]} />
+          </CustomSuspense>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate>
