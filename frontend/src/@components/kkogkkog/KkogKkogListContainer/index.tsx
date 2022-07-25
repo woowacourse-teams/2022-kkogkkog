@@ -27,8 +27,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
     state?.action === 'create' ? '대기' : '요청'
   );
 
-  const { currentKkogKkog, isShowKkogKkogModal, openKkogKkogModal, closeKkogKkogModal } =
-    useKkogKkogModal();
+  const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
 
   const parsedKkogKkogList = useMemo(
     () =>
@@ -111,7 +110,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
         </Styled.Container>
       )}
 
-      {isShowKkogKkogModal && currentKkogKkog && (
+      {currentKkogKkog && (
         <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
       )}
     </Styled.Root>
