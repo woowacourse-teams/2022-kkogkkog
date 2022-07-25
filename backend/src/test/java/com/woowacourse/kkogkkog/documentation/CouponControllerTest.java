@@ -23,7 +23,6 @@ import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
-import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
@@ -64,7 +63,7 @@ class CouponControllerTest extends Documentation {
 
         // then
         perform.andExpect(status().isCreated())
-                .andExpect(content().string(objectMapper.writeValueAsString(new CouponCreateResponse(List.of(
+                .andExpect(content().string(objectMapper.writeValueAsString(new SuccessResponse<>(List.of(
                         toCouponResponse(1L, JEONG, LEO), toCouponResponse(2L, JEONG, ARTHUR))))));
 
         // docs
