@@ -6,7 +6,7 @@ import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
+import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +28,8 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
-        MyCouponsResponse myCouponsResponse = new MyCouponsResponse(new CouponsResponse(
+    public ResponseEntity<SuccessResponse<CouponsResponse>> showAll(@LoginMember Long loginMemberId) {
+        SuccessResponse<CouponsResponse> myCouponsResponse = new SuccessResponse<>(new CouponsResponse(
                 couponService.findAllByReceiver(loginMemberId),
                 couponService.findAllBySender(loginMemberId)));
 
