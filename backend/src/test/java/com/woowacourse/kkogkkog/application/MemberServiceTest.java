@@ -27,7 +27,7 @@ class MemberServiceTest extends ServiceTest {
 
     @Nested
     @DisplayName("save 메서드는")
-    class save {
+    class Save {
 
         @Test
         @DisplayName("회원 정보를 받으면, 회원을 저장하고 저장된 Id를 반환한다.")
@@ -54,7 +54,7 @@ class MemberServiceTest extends ServiceTest {
 
     @Nested
     @DisplayName("findById 메서드는")
-    class findById {
+    class FindById {
 
         @Test
         @DisplayName("저장된 회원의 Id를 받으면, 해당 회원의 정보를 반환한다.")
@@ -83,7 +83,7 @@ class MemberServiceTest extends ServiceTest {
 
     @Nested
     @DisplayName("findAll 메서드는")
-    class findAll {
+    class FindAll {
 
         @Test
         @DisplayName("회원가입된 모든 회원들의 정보를 반환한다.")

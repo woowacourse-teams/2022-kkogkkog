@@ -14,7 +14,7 @@ class CouponEventTest {
 
     @Nested
     @DisplayName("REQUEST 이벤트는")
-    class request {
+    class Request {
 
         @Test
         @DisplayName("받은 사람이 보낼 수 있다.")
@@ -39,7 +39,7 @@ class CouponEventTest {
 
     @Nested
     @DisplayName("CANCEL 이벤트는")
-    class cancel {
+    class Cancel {
 
         @Test
         @DisplayName("받은 사람이 보낼 수 있다.")
