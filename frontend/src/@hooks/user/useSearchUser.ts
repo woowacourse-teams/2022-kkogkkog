@@ -10,13 +10,17 @@ export const useSearchUser = () => {
   // 이 부분은 검색 API 도입시 사라지게됨
   const { userList } = useUserList();
 
-  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | null>(null);
+  const userWithoutMe = userList?.filter(({ id }) => me?.id !== id);
+
+  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | undefined>(
+    userWithoutMe
+  );
 
   const searchUser = (keyword: string) => {
     const users = userList || [];
 
     if (keyword === '') {
-      setSearchedUserList(null);
+      setSearchedUserList(userList);
 
       return;
     }

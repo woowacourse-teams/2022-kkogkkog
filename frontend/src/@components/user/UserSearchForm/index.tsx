@@ -55,7 +55,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 };
 
 interface UserSearchResultProps {
-  searchedUserList: UserListResponse | null;
+  searchedUserList: UserListResponse | undefined;
   currentReceiverList: UserListResponse;
   onSelectReceiver: (user: UserResponse) => void;
 }
@@ -63,7 +63,7 @@ interface UserSearchResultProps {
 const UserSearchResult = (props: UserSearchResultProps) => {
   const { searchedUserList, currentReceiverList, onSelectReceiver } = props;
 
-  if (searchedUserList === null) {
+  if (searchedUserList === undefined) {
     return <Styled.TextContainer>🔍 유저를 찾아보세요 🔍</Styled.TextContainer>;
   }
 

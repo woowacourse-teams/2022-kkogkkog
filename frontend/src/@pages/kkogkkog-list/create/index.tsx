@@ -6,7 +6,6 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogCreateForm from '@/@components/kkogkkog/KkogKkogCreateForm';
 import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
 import { useKkogKkogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
-import { THUMBNAIL } from '@/types/client/kkogkkog';
 
 const KkogkkogCreatePage = () => {
   const {
@@ -42,7 +41,6 @@ const KkogkkogCreatePage = () => {
                 message={message}
                 modifier={modifier}
                 couponType={couponType}
-                thumbnail={THUMBNAIL[couponType]}
               />
             ))
           )}

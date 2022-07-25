@@ -8,18 +8,18 @@ import * as Styled from './style';
 interface ModalProps {
   position: 'top' | 'middle' | 'bottom';
   animation?: boolean;
-  onCloseModal: () => void;
+  closeModal: () => void;
 }
 
 function Modal(props: PropsWithChildren<ModalProps>) {
-  const { position, animation, onCloseModal, children } = props;
+  const { position, animation, closeModal, children } = props;
 
   return ReactDOM.createPortal(
     <Dimmed
       position={position}
       onClick={e => {
         if (e.target === e.currentTarget) {
-          onCloseModal();
+          closeModal();
         }
       }}
     >
@@ -36,13 +36,13 @@ interface ModalWithHeader extends ModalProps {
 }
 
 Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>) {
-  const { position, animation, title, onCloseModal, children } = props;
+  const { position, animation, title, closeModal, children } = props;
 
   return (
-    <Modal position={position} onCloseModal={onCloseModal} animation={animation}>
+    <Modal position={position} closeModal={closeModal} animation={animation}>
       <Styled.ModalTop>
         <header>{title}</header>
-        <button onClick={onCloseModal}>X</button>
+        <button onClick={closeModal}>X</button>
       </Styled.ModalTop>
       {children}
     </Modal>

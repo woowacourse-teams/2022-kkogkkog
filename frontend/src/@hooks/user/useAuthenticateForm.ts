@@ -35,6 +35,9 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     onSuccess: () => {
       navigate('/login');
     },
+    onError() {
+      alert('회원가입에 실패했습니다.');
+    },
   });
 
   const { mutate: loginMutate } = useMutation(login, {
@@ -50,6 +53,9 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       remove();
 
       navigate('/');
+    },
+    onError() {
+      alert('아이디 또는 비밀번호를 잘못 입력했습니다.');
     },
   });
 

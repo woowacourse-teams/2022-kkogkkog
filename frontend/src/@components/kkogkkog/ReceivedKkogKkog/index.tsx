@@ -1,15 +1,22 @@
-import { useMemo } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMemo, useState } from 'react';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
+import { useChangeKkogKkogStatus } from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
 import { KkogKKogResponse } from '@/types/remote/response';
 
+import KkogKkogModal from '../KkogKkogModal';
 import * as Styled from './style';
 
 const filterOption = ['요청', '승인', '대기', '사용'] as const;
+
+const translateKorean = {
+  요청: 'REQUESTED',
+  승인: 'ACCEPTED',
+  대기: 'READY',
+  사용: 'FINISHED',
+} as const;
 
 type ReceivedKkogKkogFilterOptionType = typeof filterOption[number];
 
@@ -22,8 +29,20 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
 
   const { status, changeStatus } = useStatus<ReceivedKkogKkogFilterOptionType>('요청');
 
+  const [clickedCoupon, setClickedCoupon] = useState<KkogKKogResponse | null>(null);
+
+  const changeKkogKkogStatusMutation = useChangeKkogKkogStatus();
+
   const onClickFilterButton = (status: ReceivedKkogKkogFilterOptionType) => {
     changeStatus(status);
+  };
+
+  const openModal = (kkogkkog: KkogKKogResponse) => {
+    setClickedCoupon(kkogkkog);
+  };
+
+  const closeModal = () => {
+    setClickedCoupon(null);
   };
 
   const parsedKkogKkogList = useMemo(
@@ -44,63 +63,60 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
     [kkogkkogList]
   );
 
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-  });
-
-  const modalType: Record<
+  const statusData: Record<
     string,
     {
+      description: string;
       modalTitle: string;
       modalButtons?: { text: string; onClick: (args: { id: number; message?: string }) => void }[];
     }
   > = {
     REQUESTED: {
+      description: '사용 요청을 한',
       modalTitle: '쿠폰 사용 요청을 취소하시겠어요?',
       modalButtons: [
         {
           text: '요청 취소',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'CANCEL', message } });
           },
         },
       ],
     },
     READY: {
+      description: '사용 하지 않은',
       modalTitle: '쿠폰을 사용하시겠어요?',
       modalButtons: [
         {
           text: '사용 요청',
           onClick({ id, message }) {
-            changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', message } });
+            changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'REQUEST', message } });
           },
         },
         {
           text: '사용 완료',
           onClick({ id, message }) {
             console.log('사용 완료!');
-            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+            // changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'FINISH', message } });
           },
         },
       ],
     },
     ACCEPTED: {
+      description: '사용 승인 받은',
       modalTitle: '쿠폰 사용하셨나요??',
       modalButtons: [
         {
           text: '사용 완료',
           onClick({ id, message }) {
             console.log('사용 완료!');
-            // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+            // changeKkogKkogStatusMutation.mutate({ id, body: { couponEvent: 'FINISH', message } });
           },
         },
       ],
     },
     FINISHED: {
+      description: '사용한',
       modalTitle: '이미 사용한 쿠폰입니다.',
     },
   };
@@ -112,40 +128,20 @@ const ReceivedKkogKkog = (props: ReceivedKkogKkogProps) => {
         onClickFilterButton={onClickFilterButton}
         options={filterOption}
       />
-      {status === '요청' && (
-        <Styled.Container>
-          <div>
-            사용 <span>요청을 한</span> 꼭꼭
-          </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['REQUESTED']} modalType={modalType} />
-        </Styled.Container>
-      )}
-
-      {status === '승인' && (
-        <Styled.Container>
-          <div>
-            사용 <span>승인 받은</span> 꼭꼭
-          </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['ACCEPTED']} modalType={modalType} />
-        </Styled.Container>
-      )}
-
-      {status === '대기' && (
-        <Styled.Container>
-          <div>
-            사용 <span>하지 않은</span> 꼭꼭
-          </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['READY']} modalType={modalType} />
-        </Styled.Container>
-      )}
-
-      {status === '사용' && (
-        <Styled.Container>
-          <div>
-            <span>사용한</span> 꼭꼭
-          </div>
-          <KkogKkogList kkogkkogList={parsedKkogKkogList['FINISHED']} modalType={modalType} />
-        </Styled.Container>
+      <Styled.ListContainer>
+        <div>{statusData[translateKorean[status]].description} 꼭꼭</div>
+        <KkogKkogList
+          kkogkkogList={parsedKkogKkogList[translateKorean[status]]}
+          onClickCoupon={openModal}
+        />
+      </Styled.ListContainer>
+      {clickedCoupon && (
+        <KkogKkogModal
+          kkogkkog={clickedCoupon}
+          closeModal={closeModal}
+          modalTitle={statusData[clickedCoupon.couponStatus].modalTitle}
+          modalButtons={statusData[clickedCoupon.couponStatus].modalButtons}
+        />
       )}
     </Styled.Root>
   );

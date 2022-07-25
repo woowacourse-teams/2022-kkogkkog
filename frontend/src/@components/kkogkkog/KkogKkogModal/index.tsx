@@ -10,17 +10,17 @@ import KkogKkogItem from '../KkogKkogItem';
 import * as Styled from './style';
 
 interface KkogKkogItemProps {
-  kkogkkog: KkogKKogResponse & { thumbnail: string };
+  kkogkkog: KkogKKogResponse;
   modalTitle: string;
   modalButtons?: {
     text: string;
     onClick: (args: { id: number; message?: string }) => void;
   }[];
-  onCloseModal: () => void;
+  closeModal: () => void;
 }
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
-  const { kkogkkog, modalTitle, modalButtons, onCloseModal } = props;
+  const { kkogkkog, modalTitle, modalButtons, closeModal } = props;
   const { id, message } = kkogkkog;
 
   const [animation, setAnimation] = useState(false);
@@ -30,14 +30,14 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       title={modalTitle}
       position='bottom'
       animation={animation}
-      onCloseModal={() => {
+      closeModal={() => {
         setAnimation(true);
         setTimeout(() => {
-          onCloseModal();
+          closeModal();
         }, ANIMATION_DURATION.modal);
       }}
     >
-      <KkogKkogItem.Preview
+      <KkogKkogItem
         key={id}
         css={css`
           margin-bottom: 16px;
@@ -51,7 +51,10 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
             key={text}
             onClick={() => {
               onClick({ id });
-              onCloseModal();
+              setAnimation(true);
+              setTimeout(() => {
+                closeModal();
+              }, ANIMATION_DURATION.modal);
             }}
             css={Styled.ExtendedButton}
           >

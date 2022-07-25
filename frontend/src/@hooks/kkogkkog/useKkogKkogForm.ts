@@ -32,6 +32,9 @@ export const useKkogKkogForm = () => {
         },
       });
     },
+    onError() {
+      alert('입력창을 확인하고 다시 시도해주세요.');
+    },
   });
 
   const onSelectType = (type: KKOGKKOG_ENG_TYPE) => {
