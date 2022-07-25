@@ -59,7 +59,7 @@ public enum CouponStatus {
 
     private CouponStatus handleFinish() {
         if (this == FINISHED) {
-            throw new InvalidRequestException("이미 사용 완료 된 쿠폰입니다.");
+            throw new InvalidRequestException("이미 사용 완료된 쿠폰입니다.");
         }
         return FINISHED;
     }
