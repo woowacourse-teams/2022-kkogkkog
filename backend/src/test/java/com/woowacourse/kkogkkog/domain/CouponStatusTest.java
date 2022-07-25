@@ -96,4 +96,50 @@ class CouponStatusTest {
         assertThatThrownBy(() -> currentStatus.handle(event))
                 .isInstanceOf(InvalidRequestException.class);
     }
+
+    @Test
+    @DisplayName("READY 상태의 쿠폰은 FINISH 이벤트를 받으면 FINISHED 상태로 변경된다.")
+    void readyChangesToFinishOnFinishedEvent() {
+        CouponStatus currentStatus = CouponStatus.READY;
+        CouponEvent event = CouponEvent.FINISH;
+
+        CouponStatus actual = currentStatus.handle(event);
+        CouponStatus expected = CouponStatus.FINISHED;
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("REQUESTED 상태의 쿠폰은 FINISH 이벤트를 받으면 FINISHED 상태로 변경된다.")
+    void requestedChangesToFinishOnFinishedEvent() {
+        CouponStatus currentStatus = CouponStatus.REQUESTED;
+        CouponEvent event = CouponEvent.FINISH;
+
+        CouponStatus actual = currentStatus.handle(event);
+        CouponStatus expected = CouponStatus.FINISHED;
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("ACCEPTED 상태의 쿠폰은 FINISH 이벤트를 받으면 FINISHED 상태로 변경된다.")
+    void acceptedChangesToFinishOnFinishedEvent() {
+        CouponStatus currentStatus = CouponStatus.ACCEPTED;
+        CouponEvent event = CouponEvent.FINISH;
+
+        CouponStatus actual = currentStatus.handle(event);
+        CouponStatus expected = CouponStatus.FINISHED;
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("FINISHED 상태의 쿠폰은 FINISH 이벤트를 받으면 예외가 발생된다.")
+    void finishedCanNotHandleFinishEvent() {
+        CouponStatus currentStatus = CouponStatus.FINISHED;
+        CouponEvent event = CouponEvent.FINISH;
+
+        assertThatThrownBy(() -> currentStatus.handle(event))
+            .isInstanceOf(InvalidRequestException.class);
+    }
 }
