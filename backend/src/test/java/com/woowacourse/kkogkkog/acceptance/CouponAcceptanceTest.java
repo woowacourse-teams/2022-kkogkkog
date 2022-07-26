@@ -12,12 +12,11 @@ import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
-import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -55,9 +54,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             List<CouponResponse> sentCoupons = 쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO, ARTHUR)).getData();
             List<CouponResponse> receivedCoupons = 쿠폰_발급에_성공한다(leoAccessToken, List.of(JEONG)).getData();
 
-            SuccessResponse<CouponsResponse> actual = 쿠폰_전체_조회에_성공한다(jeongAccessToken);
-            SuccessResponse<CouponsResponse> expected = new SuccessResponse<>(
-                    new CouponsResponse(receivedCoupons, sentCoupons));
+            MyCouponsResponse actual = 쿠폰_전체_조회에_성공한다(jeongAccessToken);
+            MyCouponsResponse expected = new MyCouponsResponse(receivedCoupons, sentCoupons);
 
             assertThat(actual).usingRecursiveComparison()
                     .isEqualTo(expected);
@@ -70,13 +68,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         }
 
-        private SuccessResponse<CouponsResponse> 쿠폰_전체_조회에_성공한다(String accessToken) {
+        private MyCouponsResponse 쿠폰_전체_조회에_성공한다(String accessToken) {
             ExtractableResponse<Response> extract = 쿠폰_전체_조회를_요청한다(accessToken);
             assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
-            JsonPath responseBody = extract.body().jsonPath();
-            return new SuccessResponse<>(new CouponsResponse(
-                    responseBody.getList("data.received", CouponResponse.class),
-                    responseBody.getList("data.sent", CouponResponse.class)));
+            return extract.as(MyCouponsResponse.class);
         }
 
         private ExtractableResponse<Response> 쿠폰_전체_조회를_요청한다(String accessToken) {

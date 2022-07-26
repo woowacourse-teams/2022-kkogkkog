@@ -4,7 +4,7 @@ import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
-import com.woowacourse.kkogkkog.presentation.dto.CouponsResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import java.util.List;
 import javax.validation.Valid;
@@ -27,17 +27,17 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<CouponsResponse>> showAll(@LoginMember Long loginMemberId) {
-        SuccessResponse<CouponsResponse> myCouponsResponse = new SuccessResponse<>(new CouponsResponse(
+    public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
+        MyCouponsResponse myCouponsResponse = new MyCouponsResponse(
                 couponService.findAllByReceiver(loginMemberId),
-                couponService.findAllBySender(loginMemberId)));
+                couponService.findAllBySender(loginMemberId));
 
         return ResponseEntity.ok(myCouponsResponse);
     }
 
     @PostMapping
     public ResponseEntity<SuccessResponse<List<CouponResponse>>> create(@LoginMember Long loginMemberId,
-                                                       @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
+                                                                        @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
         List<CouponResponse> couponResponses = couponService.save(
                 couponCreateRequest.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new SuccessResponse<>(couponResponses));
