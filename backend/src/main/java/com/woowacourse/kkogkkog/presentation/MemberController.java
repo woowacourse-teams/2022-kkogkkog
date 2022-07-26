@@ -24,7 +24,8 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@Valid @RequestBody MemberCreateRequest memberCreateRequest) {
+    public ResponseEntity<Void> create(
+        @Valid @RequestBody MemberCreateRequest memberCreateRequest) {
         memberService.save(memberCreateRequest);
 
         return ResponseEntity.created(null).build();

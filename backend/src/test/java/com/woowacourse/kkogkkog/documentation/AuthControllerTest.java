@@ -35,27 +35,27 @@ class AuthControllerTest extends Documentation {
 
         // when
         ResultActions perform = mockMvc.perform(post("/api/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(tokenRequest)));
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(tokenRequest)));
 
         // then
         perform
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").value("accessToken"));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.accessToken").value("accessToken"));
 
         // docs
         perform
-                .andDo(print())
-                .andDo(document("auth-login",
-                        getDocumentRequest(),
-                        getDocumentResponse(),
-                        requestFields(
-                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                                fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
-                        ),
-                        responseFields(
-                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰")
-                        )
-                ));
+            .andDo(print())
+            .andDo(document("auth-login",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestFields(
+                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                    fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                ),
+                responseFields(
+                    fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰")
+                )
+            ));
     }
 }

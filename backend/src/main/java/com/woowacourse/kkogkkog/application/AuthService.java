@@ -23,7 +23,7 @@ public class AuthService {
 
     public TokenResponse login(TokenRequest tokenRequest) {
         Member findMember = memberRepository.findByEmail(tokenRequest.getEmail())
-                .orElseThrow(MemberNotFoundException::new);
+            .orElseThrow(MemberNotFoundException::new);
         if (findMember.isNotSamePassword(tokenRequest.getPassword())) {
             throw new MemberWrongInputException();
         }

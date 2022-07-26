@@ -48,7 +48,8 @@ public class Coupon {
     @Column(nullable = false)
     private CouponStatus couponStatus;
 
-    public Coupon(Member sender, Member receiver, String modifier, String message, String backgroundColor,
+    public Coupon(Member sender, Member receiver, String modifier, String message,
+                  String backgroundColor,
                   CouponType couponType, CouponStatus couponStatus) {
         this(null, sender, receiver, modifier, message, backgroundColor, couponType, couponStatus);
     }

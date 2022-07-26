@@ -27,9 +27,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs
 @WebMvcTest({
-        AuthController.class,
-        CouponController.class,
-        MemberController.class,
+    AuthController.class,
+    CouponController.class,
+    MemberController.class,
 })
 public abstract class Documentation {
 
@@ -52,11 +52,12 @@ public abstract class Documentation {
     protected JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
-    public void setUp(WebApplicationContext ctx, RestDocumentationContextProvider restDocumentationContextProvider) {
+    public void setUp(WebApplicationContext ctx,
+                      RestDocumentationContextProvider restDocumentationContextProvider) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx)
-                .apply(documentationConfiguration(restDocumentationContextProvider))
-                .addFilter(new CharacterEncodingFilter("UTF-8", true))
-                .alwaysDo(print())
-                .build();
+            .apply(documentationConfiguration(restDocumentationContextProvider))
+            .addFilter(new CharacterEncodingFilter("UTF-8", true))
+            .alwaysDo(print())
+            .build();
     }
 }

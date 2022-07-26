@@ -16,7 +16,7 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatNoException()
-                .isThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver));
+            .isThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver));
     }
 
     @Test
@@ -26,7 +26,7 @@ class CouponEventTest {
         boolean isReceiver = false;
 
         assertThatThrownBy(() -> CouponEvent.REQUEST.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test
@@ -36,7 +36,7 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatNoException()
-                .isThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver));
+            .isThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver));
     }
 
     @Test
@@ -46,7 +46,7 @@ class CouponEventTest {
         boolean isReceiver = false;
 
         assertThatThrownBy(() -> CouponEvent.CANCEL.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test
@@ -76,7 +76,7 @@ class CouponEventTest {
         boolean isReceiver = false;
 
         assertThatNoException()
-                .isThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver));
+            .isThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver));
     }
 
     @Test
@@ -86,7 +86,7 @@ class CouponEventTest {
         boolean isReceiver = true;
 
         assertThatThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test

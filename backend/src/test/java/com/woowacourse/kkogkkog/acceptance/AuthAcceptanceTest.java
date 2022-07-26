@@ -18,7 +18,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 로그인_할_수_있다() {
         MemberAcceptanceTest.회원_가입에_성공한다(new MemberCreateRequest("rookie@gmail.com",
-                "password1234!", "rookie"));
+            "password1234!", "rookie"));
         TokenRequest tokenRequest = new TokenRequest("rookie@gmail.com", "password1234!");
 
         로그인에_성공한다(tokenRequest);
@@ -26,12 +26,12 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     public static TokenResponse 로그인에_성공한다(TokenRequest tokenRequest) {
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
-                .body(tokenRequest)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when()
-                .post("/api/login")
-                .then().log().all()
-                .extract();
+            .body(tokenRequest)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .post("/api/login")
+            .then().log().all()
+            .extract();
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
         return extract.as(TokenResponse.class);

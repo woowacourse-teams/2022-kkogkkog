@@ -29,17 +29,18 @@ public class CouponController {
     @GetMapping
     public ResponseEntity<MyCouponsResponse> showAll(@LoginMember Long loginMemberId) {
         MyCouponsResponse myCouponsResponse = new MyCouponsResponse(
-                couponService.findAllByReceiver(loginMemberId),
-                couponService.findAllBySender(loginMemberId));
+            couponService.findAllByReceiver(loginMemberId),
+            couponService.findAllBySender(loginMemberId));
 
         return ResponseEntity.ok(myCouponsResponse);
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponse<List<CouponResponse>>> create(@LoginMember Long loginMemberId,
-                                                                        @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
+    public ResponseEntity<SuccessResponse<List<CouponResponse>>> create(
+        @LoginMember Long loginMemberId,
+        @Valid @RequestBody CouponCreateRequest couponCreateRequest) {
         List<CouponResponse> couponResponses = couponService.save(
-                couponCreateRequest.toCouponSaveRequest(loginMemberId));
+            couponCreateRequest.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new SuccessResponse<>(couponResponses));
     }
 
@@ -53,7 +54,8 @@ public class CouponController {
     public ResponseEntity<Void> action(@LoginMember Long loginMemberId,
                                        @PathVariable Long couponId,
                                        @RequestBody CouponEventRequest couponEventRequest) {
-        couponService.changeStatus(couponEventRequest.toCouponChangeStatusRequest(loginMemberId, couponId));
+        couponService.changeStatus(
+            couponEventRequest.toCouponChangeStatusRequest(loginMemberId, couponId));
         return ResponseEntity.ok().build();
     }
 }

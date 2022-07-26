@@ -31,7 +31,7 @@ class JwtTokenProviderTest {
         String fakeToken = "FakeToken";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(fakeToken))
-                .isInstanceOf(UnauthenticatedTokenException.class);
+            .isInstanceOf(UnauthenticatedTokenException.class);
     }
 
     @Test
@@ -40,6 +40,6 @@ class JwtTokenProviderTest {
         String expiredToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjU3Nzg3Mzk3LCJleHAiOjE2NTc3ODc0MzN9.B1dAhi-5oyQSeZjAPYYNPA_eeYxF00HO6YPqq58bk1_Yr7tsV44LhY_n4RVpLW8StdbbLuui7uwgSBLu_uM2cQ";
 
         assertThatThrownBy(() -> jwtTokenProvider.getValidatedPayload(expiredToken))
-                .isInstanceOf(UnauthenticatedTokenException.class);
+            .isInstanceOf(UnauthenticatedTokenException.class);
     }
 }

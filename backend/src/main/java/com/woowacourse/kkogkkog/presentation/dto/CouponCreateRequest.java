@@ -26,7 +26,8 @@ public class CouponCreateRequest {
     @NotBlank(message = "쿠폰 타입을 입력해주세요")
     private String couponType;
 
-    public CouponCreateRequest(List<Long> receivers, String modifier, String message, String backgroundColor,
+    public CouponCreateRequest(List<Long> receivers, String modifier, String message,
+                               String backgroundColor,
                                String couponType) {
         this.receivers = receivers;
         this.modifier = modifier;
@@ -36,6 +37,7 @@ public class CouponCreateRequest {
     }
 
     public CouponSaveRequest toCouponSaveRequest(Long senderId) {
-        return new CouponSaveRequest(senderId, receivers, modifier, message, backgroundColor, couponType);
+        return new CouponSaveRequest(senderId, receivers, modifier, message, backgroundColor,
+            couponType);
     }
 }

@@ -30,8 +30,10 @@ public class CouponServiceTest extends ServiceTest {
 
     private static final Member JEONG = new Member(null, "jeong@gmail.com", "password1234!", "정");
     private static final Member LEO = new Member(null, "leo@gmail.com", "password1234!", "레오");
-    private static final Member ROOKIE = new Member(null, "rookie@gmail.com", "password1234!", "루키");
-    private static final Member ARTHUR = new Member(null, "arthur@gmail.com", "password1234!", "아서");
+    private static final Member ROOKIE = new Member(null, "rookie@gmail.com", "password1234!",
+        "루키");
+    private static final Member ARTHUR = new Member(null, "arthur@gmail.com", "password1234!",
+        "아서");
 
     @Autowired
     private CouponService couponService;
@@ -56,7 +58,8 @@ public class CouponServiceTest extends ServiceTest {
         @DisplayName("존재하는 쿠폰을 조회하는 경우 성공한다.")
         @Test
         void findById() {
-            List<CouponResponse> savedCoupons = couponService.save(toCouponSaveRequest(JEONG, List.of(LEO, ROOKIE)));
+            List<CouponResponse> savedCoupons = couponService.save(
+                toCouponSaveRequest(JEONG, List.of(LEO, ROOKIE)));
 
             CouponResponse expected = savedCoupons.get(0);
             CouponResponse actual = couponService.findById(expected.getId());
@@ -68,7 +71,7 @@ public class CouponServiceTest extends ServiceTest {
         @DisplayName("존재하지 않는 쿠폰을 조회할 경우 예외가 발생한다.")
         void findById_notFound() {
             assertThatThrownBy(() -> couponService.findById(1L))
-                    .isInstanceOf(CouponNotFoundException.class);
+                .isInstanceOf(CouponNotFoundException.class);
         }
     }
 
@@ -94,9 +97,9 @@ public class CouponServiceTest extends ServiceTest {
             Long senderId = ROOKIE.getId();
 
             List<Long> actual = couponService.findAllBySender(ROOKIE.getId())
-                    .stream().map(CouponResponse::getSender)
-                    .map(CouponMemberResponse::getId)
-                    .collect(Collectors.toList());
+                .stream().map(CouponResponse::getSender)
+                .map(CouponMemberResponse::getId)
+                .collect(Collectors.toList());
             List<Long> expected = List.of(senderId, senderId, senderId);
 
             assertThat(actual).isEqualTo(expected);
@@ -125,9 +128,9 @@ public class CouponServiceTest extends ServiceTest {
             Long receiverId = JEONG.getId();
 
             List<Long> actual = couponService.findAllByReceiver(receiverId)
-                    .stream().map(CouponResponse::getReceiver)
-                    .map(CouponMemberResponse::getId)
-                    .collect(Collectors.toList());
+                .stream().map(CouponResponse::getReceiver)
+                .map(CouponMemberResponse::getId)
+                .collect(Collectors.toList());
             List<Long> expected = List.of(receiverId, receiverId);
 
             assertThat(actual).isEqualTo(expected);
@@ -141,7 +144,8 @@ public class CouponServiceTest extends ServiceTest {
         @Test
         @DisplayName("받는 사람으로 지정한 사용자들에게 동일한 내용의 쿠폰이 발급된다.")
         void save() {
-            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR, JEONG, LEO));
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE,
+                List.of(ARTHUR, JEONG, LEO));
             List<CouponResponse> createdCoupons = couponService.save(couponSaveRequest);
 
             assertThat(createdCoupons.size()).isEqualTo(3);
@@ -150,19 +154,21 @@ public class CouponServiceTest extends ServiceTest {
         @Test
         @DisplayName("존재하지 않는 사용자가 쿠폰을 보내려는 경우 예외가 발생한다.")
         void save_senderNotFound() {
-            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(NON_EXISTING_MEMBER, List.of(ARTHUR, LEO));
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(NON_EXISTING_MEMBER,
+                List.of(ARTHUR, LEO));
 
             assertThatThrownBy(() -> couponService.save(couponSaveRequest))
-                    .isInstanceOf(MemberNotFoundException.class);
+                .isInstanceOf(MemberNotFoundException.class);
         }
 
         @Test
         @DisplayName("존재하지 않는 사용자에게 쿠폰을 보내려는 경우 예외가 발생한다.")
         void save_receiverNotFound() {
-            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(JEONG, List.of(ARTHUR, NON_EXISTING_MEMBER));
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(JEONG,
+                List.of(ARTHUR, NON_EXISTING_MEMBER));
 
             assertThatThrownBy(() -> couponService.save(couponSaveRequest))
-                    .isInstanceOf(MemberNotFoundException.class);
+                .isInstanceOf(MemberNotFoundException.class);
         }
     }
 
@@ -175,8 +181,9 @@ public class CouponServiceTest extends ServiceTest {
         void request() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
-            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
+                ARTHUR.getId(),
+                couponId, CouponEvent.REQUEST);
 
             couponService.changeStatus(couponChangeStatusRequest);
             CouponResponse actual = couponService.findById(couponId);
@@ -190,11 +197,12 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
 
-            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(ROOKIE.getId(),
-                    couponId, CouponEvent.REQUEST);
+            CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
+                ROOKIE.getId(),
+                couponId, CouponEvent.REQUEST);
 
             assertThatThrownBy(() -> couponService.changeStatus(couponChangeStatusRequest))
-                    .isInstanceOf(ForbiddenException.class);
+                .isInstanceOf(ForbiddenException.class);
         }
 
         @Test
@@ -203,11 +211,11 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                couponId, CouponEvent.REQUEST);
             couponService.changeStatus(couponRequest);
 
             CouponChangeStatusRequest couponCancel = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.CANCEL);
+                couponId, CouponEvent.CANCEL);
             couponService.changeStatus(couponCancel);
 
             CouponResponse actual = couponService.findById(couponId);
@@ -220,14 +228,14 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                couponId, CouponEvent.REQUEST);
             couponService.changeStatus(couponRequest);
 
             CouponChangeStatusRequest couponCancel = new CouponChangeStatusRequest(ROOKIE.getId(),
-                    couponId, CouponEvent.CANCEL);
+                couponId, CouponEvent.CANCEL);
 
             assertThatThrownBy(() -> couponService.changeStatus(couponCancel))
-                    .isInstanceOf(ForbiddenException.class);
+                .isInstanceOf(ForbiddenException.class);
         }
 
         @Test
@@ -269,11 +277,11 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                couponId, CouponEvent.REQUEST);
             couponService.changeStatus(couponRequest);
 
             CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(ROOKIE.getId(),
-                    couponId, CouponEvent.ACCEPT);
+                couponId, CouponEvent.ACCEPT);
             couponService.changeStatus(couponDecline);
 
             CouponResponse actual = couponService.findById(couponId);
@@ -286,14 +294,14 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
             Long couponId = couponService.save(couponSaveRequest).get(0).getId();
             CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                couponId, CouponEvent.REQUEST);
             couponService.changeStatus(couponRequest);
 
             CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(ARTHUR.getId(),
-                    couponId, CouponEvent.ACCEPT);
+                couponId, CouponEvent.ACCEPT);
 
             assertThatThrownBy(() -> couponService.changeStatus(couponDecline))
-                    .isInstanceOf(ForbiddenException.class);
+                .isInstanceOf(ForbiddenException.class);
         }
 
         @Test
@@ -372,8 +380,9 @@ public class CouponServiceTest extends ServiceTest {
 
     private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
         List<Long> receiverIds = receivers.stream()
-                .map(Member::getId)
-                .collect(Collectors.toList());
-        return new CouponSaveRequest(sender.getId(), receiverIds, "#123456", "한턱내는", "추가 메세지", "COFFEE");
+            .map(Member::getId)
+            .collect(Collectors.toList());
+        return new CouponSaveRequest(sender.getId(), receiverIds, "#123456", "한턱내는", "추가 메세지",
+            "COFFEE");
     }
 }
