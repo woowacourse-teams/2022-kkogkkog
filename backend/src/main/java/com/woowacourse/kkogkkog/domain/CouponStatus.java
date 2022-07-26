@@ -7,6 +7,7 @@ public enum CouponStatus {
     READY,
     REQUESTED,
     ACCEPTED,
+    FINISHED,
     ;
 
     public CouponStatus handle(CouponEvent event) {
@@ -21,6 +22,9 @@ public enum CouponStatus {
         }
         if (event == CouponEvent.ACCEPT) {
             return handleAccept();
+        }
+        if (event == CouponEvent.FINISH) {
+            return handleFinish();
         }
         throw new InvalidRequestException("처리할 수 없는 요청입니다.");
     }
@@ -51,5 +55,12 @@ public enum CouponStatus {
             throw new InvalidRequestException("사용 요청 상태의 쿠폰이 아닙니다.");
         }
         return ACCEPTED;
+    }
+
+    private CouponStatus handleFinish() {
+        if (this == FINISHED) {
+            throw new InvalidRequestException("이미 사용 완료된 쿠폰입니다.");
+        }
+        return FINISHED;
     }
 }

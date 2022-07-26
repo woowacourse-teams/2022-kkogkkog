@@ -7,7 +7,11 @@ import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class CouponTest {
@@ -121,5 +125,67 @@ public class CouponTest {
 
         assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.ACCEPT, receiver))
                 .isInstanceOf(ForbiddenException.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSenderAndReceiver")
+    void READY_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member sender, Member receiver, Member requester) {
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.READY);
+
+        coupon.changeStatus(CouponEvent.FINISH, requester);
+
+        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSenderAndReceiver")
+    void REQUESTED_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member sender, Member receiver, Member requester) {
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.REQUESTED);
+
+        coupon.changeStatus(CouponEvent.FINISH, requester);
+
+        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSenderAndReceiver")
+    void ACCEPTED_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member sender, Member receiver, Member requester) {
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.ACCEPTED);
+
+        coupon.changeStatus(CouponEvent.FINISH, requester);
+
+        assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideSenderAndReceiver")
+    void FINISHED_상태의_쿠폰에_대한_사용_완료를_보낼_수_없다(Member sender, Member receiver, Member requester) {
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.FINISHED);
+
+        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, requester))
+            .isInstanceOf(InvalidRequestException.class);
+    }
+
+    @Test
+    void 보낸_사람과_받은_사람이_아니면_FINISHED_상태의_쿠폰에_대한_사용_완료를_보낼_수_없다() {
+        Member sender = MemberFixture.ROOKIE;
+        Member receiver = MemberFixture.ARTHUR;
+        Member requester = MemberFixture.JEONG;
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.READY);
+
+        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.ACCEPT, requester))
+            .isInstanceOf(ForbiddenException.class);
+    }
+
+    public static Stream<Arguments> provideSenderAndReceiver() {
+        return Stream.of(
+            Arguments.of(MemberFixture.ROOKIE,MemberFixture.ARTHUR,MemberFixture.ROOKIE),
+            Arguments.of(MemberFixture.ROOKIE,MemberFixture.ARTHUR,MemberFixture.ARTHUR)
+        );
     }
 }

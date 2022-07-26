@@ -88,4 +88,34 @@ class CouponEventTest {
         assertThatThrownBy(() -> CouponEvent.ACCEPT.checkExecutable(isSender, isReceiver))
                 .isInstanceOf(ForbiddenException.class);
     }
+
+    @Test
+    @DisplayName("쿠폰을 보낸 사람이 사용 완료를 할 수 있다")
+    void senderCanFinish() {
+        boolean isSender = true;
+        boolean isReceiver = false;
+
+        assertThatNoException()
+            .isThrownBy(() -> CouponEvent.FINISH.checkExecutable(isSender, isReceiver));
+    }
+
+    @Test
+    @DisplayName("쿠폰을 받은 사람이 사용 완료를 할 수 있다")
+    void receiverCanFinish() {
+        boolean isSender = false;
+        boolean isReceiver = true;
+
+        assertThatNoException()
+            .isThrownBy(() -> CouponEvent.FINISH.checkExecutable(isSender, isReceiver));
+    }
+
+    @Test
+    @DisplayName("쿠폰을 보내거나 받지 않은 사람이 쿠폰 사용 완료를 보내는 경우 예외가 발생한다.")
+    void otherCanNotFinish() {
+        boolean isSender = false;
+        boolean isReceiver = false;
+
+        assertThatThrownBy(() -> CouponEvent.FINISH.checkExecutable(isSender, isReceiver))
+            .isInstanceOf(ForbiddenException.class);
+    }
 }
