@@ -56,5 +56,8 @@ public enum CouponEvent {
     }
 
     private static void canFinish(boolean isSender, boolean isReceiver) {
+        if (!isSender && !isReceiver) {
+            throw new ForbiddenException("쿠폰을 보낸 사람과 받은 사람만 사용 완료할 수 있습니다.");
+        }
     }
 }

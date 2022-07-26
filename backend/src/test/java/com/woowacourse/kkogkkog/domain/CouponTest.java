@@ -129,9 +129,7 @@ public class CouponTest {
 
     @ParameterizedTest
     @MethodSource("provideSenderAndReceiver")
-    void READY_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member requester) {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
+    void READY_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member sender, Member receiver, Member requester) {
         Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
             CouponStatus.READY);
 
@@ -142,9 +140,7 @@ public class CouponTest {
 
     @ParameterizedTest
     @MethodSource("provideSenderAndReceiver")
-    void REQUESTED_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member requester) {
-        Member sender = MemberFixture.ROOKIE;
-        Member receiver = MemberFixture.ARTHUR;
+    void REQUESTED_상태의_쿠폰에_대한_사용_완료를_보낼_수_있다(Member sender, Member receiver, Member requester) {
         Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
             CouponStatus.REQUESTED);
 
@@ -172,6 +168,18 @@ public class CouponTest {
 
         assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, requester))
             .isInstanceOf(InvalidRequestException.class);
+    }
+
+    @Test
+    void 보낸_사람과_받은_사람이_아니면_FINISHED_상태의_쿠폰에_대한_사용_완료를_보낼_수_없다() {
+        Member sender = MemberFixture.ROOKIE;
+        Member receiver = MemberFixture.ARTHUR;
+        Member requester = MemberFixture.JEONG;
+        Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223", CouponType.COFFEE,
+            CouponStatus.READY);
+
+        assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.ACCEPT, requester))
+            .isInstanceOf(ForbiddenException.class);
     }
 
     public static Stream<Arguments> provideSenderAndReceiver() {
