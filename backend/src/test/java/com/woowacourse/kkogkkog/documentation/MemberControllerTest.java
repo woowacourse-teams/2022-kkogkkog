@@ -30,7 +30,8 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 회원_가입을_요청한다() throws Exception {
         // given
-        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com", "password1234!", "nickname");
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com",
+            "password1234!", "nickname");
         given(memberService.save(any())).willReturn(1L);
 
         // when
@@ -59,7 +60,7 @@ public class MemberControllerTest extends Documentation {
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
         List<MemberResponse> membersResponse = List.of(
-            new MemberResponse(1L,"user1@gmail.com", "user1"),
+            new MemberResponse(1L, "user1@gmail.com", "user1"),
             new MemberResponse(2L, "user2@gmail.com", "user2")
         );
         given(memberService.findAll()).willReturn(membersResponse);

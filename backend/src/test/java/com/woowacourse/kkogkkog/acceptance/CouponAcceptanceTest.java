@@ -51,14 +51,16 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             회원_가입에_성공한다(toMemberCreateRequest(ARTHUR));
             String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
-            List<CouponResponse> sentCoupons = 쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO, ARTHUR)).getData();
-            List<CouponResponse> receivedCoupons = 쿠폰_발급에_성공한다(leoAccessToken, List.of(JEONG)).getData();
+            List<CouponResponse> sentCoupons = 쿠폰_발급에_성공한다(jeongAccessToken,
+                List.of(LEO, ARTHUR)).getData();
+            List<CouponResponse> receivedCoupons = 쿠폰_발급에_성공한다(leoAccessToken,
+                List.of(JEONG)).getData();
 
             MyCouponsResponse actual = 쿠폰_전체_조회에_성공한다(jeongAccessToken);
             MyCouponsResponse expected = new MyCouponsResponse(receivedCoupons, sentCoupons);
 
             assertThat(actual).usingRecursiveComparison()
-                    .isEqualTo(expected);
+                .isEqualTo(expected);
         }
 
         @Test
@@ -76,11 +78,11 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         private ExtractableResponse<Response> 쿠폰_전체_조회를_요청한다(String accessToken) {
             return RestAssured.given().log().all()
-                    .auth().oauth2(accessToken)
-                    .when()
-                    .get("/api/coupons")
-                    .then().log().all()
-                    .extract();
+                .auth().oauth2(accessToken)
+                .when()
+                .get("/api/coupons")
+                .then().log().all()
+                .extract();
         }
     }
 
@@ -96,11 +98,12 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             회원_가입에_성공한다(toMemberCreateRequest(ROOKIE));
             String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
 
-            SuccessResponse<List<CouponResponse>> actual = 쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO, ARTHUR, ROOKIE));
+            SuccessResponse<List<CouponResponse>> actual = 쿠폰_발급에_성공한다(jeongAccessToken,
+                List.of(LEO, ARTHUR, ROOKIE));
             SuccessResponse<List<CouponResponse>> expected = new SuccessResponse<>(List.of(
-                    toCouponResponse(1L, JEONG, LEO),
-                    toCouponResponse(2L, JEONG, ARTHUR),
-                    toCouponResponse(3L, JEONG, ROOKIE)));
+                toCouponResponse(1L, JEONG, LEO),
+                toCouponResponse(2L, JEONG, ARTHUR),
+                toCouponResponse(3L, JEONG, ROOKIE)));
 
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         }
@@ -129,9 +132,11 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 받는_사람이_존재하지_않는_경우_쿠폰을_발급할_수_없다() {
             Member leo = LEO;
             회원_가입에_성공한다(toMemberCreateRequest(leo));
-            String accessToken = 로그인에_성공한다(new TokenRequest(leo.getEmail(), leo.getPassword())).getAccessToken();
+            String accessToken = 로그인에_성공한다(
+                new TokenRequest(leo.getEmail(), leo.getPassword())).getAccessToken();
 
-            ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken, List.of(NON_EXISTING_MEMBER));
+            ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken,
+                List.of(NON_EXISTING_MEMBER));
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
@@ -169,10 +174,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         private ExtractableResponse<Response> 쿠폰_조회를_요청한다(Long couponId) {
             return RestAssured.given().log().all()
-                    .when()
-                    .get("/api/coupons/" + couponId)
-                    .then().log().all()
-                    .extract();
+                .when()
+                .get("/api/coupons/" + couponId)
+                .then().log().all()
+                .extract();
         }
     }
 
@@ -188,7 +193,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
+                CouponEvent.REQUEST.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -201,7 +207,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, "존재하지_않는_이벤트");
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
+                "존재하지_않는_이벤트");
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -215,7 +222,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
-            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.CANCEL.name());
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
+                CouponEvent.CANCEL.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -228,7 +236,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.CANCEL.name());
+            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
+                CouponEvent.CANCEL.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -243,7 +252,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                    CouponEvent.DECLINE.name());
+                CouponEvent.DECLINE.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -256,7 +265,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                    CouponEvent.DECLINE.name());
+                CouponEvent.DECLINE.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -271,7 +280,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                    CouponEvent.ACCEPT.name());
+                CouponEvent.ACCEPT.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -284,7 +293,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                    CouponEvent.ACCEPT.name());
+                CouponEvent.ACCEPT.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -302,6 +311,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
+
         @Test
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
             회원_가입에_성공한다(toMemberCreateRequest(JEONG));
@@ -362,6 +372,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
+
         @Test
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
             회원_가입에_성공한다(toMemberCreateRequest(JEONG));
@@ -414,39 +425,44 @@ public class CouponAcceptanceTest extends AcceptanceTest {
                                                              Long couponId,
                                                              String couponEvent) {
             return RestAssured.given().log().all()
-                    .auth().oauth2(accessToken)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .body(new CouponEventRequest(couponEvent))
-                    .when()
-                    .post("/api/coupons/{couponId}/event", couponId)
-                    .then().log().all()
-                    .extract();
+                .auth().oauth2(accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new CouponEventRequest(couponEvent))
+                .when()
+                .post("/api/coupons/{couponId}/event", couponId)
+                .then().log().all()
+                .extract();
         }
     }
 
-    public static SuccessResponse<List<CouponResponse>> 쿠폰_발급에_성공한다(String accessToken, List<Member> receivers) {
+    public static SuccessResponse<List<CouponResponse>> 쿠폰_발급에_성공한다(String accessToken,
+                                                                    List<Member> receivers) {
         ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken, receivers);
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
-        return new SuccessResponse<>(response.body().jsonPath().getList("data", CouponResponse.class));
+        return new SuccessResponse<>(
+            response.body().jsonPath().getList("data", CouponResponse.class));
     }
 
-    public static ExtractableResponse<Response> 쿠폰_발급을_요청한다(String accessToken, List<Member> receivers) {
+    public static ExtractableResponse<Response> 쿠폰_발급을_요청한다(String accessToken,
+                                                            List<Member> receivers) {
         List<Long> receiverIds = receivers.stream()
-                .map(Member::getId)
-                .collect(Collectors.toList());
+            .map(Member::getId)
+            .collect(Collectors.toList());
 
         return RestAssured.given().log().all()
-                .auth().oauth2(accessToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new CouponCreateRequest(receiverIds, MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE))
-                .when()
-                .post("/api/coupons")
-                .then().log().all()
-                .extract();
+            .auth().oauth2(accessToken)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(new CouponCreateRequest(receiverIds, MODIFIER, MESSAGE, BACKGROUND_COLOR,
+                COUPON_TYPE))
+            .when()
+            .post("/api/coupons")
+            .then().log().all()
+            .extract();
     }
 
     private MemberCreateRequest toMemberCreateRequest(Member member) {
-        return new MemberCreateRequest(member.getEmail(), member.getPassword(), member.getNickname());
+        return new MemberCreateRequest(member.getEmail(), member.getPassword(),
+            member.getNickname());
     }
 
     private TokenRequest toTokenRequest(Member member) {
@@ -457,6 +473,6 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         CouponMemberResponse senderResponse = CouponMemberResponse.of(sender);
         CouponMemberResponse receiverResponse = CouponMemberResponse.of(receiver);
         return new CouponResponse(couponId, senderResponse, receiverResponse,
-                MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE, CouponStatus.READY.name());
+            MODIFIER, MESSAGE, BACKGROUND_COLOR, COUPON_TYPE, CouponStatus.READY.name());
     }
 }

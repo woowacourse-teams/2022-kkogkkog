@@ -43,7 +43,8 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException bindingResult) {
+    public ResponseEntity<ErrorResponse> handleException(
+        MethodArgumentNotValidException bindingResult) {
         String causes = bindingResult.getFieldErrors()
             .stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage)

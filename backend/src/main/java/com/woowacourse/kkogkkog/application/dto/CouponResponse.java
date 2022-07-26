@@ -33,13 +33,13 @@ public class CouponResponse {
 
     public static CouponResponse of(Coupon coupon) {
         return new CouponResponse(
-                coupon.getId(),
-                CouponMemberResponse.of(coupon.getSender()),
-                CouponMemberResponse.of(coupon.getReceiver()),
-                coupon.getModifier(),
-                coupon.getMessage(),
-                coupon.getBackgroundColor(),
-                coupon.getCouponType().name(),
-                coupon.getCouponStatus().name());
+            coupon.getId(),
+            CouponMemberResponse.of(coupon.getSender()),
+            CouponMemberResponse.of(coupon.getReceiver()),
+            coupon.getModifier(),
+            coupon.getMessage(),
+            coupon.getBackgroundColor(),
+            coupon.getCouponType().name(),
+            coupon.getCouponStatus().name());
     }
 }

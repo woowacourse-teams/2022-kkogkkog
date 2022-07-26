@@ -38,25 +38,25 @@ public class CouponService {
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllBySender(Long senderId) {
         return couponRepository.findAllBySender(findMember(senderId))
-                .stream()
-                .map(CouponResponse::of)
-                .collect(Collectors.toList());
+            .stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllByReceiver(Long receiverId) {
         return couponRepository.findAllByReceiver(findMember(receiverId))
-                .stream()
-                .map(CouponResponse::of)
-                .collect(Collectors.toList());
+            .stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     public List<CouponResponse> save(CouponSaveRequest couponSaveRequest) {
         List<Coupon> coupons = toCoupons(couponSaveRequest);
         List<Coupon> savedCoupons = couponRepository.saveAll(coupons);
         return savedCoupons.stream()
-                .map(CouponResponse::of)
-                .collect(Collectors.toList());
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     private List<Coupon> toCoupons(CouponSaveRequest couponSaveRequest) {
@@ -68,8 +68,9 @@ public class CouponService {
         CouponType couponType = CouponType.valueOf(couponSaveRequest.getCouponType());
         CouponStatus couponStatus = CouponStatus.READY;
         return receivers.stream()
-                .map(it -> new Coupon(sender, it, modifier, message, backgroundColor, couponType, couponStatus))
-                .collect(Collectors.toList());
+            .map(it -> new Coupon(sender, it, modifier, message, backgroundColor, couponType,
+                couponStatus))
+            .collect(Collectors.toList());
     }
 
     private List<Member> findMembers(List<Long> memberIds) {
@@ -88,11 +89,11 @@ public class CouponService {
 
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+            .orElseThrow(MemberNotFoundException::new);
     }
 
     private Coupon findCoupon(Long couponId) {
         return couponRepository.findById(couponId)
-                .orElseThrow(CouponNotFoundException::new);
+            .orElseThrow(CouponNotFoundException::new);
     }
 }

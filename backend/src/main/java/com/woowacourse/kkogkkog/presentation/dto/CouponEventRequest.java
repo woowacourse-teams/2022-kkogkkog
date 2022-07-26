@@ -16,7 +16,8 @@ public class CouponEventRequest {
         this.couponEvent = couponEvent;
     }
 
-    public CouponChangeStatusRequest toCouponChangeStatusRequest(Long loginMemberId, Long couponId) {
+    public CouponChangeStatusRequest toCouponChangeStatusRequest(Long loginMemberId,
+                                                                 Long couponId) {
         return new CouponChangeStatusRequest(loginMemberId, couponId, CouponEvent.of(couponEvent));
     }
 }

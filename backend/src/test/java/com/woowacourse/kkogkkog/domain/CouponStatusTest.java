@@ -28,7 +28,7 @@ class CouponStatusTest {
         CouponEvent event = CouponEvent.REQUEST;
 
         assertThatThrownBy(() -> currentStatus.handle(event))
-                .isInstanceOf(InvalidRequestException.class);
+            .isInstanceOf(InvalidRequestException.class);
     }
 
     @Test
@@ -50,7 +50,7 @@ class CouponStatusTest {
         CouponEvent event = CouponEvent.CANCEL;
 
         assertThatThrownBy(() -> currentStatus.handle(event))
-                .isInstanceOf(InvalidRequestException.class);
+            .isInstanceOf(InvalidRequestException.class);
     }
 
     @Test
@@ -94,7 +94,7 @@ class CouponStatusTest {
         CouponEvent event = CouponEvent.ACCEPT;
 
         assertThatThrownBy(() -> currentStatus.handle(event))
-                .isInstanceOf(InvalidRequestException.class);
+            .isInstanceOf(InvalidRequestException.class);
     }
 
     @Test

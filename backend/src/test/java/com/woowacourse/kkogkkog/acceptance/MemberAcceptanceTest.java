@@ -77,7 +77,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             .then().log().all()
             .extract();
 
-        List<MemberResponse> members = extract.body().jsonPath().getList("data", MemberResponse.class);
+        List<MemberResponse> members = extract.body().jsonPath()
+            .getList("data", MemberResponse.class);
         SuccessResponse<List<MemberResponse>> membersResponse = new SuccessResponse<>(members);
 
         assertAll(
