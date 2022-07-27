@@ -3,10 +3,30 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import useMe from '@/@hooks/user/useMe';
-import { KKOGKKOG_TYPE_MAPPER, THUMBNAIL } from '@/types/client/kkogkkog';
+import theme from '@/styles/theme';
+import { COUPON_STATUS, KKOGKKOG_TYPE_MAPPER, THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
+
+const statusUIMapper: Record<COUPON_STATUS, { backgroundColor: string; text: string }> = {
+  REQUESTED: {
+    backgroundColor: theme.colors.primary_500,
+    text: '요청중',
+  },
+  READY: {
+    backgroundColor: theme.colors.primary_300,
+    text: '대기중',
+  },
+  ACCEPTED: {
+    backgroundColor: theme.colors.green_500,
+    text: '승인됨',
+  },
+  FINISHED: {
+    backgroundColor: theme.colors.light_grey_100,
+    text: '사용완료',
+  },
+};
 
 type KkogKkogItemProps = KkogKKogResponse & {
   className?: string;
@@ -20,7 +40,16 @@ type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & 
 const KkogKkogItem = (props: KkogKkogItemProps) => {
   const { className, onClick, ...kkogkkog } = props;
 
-  const { sender, receiver, backgroundColor, modifier, couponType, thumbnail } = {
+  const {
+    sender,
+    receiver,
+    backgroundColor,
+    modifier,
+    couponStatus,
+    couponType,
+    message,
+    thumbnail,
+  } = {
     ...kkogkkog,
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
@@ -29,21 +58,27 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
+      <Styled.CouponPropertyContainer>
+        <Styled.Status backgroundColor={statusUIMapper[couponStatus].backgroundColor}>
+          {statusUIMapper[couponStatus].text}
+        </Styled.Status>
+        <Styled.ImageContainer backgroundColor={backgroundColor}>
+          <img src={thumbnail} alt='쿠폰' />
+        </Styled.ImageContainer>
+      </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
         {sender.id === me?.id ? (
-          <div>To. {receiver.nickname}</div>
+          <Styled.Member>
+            <Styled.English>To.</Styled.English> {receiver.nickname}
+          </Styled.Member>
         ) : (
-          <div>From. {sender.nickname}</div>
+          <Styled.Member>
+            <Styled.English>From.</Styled.English> {sender.nickname}
+          </Styled.Member>
         )}
-        <div>
-          #{modifier} &nbsp;
-          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
-          &nbsp;꼭꼭
-        </div>
+        <Styled.Message>{message}</Styled.Message>
+        <Styled.Modifier>#{modifier}</Styled.Modifier>
       </Styled.TextContainer>
-      <Styled.ImageContainer backgroundColor={backgroundColor}>
-        <img src={thumbnail} alt='쿠폰' />
-      </Styled.ImageContainer>
     </Styled.Root>
   );
 };
