@@ -43,5 +43,7 @@ export const LandingPageTemplateContainer = styled.div`
 `;
 
 export const ExtendedHeader = (theme: Theme) => css`
+  position: relative;
+
   background-color: ${theme.colors.primary_400_opacity};
 `;
