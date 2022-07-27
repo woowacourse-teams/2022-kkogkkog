@@ -8,16 +8,17 @@ import theme from '@/styles/theme';
 import * as Styled from './style';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
+  className: string;
 }
 
 const Header = (props: HeaderProps) => {
-  const { title } = props;
+  const { title = '', className } = props;
 
   const { me } = useMe();
 
   return (
-    <Styled.Root>
+    <Styled.Root className={className}>
       <Styled.Logo>
         <Link to={PATH.LANDING}>
           <img src='/assets/images/logo.png' alt='로고' width='36' />

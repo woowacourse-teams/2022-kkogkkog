@@ -21,8 +21,6 @@ export const Root = styled.div`
 
   border-radius: 4px 4px 0 0;
 
-  box-shadow: 0 4px 4px 0 #00000025;
-
   ${({ theme }) => css`
     z-index: ${theme.layers.header};
   `}
