@@ -9,15 +9,16 @@ import * as Styled from './style';
 
 interface HeaderProps {
   title?: string;
+  className: string;
 }
 
 const Header = (props: HeaderProps) => {
-  const { title = '', ...rest } = props;
+  const { title = '', className } = props;
 
   const { me } = useMe();
 
   return (
-    <Styled.Root {...rest}>
+    <Styled.Root className={className}>
       <Styled.Logo>
         <Link to={PATH.LANDING}>
           <img src='/assets/images/logo.png' alt='로고' width='36' />
