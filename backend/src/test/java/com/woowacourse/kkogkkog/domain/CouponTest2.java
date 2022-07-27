@@ -10,8 +10,6 @@ import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("Coupon 클래스의")
 public class CouponTest2 {
@@ -100,14 +98,28 @@ public class CouponTest2 {
                     .isInstanceOf(InvalidRequestException.class);
             }
 
-            @ParameterizedTest
-            @MethodSource("com.woowacourse.kkogkkog.fixture.MemberFixture#provideSenderAndReceiver")
-            @DisplayName("FINISH 를 보내면, FINISHED 로 변경한다.")
-            void success_finish(Member sender, Member receiver, Member requester) {
+            @Test
+            @DisplayName("보낸 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
+            void success_finish_bySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
                 Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
                     CouponType.COFFEE, CouponStatus.READY);
 
-                coupon.changeStatus(CouponEvent.FINISH, requester);
+                coupon.changeStatus(CouponEvent.FINISH, sender);
+
+                assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+            }
+
+            @Test
+            @DisplayName("받은 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
+            void success_finish_byReceiver() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                    CouponType.COFFEE, CouponStatus.READY);
+
+                coupon.changeStatus(CouponEvent.FINISH, receiver);
 
                 assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
             }
@@ -180,14 +192,28 @@ public class CouponTest2 {
                     .isInstanceOf(ForbiddenException.class);
             }
 
-            @ParameterizedTest
-            @MethodSource("com.woowacourse.kkogkkog.fixture.MemberFixture#provideSenderAndReceiver")
-            @DisplayName("FINISH 를 보내면, FINISHED 로 변경한다.")
-            void success_finish(Member sender, Member receiver, Member requester) {
+            @Test
+            @DisplayName("보낸 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
+            void success_finish_bySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
                 Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
                     CouponType.COFFEE, CouponStatus.REQUESTED);
 
-                coupon.changeStatus(CouponEvent.FINISH, requester);
+                coupon.changeStatus(CouponEvent.FINISH, sender);
+
+                assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+            }
+
+            @Test
+            @DisplayName("보낸 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
+            void success_finish_byReceiver() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                    CouponType.COFFEE, CouponStatus.REQUESTED);
+
+                coupon.changeStatus(CouponEvent.FINISH, receiver);
 
                 assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
             }
@@ -197,14 +223,28 @@ public class CouponTest2 {
         @DisplayName("ACCEPTED 상태의 쿠폰에")
         class Accepted {
 
-            @ParameterizedTest
-            @MethodSource("com.woowacourse.kkogkkog.fixture.MemberFixture#provideSenderAndReceiver")
-            @DisplayName("FINISH 를 보내면, FINISHED 로 변경한다")
-            void success_finish(Member sender, Member receiver, Member requester) {
+            @Test
+            @DisplayName("보낸 사람이 FINISH 를 보내면, FINISHED 로 변경한다")
+            void success_finish_bySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
                 Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
                     CouponType.COFFEE, CouponStatus.ACCEPTED);
 
-                coupon.changeStatus(CouponEvent.FINISH, requester);
+                coupon.changeStatus(CouponEvent.FINISH, sender);
+
+                assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
+            }
+
+            @Test
+            @DisplayName("받은 사람이 FINISH 를 보내면, FINISHED 로 변경한다")
+            void success_finish_byReceiver() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                    CouponType.COFFEE, CouponStatus.ACCEPTED);
+
+                coupon.changeStatus(CouponEvent.FINISH, receiver);
 
                 assertThat(coupon.getCouponStatus()).isEqualTo(CouponStatus.FINISHED);
             }
@@ -214,14 +254,27 @@ public class CouponTest2 {
         @DisplayName("FINISHED 상태의 쿠폰에")
         class Finished {
 
-            @ParameterizedTest
-            @DisplayName("FINISH 를 보내면, 예외를 던진다.")
-            @MethodSource("com.woowacourse.kkogkkog.fixture.MemberFixture#provideSenderAndReceiver")
-            void fail_finish(Member sender, Member receiver, Member requester) {
+            @Test
+            @DisplayName("보낸 사람이 FINISH 를 보내면, 예외를 던진다.")
+            void fail_finish_bySender() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
                 Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
                     CouponType.COFFEE, CouponStatus.FINISHED);
 
-                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, requester))
+                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, sender))
+                    .isInstanceOf(InvalidRequestException.class);
+            }
+
+            @Test
+            @DisplayName("받은 사람이 FINISH 를 보내면, 예외를 던진다.")
+            void fail_finish_byReceiver() {
+                Member sender = MemberFixture.ROOKIE;
+                Member receiver = MemberFixture.ARTHUR;
+                Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                    CouponType.COFFEE, CouponStatus.FINISHED);
+
+                assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, receiver))
                     .isInstanceOf(InvalidRequestException.class);
             }
         }
