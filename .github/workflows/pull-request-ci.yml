@@ -8,6 +8,25 @@ on:
     types: [opened, reopened]
 
 jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout 2022-kkogkkog repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js on runner
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.1.0"
+      - name: Install yarn dependencies
+        run: yarn
+      - name: yarn build
+        run: yarn build
+
   backend:
     runs-on: ubuntu-latest
 
