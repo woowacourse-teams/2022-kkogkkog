@@ -36,12 +36,12 @@ PageTemplate.LandingPage = function LandingPageTemplate(
   }, []);
 
   return (
-    <Styled.LandingPageTemplateRoot>
-      <Styled.LandingPageTemplateContainer>
+    <Styled.Root>
+      <Styled.Container>
         {hasHeader && <Header css={Styled.ExtendedHeader} />}
         {children}
-      </Styled.LandingPageTemplateContainer>
-    </Styled.LandingPageTemplateRoot>
+      </Styled.Container>
+    </Styled.Root>
   );
 };
 
