@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, reopened]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout 2022-kkogkkog repository
+        uses: actions/checkout@v3
+      - name: Set up JDK 11 on runner
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "adopt"
+      - name: Test & Build with gradle
+        run: ./gradlew build
