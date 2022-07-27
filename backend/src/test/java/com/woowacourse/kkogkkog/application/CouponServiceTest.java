@@ -16,6 +16,7 @@ import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,6 +51,14 @@ public class CouponServiceTest extends ServiceTest {
         memberRepository.save(LEO);
         memberRepository.save(ROOKIE);
         memberRepository.save(ARTHUR);
+    }
+
+    private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
+        List<Long> receiverIds = receivers.stream()
+            .map(Member::getId)
+            .collect(Collectors.toList());
+        return new CouponSaveRequest(sender.getId(), receiverIds, "#123456", "한턱내는", "추가 메세지",
+            "COFFEE");
     }
 
     @Nested
@@ -167,18 +176,29 @@ public class CouponServiceTest extends ServiceTest {
         class Ready {
 
             @Test
-            @DisplayName("받은 사람이 REQUEST 를 보내면, 쿠폰의 상태를 REQUESTED 로 변경한다.")
+            @DisplayName("받은 사람이 REQUEST 와 약속날짜를 보내면, 쿠폰의 상태를 REQUESTED 로 변경한다.")
             void success_request() {
                 CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
-                    ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    ARTHUR.getId(), couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
 
                 couponService.changeStatus(couponChangeStatusRequest);
                 CouponResponse actual = couponService.findById(couponId);
 
                 assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.REQUESTED.name());
+            }
+
+            @Test
+            @DisplayName("받은 사람이 REQUEST 시 약속날짜를 보내지 않았을때, 예외를 던진다.")
+            void fail_noMeetingDate() {
+                CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+                Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+                CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
+                    ARTHUR.getId(), couponId, CouponEvent.REQUEST, null);
+
+                assertThatThrownBy(() -> couponService.changeStatus(couponChangeStatusRequest))
+                    .isInstanceOf(InvalidRequestException.class);
             }
 
             @Test
@@ -403,13 +423,5 @@ public class CouponServiceTest extends ServiceTest {
                     .isInstanceOf(InvalidRequestException.class);
             }
         }
-    }
-
-    private CouponSaveRequest toCouponSaveRequest(Member sender, List<Member> receivers) {
-        List<Long> receiverIds = receivers.stream()
-            .map(Member::getId)
-            .collect(Collectors.toList());
-        return new CouponSaveRequest(sender.getId(), receiverIds, "#123456", "한턱내는", "추가 메세지",
-            "COFFEE");
     }
 }
