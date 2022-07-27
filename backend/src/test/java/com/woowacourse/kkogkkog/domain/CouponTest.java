@@ -206,7 +206,7 @@ public class CouponTest {
             }
 
             @Test
-            @DisplayName("보낸 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
+            @DisplayName("받은 사람이 FINISH 를 보내면, FINISHED 로 변경한다.")
             void success_finish_byReceiver() {
                 Member sender = MemberFixture.ROOKIE;
                 Member receiver = MemberFixture.ARTHUR;

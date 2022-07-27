@@ -26,7 +26,7 @@ class AuthServiceTest extends ServiceTest {
     private AuthService authService;
 
     @Nested
-    @DisplayName("login 매서드는")
+    @DisplayName("login 메서드는")
     class Login {
 
         @Test
