@@ -35,31 +35,6 @@ const KkogKkogList = (props: KkogKkogListProps) => {
 
 export default KkogKkogList;
 
-KkogKkogList.Slide = function Slide(props: KkogKkogListProps) {
-  const { kkogkkogList, onClickCouponItem } = props;
-
-  if (kkogkkogList?.length === 0) {
-    return (
-      <Styled.Root>
-        <Styled.TextContainer fontSize='40px'>😱</Styled.TextContainer>
-        <Styled.TextContainer>해당 꼭꼭이 존재하지 않아요 ㅠㅠ</Styled.TextContainer>
-      </Styled.Root>
-    );
-  }
-
-  return (
-    <Styled.SlideRoot>
-      {kkogkkogList?.map(kkogkkog => (
-        <KkogKkogItem
-          key={kkogkkog.id}
-          onClick={() => onClickCouponItem?.(kkogkkog)}
-          {...kkogkkog}
-        />
-      ))}
-    </Styled.SlideRoot>
-  );
-};
-
 KkogKkogList.Skeleton = function Skeleton() {
   return (
     <Styled.Root>

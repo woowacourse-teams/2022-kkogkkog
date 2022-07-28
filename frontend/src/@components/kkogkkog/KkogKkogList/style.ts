@@ -21,14 +21,3 @@ export const TextContainer = styled.div<{ fontSize?: string }>`
     font-size: ${fontSize};
   `}
 `;
-
-export const SlideRoot = styled.div`
-  display: flex;
-
-  flex-direction: row;
-
-  overflow-x: scroll;
-
-  gap: 10px;
-  padding: 15px 0;
-`;
