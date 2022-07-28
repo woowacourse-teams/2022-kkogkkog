@@ -71,6 +71,20 @@ public class Coupon {
         this.couponStatus = couponStatus;
     }
 
+    public Coupon(Long id, Member sender, Member receiver, String modifier, String message,
+                  String backgroundColor, CouponType couponType,
+                  CouponStatus couponStatus, LocalDate meetingDate) {
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.modifier = modifier;
+        this.message = message;
+        this.backgroundColor = backgroundColor;
+        this.couponType = couponType;
+        this.couponStatus = couponStatus;
+        this.meetingDate = meetingDate;
+    }
+
     private void validateSameMember(Member sender, Member receiver) {
         if (sender.equals(receiver)) {
             throw new SameSenderReceiverException();

@@ -26,6 +26,7 @@ import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
+import java.time.LocalDate;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class CouponControllerTest extends Documentation {
             MESSAGE, COUPON_TYPE.name());
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.save(any())).willReturn(List.of(
-            toCouponResponse(1L, JEONG, LEO), toCouponResponse(2L, JEONG, ARTHUR)));
+            toCreateCouponResponse(1L, JEONG, LEO), toCreateCouponResponse(2L, JEONG, ARTHUR)));
 
         // when
         ResultActions perform = mockMvc.perform(post("/api/coupons")
@@ -66,7 +67,7 @@ class CouponControllerTest extends Documentation {
         perform.andExpect(status().isCreated())
             .andExpect(
                 content().string(objectMapper.writeValueAsString(new SuccessResponse<>(List.of(
-                    toCouponResponse(1L, JEONG, LEO), toCouponResponse(2L, JEONG, ARTHUR))))));
+                    toCreateCouponResponse(1L, JEONG, LEO), toCreateCouponResponse(2L, JEONG, ARTHUR))))));
 
         // docs
         perform
@@ -108,7 +109,9 @@ class CouponControllerTest extends Documentation {
                     fieldWithPath("data.[].couponType").type(JsonFieldType.STRING)
                         .description("쿠폰 타입"),
                     fieldWithPath("data.[].couponStatus").type(JsonFieldType.STRING)
-                        .description("쿠폰 상태")
+                        .description("쿠폰 상태"),
+                    fieldWithPath("data.[].meetingDate").type(JsonFieldType.NULL)
+                        .description("쿠폰 발급 날짜")
                 ))
             );
     }
@@ -150,7 +153,8 @@ class CouponControllerTest extends Documentation {
                     fieldWithPath("modifier").type(JsonFieldType.STRING).description("수식어"),
                     fieldWithPath("message").type(JsonFieldType.STRING).description("추가 메시지"),
                     fieldWithPath("couponType").type(JsonFieldType.STRING).description("쿠폰 타입"),
-                    fieldWithPath("couponStatus").type(JsonFieldType.STRING).description("쿠폰 상태")
+                    fieldWithPath("couponStatus").type(JsonFieldType.STRING).description("쿠폰 상태"),
+                    fieldWithPath("meetingDate").type(JsonFieldType.STRING).description("쿠폰 사용 날짜")
                 ))
             );
     }
@@ -211,6 +215,8 @@ class CouponControllerTest extends Documentation {
                         .description("쿠폰 타입"),
                     fieldWithPath("data.received.[].couponStatus").type(JsonFieldType.STRING)
                         .description("쿠폰 상태"),
+                    fieldWithPath("data.received.[].meetingDate").type(JsonFieldType.STRING)
+                        .description("쿠폰 사용 날짜"),
 
                     fieldWithPath("data.sent.[].id").type(JsonFieldType.NUMBER)
                         .description("받은 쿠폰 ID"),
@@ -235,7 +241,9 @@ class CouponControllerTest extends Documentation {
                     fieldWithPath("data.sent.[].couponType").type(JsonFieldType.STRING)
                         .description("쿠폰 타입"),
                     fieldWithPath("data.sent.[].couponStatus").type(JsonFieldType.STRING)
-                        .description("쿠폰 상태")
+                        .description("쿠폰 상태"),
+                    fieldWithPath("data.sent.[].meetingDate").type(JsonFieldType.STRING)
+                        .description("쿠폰 사용 날짜")
                 ))
             );
     }
@@ -271,6 +279,13 @@ class CouponControllerTest extends Documentation {
     }
 
     private CouponResponse toCouponResponse(Long couponId, Member sender, Member receiver) {
+        CouponMemberResponse senderResponse = CouponMemberResponse.of(sender);
+        CouponMemberResponse receiverResponse = CouponMemberResponse.of(receiver);
+        return new CouponResponse(couponId, senderResponse, receiverResponse,
+            BACKGROUND_COLOR, LocalDate.of(2022, 07, 27), MODIFIER, MESSAGE, COUPON_TYPE.name(), CouponStatus.READY.name());
+    }
+
+    private CouponResponse toCreateCouponResponse(Long couponId, Member sender, Member receiver) {
         CouponMemberResponse senderResponse = CouponMemberResponse.of(sender);
         CouponMemberResponse receiverResponse = CouponMemberResponse.of(receiver);
         return new CouponResponse(couponId, senderResponse, receiverResponse,
