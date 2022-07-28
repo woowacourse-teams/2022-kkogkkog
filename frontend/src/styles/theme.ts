@@ -29,8 +29,6 @@ const colors = {
   background_2: '#F6F4EE',
   background_1: '#FAFAF6',
   background_0: '#FDFDFD',
-
-  green_500: '#51D230',
 } as const;
 
 const layers = {
