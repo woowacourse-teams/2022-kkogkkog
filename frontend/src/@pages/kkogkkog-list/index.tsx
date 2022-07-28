@@ -12,6 +12,7 @@ import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import { PATH } from '@/Router';
+import { COUPON_LIST_TYPE } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
@@ -21,7 +22,8 @@ export type FilterOption = typeof filterOption[number];
 const KkogkkogListPage = () => {
   const { kkogkkogList } = useKkogKkogList();
 
-  const couponListType = useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
+  const couponListType: COUPON_LIST_TYPE =
+    useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
