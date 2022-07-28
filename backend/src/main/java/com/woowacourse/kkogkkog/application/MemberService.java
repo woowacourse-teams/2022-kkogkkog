@@ -49,36 +49,21 @@ public class MemberService {
 
         return memberOAuthRepository.findBySocialId(socialId)
             .stream()
-            .map(it -> {
-                it.updateImage(imageUri);
-                return new MemberOAuthResponse(it.getId(), false);
-            })
+            .map(member -> update(member, imageUri))
             .findFirst()
             .orElseGet(() ->
-                {
-                    Member2 savedMember = new Member2(null, nickname, imageUri, socialId, teamId);
-                    memberOAuthRepository.save(savedMember);
-                    return new MemberOAuthResponse(savedMember.getId(), true);
-                }
-            );
+                saveOAuth(new Member2(null, nickname, imageUri, socialId, teamId)));
     }
 
-//    public MemberOAuthResponse saveOrFind(SlackUserInfo response) {
-//        String socialId = response.getUserId();
-//        String nickname = response.getName();
-//        String imageUri = response.getImageUri();
-//        String teamId = response.getTeamId();
-//
-//        Optional<Member2> member = memberOAuthRepository.findBySocialId(socialId);
-//        if (member.isPresent()) {
-//            member.get().updateImage(imageUri);
-//            return new MemberOAuthResponse(member.get().getId(), false);
-//        }
-//        Member2 savedMember = new Member2(null, nickname, imageUri, socialId, teamId);
-//        memberOAuthRepository.save(savedMember);
-//
-//        return new MemberOAuthResponse(savedMember.getId(), true);
-//    }
+    private MemberOAuthResponse saveOAuth(Member2 member) {
+        memberOAuthRepository.save(member);
+        return new MemberOAuthResponse(member.getId(), true);
+    }
+
+    private MemberOAuthResponse update(Member2 member, String imageUri) {
+        member.updateImage(imageUri);
+        return new MemberOAuthResponse(member.getId(), false);
+    }
 
     @Transactional(readOnly = true)
     public MemberResponse findById(Long memberId) {
