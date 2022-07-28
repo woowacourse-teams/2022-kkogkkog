@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ horizontalScroll?: boolean }>`
+export const Root = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: no-wrap;
@@ -26,7 +26,7 @@ export const FilterButton = styled.button<{ isFocus?: boolean; horizontalScroll?
   padding: 10px;
   flex: 1;
 
-  border-radius: 4px;
+  border-radius: 20px;
 
   transition: background-color 0.1s ease-in;
 
