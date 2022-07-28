@@ -25,6 +25,16 @@ export const Message = styled.div`
   `}
 `;
 
+export const DateInput = styled.input`
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  ${({ theme }) => css`
+    border: 1px solid ${theme.colors.primary_100};
+  `}
+`;
+
 export const ButtonContainer = styled.div`
   width: 100%;
   display: flex;

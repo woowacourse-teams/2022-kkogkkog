@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { COUPON_STATUS } from '@/types/client/kkogkkog';
+
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;
   max-width: 380px;
@@ -28,6 +30,11 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
     `}
 `;
 
+export const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const Message = styled.p`
   font-size: 12px;
   white-space: nowrap;
@@ -35,11 +42,37 @@ export const Message = styled.p`
   text-overflow: ellipsis;
 `;
 
+export const MeetingDate = styled.span<{ couponStatus: COUPON_STATUS }>`
+  font-size: 12px;
+
+  ${({ theme, couponStatus }) => {
+    if (couponStatus === 'REQUESTED') {
+      return css`
+        color: ${theme.colors.primary_500};
+      `;
+    }
+
+    if (couponStatus === 'ACCEPTED') {
+      return css`
+        color: ${theme.colors.green_500};
+      `;
+    }
+
+    if (couponStatus === 'FINISHED') {
+      return css`
+        color: ${theme.colors.light_grey_100};
+      `;
+    }
+  }}
+`;
+
 export const Member = styled.p`
   font-weight: 600;
 `;
 
-export const Status = styled.div<{ backgroundColor: string }>`
+export const Status = styled.div<{
+  couponStatus: COUPON_STATUS;
+}>`
   height: 22px;
   line-height: 22px;
   text-align: center;
@@ -49,16 +82,39 @@ export const Status = styled.div<{ backgroundColor: string }>`
   font-size: 12px;
   border-radius: 20px;
 
-  ${({ theme, backgroundColor }) => css`
+  ${({ theme }) => css`
     color: ${theme.colors.white_100};
-    background-color: ${backgroundColor};
   `}
+
+  ${({ theme, couponStatus }) => {
+    if (couponStatus === 'REQUESTED') {
+      return css`
+        background-color: ${theme.colors.primary_500};
+      `;
+    }
+
+    if (couponStatus === 'ACCEPTED') {
+      return css`
+        background-color: ${theme.colors.green_500};
+      `;
+    }
+
+    if (couponStatus === 'READY') {
+      return css`
+        background-color: ${theme.colors.primary_300};
+      `;
+    }
+
+    return css`
+      background-color: ${theme.colors.grey_300};
+    `;
+  }}
 `;
 
 export const TextContainer = styled.div`
   overflow-x: scroll;
 
-  width: 70%;
+  flex: 1;
   height: 100%;
 
   white-space: nowrap;
@@ -67,7 +123,9 @@ export const TextContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  padding: 15px 0;
+  font-size: 14px;
+
+  padding: 15px 15px 15px 0;
 
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};

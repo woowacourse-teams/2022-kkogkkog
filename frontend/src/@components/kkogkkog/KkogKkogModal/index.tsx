@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
 import useKkogKkogStatusMutation from '@/@hooks/kkogkkog/useKkogKkogStatusMutation';
 import useMe from '@/@hooks/user/useMe';
+import { ANIMATION_DURATION } from '@/constants/animation';
 import { KkogKKogResponse } from '@/types/remote/response';
+import { getToday } from '@/utils';
 
-import { ANIMATION_DURATION } from '../../../constants/animation';
 import BigKkogKkogItem from '../KkogKkogItem/big';
 import * as Styled from './style';
 
@@ -60,19 +61,30 @@ const sentKkogkkogModalMapper = {
 
 const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { kkogkkog, closeModal } = props;
-  const { id, message, sender, couponStatus } = kkogkkog;
+  const { id, sender, couponStatus } = kkogkkog;
 
   const { me } = useMe();
 
   const [animation, setAnimation] = useState(false);
 
+  const [meetingDate, setMeetingDate] = useState('');
+
   const { cancelKkogKkog, requestKkogKKog, finishKkogKkog, acceptKkogKkog } =
     useKkogKkogStatusMutation();
 
-  const { title, buttons } =
-    me?.id === sender.id
-      ? sentKkogkkogModalMapper[couponStatus]
-      : receivedKkogkkogModalMapper[couponStatus];
+  const isSent = me?.id === sender.id;
+
+  const { title, buttons } = isSent
+    ? sentKkogkkogModalMapper[couponStatus]
+    : receivedKkogkkogModalMapper[couponStatus];
+
+  const onChangeMeetingDate: ChangeEventHandler<HTMLInputElement> = e => {
+    const {
+      target: { value },
+    } = e;
+
+    setMeetingDate(value);
+  };
 
   const onCloseModal = () => {
     setAnimation(true);
@@ -82,19 +94,52 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickCancelButton = () => {
-    cancelKkogKkog({ id, message });
+    cancelKkogKkog(
+      { id },
+      {
+        onSuccess() {
+          onCloseModal();
+        },
+      }
+    );
   };
 
   const onClickRequestButton = () => {
-    requestKkogKKog({ id, message });
+    if (!meetingDate) {
+      alert('날짜를 입력하고 요청해주세요.');
+
+      return;
+    }
+    requestKkogKKog(
+      { id, meetingDate },
+      {
+        onSuccess() {
+          onCloseModal();
+        },
+      }
+    );
   };
 
   const onClickFinishButton = () => {
-    finishKkogKkog({ id, message });
+    finishKkogKkog(
+      { id },
+      {
+        onSuccess() {
+          onCloseModal();
+        },
+      }
+    );
   };
 
   const onClickAcceptButton = () => {
-    acceptKkogKkog({ id, message });
+    acceptKkogKkog(
+      { id },
+      {
+        onSuccess() {
+          onCloseModal();
+        },
+      }
+    );
   };
 
   return (
@@ -112,7 +157,15 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
         {...kkogkkog}
       />
 
-      <Styled.Message>{message}</Styled.Message>
+      {!isSent && couponStatus === 'READY' && (
+        <Styled.DateInput
+          type='date'
+          value={meetingDate}
+          min={getToday()}
+          onChange={onChangeMeetingDate}
+          required
+        />
+      )}
 
       <Styled.ButtonContainer>
         {buttons.map(buttonType => (

@@ -72,15 +72,33 @@ export const kkogkkogHandler = [
 
   rest.post<ChangeKkogKkogStatusRequest>(`${BASE_URL}/coupons/:couponId/event`, (req, res, ctx) => {
     const {
-      body: { couponEvent },
+      body: { couponEvent, meetingDate },
       params: { couponId },
     } = req;
 
-    const newKkogKkogList = kkogkkogs.current.map(kkogkkog =>
-      kkogkkog.id === Number(couponId)
-        ? { ...kkogkkog, couponStatus: kkogkkogs.getStatusAfterEvent(couponEvent) }
-        : kkogkkog
-    );
+    const newKkogKkogList = kkogkkogs.current.map(kkogkkog => {
+      if (kkogkkog.id === Number(couponId)) {
+        if (meetingDate && couponEvent === 'REQUEST') {
+          return {
+            ...kkogkkog,
+            couponStatus: kkogkkogs.getStatusAfterEvent(couponEvent),
+            meetingDate,
+          };
+        }
+
+        if (couponEvent === 'CANCEL') {
+          const omittedKkogKkog = { ...kkogkkog };
+
+          delete omittedKkogKkog.meetingDate;
+
+          return { ...omittedKkogKkog, couponStatus: kkogkkogs.getStatusAfterEvent(couponEvent) };
+        }
+
+        return { ...kkogkkog, couponStatus: kkogkkogs.getStatusAfterEvent(couponEvent) };
+      }
+
+      return kkogkkog;
+    });
 
     kkogkkogs.current = newKkogKkogList;
 

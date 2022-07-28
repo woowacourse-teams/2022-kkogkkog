@@ -46,7 +46,7 @@ export const StatusContainer = styled.div<{
 
     if (couponStatus === 'READY') {
       return css`
-        background-color: ${theme.colors.primary_400};
+        background-color: ${theme.colors.primary_300};
       `;
     }
 

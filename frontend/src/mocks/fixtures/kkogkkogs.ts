@@ -32,6 +32,7 @@ export default {
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'MEAL',
       couponStatus: 'REQUESTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 3,
@@ -42,6 +43,7 @@ export default {
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'DRINK',
       couponStatus: 'ACCEPTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 4,
@@ -52,6 +54,7 @@ export default {
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'DRINK',
       couponStatus: 'FINISHED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 5,
@@ -82,6 +85,7 @@ export default {
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'DRINK',
       couponStatus: 'FINISHED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 8,
@@ -92,6 +96,7 @@ export default {
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'MEAL',
       couponStatus: 'ACCEPTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 9,
@@ -102,6 +107,7 @@ export default {
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
       couponStatus: 'REQUESTED',
+      meetingDate: '2022-08-05',
     },
   ],
 

@@ -21,5 +21,5 @@ export interface CreateKkogKkogRequest {
 
 export interface ChangeKkogKkogStatusRequest {
   couponEvent: COUPON_EVENT;
-  message?: string;
+  meetingDate?: string;
 }
