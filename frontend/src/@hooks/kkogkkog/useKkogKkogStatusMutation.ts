@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 
 import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 
 type kkogkkogActionType = {
   id: number;
-  message: string;
+  meetingDate?: string;
 };
 
 const useKkogKkogStatusMutation = () => {
@@ -16,20 +16,20 @@ const useKkogKkogStatusMutation = () => {
     },
   });
 
-  const cancelKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
+  const cancelKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
   };
 
-  const requestKkogKKog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', message } });
+  const requestKkogKKog = ({ id, meetingDate }: kkogkkogActionType, options: any) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
   };
 
-  const finishKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+  const finishKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+    // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH',  } }, options);
   };
 
-  const acceptKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
+  const acceptKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
   };
 
   return {
