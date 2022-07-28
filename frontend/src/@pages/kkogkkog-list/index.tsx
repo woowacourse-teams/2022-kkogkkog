@@ -117,7 +117,7 @@ const KkogkkogListPage = () => {
             right: 12px;
           `}
         >
-          <Icon iconName='Plus' size='37px' color={theme.colors.primary_400} />
+          <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
         </Link>
       </Styled.Root>
     </PageTemplate>
