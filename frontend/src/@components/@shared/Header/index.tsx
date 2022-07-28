@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import useMe from '@/@hooks/user/useMe';
@@ -17,12 +17,20 @@ const Header = (props: HeaderProps) => {
 
   const { me } = useMe();
 
+  const isLandingPage = useLocation().pathname === PATH.LANDING;
+
   return (
     <Styled.Root className={className}>
       <Styled.Logo>
-        <Link to={PATH.LANDING}>
-          <img src='/assets/images/logo.png' alt='로고' width='36' />
-        </Link>
+        {isLandingPage ? (
+          <Link to={PATH.LANDING}>
+            <img src='/assets/images/logo.png' alt='로고' width='36' />
+          </Link>
+        ) : (
+          <Link to='..'>
+            <Icon iconName='arrow' color={theme.colors.primary_400} />
+          </Link>
+        )}
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
