@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useMe from '@/@hooks/user/useMe';
 import useUserList from '@/@hooks/user/useUserList';
@@ -10,17 +10,13 @@ export const useSearchUser = () => {
   // 이 부분은 검색 API 도입시 사라지게됨
   const { userList } = useUserList();
 
-  const userWithoutMe = userList?.filter(({ id }) => me?.id !== id);
-
-  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | undefined>(
-    userWithoutMe
-  );
+  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | undefined>();
 
   const searchUser = (keyword: string) => {
     const users = userList || [];
 
     if (keyword === '') {
-      setSearchedUserList(userList);
+      setSearchedUserList(userList?.filter(({ id }) => me?.id !== id));
 
       return;
     }
@@ -32,6 +28,12 @@ export const useSearchUser = () => {
 
     setSearchedUserList(findUserList);
   };
+
+  useEffect(() => {
+    if (!searchedUserList) {
+      setSearchedUserList(userList?.filter(({ id }) => me?.id !== id));
+    }
+  }, [searchedUserList, userList, me]);
 
   return {
     searchedUserList,
