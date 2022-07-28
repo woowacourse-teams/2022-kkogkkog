@@ -1,4 +1,4 @@
-import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
+import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -23,7 +23,7 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList?.map(kkogkkog => (
-        <KkogKkogItem
+        <BigKkogKkogItem
           key={kkogkkog.id}
           onClick={() => onClickCouponItem?.(kkogkkog)}
           {...kkogkkog}
@@ -38,10 +38,10 @@ export default KkogKkogList;
 KkogKkogList.Skeleton = function Skeleton() {
   return (
     <Styled.Root>
-      <KkogKkogItem.Skeleton />
-      <KkogKkogItem.Skeleton />
-      <KkogKkogItem.Skeleton />
-      <KkogKkogItem.Skeleton />
+      <BigKkogKkogItem.Skeleton />
+      <BigKkogKkogItem.Skeleton />
+      <BigKkogKkogItem.Skeleton />
+      <BigKkogKkogItem.Skeleton />
     </Styled.Root>
   );
 };

@@ -1,11 +1,10 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
+import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
@@ -112,15 +111,12 @@ KkogkkogListPage.Skeleton = function Skeleton() {
   return (
     <PageTemplate title='꼭꼭 모아보기'>
       <Styled.Root>
-        <Link to={PATH.KKOGKKOG_CREATE}>
-          <KkogKkogItem.LinkButton />
-        </Link>
-        <KkogKkogItem.Skeleton />
-        <KkogKkogItem.Skeleton />
-        <KkogKkogItem.Skeleton />
-        <KkogKkogItem.Skeleton />
-        <KkogKkogItem.Skeleton />
-        <KkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
+        <BigKkogKkogItem.Skeleton />
       </Styled.Root>
     </PageTemplate>
   );

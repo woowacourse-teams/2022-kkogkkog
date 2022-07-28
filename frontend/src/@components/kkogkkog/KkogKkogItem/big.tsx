@@ -1,10 +1,9 @@
-import { css } from '@emotion/react';
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import useMe from '@/@hooks/user/useMe';
 import theme from '@/styles/theme';
-import { COUPON_STATUS, KKOGKKOG_TYPE_MAPPER, THUMBNAIL } from '@/types/client/kkogkkog';
+import { COUPON_STATUS, THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -28,16 +27,16 @@ const statusUIMapper: Record<COUPON_STATUS, { backgroundColor: string; text: str
   },
 };
 
-type KkogKkogItemProps = KkogKKogResponse & {
+type BigKkogKkogItemProps = KkogKKogResponse & {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-type KkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus'> & {
+type BigKkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus' | 'sender'> & {
   className?: string;
 };
 
-const KkogKkogItem = (props: KkogKkogItemProps) => {
+const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
   const { className, onClick, ...kkogkkog } = props;
 
   const {
@@ -62,9 +61,9 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
         <Styled.Status backgroundColor={statusUIMapper[couponStatus].backgroundColor}>
           {statusUIMapper[couponStatus].text}
         </Styled.Status>
-        <Styled.ImageContainer backgroundColor={backgroundColor}>
+        <Styled.ImageInner backgroundColor={backgroundColor}>
           <img src={thumbnail} alt='쿠폰' />
-        </Styled.ImageContainer>
+        </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
         {sender.id === me?.id ? (
@@ -84,46 +83,32 @@ const KkogKkogItem = (props: KkogKkogItemProps) => {
 };
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
-KkogKkogItem.Preview = function Preview(props: KkogKkogItemPreviewProps) {
-  const { className, receiver, backgroundColor, modifier, couponType, thumbnail } = {
+BigKkogKkogItem.Preview = function Preview(props: BigKkogKkogItemPreviewProps) {
+  const { className, receiver, backgroundColor, modifier, thumbnail, message } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
   };
 
   return (
     <Styled.Root className={className} hasCursor={false}>
-      <Styled.TextContainer>
-        <div>To. {receiver?.nickname}</div>
-        <div>
-          #{modifier} &nbsp;
-          <Styled.TypeText>{KKOGKKOG_TYPE_MAPPER[couponType]}</Styled.TypeText>
-          &nbsp;꼭꼭
-        </div>
-      </Styled.TextContainer>
-      <Styled.ImageContainer backgroundColor={backgroundColor}>
-        <img src={thumbnail} alt='쿠폰' />
+      <Styled.ImageContainer>
+        <Styled.ImageInner backgroundColor={backgroundColor}>
+          <img src={thumbnail} alt='쿠폰' />
+        </Styled.ImageInner>
       </Styled.ImageContainer>
+      <Styled.TextContainer>
+        <Styled.Member>
+          <Styled.English>To.</Styled.English> {receiver.nickname}
+        </Styled.Member>
+        <Styled.Message>{message}</Styled.Message>
+        <Styled.Modifier>#{modifier}</Styled.Modifier>
+      </Styled.TextContainer>
     </Styled.Root>
   );
 };
 
-KkogKkogItem.LinkButton = function LinkButton() {
-  return (
-    <Styled.Root
-      css={css`
-        padding: 0;
-      `}
-    >
-      <Styled.LinkButtonContainer>
-        <div>+</div>
-        <Styled.LinkButtonText>꼭꼭을 생성해보세요 !</Styled.LinkButtonText>
-      </Styled.LinkButtonContainer>
-    </Styled.Root>
-  );
-};
-
-KkogKkogItem.Skeleton = function Skeleton() {
+BigKkogKkogItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
 };
 
-export default KkogKkogItem;
+export default BigKkogKkogItem;

@@ -8,7 +8,7 @@ import useMe from '@/@hooks/user/useMe';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import { ANIMATION_DURATION } from '../../../constants/animation';
-import KkogKkogItem from '../KkogKkogItem';
+import BigKkogKkogItem from '../KkogKkogItem/big';
 import * as Styled from './style';
 
 interface KkogKkogItemProps {
@@ -104,7 +104,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       animation={animation}
       closeModal={onCloseModal}
     >
-      <KkogKkogItem
+      <BigKkogKkogItem
         key={id}
         css={css`
           margin-bottom: 16px;

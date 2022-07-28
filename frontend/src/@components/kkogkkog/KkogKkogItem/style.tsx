@@ -108,7 +108,11 @@ export const CouponPropertyContainer = styled.div`
   `}
 `;
 
-export const ImageContainer = styled.div<{ backgroundColor: string }>`
+export const ImageContainer = styled(CouponPropertyContainer)`
+  justify-content: center;
+`;
+
+export const ImageInner = styled.div<{ backgroundColor: string }>`
   height: 58px;
   width: 58px;
 
