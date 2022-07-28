@@ -49,29 +49,24 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
 
   const { isShowModal, openModal, closeModal } = useModal();
 
-  useUserList();
-
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
       <Styled.FindUserContainer>
         <div>누구에게 보내시나요?</div>
-        <Styled.FindUserInput>
-          {currentReceiverList.length === 0 && <span onClick={openModal}>유저를 찾아보세요</span>}
+        <Styled.FindUserInput onClick={openModal}>
+          {currentReceiverList.length === 0 && <span>유저를 찾아보세요</span>}
 
           {currentReceiverList.length !== 0 && (
             <Styled.SelectedUserListContainer>
               {currentReceiverList.map(receiver => (
-                <Styled.SelectedUserContainer
-                  key={receiver.id}
-                  onClick={() => onSelectReceiver(receiver)}
-                >
+                <Styled.SelectedUserContainer key={receiver.id}>
                   <span>{receiver.nickname}</span>
                 </Styled.SelectedUserContainer>
               ))}
             </Styled.SelectedUserListContainer>
           )}
 
-          <span onClick={openModal}>🔍</span>
+          <span>🔍</span>
         </Styled.FindUserInput>
       </Styled.FindUserContainer>
 
@@ -104,17 +99,6 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
           >
             #{modifier}
           </Styled.FeelOption>
-        ))}
-      </SelectInput>
-
-      <SelectInput label='쿠폰의 색상을 골라주세요'>
-        {kkogkkogColors.map(color => (
-          <Styled.ColorOption
-            key={color}
-            color={color}
-            isSelected={color === currentColor}
-            onClick={() => onSelectColor(color)}
-          />
         ))}
       </SelectInput>
 
