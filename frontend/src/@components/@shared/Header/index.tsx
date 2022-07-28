@@ -9,7 +9,7 @@ import * as Styled from './style';
 
 interface HeaderProps {
   title?: string;
-  className: string;
+  className?: string;
 }
 
 const Header = (props: HeaderProps) => {
