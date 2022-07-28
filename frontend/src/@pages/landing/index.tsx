@@ -8,9 +8,12 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
+import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
+import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
+import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
@@ -66,6 +69,12 @@ const UnAuthorizedLanding = () => {
 const AuthorizedLanding = () => {
   const { kkogkkogList, isLoading } = useKkogKkogList();
 
+  const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
+
+  const onClickCouponItem = (kkogkkog: KkogKKogResponse) => {
+    openKkogKkogModal(kkogkkog);
+  };
+
   return (
     <PageTemplate.LandingPage title='꼭꼭'>
       <Styled.Root>
@@ -116,6 +125,7 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 kkogkkogList={kkogkkogList && kkogkkogList.received}
                 CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
@@ -136,10 +146,14 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 kkogkkogList={kkogkkogList && kkogkkogList.sent}
                 CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
         </Styled.ListContainer>
+        {currentKkogKkog && (
+          <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
+        )}
       </Styled.Root>
     </PageTemplate.LandingPage>
   );

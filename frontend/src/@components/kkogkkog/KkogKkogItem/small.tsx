@@ -13,13 +13,6 @@ export type SmallCouponItemProps = KkogKKogResponse & {
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-const statusMapper = {
-  REQUESTED: '요청중',
-  FINISHED: '사용완료',
-  READY: '대기중',
-  ACCEPTED: '승인됨',
-};
-
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...kkogkkog } = props;
 
@@ -31,7 +24,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { me } = useMe();
 
   return (
-    <Styled.Root hasCursor={!!onClick}>
+    <Styled.Root hasCursor={!!onClick} onClick={onClick}>
       <CouponStatus status={couponStatus} />
 
       <img src={thumbnail} alt='쿠폰' width='50px' />

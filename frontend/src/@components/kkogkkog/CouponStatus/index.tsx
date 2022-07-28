@@ -1,5 +1,3 @@
-import React from 'react';
-
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/kkogkkog';
 
