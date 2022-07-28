@@ -70,47 +70,6 @@ export const Member = styled.p`
   font-weight: 600;
 `;
 
-export const Status = styled.div<{
-  couponStatus: COUPON_STATUS;
-}>`
-  height: 22px;
-  line-height: 22px;
-  text-align: center;
-
-  padding: 0 8px;
-
-  font-size: 12px;
-  border-radius: 20px;
-
-  ${({ theme }) => css`
-    color: ${theme.colors.white_100};
-  `}
-
-  ${({ theme, couponStatus }) => {
-    if (couponStatus === 'REQUESTED') {
-      return css`
-        background-color: ${theme.colors.primary_500};
-      `;
-    }
-
-    if (couponStatus === 'ACCEPTED') {
-      return css`
-        background-color: ${theme.colors.green_500};
-      `;
-    }
-
-    if (couponStatus === 'READY') {
-      return css`
-        background-color: ${theme.colors.primary_300};
-      `;
-    }
-
-    return css`
-      background-color: ${theme.colors.grey_300};
-    `;
-  }}
-`;
-
 export const TextContainer = styled.div`
   overflow-x: scroll;
 

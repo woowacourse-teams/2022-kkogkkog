@@ -1,18 +1,12 @@
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
+import CouponStatus from '@/@components/kkogkkog/CouponStatus';
 import useMe from '@/@hooks/user/useMe';
-import { COUPON_STATUS, THUMBNAIL } from '@/types/client/kkogkkog';
+import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './big.style';
-
-const statusMapper: Record<COUPON_STATUS, string> = {
-  REQUESTED: '요청중',
-  READY: '대기중',
-  ACCEPTED: '승인됨',
-  FINISHED: '사용완료',
-};
 
 export type BigKkogKkogItemProps = KkogKKogResponse & {
   className?: string;
@@ -50,7 +44,8 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
-        <Styled.Status couponStatus={couponStatus}>{statusMapper[couponStatus]}</Styled.Status>
+        <CouponStatus status={couponStatus} />
+
         <Styled.ImageInner backgroundColor={backgroundColor}>
           <img src={thumbnail} alt='쿠폰' />
         </Styled.ImageInner>

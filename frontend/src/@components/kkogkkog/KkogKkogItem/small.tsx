@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
+import CouponStatus from '@/@components/kkogkkog/CouponStatus';
 import useMe from '@/@hooks/user/useMe';
 import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
@@ -14,7 +15,7 @@ export type SmallCouponItemProps = KkogKKogResponse & {
 
 const statusMapper = {
   REQUESTED: '요청중',
-  FINISHED: '완료됨',
+  FINISHED: '사용완료',
   READY: '대기중',
   ACCEPTED: '승인됨',
 };
@@ -31,9 +32,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
   return (
     <Styled.Root hasCursor={!!onClick}>
-      <Styled.StatusContainer couponStatus={couponStatus}>
-        {statusMapper[couponStatus]}
-      </Styled.StatusContainer>
+      <CouponStatus status={couponStatus} />
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 
