@@ -69,6 +69,7 @@ const KkogkkogListPage = () => {
         {status === '전체' && (
           <Styled.Container>
             <VerticalKkogKkogList
+              // Horizontal view로 수정
               kkogkkogList={parsedKkogKkogList['REQUESTED']}
               CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
