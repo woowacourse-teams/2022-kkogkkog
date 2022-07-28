@@ -6,7 +6,9 @@ import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
+import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
+import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
@@ -98,29 +100,47 @@ const AuthorizedLanding = () => {
           </Link>
         </Styled.CreateCouponContainer>
 
-        <CustomSuspense fallback={<KkogKkogList.Skeleton />} isLoading={isLoading}>
-          <Styled.ListContainer>
-            <div>
-              <Styled.ListTitle>
-                <span>받은 쿠폰</span>
-                <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
-                  더보기
-                </Link>
-              </Styled.ListTitle>
-              <KkogKkogList.Slide kkogkkogList={kkogkkogList && kkogkkogList.received} />
-            </div>
+        <Styled.ListContainer>
+          <div>
+            <Styled.ListTitle>
+              <span>받은 쿠폰</span>
+              <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+                더보기
+              </Link>
+            </Styled.ListTitle>
+            <CustomSuspense
+              fallback={
+                <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
+              }
+              isLoading={isLoading}
+            >
+              <HorizontalCouponList
+                kkogkkogList={kkogkkogList && kkogkkogList.received}
+                CouponItem={SmallCouponItem}
+              />
+            </CustomSuspense>
+          </div>
 
-            <div>
-              <Styled.ListTitle>
-                <span>보낸 쿠폰</span>
-                <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
-                  더보기
-                </Link>
-              </Styled.ListTitle>
-              <KkogKkogList.Slide kkogkkogList={kkogkkogList && kkogkkogList.sent} />
-            </div>
-          </Styled.ListContainer>
-        </CustomSuspense>
+          <div>
+            <Styled.ListTitle>
+              <span>보낸 쿠폰</span>
+              <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+                더보기
+              </Link>
+            </Styled.ListTitle>
+            <CustomSuspense
+              fallback={
+                <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
+              }
+              isLoading={isLoading}
+            >
+              <HorizontalCouponList
+                kkogkkogList={kkogkkogList && kkogkkogList.sent}
+                CouponItem={SmallCouponItem}
+              />
+            </CustomSuspense>
+          </div>
+        </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>
   );
