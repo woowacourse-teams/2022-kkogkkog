@@ -17,32 +17,26 @@ export const SelectedUserListContainer = styled.div`
   border-radius: 4px;
   cursor: pointer;
 
-  & > div {
-    display: flex;
-    align-items: center;
-
-    padding: 5px;
-    margin-right: 5px;
-
-    border-radius: 4px;
-    box-shadow: 0 4px 4px 0 #00000025;
-
-    animation: show-up 0.3s ease-in;
-
-    cursor: pointer;
-  }
-
   ${({ theme }) => css`
     background-color: ${theme.colors.background_0};
   `}
 `;
 
 export const SelectedUserContainer = styled.div`
+  font-size: 12px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 6px 9px;
+  margin-right: 5px;
+
+  animation: show-up 0.3s ease-in;
+
+  cursor: pointer;
   margin-right: 10px;
 
-  padding: 5px;
-
-  border-radius: 4px;
+  border-radius: 20px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
@@ -79,9 +73,7 @@ export const SearchContainer = styled.div`
 
   margin-top: 5px;
 
-  border-radius: 4px;
-
-  animation: drop-down 0.2s ease-in;
+  border-radius: 10px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.background_0};

@@ -30,7 +30,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
         <Styled.SelectedUserListContainer>
           {currentReceiverList.map(user => (
             <Styled.SelectedUserContainer key={user.id} onClick={() => onSelectReceiver(user)}>
-              <span> {user.nickname}</span>
+              <span>{user.nickname}</span>
             </Styled.SelectedUserContainer>
           ))}
         </Styled.SelectedUserListContainer>
