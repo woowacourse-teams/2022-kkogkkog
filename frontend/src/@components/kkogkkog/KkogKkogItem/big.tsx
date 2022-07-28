@@ -43,9 +43,9 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
 
   const { me } = useMe();
 
-  const meetingDateText = `${meetingDate?.split('-')[1]}월 ${meetingDate?.split('-')[2]}일 약속 ${
-    couponStatus === 'REQUESTED' ? '신청됨' : ''
-  }`;
+  const meetingDateText = `${Number(meetingDate?.split('-')[1])}월 ${Number(
+    meetingDate?.split('-')[2]
+  )}일 약속 ${couponStatus === 'REQUESTED' ? '신청됨' : ''}`;
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
