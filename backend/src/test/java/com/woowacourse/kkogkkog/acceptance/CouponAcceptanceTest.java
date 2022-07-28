@@ -194,7 +194,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
+            ExtractableResponse<Response> response = 쿠폰_사용을_요청한다(leoAccessToken, 1L,
                 CouponEvent.REQUEST.name(), "2022-07-27");
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -209,7 +209,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                "존재하지_않는_이벤트", null);
+                "존재하지_않는_이벤트");
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -222,9 +222,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.CANCEL.name(), null);
+                CouponEvent.CANCEL.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -238,7 +238,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.CANCEL.name(), null);
+                CouponEvent.CANCEL.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -251,9 +251,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.DECLINE.name(), null);
+                CouponEvent.DECLINE.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -266,7 +266,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.DECLINE.name(), null);
+                CouponEvent.DECLINE.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -279,9 +279,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.ACCEPT.name(), null);
+                CouponEvent.ACCEPT.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -294,7 +294,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.ACCEPT.name(), null);
+                CouponEvent.ACCEPT.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -308,7 +308,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -321,9 +321,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -336,10 +336,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
-            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
+            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -352,11 +352,11 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
-            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name(), null);
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.FINISH.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
+            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name());
+            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.FINISH.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
@@ -369,7 +369,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -382,9 +382,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -397,10 +397,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
-            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
+            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         }
@@ -413,24 +413,34 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
-            쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), null);
-            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name(), null);
-            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.FINISH.name(), null);
+            쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
+            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.ACCEPT.name());
+            쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L, CouponEvent.FINISH.name());
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
-                CouponEvent.FINISH.name(), null);
+                CouponEvent.FINISH.name());
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
 
-        private ExtractableResponse<Response> 쿠폰_상태_변경을_요청한다(String accessToken,
-                                                             Long couponId,
-                                                             String couponEvent,
-                                                             String meetingDate) {
+        private ExtractableResponse<Response> 쿠폰_사용을_요청한다(String accessToken, Long couponId, String couponEvent, String meetingDate) {
             return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body("{\"couponEvent\":\"" + couponEvent + "\","
                     + " \"meetingDate\":\"" + meetingDate + "\"}")
+                .when()
+                .post("/api/coupons/{couponId}/event/request", couponId)
+                .then().log().all()
+                .extract();
+        }
+
+        private ExtractableResponse<Response> 쿠폰_상태_변경을_요청한다(String accessToken,
+                                                             Long couponId,
+                                                             String couponEvent) {
+            return RestAssured.given().log().all()
+                .auth().oauth2(accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new CouponEventRequest(couponEvent))
                 .when()
                 .post("/api/coupons/{couponId}/event", couponId)
                 .then().log().all()

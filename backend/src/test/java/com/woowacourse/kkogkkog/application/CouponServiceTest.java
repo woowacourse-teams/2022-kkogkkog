@@ -242,7 +242,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponCancel = new CouponChangeStatusRequest(
@@ -261,7 +261,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(
@@ -280,7 +280,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(
@@ -299,7 +299,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponFinish = new CouponChangeStatusRequest(
@@ -318,7 +318,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponCancel = new CouponChangeStatusRequest(
@@ -336,7 +336,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(
@@ -354,7 +354,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponDecline = new CouponChangeStatusRequest(
@@ -377,7 +377,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponAccept = new CouponChangeStatusRequest(
@@ -406,7 +406,7 @@ public class CouponServiceTest extends ServiceTest {
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponRequest = new CouponChangeStatusRequest(
                     ARTHUR.getId(),
-                    couponId, CouponEvent.REQUEST);
+                    couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
                 couponService.changeStatus(couponRequest);
 
                 CouponChangeStatusRequest couponAccept = new CouponChangeStatusRequest(
