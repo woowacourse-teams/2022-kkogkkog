@@ -35,7 +35,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
         {statusMapper[couponStatus]}
       </Styled.StatusContainer>
 
-      <img src={thumbnail} alt='쿠폰' />
+      <img src={thumbnail} alt='쿠폰' width='50px' />
 
       {sender.id === me?.id ? (
         <Styled.TextContainer>
