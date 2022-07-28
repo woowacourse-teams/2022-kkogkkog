@@ -103,7 +103,7 @@ const AuthorizedLanding = () => {
           <div>
             <Styled.ListTitle>
               <span>받은 쿠폰</span>
-              <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+              <Link to={PATH.RECEIVED_KKOGKKOG_LIST} css={Styled.ExtendedLink}>
                 더보기
               </Link>
             </Styled.ListTitle>
@@ -123,7 +123,7 @@ const AuthorizedLanding = () => {
           <div>
             <Styled.ListTitle>
               <span>보낸 쿠폰</span>
-              <Link to={PATH.KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+              <Link to={PATH.SENT_KKOGKKOG_LIST} css={Styled.ExtendedLink}>
                 더보기
               </Link>
             </Styled.ListTitle>
