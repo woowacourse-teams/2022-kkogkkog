@@ -57,6 +57,7 @@ public class MemberService {
             .orElseGet(() ->
                 {
                     Member2 savedMember = new Member2(null, nickname, imageUri, socialId, teamId);
+                    memberOAuthRepository.save(savedMember);
                     return new MemberOAuthResponse(savedMember.getId(), true);
                 }
             );
