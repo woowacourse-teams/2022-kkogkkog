@@ -16,19 +16,31 @@ const useKkogKkogStatusMutation = () => {
     },
   });
 
-  const cancelKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+  const cancelKkogKkog = (
+    { id }: kkogkkogActionType,
+    options: Omit<UseMutationOptions<unknown, unknown, unknown>, 'mutationFn'>
+  ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
   };
 
-  const requestKkogKKog = ({ id, meetingDate }: kkogkkogActionType, options: any) => {
+  const requestKkogKKog = (
+    { id, meetingDate }: kkogkkogActionType,
+    options: Omit<UseMutationOptions<unknown, unknown, unknown>, 'mutationFn'>
+  ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
   };
 
-  const finishKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+  const finishKkogKkog = (
+    { id }: kkogkkogActionType,
+    options: Omit<UseMutationOptions<unknown, unknown, unknown>, 'mutationFn'>
+  ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
   };
 
-  const acceptKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
+  const acceptKkogKkog = (
+    { id }: kkogkkogActionType,
+    options: Omit<UseMutationOptions<unknown, unknown, unknown>, 'mutationFn'>
+  ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
   };
 
