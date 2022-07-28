@@ -27,7 +27,7 @@ const statusUIMapper: Record<COUPON_STATUS, { backgroundColor: string; text: str
   },
 };
 
-type BigKkogKkogItemProps = KkogKKogResponse & {
+export type BigKkogKkogItemProps = KkogKKogResponse & {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };

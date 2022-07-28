@@ -1,7 +1,9 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
+import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
@@ -11,6 +13,7 @@ import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import { PATH } from '@/Router';
+import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
@@ -67,6 +70,7 @@ const KkogkkogListPage = () => {
           <Styled.Container>
             <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['REQUESTED']}
+              CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -76,6 +80,7 @@ const KkogkkogListPage = () => {
           <Styled.Container>
             <VerticalKkogKkogList
               kkogkkogList={[...parsedKkogKkogList['READY'], ...parsedKkogKkogList['REQUESTED']]}
+              CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -85,6 +90,7 @@ const KkogkkogListPage = () => {
           <Styled.Container>
             <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['ACCEPTED']}
+              CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -94,6 +100,7 @@ const KkogkkogListPage = () => {
           <Styled.Container>
             <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['FINISHED']}
+              CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -102,6 +109,16 @@ const KkogkkogListPage = () => {
         {currentKkogKkog && (
           <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
         )}
+        <Link
+          to={PATH.KKOGKKOG_CREATE}
+          css={css`
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+          `}
+        >
+          <Icon iconName='Plus' size='37px' color={theme.colors.primary_400} />
+        </Link>
       </Styled.Root>
     </PageTemplate>
   );
@@ -111,12 +128,7 @@ KkogkkogListPage.Skeleton = function Skeleton() {
   return (
     <PageTemplate title='꼭꼭 모아보기'>
       <Styled.Root>
-        <BigKkogKkogItem.Skeleton />
-        <BigKkogKkogItem.Skeleton />
-        <BigKkogKkogItem.Skeleton />
-        <BigKkogKkogItem.Skeleton />
-        <BigKkogKkogItem.Skeleton />
-        <BigKkogKkogItem.Skeleton />
+        <VerticalKkogKkogList.Skeleton CouponItemSkeleton={BigKkogKkogItem.Skeleton} />
       </Styled.Root>
     </PageTemplate>
   );

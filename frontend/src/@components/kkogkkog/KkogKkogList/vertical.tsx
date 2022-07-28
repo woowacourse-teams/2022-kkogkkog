@@ -1,15 +1,18 @@
-import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
+import { FunctionComponent } from 'react';
+
 import { KkogKKogResponse } from '@/types/remote/response';
 
+import { BigKkogKkogItemProps } from '../KkogKkogItem/big';
 import * as Styled from './style';
 
 interface VerticalKkogKkogListProps {
   kkogkkogList?: KkogKKogResponse[];
+  CouponItem: FunctionComponent<BigKkogKkogItemProps>;
   onClickCouponItem?: (kkogkkog: KkogKKogResponse) => void;
 }
 
 const VerticalKkogKkogList = (props: VerticalKkogKkogListProps) => {
-  const { kkogkkogList, onClickCouponItem } = props;
+  const { kkogkkogList, onClickCouponItem, CouponItem } = props;
 
   if (kkogkkogList?.length === 0) {
     return (
@@ -23,11 +26,7 @@ const VerticalKkogKkogList = (props: VerticalKkogKkogListProps) => {
   return (
     <Styled.Root>
       {kkogkkogList?.map(kkogkkog => (
-        <BigKkogKkogItem
-          key={kkogkkog.id}
-          onClick={() => onClickCouponItem?.(kkogkkog)}
-          {...kkogkkog}
-        />
+        <CouponItem key={kkogkkog.id} onClick={() => onClickCouponItem?.(kkogkkog)} {...kkogkkog} />
       ))}
     </Styled.Root>
   );
@@ -35,13 +34,19 @@ const VerticalKkogKkogList = (props: VerticalKkogKkogListProps) => {
 
 export default VerticalKkogKkogList;
 
-VerticalKkogKkogList.Skeleton = function Skeleton() {
+interface VerticalKkogKkogListSkeletonProps {
+  CouponItemSkeleton: FunctionComponent;
+}
+
+VerticalKkogKkogList.Skeleton = function Skeleton(props: VerticalKkogKkogListSkeletonProps) {
+  const { CouponItemSkeleton } = props;
+
   return (
     <Styled.Root>
-      <BigKkogKkogItem.Skeleton />
-      <BigKkogKkogItem.Skeleton />
-      <BigKkogKkogItem.Skeleton />
-      <BigKkogKkogItem.Skeleton />
+      <CouponItemSkeleton />
+      <CouponItemSkeleton />
+      <CouponItemSkeleton />
+      <CouponItemSkeleton />
     </Styled.Root>
   );
 };
