@@ -6,7 +6,7 @@ import theme from '@/styles/theme';
 import { COUPON_STATUS, THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
-import * as Styled from './style';
+import * as Styled from './big.style';
 
 const statusUIMapper: Record<COUPON_STATUS, { backgroundColor: string; text: string }> = {
   REQUESTED: {
@@ -47,6 +47,7 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
     couponStatus,
     couponType,
     message,
+    meetingDate,
     thumbnail,
   } = {
     ...kkogkkog,
@@ -54,6 +55,10 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
   };
 
   const { me } = useMe();
+
+  const meetinDateText = `${meetingDate?.split('-')[1]}월 ${meetingDate?.split('-')[2]}일 약속 ${
+    couponStatus === 'REQUESTED' ? '신청됨' : ''
+  }`;
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
@@ -66,15 +71,20 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
         </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
-        {sender.id === me?.id ? (
-          <Styled.Member>
-            <Styled.English>To.</Styled.English> {receiver.nickname}
-          </Styled.Member>
-        ) : (
-          <Styled.Member>
-            <Styled.English>From.</Styled.English> {sender.nickname}
-          </Styled.Member>
-        )}
+        <Styled.Top>
+          {sender.id === me?.id ? (
+            <Styled.Member>
+              <Styled.English>To.</Styled.English> {receiver.nickname}
+            </Styled.Member>
+          ) : (
+            <Styled.Member>
+              <Styled.English>From.</Styled.English> {sender.nickname}
+            </Styled.Member>
+          )}
+          {meetingDate && (
+            <Styled.MeetingDate couponStatus={couponStatus}>{meetinDateText}</Styled.MeetingDate>
+          )}
+        </Styled.Top>
         <Styled.Message>{message}</Styled.Message>
         <Styled.Modifier>#{modifier}</Styled.Modifier>
       </Styled.TextContainer>
