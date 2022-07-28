@@ -25,7 +25,7 @@ const useKkogKkogStatusMutation = () => {
   };
 
   const finishKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
-    // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH',  } }, options);
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
   };
 
   const acceptKkogKkog = ({ id }: kkogkkogActionType, options: any) => {
