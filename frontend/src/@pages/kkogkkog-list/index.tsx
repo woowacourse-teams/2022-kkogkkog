@@ -16,14 +16,14 @@ import { KkogKKogResponse } from '@/types/remote/response';
 
 const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
 
-export type KkogKkogListContainerFilterOptionType = typeof filterOption[number];
+export type FilterOption = typeof filterOption[number];
 
 const KkogkkogListPage = () => {
   const { kkogkkogList } = useKkogKkogList();
 
   const couponListType = useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
 
-  const { status, changeStatus } = useStatus<KkogKkogListContainerFilterOptionType>('전체');
+  const { status, changeStatus } = useStatus<FilterOption>('전체');
 
   const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
 
@@ -46,7 +46,7 @@ const KkogkkogListPage = () => {
     [kkogkkogList, couponListType]
   );
 
-  const onClickFilterButton = (status: KkogKkogListContainerFilterOptionType) => {
+  const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
   };
 
@@ -57,7 +57,7 @@ const KkogkkogListPage = () => {
   return (
     <PageTemplate title='꼭꼭 모아보기'>
       <Styled.Root>
-        <ListFilter<KkogKkogListContainerFilterOptionType>
+        <ListFilter<FilterOption>
           status={status}
           options={filterOption}
           onClickFilterButton={onClickFilterButton}
