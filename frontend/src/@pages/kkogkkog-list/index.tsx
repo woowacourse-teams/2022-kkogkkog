@@ -6,6 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import Position from '@/@components/@shared/Position';
 import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
@@ -135,14 +136,7 @@ const KkogkkogListPage = () => {
         {currentKkogKkog && (
           <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
         )}
-        <Link
-          to={PATH.KKOGKKOG_CREATE}
-          css={css`
-            position: fixed;
-            bottom: 12px;
-            right: 12px;
-          `}
-        >
+        <Link to={PATH.KKOGKKOG_CREATE} css={Styled.StickyLink}>
           <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
         </Link>
       </Styled.Root>
@@ -195,5 +189,14 @@ export const Styled = {
         color: ${theme.colors.grey_400};
       }
     `}
+  `,
+  StickyLink: css`
+    position: sticky;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
   `,
 };
