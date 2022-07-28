@@ -1,14 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+export const SlideRoot = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
 
-  & > div + div {
-    margin-top: 20px;
-  }
+  flex-direction: row;
+
+  overflow-x: scroll;
+
+  gap: 10px;
+  padding: 15px 0;
 `;
 
 export const TextContainer = styled.div<{ fontSize?: string }>`
