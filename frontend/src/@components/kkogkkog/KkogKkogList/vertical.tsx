@@ -3,12 +3,12 @@ import { KkogKKogResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
-interface KkogKkogListProps {
+interface VerticalKkogKkogListProps {
   kkogkkogList?: KkogKKogResponse[];
   onClickCouponItem?: (kkogkkog: KkogKKogResponse) => void;
 }
 
-const KkogKkogList = (props: KkogKkogListProps) => {
+const VerticalKkogKkogList = (props: VerticalKkogKkogListProps) => {
   const { kkogkkogList, onClickCouponItem } = props;
 
   if (kkogkkogList?.length === 0) {
@@ -33,9 +33,9 @@ const KkogKkogList = (props: KkogKkogListProps) => {
   );
 };
 
-export default KkogKkogList;
+export default VerticalKkogKkogList;
 
-KkogKkogList.Skeleton = function Skeleton() {
+VerticalKkogKkogList.Skeleton = function Skeleton() {
   return (
     <Styled.Root>
       <BigKkogKkogItem.Skeleton />

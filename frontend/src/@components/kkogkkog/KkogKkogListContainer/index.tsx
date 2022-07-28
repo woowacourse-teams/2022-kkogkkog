@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
-import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
+import VerticalKkogKkogList from '@/@components/kkogkkog/KkogKkogList/vertical';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
@@ -67,7 +67,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           <div>
             사용 <span>요청이 온</span> 꼭꼭
           </div>
-          <KkogKkogList
+          <VerticalKkogKkogList
             kkogkkogList={parsedKkogKkogList['REQUESTED']}
             onClickCouponItem={onClickCouponItem}
           />
@@ -79,7 +79,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           <div>
             사용 <span>승인한</span> 꼭꼭
           </div>
-          <KkogKkogList
+          <VerticalKkogKkogList
             kkogkkogList={parsedKkogKkogList['ACCEPTED']}
             onClickCouponItem={onClickCouponItem}
           />
@@ -91,7 +91,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           <div>
             사용을 <span>기다리는</span> 꼭꼭
           </div>
-          <KkogKkogList
+          <VerticalKkogKkogList
             kkogkkogList={parsedKkogKkogList['READY']}
             onClickCouponItem={onClickCouponItem}
           />
@@ -103,7 +103,7 @@ const KkogKkogListContainer = (props: KkogKkogListContainerProps) => {
           <div>
             <span>사용된</span> 꼭꼭
           </div>
-          <KkogKkogList
+          <VerticalKkogKkogList
             kkogkkogList={parsedKkogKkogList['FINISHED']}
             onClickCouponItem={onClickCouponItem}
           />
@@ -123,7 +123,7 @@ KkogKkogListContainer.Skeleton = function Skeleton() {
   return (
     <Styled.Root>
       <ListFilter.Skeleton />
-      <KkogKkogList.Skeleton />
+      <VerticalKkogKkogList.Skeleton />
     </Styled.Root>
   );
 };

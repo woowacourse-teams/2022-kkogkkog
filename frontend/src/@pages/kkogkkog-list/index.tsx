@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
-import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
+import VerticalKkogKkogList from '@/@components/kkogkkog/KkogKkogList/vertical';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
@@ -65,7 +65,7 @@ const KkogkkogListPage = () => {
         />
         {status === '전체' && (
           <Styled.Container>
-            <KkogKkogList
+            <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['REQUESTED']}
               onClickCouponItem={onClickCouponItem}
             />
@@ -74,7 +74,7 @@ const KkogkkogListPage = () => {
 
         {status === '열린 약속' && (
           <Styled.Container>
-            <KkogKkogList
+            <VerticalKkogKkogList
               kkogkkogList={[...parsedKkogKkogList['READY'], ...parsedKkogKkogList['REQUESTED']]}
               onClickCouponItem={onClickCouponItem}
             />
@@ -83,7 +83,7 @@ const KkogkkogListPage = () => {
 
         {status === '잡은 약속' && (
           <Styled.Container>
-            <KkogKkogList
+            <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['ACCEPTED']}
               onClickCouponItem={onClickCouponItem}
             />
@@ -92,7 +92,7 @@ const KkogkkogListPage = () => {
 
         {status === '지난 약속' && (
           <Styled.Container>
-            <KkogKkogList
+            <VerticalKkogKkogList
               kkogkkogList={parsedKkogKkogList['FINISHED']}
               onClickCouponItem={onClickCouponItem}
             />
