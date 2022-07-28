@@ -19,6 +19,8 @@ const colors = {
   drak_grey_200: '#242424',
   drak_grey_100: '#3D3D3D',
 
+  green_500: '#51D230',
+
   red_800: '#E81300',
 
   background_4: '#F5F4F3',
