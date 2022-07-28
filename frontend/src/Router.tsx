@@ -71,7 +71,5 @@ export default Router;
 const PrivateRoute = () => {
   const { me } = useMe();
 
-  return <Outlet />;
-
-  // return me ? <Outlet /> : <Navigate to='/' replace />;
+  return me ? <Outlet /> : <Navigate to='/' replace />;
 };

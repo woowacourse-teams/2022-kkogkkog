@@ -27,7 +27,7 @@ const KkogkkogCreatePage = () => {
   }, [receiverList]);
 
   return (
-    <PageTemplate title='꼭꼭 만들기'>
+    <PageTemplate title='꼭꼭 보내기'>
       <Styled.Root>
         <Styled.PreviewContainer ref={elementRef}>
           {receiverList.length === 0 ? (
