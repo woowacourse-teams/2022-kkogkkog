@@ -66,6 +66,13 @@ const globalStyle = css`
     src: url('/assets/font/Pretendard-ExtraBold.woff') format('woff');
   }
 
+  @font-face {
+    font-family: 'BMHANNAProOTF';
+    font-style: normal;
+    font-weight: bold;
+    src: url('/assets/font/BMHANNAProOTF.otf') format('woff');
+  }
+
   @keyframes show-up {
     from {
       opacity: 0;

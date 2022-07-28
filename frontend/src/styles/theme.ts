@@ -3,6 +3,7 @@ const colors = {
   primary_400: '#FF7020',
   primary_400_opacity: '#FF702016',
   primary_300: '#FF9620',
+  primary_300_opacity: '#FF962047',
   primary_200: '#FFB25B',
   primary_100: '#FFC17B',
 

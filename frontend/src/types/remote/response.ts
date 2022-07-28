@@ -1,4 +1,5 @@
 import {
+  COUPON_LIST_TYPE,
   COUPON_STATUS,
   KKOGKKOG_COLORS,
   KKOGKKOG_ENG_TYPE,
@@ -31,4 +32,4 @@ export interface KkogKKogResponse {
   couponStatus: COUPON_STATUS;
 }
 
-export type KkogKkogListResponse = Record<'received' | 'sent', KkogKKogResponse[]>;
+export type KkogKkogListResponse = Record<COUPON_LIST_TYPE, KkogKKogResponse[]>;

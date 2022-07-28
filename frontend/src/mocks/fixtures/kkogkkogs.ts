@@ -30,7 +30,7 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'MEAL',
       couponStatus: 'REQUESTED',
     },
     {
@@ -40,7 +40,7 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'ACCEPTED',
     },
     {
@@ -50,7 +50,7 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'FINISHED',
     },
     {
@@ -80,7 +80,7 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'FINISHED',
     },
     {
@@ -90,7 +90,7 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'MEAL',
       couponStatus: 'ACCEPTED',
     },
     {

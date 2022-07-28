@@ -14,6 +14,8 @@ import LoginPage from './@pages/login';
 export const PATH = {
   LANDING: '/',
   KKOGKKOG_LIST: '/kkogkkog-list',
+  SENT_KKOGKKOG_LIST: '/kkogkkog-list/sent',
+  RECEIVED_KKOGKKOG_LIST: '/kkogkkog-list/received',
   KKOGKKOG_CREATE: '/kkogkkog-list/create',
   LOGIN: '/login',
   JOIN: '/join',
@@ -35,7 +37,15 @@ const Router = () => {
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
-          path={PATH.KKOGKKOG_LIST}
+          path={PATH.SENT_KKOGKKOG_LIST}
+          element={
+            <Suspense fallback={<KkogkkogListPage.Skeleton />}>
+              <KkogkkogListPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path={PATH.RECEIVED_KKOGKKOG_LIST}
           element={
             <Suspense fallback={<KkogkkogListPage.Skeleton />}>
               <KkogkkogListPage />
@@ -61,5 +71,7 @@ export default Router;
 const PrivateRoute = () => {
   const { me } = useMe();
 
-  return me ? <Outlet /> : <Navigate to='/' replace />;
+  return <Outlet />;
+
+  // return me ? <Outlet /> : <Navigate to='/' replace />;
 };

@@ -7,7 +7,6 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
-import KkogKkogList from '@/@components/kkogkkog/KkogKkogList';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useMe from '@/@hooks/user/useMe';
