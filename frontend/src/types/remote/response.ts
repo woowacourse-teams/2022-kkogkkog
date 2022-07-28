@@ -30,6 +30,7 @@ export interface KkogKKogResponse {
   backgroundColor: KKOGKKOG_COLORS;
   couponType: KKOGKKOG_ENG_TYPE;
   couponStatus: COUPON_STATUS;
+  meetingDate?: string;
 }
 
 export type KkogKkogListResponse = Record<COUPON_LIST_TYPE, KkogKKogResponse[]>;
