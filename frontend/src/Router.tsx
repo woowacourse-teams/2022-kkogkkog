@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
+import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import JoinPage from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
@@ -72,7 +73,13 @@ const Router = () => {
 export default Router;
 
 const PrivateRoute = () => {
-  const { me } = useMe();
+  const { me, isLoading } = useMe();
 
-  return me ? <Outlet /> : <Navigate to='/' replace />;
+  return me ? (
+    <Outlet />
+  ) : (
+    <CustomSuspense isLoading={isLoading} fallback={<Loading>👻</Loading>}>
+      <Navigate to='/' replace />
+    </CustomSuspense>
+  );
 };
