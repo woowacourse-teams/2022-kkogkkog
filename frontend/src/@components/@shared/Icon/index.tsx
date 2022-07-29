@@ -9,16 +9,17 @@ interface IconProps {
   iconName: IconNames;
   size?: string;
   color?: string;
+  className?: string;
 }
 
 const Icon = (props: IconProps) => {
-  const { iconName, size = '24', color = '#ffffff', ...rest } = props;
+  const { iconName, size = '24', color = '#ffffff', className, ...rest } = props;
 
   const IconComponent = Icons[iconName];
 
   return (
     <Styled.Wrapper size={size} color={color} {...rest}>
-      <IconComponent width='100%' height='100%' />
+      <IconComponent width='100%' height='100%' className={className} />
     </Styled.Wrapper>
   );
 };

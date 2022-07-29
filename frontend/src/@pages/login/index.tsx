@@ -2,18 +2,11 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import Input from '@/@components/@shared/Input';
+import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
 import { PATH } from '@/Router';
 
 const LoginPage = () => {
-  const {
-    state: { email, password },
-    changeHandler: { onChangeEmail, onChangePassword },
-    submitHandler: { login: onSubmitForm },
-  } = useAuthenticateForm();
-
   return (
     <PageTemplate title='로그인' hasHeader={false}>
       <Styled.Root>
@@ -29,33 +22,28 @@ const LoginPage = () => {
           <img src='/assets/images/logo.png' alt='로고' width='36' />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
-        <Styled.LoginForm onSubmit={onSubmitForm}>
-          <Input.HiddenLabel
-            id='email'
-            type='email'
-            label='이메일'
-            placeholder='이메일'
-            value={email}
-            css={css`
-              border-radius: 4px 4px 0 0;
-            `}
-            onChange={onChangeEmail}
-          />
-          <Input.HiddenLabel
-            id='password'
-            type='password'
-            label='비밀번호'
-            placeholder='비밀번호'
-            value={password}
-            css={css`
-              border-radius: 0 0 4px 4px;
-              margin-bottom: 36px;
-            `}
-            onChange={onChangePassword}
-          />
-          <button type='submit'>로그인</button>
-        </Styled.LoginForm>
-        <Link to={PATH.JOIN}>회원가입</Link>
+        <a
+          href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3867786133171'
+          css={css`
+            gap: 12px;
+            align-items: center;
+            color: #fff;
+            background-color: #4a154b;
+            border: 0;
+            border-radius: 48px;
+            display: inline-flex;
+            font-family: Lato, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            height: 48px;
+            justify-content: center;
+            text-decoration: none;
+            width: 256px;
+          `}
+        >
+          <Icon iconName='slack' size='20' />
+          Sign in with Slack
+        </a>
       </Styled.Root>
     </PageTemplate>
   );

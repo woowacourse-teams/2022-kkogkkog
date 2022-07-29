@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import JoinPage from '@/@pages/join';
@@ -10,6 +10,7 @@ import ProfilePage from '@/@pages/profile';
 
 import useMe from './@hooks/user/useMe';
 import LoginPage from './@pages/login';
+import LoginRedirect from './@pages/login/redirect';
 
 export const PATH = {
   LANDING: '/',
@@ -20,6 +21,7 @@ export const PATH = {
   LOGIN: '/login',
   JOIN: '/join',
   PROFILE: '/profile',
+  LOGIN_REDIRECT: '/login/redirect',
 };
 
 const Router = () => {
@@ -34,6 +36,7 @@ const Router = () => {
         }
       />
       <Route path={PATH.LOGIN} element={<LoginPage />} />
+      <Route path={PATH.LOGIN_REDIRECT} element={<LoginRedirect />} />
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
