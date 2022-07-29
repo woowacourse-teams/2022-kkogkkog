@@ -123,19 +123,24 @@ const Styled = {
     }
   `,
   SlackLink: styled.a`
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    height: 48px;
+    margin-bottom: 20px;
+
     color: #fff;
     background-color: #4a154b;
+
     border: 0;
     border-radius: 20px;
-    display: inline-flex;
-    gap: 12px;
+
     font-size: 16px;
     font-weight: 600;
-    height: 48px;
-    justify-content: center;
+
     text-decoration: none;
-    width: 100%;
-    margin-bottom: 20px;
   `,
 };
