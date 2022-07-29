@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class AuthController {
 
     private final AuthService authService;
@@ -23,14 +23,14 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/login")
+    @PostMapping
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody TokenRequest tokenRequest) {
         TokenResponse tokenResponse = authService.login(tokenRequest);
 
         return ResponseEntity.ok(tokenResponse);
     }
 
-    @GetMapping("/slack/login")
+    @GetMapping("/token")
     public ResponseEntity<TokenOAuthResponse> loginByOAuth(@RequestParam String code) {
         TokenOAuthResponse tokenResponse = authService.loginByOAuth(code);
 
