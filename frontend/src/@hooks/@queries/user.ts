@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 
-import { oAuthLogin } from '@/apis/user';
+import { OAuthLogin } from '@/apis/user';
 
 export const useLoginMutation = () => {
-  return useMutation(oAuthLogin);
+  return useMutation(OAuthLogin);
 };

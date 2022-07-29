@@ -21,4 +21,4 @@ export const join = (args: JoinRequest) => client.post('/members', args);
 
 export const login = (args: LoginRequest) => client.post('/login', args);
 
-export const oAuthLogin = (code: string) => client.get<LoginResponse>(`/login/token?code=${code}`);
+export const OAuthLogin = (code: string) => client.get<LoginResponse>(`/login/token?code=${code}`);
