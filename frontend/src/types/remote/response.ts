@@ -21,6 +21,11 @@ export interface UserResponse {
 
 export type UserListResponse = UserResponse[];
 
+export interface LoginResponse {
+  accessToken: string;
+  isCreated: boolean;
+}
+
 export interface KkogKKogResponse {
   id: number;
   sender: User;

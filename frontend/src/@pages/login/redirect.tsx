@@ -1,9 +1,8 @@
 import { css } from '@emotion/react';
 import { useEffect } from 'react';
-import { useMutation } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { client } from '@/apis';
+import { useLoginMutation } from '@/@hooks/@queries/user';
 
 const LoginRedirect = () => {
   const navigate = useNavigate();
@@ -11,15 +10,24 @@ const LoginRedirect = () => {
 
   const code = searchParams.get('code');
 
-  const loginMutate = useMutation(() => client.get(`/login/token?code=${code}`), {
-    onSuccess(data) {
-      navigate('/');
-      console.log('슬랙 로그인 성공했습니다.', data);
-    },
-  });
+  const loginMutate = useLoginMutation();
 
   useEffect(() => {
-    loginMutate.mutate();
+    console.log('code', code);
+    if (code) {
+      loginMutate.mutate(code, {
+        onSuccess(response) {
+          const { accessToken } = response.data;
+
+          // slack API로 Auth Logic을 모두 갈아낀운 후 주석 삭제
+          // client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+          navigate('/');
+        },
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 loginMutate를 넣으면 무한 렌더링이 발생함.
   }, []);
 
   return (
