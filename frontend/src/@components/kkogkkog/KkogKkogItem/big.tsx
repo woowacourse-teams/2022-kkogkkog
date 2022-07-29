@@ -36,7 +36,7 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
 
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   const meetingDateText = extractDate(meetingDate);
 

@@ -5,7 +5,7 @@ import useUserList from '@/@hooks/user/useUserList';
 import { UserListResponse } from '@/types/remote/response';
 
 export const useSearchUser = () => {
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   // 이 부분은 검색 API 도입시 사라지게됨
   const { userList } = useUserList();

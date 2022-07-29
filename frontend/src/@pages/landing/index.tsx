@@ -67,7 +67,8 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
-  const { kkogkkogList, isLoading } = useKkogKkogList();
+  const { data, isLoading } = useKkogKkogList();
+  const kkogkkogList = data?.data;
 
   const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
 
@@ -160,7 +161,7 @@ const AuthorizedLanding = () => {
 };
 
 const LandingPage = () => {
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
 };

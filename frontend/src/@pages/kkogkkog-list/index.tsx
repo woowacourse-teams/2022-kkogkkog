@@ -24,10 +24,11 @@ const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속
 export type FilterOption = typeof filterOption[number];
 
 const KkogkkogListPage = () => {
+  const { data } = useKkogKkogList();
+  const kkogkkogList = data?.data;
+
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
-
-  const { kkogkkogList } = useKkogKkogList();
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 

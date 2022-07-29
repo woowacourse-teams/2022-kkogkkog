@@ -63,7 +63,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { kkogkkog, closeModal } = props;
   const { id, sender, couponStatus } = kkogkkog;
 
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   const [animation, setAnimation] = useState(false);
 

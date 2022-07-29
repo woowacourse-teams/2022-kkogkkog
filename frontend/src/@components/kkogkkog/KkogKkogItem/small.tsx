@@ -21,7 +21,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
 
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>

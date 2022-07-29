@@ -1,19 +1,11 @@
 import { useQuery } from 'react-query';
 
 import { getKkogkkogList } from '@/apis/kkogkkog';
-import { KkogKkogListResponse } from '@/types/remote/response';
 
-export const useKkogKkogList = () => {
-  const kkogkkogListQuery = useQuery<{ data: KkogKkogListResponse }>(
-    ['kkogkkogList'],
-    getKkogkkogList,
-    {
-      suspense: true,
-    }
-  );
-
-  return {
-    kkogkkogList: kkogkkogListQuery.data?.data,
-    ...kkogkkogListQuery,
-  };
-};
+export const useKkogKkogList = () =>
+  useQuery(['kkogkkogList'], getKkogkkogList, {
+    suspense: true,
+    select(data) {
+      return data.data;
+    },
+  });

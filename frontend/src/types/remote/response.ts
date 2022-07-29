@@ -38,4 +38,4 @@ export interface KkogKKogResponse {
   meetingDate?: string;
 }
 
-export type KkogKkogListResponse = Record<COUPON_LIST_TYPE, KkogKKogResponse[]>;
+export type KkogKkogListResponse = { data: Record<COUPON_LIST_TYPE, KkogKKogResponse[]> };

@@ -76,7 +76,7 @@ const Router = () => {
 export default Router;
 
 const PrivateRoute = () => {
-  const { me, isLoading } = useMe();
+  const { data: me, isLoading } = useMe();
 
   return me ? (
     <Outlet />
