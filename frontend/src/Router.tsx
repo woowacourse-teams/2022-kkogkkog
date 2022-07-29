@@ -19,9 +19,9 @@ export const PATH = {
   RECEIVED_KKOGKKOG_LIST: '/kkogkkog-list/received',
   KKOGKKOG_CREATE: '/kkogkkog-list/create',
   LOGIN: '/login',
+  LOGIN_REDIRECT: '/login/redirect',
   JOIN: '/join',
   PROFILE: '/profile',
-  LOGIN_REDIRECT: '/login/redirect',
 };
 
 const Router = () => {
