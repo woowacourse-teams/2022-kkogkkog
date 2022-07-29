@@ -21,11 +21,7 @@ export const ToastMessage = styled.div<{ isError: boolean }>`
 
   border-radius: 20px;
 
-  ${({ theme, isError }) => css`
-    background-color: ${isError ? theme.colors.red_800 : theme.colors.green_500};
-    color: ${theme.colors.white_100};
-  `}
-  -webkit-animation: slide-in-blurred-bottom 1.5s cubic-bezier(0.230, 1.000, 0.320, 1.000) 2 alternate both;
+  -webkit-animation: slide-in-blurred-bottom 1.5s cubic-bezier(0.23, 1, 0.32, 1) 2 alternate both;
   animation: slide-in-blurred-bottom 1.5s cubic-bezier(0.23, 1, 0.32, 1) 2 alternate both;
 
   @-webkit-keyframes slide-in-blurred-bottom {
@@ -69,4 +65,9 @@ export const ToastMessage = styled.div<{ isError: boolean }>`
       opacity: 1;
     }
   }
+
+  ${({ theme, isError }) => css`
+    background-color: ${isError ? theme.colors.red_800 : theme.colors.green_500};
+    color: ${theme.colors.white_100};
+  `}
 `;
