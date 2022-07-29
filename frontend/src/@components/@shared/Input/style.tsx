@@ -37,7 +37,7 @@ export const Input = styled.input`
     &::-webkit-input-placeholder {
       color: ${theme.colors.light_grey_200};
     }
-    &:-ms-input-placeholder {
+    &::-ms-input-placeholder {
       color: ${theme.colors.light_grey_200};
     }
   `}

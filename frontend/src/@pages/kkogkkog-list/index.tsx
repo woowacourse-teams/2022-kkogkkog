@@ -73,7 +73,7 @@ const KkogkkogListPage = () => {
         {status === '전체' && (
           <Styled.Container>
             <section>
-              <h1>열린 약속</h1>
+              <h2>열린 약속</h2>
               <HorizontalCouponList
                 kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
                 CouponItem={SmallCouponItem}
@@ -81,7 +81,7 @@ const KkogkkogListPage = () => {
               />
             </section>
             <section>
-              <h1>잡은 약속</h1>
+              <h2>잡은 약속</h2>
               <HorizontalCouponList
                 kkogkkogList={parsedKkogKkogList['ACCEPTED']}
                 CouponItem={SmallCouponItem}
@@ -89,7 +89,7 @@ const KkogkkogListPage = () => {
               />
             </section>
             <section>
-              <h1>지난 약속</h1>
+              <h2>지난 약속</h2>
               <HorizontalCouponList
                 kkogkkogList={parsedKkogKkogList['FINISHED']}
                 CouponItem={SmallCouponItem}
@@ -167,11 +167,6 @@ export const Styled = {
     padding-bottom: 20px;
     margin-bottom: 10px;
 
-    & > section > h1 {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
     & > section {
       padding: 20px;
     }
@@ -181,8 +176,10 @@ export const Styled = {
     }
 
     ${({ theme }) => css`
-      & > section > h1 {
+      & > section > h2 {
         color: ${theme.colors.grey_400};
+        font-size: 18px;
+        font-weight: 600;
       }
     `}
   `,
