@@ -20,7 +20,7 @@ const LoginRedirect = () => {
 
   useEffect(() => {
     loginMutate.mutate();
-  }, [loginMutate]);
+  }, []);
 
   return (
     <div
