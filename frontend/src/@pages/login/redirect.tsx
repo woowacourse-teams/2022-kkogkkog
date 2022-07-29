@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
+import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useLoginMutation } from '@/@hooks/@queries/user';
 import { client } from '@/apis';
 
 const LoginRedirect = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
-  const code = searchParams.get('code');
+  const code = useGetSearchParam('code');
 
   const loginMutate = useLoginMutation();
 
