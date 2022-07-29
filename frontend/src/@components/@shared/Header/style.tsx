@@ -29,7 +29,10 @@ export const Root = styled.div`
 export const Logo = styled.div``;
 
 export const Title = styled.div`
-  font-size: 14px;
+  font-size: 18px;
+  padding-left: 24px;
+
+  flex: 1;
 `;
 
 export const Profile = styled.div``;

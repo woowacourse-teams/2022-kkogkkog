@@ -3,13 +3,18 @@ import styled from '@emotion/styled';
 
 export const FormRoot = styled.form`
   & > * + * {
-    margin-top: 20px;
+    margin-top: 40px;
+  }
+
+  & > label {
+    font-weight: 600;
   }
 `;
 
 export const FindUserContainer = styled.div`
   & > div:first-of-type {
     font-size: 14px;
+    font-weight: 600;
 
     margin-bottom: 8px;
   }
@@ -21,16 +26,15 @@ export const FindUserInput = styled.div`
   align-items: center;
 
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 10px;
 
-  font-size: 14px;
+  font-size: 12px;
 
-  & span {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.light_grey_200};
+    border: 1px solid ${theme.colors.primary_200};
+    color: ${theme.colors.light_grey_200};
   `}
 `;
 
@@ -41,9 +45,9 @@ export const SelectedUserListContainer = styled.div`
 export const SelectedUserContainer = styled.div`
   margin-right: 10px;
 
-  padding: 5px;
+  padding: 6px 9px;
 
-  border-radius: 4px;
+  border-radius: 20px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
@@ -54,8 +58,18 @@ export const SelectedUserContainer = styled.div`
 `;
 
 export const FeelOption = styled.li<{ isSelected: boolean }>`
+  font-size: 12px;
   font-weight: bold;
   opacity: 0.3;
+
+  padding: 6px 9px;
+
+  border-radius: 20px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.primary_400};
+    color: ${theme.colors.white_100};
+  `}
 
   ${({ isSelected }) =>
     isSelected &&
@@ -111,9 +125,9 @@ export const TypeOption = styled.li<{ isSelected: boolean }>`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 export const ButtonInner = styled.div`
-  width: 30%;
+  width: 40%;
 `;

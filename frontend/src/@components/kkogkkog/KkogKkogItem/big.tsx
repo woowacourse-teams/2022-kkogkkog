@@ -1,18 +1,13 @@
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
+import CouponStatus from '@/@components/kkogkkog/CouponStatus';
 import useMe from '@/@hooks/user/useMe';
-import { COUPON_STATUS, THUMBNAIL } from '@/types/client/kkogkkog';
+import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
+import { extractDate } from '@/utils';
 
 import * as Styled from './big.style';
-
-const statusMapper: Record<COUPON_STATUS, string> = {
-  REQUESTED: '요청중',
-  READY: '대기중',
-  ACCEPTED: '승인됨',
-  FINISHED: '사용완료',
-};
 
 export type BigKkogKkogItemProps = KkogKKogResponse & {
   className?: string;
@@ -43,14 +38,13 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
 
   const { me } = useMe();
 
-  const meetingDateText = `${Number(meetingDate?.split('-')[1])}월 ${Number(
-    meetingDate?.split('-')[2]
-  )}일 약속 ${couponStatus === 'REQUESTED' ? '신청됨' : ''}`;
+  const meetingDateText = extractDate(meetingDate);
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
-        <Styled.Status couponStatus={couponStatus}>{statusMapper[couponStatus]}</Styled.Status>
+        <CouponStatus status={couponStatus} />
+
         <Styled.ImageInner backgroundColor={backgroundColor}>
           <img src={thumbnail} alt='쿠폰' />
         </Styled.ImageInner>
@@ -67,7 +61,9 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
             </Styled.Member>
           )}
           {meetingDate && (
-            <Styled.MeetingDate couponStatus={couponStatus}>{meetingDateText}</Styled.MeetingDate>
+            <Styled.MeetingDate couponStatus={couponStatus}>
+              {meetingDateText} 약속 {couponStatus === 'REQUESTED' && '신청됨'}
+            </Styled.MeetingDate>
           )}
         </Styled.Top>
         <Styled.Message>{message}</Styled.Message>

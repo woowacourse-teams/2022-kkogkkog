@@ -7,6 +7,8 @@ import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
+import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
+import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import VerticalKkogKkogList from '@/@components/kkogkkog/KkogKkogList/vertical';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
@@ -22,10 +24,10 @@ const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속
 export type FilterOption = typeof filterOption[number];
 
 const KkogkkogListPage = () => {
-  const { kkogkkogList } = useKkogKkogList();
-
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
+
+  const { kkogkkogList } = useKkogKkogList();
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
@@ -59,28 +61,48 @@ const KkogkkogListPage = () => {
   };
 
   return (
-    <PageTemplate title='꼭꼭 모아보기'>
+    <PageTemplate title={couponListType === 'sent' ? '보낸 쿠폰' : '받은 쿠폰'}>
       <Styled.Root>
-        <ListFilter<FilterOption>
-          status={status}
-          options={filterOption}
-          onClickFilterButton={onClickFilterButton}
-        />
+        <Styled.ListFilterContainer>
+          <ListFilter<FilterOption>
+            status={status}
+            options={filterOption}
+            onClickFilterButton={onClickFilterButton}
+          />
+        </Styled.ListFilterContainer>
         {status === '전체' && (
           <Styled.Container>
-            <VerticalKkogKkogList
-              // Horizontal view로 수정
-              kkogkkogList={parsedKkogKkogList['REQUESTED']}
-              CouponItem={BigKkogKkogItem}
-              onClickCouponItem={onClickCouponItem}
-            />
+            <section>
+              <h2>열린 약속</h2>
+              <HorizontalCouponList
+                kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
+                CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
+              />
+            </section>
+            <section>
+              <h2>잡은 약속</h2>
+              <HorizontalCouponList
+                kkogkkogList={parsedKkogKkogList['ACCEPTED']}
+                CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
+              />
+            </section>
+            <section>
+              <h2>지난 약속</h2>
+              <HorizontalCouponList
+                kkogkkogList={parsedKkogKkogList['FINISHED']}
+                CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
+              />
+            </section>
           </Styled.Container>
         )}
 
         {status === '열린 약속' && (
           <Styled.Container>
             <VerticalKkogKkogList
-              kkogkkogList={[...parsedKkogKkogList['READY'], ...parsedKkogKkogList['REQUESTED']]}
+              kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
               CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
@@ -110,14 +132,7 @@ const KkogkkogListPage = () => {
         {currentKkogKkog && (
           <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
         )}
-        <Link
-          to={PATH.KKOGKKOG_CREATE}
-          css={css`
-            position: fixed;
-            bottom: 12px;
-            right: 12px;
-          `}
-        >
+        <Link to={PATH.KKOGKKOG_CREATE} css={Styled.StickyLink}>
           <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
         </Link>
       </Styled.Root>
@@ -139,16 +154,42 @@ export default KkogkkogListPage;
 
 export const Styled = {
   Root: styled.div`
-    padding: 20px;
-
     border-radius: 4px;
 
     & > div {
       margin-top: 20px;
     }
   `,
+  ListFilterContainer: styled.div`
+    padding: 0 20px;
+  `,
   Container: styled.div`
     padding-bottom: 20px;
     margin-bottom: 10px;
+
+    & > section {
+      padding: 20px;
+    }
+
+    & > section:nth-child(2n) {
+      background-color: #ffbb9415;
+    }
+
+    ${({ theme }) => css`
+      & > section > h2 {
+        color: ${theme.colors.grey_400};
+        font-size: 18px;
+        font-weight: 600;
+      }
+    `}
+  `,
+  StickyLink: css`
+    position: sticky;
+    bottom: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
   `,
 };

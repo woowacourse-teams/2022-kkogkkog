@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 import { BigKkogKkogItemProps } from '../KkogKkogItem/big';
-import * as Styled from './style';
+import * as Styled from './vertical.style';
 
 interface VerticalKkogKkogListProps {
   kkogkkogList?: KkogKKogResponse[];

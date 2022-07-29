@@ -13,6 +13,7 @@ export const Root = styled.div<{ isShowLabel?: boolean }>`
 
     color: ${({ theme }) => theme.colors.drak_grey_200};
     font-size: 14px;
+    font-weight: 600;
 
     margin-bottom: 8px;
 
@@ -25,10 +26,21 @@ export const Root = styled.div<{ isShowLabel?: boolean }>`
 `;
 
 export const Input = styled.input`
-  border-radius: 4px;
-  padding: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
-  box-shadow: 0 1px 1px 0 #00000025;
+  border-radius: 10px;
+  padding: 10px 12px;
+
+  font-size: 12px;
+
+  ${({ theme }) => css`
+    border: 1px solid ${theme.colors.primary_200};
+
+    &::-webkit-input-placeholder {
+      color: ${theme.colors.light_grey_200};
+    }
+    &::-ms-input-placeholder {
+      color: ${theme.colors.light_grey_200};
+    }
+  `}
 `;
 
 export const Description = styled.div`
