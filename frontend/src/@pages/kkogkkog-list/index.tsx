@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import Position from '@/@components/@shared/Position';
 import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';

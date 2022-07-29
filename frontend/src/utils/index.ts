@@ -5,7 +5,7 @@ export const getToday = () => {
   const month = addZero(now.getMonth() + 1);
   const date = addZero(now.getDate());
 
-  return year + '-' + month + '-' + date;
+  return `${year}-${month}-${date}`;
 };
 
 export const addZero = (num: number): string => {
@@ -19,5 +19,5 @@ export const extractDate = (date: string | undefined) => {
 
   const [year, month, day] = date.split('-');
 
-  return `${month}월 ${day}일`;
+  return month && day && `${month}월 ${day}일`;
 };
