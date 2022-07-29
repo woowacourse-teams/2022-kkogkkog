@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import { useLoginMutation } from '@/@hooks/@queries/user';
+import { client } from '@/apis';
 
 const LoginRedirect = () => {
   const navigate = useNavigate();
@@ -18,8 +19,9 @@ const LoginRedirect = () => {
         onSuccess(response) {
           const { accessToken } = response.data;
 
-          // slack API로 Auth Logic을 모두 갈아낀운 후 주석 삭제
-          // client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+          localStorage.setItem('user-token', accessToken);
+
+          client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
 
           navigate('/');
         },
