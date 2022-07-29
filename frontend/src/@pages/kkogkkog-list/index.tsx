@@ -60,7 +60,9 @@ const KkogkkogListPage = () => {
     openKkogKkogModal(kkogkkog);
   };
 
-  if (!parsedKkogKkogList) return <></>;
+  if (!parsedKkogKkogList) {
+    return <></>;
+  }
 
   return (
     <PageTemplate title={couponListType === 'sent' ? '보낸 쿠폰' : '받은 쿠폰'}>
