@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
+import NotFoundPage from '@/@pages/404';
 import JoinPage from '@/@pages/join';
 import KkogkkogListPage from '@/@pages/kkogkkog-list';
 import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
@@ -23,6 +24,7 @@ export const PATH = {
   LOGIN_REDIRECT: '/login/redirect',
   JOIN: '/join',
   PROFILE: '/profile',
+  NOT_FOUND: '/*',
 };
 
 const Router = () => {
@@ -66,6 +68,7 @@ const Router = () => {
         />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
       </Route>
+      <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
   );
 };
