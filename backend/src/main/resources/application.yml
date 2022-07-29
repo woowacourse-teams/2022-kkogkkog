@@ -22,9 +22,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${db-url}
-    username: ${db-user}
-    password: ${db-password}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
 ---
 
