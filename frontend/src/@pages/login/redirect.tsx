@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import Loading from '@/@components/@shared/Loading';
 import { useLoginMutation } from '@/@hooks/@queries/user';
 
 const LoginRedirect = () => {
@@ -29,15 +29,7 @@ const LoginRedirect = () => {
     // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 loginMutate를 넣으면 무한 렌더링이 발생함.
   }, []);
 
-  return (
-    <div
-      css={css`
-        background-color: red;
-      `}
-    >
-      슬랙 로그인 redirect 페이지입니다.
-    </div>
-  );
+  return <Loading>👻</Loading>;
 };
 
 export default LoginRedirect;
