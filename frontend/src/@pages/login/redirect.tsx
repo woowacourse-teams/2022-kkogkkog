@@ -13,7 +13,6 @@ const LoginRedirect = () => {
   const loginMutate = useLoginMutation();
 
   useEffect(() => {
-    console.log('code', code);
     if (code) {
       loginMutate.mutate(code, {
         onSuccess(response) {
