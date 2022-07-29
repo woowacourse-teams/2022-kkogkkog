@@ -29,16 +29,6 @@ export const THUMBNAIL: { [x: string]: string } = {
   MEAL: '/assets/images/meal.png',
 } as const;
 
-export const KKOGKKOG_TYPE_MAPPER = kkogkkogType.reduce((prev, current) => {
-  const { engType, koreanType } = current;
-
-  return {
-    ...prev,
-    [engType]: koreanType,
-    [koreanType]: engType,
-  };
-}, {} as any);
-
 export interface KkogKkog {
   id: number;
   sender: User;

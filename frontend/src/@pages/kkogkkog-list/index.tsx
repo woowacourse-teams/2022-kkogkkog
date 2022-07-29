@@ -16,7 +16,7 @@ import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { COUPON_LIST_TYPE } from '@/types/client/kkogkkog';
+import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 
 const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
@@ -36,7 +36,7 @@ const KkogkkogListPage = () => {
   const parsedKkogKkogList = useMemo(
     () =>
       kkogkkogList &&
-      kkogkkogList[couponListType].reduce(
+      kkogkkogList[couponListType].reduce<Record<COUPON_STATUS, KkogKKogResponse[]>>(
         (prev, kkogkkog) => {
           const key = kkogkkog.couponStatus;
 
@@ -47,7 +47,7 @@ const KkogkkogListPage = () => {
           READY: [],
           ACCEPTED: [],
           FINISHED: [],
-        } as any
+        }
       ),
     [kkogkkogList, couponListType]
   );
@@ -59,6 +59,10 @@ const KkogkkogListPage = () => {
   const onClickCouponItem = (kkogkkog: KkogKKogResponse) => {
     openKkogKkogModal(kkogkkog);
   };
+
+  if (!parsedKkogKkogList) {
+    return <></>;
+  }
 
   return (
     <PageTemplate title={couponListType === 'sent' ? '보낸 쿠폰' : '받은 쿠폰'}>
