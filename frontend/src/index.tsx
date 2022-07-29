@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import ToastProvider from '@/@components/@shared/ToastProvider';
 import App from '@/App';
 import globalStyle from '@/styles/globalStyle';
 import theme from '@/styles/theme';
@@ -31,7 +32,9 @@ root.render(
     <Global styles={globalStyle} />
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <App />
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
