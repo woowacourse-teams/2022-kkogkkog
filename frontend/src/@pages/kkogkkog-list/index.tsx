@@ -76,7 +76,6 @@ const KkogkkogListPage = () => {
             <section>
               <h1>열린 약속</h1>
               <HorizontalCouponList
-                // Horizontal view로 수정
                 kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
@@ -85,7 +84,6 @@ const KkogkkogListPage = () => {
             <section>
               <h1>잡은 약속</h1>
               <HorizontalCouponList
-                // Horizontal view로 수정
                 kkogkkogList={parsedKkogKkogList['ACCEPTED']}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
@@ -94,7 +92,6 @@ const KkogkkogListPage = () => {
             <section>
               <h1>지난 약속</h1>
               <HorizontalCouponList
-                // Horizontal view로 수정
                 kkogkkogList={parsedKkogKkogList['FINISHED']}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
@@ -106,7 +103,7 @@ const KkogkkogListPage = () => {
         {status === '열린 약속' && (
           <Styled.Container>
             <VerticalKkogKkogList
-              kkogkkogList={[...parsedKkogKkogList['READY'], ...parsedKkogKkogList['REQUESTED']]}
+              kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
               CouponItem={BigKkogKkogItem}
               onClickCouponItem={onClickCouponItem}
             />
