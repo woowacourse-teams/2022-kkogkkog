@@ -13,13 +13,13 @@ interface IconProps {
 }
 
 const Icon = (props: IconProps) => {
-  const { iconName, size = '24', color = '#ffffff', className, ...rest } = props;
+  const { iconName, size = '24', color = '#ffffff', ...rest } = props;
 
   const IconComponent = Icons[iconName];
 
   return (
     <Styled.Wrapper size={size} color={color} {...rest}>
-      <IconComponent width='100%' height='100%' className={className} />
+      <IconComponent width='100%' height='100%' />
     </Styled.Wrapper>
   );
 };
