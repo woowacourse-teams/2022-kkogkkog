@@ -19,7 +19,6 @@ public class SlackRequester {
 
     private final String clientId;
     private final String secretId;
-    private final String redirectUri;
     private final String oAuthLoginUri;
     private final String userInfoUri;
     private final WebClient oAuthLoginClient;
@@ -28,13 +27,11 @@ public class SlackRequester {
     public SlackRequester(
         @Value("${slack.client-id}") String clientId,
         @Value("${slack.secret-id}") String secretId,
-        @Value("${slack.uri.redirect}") String redirectUri,
         @Value("${slack.uri.oauth-login}") String oAuthLoginUri,
         @Value("${slack.uri.user-info}") String userInfoUri,
         WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
-        this.redirectUri = redirectUri;
         this.oAuthLoginUri = oAuthLoginUri;
         this.userInfoUri = userInfoUri;
         this.oAuthLoginClient = oAuthLoginClient(webClient);
@@ -53,7 +50,6 @@ public class SlackRequester {
                 .queryParam("code", code)
                 .queryParam("client_id", clientId)
                 .queryParam("client_secret", secretId)
-                .queryParam("redirect_uri", redirectUri)
                 .build())
             .headers(header -> {
                 header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
