@@ -12,7 +12,7 @@ export const Root = styled.div`
   justify-content: center;
 `;
 
-export const Container = styled.div<{ isError: boolean }>`
+export const ToastMessage = styled.div<{ isError: boolean }>`
   cursor: pointer;
 
   max-width: 80%;
@@ -39,7 +39,7 @@ export const Container = styled.div<{ isError: boolean }>`
       opacity: 0;
     }
 
-    60% {
+    50% {
       -webkit-transform: translateY(0) scaleY(1) scaleX(1);
       transform: translateY(0) scaleY(1) scaleX(1);
       -webkit-transform-origin: 50% 50%;

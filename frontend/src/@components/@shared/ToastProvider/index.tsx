@@ -39,9 +39,9 @@ const ToastProvider = (props: React.PropsWithChildren) => {
       {message.length !== 0 &&
         ReactDOM.createPortal(
           <Styled.Root>
-            <Styled.Container ref={toastElement} isError={isError} onClick={onClickToast}>
+            <Styled.ToastMessage ref={toastElement} isError={isError} onClick={onClickToast}>
               {message}
-            </Styled.Container>
+            </Styled.ToastMessage>
           </Styled.Root>,
           document.querySelector('#root') as Element
         )}
