@@ -11,3 +11,13 @@ export const getToday = () => {
 export const addZero = (num: number): string => {
   return Math.floor(num / 10) === 0 ? `0${num}` : String(num);
 };
+
+export const extractDate = (date: string | undefined) => {
+  if (!date) {
+    return null;
+  }
+
+  const [year, month, day] = date.split('-');
+
+  return `${month}월 ${day}일`;
+};

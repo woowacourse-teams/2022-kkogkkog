@@ -5,6 +5,7 @@ import CouponStatus from '@/@components/kkogkkog/CouponStatus';
 import useMe from '@/@hooks/user/useMe';
 import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
+import { extractDate } from '@/utils';
 
 import * as Styled from './big.style';
 
@@ -37,9 +38,7 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
 
   const { me } = useMe();
 
-  const meetingDateText = `${Number(meetingDate?.split('-')[1])}월 ${Number(
-    meetingDate?.split('-')[2]
-  )}일 약속 ${couponStatus === 'REQUESTED' ? '신청됨' : ''}`;
+  const meetingDateText = extractDate(meetingDate);
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
@@ -62,7 +61,9 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
             </Styled.Member>
           )}
           {meetingDate && (
-            <Styled.MeetingDate couponStatus={couponStatus}>{meetingDateText}</Styled.MeetingDate>
+            <Styled.MeetingDate couponStatus={couponStatus}>
+              {meetingDateText} 약속 {couponStatus === 'REQUESTED' && '신청됨'}
+            </Styled.MeetingDate>
           )}
         </Styled.Top>
         <Styled.Message>{message}</Styled.Message>
