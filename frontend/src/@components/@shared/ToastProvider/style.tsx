@@ -13,6 +13,8 @@ export const Root = styled.div`
 `;
 
 export const Container = styled.div<{ isError: boolean }>`
+  cursor: pointer;
+
   max-width: 80%;
 
   padding: 15px 10px;

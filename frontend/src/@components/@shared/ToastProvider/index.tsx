@@ -25,13 +25,21 @@ const ToastProvider = (props: React.PropsWithChildren) => {
     }
   };
 
+  const onClickToast = () => {
+    if (toastElement.current) {
+      const [currentAnimation] = toastElement.current.getAnimations();
+
+      currentAnimation?.reverse();
+    }
+  };
+
   return (
     <ToastContext.Provider value={{ displayMessage }}>
       {children}
       {message.length !== 0 &&
         ReactDOM.createPortal(
           <Styled.Root>
-            <Styled.Container ref={toastElement} isError={isError}>
+            <Styled.Container ref={toastElement} isError={isError} onClick={onClickToast}>
               {message}
             </Styled.Container>
           </Styled.Root>,
