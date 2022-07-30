@@ -23,8 +23,8 @@ public class SlackRequester {
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
 
-    public SlackRequester(@Value("${slack.client-id}") String clientId,
-                          @Value("${slack.secret-id}") String secretId,
+    public SlackRequester(@Value("${security.slack.client-id}") String clientId,
+                          @Value("${security.slack.secret-id}") String secretId,
                           WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
