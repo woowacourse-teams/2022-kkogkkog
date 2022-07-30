@@ -48,8 +48,29 @@ const globalStyle = css`
   @font-face {
     font-family: 'Pretendard';
     font-style: normal;
+    font-weight: 600;
+    src: url('/assets/font/Pretendard-SemiBold.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
     font-weight: bold;
     src: url('/assets/font/Pretendard-Bold.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/assets/font/Pretendard-ExtraBold.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'BMHANNAProOTF';
+    font-style: normal;
+    font-weight: bold;
+    src: url('/assets/font/BMHANNAProOTF.otf') format('woff');
   }
 
   @keyframes show-up {

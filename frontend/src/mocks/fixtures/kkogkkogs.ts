@@ -30,8 +30,9 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'MEAL',
       couponStatus: 'REQUESTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 3,
@@ -40,8 +41,9 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'ACCEPTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 4,
@@ -50,8 +52,9 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'FINISHED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 5,
@@ -80,8 +83,9 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'DRINK',
       couponStatus: 'FINISHED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 8,
@@ -90,8 +94,9 @@ export default {
       backgroundColor: '#FFFFFF',
       modifier: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
-      couponType: 'COFFEE',
+      couponType: 'MEAL',
       couponStatus: 'ACCEPTED',
+      meetingDate: '2022-08-05',
     },
     {
       id: 9,
@@ -102,6 +107,7 @@ export default {
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
       couponStatus: 'REQUESTED',
+      meetingDate: '2022-08-05',
     },
   ],
 

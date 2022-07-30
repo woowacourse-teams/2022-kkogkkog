@@ -16,17 +16,15 @@ const UserSearchModal = (props: UserSearchModalProps) => {
   const { currentReceiverList, onSelectReceiver, closeModal } = props;
   const [animation, setAnimation] = useState(false);
 
+  const onCloseModal = () => {
+    setAnimation(true);
+    setTimeout(() => {
+      closeModal();
+    }, ANIMATION_DURATION.modal);
+  };
+
   return (
-    <Modal
-      position='bottom'
-      animation={animation}
-      closeModal={() => {
-        setAnimation(true);
-        setTimeout(() => {
-          closeModal();
-        }, ANIMATION_DURATION.modal);
-      }}
-    >
+    <Modal position='bottom' animation={animation} closeModal={onCloseModal}>
       <UserSearchForm
         currentReceiverList={currentReceiverList}
         onSelectReceiver={onSelectReceiver}

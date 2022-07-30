@@ -1,11 +1,22 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 
 import { changeKkogkkogStatus } from '@/apis/kkogkkog';
+import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
 
 type kkogkkogActionType = {
   id: number;
-  message: string;
+  meetingDate?: string;
 };
+
+type changeStatusMutationOptions = Omit<
+  UseMutationOptions<
+    AxiosResponse<any, any>,
+    unknown,
+    { id: number; body: ChangeKkogKkogStatusRequest }
+  >,
+  'mutationFn'
+>;
 
 const useKkogKkogStatusMutation = () => {
   const queryClient = useQueryClient();
@@ -16,20 +27,23 @@ const useKkogKkogStatusMutation = () => {
     },
   });
 
-  const cancelKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL', message } });
+  const cancelKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
   };
 
-  const requestKkogKKog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', message } });
+  const requestKkogKKog = (
+    { id, meetingDate }: kkogkkogActionType,
+    options: changeStatusMutationOptions
+  ) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
   };
 
-  const finishKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    // changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH', message } });
+  const finishKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
   };
 
-  const acceptKkogKkog = ({ id, message }: kkogkkogActionType) => {
-    changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT', message } });
+  const acceptKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
   };
 
   return {

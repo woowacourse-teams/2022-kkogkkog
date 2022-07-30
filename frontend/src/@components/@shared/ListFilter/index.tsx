@@ -5,20 +5,18 @@ import * as Styled from './style';
 interface ListFilterProps<T> {
   status: T;
   options: readonly T[];
-  horizontalScroll?: boolean;
   onClickFilterButton: (status: T) => void;
 }
 
 const ListFilter = <T extends string>(props: ListFilterProps<T>) => {
-  const { status, options, horizontalScroll = false, onClickFilterButton } = props;
+  const { status, options, onClickFilterButton } = props;
 
   return (
-    <Styled.Root horizontalScroll={horizontalScroll}>
+    <Styled.Root>
       {options.map(option => (
         <Styled.FilterButton
           key={option}
           isFocus={status === option}
-          horizontalScroll={horizontalScroll}
           onClick={() => onClickFilterButton(option)}
         >
           {option}

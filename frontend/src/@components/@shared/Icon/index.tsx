@@ -9,6 +9,7 @@ interface IconProps {
   iconName: IconNames;
   size?: string;
   color?: string;
+  className?: string;
 }
 
 const Icon = (props: IconProps) => {

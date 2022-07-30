@@ -1,3 +1,4 @@
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
@@ -16,7 +17,14 @@ export const Container = styled.div`
 
   position: relative;
 
-  box-shadow: 0 4px 4px 0 #00000025;
+  ${({ theme }) => css`
+    /* box-shadow: ${theme.shadow.type_4}; */
+    background-color: ${theme.colors.background_0};
+  `}
+`;
 
-  background-color: ${({ theme }) => theme.colors.background_0};
+export const ExtendedHeader = (theme: Theme) => css`
+  position: relative;
+
+  background-color: ${theme.colors.primary_400_opacity};
 `;

@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import { useToast } from '@/@hooks/@common/useToast';
 import { client } from '@/apis';
 import { join, login } from '@/apis/user';
 
@@ -21,6 +22,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     defaultConfirmPassword = '',
     defaultName = '',
   } = props;
+
+  const { displayMessage } = useToast();
 
   const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState(defaultPassword);
@@ -54,8 +57,13 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
       navigate('/');
     },
-    onError() {
-      alert('아이디 또는 비밀번호를 잘못 입력했습니다.');
+    onError({
+      response: {
+        data: { error },
+      },
+    }) {
+      // console.log(error);
+      displayMessage(error, true);
     },
   });
 

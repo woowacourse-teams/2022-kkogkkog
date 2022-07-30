@@ -1,4 +1,5 @@
 import {
+  COUPON_LIST_TYPE,
   COUPON_STATUS,
   KKOGKKOG_COLORS,
   KKOGKKOG_ENG_TYPE,
@@ -20,6 +21,11 @@ export interface UserResponse {
 
 export type UserListResponse = UserResponse[];
 
+export interface LoginResponse {
+  accessToken: string;
+  isCreated: boolean;
+}
+
 export interface KkogKKogResponse {
   id: number;
   sender: User;
@@ -29,6 +35,7 @@ export interface KkogKKogResponse {
   backgroundColor: KKOGKKOG_COLORS;
   couponType: KKOGKKOG_ENG_TYPE;
   couponStatus: COUPON_STATUS;
+  meetingDate?: string;
 }
 
-export type KkogKkogListResponse = Record<'received' | 'sent', KkogKKogResponse[]>;
+export type KkogKkogListResponse = Record<COUPON_LIST_TYPE, KkogKKogResponse[]>;
