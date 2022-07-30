@@ -28,8 +28,15 @@ public class SlackRequester {
                           WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
-        this.oAuthLoginClient = oAuthLoginClient(webClient);
-        this.userClient = userClient(webClient);
+        this.oAuthLoginClient = toWebClient(webClient, OAUTH_LOGIN_URI);
+        this.userClient = toWebClient(webClient, OAUTH_USER_INFO);
+    }
+
+    private WebClient toWebClient(WebClient webClient, String baseUrl) {
+        return webClient.mutate()
+            .baseUrl(baseUrl)
+            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+            .build();
     }
 
     public SlackUserInfo getUserInfoByCode(final String code) {
@@ -38,8 +45,7 @@ public class SlackRequester {
     }
 
     private String getToken(String code) {
-        Map<String, Object> responseBody = oAuthLoginClient
-            .post()
+        Map<String, Object> responseBody = oAuthLoginClient.post()
             .uri(uriBuilder -> uriBuilder
                 .queryParam("code", code)
                 .queryParam("client_id", clientId)
@@ -60,34 +66,17 @@ public class SlackRequester {
     }
 
     private SlackUserInfo getUserInfo(String token) {
-        SlackUserInfo slackUserInfoResponse = userClient
-            .get()
+        return userClient.get()
             .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
             .retrieve()
             .bodyToMono(SlackUserInfo.class)
             .blockOptional()
             .orElseThrow(UnableToGetTokenResponseException::new);
-
-        return slackUserInfoResponse;
     }
 
     private void validateResponseBody(Map<String, Object> responseBody) {
         if (!responseBody.containsKey("access_token")) {
             throw new ErrorResponseToGetAccessTokenException(responseBody.get("error").toString());
         }
-    }
-
-    private WebClient oAuthLoginClient(WebClient webClient) {
-        return webClient.mutate()
-            .baseUrl(OAUTH_LOGIN_URI)
-            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-            .build();
-    }
-
-    private WebClient userClient(WebClient webClient) {
-        return webClient.mutate()
-            .baseUrl(OAUTH_USER_INFO)
-            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-            .build();
     }
 }
