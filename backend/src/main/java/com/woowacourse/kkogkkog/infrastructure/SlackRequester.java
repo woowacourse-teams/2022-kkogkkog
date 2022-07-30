@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,26 +13,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-@PropertySource("classpath:application.yml")
 public class SlackRequester {
+
+    private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
+    private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
 
     private final String clientId;
     private final String secretId;
-    private final String oAuthLoginUri;
-    private final String userInfoUri;
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
 
-    public SlackRequester(
-        @Value("${slack.client-id}") String clientId,
-        @Value("${slack.secret-id}") String secretId,
-        @Value("${slack.uri.oauth-login}") String oAuthLoginUri,
-        @Value("${slack.uri.user-info}") String userInfoUri,
-        WebClient webClient) {
+    public SlackRequester(@Value("${slack.client-id}") String clientId,
+                          @Value("${slack.secret-id}") String secretId,
+                          WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
-        this.oAuthLoginUri = oAuthLoginUri;
-        this.userInfoUri = userInfoUri;
         this.oAuthLoginClient = oAuthLoginClient(webClient);
         this.userClient = userClient(webClient);
     }
@@ -85,14 +79,14 @@ public class SlackRequester {
 
     private WebClient oAuthLoginClient(WebClient webClient) {
         return webClient.mutate()
-            .baseUrl(oAuthLoginUri)
+            .baseUrl(OAUTH_LOGIN_URI)
             .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
             .build();
     }
 
     private WebClient userClient(WebClient webClient) {
         return webClient.mutate()
-            .baseUrl(userInfoUri)
+            .baseUrl(OAUTH_USER_INFO)
             .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
             .build();
     }
