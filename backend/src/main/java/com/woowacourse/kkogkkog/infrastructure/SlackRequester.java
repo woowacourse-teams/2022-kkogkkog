@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.infrastructure;
 
 import com.woowacourse.kkogkkog.exception.auth.ErrorResponseToGetAccessTokenException;
 import com.woowacourse.kkogkkog.exception.auth.UnableToGetTokenResponseException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
@@ -11,12 +12,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 
 @Component
 public class SlackRequester {
 
     private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
     private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
+    };
 
     private final String clientId;
     private final String secretId;
@@ -40,24 +44,16 @@ public class SlackRequester {
     }
 
     public SlackUserInfo getUserInfoByCode(final String code) {
-        String token = getToken(code);
-        return getUserInfo(token);
+        String token = requestAccessToken(code);
+        return requestUserInfo(token);
     }
 
-    private String getToken(String code) {
+    private String requestAccessToken(String code) {
         Map<String, Object> responseBody = oAuthLoginClient.post()
-            .uri(uriBuilder -> uriBuilder
-                .queryParam("code", code)
-                .queryParam("client_id", clientId)
-                .queryParam("client_secret", secretId)
-                .build())
-            .headers(header -> {
-                header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-                header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-            })
+            .uri(uriBuilder -> toRequestTokenUri(code, uriBuilder))
+            .headers(this::setHeaders)
             .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
-            })
+            .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
             .blockOptional()
             .orElseThrow(UnableToGetTokenResponseException::new);
         validateResponseBody(responseBody);
@@ -65,18 +61,31 @@ public class SlackRequester {
         return responseBody.get("access_token").toString();
     }
 
-    private SlackUserInfo getUserInfo(String token) {
-        return userClient.get()
-            .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-            .retrieve()
-            .bodyToMono(SlackUserInfo.class)
-            .blockOptional()
-            .orElseThrow(UnableToGetTokenResponseException::new);
+    private URI toRequestTokenUri(String code, UriBuilder uriBuilder) {
+        return uriBuilder
+            .queryParam("code", code)
+            .queryParam("client_id", clientId)
+            .queryParam("client_secret", secretId)
+            .build();
+    }
+
+    private void setHeaders(HttpHeaders header) {
+        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
     }
 
     private void validateResponseBody(Map<String, Object> responseBody) {
         if (!responseBody.containsKey("access_token")) {
             throw new ErrorResponseToGetAccessTokenException(responseBody.get("error").toString());
         }
+    }
+
+    private SlackUserInfo requestUserInfo(String token) {
+        return userClient.get()
+            .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+            .retrieve()
+            .bodyToMono(SlackUserInfo.class)
+            .blockOptional()
+            .orElseThrow(UnableToGetTokenResponseException::new);
     }
 }
