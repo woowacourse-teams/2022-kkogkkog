@@ -18,14 +18,12 @@ public class SlackUserInfo {
     private String teamId;
 
     private String name;
+    private String picture;
 
-    @JsonProperty(SLACK_URI + "/user_image_512")
-    private String imageUri;
-
-    public SlackUserInfo(String userId, String teamId, String name, String imageUri) {
+    public SlackUserInfo(String userId, String teamId, String name, String picture) {
         this.userId = userId;
         this.teamId = teamId;
         this.name = name;
-        this.imageUri = imageUri;
+        this.picture = picture;
     }
 }
