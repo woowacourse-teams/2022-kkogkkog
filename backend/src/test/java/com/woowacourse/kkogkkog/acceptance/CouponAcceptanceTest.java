@@ -1,21 +1,19 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.로그인에_성공한다;
-import static com.woowacourse.kkogkkog.acceptance.MemberAcceptanceTest.회원_가입에_성공한다;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.NON_EXISTING_MEMBER;
+import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_또는_로그인에_성공한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
-import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
-import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -30,10 +28,10 @@ import org.springframework.http.MediaType;
 @SuppressWarnings("NonAsciiCharacters")
 public class CouponAcceptanceTest extends AcceptanceTest {
 
-    private static final Member JEONG = new Member(1L, "jeong@gmail.com", "password1234!", "정");
-    private static final Member LEO = new Member(2L, "leo@gmail.com", "password1234!", "레오");
-    private static final Member ARTHUR = new Member(3L, "arthur@gmail.com", "password1234!", "아서");
-    private static final Member ROOKIE = new Member(4L, "rookie@gmail.com", "password1234!", "루키");
+    private static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정", "image");
+    private static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오", "image");
+    private static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서", "image");
+    private static final Member ROOKIE = new Member(4L, "URookie", "T03LX3C5540", "루키", "image");
 
     private static final String BACKGROUND_COLOR = "#123456";
     private static final String MODIFIER = "한턱내는";
@@ -46,11 +44,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰과_보낸_쿠폰을_전부_조회할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            회원_가입에_성공한다(toMemberCreateRequest(ARTHUR));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
             List<CouponResponse> sentCoupons = 쿠폰_발급에_성공한다(jeongAccessToken,
                 List.of(LEO, ARTHUR)).getData();
             List<CouponResponse> receivedCoupons = 쿠폰_발급에_성공한다(leoAccessToken,
@@ -92,11 +88,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_복수의_사용자에게_쿠폰을_발급할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            회원_가입에_성공한다(toMemberCreateRequest(ARTHUR));
-            회원_가입에_성공한다(toMemberCreateRequest(ROOKIE));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE));
 
             SuccessResponse<List<CouponResponse>> actual = 쿠폰_발급에_성공한다(jeongAccessToken,
                 List.of(LEO, ARTHUR, ROOKIE));
@@ -110,8 +105,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인하지_않은_사용자는_쿠폰을_발급할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            회원_가입에_성공한다(toMemberCreateRequest(ROOKIE));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE));
 
             ExtractableResponse<Response> response = 쿠폰_발급을_요청한다("wrong_token", List.of(ROOKIE));
 
@@ -120,8 +115,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 자신에게_쿠폰을_발급할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            String accessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
 
             ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken, List.of(JEONG));
 
@@ -130,13 +125,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 받는_사람이_존재하지_않는_경우_쿠폰을_발급할_수_없다() {
-            Member leo = LEO;
-            회원_가입에_성공한다(toMemberCreateRequest(leo));
-            String accessToken = 로그인에_성공한다(
-                new TokenRequest(leo.getEmail(), leo.getPassword())).getAccessToken();
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
 
             ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken,
-                List.of(NON_EXISTING_MEMBER));
+                List.of(MemberFixture.NON_EXISTING_MEMBER));
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
@@ -148,9 +140,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 생성된_쿠폰을_조회할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String accessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
 
             CouponResponse expected = 쿠폰_발급에_성공한다(accessToken, List.of(LEO)).getData().get(0);
             CouponResponse actual = 쿠폰_조회에_성공한다(expected.getId());
@@ -187,10 +179,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청을_보낼_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -201,10 +193,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 존재하지_않는_이벤트를_보낼_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -215,10 +207,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 쿠폰을_보낸_사람은_사용_요청을_취소_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -230,10 +222,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 사용_요청_상태가_아닌_쿠폰은_요청을_취소할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -244,10 +236,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자가_보낸_쿠폰에_대해_사용_요청을_받으면_요청을_거절할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -259,9 +251,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 쿠폰이_사용_준비_상태이면_사용_요청을_거절할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -272,10 +264,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자가_보낸_쿠폰에_대해_사용_요청을_받으면_요청을_수락할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -287,9 +279,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 쿠폰이_사용_준비_상태이면_사용_요청을_수락할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -300,10 +292,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_대기_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -314,10 +306,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -329,10 +321,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_수락_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -345,10 +337,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 받은_쿠폰에_대해_사용_완료_상태이면_사용_완료를_할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -362,9 +354,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_대기_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -375,10 +367,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -390,10 +382,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_수락_상태이면_사용_완료를_할_수_있다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -406,10 +398,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 보낸_쿠폰에_대해_사용_완료_상태이면_사용_완료를_할_수_없다() {
-            회원_가입에_성공한다(toMemberCreateRequest(JEONG));
-            회원_가입에_성공한다(toMemberCreateRequest(LEO));
-            String jeongAccessToken = 로그인에_성공한다(toTokenRequest(JEONG)).getAccessToken();
-            String leoAccessToken = 로그인에_성공한다(toTokenRequest(LEO)).getAccessToken();
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG));
+            회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO));
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_상태_변경을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name());
@@ -422,8 +414,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         }
 
         private ExtractableResponse<Response> 쿠폰_상태_변경을_요청한다(String accessToken,
-                                                             Long couponId,
-                                                             String couponEvent) {
+            Long couponId,
+            String couponEvent) {
             return RestAssured.given().log().all()
                 .auth().oauth2(accessToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -436,7 +428,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     public static SuccessResponse<List<CouponResponse>> 쿠폰_발급에_성공한다(String accessToken,
-                                                                    List<Member> receivers) {
+        List<Member> receivers) {
         ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken, receivers);
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         return new SuccessResponse<>(
@@ -444,7 +436,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     public static ExtractableResponse<Response> 쿠폰_발급을_요청한다(String accessToken,
-                                                            List<Member> receivers) {
+        List<Member> receivers) {
         List<Long> receiverIds = receivers.stream()
             .map(Member::getId)
             .collect(Collectors.toList());
@@ -458,15 +450,6 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             .post("/api/coupons")
             .then().log().all()
             .extract();
-    }
-
-    private MemberCreateRequest toMemberCreateRequest(Member member) {
-        return new MemberCreateRequest(member.getEmail(), member.getPassword(),
-            member.getNickname());
-    }
-
-    private TokenRequest toTokenRequest(Member member) {
-        return new TokenRequest(member.getEmail(), member.getPassword());
     }
 
     private CouponResponse toCouponResponse(Long couponId, Member sender, Member receiver) {
