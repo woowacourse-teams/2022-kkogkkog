@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.application;
 
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.infrastructure.MemberCreateResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.infrastructure.SlackRequester;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import org.springframework.stereotype.Service;

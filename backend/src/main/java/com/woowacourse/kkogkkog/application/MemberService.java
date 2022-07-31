@@ -6,7 +6,7 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.infrastructure.MemberCreateResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.springframework.stereotype.Service;
