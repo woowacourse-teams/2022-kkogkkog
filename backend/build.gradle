@@ -44,6 +44,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'io.rest-assured:rest-assured:4.4.0'
+    testImplementation 'com.squareup.okhttp3:okhttp:4.0.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.1'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
