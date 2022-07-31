@@ -41,9 +41,9 @@ class CouponControllerTest extends Documentation {
     private static final String MODIFIER = "한턱내는";
     private static final String MESSAGE = "추가 메세지";
     private static final CouponType COUPON_TYPE = CouponType.COFFEE;
-    private static final Member JEONG = new Member(1L, "jeong@gmail.com", "password1234!", "정");
-    private static final Member LEO = new Member(2L, "leo@gmail.com", "password1234!", "레오");
-    private static final Member ARTHUR = new Member(3L, "arthur@gmail.com", "password1234!", "아서");
+    public static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정", "image");
+    public static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오", "image");
+    public static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서", "image");
 
     @Test
     void 쿠폰_발급을_요청한다() throws Exception {
@@ -90,16 +90,24 @@ class CouponControllerTest extends Documentation {
                     fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("쿠폰 ID"),
                     fieldWithPath("data.[].sender.id").type(JsonFieldType.NUMBER)
                         .description("쿠폰을 보낸 사람의 ID"),
+                    fieldWithPath("data.[].sender.userId").type(JsonFieldType.STRING)
+                        .description("쿠폰을 보낸 사람의 소셜 ID"),
+                    fieldWithPath("data.[].sender.workspaceId").type(JsonFieldType.STRING)
+                        .description("쿠폰을 보낸 사람의 워크스페이스 ID"),
                     fieldWithPath("data.[].sender.nickname").type(JsonFieldType.STRING)
                         .description("쿠폰을 보낸 사람의 닉네임"),
-                    fieldWithPath("data.[].sender.email").type(JsonFieldType.STRING)
-                        .description("쿠폰을 보낸 사람의 이메일"),
+                    fieldWithPath("data.[].sender.imageUrl").type(JsonFieldType.STRING)
+                        .description("쿠폰을 보낸 사람의 이미지 URL"),
                     fieldWithPath("data.[].receiver.id").type(JsonFieldType.NUMBER)
                         .description("쿠폰을 받을 사람의 ID"),
+                    fieldWithPath("data.[].receiver.userId").type(JsonFieldType.STRING)
+                        .description("쿠폰을 받을 사람의 소셜 ID"),
+                    fieldWithPath("data.[].receiver.workspaceId").type(JsonFieldType.STRING)
+                        .description("쿠폰을 받을 사람의 워크스페이스 ID"),
                     fieldWithPath("data.[].receiver.nickname").type(JsonFieldType.STRING)
                         .description("쿠폰을 받을 사람의 닉네임"),
-                    fieldWithPath("data.[].receiver.email").type(JsonFieldType.STRING)
-                        .description("쿠폰을 받을 사람의 이메일"),
+                    fieldWithPath("data.[].receiver.imageUrl").type(JsonFieldType.STRING)
+                        .description("쿠폰을 받을 사람의 이미지 URL"),
                     fieldWithPath("data.[].backgroundColor").type(JsonFieldType.STRING)
                         .description("카드 배경 색상"),
                     fieldWithPath("data.[].modifier").type(JsonFieldType.STRING).description("수식어"),
@@ -135,16 +143,26 @@ class CouponControllerTest extends Documentation {
                 getDocumentResponse(),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("쿠폰 ID"),
-                    fieldWithPath("sender.id").type(JsonFieldType.NUMBER).description("보낸 사람 ID"),
+                    fieldWithPath("sender.id").type(JsonFieldType.NUMBER)
+                        .description("보낸 사람 ID"),
+                    fieldWithPath("sender.userId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 소셜 ID"),
+                    fieldWithPath("sender.workspaceId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("sender.nickname").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이름"),
-                    fieldWithPath("sender.email").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이메일"),
-                    fieldWithPath("receiver.id").type(JsonFieldType.NUMBER).description("받는 사람 ID"),
+                        .description("보낸 사람 닉네임"),
+                    fieldWithPath("sender.imageUrl").type(JsonFieldType.STRING)
+                        .description("보낸 사람 이미지"),
+                    fieldWithPath("receiver.id").type(JsonFieldType.NUMBER)
+                        .description("받는 사람의 ID"),
+                    fieldWithPath("receiver.userId").type(JsonFieldType.STRING)
+                        .description("받는 사람 소셜 ID"),
+                    fieldWithPath("receiver.workspaceId").type(JsonFieldType.STRING)
+                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("receiver.nickname").type(JsonFieldType.STRING)
-                        .description("받는 사람 이름"),
-                    fieldWithPath("receiver.email").type(JsonFieldType.STRING)
-                        .description("받는 사람 이메일"),
+                        .description("받는 사람 닉네임"),
+                    fieldWithPath("receiver.imageUrl").type(JsonFieldType.STRING)
+                        .description("받는 사람 이미지"),
                     fieldWithPath("backgroundColor").type(JsonFieldType.STRING)
                         .description("카드 배경 색상"),
                     fieldWithPath("modifier").type(JsonFieldType.STRING).description("수식어"),
@@ -191,16 +209,24 @@ class CouponControllerTest extends Documentation {
                         .description("보낸 쿠폰 ID"),
                     fieldWithPath("data.received.[].sender.id").type(JsonFieldType.NUMBER)
                         .description("보낸 사람 ID"),
+                    fieldWithPath("data.received.[].sender.userId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 소셜 ID"),
+                    fieldWithPath("data.received.[].sender.workspaceId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("data.received.[].sender.nickname").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이름"),
-                    fieldWithPath("data.received.[].sender.email").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이메일"),
+                        .description("보낸 사람 닉네임"),
+                    fieldWithPath("data.received.[].sender.imageUrl").type(JsonFieldType.STRING)
+                        .description("보낸 사람 이미지"),
                     fieldWithPath("data.received.[].receiver.id").type(JsonFieldType.NUMBER)
-                        .description("받는 사람 ID"),
+                        .description("받는 사람의 ID"),
+                    fieldWithPath("data.received.[].receiver.userId").type(JsonFieldType.STRING)
+                        .description("받는 사람 소셜 ID"),
+                    fieldWithPath("data.received.[].receiver.workspaceId").type(JsonFieldType.STRING)
+                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("data.received.[].receiver.nickname").type(JsonFieldType.STRING)
-                        .description("받는 사람 이름"),
-                    fieldWithPath("data.received.[].receiver.email").type(JsonFieldType.STRING)
-                        .description("받는 사람 이메일"),
+                        .description("받는 사람 닉네임"),
+                    fieldWithPath("data.received.[].receiver.imageUrl").type(JsonFieldType.STRING)
+                        .description("받는 사람 이미지"),
                     fieldWithPath("data.received.[].backgroundColor").type(JsonFieldType.STRING)
                         .description("카드 배경 색상"),
                     fieldWithPath("data.received.[].modifier").type(JsonFieldType.STRING)
@@ -216,16 +242,24 @@ class CouponControllerTest extends Documentation {
                         .description("받은 쿠폰 ID"),
                     fieldWithPath("data.sent.[].sender.id").type(JsonFieldType.NUMBER)
                         .description("보낸 사람 ID"),
+                    fieldWithPath("data.sent.[].sender.userId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 소셜 ID"),
+                    fieldWithPath("data.sent.[].sender.workspaceId").type(JsonFieldType.STRING)
+                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("data.sent.[].sender.nickname").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이름"),
-                    fieldWithPath("data.sent.[].sender.email").type(JsonFieldType.STRING)
-                        .description("보낸 사람 이메일"),
+                        .description("보낸 사람 닉네임"),
+                    fieldWithPath("data.sent.[].sender.imageUrl").type(JsonFieldType.STRING)
+                        .description("보낸 사람 이미지"),
                     fieldWithPath("data.sent.[].receiver.id").type(JsonFieldType.NUMBER)
-                        .description("받는 사람 ID"),
+                        .description("받는 사람의 ID"),
+                    fieldWithPath("data.sent.[].receiver.userId").type(JsonFieldType.STRING)
+                        .description("받는 사람 소셜 ID"),
+                    fieldWithPath("data.sent.[].receiver.workspaceId").type(JsonFieldType.STRING)
+                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("data.sent.[].receiver.nickname").type(JsonFieldType.STRING)
-                        .description("받는 사람 이름"),
-                    fieldWithPath("data.sent.[].receiver.email").type(JsonFieldType.STRING)
-                        .description("받는 사람 이메일"),
+                        .description("받는 사람 닉네임"),
+                    fieldWithPath("data.sent.[].receiver.imageUrl").type(JsonFieldType.STRING)
+                        .description("받는 사람 이미지"),
                     fieldWithPath("data.sent.[].backgroundColor").type(JsonFieldType.STRING)
                         .description("카드 배경 색상"),
                     fieldWithPath("data.sent.[].modifier").type(JsonFieldType.STRING)
