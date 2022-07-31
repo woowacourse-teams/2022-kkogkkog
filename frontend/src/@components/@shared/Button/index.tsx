@@ -6,7 +6,7 @@ const Button = styled.button`
   padding: 10px;
 
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   box-shadow: 0 4px 4px 0 #00000025;
 
   ${({ theme }) => css`

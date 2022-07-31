@@ -8,7 +8,7 @@ export const useKkogKkogList = () => {
     ['kkogkkogList'],
     getKkogkkogList,
     {
-      suspense: false,
+      suspense: true,
     }
   );
 

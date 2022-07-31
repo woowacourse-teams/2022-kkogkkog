@@ -5,12 +5,11 @@ export const Root = styled.div`
     display: inline-block;
 
     color: ${({ theme }) => theme.colors.drak_grey_200};
+    font-weight: 600;
     font-size: 14px;
 
     margin-bottom: 8px;
   }
-
-  box-shadow: 0 1px 1px 0 #00000025;
 `;
 
 export const SelectContainer = styled.ul`
@@ -20,9 +19,6 @@ export const SelectContainer = styled.ul`
 
   display: flex;
   align-items: center;
-
-  border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
-  border-radius: 4px;
 
   & > li + li {
     margin-left: 10px;

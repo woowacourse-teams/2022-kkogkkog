@@ -21,8 +21,6 @@ export const Root = styled.div`
 
   border-radius: 4px 4px 0 0;
 
-  box-shadow: 0 4px 4px 0 #00000025;
-
   ${({ theme }) => css`
     z-index: ${theme.layers.header};
   `}
@@ -31,7 +29,10 @@ export const Root = styled.div`
 export const Logo = styled.div``;
 
 export const Title = styled.div`
-  font-size: 14px;
+  font-size: 18px;
+  padding-left: 24px;
+
+  flex: 1;
 `;
 
 export const Profile = styled.div``;

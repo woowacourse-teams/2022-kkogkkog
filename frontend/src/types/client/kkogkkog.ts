@@ -7,6 +7,8 @@ export const kkogkkogType = [
   { imageUrl: '/assets/images/meal.png', koreanType: '식사', engType: 'MEAL' } as const,
 ] as const;
 
+export const couponListType = ['received', 'sent'] as const;
+
 export const couponEvent = ['REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
 export const couponStatus = ['REQUESTED', 'READY', 'ACCEPTED', 'FINISHED'] as const;
 
@@ -27,16 +29,6 @@ export const THUMBNAIL: { [x: string]: string } = {
   MEAL: '/assets/images/meal.png',
 } as const;
 
-export const KKOGKKOG_TYPE_MAPPER = kkogkkogType.reduce((prev, current) => {
-  const { engType, koreanType } = current;
-
-  return {
-    ...prev,
-    [engType]: koreanType,
-    [koreanType]: engType,
-  };
-}, {} as any);
-
 export interface KkogKkog {
   id: number;
   sender: User;
@@ -50,6 +42,8 @@ export interface KkogKkog {
 
 export type KKOGKKOG_ENG_TYPE = typeof kkogkkogType[number]['engType'];
 export type KKOGKKOG_KOREAN_TYPE = typeof kkogkkogType[number]['koreanType'];
+
+export type COUPON_LIST_TYPE = typeof couponListType[number];
 
 export type KKOGKKOG_COLORS = typeof kkogkkogColors[number];
 

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import KkogKkogCreateForm from '@/@components/kkogkkog/KkogKkogCreateForm';
-import KkogKkogItem from '@/@components/kkogkkog/KkogKkogItem';
+import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
 import { useKkogKkogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
 
 const KkogkkogCreatePage = () => {
@@ -27,14 +27,14 @@ const KkogkkogCreatePage = () => {
   }, [receiverList]);
 
   return (
-    <PageTemplate title='꼭꼭 만들기'>
+    <PageTemplate title='꼭꼭 보내기'>
       <Styled.Root>
         <Styled.PreviewContainer ref={elementRef}>
           {receiverList.length === 0 ? (
             <Styled.GuideContainer>꼭꼭을 완성해보세요!</Styled.GuideContainer>
           ) : (
             receiverList.map(receiver => (
-              <KkogKkogItem.Preview
+              <BigKkogKkogItem.Preview
                 key={receiver.id}
                 receiver={receiver}
                 backgroundColor={color}
@@ -94,23 +94,11 @@ export const Styled = {
     width: 100%;
 
     ${({ theme }) => css`
-      color: ${theme.colors.grey_100};
+      color: ${theme.colors.light_grey_200};
 
-      box-shadow: 2px 4px 8px 0 #00000025;
+      box-shadow: ${theme.shadow.type_2};
 
-      border-radius: 4px;
-
-      animation: show-up-50 1s infinite ease-in alternate;
+      border-radius: 20px;
     `}
-
-    @keyframes show-up-50 {
-      from {
-        opacity: 0.99;
-      }
-
-      to {
-        opacity: 0.5;
-      }
-    }
   `,
 };

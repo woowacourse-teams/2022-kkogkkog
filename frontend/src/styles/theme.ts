@@ -1,7 +1,9 @@
 const colors = {
   primary_500: '#FF5622',
   primary_400: '#FF7020',
+  primary_400_opacity: '#FF702016',
   primary_300: '#FF9620',
+  primary_300_opacity: '#FF962047',
   primary_200: '#FFB25B',
   primary_100: '#FFC17B',
 
@@ -17,6 +19,8 @@ const colors = {
 
   drak_grey_200: '#242424',
   drak_grey_100: '#3D3D3D',
+
+  green_500: '#51D230',
 
   red_800: '#E81300',
 
