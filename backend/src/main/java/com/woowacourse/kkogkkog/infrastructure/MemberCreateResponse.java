@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application.dto;
+package com.woowacourse.kkogkkog.infrastructure;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberOAuthResponse {
+public class MemberCreateResponse {
 
     private Long id;
     private Boolean isCreated;
 
-    public MemberOAuthResponse(Long id, Boolean isCreated) {
+    public MemberCreateResponse(Long id, Boolean isCreated) {
         this.id = id;
         this.isCreated = isCreated;
     }
