@@ -19,22 +19,26 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String userId;
 
     @Column(nullable = false)
-    private String password;
+    private String workspaceId;
 
     @Column(nullable = false)
     private String nickname;
 
-    public Member(Long id, String email, String password, String nickname) {
+    @Column(nullable = false)
+    private String imageUrl;
+
+    public Member(Long id, String userId, String workspaceId, String nickname, String imageUrl) {
         this.id = id;
-        this.email = email;
-        this.password = password;
+        this.userId = userId;
+        this.workspaceId = workspaceId;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
     }
 
-    public boolean isNotSamePassword(String password) {
-        return !this.password.equals(password);
+    public void updateImageURL(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
