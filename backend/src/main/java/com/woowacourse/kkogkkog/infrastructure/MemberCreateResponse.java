@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class MemberCreateResponse {
 
     private Long id;
-    private Boolean isCreated;
+    private Boolean isNew;
 
-    public MemberCreateResponse(Long id, Boolean isCreated) {
+    public MemberCreateResponse(Long id, Boolean isNew) {
         this.id = id;
-        this.isCreated = isCreated;
+        this.isNew = isNew;
     }
 }

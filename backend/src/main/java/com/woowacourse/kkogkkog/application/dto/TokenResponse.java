@@ -10,10 +10,10 @@ public class TokenResponse {
 
     private String accessToken;
 
-    private Boolean isCreated;
+    private Boolean isNew;
 
-    public TokenResponse(String accessToken, Boolean isCreated) {
+    public TokenResponse(String accessToken, Boolean isNew) {
         this.accessToken = accessToken;
-        this.isCreated = isCreated;
+        this.isNew = isNew;
     }
 }

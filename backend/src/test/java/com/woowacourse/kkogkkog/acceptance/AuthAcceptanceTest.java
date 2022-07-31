@@ -23,7 +23,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     void 가입되지_않은_회원은_정보가_저장되고_로그인을_할_수_있다() {
         MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
 
-        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsCreated();
+        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsNew();
 
         assertThat(actual).isTrue();
     }
@@ -33,7 +33,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
 
         회원가입_또는_로그인에_성공한다(memberResponse);
-        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsCreated();
+        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsNew();
 
         assertThat(actual).isFalse();
     }

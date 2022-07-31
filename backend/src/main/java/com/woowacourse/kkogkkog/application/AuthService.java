@@ -29,6 +29,6 @@ public class AuthService {
 
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
-            memberCreateResponse.getIsCreated());
+            memberCreateResponse.getIsNew());
     }
 }

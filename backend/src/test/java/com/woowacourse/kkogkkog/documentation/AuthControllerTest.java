@@ -34,7 +34,7 @@ class AuthControllerTest extends Documentation {
         perform
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.accessToken").value("accessToken"))
-            .andExpect(jsonPath("$.isCreated").value("true"));
+            .andExpect(jsonPath("$.isNew").value("true"));
 
         // docs
         perform
@@ -44,7 +44,7 @@ class AuthControllerTest extends Documentation {
                 getDocumentResponse(),
                 responseFields(
                     fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰"),
-                    fieldWithPath("isCreated").type(JsonFieldType.BOOLEAN).description("회원가입 여부")
+                    fieldWithPath("isNew").type(JsonFieldType.BOOLEAN).description("회원가입 여부")
                 )
             ));
     }

@@ -38,7 +38,7 @@ class MemberServiceTest extends ServiceTest {
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
-                () -> assertThat(memberCreateResponse.getIsCreated()).isTrue()
+                () -> assertThat(memberCreateResponse.getIsNew()).isTrue()
             );
         }
 
@@ -53,7 +53,7 @@ class MemberServiceTest extends ServiceTest {
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
-                () -> assertThat(memberCreateResponse.getIsCreated()).isFalse()
+                () -> assertThat(memberCreateResponse.getIsNew()).isFalse()
             );
         }
     }
