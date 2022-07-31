@@ -22,6 +22,9 @@ public class SlackRequester {
     private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
+    private static final String CODE_PARAMETER_NAME = "code";
+    private static final String CLIENT_ID_PARAMETER_NAME = "client_id";
+    private static final String SECRET_ID_PARAMETER_NAME = "client_secret";
 
     private final String clientId;
     private final String secretId;
@@ -68,9 +71,9 @@ public class SlackRequester {
 
     private URI toRequestTokenUri(String code, UriBuilder uriBuilder) {
         return uriBuilder
-            .queryParam("code", code)
-            .queryParam("client_id", clientId)
-            .queryParam("client_secret", secretId)
+            .queryParam(CODE_PARAMETER_NAME, code)
+            .queryParam(CLIENT_ID_PARAMETER_NAME, clientId)
+            .queryParam(SECRET_ID_PARAMETER_NAME, secretId)
             .build();
     }
 
