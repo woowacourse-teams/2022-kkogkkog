@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 
 import useMe from '@/@hooks/user/useMe';
 import useUserList from '@/@hooks/user/useUserList';
-import { UserListResponse } from '@/types/remote/response';
+import { UserResponse } from '@/types/remote/response';
 
 export const useSearchUser = () => {
   const { data: me } = useMe();
 
   // 이 부분은 검색 API 도입시 사라지게됨
-  const { userList } = useUserList();
+  const { data } = useUserList();
+  const userList = data?.data;
 
-  const [searchedUserList, setSearchedUserList] = useState<UserListResponse | undefined>();
+  const [searchedUserList, setSearchedUserList] = useState<UserResponse[] | undefined>();
 
   const searchUser = (keyword: string) => {
     const users = userList || [];

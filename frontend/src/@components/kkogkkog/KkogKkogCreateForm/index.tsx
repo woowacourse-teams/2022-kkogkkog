@@ -5,12 +5,10 @@ import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchModal from '@/@components/user/UserSearchModal';
 import { useModal } from '@/@hooks/@common/useModal';
-import useUserList from '@/@hooks/user/useUserList';
 import {
   KKOGKKOG_COLORS,
   KKOGKKOG_ENG_TYPE,
   KKOGKKOG_MODIFIERS,
-  kkogkkogColors,
   kkogkkogModifiers,
   kkogkkogType,
 } from '@/types/client/kkogkkog';
@@ -37,12 +35,10 @@ const KkogKkogCreateForm = (props: KkogKkogCreateFormProps) => {
     currentReceiverList,
     currentType,
     currentModifier,
-    currentColor,
     currentMessage,
     onSelectReceiver,
     onSelectType,
     onSelectModifier,
-    onSelectColor,
     onChangeMessage,
     onSubmitCreateForm,
   } = props;

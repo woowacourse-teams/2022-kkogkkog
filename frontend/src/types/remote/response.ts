@@ -19,7 +19,7 @@ export interface UserResponse {
   nickname: string;
 }
 
-export type UserListResponse = UserResponse[];
+export type UserListResponse = { data: UserResponse[] };
 
 export interface LoginResponse {
   accessToken: string;
