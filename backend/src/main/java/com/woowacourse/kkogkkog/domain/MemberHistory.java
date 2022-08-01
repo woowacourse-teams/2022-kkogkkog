@@ -35,18 +35,18 @@ public class MemberHistory {
 
     private CouponEvent couponEvent;
 
-    private LocalDate meetingTime;
+    private LocalDate meetingDate;
 
     public MemberHistory(Long id, Member hostMember,
                          Member targetMember, Long couponId,
                          CouponType couponType, CouponEvent couponEvent,
-                         LocalDate meetingTime) {
+                         LocalDate meetingDate) {
         this.id = id;
         this.hostMember = hostMember;
         this.targetMember = targetMember;
         this.couponId = couponId;
         this.couponType = couponType;
         this.couponEvent = couponEvent;
-        this.meetingTime = meetingTime;
+        this.meetingDate = meetingDate;
     }
 }
