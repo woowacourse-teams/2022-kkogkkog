@@ -4,7 +4,7 @@ import { ChangeEventHandler, useState } from 'react';
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
 import { useMe } from '@/@hooks/@queries/user';
-import useChangeKkogKkogStatus from '@/@hooks/kkogkkog/useKkogKkogStatusMutation';
+import useChangeKkogKkogStatus from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
 import { ANIMATION_DURATION } from '@/constants/animation';
 import { KkogKKogResponse } from '@/types/remote/response';
 import { getToday } from '@/utils';
