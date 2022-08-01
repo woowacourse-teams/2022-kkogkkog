@@ -70,7 +70,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const [meetingDate, setMeetingDate] = useState('');
 
   const { cancelKkogKkog, requestKkogKKog, finishKkogKkog, acceptKkogKkog } =
-    useChangeKkogKkogStatus();
+    useChangeKkogKkogStatus(id);
 
   const isSent = me?.id === sender.id;
 
@@ -94,14 +94,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickCancelButton = () => {
-    cancelKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    cancelKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   const onClickRequestButton = () => {
@@ -111,7 +108,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       return;
     }
     requestKkogKKog(
-      { id, meetingDate },
+      { meetingDate },
       {
         onSuccess() {
           onCloseModal();
@@ -121,25 +118,19 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickFinishButton = () => {
-    finishKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    finishKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   const onClickAcceptButton = () => {
-    acceptKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    acceptKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   return (

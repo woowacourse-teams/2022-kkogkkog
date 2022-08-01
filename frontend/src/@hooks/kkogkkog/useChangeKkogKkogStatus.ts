@@ -5,11 +5,6 @@ import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
 
 import { useChangeKkogKkogStatusMutation } from '../@queries/kkogkkog';
 
-type kkogkkogActionType = {
-  id: number;
-  meetingDate?: string;
-};
-
 type changeStatusMutationOptions = Omit<
   UseMutationOptions<
     AxiosResponse<any, any>,
@@ -19,25 +14,25 @@ type changeStatusMutationOptions = Omit<
   'mutationFn'
 >;
 
-const useChangeKkogKkogStatus = () => {
+const useChangeKkogKkogStatus = (id: number) => {
   const changeStatusMutate = useChangeKkogKkogStatusMutation();
 
-  const cancelKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+  const cancelKkogKkog = (options: changeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
   };
 
   const requestKkogKKog = (
-    { id, meetingDate }: kkogkkogActionType,
+    { meetingDate }: { meetingDate: string },
     options: changeStatusMutationOptions
   ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
   };
 
-  const finishKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+  const finishKkogKkog = (options: changeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
   };
 
-  const acceptKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
+  const acceptKkogKkog = (options: changeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
   };
 
