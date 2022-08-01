@@ -25,14 +25,14 @@ const Header = (props: HeaderProps) => {
           </Link>
         ) : (
           <Link to='..'>
-            <Icon iconName='arrow' color={theme.colors.primary_400} />
+            <Icon iconName='arrow' size='16' color={theme.colors.primary_400} />
           </Link>
         )}
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
         <Link to={PATH.PROFILE}>
-          <Icon iconName='profile' size='36' color={theme.colors.primary_400} />
+          <Icon iconName='profile' size='26' color={theme.colors.primary_400} />
         </Link>
       </Styled.Profile>
     </Styled.Root>

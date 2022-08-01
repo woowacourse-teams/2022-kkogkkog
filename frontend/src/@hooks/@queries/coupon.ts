@@ -1,25 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { changeKkogkkogStatus, createKkogkkog, getKkogkkogList } from '@/apis/kkogkkog';
+import { changeCouponStatus, createCoupon, getCouponList } from '@/apis/coupon';
 import { PATH } from '@/Router';
 
 const QUERY_KEY = {
-  kkogkkogList: 'kkogkkogList',
+  couponList: 'couponList',
 };
 
-export const useFetchKkogKkogList = () =>
-  useQuery([QUERY_KEY.kkogkkogList], getKkogkkogList, {
+export const useFetchCouponList = () =>
+  useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     select(data) {
       return data.data;
     },
   });
 
-export const useCreateKkogKkogMutation = () => {
+export const useCreateCouponMutation = () => {
   const navigate = useNavigate();
 
-  return useMutation(createKkogkkog, {
+  return useMutation(createCoupon, {
     onSuccess() {
       navigate(PATH.LANDING, {
         state: {
@@ -33,12 +33,12 @@ export const useCreateKkogKkogMutation = () => {
   });
 };
 
-export const useChangeKkogKkogStatusMutation = () => {
+export const useChangeCouponStatusMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(changeKkogkkogStatus, {
+  return useMutation(changeCouponStatus, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.kkogkkogList);
+      queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
     onError() {
       alert('잘못된 접근입니다. 다시 시도해주세요.');
