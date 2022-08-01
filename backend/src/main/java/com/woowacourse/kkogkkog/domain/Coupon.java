@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -94,6 +95,20 @@ public class Coupon {
     public void changeStatus(CouponEvent event, Member member) {
         event.checkExecutable(sender.equals(member), receiver.equals(member));
         this.couponStatus = couponStatus.handle(event);
+    }
+
+    public Member getOppositeMember(Member member) {
+        validateContainsMember(member);
+        if (sender == member) {
+            return receiver;
+        }
+        return sender;
+    }
+
+    private void validateContainsMember(Member member) {
+        if (member != sender && member != receiver) {
+            throw new InvalidRequestException("쿠폰과 관련없는 회원입니다.");
+        }
     }
 
     public void updateMeetingDate(LocalDate meetingTime) {

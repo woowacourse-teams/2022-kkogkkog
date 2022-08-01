@@ -6,11 +6,12 @@ import java.util.function.BiConsumer;
 
 public enum CouponEvent {
 
+    INIT(CouponEvent::canInit),
     REQUEST(CouponEvent::canRequest),
     CANCEL(CouponEvent::canCancel),
     DECLINE(CouponEvent::canDecline),
     ACCEPT(CouponEvent::canAccept),
-    FINISH(CouponEvent::canFinish),
+    FINISH(CouponEvent::canFinish)
     ;
 
     private final BiConsumer<Boolean, Boolean> canChange;
@@ -29,6 +30,10 @@ public enum CouponEvent {
 
     public void checkExecutable(boolean isSender, boolean isReceiver) {
         canChange.accept(isSender, isReceiver);
+    }
+
+    private static void canInit(boolean isSender, boolean isReceiver) {
+        throw new InvalidRequestException("이미 발급된 쿠폰입니다.");
     }
 
     private static void canRequest(boolean isSender, boolean isReceiver) {
