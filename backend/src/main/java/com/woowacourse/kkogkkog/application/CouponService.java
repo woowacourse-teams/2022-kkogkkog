@@ -8,7 +8,9 @@ import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
@@ -24,10 +26,13 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
 
-    public CouponService(CouponRepository couponRepository, MemberRepository memberRepository) {
+    public CouponService(CouponRepository couponRepository, MemberRepository memberRepository,
+                         MemberHistoryRepository memberHistoryRepository) {
         this.couponRepository = couponRepository;
         this.memberRepository = memberRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
     }
 
     @Transactional(readOnly = true)
@@ -94,6 +99,11 @@ public class CouponService {
             }
             coupon.updateMeetingDate(couponChangeStatusRequest.getMeetingDate());
         }
+
+        Member targetMember = coupon.getOppositeMember(loginMember);
+        saveMemberHistory(loginMember, targetMember, coupon.getCouponType(),
+            couponChangeStatusRequest.getEvent());
+
     }
 
     private Member findMember(Long memberId) {
@@ -104,5 +114,12 @@ public class CouponService {
     private Coupon findCoupon(Long couponId) {
         return couponRepository.findById(couponId)
             .orElseThrow(CouponNotFoundException::new);
+    }
+
+    private void saveMemberHistory(Member hostMember, Member targetMember, CouponType couponType,
+                                   CouponEvent couponEvent) {
+        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, couponType,
+            couponEvent);
+        memberHistoryRepository.save(memberHistory);
     }
 }

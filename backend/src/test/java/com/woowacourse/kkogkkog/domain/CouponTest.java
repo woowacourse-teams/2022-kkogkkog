@@ -282,6 +282,51 @@ public class CouponTest {
     }
 
     @Nested
+    @DisplayName("getOppositeMember 메서드는")
+    class getOppositeMember {
+
+        @Test
+        @DisplayName("보낸 사람을 받으면, 받은 사람을 반환한다.")
+        void success_bySender() {
+            Member sender = MemberFixture.ROOKIE;
+            Member receiver = MemberFixture.ARTHUR;
+            Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                CouponType.COFFEE, CouponStatus.FINISHED);
+
+            Member actual = coupon.getOppositeMember(sender);
+
+            assertThat(actual).isEqualTo(receiver);
+        }
+
+        @Test
+        @DisplayName("받은 사람을 받으면, 보낸 사람을 반환한다.")
+        void success_byReceiver() {
+            Member sender = MemberFixture.ROOKIE;
+            Member receiver = MemberFixture.ARTHUR;
+            Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                CouponType.COFFEE, CouponStatus.FINISHED);
+
+            Member actual = coupon.getOppositeMember(receiver);
+
+            assertThat(actual).isEqualTo(sender);
+        }
+
+        @Test
+        @DisplayName("쿠폰과 관련 없는 사람을 받으면, 예외를 던진다..")
+        void fail_noContainMember() {
+            Member sender = MemberFixture.ROOKIE;
+            Member receiver = MemberFixture.ARTHUR;
+            Member other = MemberFixture.LEO;
+
+            Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                CouponType.COFFEE, CouponStatus.FINISHED);
+
+            assertThatThrownBy(() -> coupon.getOppositeMember(other))
+                .isInstanceOf(InvalidRequestException.class);
+        }
+    }
+
+    @Nested
     @DisplayName("updateMeetingDate 메서드는")
     class UpdateMeetingDate {
 
