@@ -20,23 +20,22 @@ public class SlackRequester {
 
     private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
     private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final String CODE_PARAMETER = "code";
+    private static final String CLIENT_ID_PARAMETER = "client_id";
+    private static final String SECRET_ID_PARAMETER = "client_secret";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
-    private static final String CODE_PARAMETER_NAME = "code";
-    private static final String CLIENT_ID_PARAMETER_NAME = "client_id";
-    private static final String SECRET_ID_PARAMETER_NAME = "client_secret";
 
     private final String clientId;
     private final String secretId;
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
 
-    public SlackRequester(
-        @Value("${security.slack.client-id}") String clientId,
-        @Value("${security.slack.secret-id}") String secretId,
-        @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
-        @Value(OAUTH_USER_INFO) String userInfoUri,
-        WebClient webClient) {
+    public SlackRequester(@Value("${security.slack.client-id}") String clientId,
+                          @Value("${security.slack.secret-id}") String secretId,
+                          @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
+                          @Value(OAUTH_USER_INFO) String userInfoUri,
+                          WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
@@ -71,9 +70,9 @@ public class SlackRequester {
 
     private URI toRequestTokenUri(String code, UriBuilder uriBuilder) {
         return uriBuilder
-            .queryParam(CODE_PARAMETER_NAME, code)
-            .queryParam(CLIENT_ID_PARAMETER_NAME, clientId)
-            .queryParam(SECRET_ID_PARAMETER_NAME, secretId)
+            .queryParam(CODE_PARAMETER, code)
+            .queryParam(CLIENT_ID_PARAMETER, clientId)
+            .queryParam(SECRET_ID_PARAMETER, secretId)
             .build();
     }
 
@@ -89,14 +88,12 @@ public class SlackRequester {
     }
 
     private SlackUserInfo requestUserInfo(String token) {
-        SlackUserInfo slackUserInfoResponse = userClient
+        return userClient
             .get()
             .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
             .retrieve()
             .bodyToMono(SlackUserInfo.class)
             .blockOptional()
             .orElseThrow(UnableToGetUserInfoResponseException::new);
-
-        return slackUserInfoResponse;
     }
 }
