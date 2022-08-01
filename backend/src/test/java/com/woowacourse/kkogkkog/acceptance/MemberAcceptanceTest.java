@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.presentation.dto.MemberNicknameUpdateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -15,6 +16,7 @@ import io.restassured.response.Response;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberAcceptanceTest extends AcceptanceTest {
@@ -67,5 +69,31 @@ public class MemberAcceptanceTest extends AcceptanceTest {
                 MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
                     "루키", "image")))
         );
+    }
+
+    @Test
+    void 본인의_닉네임을_수정할_수_있다() {
+        String newNickname = "새로운_닉네임";
+        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
+
+        RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(rookieAccessToken)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(new MemberNicknameUpdateRequest(newNickname))
+            .put("/api/members/me/nickname")
+            .then().log().all()
+            .extract();
+
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(rookieAccessToken)
+            .get("/api/members/me")
+            .then().log().all()
+            .extract();
+
+        String actual = extract.as(MemberResponse.class).getNickname();
+
+        assertThat(actual).isEqualTo(newNickname);
     }
 }
