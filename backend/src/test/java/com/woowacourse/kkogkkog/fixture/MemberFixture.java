@@ -4,10 +4,12 @@ import com.woowacourse.kkogkkog.domain.Member;
 
 public class MemberFixture {
 
-    public static Member ROOKIE = new Member(null, "rookie@gmail.com", "password1234!", "루키");
-    public static Member ARTHUR = new Member(null, "arthur@gmail.com", "password1234!", "아서");
-    public static Member JEONG = new Member(null, "jeong@gmail.com", "password1234!", "정");
-    public static Member LEO = new Member(null, "leo@gmail.com", "password1234!", "레오");
-    public static Member NON_EXISTING_MEMBER = new Member(99999L, "no-one@gmail.com",
-        "password1234!", "존재하지_않는_사용자");
+    public static Member ROOKIE = new Member(null, "URookie", "T03LX3C5540",
+        "루키", "image");
+    public static Member ARTHUR = new Member(null, "UArthur", "T03LX3C5540",
+        "아서", "image");
+    public static Member JEONG = new Member(null, "UJeong", "T03LX3C5540", "정", "image");
+    public static Member LEO = new Member(null, "ULeo", "T03LX3C5540", "레오", "image");
+    public static Member NON_EXISTING_MEMBER = new Member(99999L, "UNonExistingMember", "T03LX3C5540",
+        "존재하지_않는_사용자", "image");
 }

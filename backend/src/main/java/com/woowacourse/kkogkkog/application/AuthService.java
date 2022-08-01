@@ -1,11 +1,9 @@
 package com.woowacourse.kkogkkog.application;
 
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.exception.member.MemberWrongInputException;
-import com.woowacourse.kkogkkog.presentation.dto.TokenRequest;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.infrastructure.SlackClient;
+import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,20 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-    private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MemberService memberService;
+    private final SlackClient slackClient;
 
-    public AuthService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider) {
-        this.memberRepository = memberRepository;
+    public AuthService(JwtTokenProvider jwtTokenProvider, MemberService memberService,
+                       SlackClient slackClient) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.memberService = memberService;
+        this.slackClient = slackClient;
     }
 
-    public TokenResponse login(TokenRequest tokenRequest) {
-        Member findMember = memberRepository.findByEmail(tokenRequest.getEmail())
-            .orElseThrow(MemberNotFoundException::new);
-        if (findMember.isNotSamePassword(tokenRequest.getPassword())) {
-            throw new MemberWrongInputException();
-        }
-        return new TokenResponse(jwtTokenProvider.createToken(findMember.getId().toString()));
+    @Transactional(readOnly = true)
+    public TokenResponse login(String code) {
+        SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
+        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo);
+
+        return new TokenResponse(
+            jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
+            memberCreateResponse.getIsNew());
     }
 }

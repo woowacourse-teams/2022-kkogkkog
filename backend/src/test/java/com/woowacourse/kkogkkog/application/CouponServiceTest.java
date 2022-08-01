@@ -29,12 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("CouponService 클래스의")
 public class CouponServiceTest extends ServiceTest {
 
-    private static final Member JEONG = new Member(null, "jeong@gmail.com", "password1234!", "정");
-    private static final Member LEO = new Member(null, "leo@gmail.com", "password1234!", "레오");
-    private static final Member ROOKIE = new Member(null, "rookie@gmail.com", "password1234!",
-        "루키");
-    private static final Member ARTHUR = new Member(null, "arthur@gmail.com", "password1234!",
-        "아서");
+    private static final Member JEONG = new Member(null, "UJeong", "T03LX3C5540", "정", "image");
+    private static final Member LEO = new Member(null, "ULeo", "T03LX3C5540", "레오", "image");
+    private static final Member ROOKIE = new Member(null, "URookie", "T03LX3C5540", "루키", "image");
+    private static final Member ARTHUR = new Member(null, "UArthur", "T03LX3C5540", "아서", "image");
 
     @Autowired
     private CouponService couponService;

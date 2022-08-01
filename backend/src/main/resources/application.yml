@@ -6,11 +6,6 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-security:
-  jwt:
-    token:
-      secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-      expire-length: 3600000
 
 ---
 
@@ -26,6 +21,15 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_TOKEN_SECRET_KEY}
+      expire-length: 3600000
+  slack:
+    client-id: ${OAUTH_SLACK_CLIENT_ID}
+    secret-id: ${OAUTH_SLACK_SECRET_ID}
+
 ---
 
 spring:
@@ -38,3 +42,16 @@ spring:
     url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+security:
+  jwt:
+    token:
+      secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      expire-length: 3600000
+  slack:
+    client-id: "1111111111111.1111111111111"
+    secret-id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

@@ -1,14 +1,14 @@
 package com.woowacourse.kkogkkog.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
-import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -29,25 +29,32 @@ class MemberServiceTest extends ServiceTest {
     class Save {
 
         @Test
-        @DisplayName("회원 정보를 받으면, 회원을 저장하고 저장된 Id를 반환한다.")
-        void success() {
-            MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com",
-                "password1234!", "nickname");
+        @DisplayName("가입되지 않은 회원 정보를 받으면, 회원을 저장하고 저장된 Id와 회원가입 여부를 반환한다.")
+        void success_save() {
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "image");
 
-            Long memberId = memberService.save(memberCreateRequest);
+            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
 
-            assertThat(memberId).isNotNull();
+            assertAll(
+                () -> assertThat(memberCreateResponse.getId()).isNotNull(),
+                () -> assertThat(memberCreateResponse.getIsNew()).isTrue()
+            );
         }
 
         @Test
-        @DisplayName("중복된 이메일이 존재하면, 예외를 던진다.")
-        void fail_duplicatedEmail() {
-            MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com",
-                "password1234!", "nickname");
-            memberService.save(memberCreateRequest);
+        @DisplayName("가입된 회원 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 반환한다.")
+        void success_find() {
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "image");
 
-            assertThatThrownBy(() -> memberService.save(memberCreateRequest))
-                .isInstanceOf(MemberDuplicatedEmail.class);
+            memberService.saveOrFind(slackUserInfo);
+            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
+
+            assertAll(
+                () -> assertThat(memberCreateResponse.getId()).isNotNull(),
+                () -> assertThat(memberCreateResponse.getIsNew()).isFalse()
+            );
         }
     }
 
@@ -58,14 +65,14 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("저장된 회원의 Id를 받으면, 해당 회원의 정보를 반환한다.")
         void success() {
-            MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com",
-                "password1234!", "nickname");
-            Long memberId = memberService.save(memberCreateRequest);
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "image");
+            Long memberId = memberService.saveOrFind(slackUserInfo).getId();
 
             MemberResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MemberResponse(null, "email@gmail.com", "nickname")
+                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "image")
             );
         }
 
@@ -86,12 +93,13 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("회원가입된 모든 회원들의 정보를 반환한다.")
         void success() {
-            MemberCreateRequest memberCreateRequest1 = new MemberCreateRequest("email1@gmail.com",
-                "password1234!", "nickname1");
-            MemberCreateRequest memberCreateRequest2 = new MemberCreateRequest("email2@gmail.com",
-                "password1234!", "nickname2");
-            memberService.save(memberCreateRequest1);
-            memberService.save(memberCreateRequest2);
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
+                "image");
+
+            memberService.saveOrFind(rookieUserInfo);
+            memberService.saveOrFind(arthurUserInfo);
 
             List<MemberResponse> membersResponse = memberService.findAll();
 

@@ -10,19 +10,27 @@ import lombok.NoArgsConstructor;
 public class MemberResponse {
 
     private Long id;
-    private String email;
+    private String userId;
+    private String workspaceId;
     private String nickname;
+    private String imageUrl;
 
-    public MemberResponse(Long id, String email, String nickname) {
+    public MemberResponse(Long id, String userId, String workspaceId, String nickname,
+        String imageUrl) {
         this.id = id;
-        this.email = email;
+        this.userId = userId;
+        this.workspaceId = workspaceId;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
     }
 
     public static MemberResponse of(Member member) {
         return new MemberResponse(
             member.getId(),
-            member.getEmail(),
-            member.getNickname());
+            member.getUserId(),
+            member.getWorkspaceId(),
+            member.getNickname(),
+            member.getImageUrl()
+        );
     }
 }

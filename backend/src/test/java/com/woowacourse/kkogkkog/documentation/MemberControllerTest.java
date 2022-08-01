@@ -9,18 +9,14 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -28,40 +24,11 @@ import org.springframework.test.web.servlet.ResultActions;
 public class MemberControllerTest extends Documentation {
 
     @Test
-    void 회원_가입을_요청한다() throws Exception {
-        // given
-        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("email@gmail.com",
-            "password1234!", "nickname");
-        given(memberService.save(any())).willReturn(1L);
-
-        // when
-        ResultActions perform = mockMvc.perform(post("/api/members")
-            .content(objectMapper.writeValueAsString(memberCreateRequest))
-            .contentType(MediaType.APPLICATION_JSON));
-
-        // then
-        perform.andExpect(status().isCreated());
-
-        // docs
-        perform
-            .andDo(print())
-            .andDo(document("member-create",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                requestFields(
-                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                    fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
-                    fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임")
-                ))
-            );
-    }
-
-    @Test
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
         List<MemberResponse> membersResponse = List.of(
-            new MemberResponse(1L, "user1@gmail.com", "user1"),
-            new MemberResponse(2L, "user2@gmail.com", "user2")
+            new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1", "image"),
+            new MemberResponse(2L, "User2", "TWorkspace2", "user_nickname2", "image")
         );
         given(memberService.findAll()).willReturn(membersResponse);
 
@@ -79,8 +46,10 @@ public class MemberControllerTest extends Documentation {
                 getDocumentResponse(),
                 responseFields(
                     fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("ID"),
-                    fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
-                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("닉네임")
+                    fieldWithPath("data.[].userId").type(JsonFieldType.STRING).description("유저 Id"),
+                    fieldWithPath("data.[].workspaceId").type(JsonFieldType.STRING).description("워크스페이스 ID"),
+                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
                 ))
             );
     }
@@ -88,7 +57,8 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 나의_회원정보를_요청할_수_있다() throws Exception {
         // given
-        MemberResponse memberResponse = new MemberResponse(1L, "user1@gmail.com", "user1");
+        MemberResponse memberResponse = new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1",
+            "image");
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findById(any())).willReturn(memberResponse);
@@ -100,8 +70,10 @@ public class MemberControllerTest extends Documentation {
         // then
         perform.andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value("1"))
-            .andExpect(jsonPath("$.email").value("user1@gmail.com"))
-            .andExpect(jsonPath("$.nickname").value("user1"));
+            .andExpect(jsonPath("$.userId").value("User1"))
+            .andExpect(jsonPath("$.workspaceId").value("TWorkspace1"))
+            .andExpect(jsonPath("$.nickname").value("user_nickname1"))
+            .andExpect(jsonPath("$.imageUrl").value("image"));
 
         // docs
         perform
@@ -114,8 +86,10 @@ public class MemberControllerTest extends Documentation {
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                    fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임")
+                    fieldWithPath("userId").type(JsonFieldType.STRING).description("유저 Id"),
+                    fieldWithPath("workspaceId").type(JsonFieldType.STRING).description("워크스페이스 ID"),
+                    fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
                 ))
             );
     }

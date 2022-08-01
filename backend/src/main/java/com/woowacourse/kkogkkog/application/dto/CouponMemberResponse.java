@@ -10,16 +10,27 @@ import lombok.NoArgsConstructor;
 public class CouponMemberResponse {
 
     private Long id;
+    private String userId;
+    private String workspaceId;
     private String nickname;
-    private String email;
+    private String imageUrl;
 
-    public CouponMemberResponse(Long id, String nickname, String email) {
+    public CouponMemberResponse(Long id, String userId, String workspaceId, String nickname,
+        String imageUrl) {
         this.id = id;
+        this.userId = userId;
+        this.workspaceId = workspaceId;
         this.nickname = nickname;
-        this.email = email;
+        this.imageUrl = imageUrl;
     }
 
     public static CouponMemberResponse of(Member member) {
-        return new CouponMemberResponse(member.getId(), member.getNickname(), member.getEmail());
+        return new CouponMemberResponse(
+            member.getId(),
+            member.getUserId(),
+            member.getWorkspaceId(),
+            member.getNickname(),
+            member.getImageUrl()
+        );
     }
 }

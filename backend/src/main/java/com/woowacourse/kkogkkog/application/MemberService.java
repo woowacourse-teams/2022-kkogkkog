@@ -5,11 +5,10 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.member.MemberDuplicatedEmail;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.presentation.dto.MemberCreateRequest;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +22,28 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Long save(MemberCreateRequest memberCreateRequest) {
-        Optional<Member> findMember = memberRepository.findByEmail(memberCreateRequest.getEmail());
-        if (findMember.isPresent()) {
-            throw new MemberDuplicatedEmail();
-        }
+    public MemberCreateResponse saveOrFind(SlackUserInfo slackUserInfo) {
+        String userId = slackUserInfo.getUserId();
+        String workspaceId = slackUserInfo.getTeamId();
+        String nickname = slackUserInfo.getName();
+        String imageUrl = slackUserInfo.getPicture();
 
-        Member member = memberCreateRequest.toEntity();
+        return memberRepository.findByUserId(userId)
+            .stream()
+            .map(member -> update(member, imageUrl))
+            .findFirst()
+            .orElseGet(() ->
+                save(new Member(null, userId, workspaceId, nickname, imageUrl)));
+    }
 
-        return memberRepository.save(member).getId();
+    private MemberCreateResponse update(Member member, String imageUrl) {
+        member.updateImageURL(imageUrl);
+        return new MemberCreateResponse(member.getId(), false);
+    }
+
+    private MemberCreateResponse save(Member member) {
+        memberRepository.save(member);
+        return new MemberCreateResponse(member.getId(), true);
     }
 
     @Transactional(readOnly = true)
