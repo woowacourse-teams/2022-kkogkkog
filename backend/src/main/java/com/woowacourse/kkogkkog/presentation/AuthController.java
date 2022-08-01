@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api")
 public class AuthController {
 
     private final AuthService authService;
@@ -18,7 +18,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/token")
+    @GetMapping("/login/token")
     public ResponseEntity<TokenResponse> login(@RequestParam String code) {
         TokenResponse tokenResponse = authService.login(code);
 
