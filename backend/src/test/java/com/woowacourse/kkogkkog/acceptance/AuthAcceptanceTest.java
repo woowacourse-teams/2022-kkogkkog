@@ -39,8 +39,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     public static TokenResponse 회원가입_또는_로그인에_성공한다(MemberResponse memberResponse) {
-
-        given(slackRequester.getUserInfoByCode(AUTHORIZATION_CODE))
+        given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
             .willReturn(
                 new SlackUserInfo(
                     memberResponse.getUserId(),

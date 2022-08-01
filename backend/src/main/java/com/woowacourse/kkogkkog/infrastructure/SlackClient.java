@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
 @Component
-public class SlackRequester {
+public class SlackClient {
 
     private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
     private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
@@ -31,11 +31,11 @@ public class SlackRequester {
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
 
-    public SlackRequester(@Value("${security.slack.client-id}") String clientId,
-                          @Value("${security.slack.secret-id}") String secretId,
-                          @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
-                          @Value(OAUTH_USER_INFO) String userInfoUri,
-                          WebClient webClient) {
+    public SlackClient(@Value("${security.slack.client-id}") String clientId,
+                       @Value("${security.slack.secret-id}") String secretId,
+                       @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
+                       @Value(OAUTH_USER_INFO) String userInfoUri,
+                       WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);

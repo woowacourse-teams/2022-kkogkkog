@@ -30,7 +30,7 @@ class AuthServiceTest extends ServiceTest {
         @DisplayName("등록된 회원 이메일과 비밀번호를 입력하면, 토큰을 반환한다.")
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE);
-            given(slackRequester.getUserInfoByCode("code"))
+            given(slackClient.getUserInfoByCode("code"))
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
@@ -46,7 +46,7 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("올바르지 않은 임시 코드를 입력하면, 예외를 던진다")
         void fail_invalidCode() {
-            given(slackRequester.getUserInfoByCode("invalid_code"))
+            given(slackClient.getUserInfoByCode("invalid_code"))
                 .willThrow(new ErrorResponseToGetAccessTokenException("invalid_code"));
 
             assertThatThrownBy(

@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
-class SlackRequesterTest {
+class SlackClientTest {
 
     private static final String USER_ID = "U0R7JM";
 
@@ -43,7 +43,7 @@ class SlackRequesterTest {
             setUpResponse(mockWebServer, SLACK_TOKEN_RESPONSE);
             setUpResponse(mockWebServer, SLACK_USER_INFO_RESPONSE);
 
-            SlackRequester slackRequester = new SlackRequester(
+            SlackClient slackClient = new SlackClient(
                 "clientId",
                 "secretId",
                 String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort()),
@@ -51,7 +51,7 @@ class SlackRequesterTest {
                 WebClient.create()
             );
 
-            SlackUserInfo slackUserInfo = slackRequester.getUserInfoByCode("code");
+            SlackUserInfo slackUserInfo = slackClient.getUserInfoByCode("code");
             String userId = slackUserInfo.getUserId();
 
             assertThat(userId).isEqualTo(USER_ID);
@@ -71,7 +71,7 @@ class SlackRequesterTest {
             setUpResponse(mockWebServer, getTokenErrorResponse);
             setUpResponse(mockWebServer, SLACK_USER_INFO_RESPONSE);
 
-            SlackRequester slackRequester = new SlackRequester(
+            SlackClient slackClient = new SlackClient(
                 "clientId",
                 "secretId",
                 String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort()),
@@ -79,7 +79,7 @@ class SlackRequesterTest {
                 WebClient.create()
             );
 
-            assertThatThrownBy(() -> slackRequester.getUserInfoByCode("code"))
+            assertThatThrownBy(() -> slackClient.getUserInfoByCode("code"))
                 .isInstanceOf(ErrorResponseToGetAccessTokenException.class);
         } catch (IOException ignored) {
         }

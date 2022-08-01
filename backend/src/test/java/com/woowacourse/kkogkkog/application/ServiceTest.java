@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
-import com.woowacourse.kkogkkog.infrastructure.SlackRequester;
+import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class ServiceTest {
     private DatabaseCleaner databaseCleaner;
 
     @MockBean
-    protected SlackRequester slackRequester;
+    protected SlackClient slackClient;
 
     @BeforeEach
     void setUp() {

@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import com.woowacourse.kkogkkog.infrastructure.SlackRequester;
+import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ public class AcceptanceTest {
     private DatabaseCleaner databaseCleaner;
 
     @MockBean
-    protected static SlackRequester slackRequester;
+    protected static SlackClient slackClient;
 
     @BeforeEach
     void setUp() {
