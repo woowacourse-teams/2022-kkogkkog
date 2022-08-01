@@ -2,8 +2,11 @@ package com.woowacourse.kkogkkog.application;
 
 import static java.util.stream.Collectors.toList;
 
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
@@ -17,9 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository,
+                         MemberHistoryRepository memberHistoryRepository) {
         this.memberRepository = memberRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
     }
 
     public MemberCreateResponse saveOrFind(SlackUserInfo slackUserInfo) {
@@ -57,6 +63,24 @@ public class MemberService {
     public List<MemberResponse> findAll() {
         return memberRepository.findAll().stream()
             .map(MemberResponse::of)
+            .collect(toList());
+    }
+
+
+    public List<MemberHistoryResponse> findHistoryById(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+        List<MemberHistory> histories = memberHistoryRepository.findAllByHostMember(findMember);
+
+        return histories.stream()
+            .map(it -> new MemberHistoryResponse(
+                it.getId(),
+                it.getTargetMember().getNickname(),
+                it.getTargetMember().getImageUrl(),
+                it.getCouponId(),
+                it.getCouponType().name(),
+                it.getCouponEvent().name(),
+                it.getMeetingDate()))
             .collect(toList());
     }
 }
