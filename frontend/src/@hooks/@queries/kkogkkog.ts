@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
-import { changeKkogkkogStatus, getKkogkkogList } from '@/apis/kkogkkog';
+import { changeKkogkkogStatus, createKkogkkog, getKkogkkogList } from '@/apis/kkogkkog';
+import { PATH } from '@/Router';
 
 const QUERY_KEY = {
   kkogkkogList: 'kkogkkogList',
@@ -13,6 +15,23 @@ export const useFetchKkogKkogList = () =>
       return data.data;
     },
   });
+
+export const useCreateKkogKkogMutation = () => {
+  const navigate = useNavigate();
+
+  return useMutation(createKkogkkog, {
+    onSuccess() {
+      navigate(PATH.LANDING, {
+        state: {
+          action: 'create',
+        },
+      });
+    },
+    onError() {
+      alert('입력창을 확인하고 다시 시도해주세요.');
+    },
+  });
+};
 
 export const useKkogKkogStatusMutation = () => {
   const queryClient = useQueryClient();
