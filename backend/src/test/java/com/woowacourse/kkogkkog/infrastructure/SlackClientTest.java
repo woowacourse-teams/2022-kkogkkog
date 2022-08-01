@@ -3,8 +3,11 @@ package com.woowacourse.kkogkkog.infrastructure;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.exception.auth.ErrorResponseToGetAccessTokenException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.DisplayName;
@@ -17,29 +20,35 @@ class SlackClientTest {
 
     private static final String USER_ID = "ABC123";
     private static final String TEAM_ID = "TEAM12";
-    private static final String SLACK_TOKEN_RESPONSE = "{\n" +
-        "    \"ok\": true,\n" +
-        "    \"access_token\": \"ACCESS_TOKEN\",\n" +
-        "    \"token_type\": \"Bearer\",\n" +
-        "    \"id_token\": \"ID_TOKEN\"\n" +
-        "}";
-    private static final String SLACK_USER_INFO_RESPONSE = "{\n" +
-        "    \"ok\": true,\n" +
-        "    \"sub\": \"" + USER_ID + "\",\n" +
-        "    \"https://slack.com/user_id\": \"" + USER_ID + "\",\n" +
-        "    \"https://slack.com/team_id\": \"" + TEAM_ID + "\",\n" +
-        "    \"email\": \"kkogkkog@gmail.com\",\n" +
-        "    \"name\": \"kkogkkog\",\n" +
-        "    \"picture\": \"IMAGE_URL\"\n" +
-        "}";
+    private static final String JWT_USER_ID_TOKEN = "aaaaaa.bbbbbb.cccccc";
+    private static final Map<String, String> SLACK_TOKEN_RESPONSE = new HashMap<>() {{
+        put("ok", "true");
+        put("access_token", "ACCESS_TOKEN");
+        put("token_type", "Bearer");
+        put("id_token", JWT_USER_ID_TOKEN);
+    }};
+    private static final Map<String, String> GET_TOKEN_ERROR_RESPONSE = new HashMap<>() {{
+        put("error", "invalid_code");
+    }};
+    private static final Map<String, String> SLACK_USER_INFO_RESPONSE = new HashMap<>() {{
+        put("ok", "true");
+        put("sub", USER_ID);
+        put("https://slack.com/user_id", USER_ID);
+        put("https://slack.com/team_id", TEAM_ID);
+        put("email", "kkogkkog@gmail.com");
+        put("name", "kkogkkog");
+        put("picture", "IMAGE_URL");
+    }};
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     @DisplayName("인증 서버로 코드를 보내 엑세스 토큰을 받아와 정보를 조회한다.")
     void getUserInfoByCode() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
-        setUpResponse(mockWebServer, SLACK_TOKEN_RESPONSE);
-        setUpResponse(mockWebServer, SLACK_USER_INFO_RESPONSE);
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_TOKEN_RESPONSE));
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         SlackUserInfo slackUserInfo = slackClient.getUserInfoByCode("code");
@@ -52,13 +61,10 @@ class SlackClientTest {
     @Test
     @DisplayName("요청 과정에서 오류가 발생하면 예외가 발생한다.")
     void getTokenException() throws IOException {
-        String getTokenErrorResponse = "{\n" +
-            "    \"error\": \"invalid_code\"\n" +
-            "}";
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
-        setUpResponse(mockWebServer, getTokenErrorResponse);
-        setUpResponse(mockWebServer, SLACK_USER_INFO_RESPONSE);
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(GET_TOKEN_ERROR_RESPONSE));
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         assertThatThrownBy(() -> slackClient.getUserInfoByCode("code"))
