@@ -22,16 +22,16 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @GetMapping
+    public ResponseEntity<SuccessResponse<List<MemberResponse>>> showAll() {
+        return ResponseEntity.ok(new SuccessResponse<>(memberService.findAll()));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> showMe(@LoginMember Long id) {
         MemberResponse memberResponse = memberService.findById(id);
 
         return ResponseEntity.ok(memberResponse);
-    }
-
-    @GetMapping
-    public ResponseEntity<SuccessResponse<List<MemberResponse>>> showAll() {
-        return ResponseEntity.ok(new SuccessResponse<>(memberService.findAll()));
     }
 
     @PutMapping("/me/nickname")
