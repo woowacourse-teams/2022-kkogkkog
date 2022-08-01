@@ -9,7 +9,7 @@ import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
-import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
+import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
@@ -67,7 +67,7 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
-  const { data, isLoading } = useKkogKkogList();
+  const { data, isLoading } = useFetchKkogKkogList();
   const kkogkkogList = data?.data;
 
   const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();

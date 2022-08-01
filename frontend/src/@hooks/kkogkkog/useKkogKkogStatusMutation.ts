@@ -1,8 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
+import { UseMutationOptions } from 'react-query';
 
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
 import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
+
+import { useKkogKkogStatusMutation } from '../@queries/kkogkkog';
 
 type kkogkkogActionType = {
   id: number;
@@ -18,14 +19,8 @@ type changeStatusMutationOptions = Omit<
   'mutationFn'
 >;
 
-const useKkogKkogStatusMutation = () => {
-  const queryClient = useQueryClient();
-
-  const changeStatusMutate = useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-  });
+const useChangeKkogKkogStatus = () => {
+  const changeStatusMutate = useKkogKkogStatusMutation();
 
   const cancelKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
@@ -54,4 +49,4 @@ const useKkogKkogStatusMutation = () => {
   };
 };
 
-export default useKkogKkogStatusMutation;
+export default useChangeKkogKkogStatus;

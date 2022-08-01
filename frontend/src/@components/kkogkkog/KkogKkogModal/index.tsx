@@ -3,7 +3,7 @@ import { ChangeEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import useKkogKkogStatusMutation from '@/@hooks/kkogkkog/useKkogKkogStatusMutation';
+import useChangeKkogKkogStatus from '@/@hooks/kkogkkog/useKkogKkogStatusMutation';
 import useMe from '@/@hooks/user/useMe';
 import { ANIMATION_DURATION } from '@/constants/animation';
 import { KkogKKogResponse } from '@/types/remote/response';
@@ -70,7 +70,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const [meetingDate, setMeetingDate] = useState('');
 
   const { cancelKkogKkog, requestKkogKKog, finishKkogKkog, acceptKkogKkog } =
-    useKkogKkogStatusMutation();
+    useChangeKkogKkogStatus();
 
   const isSent = me?.id === sender.id;
 
