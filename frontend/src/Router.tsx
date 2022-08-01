@@ -4,9 +4,9 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import NotFoundPage from '@/@pages/404';
+import CouponListPage from '@/@pages/coupon-list';
+import CouponCreatePage from '@/@pages/coupon-list/create';
 import JoinPage from '@/@pages/join';
-import KkogkkogListPage from '@/@pages/kkogkkog-list';
-import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
@@ -16,10 +16,10 @@ import LoginRedirect from './@pages/login/redirect';
 
 export const PATH = {
   LANDING: '/',
-  KKOGKKOG_LIST: '/kkogkkog-list',
-  SENT_KKOGKKOG_LIST: '/kkogkkog-list/sent',
-  RECEIVED_KKOGKKOG_LIST: '/kkogkkog-list/received',
-  KKOGKKOG_CREATE: '/kkogkkog-list/create',
+  COUPON_LIST: '/coupon-list',
+  SENT_COUPON_LIST: '/coupon-list/sent',
+  RECEIVED_COUPON_LIST: '/coupon-list/received',
+  COUPON_CREATE: '/coupon-list/create',
   LOGIN: '/login',
   LOGIN_REDIRECT: '/login/redirect',
   JOIN: '/join',
@@ -43,26 +43,26 @@ const Router = () => {
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
-          path={PATH.SENT_KKOGKKOG_LIST}
+          path={PATH.SENT_COUPON_LIST}
           element={
-            <Suspense fallback={<KkogkkogListPage.Skeleton />}>
-              <KkogkkogListPage />
+            <Suspense fallback={<CouponListPage.Skeleton />}>
+              <CouponListPage />
             </Suspense>
           }
         />
         <Route
-          path={PATH.RECEIVED_KKOGKKOG_LIST}
+          path={PATH.RECEIVED_COUPON_LIST}
           element={
-            <Suspense fallback={<KkogkkogListPage.Skeleton />}>
-              <KkogkkogListPage />
+            <Suspense fallback={<CouponListPage.Skeleton />}>
+              <CouponListPage />
             </Suspense>
           }
         />
         <Route
-          path={PATH.KKOGKKOG_CREATE}
+          path={PATH.COUPON_CREATE}
           element={
             <Suspense fallback={<Loading>👻</Loading>}>
-              <KkogkkogCreatePage />
+              <CouponCreatePage />
             </Suspense>
           }
         />

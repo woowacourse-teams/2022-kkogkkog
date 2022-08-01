@@ -1,25 +1,25 @@
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
-import CouponStatus from '@/@components/kkogkkog/CouponStatus';
+import CouponStatus from '@/@components/coupon/CouponStatus';
 import { useMe } from '@/@hooks/@queries/user';
-import { THUMBNAIL } from '@/types/client/kkogkkog';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { THUMBNAIL } from '@/types/client/coupon';
+import { CouponResponse } from '@/types/remote/response';
 import { extractDate } from '@/utils';
 
 import * as Styled from './big.style';
 
-export type BigKkogKkogItemProps = KkogKKogResponse & {
+export type BigCouponItemProps = CouponResponse & {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-type BigKkogKkogItemPreviewProps = Omit<KkogKKogResponse, 'id' | 'couponStatus' | 'sender'> & {
+type BigCouponItemPreviewProps = Omit<CouponResponse, 'id' | 'couponStatus' | 'sender'> & {
   className?: string;
 };
 
-const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
-  const { className, onClick, ...kkogkkog } = props;
+const BigCouponItem = (props: BigCouponItemProps) => {
+  const { className, onClick, ...coupon } = props;
 
   const {
     sender,
@@ -32,8 +32,8 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
     meetingDate,
     thumbnail,
   } = {
-    ...kkogkkog,
-    thumbnail: THUMBNAIL[kkogkkog.couponType],
+    ...coupon,
+    thumbnail: THUMBNAIL[coupon.couponType],
   };
 
   const { data: me } = useMe();
@@ -74,7 +74,7 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
 };
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
-BigKkogKkogItem.Preview = function Preview(props: BigKkogKkogItemPreviewProps) {
+BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
   const { className, receiver, backgroundColor, modifier, thumbnail, message } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
@@ -98,8 +98,8 @@ BigKkogKkogItem.Preview = function Preview(props: BigKkogKkogItemPreviewProps) {
   );
 };
 
-BigKkogKkogItem.Skeleton = function Skeleton() {
+BigCouponItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
 };
 
-export default BigKkogKkogItem;
+export default BigCouponItem;

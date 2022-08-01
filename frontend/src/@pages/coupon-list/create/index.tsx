@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import { useEffect, useRef } from 'react';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import KkogKkogCreateForm from '@/@components/kkogkkog/KkogKkogCreateForm';
-import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
-import { useKkogKkogForm } from '@/@hooks/kkogkkog/useKkogKkogForm';
+import CouponCreateForm from '@/@components/coupon/CouponCreateForm';
+import BigCouponItem from '@/@components/coupon/CouponItem/big';
+import { useCouponForm } from '@/@hooks/coupon/useCouponForm';
 
-const KkogkkogCreatePage = () => {
+const CouponCreatePage = () => {
   const {
     state: { receiverList, couponType, modifier, color, message },
     changeHandler: {
@@ -18,7 +18,7 @@ const KkogkkogCreatePage = () => {
       onChangeMessage,
     },
     submitHandler: { create: onSubmitForm },
-  } = useKkogKkogForm();
+  } = useCouponForm();
 
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +34,7 @@ const KkogkkogCreatePage = () => {
             <Styled.GuideContainer>꼭꼭을 완성해보세요!</Styled.GuideContainer>
           ) : (
             receiverList.map(receiver => (
-              <BigKkogKkogItem.Preview
+              <BigCouponItem.Preview
                 key={receiver.id}
                 receiver={receiver}
                 backgroundColor={color}
@@ -46,7 +46,7 @@ const KkogkkogCreatePage = () => {
           )}
         </Styled.PreviewContainer>
         <Styled.Inner>
-          <KkogKkogCreateForm
+          <CouponCreateForm
             currentReceiverList={receiverList}
             currentType={couponType}
             currentModifier={modifier}
@@ -65,7 +65,7 @@ const KkogkkogCreatePage = () => {
   );
 };
 
-export default KkogkkogCreatePage;
+export default CouponCreatePage;
 
 export const Styled = {
   Root: styled.div`

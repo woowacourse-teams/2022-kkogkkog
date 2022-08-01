@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { COUPON_STATUS } from '@/types/client/kkogkkog';
+import { COUPON_STATUS } from '@/types/client/coupon';
 
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;

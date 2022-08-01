@@ -6,42 +6,42 @@ import { Link, useLocation } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import BigKkogKkogItem from '@/@components/kkogkkog/KkogKkogItem/big';
-import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
-import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
-import VerticalKkogKkogList from '@/@components/kkogkkog/KkogKkogList/vertical';
-import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
+import BigCouponItem from '@/@components/coupon/CouponItem/big';
+import SmallCouponItem from '@/@components/coupon/CouponItem/small';
+import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
+import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
+import CouponModal from '@/@components/coupon/CouponModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
-import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
+import { useFetchCouponList } from '@/@hooks/@queries/coupon';
+import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/kkogkkog';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/coupon';
+import { CouponResponse } from '@/types/remote/response';
 
 const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
 
 export type FilterOption = typeof filterOption[number];
 
-const KkogkkogListPage = () => {
-  const { data } = useFetchKkogKkogList();
-  const kkogkkogList = data?.data;
+const CouponListPage = () => {
+  const { data } = useFetchCouponList();
+  const couponList = data?.data;
 
   const couponListType: COUPON_LIST_TYPE =
-    useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
+    useLocation().pathname === PATH.SENT_COUPON_LIST ? 'sent' : 'received';
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
-  const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
+  const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
 
-  const parsedKkogKkogList = useMemo(
+  const parsedCouponList = useMemo(
     () =>
-      kkogkkogList &&
-      kkogkkogList[couponListType].reduce<Record<COUPON_STATUS, KkogKKogResponse[]>>(
-        (prev, kkogkkog) => {
-          const key = kkogkkog.couponStatus;
+      couponList &&
+      couponList[couponListType].reduce<Record<COUPON_STATUS, CouponResponse[]>>(
+        (prev, coupon) => {
+          const key = coupon.couponStatus;
 
-          return { ...prev, [key]: [...prev[key], kkogkkog] };
+          return { ...prev, [key]: [...prev[key], coupon] };
         },
         {
           REQUESTED: [],
@@ -50,18 +50,18 @@ const KkogkkogListPage = () => {
           FINISHED: [],
         }
       ),
-    [kkogkkogList, couponListType]
+    [couponList, couponListType]
   );
 
   const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
   };
 
-  const onClickCouponItem = (kkogkkog: KkogKKogResponse) => {
-    openKkogKkogModal(kkogkkog);
+  const onClickCouponItem = (coupon: CouponResponse) => {
+    openCouponModal(coupon);
   };
 
-  if (!parsedKkogKkogList) {
+  if (!parsedCouponList) {
     return <></>;
   }
 
@@ -80,7 +80,7 @@ const KkogkkogListPage = () => {
             <section>
               <h2>열린 약속</h2>
               <HorizontalCouponList
-                kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
+                couponList={[...parsedCouponList['REQUESTED'], ...parsedCouponList['READY']]}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -88,7 +88,7 @@ const KkogkkogListPage = () => {
             <section>
               <h2>잡은 약속</h2>
               <HorizontalCouponList
-                kkogkkogList={parsedKkogKkogList['ACCEPTED']}
+                couponList={parsedCouponList['ACCEPTED']}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -96,7 +96,7 @@ const KkogkkogListPage = () => {
             <section>
               <h2>지난 약속</h2>
               <HorizontalCouponList
-                kkogkkogList={parsedKkogKkogList['FINISHED']}
+                couponList={parsedCouponList['FINISHED']}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -106,9 +106,9 @@ const KkogkkogListPage = () => {
 
         {status === '열린 약속' && (
           <Styled.Container>
-            <VerticalKkogKkogList
-              kkogkkogList={[...parsedKkogKkogList['REQUESTED'], ...parsedKkogKkogList['READY']]}
-              CouponItem={BigKkogKkogItem}
+            <VerticalCouponList
+              couponList={[...parsedCouponList['REQUESTED'], ...parsedCouponList['READY']]}
+              CouponItem={BigCouponItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -116,9 +116,9 @@ const KkogkkogListPage = () => {
 
         {status === '잡은 약속' && (
           <Styled.Container>
-            <VerticalKkogKkogList
-              kkogkkogList={parsedKkogKkogList['ACCEPTED']}
-              CouponItem={BigKkogKkogItem}
+            <VerticalCouponList
+              couponList={parsedCouponList['ACCEPTED']}
+              CouponItem={BigCouponItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
@@ -126,18 +126,16 @@ const KkogkkogListPage = () => {
 
         {status === '지난 약속' && (
           <Styled.Container>
-            <VerticalKkogKkogList
-              kkogkkogList={parsedKkogKkogList['FINISHED']}
-              CouponItem={BigKkogKkogItem}
+            <VerticalCouponList
+              couponList={parsedCouponList['FINISHED']}
+              CouponItem={BigCouponItem}
               onClickCouponItem={onClickCouponItem}
             />
           </Styled.Container>
         )}
 
-        {currentKkogKkog && (
-          <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
-        )}
-        <Link to={PATH.KKOGKKOG_CREATE} css={Styled.StickyLink}>
+        {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
+        <Link to={PATH.COUPON_CREATE} css={Styled.StickyLink}>
           <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
         </Link>
       </Styled.Root>
@@ -145,17 +143,17 @@ const KkogkkogListPage = () => {
   );
 };
 
-KkogkkogListPage.Skeleton = function Skeleton() {
+CouponListPage.Skeleton = function Skeleton() {
   return (
     <PageTemplate title='꼭꼭 모아보기'>
       <Styled.Root>
-        <VerticalKkogKkogList.Skeleton CouponItemSkeleton={BigKkogKkogItem.Skeleton} />
+        <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
       </Styled.Root>
     </PageTemplate>
   );
 };
 
-export default KkogkkogListPage;
+export default CouponListPage;
 
 export const Styled = {
   Root: styled.div`
@@ -176,7 +174,7 @@ export const Styled = {
       padding: 20px;
     }
 
-    & > section:nth-child(2n) {
+    & > section:nth-of-type(2n) {
       background-color: #ffbb9415;
     }
 

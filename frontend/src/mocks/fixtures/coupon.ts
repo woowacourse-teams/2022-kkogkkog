@@ -1,4 +1,4 @@
-import { COUPON_EVENT, COUPON_STATUS } from '@/types/client/kkogkkog';
+import { COUPON_EVENT, COUPON_STATUS } from '@/types/client/coupon';
 import { UserResponse } from '@/types/remote/response';
 
 export default {
@@ -111,20 +111,20 @@ export default {
     },
   ],
 
-  findReceivedKkogKkogList(loggedUser: UserResponse) {
+  findReceivedCouponList(loggedUser: UserResponse) {
     return this.current.filter(({ receiver: { id: receiverId } }) => loggedUser.id === receiverId);
   },
 
-  findSentKkogKkogList(loggedUser: UserResponse) {
+  findSentCouponList(loggedUser: UserResponse) {
     return this.current.filter(({ sender: { id: senderId } }) => loggedUser.id === senderId);
   },
 
-  findKkogKkog(id: string | readonly string[]) {
+  findCoupon(id: string | readonly string[]) {
     if (typeof id !== 'string') {
       throw new Error('잘못된 접근입니다.');
     }
 
-    return this.current.find(({ id: kkogkkogId }) => Number(id) === kkogkkogId);
+    return this.current.find(({ id: couponId }) => Number(id) === couponId);
   },
 
   getStatusAfterEvent(couponEvent: COUPON_EVENT): COUPON_STATUS {

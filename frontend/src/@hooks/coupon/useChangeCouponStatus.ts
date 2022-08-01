@@ -1,47 +1,47 @@
 import { AxiosResponse } from 'axios';
 import { UseMutationOptions } from 'react-query';
 
-import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
+import { ChangeCouponStatusRequest } from '@/types/remote/request';
 
-import { useChangeKkogKkogStatusMutation } from '../@queries/kkogkkog';
+import { useChangeCouponStatusMutation } from '../@queries/coupon';
 
 type ChangeStatusMutationOptions = Omit<
   UseMutationOptions<
     AxiosResponse<any, any>,
     unknown,
-    { id: number; body: ChangeKkogKkogStatusRequest }
+    { id: number; body: ChangeCouponStatusRequest }
   >,
   'mutationFn'
 >;
 
-const useChangeKkogKkogStatus = (id: number) => {
-  const changeStatusMutate = useChangeKkogKkogStatusMutation();
+const useChangeCouponStatus = (id: number) => {
+  const changeStatusMutate = useChangeCouponStatusMutation();
 
-  const cancelKkogKkog = (options: ChangeStatusMutationOptions) => {
+  const cancelCoupon = (options: ChangeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
   };
 
-  const requestKkogKKog = (
+  const requestCoupon = (
     { meetingDate }: { meetingDate: string },
     options: ChangeStatusMutationOptions
   ) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
   };
 
-  const finishKkogKkog = (options: ChangeStatusMutationOptions) => {
+  const finishCoupon = (options: ChangeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
   };
 
-  const acceptKkogKkog = (options: ChangeStatusMutationOptions) => {
+  const acceptCoupon = (options: ChangeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
   };
 
   return {
-    cancelKkogKkog,
-    requestKkogKKog,
-    finishKkogKkog,
-    acceptKkogKkog,
+    cancelCoupon,
+    requestCoupon,
+    finishCoupon,
+    acceptCoupon,
   };
 };
 
-export default useChangeKkogKkogStatus;
+export default useChangeCouponStatus;

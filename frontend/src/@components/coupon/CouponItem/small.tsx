@@ -1,24 +1,24 @@
 import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
-import CouponStatus from '@/@components/kkogkkog/CouponStatus';
+import CouponStatus from '@/@components/coupon/CouponStatus';
 import { useMe } from '@/@hooks/@queries/user';
-import { THUMBNAIL } from '@/types/client/kkogkkog';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { THUMBNAIL } from '@/types/client/coupon';
+import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './small.style';
 
-export type SmallCouponItemProps = KkogKKogResponse & {
+export type SmallCouponItemProps = CouponResponse & {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 const SmallCouponItem = (props: SmallCouponItemProps) => {
-  const { className, onClick, ...kkogkkog } = props;
+  const { className, onClick, ...coupon } = props;
 
   const { sender, receiver, thumbnail, couponStatus } = {
-    ...kkogkkog,
-    thumbnail: THUMBNAIL[kkogkkog.couponType],
+    ...coupon,
+    thumbnail: THUMBNAIL[coupon.couponType],
   };
 
   const { data: me } = useMe();
