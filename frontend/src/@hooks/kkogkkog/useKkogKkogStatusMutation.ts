@@ -3,7 +3,7 @@ import { UseMutationOptions } from 'react-query';
 
 import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
 
-import { useKkogKkogStatusMutation } from '../@queries/kkogkkog';
+import { useChangeKkogKkogStatusMutation } from '../@queries/kkogkkog';
 
 type kkogkkogActionType = {
   id: number;
@@ -20,7 +20,7 @@ type changeStatusMutationOptions = Omit<
 >;
 
 const useChangeKkogKkogStatus = () => {
-  const changeStatusMutate = useKkogKkogStatusMutation();
+  const changeStatusMutate = useChangeKkogKkogStatusMutation();
 
   const cancelKkogKkog = ({ id }: kkogkkogActionType, options: changeStatusMutationOptions) => {
     changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);

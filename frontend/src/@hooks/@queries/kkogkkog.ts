@@ -33,7 +33,7 @@ export const useCreateKkogKkogMutation = () => {
   });
 };
 
-export const useKkogKkogStatusMutation = () => {
+export const useChangeKkogKkogStatusMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(changeKkogkkogStatus, {
