@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.kkogkkog.exception.auth.ErrorResponseToGetAccessTokenException;
+import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +68,7 @@ class SlackClientTest {
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         assertThatThrownBy(() -> slackClient.getUserInfoByCode("code"))
-            .isInstanceOf(ErrorResponseToGetAccessTokenException.class);
+            .isInstanceOf(AccessTokenRetrievalFailedException.class);
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {

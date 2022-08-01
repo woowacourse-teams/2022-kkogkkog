@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
-import com.woowacourse.kkogkkog.exception.auth.ErrorResponseToGetAccessTokenException;
-import com.woowacourse.kkogkkog.exception.auth.UnableToGetTokenResponseException;
-import com.woowacourse.kkogkkog.exception.auth.UnableToGetUserInfoResponseException;
+import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -62,7 +62,7 @@ public class SlackClient {
             .retrieve()
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
             .blockOptional()
-            .orElseThrow(UnableToGetTokenResponseException::new);
+            .orElseThrow(AccessTokenRequestFailedException::new);
         validateResponseBody(responseBody);
 
         return responseBody.get("access_token").toString();
@@ -83,7 +83,8 @@ public class SlackClient {
 
     private void validateResponseBody(Map<String, Object> responseBody) {
         if (!responseBody.containsKey("access_token")) {
-            throw new ErrorResponseToGetAccessTokenException(responseBody.get("error").toString());
+            throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
+            // TODO: responseBody.get("error") 값 활용하여 로그 남기기
         }
     }
 
@@ -94,6 +95,6 @@ public class SlackClient {
             .retrieve()
             .bodyToMono(SlackUserInfo.class)
             .blockOptional()
-            .orElseThrow(UnableToGetUserInfoResponseException::new);
+            .orElseThrow(OAuthUserInfoRequestFailedException::new);
     }
 }
