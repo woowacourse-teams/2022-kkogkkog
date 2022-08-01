@@ -26,12 +26,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE));
         회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
 
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
-            .when()
-            .get("/api/members")
-            .then().log().all()
-            .extract();
-
+        ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
             .getList("data", MemberResponse.class);
         SuccessResponse<List<MemberResponse>> membersResponse = new SuccessResponse<>(members);
@@ -54,13 +49,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
         회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
 
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(rookieAccessToken)
-            .get("/api/members/me")
-            .then().log().all()
-            .extract();
-
+        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         MemberResponse memberResponse = extract.as(MemberResponse.class);
 
         assertAll(
@@ -76,24 +65,38 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String newNickname = "새로운_닉네임";
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
 
-        RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(rookieAccessToken)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(new MemberNicknameUpdateRequest(newNickname))
-            .put("/api/members/me/nickname")
-            .then().log().all()
-            .extract();
-
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(rookieAccessToken)
-            .get("/api/members/me")
-            .then().log().all()
-            .extract();
-
+        닉네임_수정을_성공하고(newNickname, rookieAccessToken);
+        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         String actual = extract.as(MemberResponse.class).getNickname();
 
         assertThat(actual).isEqualTo(newNickname);
+    }
+
+    private ExtractableResponse<Response> 본인_정보_조회를_요청한다(String accessToken) {
+        return RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(accessToken)
+            .get("/api/members/me")
+            .then().log().all()
+            .extract();
+    }
+
+    private ExtractableResponse<Response> 전체_사용자_조회를_요청한다() {
+        return RestAssured.given().log().all()
+            .when()
+            .get("/api/members")
+            .then().log().all()
+            .extract();
+    }
+
+    private void 닉네임_수정을_성공하고(String nickname, String accessToken) {
+        RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(accessToken)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(new MemberNicknameUpdateRequest(nickname))
+            .put("/api/members/me/nickname")
+            .then().log().all()
+            .extract();
     }
 }
