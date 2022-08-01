@@ -4,11 +4,13 @@ import com.woowacourse.kkogkkog.application.dto.CouponChangeStatusRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.domain.Coupon;
+import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import java.util.List;
@@ -85,6 +87,13 @@ public class CouponService {
         Member loginMember = findMember(couponChangeStatusRequest.getLoginMemberId());
         Coupon coupon = findCoupon(couponChangeStatusRequest.getCouponId());
         coupon.changeStatus(couponChangeStatusRequest.getEvent(), loginMember);
+
+        if (couponChangeStatusRequest.getEvent() == CouponEvent.REQUEST) {
+            if (couponChangeStatusRequest.getMeetingDate() == null) {
+                throw new InvalidRequestException("사용요청을 보낼땐 약속날짜가 필요합니다.");
+            }
+            coupon.updateMeetingDate(couponChangeStatusRequest.getMeetingDate());
+        }
     }
 
     private Member findMember(Long memberId) {

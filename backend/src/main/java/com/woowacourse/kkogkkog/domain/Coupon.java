@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.domain;
 
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -48,6 +49,9 @@ public class Coupon {
     @Column(nullable = false)
     private CouponStatus couponStatus;
 
+    @Column
+    private LocalDate meetingDate;
+
     public Coupon(Member sender, Member receiver, String modifier, String message,
                   String backgroundColor,
                   CouponType couponType, CouponStatus couponStatus) {
@@ -67,6 +71,20 @@ public class Coupon {
         this.couponStatus = couponStatus;
     }
 
+    public Coupon(Long id, Member sender, Member receiver, String modifier, String message,
+                  String backgroundColor, CouponType couponType,
+                  CouponStatus couponStatus, LocalDate meetingDate) {
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.modifier = modifier;
+        this.message = message;
+        this.backgroundColor = backgroundColor;
+        this.couponType = couponType;
+        this.couponStatus = couponStatus;
+        this.meetingDate = meetingDate;
+    }
+
     private void validateSameMember(Member sender, Member receiver) {
         if (sender.equals(receiver)) {
             throw new SameSenderReceiverException();
@@ -76,5 +94,9 @@ public class Coupon {
     public void changeStatus(CouponEvent event, Member member) {
         event.checkExecutable(sender.equals(member), receiver.equals(member));
         this.couponStatus = couponStatus.handle(event);
+    }
+
+    public void updateMeetingDate(LocalDate meetingTime) {
+        this.meetingDate = meetingTime;
     }
 }

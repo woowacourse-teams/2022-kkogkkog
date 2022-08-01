@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -277,6 +278,24 @@ public class CouponTest {
                 assertThatThrownBy(() -> coupon.changeStatus(CouponEvent.FINISH, receiver))
                     .isInstanceOf(InvalidRequestException.class);
             }
+        }
+    }
+
+    @Nested
+    @DisplayName("updateMeetingDate 메서드는")
+    class UpdateMeetingDate {
+
+        @Test
+        @DisplayName("시간을 받으면 쿠폰의 meetingDate 를 추가한다.")
+        void success() {
+            Member sender = MemberFixture.ROOKIE;
+            Member receiver = MemberFixture.ARTHUR;
+            Coupon coupon = new Coupon(null, sender, receiver, "한턱쏘는", "추가 메세지", "#241223",
+                CouponType.COFFEE, CouponStatus.REQUESTED);
+
+            coupon.updateMeetingDate(LocalDate.of(2022, 07, 27));
+
+            assertThat(coupon.getMeetingDate()).isNotNull();
         }
     }
 }
