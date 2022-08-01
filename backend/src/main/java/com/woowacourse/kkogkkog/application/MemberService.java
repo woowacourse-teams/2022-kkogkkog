@@ -2,11 +2,11 @@ package com.woowacourse.kkogkkog.application;
 
 import static java.util.stream.Collectors.toList;
 
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -30,13 +30,13 @@ public class MemberService {
 
         return memberRepository.findByUserId(userId)
             .stream()
-            .map(member -> update(member, imageUrl))
+            .map(member -> updateImageUrl(member, imageUrl))
             .findFirst()
             .orElseGet(() ->
                 save(new Member(null, userId, workspaceId, nickname, imageUrl)));
     }
 
-    private MemberCreateResponse update(Member member, String imageUrl) {
+    private MemberCreateResponse updateImageUrl(Member member, String imageUrl) {
         member.updateImageURL(imageUrl);
         return new MemberCreateResponse(member.getId(), false);
     }
@@ -54,9 +54,17 @@ public class MemberService {
         return MemberResponse.of(findMember);
     }
 
+    @Transactional(readOnly = true)
     public List<MemberResponse> findAll() {
         return memberRepository.findAll().stream()
             .map(MemberResponse::of)
             .collect(toList());
+    }
+
+    public void updateNickname(Long memberId, String nickname) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+
+        member.updateNickname(nickname);
     }
 }
