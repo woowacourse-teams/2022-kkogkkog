@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import CouponStatus from '@/@components/kkogkkog/CouponStatus';
-import useMe from '@/@hooks/user/useMe';
+import { useMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/kkogkkog';
 import { KkogKKogResponse } from '@/types/remote/response';
 import { extractDate } from '@/utils';
@@ -36,7 +36,7 @@ const BigKkogKkogItem = (props: BigKkogKkogItemProps) => {
     thumbnail: THUMBNAIL[kkogkkog.couponType],
   };
 
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   const meetingDateText = extractDate(meetingDate);
 

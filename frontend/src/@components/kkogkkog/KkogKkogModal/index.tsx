@@ -3,8 +3,8 @@ import { ChangeEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import useKkogKkogStatusMutation from '@/@hooks/kkogkkog/useKkogKkogStatusMutation';
-import useMe from '@/@hooks/user/useMe';
+import { useMe } from '@/@hooks/@queries/user';
+import useChangeKkogKkogStatus from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
 import { ANIMATION_DURATION } from '@/constants/animation';
 import { KkogKKogResponse } from '@/types/remote/response';
 import { getToday } from '@/utils';
@@ -63,14 +63,14 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   const { kkogkkog, closeModal } = props;
   const { id, sender, couponStatus } = kkogkkog;
 
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   const [animation, setAnimation] = useState(false);
 
   const [meetingDate, setMeetingDate] = useState('');
 
   const { cancelKkogKkog, requestKkogKKog, finishKkogKkog, acceptKkogKkog } =
-    useKkogKkogStatusMutation();
+    useChangeKkogKkogStatus(id);
 
   const isSent = me?.id === sender.id;
 
@@ -94,14 +94,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickCancelButton = () => {
-    cancelKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    cancelKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   const onClickRequestButton = () => {
@@ -111,7 +108,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       return;
     }
     requestKkogKKog(
-      { id, meetingDate },
+      { meetingDate },
       {
         onSuccess() {
           onCloseModal();
@@ -121,25 +118,19 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickFinishButton = () => {
-    finishKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    finishKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   const onClickAcceptButton = () => {
-    acceptKkogKkog(
-      { id },
-      {
-        onSuccess() {
-          onCloseModal();
-        },
-      }
-    );
+    acceptKkogKkog({
+      onSuccess() {
+        onCloseModal();
+      },
+    });
   };
 
   return (

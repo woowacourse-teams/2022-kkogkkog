@@ -12,7 +12,7 @@ import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal
 import VerticalKkogKkogList from '@/@components/kkogkkog/KkogKkogList/vertical';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
+import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
@@ -24,10 +24,11 @@ const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속
 export type FilterOption = typeof filterOption[number];
 
 const KkogkkogListPage = () => {
+  const { data } = useFetchKkogKkogList();
+  const kkogkkogList = data?.data;
+
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_KKOGKKOG_LIST ? 'sent' : 'received';
-
-  const { kkogkkogList } = useKkogKkogList();
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 

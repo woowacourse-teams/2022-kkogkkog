@@ -9,9 +9,9 @@ import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
-import { useKkogKkogList } from '@/@hooks/kkogkkog/useKkogKkogList';
+import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
+import { useMe } from '@/@hooks/@queries/user';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
-import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
 import { KkogKKogResponse } from '@/types/remote/response';
 
@@ -67,7 +67,8 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
-  const { kkogkkogList, isLoading } = useKkogKkogList();
+  const { data, isLoading } = useFetchKkogKkogList();
+  const kkogkkogList = data?.data;
 
   const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
 
@@ -160,7 +161,7 @@ const AuthorizedLanding = () => {
 };
 
 const LandingPage = () => {
-  const { me } = useMe();
+  const { data: me } = useMe();
 
   return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
 };

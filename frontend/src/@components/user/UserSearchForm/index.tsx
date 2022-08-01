@@ -7,7 +7,7 @@ import { UserListResponse, UserResponse } from '@/types/remote/response';
 import * as Styled from './style';
 
 interface UserSearchFormProps {
-  currentReceiverList: UserListResponse;
+  currentReceiverList: UserResponse[];
   onSelectReceiver: (user: UserResponse) => void;
 }
 
@@ -55,8 +55,8 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 };
 
 interface UserSearchResultProps {
-  searchedUserList: UserListResponse | undefined;
-  currentReceiverList: UserListResponse;
+  searchedUserList: UserResponse[] | undefined;
+  currentReceiverList: UserResponse[];
   onSelectReceiver: (user: UserResponse) => void;
 }
 

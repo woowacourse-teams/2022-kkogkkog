@@ -1,16 +1,47 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { UseMutationOptions } from 'react-query';
 
-import { changeKkogkkogStatus } from '@/apis/kkogkkog';
+import { ChangeKkogKkogStatusRequest } from '@/types/remote/request';
 
-export const useChangeKkogKkogStatus = () => {
-  const queryClient = useQueryClient();
+import { useChangeKkogKkogStatusMutation } from '../@queries/kkogkkog';
 
-  return useMutation(changeKkogkkogStatus, {
-    onSuccess() {
-      queryClient.invalidateQueries('kkogkkogList');
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
-    },
-  });
+type ChangeStatusMutationOptions = Omit<
+  UseMutationOptions<
+    AxiosResponse<any, any>,
+    unknown,
+    { id: number; body: ChangeKkogKkogStatusRequest }
+  >,
+  'mutationFn'
+>;
+
+const useChangeKkogKkogStatus = (id: number) => {
+  const changeStatusMutate = useChangeKkogKkogStatusMutation();
+
+  const cancelKkogKkog = (options: ChangeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'CANCEL' } }, options);
+  };
+
+  const requestKkogKKog = (
+    { meetingDate }: { meetingDate: string },
+    options: ChangeStatusMutationOptions
+  ) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'REQUEST', meetingDate } }, options);
+  };
+
+  const finishKkogKkog = (options: ChangeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'FINISH' } }, options);
+  };
+
+  const acceptKkogKkog = (options: ChangeStatusMutationOptions) => {
+    changeStatusMutate.mutate({ id, body: { couponEvent: 'ACCEPT' } }, options);
+  };
+
+  return {
+    cancelKkogKkog,
+    requestKkogKKog,
+    finishKkogKkog,
+    acceptKkogKkog,
+  };
 };
+
+export default useChangeKkogKkogStatus;

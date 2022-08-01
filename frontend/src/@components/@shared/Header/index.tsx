@@ -1,8 +1,6 @@
-import { css } from '@emotion/react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
-import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 

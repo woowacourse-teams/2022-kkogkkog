@@ -19,9 +19,13 @@ export interface UserResponse {
   nickname: string;
 }
 
-export type UserListResponse = UserResponse[];
+export type UserListResponse = { data: UserResponse[] };
 
 export interface LoginResponse {
+  accessToken: string;
+}
+
+export interface OAuthLoginResponse {
   accessToken: string;
   isCreated: boolean;
 }
@@ -38,4 +42,4 @@ export interface KkogKKogResponse {
   meetingDate?: string;
 }
 
-export type KkogKkogListResponse = Record<COUPON_LIST_TYPE, KkogKKogResponse[]>;
+export type KkogKkogListResponse = { data: Record<COUPON_LIST_TYPE, KkogKKogResponse[]> };

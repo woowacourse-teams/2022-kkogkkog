@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import useMe from '@/@hooks/user/useMe';
+import { useMe } from '@/@hooks/@queries/user';
 import { client } from '@/apis';
 import { PATH } from '@/Router';
 
