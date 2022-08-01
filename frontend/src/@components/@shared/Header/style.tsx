@@ -29,8 +29,8 @@ export const Root = styled.div`
 export const Logo = styled.div``;
 
 export const Title = styled.div`
-  font-size: 18px;
-  padding-left: 24px;
+  font-size: 16px;
+  padding-left: 12px;
 
   flex: 1;
 `;
