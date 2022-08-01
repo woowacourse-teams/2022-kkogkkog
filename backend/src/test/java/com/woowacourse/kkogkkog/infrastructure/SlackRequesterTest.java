@@ -36,8 +36,8 @@ class SlackRequesterTest {
 
     @Test
     @DisplayName("인증 서버로 코드를 보내 엑세스 토큰을 받아와 정보를 조회한다.")
-    void getUserInfoByCode() {
-        try (MockWebServer mockWebServer = new MockWebServer()) {
+    void getUserInfoByCode() throws IOException {
+            MockWebServer mockWebServer = new MockWebServer();
             mockWebServer.start();
 
             setUpResponse(mockWebServer, SLACK_TOKEN_RESPONSE);
@@ -56,8 +56,6 @@ class SlackRequesterTest {
 
             assertThat(userId).isEqualTo(USER_ID);
             mockWebServer.shutdown();
-        } catch (IOException ignored) {
-        }
     }
 
     @Test
