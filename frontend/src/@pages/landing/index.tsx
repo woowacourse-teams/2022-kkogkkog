@@ -10,8 +10,8 @@ import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
 import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
 import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
 import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
+import { useMe } from '@/@hooks/@queries/user';
 import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
-import useMe from '@/@hooks/user/useMe';
 import { PATH } from '@/Router';
 import { KkogKKogResponse } from '@/types/remote/response';
 

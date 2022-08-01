@@ -23,6 +23,10 @@ export type UserListResponse = { data: UserResponse[] };
 
 export interface LoginResponse {
   accessToken: string;
+}
+
+export interface OAuthLoginResponse {
+  accessToken: string;
   isCreated: boolean;
 }
 

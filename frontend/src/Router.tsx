@@ -10,7 +10,7 @@ import KkogkkogCreatePage from '@/@pages/kkogkkog-list/create';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
-import useMe from './@hooks/user/useMe';
+import { useMe } from './@hooks/@queries/user';
 import LoginPage from './@pages/login';
 import LoginRedirect from './@pages/login/redirect';
 

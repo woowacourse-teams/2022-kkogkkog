@@ -1,12 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
-import { useToast } from '@/@hooks/@common/useToast';
-import { client } from '@/apis';
-import { join, login } from '@/apis/user';
-
-import useMe from './useMe';
+import { useJoinMutation, useLoginMutation } from '../@queries/user';
 
 type UseAuthenticateFormProps = {
   defaultEmail?: string;
@@ -23,49 +17,14 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     defaultName = '',
   } = props;
 
-  const { displayMessage } = useToast();
-
   const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState(defaultPassword);
   const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
   const [name, setName] = useState(defaultName);
 
-  const navigate = useNavigate();
+  const joinMutate = useJoinMutation();
 
-  const { remove } = useMe();
-
-  const { mutate: joinMutate } = useMutation(join, {
-    onSuccess: () => {
-      navigate('/login');
-    },
-    onError() {
-      alert('회원가입에 실패했습니다.');
-    },
-  });
-
-  const { mutate: loginMutate } = useMutation(login, {
-    onSuccess: (data, variables, context) => {
-      const {
-        data: { accessToken },
-      } = data;
-
-      localStorage.setItem('user-token', accessToken);
-
-      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      remove();
-
-      navigate('/');
-    },
-    onError({
-      response: {
-        data: { error },
-      },
-    }) {
-      // console.log(error);
-      displayMessage(error, true);
-    },
-  });
+  const loginMutate = useLoginMutation();
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -110,7 +69,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const onSubmitJoinForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    joinMutate({
+    joinMutate.mutate({
       email,
       password,
       nickname: name,
@@ -120,7 +79,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    loginMutate({
+    loginMutate.mutate({
       email,
       password,
     });

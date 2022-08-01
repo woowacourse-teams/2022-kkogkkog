@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
-import { useLoginMutation } from '@/@hooks/@queries/user';
+import { useOAuthLoginMutation } from '@/@hooks/@queries/user';
 import { client } from '@/apis';
 
 const LoginRedirect = () => {
@@ -11,7 +11,7 @@ const LoginRedirect = () => {
 
   const code = useGetSearchParam('code');
 
-  const loginMutate = useLoginMutation();
+  const loginMutate = useOAuthLoginMutation();
 
   useEffect(() => {
     if (code) {

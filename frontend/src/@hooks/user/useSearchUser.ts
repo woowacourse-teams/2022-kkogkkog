@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useMe from '@/@hooks/user/useMe';
-import useUserList from '@/@hooks/user/useUserList';
+import { useMe, useUserList } from '@/@hooks/@queries/user';
 import { UserResponse } from '@/types/remote/response';
 
 export const useSearchUser = () => {
