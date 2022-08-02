@@ -14,4 +14,4 @@ operation::member-showMe[snippets='http-request,http-response,response-fields']
 operation::member-showAll[snippets='http-request,http-response,response-fields']
 
 == 닉네임 수정
-operation::member-updateNickname[snippets='http-request,http-response,response-fields']
+operation::member-update[snippets='http-request,http-response,response-fields']
