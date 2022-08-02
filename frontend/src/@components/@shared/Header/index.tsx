@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 
@@ -17,7 +17,7 @@ const Header = (props: HeaderProps) => {
 
   const isLandingPage = useLocation().pathname === PATH.LANDING;
 
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   return (
     <Styled.Root className={className}>

@@ -1,7 +1,7 @@
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
 
 import * as Styled from './style';
@@ -13,7 +13,7 @@ const ProfileEditPage = () => {
     submitHandler: { edit: onSubmitEditedForm },
   } = useAuthenticateForm();
 
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   return (
     <PageTemplate title='프로필 수정'>

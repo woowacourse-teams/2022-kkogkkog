@@ -1,9 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { client } from '@/apis';
 import { editMe, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
-import { PATH } from '@/Router';
 
 import { useToast } from '../@common/useToast';
 
@@ -13,7 +11,6 @@ const QUERY_KEY = {
 };
 
 /** Query */
-
 export const useFetchMe = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
