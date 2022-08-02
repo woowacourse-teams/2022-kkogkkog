@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +78,7 @@ class SlackClientTest {
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
-        assertThatThrownBy(() -> slackClient.getUserInfoByCode("code"))
+        assertThatThrownBy(() -> slackClient.getUserInfoByCode("invalid_code"))
             .isInstanceOf(AccessTokenRetrievalFailedException.class);
     }
 
@@ -95,6 +96,19 @@ class SlackClientTest {
             "xoxb-bot-access-token");
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("봇 등록에 실패하면 예외를 던진다")
+    void requestBotAccessToken_fail() throws IOException {
+        MockWebServer mockWebServer = new MockWebServer();
+        mockWebServer.start();
+
+        setUpResponse(mockWebServer, "{\"ok\":false}");
+        SlackClient slackClient = buildMockSlackClient(mockWebServer);
+
+        assertThatThrownBy(() -> slackClient.requestBotAccessToken("invalid_code"))
+            .isInstanceOf(BotInstallationFailedException.class);
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {

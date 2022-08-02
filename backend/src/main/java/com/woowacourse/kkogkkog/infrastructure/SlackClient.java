@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.infrastructure;
 
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -103,7 +104,7 @@ public class SlackClient {
             .orElseThrow(AccessTokenRequestFailedException::new);
 
         if (!botTokenResponse.getOk()) {
-            throw new AccessTokenRetrievalFailedException("슬랙 봇 등록에 실패하였습니다.");
+            throw new BotInstallationFailedException("슬랙 봇 등록에 실패하였습니다.");
         }
         return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
             botTokenResponse.getTeam().getName(),
