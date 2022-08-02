@@ -93,7 +93,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickCancelButton = () => {
     cancelCoupon({
-      onSuccessCallback: () => {
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -109,7 +109,7 @@ const CouponModal = (props: CouponItemProps) => {
     requestCoupon(
       { meetingDate },
       {
-        onSuccessCallback: () => {
+        onSuccessCallback() {
           onCloseModal();
         },
       }
@@ -118,7 +118,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickFinishButton = () => {
     finishCoupon({
-      onSuccessCallback: () => {
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -126,7 +126,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickAcceptButton = () => {
     acceptCoupon({
-      onSuccessCallback: () => {
+      onSuccessCallback() {
         onCloseModal();
       },
     });
