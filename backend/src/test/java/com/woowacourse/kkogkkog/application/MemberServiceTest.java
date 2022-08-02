@@ -129,7 +129,7 @@ class MemberServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = new CouponSaveRequest(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
             couponService.save(couponSaveRequest);
 
-            List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(rookieCreateResponse.getId());
+            List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(arthurCreateResponse.getId());
 
             assertThat(historiesResponse).hasSize(1);
         }
