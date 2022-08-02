@@ -56,9 +56,7 @@ const LoginPage = () => {
           />
           <button type='submit'>로그인</button>
         </Styled.LoginForm>
-        <Styled.SlackLink
-          href={`https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=${process.env.CLIENT_ID}`}
-        >
+        <Styled.SlackLink href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3863202543751'>
           <Icon iconName='slack' size='20' />
           슬랙으로 로그인
         </Styled.SlackLink>
