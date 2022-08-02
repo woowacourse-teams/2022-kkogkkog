@@ -63,7 +63,7 @@ public class CouponService {
         List<Coupon> savedCoupons = couponRepository.saveAll(coupons);
 
         for (Coupon savedCoupon : savedCoupons) {
-            saveMemberHistory(savedCoupon.getSender(), savedCoupon.getReceiver(), savedCoupon, CouponEvent.INIT);
+            saveMemberHistory(savedCoupon.getReceiver(), savedCoupon.getSender(), savedCoupon, CouponEvent.INIT);
         }
         return savedCoupons.stream()
             .map(CouponResponse::of)
@@ -105,8 +105,8 @@ public class CouponService {
             coupon.updateMeetingDate(couponChangeStatusRequest.getMeetingDate());
         }
 
-        Member targetMember = coupon.getOppositeMember(loginMember);
-        saveMemberHistory(loginMember, targetMember, coupon, couponChangeStatusRequest.getEvent());
+        Member hostMember = coupon.getOppositeMember(loginMember);
+        saveMemberHistory(hostMember, loginMember, coupon, couponChangeStatusRequest.getEvent());
     }
 
     private Member findMember(Long memberId) {
