@@ -1,5 +1,9 @@
 import { COUPON_ENG_TYPE, COUPON_EVENT } from '@/types/client/coupon';
 
+import { MeResponse } from './response';
+
+export type EditMeRequest = Pick<MeResponse, 'nickname'>;
+
 export interface JoinRequest {
   nickname: string;
   email: string;

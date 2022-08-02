@@ -1,7 +1,9 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { client } from '@/apis';
-import { getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
+import { editMe, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
+import { PATH } from '@/Router';
 
 import { useToast } from '../@common/useToast';
 
@@ -36,6 +38,17 @@ export const useFetchUserList = () => {
 };
 
 /** Mutation */
+export const useEditMeMutation = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation(editMe, {
+    onSuccess() {
+      queryClient.invalidateQueries(QUERY_KEY.me);
+      navigate(PATH.PROFILE);
+    },
+  });
+};
 
 export const useOAuthLoginMutation = () => {
   return useMutation(OAuthLogin, {

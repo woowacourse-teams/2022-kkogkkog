@@ -13,6 +13,7 @@ import ProfilePage from '@/@pages/profile';
 import { useFetchMe } from './@hooks/@queries/user';
 import LoginPage from './@pages/login';
 import LoginRedirect from './@pages/login/redirect';
+import ProfileEditPage from './@pages/profile/edit';
 
 export const PATH = {
   LANDING: '/',
@@ -24,6 +25,7 @@ export const PATH = {
   LOGIN_REDIRECT: '/login/redirect',
   JOIN: '/join',
   PROFILE: '/profile',
+  PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
 };
 
@@ -67,6 +69,7 @@ const Router = () => {
           }
         />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
+        <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
       </Route>
       <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
