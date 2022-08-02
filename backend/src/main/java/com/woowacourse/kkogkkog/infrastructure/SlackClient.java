@@ -18,11 +18,15 @@ import org.springframework.web.util.UriBuilder;
 @Component
 public class SlackClient {
 
-    private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
-    private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final String LOGIN_URI = "https://slack.com/api/openid.connect.token";
+    private static final String LOGIN_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
+    private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
+    private static final String BOT_TOKEN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
+    private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
 
@@ -33,8 +37,9 @@ public class SlackClient {
 
     public SlackClient(@Value("${security.slack.client-id}") String clientId,
                        @Value("${security.slack.secret-id}") String secretId,
-                       @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
-                       @Value(OAUTH_USER_INFO) String userInfoUri,
+                       @Value(LOGIN_URI) String oAuthLoginUri,
+                       @Value(LOGIN_USER_INFO) String userInfoUri,
+                       @Value(BOT_TOKEN_URI) String botTokenUri,
                        WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
@@ -57,7 +62,7 @@ public class SlackClient {
     private String requestAccessToken(String code) {
         Map<String, Object> responseBody = oAuthLoginClient
             .post()
-            .uri(uriBuilder -> toRequestTokenUri(code, uriBuilder))
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, LOGIN_REDIRECT_URL))
             .headers(this::setHeaders)
             .retrieve()
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
@@ -68,11 +73,12 @@ public class SlackClient {
         return responseBody.get("access_token").toString();
     }
 
-    private URI toRequestTokenUri(String code, UriBuilder uriBuilder) {
+    private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
         return uriBuilder
             .queryParam(CODE_PARAMETER, code)
             .queryParam(CLIENT_ID_PARAMETER, clientId)
             .queryParam(SECRET_ID_PARAMETER, secretId)
+            .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
             .build();
     }
 
