@@ -1,4 +1,4 @@
-import { kkogkkogHandler } from '@/mocks/handlers/kkogkkog';
+import { couponHandler } from '@/mocks/handlers/coupon';
 import { userHandler } from '@/mocks/handlers/user';
 
-export const handlers = [...kkogkkogHandler, ...userHandler];
+export const handlers = [...couponHandler, ...userHandler];

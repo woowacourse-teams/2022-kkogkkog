@@ -1,23 +1,26 @@
 import { css } from '@emotion/react';
-import { ChangeEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import { useMe } from '@/@hooks/@queries/user';
-import useChangeKkogKkogStatus from '@/@hooks/kkogkkog/useChangeKkogKkogStatus';
+import { useFetchMe } from '@/@hooks/@queries/user';
+import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
 import { ANIMATION_DURATION } from '@/constants/animation';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { COUPON_STATUS } from '@/types/client/coupon';
+import { CouponResponse } from '@/types/remote/response';
 import { getToday } from '@/utils';
 
-import BigKkogKkogItem from '../KkogKkogItem/big';
+import BigCouponItem from '../CouponItem/big';
 import * as Styled from './style';
 
-interface KkogKkogItemProps {
-  kkogkkog: KkogKKogResponse;
+interface CouponItemProps {
+  coupon: CouponResponse;
   closeModal: () => void;
 }
 
-const receivedKkogkkogModalMapper = {
+type buttonType = '취소' | '완료' | '요청' | '승인';
+
+const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 취소하시겠어요?',
     buttons: ['취소'],
@@ -36,7 +39,7 @@ const receivedKkogkkogModalMapper = {
   },
 };
 
-const sentKkogkkogModalMapper = {
+const sentCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 승인하시겠어요?',
     buttons: ['승인'],
@@ -55,28 +58,23 @@ const sentKkogkkogModalMapper = {
   },
 };
 
-// 꼭꼭의 상태에 따라, 로그인 한 유저에게 어떤 꼭꼭인지에 따라 (내가 보낸건지, 받은건지) -> 모달은 이 정보에만 따라야함
-// 꼭꼭의 상태를 변경하는 모달이니.. 이름을 제대로 줘봐야하지 않을까?
-// 버튼은 상태 변경 액션 별로 한개씩 있다.
+const CouponModal = (props: CouponItemProps) => {
+  const { coupon, closeModal } = props;
+  const { id, sender, couponStatus } = coupon;
 
-const KkogKkogModal = (props: KkogKkogItemProps) => {
-  const { kkogkkog, closeModal } = props;
-  const { id, sender, couponStatus } = kkogkkog;
-
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   const [animation, setAnimation] = useState(false);
 
   const [meetingDate, setMeetingDate] = useState('');
 
-  const { cancelKkogKkog, requestKkogKKog, finishKkogKkog, acceptKkogKkog } =
-    useChangeKkogKkogStatus(id);
+  const { cancelCoupon, requestCoupon, finishCoupon, acceptCoupon } = useChangeCouponStatus(id);
 
   const isSent = me?.id === sender.id;
 
   const { title, buttons } = isSent
-    ? sentKkogkkogModalMapper[couponStatus]
-    : receivedKkogkkogModalMapper[couponStatus];
+    ? sentCouponModalMapper[couponStatus]
+    : receivedCouponModalMapper[couponStatus];
 
   const onChangeMeetingDate: ChangeEventHandler<HTMLInputElement> = e => {
     const {
@@ -94,8 +92,8 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickCancelButton = () => {
-    cancelKkogKkog({
-      onSuccess() {
+    cancelCoupon({
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -107,10 +105,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
 
       return;
     }
-    requestKkogKKog(
+
+    requestCoupon(
       { meetingDate },
       {
-        onSuccess() {
+        onSuccessCallback() {
           onCloseModal();
         },
       }
@@ -118,16 +117,16 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
   };
 
   const onClickFinishButton = () => {
-    finishKkogKkog({
-      onSuccess() {
+    finishCoupon({
+      onSuccessCallback() {
         onCloseModal();
       },
     });
   };
 
   const onClickAcceptButton = () => {
-    acceptKkogKkog({
-      onSuccess() {
+    acceptCoupon({
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -140,12 +139,12 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
       animation={animation}
       closeModal={onCloseModal}
     >
-      <BigKkogKkogItem
+      <BigCouponItem
         key={id}
         css={css`
           margin-bottom: 16px;
         `}
-        {...kkogkkog}
+        {...coupon}
       />
 
       {!isSent && couponStatus === 'READY' && (
@@ -160,7 +159,7 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
 
       <Styled.ButtonContainer>
         {buttons.map(buttonType => (
-          <>
+          <React.Fragment key={buttonType}>
             {buttonType === '취소' && (
               <Button onClick={onClickCancelButton} css={Styled.ExtendedButton}>
                 사용 취소
@@ -181,11 +180,11 @@ const KkogKkogModal = (props: KkogKkogItemProps) => {
                 사용 승인
               </Button>
             )}
-          </>
+          </React.Fragment>
         ))}
       </Styled.ButtonContainer>
     </Modal.WithHeader>
   );
 };
 
-export default KkogKkogModal;
+export default CouponModal;

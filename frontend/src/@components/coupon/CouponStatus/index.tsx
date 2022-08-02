@@ -1,5 +1,5 @@
 import theme from '@/styles/theme';
-import { COUPON_STATUS } from '@/types/client/kkogkkog';
+import { COUPON_STATUS } from '@/types/client/coupon';
 
 import * as Styled from './style';
 

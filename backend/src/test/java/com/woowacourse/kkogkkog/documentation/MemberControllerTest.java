@@ -8,7 +8,9 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -18,9 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
-import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -118,7 +121,8 @@ public class MemberControllerTest extends Documentation {
         // then
         perform.andExpect(status().isOk())
             .andExpect(
-                content().string(objectMapper.writeValueAsString(new MemberHistoriesResponse(historiesResponse))));
+                content().string(objectMapper.writeValueAsString(
+                    new MemberHistoriesResponse(historiesResponse))));
 
         // docs
         perform
@@ -131,12 +135,48 @@ public class MemberControllerTest extends Documentation {
                 ),
                 responseFields(
                     fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("기록 ID"),
-                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("이벤트를 보낸 사용자의 이름"),
-                    fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING).description("이벤트를 보낸 사용자 프로필 주소"),
-                    fieldWithPath("data.[].couponId").type(JsonFieldType.NUMBER).description("이벤트에 해당하는 쿠폰 ID"),
-                    fieldWithPath("data.[].couponType").type(JsonFieldType.STRING).description("이벤트에 해당하는 쿠폰 타입"),
-                    fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING).description("이벤트에 쿠폰 이벤트"),
+                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자의 이름"),
+                    fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자 프로필 주소"),
+                    fieldWithPath("data.[].couponId").type(JsonFieldType.NUMBER)
+                        .description("이벤트에 해당하는 쿠폰 ID"),
+                    fieldWithPath("data.[].couponType").type(JsonFieldType.STRING)
+                        .description("이벤트에 해당하는 쿠폰 타입"),
+                    fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
+                        .description("이벤트에 쿠폰 이벤트"),
                     fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜")
+                ))
+            );
+    }
+
+    @Test
+    void 나의_닉네임_수정을_요청할_수_있다() throws Exception {
+        // given
+        MemberUpdateMeRequest memberUpdateMeRequest = new MemberUpdateMeRequest(
+            "새로운_닉네임");
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+
+        // when
+        ResultActions perform = mockMvc.perform(put("/api/members/me/nickname")
+            .header("Authorization", "Bearer AccessToken")
+            .content(objectMapper.writeValueAsString(memberUpdateMeRequest))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        perform.andExpect(status().isOk());
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-update",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestHeaders(
+                    headerWithName("Authorization").description("Bearer {accessToken}")
+                ),
+                requestFields(
+                    fieldWithPath("nickname").type(JsonFieldType.STRING).description("ID")
                 ))
             );
     }

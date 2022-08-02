@@ -1,10 +1,10 @@
 import {
+  COUPON_COLORS,
+  COUPON_ENG_TYPE,
   COUPON_LIST_TYPE,
+  COUPON_MODIFIERS,
   COUPON_STATUS,
-  KKOGKKOG_COLORS,
-  KKOGKKOG_ENG_TYPE,
-  KKOGKKOG_MODIFIERS,
-} from '@/types/client/kkogkkog';
+} from '@/types/client/coupon';
 import { User } from '@/types/client/user';
 
 export interface MeResponse {
@@ -30,16 +30,16 @@ export interface OAuthLoginResponse {
   isCreated: boolean;
 }
 
-export interface KkogKKogResponse {
+export interface CouponResponse {
   id: number;
   sender: User;
   receiver: User;
-  modifier: KKOGKKOG_MODIFIERS;
+  modifier: COUPON_MODIFIERS;
   message: string;
-  backgroundColor: KKOGKKOG_COLORS;
-  couponType: KKOGKKOG_ENG_TYPE;
+  backgroundColor: COUPON_COLORS;
+  couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
   meetingDate?: string;
 }
 
-export type KkogKkogListResponse = { data: Record<COUPON_LIST_TYPE, KkogKKogResponse[]> };
+export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };

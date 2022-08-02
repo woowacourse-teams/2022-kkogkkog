@@ -1,9 +1,7 @@
 import { useMutation, useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { client } from '@/apis';
 import { getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
-import { PATH } from '@/Router';
 
 import { useToast } from '../@common/useToast';
 
@@ -12,45 +10,61 @@ const QUERY_KEY = {
   getUserList: 'getUserList',
 };
 
-export const useMe = () => {
-  return useQuery([QUERY_KEY.me], getMe, {
+/** Query */
+
+export const useFetchMe = () => {
+  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
-    select(data) {
-      return data.data;
-    },
   });
+
+  return {
+    me: data?.data,
+    ...rest,
+  };
 };
 
-export const useUserList = () => {
-  return useQuery([QUERY_KEY.getUserList], getUserList, {
+export const useFetchUserList = () => {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
-    select(data) {
-      return data.data;
-    },
   });
+
+  return {
+    userList: data?.data?.data,
+    ...rest,
+  };
 };
+
+/** Mutation */
 
 export const useOAuthLoginMutation = () => {
-  return useMutation(OAuthLogin);
+  return useMutation(OAuthLogin, {
+    onSuccess(response) {
+      const { accessToken } = response.data;
+
+      localStorage.setItem('user-token', accessToken);
+
+      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+    },
+  });
 };
 
 export const useJoinMutation = () => {
-  const navigate = useNavigate();
+  const { displayMessage } = useToast();
 
   return useMutation(join, {
-    onSuccess: () => {
-      navigate(PATH.LOGIN);
-    },
-    onError() {
-      alert('회원가입에 실패했습니다.');
+    onSuccess: () => {},
+    onError({
+      response: {
+        data: { error },
+      },
+    }) {
+      displayMessage(error, true);
     },
   });
 };
 
 export const useLoginMutation = () => {
-  const navigate = useNavigate();
-  const { remove } = useMe();
   const { displayMessage } = useToast();
 
   return useMutation(login, {
@@ -62,10 +76,6 @@ export const useLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      remove();
-
-      navigate(PATH.LANDING);
     },
     onError({
       response: {

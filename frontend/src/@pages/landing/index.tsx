@@ -6,14 +6,14 @@ import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
-import SmallCouponItem from '@/@components/kkogkkog/KkogKkogItem/small';
-import HorizontalCouponList from '@/@components/kkogkkog/KkogKkogList/horizontal';
-import KkogKkogModal from '@/@components/kkogkkog/KkogKkogModal';
-import { useFetchKkogKkogList } from '@/@hooks/@queries/kkogkkog';
-import { useMe } from '@/@hooks/@queries/user';
-import useKkogKkogModal from '@/@hooks/kkogkkog/useKkogKkogModal';
+import SmallCouponItem from '@/@components/coupon/CouponItem/small';
+import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
+import CouponModal from '@/@components/coupon/CouponModal';
+import { useFetchCouponList } from '@/@hooks/@queries/coupon';
+import { useFetchMe } from '@/@hooks/@queries/user';
+import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
@@ -67,13 +67,12 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
-  const { data, isLoading } = useFetchKkogKkogList();
-  const kkogkkogList = data?.data;
+  const { couponList, isLoading } = useFetchCouponList();
 
-  const { currentKkogKkog, openKkogKkogModal, closeKkogKkogModal } = useKkogKkogModal();
+  const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
 
-  const onClickCouponItem = (kkogkkog: KkogKKogResponse) => {
-    openKkogKkogModal(kkogkkog);
+  const onClickCouponItem = (coupon: CouponResponse) => {
+    openCouponModal(coupon);
   };
 
   return (
@@ -89,7 +88,7 @@ const AuthorizedLanding = () => {
           <Styled.AdditionalExplanation>
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
-          <Link to={PATH.KKOGKKOG_CREATE}>
+          <Link to={PATH.COUPON_CREATE}>
             <Position>
               <Button css={Styled.ExtendedButton}>
                 꼭꼭 보내러가기
@@ -113,7 +112,7 @@ const AuthorizedLanding = () => {
           <div>
             <Styled.ListTitle>
               <span>받은 쿠폰</span>
-              <Link to={PATH.RECEIVED_KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+              <Link to={PATH.RECEIVED_COUPON_LIST} css={Styled.ExtendedLink}>
                 더보기
               </Link>
             </Styled.ListTitle>
@@ -124,7 +123,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                kkogkkogList={kkogkkogList && kkogkkogList.received}
+                couponList={couponList && couponList.received}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -134,7 +133,7 @@ const AuthorizedLanding = () => {
           <div>
             <Styled.ListTitle>
               <span>보낸 쿠폰</span>
-              <Link to={PATH.SENT_KKOGKKOG_LIST} css={Styled.ExtendedLink}>
+              <Link to={PATH.SENT_COUPON_LIST} css={Styled.ExtendedLink}>
                 더보기
               </Link>
             </Styled.ListTitle>
@@ -145,23 +144,21 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                kkogkkogList={kkogkkogList && kkogkkogList.sent}
+                couponList={couponList && couponList.sent}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
         </Styled.ListContainer>
-        {currentKkogKkog && (
-          <KkogKkogModal kkogkkog={currentKkogKkog} closeModal={closeKkogKkogModal} />
-        )}
+        {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
       </Styled.Root>
     </PageTemplate.LandingPage>
   );
 };
 
 const LandingPage = () => {
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
 };

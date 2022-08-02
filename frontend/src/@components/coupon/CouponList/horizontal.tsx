@@ -1,20 +1,20 @@
 import React from 'react';
 
-import { SmallCouponItemProps } from '@/@components/kkogkkog/KkogKkogItem/small';
-import { KkogKKogResponse } from '@/types/remote/response';
+import { SmallCouponItemProps } from '@/@components/coupon/CouponItem/small';
+import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './horizontal.style';
 
-interface HorizontalKkogKkogListProps {
-  kkogkkogList?: KkogKKogResponse[];
-  onClickCouponItem?: (kkogkkog: KkogKKogResponse) => void;
+interface HorizontalCouponListProps {
+  couponList?: CouponResponse[];
+  onClickCouponItem?: (coupon: CouponResponse) => void;
   CouponItem: React.FunctionComponent<SmallCouponItemProps>;
 }
 
-const HorizontalCouponList = (props: HorizontalKkogKkogListProps) => {
-  const { kkogkkogList, onClickCouponItem, CouponItem } = props;
+const HorizontalCouponList = (props: HorizontalCouponListProps) => {
+  const { couponList, onClickCouponItem, CouponItem } = props;
 
-  if (kkogkkogList?.length === 0) {
+  if (couponList?.length === 0) {
     return (
       <Styled.SlideRoot>
         <Styled.TextContainer fontSize='40px'>😱</Styled.TextContainer>
@@ -25,8 +25,8 @@ const HorizontalCouponList = (props: HorizontalKkogKkogListProps) => {
 
   return (
     <Styled.SlideRoot>
-      {kkogkkogList?.map(kkogkkog => (
-        <CouponItem key={kkogkkog.id} onClick={() => onClickCouponItem?.(kkogkkog)} {...kkogkkog} />
+      {couponList?.map(coupon => (
+        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.SlideRoot>
   );
@@ -34,11 +34,11 @@ const HorizontalCouponList = (props: HorizontalKkogKkogListProps) => {
 
 export default HorizontalCouponList;
 
-interface SkeletonHorizontalKkogKkogListProps {
+interface SkeletonHorizontalCouponListProps {
   CouponItemSkeleton: React.FunctionComponent;
 }
 
-HorizontalCouponList.Skeleton = function Skeleton(props: SkeletonHorizontalKkogKkogListProps) {
+HorizontalCouponList.Skeleton = function Skeleton(props: SkeletonHorizontalCouponListProps) {
   const { CouponItemSkeleton } = props;
 
   return (
