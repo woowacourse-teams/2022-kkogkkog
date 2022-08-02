@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MemberNicknameUpdateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -105,14 +105,14 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 나의_닉네임_수정을_요청할_수_있다() throws Exception {
         // given
-        MemberNicknameUpdateRequest memberNicknameUpdateRequest = new MemberNicknameUpdateRequest(
+        MemberUpdateMeRequest memberUpdateMeRequest = new MemberUpdateMeRequest(
             "새로운_닉네임");
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when
         ResultActions perform = mockMvc.perform(put("/api/members/me/nickname")
             .header("Authorization", "Bearer AccessToken")
-            .content(objectMapper.writeValueAsString(memberNicknameUpdateRequest))
+            .content(objectMapper.writeValueAsString(memberUpdateMeRequest))
             .contentType(MediaType.APPLICATION_JSON));
 
         // then

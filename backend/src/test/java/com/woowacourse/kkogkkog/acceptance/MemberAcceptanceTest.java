@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.presentation.dto.MemberNicknameUpdateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -65,7 +65,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String newNickname = "새로운_닉네임";
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
 
-        닉네임_수정을_성공하고(newNickname, rookieAccessToken);
+        프로필_수정을_성공하고(newNickname, rookieAccessToken);
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         String actual = extract.as(MemberResponse.class).getNickname();
 
@@ -89,13 +89,13 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-    private void 닉네임_수정을_성공하고(String nickname, String accessToken) {
+    private void 프로필_수정을_성공하고(String nickname, String accessToken) {
         RestAssured.given().log().all()
             .when()
             .auth().oauth2(accessToken)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(new MemberNicknameUpdateRequest(nickname))
-            .put("/api/members/me/nickname")
+            .body(new MemberUpdateMeRequest(nickname))
+            .put("/api/members/me")
             .then().log().all()
             .extract();
     }

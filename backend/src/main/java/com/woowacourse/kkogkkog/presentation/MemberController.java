@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.presentation;
 
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MemberNicknameUpdateRequest;
+import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +34,10 @@ public class MemberController {
         return ResponseEntity.ok(memberResponse);
     }
 
-    @PutMapping("/me/nickname")
-    public ResponseEntity<Void> updateNickname(@LoginMember Long id,
-        @RequestBody MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
-
-        memberService.updateNickname(id, memberNicknameUpdateRequest.getNickname());
+    @PutMapping("/me")
+    public ResponseEntity<Void> updateMe(@LoginMember Long id,
+                                         @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
+        memberService.updateNickname(id, memberUpdateMeRequest.getNickname());
 
         return ResponseEntity.ok().build();
     }
