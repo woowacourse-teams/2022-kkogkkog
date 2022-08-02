@@ -34,7 +34,8 @@ public class MemberService {
             .map(member -> updateImageUrl(member, imageUrl))
             .findFirst()
             .orElseGet(() ->
-                save(new Member(null, userId, workspaceId, nickname, imageUrl)));
+                save(new Member(null, userId, workspaceId, nickname, "email", imageUrl)));
+        // TODO: replace with email data from Slack OAuth
     }
 
     private MemberCreateResponse updateImageUrl(Member member, String imageUrl) {

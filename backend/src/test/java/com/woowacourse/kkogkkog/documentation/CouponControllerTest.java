@@ -42,9 +42,12 @@ class CouponControllerTest extends Documentation {
     private static final String MODIFIER = "한턱내는";
     private static final String MESSAGE = "추가 메세지";
     private static final CouponType COUPON_TYPE = CouponType.COFFEE;
-    public static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정", "image");
-    public static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오", "image");
-    public static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서", "image");
+    private static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정",
+        "jeong@gmail.com", "image");
+    private static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오",
+        "leothelion@gmail.com", "image");
+    private static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서",
+        "arthur@gmail.com", "image");
 
     @Test
     void 쿠폰_발급을_요청한다() throws Exception {
@@ -67,7 +70,8 @@ class CouponControllerTest extends Documentation {
         perform.andExpect(status().isCreated())
             .andExpect(
                 content().string(objectMapper.writeValueAsString(new SuccessResponse<>(List.of(
-                    toCreateCouponResponse(1L, JEONG, LEO), toCreateCouponResponse(2L, JEONG, ARTHUR))))));
+                    toCreateCouponResponse(1L, JEONG, LEO),
+                    toCreateCouponResponse(2L, JEONG, ARTHUR))))));
 
         // docs
         perform
@@ -225,7 +229,8 @@ class CouponControllerTest extends Documentation {
                         .description("받는 사람의 ID"),
                     fieldWithPath("data.received.[].receiver.userId").type(JsonFieldType.STRING)
                         .description("받는 사람 소셜 ID"),
-                    fieldWithPath("data.received.[].receiver.workspaceId").type(JsonFieldType.STRING)
+                    fieldWithPath("data.received.[].receiver.workspaceId").type(
+                            JsonFieldType.STRING)
                         .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("data.received.[].receiver.nickname").type(JsonFieldType.STRING)
                         .description("받는 사람 닉네임"),
@@ -316,7 +321,8 @@ class CouponControllerTest extends Documentation {
         CouponMemberResponse senderResponse = CouponMemberResponse.of(sender);
         CouponMemberResponse receiverResponse = CouponMemberResponse.of(receiver);
         return new CouponResponse(couponId, senderResponse, receiverResponse,
-            BACKGROUND_COLOR, LocalDate.of(2022, 07, 27), MODIFIER, MESSAGE, COUPON_TYPE.name(), CouponStatus.READY.name());
+            BACKGROUND_COLOR, LocalDate.of(2022, 07, 27), MODIFIER, MESSAGE, COUPON_TYPE.name(),
+            CouponStatus.READY.name());
     }
 
     private CouponResponse toCreateCouponResponse(Long couponId, Member sender, Member receiver) {

@@ -37,9 +37,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison().isEqualTo(
                 List.of(
                     MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
-                        "루키", "image")),
+                        "루키", "rookie@gmail.com", "image")),
                     MemberResponse.of(new Member(2L, "UArthur", "T03LX3C5540",
-                        "아서", "image"))
+                        "아서", "arthur@gmail.com", "image"))
                 )
             ));
     }
@@ -56,7 +56,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
                 MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
-                    "루키", "image")))
+                    "루키", "rookie@gmail.com", "image")))
         );
     }
 
