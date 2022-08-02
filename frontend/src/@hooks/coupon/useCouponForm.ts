@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { PATH } from '@/Router';
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
@@ -13,6 +15,8 @@ import { UserResponse } from '@/types/remote/response';
 import { useCreateCouponMutation } from '../@queries/coupon';
 
 export const useCouponForm = () => {
+  const navigate = useNavigate();
+
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
   const [type, setType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [modifier, setModifier] = useState<COUPON_MODIFIERS>(couponModifiers[0]);
@@ -62,13 +66,24 @@ export const useCouponForm = () => {
       return;
     }
 
-    createCouponMutate.mutate({
-      receivers: receiverList.map(({ id }) => id),
-      backgroundColor: color,
-      modifier,
-      message,
-      couponType: type,
-    });
+    createCouponMutate.mutate(
+      {
+        receivers: receiverList.map(({ id }) => id),
+        backgroundColor: color,
+        modifier,
+        message,
+        couponType: type,
+      },
+      {
+        onSuccess() {
+          navigate(PATH.LANDING, {
+            state: {
+              action: 'create',
+            },
+          });
+        },
+      }
+    );
   };
 
   return {

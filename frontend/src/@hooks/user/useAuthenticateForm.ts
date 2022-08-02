@@ -1,4 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { PATH } from '@/Router';
 
 import { useJoinMutation, useLoginMutation } from '../@queries/user';
 
@@ -16,6 +19,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     defaultConfirmPassword = '',
     defaultName = '',
   } = props;
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState(defaultPassword);
@@ -69,20 +74,34 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const onSubmitJoinForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    joinMutate.mutate({
-      email,
-      password,
-      nickname: name,
-    });
+    joinMutate.mutate(
+      {
+        email,
+        password,
+        nickname: name,
+      },
+      {
+        onSuccess() {
+          navigate(PATH.JOIN);
+        },
+      }
+    );
   };
 
   const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    loginMutate.mutate({
-      email,
-      password,
-    });
+    loginMutate.mutate(
+      {
+        email,
+        password,
+      },
+      {
+        onSuccess() {
+          navigate(PATH.LANDING);
+        },
+      }
+    );
   };
 
   return {

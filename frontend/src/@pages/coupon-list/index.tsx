@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -16,7 +15,7 @@ import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/coupon';
+import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
 const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
@@ -24,34 +23,14 @@ const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속
 export type FilterOption = typeof filterOption[number];
 
 const CouponListPage = () => {
-  const { data } = useFetchCouponList();
-  const couponList = data?.data;
-
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_COUPON_LIST ? 'sent' : 'received';
+
+  const { parsedSentCouponList, parsedReceivedCouponList } = useFetchCouponList();
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
   const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
-
-  const parsedCouponList = useMemo(
-    () =>
-      couponList &&
-      couponList[couponListType].reduce<Record<COUPON_STATUS, CouponResponse[]>>(
-        (prev, coupon) => {
-          const key = coupon.couponStatus;
-
-          return { ...prev, [key]: [...prev[key], coupon] };
-        },
-        {
-          REQUESTED: [],
-          READY: [],
-          ACCEPTED: [],
-          FINISHED: [],
-        }
-      ),
-    [couponList, couponListType]
-  );
 
   const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
@@ -61,9 +40,8 @@ const CouponListPage = () => {
     openCouponModal(coupon);
   };
 
-  if (!parsedCouponList) {
-    return <></>;
-  }
+  const currentParsedCouponList =
+    couponListType === 'sent' ? parsedSentCouponList : parsedReceivedCouponList;
 
   return (
     <PageTemplate title={couponListType === 'sent' ? '보낸 쿠폰' : '받은 쿠폰'}>
@@ -75,63 +53,73 @@ const CouponListPage = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        {status === '전체' && (
-          <Styled.Container>
-            <section>
-              <h2>열린 약속</h2>
-              <HorizontalCouponList
-                couponList={[...parsedCouponList['REQUESTED'], ...parsedCouponList['READY']]}
-                CouponItem={SmallCouponItem}
-                onClickCouponItem={onClickCouponItem}
-              />
-            </section>
-            <section>
-              <h2>잡은 약속</h2>
-              <HorizontalCouponList
-                couponList={parsedCouponList['ACCEPTED']}
-                CouponItem={SmallCouponItem}
-                onClickCouponItem={onClickCouponItem}
-              />
-            </section>
-            <section>
-              <h2>지난 약속</h2>
-              <HorizontalCouponList
-                couponList={parsedCouponList['FINISHED']}
-                CouponItem={SmallCouponItem}
-                onClickCouponItem={onClickCouponItem}
-              />
-            </section>
-          </Styled.Container>
-        )}
+        {currentParsedCouponList && (
+          <>
+            {status === '전체' && (
+              <Styled.Container>
+                <section>
+                  <h2>열린 약속</h2>
+                  <HorizontalCouponList
+                    couponList={[
+                      ...currentParsedCouponList['REQUESTED'],
+                      ...currentParsedCouponList['READY'],
+                    ]}
+                    CouponItem={SmallCouponItem}
+                    onClickCouponItem={onClickCouponItem}
+                  />
+                </section>
+                <section>
+                  <h2>잡은 약속</h2>
+                  <HorizontalCouponList
+                    couponList={currentParsedCouponList['ACCEPTED']}
+                    CouponItem={SmallCouponItem}
+                    onClickCouponItem={onClickCouponItem}
+                  />
+                </section>
+                <section>
+                  <h2>지난 약속</h2>
+                  <HorizontalCouponList
+                    couponList={currentParsedCouponList['FINISHED']}
+                    CouponItem={SmallCouponItem}
+                    onClickCouponItem={onClickCouponItem}
+                  />
+                </section>
+              </Styled.Container>
+            )}
 
-        {status === '열린 약속' && (
-          <Styled.Container>
-            <VerticalCouponList
-              couponList={[...parsedCouponList['REQUESTED'], ...parsedCouponList['READY']]}
-              CouponItem={BigCouponItem}
-              onClickCouponItem={onClickCouponItem}
-            />
-          </Styled.Container>
-        )}
+            {status === '열린 약속' && (
+              <Styled.Container>
+                <VerticalCouponList
+                  couponList={[
+                    ...currentParsedCouponList['REQUESTED'],
+                    ...currentParsedCouponList['READY'],
+                  ]}
+                  CouponItem={BigCouponItem}
+                  onClickCouponItem={onClickCouponItem}
+                />
+              </Styled.Container>
+            )}
 
-        {status === '잡은 약속' && (
-          <Styled.Container>
-            <VerticalCouponList
-              couponList={parsedCouponList['ACCEPTED']}
-              CouponItem={BigCouponItem}
-              onClickCouponItem={onClickCouponItem}
-            />
-          </Styled.Container>
-        )}
+            {status === '잡은 약속' && (
+              <Styled.Container>
+                <VerticalCouponList
+                  couponList={currentParsedCouponList['ACCEPTED']}
+                  CouponItem={BigCouponItem}
+                  onClickCouponItem={onClickCouponItem}
+                />
+              </Styled.Container>
+            )}
 
-        {status === '지난 약속' && (
-          <Styled.Container>
-            <VerticalCouponList
-              couponList={parsedCouponList['FINISHED']}
-              CouponItem={BigCouponItem}
-              onClickCouponItem={onClickCouponItem}
-            />
-          </Styled.Container>
+            {status === '지난 약속' && (
+              <Styled.Container>
+                <VerticalCouponList
+                  couponList={currentParsedCouponList['FINISHED']}
+                  CouponItem={BigCouponItem}
+                  onClickCouponItem={onClickCouponItem}
+                />
+              </Styled.Container>
+            )}
+          </>
         )}
 
         {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}

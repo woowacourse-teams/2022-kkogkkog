@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { client } from '@/apis';
 import { PATH } from '@/Router';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
 
-  const { remove } = useMe();
+  const { remove } = useFetchMe();
 
   const onClickLogoutButton = () => {
     client.defaults.headers['Authorization'] = '';

@@ -10,7 +10,7 @@ import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import CouponModal from '@/@components/coupon/CouponModal';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
 import { CouponResponse } from '@/types/remote/response';
@@ -67,8 +67,7 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
-  const { data, isLoading } = useFetchCouponList();
-  const couponList = data?.data;
+  const { couponList, isLoading } = useFetchCouponList();
 
   const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
 
@@ -159,7 +158,7 @@ const AuthorizedLanding = () => {
 };
 
 const LandingPage = () => {
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   return me ? <AuthorizedLanding /> : <UnAuthorizedLanding />;
 };

@@ -3,9 +3,10 @@ import React, { ChangeEventHandler, useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
 import { ANIMATION_DURATION } from '@/constants/animation';
+import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 import { getToday } from '@/utils';
 
@@ -17,7 +18,9 @@ interface CouponItemProps {
   closeModal: () => void;
 }
 
-const receivedCouponModalMapper = {
+type buttonType = '취소' | '완료' | '요청' | '승인';
+
+const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 취소하시겠어요?',
     buttons: ['취소'],
@@ -36,7 +39,7 @@ const receivedCouponModalMapper = {
   },
 };
 
-const sentCouponModalMapper = {
+const sentCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 승인하시겠어요?',
     buttons: ['승인'],
@@ -55,15 +58,11 @@ const sentCouponModalMapper = {
   },
 };
 
-// 꼭꼭의 상태에 따라, 로그인 한 유저에게 어떤 꼭꼭인지에 따라 (내가 보낸건지, 받은건지) -> 모달은 이 정보에만 따라야함
-// 꼭꼭의 상태를 변경하는 모달이니.. 이름을 제대로 줘봐야하지 않을까?
-// 버튼은 상태 변경 액션 별로 한개씩 있다.
-
 const CouponModal = (props: CouponItemProps) => {
   const { coupon, closeModal } = props;
   const { id, sender, couponStatus } = coupon;
 
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   const [animation, setAnimation] = useState(false);
 
@@ -94,7 +93,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickCancelButton = () => {
     cancelCoupon({
-      onSuccess() {
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -106,10 +105,11 @@ const CouponModal = (props: CouponItemProps) => {
 
       return;
     }
+
     requestCoupon(
       { meetingDate },
       {
-        onSuccess() {
+        onSuccessCallback() {
           onCloseModal();
         },
       }
@@ -118,7 +118,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickFinishButton = () => {
     finishCoupon({
-      onSuccess() {
+      onSuccessCallback() {
         onCloseModal();
       },
     });
@@ -126,7 +126,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const onClickAcceptButton = () => {
     acceptCoupon({
-      onSuccess() {
+      onSuccessCallback() {
         onCloseModal();
       },
     });

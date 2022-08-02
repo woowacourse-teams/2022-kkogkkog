@@ -10,7 +10,7 @@ import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
-import { useMe } from './@hooks/@queries/user';
+import { useFetchMe } from './@hooks/@queries/user';
 import LoginPage from './@pages/login';
 import LoginRedirect from './@pages/login/redirect';
 
@@ -76,7 +76,7 @@ const Router = () => {
 export default Router;
 
 const PrivateRoute = () => {
-  const { data: me, isLoading } = useMe();
+  const { me, isLoading } = useFetchMe();
 
   return me ? (
     <Outlet />

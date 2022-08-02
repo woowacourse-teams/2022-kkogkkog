@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useOAuthLoginMutation } from '@/@hooks/@queries/user';
-import { client } from '@/apis';
+import { PATH } from '@/Router';
 
 const LoginRedirect = () => {
   const navigate = useNavigate();
@@ -16,14 +16,8 @@ const LoginRedirect = () => {
   useEffect(() => {
     if (code) {
       loginMutate.mutate(code, {
-        onSuccess(response) {
-          const { accessToken } = response.data;
-
-          localStorage.setItem('user-token', accessToken);
-
-          client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-          navigate('/');
+        onSuccess() {
+          navigate(PATH.LANDING);
         },
       });
     }
