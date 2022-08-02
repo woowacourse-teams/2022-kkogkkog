@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import CouponStatus from '@/@components/coupon/CouponStatus';
-import { useMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 import { extractDate } from '@/utils';
@@ -27,7 +27,6 @@ const BigCouponItem = (props: BigCouponItemProps) => {
     backgroundColor,
     modifier,
     couponStatus,
-    couponType,
     message,
     meetingDate,
     thumbnail,
@@ -36,7 +35,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
     thumbnail: THUMBNAIL[coupon.couponType],
   };
 
-  const { data: me } = useMe();
+  const { me } = useFetchMe();
 
   const meetingDateText = extractDate(meetingDate);
 
