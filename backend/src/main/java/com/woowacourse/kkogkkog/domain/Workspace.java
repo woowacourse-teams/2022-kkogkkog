@@ -18,16 +18,16 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, unique = true)
     private String workspaceId;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String accessToken;
 
-    public Workspace(Long id, String name, String workspaceId, String accessToken) {
+    public Workspace(Long id, String workspaceId, String name, String accessToken) {
         this.id = id;
         this.name = name;
         this.workspaceId = workspaceId;
