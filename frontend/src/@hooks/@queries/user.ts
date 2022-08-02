@@ -12,45 +12,71 @@ const QUERY_KEY = {
   getUserList: 'getUserList',
 };
 
-export const useMe = () => {
-  return useQuery([QUERY_KEY.me], getMe, {
+/** Query */
+
+export const useFetchMe = () => {
+  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
-    select(data) {
-      return data.data;
-    },
   });
+
+  return {
+    me: data?.data,
+    ...rest,
+  };
 };
 
-export const useUserList = () => {
-  return useQuery([QUERY_KEY.getUserList], getUserList, {
+export const useFetchUserList = () => {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
-    select(data) {
-      return data.data;
-    },
   });
+
+  return {
+    userList: data?.data?.data,
+    ...rest,
+  };
 };
+
+/** Mutation */
 
 export const useOAuthLoginMutation = () => {
-  return useMutation(OAuthLogin);
+  const navigate = useNavigate();
+
+  return useMutation(OAuthLogin, {
+    onSuccess(response) {
+      const { accessToken } = response.data;
+
+      localStorage.setItem('user-token', accessToken);
+
+      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+      navigate(PATH.LANDING);
+    },
+  });
 };
 
 export const useJoinMutation = () => {
+  const { displayMessage } = useToast();
+
   const navigate = useNavigate();
 
   return useMutation(join, {
     onSuccess: () => {
       navigate(PATH.LOGIN);
     },
-    onError() {
-      alert('회원가입에 실패했습니다.');
+    onError({
+      response: {
+        data: { error },
+      },
+    }) {
+      displayMessage(error, true);
     },
   });
 };
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
-  const { remove } = useMe();
+
   const { displayMessage } = useToast();
 
   return useMutation(login, {
@@ -62,8 +88,6 @@ export const useLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      remove();
 
       navigate(PATH.LANDING);
     },
