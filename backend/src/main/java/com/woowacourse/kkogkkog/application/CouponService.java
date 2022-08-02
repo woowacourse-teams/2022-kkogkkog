@@ -61,6 +61,10 @@ public class CouponService {
     public List<CouponResponse> save(CouponSaveRequest couponSaveRequest) {
         List<Coupon> coupons = toCoupons(couponSaveRequest);
         List<Coupon> savedCoupons = couponRepository.saveAll(coupons);
+
+        for (Coupon savedCoupon : savedCoupons) {
+            saveMemberHistory(savedCoupon.getReceiver(), savedCoupon.getSender(), savedCoupon, CouponEvent.INIT);
+        }
         return savedCoupons.stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
@@ -74,6 +78,7 @@ public class CouponService {
         String backgroundColor = couponSaveRequest.getBackgroundColor();
         CouponType couponType = CouponType.valueOf(couponSaveRequest.getCouponType());
         CouponStatus couponStatus = CouponStatus.READY;
+
         return receivers.stream()
             .map(it -> new Coupon(sender, it, modifier, message, backgroundColor, couponType,
                 couponStatus))
@@ -100,10 +105,8 @@ public class CouponService {
             coupon.updateMeetingDate(couponChangeStatusRequest.getMeetingDate());
         }
 
-        Member targetMember = coupon.getOppositeMember(loginMember);
-        saveMemberHistory(loginMember, targetMember, coupon.getCouponType(),
-            couponChangeStatusRequest.getEvent());
-
+        Member hostMember = coupon.getOppositeMember(loginMember);
+        saveMemberHistory(hostMember, loginMember, coupon, couponChangeStatusRequest.getEvent());
     }
 
     private Member findMember(Long memberId) {
@@ -116,10 +119,10 @@ public class CouponService {
             .orElseThrow(CouponNotFoundException::new);
     }
 
-    private void saveMemberHistory(Member hostMember, Member targetMember, CouponType couponType,
+    private void saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
                                    CouponEvent couponEvent) {
-        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, couponType,
-            couponEvent);
+        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, coupon.getId(),
+            coupon.getCouponType(), couponEvent, coupon.getMeetingDate());
         memberHistoryRepository.save(memberHistory);
     }
 }

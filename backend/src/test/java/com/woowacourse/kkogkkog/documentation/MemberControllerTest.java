@@ -13,10 +13,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -98,6 +101,51 @@ public class MemberControllerTest extends Documentation {
                         .description("워크스페이스 ID"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
+                ))
+            );
+    }
+
+    @Test
+    void 나의_기록들을_조회할_수_있다() throws Exception {
+        // given
+        List<MemberHistoryResponse> historiesResponse = List.of(
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null));
+
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(memberService.findHistoryById(any())).willReturn(historiesResponse);
+
+        // when
+        ResultActions perform = mockMvc.perform(get("/api/members/me/history")
+            .header("Authorization", "Bearer AccessToken"));
+
+        // then
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    new MemberHistoriesResponse(historiesResponse))));
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-showMeHistory",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestHeaders(
+                    headerWithName("Authorization").description("Bearer {accessToken}")
+                ),
+                responseFields(
+                    fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("기록 ID"),
+                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자의 이름"),
+                    fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자 프로필 주소"),
+                    fieldWithPath("data.[].couponId").type(JsonFieldType.NUMBER)
+                        .description("이벤트에 해당하는 쿠폰 ID"),
+                    fieldWithPath("data.[].couponType").type(JsonFieldType.STRING)
+                        .description("이벤트에 해당하는 쿠폰 타입"),
+                    fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
+                        .description("이벤트에 쿠폰 이벤트"),
+                    fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜")
                 ))
             );
     }

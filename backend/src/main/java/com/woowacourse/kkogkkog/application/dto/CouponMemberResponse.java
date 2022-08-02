@@ -16,7 +16,7 @@ public class CouponMemberResponse {
     private String imageUrl;
 
     public CouponMemberResponse(Long id, String userId, String workspaceId, String nickname,
-        String imageUrl) {
+                                String imageUrl) {
         this.id = id;
         this.userId = userId;
         this.workspaceId = workspaceId;
