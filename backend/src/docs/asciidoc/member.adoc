@@ -6,8 +6,6 @@
 
 
 == Member
-=== 회원가입
-operation::member-create[snippets='http-request,http-response,request-fields']
 
 === 본인 정보 조회
 operation::member-showMe[snippets='http-request,http-response,response-fields']
