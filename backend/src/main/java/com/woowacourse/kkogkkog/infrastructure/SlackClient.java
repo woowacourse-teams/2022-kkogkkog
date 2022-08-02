@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
-import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -34,6 +34,7 @@ public class SlackClient {
     private final String secretId;
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
+    private final WebClient botTokenClient;
 
     public SlackClient(@Value("${security.slack.client-id}") String clientId,
                        @Value("${security.slack.secret-id}") String secretId,
@@ -45,6 +46,7 @@ public class SlackClient {
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
         this.userClient = toWebClient(webClient, userInfoUri);
+        this.botTokenClient = toWebClient(webClient, botTokenUri);
     }
 
     private WebClient toWebClient(WebClient webClient, String baseUrl) {
@@ -73,20 +75,6 @@ public class SlackClient {
         return responseBody.get("access_token").toString();
     }
 
-    private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
-        return uriBuilder
-            .queryParam(CODE_PARAMETER, code)
-            .queryParam(CLIENT_ID_PARAMETER, clientId)
-            .queryParam(SECRET_ID_PARAMETER, secretId)
-            .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
-            .build();
-    }
-
-    private void setHeaders(HttpHeaders header) {
-        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-    }
-
     private void validateResponseBody(Map<String, Object> responseBody) {
         if (!responseBody.containsKey("access_token")) {
             throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
@@ -102,5 +90,35 @@ public class SlackClient {
             .bodyToMono(SlackUserInfo.class)
             .blockOptional()
             .orElseThrow(OAuthUserInfoRequestFailedException::new);
+    }
+
+    public BotTokenResponse requestBotAccessToken(String code) {
+        BotTokenResponse botTokenResponse = botTokenClient
+            .post()
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
+            .headers(this::setHeaders)
+            .retrieve()
+            .bodyToMono(BotTokenResponse.class)
+            .blockOptional()
+            .orElseThrow(AccessTokenRequestFailedException::new);
+
+        if (!botTokenResponse.getOk()) {
+            throw new AccessTokenRetrievalFailedException("슬랙 봇 등록에 실패하였습니다.");
+        }
+        return botTokenResponse;
+    }
+
+    private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
+        return uriBuilder
+            .queryParam(CODE_PARAMETER, code)
+            .queryParam(CLIENT_ID_PARAMETER, clientId)
+            .queryParam(SECRET_ID_PARAMETER, secretId)
+            .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
+            .build();
+    }
+
+    private void setHeaders(HttpHeaders header) {
+        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
     }
 }
