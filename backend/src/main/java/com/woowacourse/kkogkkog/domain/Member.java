@@ -41,4 +41,8 @@ public class Member {
     public void updateImageURL(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

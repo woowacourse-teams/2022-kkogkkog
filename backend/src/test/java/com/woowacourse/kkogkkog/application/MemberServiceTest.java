@@ -3,12 +3,13 @@ package com.woowacourse.kkogkkog.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
+import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
+import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -104,6 +105,25 @@ class MemberServiceTest extends ServiceTest {
             List<MemberResponse> membersResponse = memberService.findAll();
 
             assertThat(membersResponse).hasSize(2);
+        }
+    }
+
+    @Nested
+    @DisplayName("update 메서드는")
+    class Update {
+
+        @Test
+        @DisplayName("사용자의 닉네임을 수정한다.")
+        void success() {
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "image");
+            Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
+
+            String expected = "새로운_닉네임";
+            memberService.update(new MemberUpdateRequest(memberId, expected));
+            String actual = memberService.findById(memberId).getNickname();
+
+            assertThat(actual).isEqualTo(expected);
         }
     }
 }

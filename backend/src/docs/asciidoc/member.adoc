@@ -6,11 +6,12 @@
 
 
 == Member
-=== 회원가입
-operation::member-create[snippets='http-request,http-response,request-fields']
 
 === 본인 정보 조회
 operation::member-showMe[snippets='http-request,http-response,response-fields']
 
 === 전체 조회
 operation::member-showAll[snippets='http-request,http-response,response-fields']
+
+== 닉네임 수정
+operation::member-update[snippets='http-request,http-response,response-fields']
