@@ -36,7 +36,7 @@ class AuthServiceTest extends ServiceTest {
                         memberResponse.getUserId(),
                         memberResponse.getWorkspaceId(),
                         memberResponse.getNickname(),
-                        "email", // TODO: 깨지는 테스트 고치기 - 대안이 없음
+                        memberResponse.getEmail(),
                         memberResponse.getImageUrl()));
 
             TokenResponse tokenResponse = authService.login("code");

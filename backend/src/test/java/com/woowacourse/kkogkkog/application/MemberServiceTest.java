@@ -73,7 +73,8 @@ class MemberServiceTest extends ServiceTest {
             MemberResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "image")
+                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
+                    "image")
             );
         }
 

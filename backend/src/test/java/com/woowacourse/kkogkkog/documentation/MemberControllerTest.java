@@ -31,8 +31,10 @@ public class MemberControllerTest extends Documentation {
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
         List<MemberResponse> membersResponse = List.of(
-            new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1", "image"),
-            new MemberResponse(2L, "User2", "TWorkspace2", "user_nickname2", "image")
+            new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1", "email1@gmail.com",
+                "image"),
+            new MemberResponse(2L, "User2", "TWorkspace2", "user_nickname2", "email2@gmail.com",
+                "image")
         );
         given(memberService.findAll()).willReturn(membersResponse);
 
@@ -54,6 +56,7 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].workspaceId").type(JsonFieldType.STRING)
                         .description("워크스페이스 ID"),
                     fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING)
                         .description("이미지 주소")
                 ))
@@ -64,8 +67,7 @@ public class MemberControllerTest extends Documentation {
     void 나의_회원정보를_요청할_수_있다() throws Exception {
         // given
         MemberResponse memberResponse = new MemberResponse(1L, "User1", "TWorkspace1",
-            "user_nickname1",
-            "image");
+            "user_nickname1", "email1@gmail.com", "image");
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findById(any())).willReturn(memberResponse);
@@ -80,6 +82,7 @@ public class MemberControllerTest extends Documentation {
             .andExpect(jsonPath("$.userId").value("User1"))
             .andExpect(jsonPath("$.workspaceId").value("TWorkspace1"))
             .andExpect(jsonPath("$.nickname").value("user_nickname1"))
+            .andExpect(jsonPath("$.email").value("email1@gmail.com"))
             .andExpect(jsonPath("$.imageUrl").value("image"));
 
         // docs
@@ -97,6 +100,7 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("workspaceId").type(JsonFieldType.STRING)
                         .description("워크스페이스 ID"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
                 ))
             );
