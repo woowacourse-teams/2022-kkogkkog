@@ -61,7 +61,7 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void updateNickname(Long memberId, String nickname) {
+    public void updateProfile(Long memberId, String nickname) {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 

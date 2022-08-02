@@ -108,8 +108,8 @@ class MemberServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("updateNickname 메서드는")
-    class UpdateNickname {
+    @DisplayName("updateProfile 메서드는")
+    class UpdateProfile {
 
         @Test
         @DisplayName("사용자의 닉네임을 수정한다.")
@@ -119,7 +119,7 @@ class MemberServiceTest extends ServiceTest {
             Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
 
             String expected = "새로운_닉네임";
-            memberService.updateNickname(memberId, expected);
+            memberService.updateProfile(memberId, expected);
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);
