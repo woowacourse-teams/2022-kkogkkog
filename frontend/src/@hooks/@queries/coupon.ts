@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { changeCouponStatus, createCoupon, getCouponList } from '@/apis/coupon';
-import { PATH } from '@/Router';
 import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
@@ -71,17 +69,9 @@ export const useFetchCouponList = () => {
 export const useCreateCouponMutation = () => {
   const queryClient = useQueryClient();
 
-  const navigate = useNavigate();
-
   return useMutation(createCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
-
-      navigate(PATH.LANDING, {
-        state: {
-          action: 'create',
-        },
-      });
     },
     onError() {
       alert('입력창을 확인하고 다시 시도해주세요.');

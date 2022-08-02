@@ -1,9 +1,7 @@
 import { useMutation, useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { client } from '@/apis';
 import { getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
-import { PATH } from '@/Router';
 
 import { useToast } from '../@common/useToast';
 
@@ -40,8 +38,6 @@ export const useFetchUserList = () => {
 /** Mutation */
 
 export const useOAuthLoginMutation = () => {
-  const navigate = useNavigate();
-
   return useMutation(OAuthLogin, {
     onSuccess(response) {
       const { accessToken } = response.data;
@@ -49,8 +45,6 @@ export const useOAuthLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      navigate(PATH.LANDING);
     },
   });
 };
@@ -58,12 +52,8 @@ export const useOAuthLoginMutation = () => {
 export const useJoinMutation = () => {
   const { displayMessage } = useToast();
 
-  const navigate = useNavigate();
-
   return useMutation(join, {
-    onSuccess: () => {
-      navigate(PATH.LOGIN);
-    },
+    onSuccess: () => {},
     onError({
       response: {
         data: { error },
@@ -75,8 +65,6 @@ export const useJoinMutation = () => {
 };
 
 export const useLoginMutation = () => {
-  const navigate = useNavigate();
-
   const { displayMessage } = useToast();
 
   return useMutation(login, {
@@ -88,8 +76,6 @@ export const useLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-      navigate(PATH.LANDING);
     },
     onError({
       response: {
