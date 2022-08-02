@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
+import { useMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 
@@ -15,6 +16,8 @@ const Header = (props: HeaderProps) => {
   const { title = '', className } = props;
 
   const isLandingPage = useLocation().pathname === PATH.LANDING;
+
+  const { data: me } = useMe();
 
   return (
     <Styled.Root className={className}>
@@ -32,7 +35,11 @@ const Header = (props: HeaderProps) => {
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
         <Link to={PATH.PROFILE}>
-          <Icon iconName='profile' size='26' color={theme.colors.primary_400} />
+          {me ? (
+            <Styled.ProfileImage src={me.imageUrl} alt='프사' width='26px' />
+          ) : (
+            <Icon iconName='profile' size='26' color={theme.colors.primary_400} />
+          )}
         </Link>
       </Styled.Profile>
     </Styled.Root>
