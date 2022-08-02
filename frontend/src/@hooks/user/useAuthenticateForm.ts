@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, FormEventHandler, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useEditMeMutation, useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
 import { useJoinMutation, useLoginMutation } from '../@queries/user';
@@ -27,16 +28,22 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
   const [name, setName] = useState(defaultName);
 
-  const joinMutate = useJoinMutation();
+  const { me } = useFetchMe();
 
+  const joinMutate = useJoinMutation();
   const loginMutate = useLoginMutation();
+  const editMeMutation = useEditMeMutation();
+
+  useEffect(() => {
+    if (me) {
+      setName(me.nickname);
+    }
+  }, [me]);
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value: emailValue },
     } = e;
-
-    // 검증
 
     setEmail(emailValue);
   };
@@ -46,8 +53,6 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       target: { value: passwordValue },
     } = e;
 
-    // 검증
-
     setPassword(passwordValue);
   };
 
@@ -56,8 +61,6 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       target: { value: confirmPasswordValue },
     } = e;
 
-    // 검증
-
     setConfirmPassword(confirmPasswordValue);
   };
 
@@ -65,8 +68,6 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     const {
       target: { value: nameValue },
     } = e;
-
-    // 검증
 
     setName(nameValue);
   };
@@ -104,6 +105,25 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     );
   };
 
+  const onSubmitEditedForm: FormEventHandler<HTMLFormElement> = e => {
+    e.preventDefault();
+
+    if (name === me?.nickname) {
+      navigate(PATH.PROFILE);
+
+      return;
+    }
+
+    editMeMutation.mutate(
+      { nickname: name },
+      {
+        onSuccess() {
+          navigate(PATH.PROFILE);
+        },
+      }
+    );
+  };
+
   return {
     state: {
       email,
@@ -120,6 +140,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     submitHandler: {
       join: onSubmitJoinForm,
       login: onSubmitLoginForm,
+      edit: onSubmitEditedForm,
     },
   };
 };
