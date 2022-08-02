@@ -23,16 +23,12 @@ const ProfilePage = () => {
     navigate(PATH.LANDING);
   };
 
-  if (!me) return <></>;
-
-  const { nickname, imageUrl } = me;
-
   return (
     <PageTemplate title='프로필'>
       <Styled.Root>
         <Styled.MeInfo>
-          <Styled.ProfileImage src={imageUrl} width='51px' alt='프사' />
-          <Styled.NickName>{nickname}</Styled.NickName>
+          <Styled.ProfileImage src={me?.imageUrl} width='51px' alt='프사' />
+          <Styled.NickName>{me?.nickname}</Styled.NickName>
         </Styled.MeInfo>
         <Link to={PATH.PROFILE_EDIT} state={{ me }}>
           <Button>프로필 수정</Button>
