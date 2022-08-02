@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,5 +41,10 @@ public class MemberController {
         memberService.update(memberUpdateMeRequest.toMemberUpdateRequest(id));
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me/history")
+    public ResponseEntity<MemberHistoriesResponse> showHistory(@LoginMember Long id) {
+        return ResponseEntity.ok(new MemberHistoriesResponse(memberService.findHistoryById(id)));
     }
 }
