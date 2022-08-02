@@ -40,12 +40,10 @@ export const useFetchUserList = () => {
 /** Mutation */
 export const useEditMeMutation = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   return useMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
-      navigate(PATH.PROFILE);
     },
   });
 };

@@ -1,15 +1,19 @@
 import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useEditMeMutation, useMe } from '@/@hooks/@queries/user';
+import { PATH } from '@/Router';
 
 import * as Styled from './style';
 
 const ProfileEditPage = () => {
-  const { data: me } = useMe();
+  const navigate = useNavigate();
   const [nicknameOnEdit, setNicknameOnEdit] = useState('');
+
+  const { data: me } = useMe();
   const editMeMutation = useEditMeMutation();
 
   useEffect(() => {
@@ -29,12 +33,25 @@ const ProfileEditPage = () => {
   const onSubmitEditedInfo: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
-    editMeMutation.mutate({ nickname: nicknameOnEdit });
+    if (nickname === nicknameOnEdit) {
+      navigate(PATH.PROFILE);
+
+      return;
+    }
+
+    editMeMutation.mutate(
+      { nickname: nicknameOnEdit },
+      {
+        onSuccess() {
+          navigate(PATH.PROFILE);
+        },
+      }
+    );
   };
 
   if (!me) return <></>;
 
-  const { id, userId, workspaceId, email, nickname, imageUrl } = me;
+  const { nickname, imageUrl } = me;
 
   return (
     <PageTemplate title='프로필 수정'>
