@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.exception;
 
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
@@ -18,6 +20,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         e.printStackTrace();
+        log.error("UnhandledException has been thrown : {}", e.toString());
         return new ResponseEntity<>(new ErrorResponse("예상치 못한 에러가 발생했습니다."),
             HttpStatus.INTERNAL_SERVER_ERROR);
     }
