@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
@@ -108,8 +109,8 @@ class MemberServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("updateProfile 메서드는")
-    class UpdateProfile {
+    @DisplayName("update 메서드는")
+    class Update {
 
         @Test
         @DisplayName("사용자의 닉네임을 수정한다.")
@@ -119,7 +120,7 @@ class MemberServiceTest extends ServiceTest {
             Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
 
             String expected = "새로운_닉네임";
-            memberService.updateProfile(memberId, expected);
+            memberService.update(new MemberUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);

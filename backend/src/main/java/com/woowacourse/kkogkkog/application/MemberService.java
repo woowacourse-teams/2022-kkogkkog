@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
@@ -61,10 +62,10 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void updateProfile(Long memberId, String nickname) {
-        Member member = memberRepository.findById(memberId)
+    public void update(MemberUpdateRequest memberUpdateRequest) {
+        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
 
-        member.updateNickname(nickname);
+        member.updateNickname(memberUpdateRequest.getNickname());
     }
 }
