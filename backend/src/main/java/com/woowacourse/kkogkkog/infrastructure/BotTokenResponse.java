@@ -12,22 +12,22 @@ public class BotTokenResponse {
     private Boolean ok;
     @JsonProperty(value = "access_token")
     private String accessToken;
-    private WorkspaceResponse team;
+    private TeamResponse team;
 
     public BotTokenResponse(Boolean ok, String accessToken, String workspaceId, String workspaceName) {
         this.ok = ok;
         this.accessToken = accessToken;
-        this.team = new WorkspaceResponse(workspaceId, workspaceName);
+        this.team = new TeamResponse(workspaceId, workspaceName);
     }
 
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
-    public static class WorkspaceResponse {
+    public static class TeamResponse {
 
         private String id;
         private String name;
 
-        public WorkspaceResponse(String id, String name) {
+        public TeamResponse(String id, String name) {
             this.id = id;
             this.name = name;
         }

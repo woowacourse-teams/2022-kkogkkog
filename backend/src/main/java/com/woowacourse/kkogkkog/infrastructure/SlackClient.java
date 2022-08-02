@@ -92,7 +92,7 @@ public class SlackClient {
             .orElseThrow(OAuthUserInfoRequestFailedException::new);
     }
 
-    public BotTokenResponse requestBotAccessToken(String code) {
+    public WorkspaceResponse requestBotAccessToken(String code) {
         BotTokenResponse botTokenResponse = botTokenClient
             .post()
             .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
@@ -105,7 +105,9 @@ public class SlackClient {
         if (!botTokenResponse.getOk()) {
             throw new AccessTokenRetrievalFailedException("슬랙 봇 등록에 실패하였습니다.");
         }
-        return botTokenResponse;
+        return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
+            botTokenResponse.getTeam().getName(),
+            botTokenResponse.getAccessToken());
     }
 
     private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {

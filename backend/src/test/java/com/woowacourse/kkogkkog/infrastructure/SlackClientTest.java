@@ -90,9 +90,9 @@ class SlackClientTest {
         setUpResponse(mockWebServer, BOT_TOKEN_RESPONSE);
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
-        BotTokenResponse actual = slackClient.requestBotAccessToken("code");
-        BotTokenResponse expected = new BotTokenResponse(true, "xoxb-bot-access-token", TEAM_ID,
-            "워크스페이스명");
+        WorkspaceResponse actual = slackClient.requestBotAccessToken("code");
+        WorkspaceResponse expected = new WorkspaceResponse(TEAM_ID, "워크스페이스명",
+            "xoxb-bot-access-token");
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
