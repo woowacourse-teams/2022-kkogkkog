@@ -35,4 +35,17 @@ public class MemberHistoryResponse {
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
     }
+
+    @Override
+    public String toString() {
+        return "MemberHistoryResponse{" +
+            "id=" + id +
+            ", nickname='" + nickname + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", couponId=" + couponId +
+            ", couponType='" + couponType + '\'' +
+            ", couponEvent='" + couponEvent + '\'' +
+            ", meetingDate=" + meetingDate +
+            '}';
+    }
 }
