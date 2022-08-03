@@ -17,26 +17,25 @@ const Redirect = () => {
   const addSlackAppMutate = useAddSlackAppMutation();
 
   useEffect(() => {
-    if (code && pathname === PATH.LOGIN_REDIRECT) {
+    if (!code) return;
+
+    if (pathname === PATH.LOGIN_REDIRECT) {
       loginMutate.mutate(code, {
         onSuccess() {
           navigate(PATH.LANDING);
         },
       });
     }
-    // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 loginMutate를 넣으면 무한 렌더링이 발생함.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code, pathname, navigate]);
 
-  useEffect(() => {
-    if (code && pathname === PATH.DOWNLOAD_REDIRECT) {
+    if (pathname === PATH.DOWNLOAD_REDIRECT) {
       addSlackAppMutate.mutate(code, {
         onSuccess() {
           navigate(PATH.LANDING);
         },
       });
     }
-    // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 addSlackAppMutate 넣으면 무한 렌더링이 발생함.
+
+    // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 loginMutate를 넣으면 무한 렌더링이 발생함.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, pathname, navigate]);
 
