@@ -3,6 +3,8 @@ package com.woowacourse.kkogkkog.domain;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import java.time.LocalDate;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,8 +34,10 @@ public class MemberHistory {
 
     private Long couponId;
 
+    @Enumerated(EnumType.STRING)
     private CouponType couponType;
 
+    @Enumerated(EnumType.STRING)
     private CouponEvent couponEvent;
 
     private LocalDate meetingDate;
