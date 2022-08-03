@@ -42,14 +42,13 @@ public class LogAspect {
     @AfterReturning(pointcut = "controllerAdvice()", returning = "returnValue")
     public void responseLogging(JoinPoint joinPoint, Object returnValue) {
         ResponseEntity<Object> responseEntity = (ResponseEntity<Object>) returnValue;
-        log.info("Response {} : {}", responseEntity.getStatusCode(), joinPoint);
+        log.info("Response {} : {}", responseEntity.getStatusCode(), joinPoint.getSignature().getName());
         MDC.clear();
     }
 
     @AfterThrowing(pointcut = "controllerAdvice()", throwing = "exception")
-    public void exceptionLogging(JoinPoint joinPoint, Exception exception) {
-        log.info("Exception has been thrown : {} {}", joinPoint.getSignature(),
-            exception.toString());
+    public void exceptionLogging(Exception exception) {
+        log.info("Exception has been thrown : ", exception);
     }
 
     private String paramMapToString(Map<String, String[]> paraStringMap) {
