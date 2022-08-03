@@ -20,7 +20,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         e.printStackTrace();
-        log.error("UnhandledException has been thrown : {}", e.toString());
+        log.error("UnhandledException has been thrown : ", e);
         return new ResponseEntity<>(new ErrorResponse("예상치 못한 에러가 발생했습니다."),
             HttpStatus.INTERNAL_SERVER_ERROR);
     }
