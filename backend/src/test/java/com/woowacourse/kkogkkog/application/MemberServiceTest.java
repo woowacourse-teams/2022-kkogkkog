@@ -77,7 +77,7 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             Long memberId = memberService.saveOrFind(slackUserInfo).getId();
 
-            MyProfileResponse memberResponse = memberService.findById2(memberId);
+            MyProfileResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
                 new MyProfileResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
@@ -90,7 +90,7 @@ class MemberServiceTest extends ServiceTest {
         void fail_noExistMember() {
             Member nonExistingMember = MemberFixture.NON_EXISTING_MEMBER;
 
-            Assertions.assertThatThrownBy(() -> memberService.findById2(nonExistingMember.getId()))
+            Assertions.assertThatThrownBy(() -> memberService.findById(nonExistingMember.getId()))
                 .isInstanceOf(MemberNotFoundException.class);
         }
     }

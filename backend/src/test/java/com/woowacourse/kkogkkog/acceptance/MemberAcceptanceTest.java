@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
@@ -52,13 +53,13 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
-        MemberResponse memberResponse = extract.as(MemberResponse.class);
+        MyProfileResponse memberResponse = extract.as(MyProfileResponse.class);
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
-                MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
-                    "루키", "rookie@gmail.com", "image")))
+                new MyProfileResponse(1L, "URookie", "T03LX3C5540",
+                    "루키", "rookie@gmail.com", "image", 0L))
         );
     }
 
@@ -109,7 +110,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         프로필_수정을_성공하고(newNickname, rookieAccessToken);
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
-        String actual = extract.as(MemberResponse.class).getNickname();
+        String actual = extract.as(MyProfileResponse.class).getNickname();
 
         assertThat(actual).isEqualTo(newNickname);
     }

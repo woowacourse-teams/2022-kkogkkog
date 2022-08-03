@@ -58,15 +58,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse findById(Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
-
-        return MemberResponse.of(findMember);
-    }
-
-    @Transactional(readOnly = true)
-    public MyProfileResponse findById2(Long memberId) {
+    public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
         long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);

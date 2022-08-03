@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.util.List;
@@ -71,8 +72,8 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 나의_회원정보를_요청할_수_있다() throws Exception {
         // given
-        MemberResponse memberResponse = new MemberResponse(1L, "User1", "TWorkspace1",
-            "user_nickname1", "email1@gmail.com", "image");
+        MyProfileResponse memberResponse = new MyProfileResponse(1L, "User1", "TWorkspace1",
+            "user_nickname1", "email1@gmail.com", "image", 10L);
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findById(any())).willReturn(memberResponse);
@@ -106,7 +107,8 @@ public class MemberControllerTest extends Documentation {
                         .description("워크스페이스 ID"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                    fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
+                    fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소"),
+                    fieldWithPath("unReadCount").type(JsonFieldType.NUMBER).description("읽지 않은 알림 개수")
                 ))
             );
     }
