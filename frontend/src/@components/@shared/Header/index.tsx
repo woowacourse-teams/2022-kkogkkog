@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import { useFetchMe } from '@/@hooks/@queries/user';
@@ -16,7 +16,6 @@ const Header = (props: HeaderProps) => {
   const { title = '', className } = props;
 
   const isLandingPage = useLocation().pathname === PATH.LANDING;
-  const navigate = useNavigate();
 
   const { me } = useFetchMe();
 
@@ -28,12 +27,9 @@ const Header = (props: HeaderProps) => {
             <img src='/assets/images/logo.png' alt='로고' width='36' />
           </Link>
         ) : (
-          <Icon
-            iconName='arrow'
-            size='20'
-            color={theme.colors.primary_400}
-            onClick={() => navigate(-1)}
-          />
+          <Link to='-1'>
+            <Icon iconName='arrow' size='20' color={theme.colors.primary_400} />
+          </Link>
         )}
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
