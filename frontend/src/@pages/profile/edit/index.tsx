@@ -2,18 +2,13 @@ import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
+import useEditProfileForm from '@/@hooks/user/useEditProfileForm';
 
 import * as Styled from './style';
 
 const ProfileEditPage = () => {
-  const {
-    state: { name },
-    changeHandler: { onChangeName },
-    submitHandler: { edit: onSubmitEditedForm },
-  } = useAuthenticateForm();
-
   const { me } = useFetchMe();
+  const { nickname, onChangeNickname, onSubmitEditedForm } = useEditProfileForm();
 
   return (
     <PageTemplate title='프로필 수정'>
@@ -22,7 +17,7 @@ const ProfileEditPage = () => {
           <img src={me?.imageUrl} alt='프사' width='86px' />
         </Styled.ImageInner>
         <Styled.Form onSubmit={onSubmitEditedForm}>
-          <Input label='닉네임' value={name} onChange={onChangeName} />
+          <Input label='닉네임' value={nickname} onChange={onChangeNickname} />
           <Styled.ButtonInner>
             <Button>완료</Button>
           </Styled.ButtonInner>
