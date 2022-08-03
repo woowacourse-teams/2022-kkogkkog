@@ -1,15 +1,15 @@
 package com.woowacourse.kkogkkog.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
@@ -77,11 +77,11 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             Long memberId = memberService.saveOrFind(slackUserInfo).getId();
 
-            MemberResponse memberResponse = memberService.findById(memberId);
+            MyProfileResponse memberResponse = memberService.findById2(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
-                    "image")
+                new MyProfileResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
+                    "image", 0L)
             );
         }
 
@@ -90,7 +90,7 @@ class MemberServiceTest extends ServiceTest {
         void fail_noExistMember() {
             Member nonExistingMember = MemberFixture.NON_EXISTING_MEMBER;
 
-            Assertions.assertThatThrownBy(() -> memberService.findById(nonExistingMember.getId()))
+            Assertions.assertThatThrownBy(() -> memberService.findById2(nonExistingMember.getId()))
                 .isInstanceOf(MemberNotFoundException.class);
         }
     }
