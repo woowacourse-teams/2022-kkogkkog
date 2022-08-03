@@ -34,12 +34,10 @@ public class Coupon {
     @JoinColumn(name = "receiver_member_id")
     private Member receiver;
 
-    @Column(nullable = false)
     private String modifier;
 
     private String message;
 
-    @Column(nullable = false)
     private String backgroundColor;
 
     @Enumerated(EnumType.STRING)
