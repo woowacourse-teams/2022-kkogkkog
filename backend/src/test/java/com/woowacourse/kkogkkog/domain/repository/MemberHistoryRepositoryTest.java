@@ -8,6 +8,7 @@ import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -27,6 +28,7 @@ class MemberHistoryRepositoryTest {
     private MemberHistoryRepository memberHistories;
 
     @Test
+    @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 안은 기록들의 개수를 반환한다.")
     void countByHostMemberAndIsReadFalse() {
         Member sender = members.save(new Member(null, "UJeong", "T03LX3C5540",
             "정", "jeong@gmail.com", "image"));
