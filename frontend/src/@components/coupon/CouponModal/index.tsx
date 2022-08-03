@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { useState } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Modal from '@/@components/@shared/Modal';
+import useInput from '@/@hooks/@common/useInput';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
 import { ANIMATION_DURATION } from '@/constants/animation';
@@ -66,7 +67,7 @@ const CouponModal = (props: CouponItemProps) => {
 
   const [animation, setAnimation] = useState(false);
 
-  const [meetingDate, setMeetingDate] = useState('');
+  const [meetingDate, onChangeMeetingDate] = useInput('');
 
   const { cancelCoupon, requestCoupon, finishCoupon, acceptCoupon } = useChangeCouponStatus(id);
 
@@ -75,14 +76,6 @@ const CouponModal = (props: CouponItemProps) => {
   const { title, buttons } = isSent
     ? sentCouponModalMapper[couponStatus]
     : receivedCouponModalMapper[couponStatus];
-
-  const onChangeMeetingDate: ChangeEventHandler<HTMLInputElement> = e => {
-    const {
-      target: { value },
-    } = e;
-
-    setMeetingDate(value);
-  };
 
   const onCloseModal = () => {
     setAnimation(true);

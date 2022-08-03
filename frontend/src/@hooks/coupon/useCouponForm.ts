@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useInput from '@/@hooks/@common/useInput';
 import { PATH } from '@/Router';
 import {
   COUPON_COLORS,
@@ -21,7 +22,8 @@ export const useCouponForm = () => {
   const [type, setType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [modifier, setModifier] = useState<COUPON_MODIFIERS>(couponModifiers[0]);
   const [color, setColor] = useState<COUPON_COLORS>(couponColors[0]);
-  const [message, setMessage] = useState('');
+
+  const [message, onChangeMessage] = useInput('');
 
   const createCouponMutate = useCreateCouponMutation();
 
@@ -35,14 +37,6 @@ export const useCouponForm = () => {
 
   const onSelectColor = (color: COUPON_COLORS) => {
     setColor(color);
-  };
-
-  const onChangeMessage = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-
-    setMessage(value);
   };
 
   const onSelectReceiver = (user: UserResponse) => {
