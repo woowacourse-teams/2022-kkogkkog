@@ -1,7 +1,9 @@
 package com.woowacourse.kkogkkog.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
@@ -9,6 +11,7 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -137,6 +140,45 @@ class MemberServiceTest extends ServiceTest {
                 arthurCreateResponse.getId());
 
             assertThat(historiesResponse).hasSize(1);
+        }
+    }
+
+    @Nested
+    @DisplayName("updateMemberHistory 메서드는")
+    class UpdateMemberHistory {
+
+        @Test
+        @DisplayName("요청받을 경우 true 로 변경된다.")
+        void success() {
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
+                "arthur@gmail.com", "image");
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
+            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
+                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
+            couponService.save(couponSaveRequest);
+
+            assertDoesNotThrow(() -> memberService.updateMemberHistory(1L));
+        }
+
+        @Test
+        @DisplayName("이미 isRead 가 true일 경우 예외를 던진다.")
+        void fail_isReadTrue() {
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
+                "arthur@gmail.com", "image");
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
+            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
+                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
+            couponService.save(couponSaveRequest);
+            memberService.updateMemberHistory(1L);
+
+            assertThatThrownBy(() -> memberService.updateMemberHistory(1L))
+                .isInstanceOf(InvalidRequestException.class);
         }
     }
 

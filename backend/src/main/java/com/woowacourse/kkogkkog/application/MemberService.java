@@ -10,6 +10,7 @@ import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
@@ -70,27 +71,27 @@ public class MemberService {
             .collect(toList());
     }
 
+    public void update(MemberUpdateRequest memberUpdateRequest) {
+        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
+            .orElseThrow(MemberNotFoundException::new);
+
+        member.updateNickname(memberUpdateRequest.getNickname());
+    }
+
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
         List<MemberHistory> histories = memberHistoryRepository.findAllByHostMember(findMember);
 
         return histories.stream()
-            .map(it -> new MemberHistoryResponse(
-                it.getId(),
-                it.getTargetMember().getNickname(),
-                it.getTargetMember().getImageUrl(),
-                it.getCouponId(),
-                it.getCouponType().name(),
-                it.getCouponEvent().name(),
-                it.getMeetingDate()))
+            .map(MemberHistoryResponse::of)
             .collect(toList());
     }
 
-    public void update(MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
-            .orElseThrow(MemberNotFoundException::new);
+    public void updateMemberHistory(Long memberHistoryId) {
+        MemberHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
+            .orElseThrow(MemberHistoryNotFoundException::new);
 
-        member.updateNickname(memberUpdateRequest.getNickname());
+        memberHistory.updateIsRead();
     }
 }
