@@ -7,7 +7,7 @@ import { useAddSlackAppMutation } from '@/@hooks/@queries/service';
 import { useOAuthLoginMutation } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
-const LoginRedirect = () => {
+const Redirect = () => {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
 
@@ -43,4 +43,4 @@ const LoginRedirect = () => {
   return <Loading>👻</Loading>;
 };
 
-export default LoginRedirect;
+export default Redirect;
