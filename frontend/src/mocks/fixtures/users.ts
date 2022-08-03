@@ -8,6 +8,7 @@ export default {
       imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
       password: '1234',
       nickname: '준찌',
+      unReadCount: 3,
       histories: [
         {
           id: 1,
@@ -49,6 +50,7 @@ export default {
       imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
       password: '1234',
       nickname: '시지프',
+      unReadCount: 3,
       histories: [
         {
           id: 1,
@@ -90,6 +92,7 @@ export default {
       imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
       password: '1234',
       nickname: '아서',
+      unReadCount: 0,
       histories: [],
     },
     {
@@ -100,6 +103,7 @@ export default {
       imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
       password: '1234',
       nickname: '정',
+      unReadCount: 0,
       histories: [],
     },
   ],
