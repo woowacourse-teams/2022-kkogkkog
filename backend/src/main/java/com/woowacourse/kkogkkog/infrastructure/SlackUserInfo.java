@@ -18,12 +18,14 @@ public class SlackUserInfo {
     private String teamId;
 
     private String name;
+    private String email;
     private String picture;
 
-    public SlackUserInfo(String userId, String teamId, String name, String picture) {
+    public SlackUserInfo(String userId, String teamId, String name, String email, String picture) {
         this.userId = userId;
         this.teamId = teamId;
         this.name = name;
+        this.email = email;
         this.picture = picture;
     }
 }

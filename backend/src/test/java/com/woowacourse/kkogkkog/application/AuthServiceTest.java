@@ -36,6 +36,7 @@ class AuthServiceTest extends ServiceTest {
                         memberResponse.getUserId(),
                         memberResponse.getWorkspaceId(),
                         memberResponse.getNickname(),
+                        memberResponse.getEmail(),
                         memberResponse.getImageUrl()));
 
             TokenResponse tokenResponse = authService.login("code");

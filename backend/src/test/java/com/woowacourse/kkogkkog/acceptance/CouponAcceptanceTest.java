@@ -17,7 +17,6 @@ import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
@@ -29,10 +28,14 @@ import org.springframework.http.MediaType;
 @SuppressWarnings("NonAsciiCharacters")
 public class CouponAcceptanceTest extends AcceptanceTest {
 
-    private static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정", "image");
-    private static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오", "image");
-    private static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서", "image");
-    private static final Member ROOKIE = new Member(4L, "URookie", "T03LX3C5540", "루키", "image");
+    private static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540",
+        "정", "jeong@gmail.com", "image");
+    private static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540",
+        "레오", "leothelion@gmail.com", "image");
+    private static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540",
+        "아서", "arthur@gmail.com", "image");
+    private static final Member ROOKIE = new Member(4L, "URookie", "T03LX3C5540",
+        "루키", "rookie@gmail.com", "image");
 
     private static final String BACKGROUND_COLOR = "#123456";
     private static final String MODIFIER = "한턱내는";

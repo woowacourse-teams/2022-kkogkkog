@@ -33,17 +33,19 @@ public class MemberService {
         String userId = slackUserInfo.getUserId();
         String workspaceId = slackUserInfo.getTeamId();
         String nickname = slackUserInfo.getName();
+        String email = slackUserInfo.getEmail();
         String imageUrl = slackUserInfo.getPicture();
 
         return memberRepository.findByUserId(userId)
             .stream()
-            .map(member -> updateImageUrl(member, imageUrl))
+            .map(member -> updateToMatchSlack(member, email, imageUrl))
             .findFirst()
             .orElseGet(() ->
-                save(new Member(null, userId, workspaceId, nickname, imageUrl)));
+                save(new Member(null, userId, workspaceId, nickname, email, imageUrl)));
     }
 
-    private MemberCreateResponse updateImageUrl(Member member, String imageUrl) {
+    private MemberCreateResponse updateToMatchSlack(Member member, String email, String imageUrl) {
+        member.updateEmail(email);
         member.updateImageURL(imageUrl);
         return new MemberCreateResponse(member.getId(), false);
     }
