@@ -28,21 +28,30 @@ public class Member {
     private String nickname;
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String imageUrl;
 
-    public Member(Long id, String userId, String workspaceId, String nickname, String imageUrl) {
+    public Member(Long id, String userId, String workspaceId, String nickname, String email,
+                  String imageUrl) {
         this.id = id;
         this.userId = userId;
         this.workspaceId = workspaceId;
         this.nickname = nickname;
-        this.imageUrl = imageUrl;
-    }
-
-    public void updateImageURL(String imageUrl) {
+        this.email = email;
         this.imageUrl = imageUrl;
     }
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateImageURL(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

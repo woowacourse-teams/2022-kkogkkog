@@ -38,7 +38,7 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("가입되지 않은 회원 정보를 받으면, 회원을 저장하고 저장된 Id와 회원가입 여부를 반환한다.")
         void success_save() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
 
             MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
 
@@ -52,7 +52,7 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("가입된 회원 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 반환한다.")
         void success_find() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
 
             memberService.saveOrFind(slackUserInfo);
             MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
@@ -72,13 +72,14 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("저장된 회원의 Id를 받으면, 해당 회원의 정보를 반환한다.")
         void success() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
             Long memberId = memberService.saveOrFind(slackUserInfo).getId();
 
             MemberResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "image")
+                new MemberResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
+                    "image")
             );
         }
 
@@ -100,9 +101,9 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("회원가입된 모든 회원들의 정보를 반환한다.")
         void success() {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
             SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
-                "image");
+                "arthur@gmail.com", "image");
 
             memberService.saveOrFind(rookieUserInfo);
             memberService.saveOrFind(arthurUserInfo);
@@ -121,9 +122,9 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("로그인된 사용자의 history를 반환한다.")
         void success() {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
             SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
-                "image");
+                "arthur@gmail.com", "image");
             MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
             MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
 
@@ -147,7 +148,7 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("사용자의 닉네임을 수정한다.")
         void success() {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "image");
+                "rookie@gmail.com", "image");
             Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
 
             String expected = "새로운_닉네임";

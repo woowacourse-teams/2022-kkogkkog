@@ -39,9 +39,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison().isEqualTo(
                 List.of(
                     MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
-                        "루키", "image")),
+                        "루키", "rookie@gmail.com", "image")),
                     MemberResponse.of(new Member(2L, "UArthur", "T03LX3C5540",
-                        "아서", "image"))
+                        "아서", "arthur@gmail.com", "image"))
                 )
             ));
     }
@@ -58,14 +58,14 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
                 MemberResponse.of(new Member(1L, "URookie", "T03LX3C5540",
-                    "루키", "image")))
+                    "루키", "rookie@gmail.com", "image")))
         );
     }
 
     @Test
     void 회원에게_전달된_알림들을_조회할_수_있다() {
-        Member ROOKIE = new Member(1L, "URookie", "T03LX3C5540", "루키", "image");
-        Member ARTHUR = new Member(2L, "UArthur", "T03LX3C5540", "아서", "image");
+        Member ROOKIE = new Member(1L, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com", "image");
+        Member ARTHUR = new Member(2L, "UArthur", "T03LX3C5540", "아서", "arthur@gmail.com", "image");
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
         String arthurAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR)).getAccessToken();
         쿠폰_발급에_성공한다(rookieAccessToken, List.of(ARTHUR));
