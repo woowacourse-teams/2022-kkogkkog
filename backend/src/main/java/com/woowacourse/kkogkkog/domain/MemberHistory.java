@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +38,8 @@ public class MemberHistory {
 
     private LocalDate meetingDate;
 
+    private boolean isRead;
+
     public MemberHistory(Long id, Member hostMember,
                          Member targetMember, Long couponId,
                          CouponType couponType, CouponEvent couponEvent,
@@ -48,5 +51,12 @@ public class MemberHistory {
         this.couponType = couponType;
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
+    }
+
+    public void updateIsRead() {
+        if (isRead) {
+            throw new InvalidRequestException("이미 변경된 상태입니다.");
+        }
+        isRead = true;
     }
 }
