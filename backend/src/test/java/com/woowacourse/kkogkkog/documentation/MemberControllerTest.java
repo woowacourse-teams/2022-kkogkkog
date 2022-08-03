@@ -113,7 +113,7 @@ public class MemberControllerTest extends Documentation {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
@@ -149,7 +149,8 @@ public class MemberControllerTest extends Documentation {
                         .description("이벤트에 해당하는 쿠폰 타입"),
                     fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
                         .description("이벤트에 쿠폰 이벤트"),
-                    fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜")
+                    fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜"),
+                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN).description("이벤트 클릭(조회) 여부")
                 ))
             );
     }

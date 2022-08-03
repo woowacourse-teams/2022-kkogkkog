@@ -38,7 +38,7 @@ public class MemberHistory {
 
     private LocalDate meetingDate;
 
-    private boolean isRead;
+    private Boolean isRead = false;
 
     public MemberHistory(Long id, Member hostMember,
                          Member targetMember, Long couponId,

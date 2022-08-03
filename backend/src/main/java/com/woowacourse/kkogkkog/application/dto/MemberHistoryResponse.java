@@ -20,6 +20,7 @@ public class MemberHistoryResponse {
     private String couponEvent;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate meetingDate;
+    private Boolean isRead;
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -27,7 +28,8 @@ public class MemberHistoryResponse {
                                  Long couponId,
                                  String couponType,
                                  String couponEvent,
-                                 LocalDate meetingDate) {
+                                 LocalDate meetingDate,
+                                 Boolean isRead) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
@@ -35,6 +37,7 @@ public class MemberHistoryResponse {
         this.couponType = couponType;
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
+        this.isRead = isRead;
     }
 
     public static MemberHistoryResponse of(MemberHistory memberHistory) {
@@ -45,6 +48,7 @@ public class MemberHistoryResponse {
             memberHistory.getCouponId(),
             memberHistory.getCouponType().name(),
             memberHistory.getCouponEvent().name(),
-            memberHistory.getMeetingDate());
+            memberHistory.getMeetingDate(),
+            memberHistory.getIsRead());
     }
 }

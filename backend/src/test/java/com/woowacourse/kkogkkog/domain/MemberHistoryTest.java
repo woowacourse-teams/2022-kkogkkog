@@ -22,6 +22,6 @@ class MemberHistoryTest {
         memberHistory.updateIsRead();
 
         // then
-        assertThat(memberHistory.isRead()).isTrue();
+        assertThat(memberHistory.getIsRead()).isTrue();
     }
 }
