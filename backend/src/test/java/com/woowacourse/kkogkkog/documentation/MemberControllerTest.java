@@ -110,7 +110,7 @@ public class MemberControllerTest extends Documentation {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when
-        ResultActions perform = mockMvc.perform(put("/api/members/me/nickname")
+        ResultActions perform = mockMvc.perform(put("/api/members/me")
             .header("Authorization", "Bearer AccessToken")
             .content(objectMapper.writeValueAsString(memberUpdateMeRequest))
             .contentType(MediaType.APPLICATION_JSON));
