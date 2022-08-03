@@ -1,7 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { client } from '@/apis';
-import { editMe, getHistoryList, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
+import {
+  editMe,
+  getHistoryList,
+  getMe,
+  getUserList,
+  join,
+  login,
+  OAuthLogin,
+  readHistory,
+} from '@/apis/user';
+import { ReadHistoryRequest } from '@/types/remote/request';
+import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
 
@@ -35,13 +46,13 @@ export const useFetchUserList = () => {
   };
 };
 
-export const useFetchHistoryList = () => {
+export const useFetchUserHistoryList = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.getHistoryList], getHistoryList, {
     suspense: false,
   });
 
   return {
-    historyList: data?.data?.data,
+    historyList: data?.data,
     ...rest,
   };
 };
@@ -104,5 +115,49 @@ export const useLoginMutation = () => {
     }) {
       displayMessage(error, true);
     },
+  });
+};
+
+export const useReadHistoryMutation = () => {
+  const queryClient = useQueryClient();
+
+  const onMutate = async ({ id }: ReadHistoryRequest) => {
+    await queryClient.cancelQueries([QUERY_KEY.getHistoryList]);
+
+    const previousQueryData = queryClient.getQueryData<UserHistoryResponse>([
+      QUERY_KEY.getHistoryList,
+    ]);
+
+    queryClient.setQueryData<UserHistoryResponse>([QUERY_KEY.getHistoryList], oldData => {
+      const newData = {
+        ...oldData,
+        data: oldData?.data?.map(history =>
+          history.id === id ? { ...history, isRead: true } : { ...history }
+        ),
+      };
+
+      return newData;
+    });
+
+    // onError, onSettled에서 context로 조회가능
+    return previousQueryData;
+  };
+
+  const onSuccess = () => {
+    queryClient.invalidateQueries([QUERY_KEY.me]);
+  };
+
+  const onError = (
+    error: unknown,
+    variables: ReadHistoryRequest,
+    context: UserHistoryResponse | undefined
+  ) => {
+    queryClient.setQueryData([QUERY_KEY.getHistoryList], context);
+  };
+
+  return useMutation(readHistory, {
+    onMutate,
+    onSuccess,
+    onError,
   });
 };

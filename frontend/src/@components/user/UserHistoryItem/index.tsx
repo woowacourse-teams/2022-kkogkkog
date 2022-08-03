@@ -1,6 +1,14 @@
+import { MouseEventHandler } from 'react';
+
+import { UserHistory } from '@/types/client/user';
 import { extractDate } from '@/utils';
 
 import * as Styled from './style';
+
+interface UserHistoryItemProps {
+  history: UserHistory;
+  onClick: MouseEventHandler<HTMLDivElement>;
+}
 
 const couponTypeTextMapper = {
   COFFEE: '커피',
@@ -17,14 +25,14 @@ const couponEventTextMapper = {
   FINISH: '쿠폰 사용을 완료했어요.',
 };
 
-const UserHistoryItem = (props: any) => {
-  const { history } = props;
+const UserHistoryItem = (props: UserHistoryItemProps) => {
+  const { history, onClick } = props;
   const { imageUrl, meetingTime, nickname, couponEvent, couponType, isRead } = history;
 
   const meetingDateText = extractDate(meetingTime, true);
 
   return (
-    <Styled.Root isRead={isRead}>
+    <Styled.Root isRead={isRead} onClick={onClick}>
       <Styled.ProfileImageContainer>
         <img src={imageUrl} alt='프로필 이미지' />
       </Styled.ProfileImageContainer>
