@@ -8,7 +8,7 @@ import App from '@/App';
 import globalStyle from '@/styles/globalStyle';
 import theme from '@/styles/theme';
 
-if (process.env.NODE_ENV === 'development') {
+if (!process.env.NODE_ENV) {
   const { worker } = require('./mocks/browser');
 
   worker.start();
