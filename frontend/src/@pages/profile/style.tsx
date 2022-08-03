@@ -20,7 +20,7 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
 `;
 
-export const NickName = styled.span`
+export const Nickname = styled.span`
   font-size: 18px;
   font-weight: 600;
 `;
