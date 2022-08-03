@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
+import Position from '@/@components/@shared/Position';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
@@ -34,9 +35,16 @@ const Header = (props: HeaderProps) => {
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
-        <Link to={PATH.NOTICATION}>
-          <Icon iconName='notification' size='26' color={'transparent'} />
-        </Link>
+        <Position>
+          <Link to={PATH.NOTICATION}>
+            <Icon iconName='notification' size='26' color={'transparent'} />
+          </Link>
+          {me?.unReadCount !== 0 && (
+            <Position position='absolute' top='0' right='0'>
+              <Styled.Bell />
+            </Position>
+          )}
+        </Position>
         <Link to={PATH.PROFILE}>
           {me ? (
             <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />

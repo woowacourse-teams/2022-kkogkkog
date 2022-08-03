@@ -43,3 +43,13 @@ export const Profile = styled.div`
 
   gap: 10px;
 `;
+
+export const Bell = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.red_800};
+  `};
+`;
