@@ -152,7 +152,7 @@ public class CouponService {
             String hostMemberId = hostMember.getUserId();
             String message = targetMember.getNickname() + " 님이 "
                 + memberHistory.getCouponEvent().name() + " 이벤트를 발생하였습니다.";
-            slackClient.requestNotification(accessToken, hostMemberId, message);
+            slackClient.requestPostMessage(accessToken, hostMemberId, message);
         }
     }
 }

@@ -120,7 +120,7 @@ public class SlackClient {
             botTokenResponse.getAccessToken());
     }
 
-    public void requestNotification(String token, String userId, String message) {
+    public void requestPostMessage(String token, String userId, String message) {
         messageClient
             .post()
             .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))

@@ -180,7 +180,7 @@ public class CouponServiceTest extends ServiceTest {
 
             String message = ROOKIE.getNickname() + " 님이 "
                 + CouponEvent.INIT.name() + " 이벤트를 발생하였습니다.";
-            verify(slackClient).requestNotification(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
+            verify(slackClient).requestPostMessage(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
         }
 
         @Test
@@ -246,7 +246,7 @@ public class CouponServiceTest extends ServiceTest {
 
                 String message = ARTHUR.getNickname() + " 님이 "
                     + CouponEvent.REQUEST.name() + " 이벤트를 발생하였습니다.";
-                verify(slackClient).requestNotification(KKOGKKOG_WORKSPACE.getAccessToken(),
+                verify(slackClient).requestPostMessage(KKOGKKOG_WORKSPACE.getAccessToken(),
                     ROOKIE.getUserId(), message);
             }
 

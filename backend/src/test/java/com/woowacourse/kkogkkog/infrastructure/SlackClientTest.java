@@ -126,14 +126,14 @@ class SlackClientTest {
 
     @Test
     @DisplayName("슬랙 서버로 메세지 전송 요청을 보낸다.")
-    void requestNotification() throws IOException {
+    void requestPostMessage() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, POST_MESSAGE_RESPONSE);
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         assertThatNoException().isThrownBy(() ->
-            slackClient.requestNotification(BOT_ACCESS_TOKEN, USER_ID, MESSAGE));
+            slackClient.requestPostMessage(BOT_ACCESS_TOKEN, USER_ID, MESSAGE));
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {
