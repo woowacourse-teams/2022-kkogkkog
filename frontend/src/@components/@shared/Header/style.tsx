@@ -35,8 +35,11 @@ export const Title = styled.div`
   flex: 1;
 `;
 
-export const Profile = styled.div``;
-
 export const ProfileImage = styled.img`
   border-radius: 50%;
+`;
+export const Profile = styled.div`
+  display: flex;
+
+  gap: 10px;
 `;

@@ -34,6 +34,9 @@ const Header = (props: HeaderProps) => {
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
+        <Link to={PATH.NOTICATION}>
+          <Icon iconName='notification' size='26' color={'transparent'} />
+        </Link>
         <Link to={PATH.PROFILE}>
           {me ? (
             <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />
