@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
+import Footer from '@/@components/@shared/Footer';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
@@ -151,6 +152,7 @@ const AuthorizedLanding = () => {
             </CustomSuspense>
           </div>
         </Styled.ListContainer>
+        <Footer />
         {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
       </Styled.Root>
     </PageTemplate.LandingPage>
