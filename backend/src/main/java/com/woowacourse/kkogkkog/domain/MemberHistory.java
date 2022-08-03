@@ -58,9 +58,6 @@ public class MemberHistory {
     }
 
     public void updateIsRead() {
-        if (isRead) {
-            throw new InvalidRequestException("이미 변경된 상태입니다.");
-        }
         isRead = true;
     }
 }
