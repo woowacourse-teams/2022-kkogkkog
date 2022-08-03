@@ -29,6 +29,7 @@ export const PATH = {
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
   USER_HISTORY: '/history',
+  DOWNLOAD_REDIRECT: '/download/redirect',
 };
 
 const Router = () => {
@@ -44,6 +45,7 @@ const Router = () => {
       />
       <Route path={PATH.LOGIN} element={<LoginPage />} />
       <Route path={PATH.LOGIN_REDIRECT} element={<LoginRedirect />} />
+      <Route path={PATH.DOWNLOAD_REDIRECT} element={<LoginRedirect />} />
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
