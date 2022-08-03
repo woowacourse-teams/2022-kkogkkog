@@ -3,8 +3,10 @@ package com.woowacourse.kkogkkog.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
@@ -24,6 +26,9 @@ class MemberServiceTest extends ServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -106,6 +111,32 @@ class MemberServiceTest extends ServiceTest {
             List<MemberResponse> membersResponse = memberService.findAll();
 
             assertThat(membersResponse).hasSize(2);
+        }
+    }
+
+    @Nested
+    @DisplayName("findHistoryById 메서드는")
+    class FindHistoryById {
+
+        @Test
+        @DisplayName("로그인된 사용자의 history를 반환한다.")
+        void success() {
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
+                "arthur@gmail.com", "image");
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
+
+            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
+                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
+                "추가 메세지", "##11032", "COFFEE");
+            couponService.save(couponSaveRequest);
+
+            List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
+                arthurCreateResponse.getId());
+
+            assertThat(historiesResponse).hasSize(1);
         }
     }
 
