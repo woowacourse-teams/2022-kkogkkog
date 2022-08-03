@@ -1,13 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { client } from '@/apis';
-import { editMe, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
+import { editMe, getHistoryList, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
 
 import { useToast } from '../@common/useToast';
 
 const QUERY_KEY = {
   me: 'me',
   getUserList: 'getUserList',
+  getHistoryList: 'getHistoryList',
 };
 
 /** Query */
@@ -30,6 +31,17 @@ export const useFetchUserList = () => {
 
   return {
     userList: data?.data?.data,
+    ...rest,
+  };
+};
+
+export const useFetchHistoryList = () => {
+  const { data, ...rest } = useQuery([QUERY_KEY.getHistoryList], getHistoryList, {
+    suspense: false,
+  });
+
+  return {
+    historyList: data?.data?.data,
     ...rest,
   };
 };

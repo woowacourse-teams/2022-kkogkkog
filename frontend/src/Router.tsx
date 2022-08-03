@@ -8,6 +8,7 @@ import CouponListPage from '@/@pages/coupon-list';
 import CouponCreatePage from '@/@pages/coupon-list/create';
 import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
+import NotificationPage from '@/@pages/notification';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
@@ -27,6 +28,7 @@ export const PATH = {
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
+  NOTICATION: '/notification',
 };
 
 const Router = () => {
@@ -70,6 +72,7 @@ const Router = () => {
         />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
+        <Route path={PATH.NOTICATION} element={<NotificationPage />} />
       </Route>
       <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>

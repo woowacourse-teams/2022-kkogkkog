@@ -19,3 +19,5 @@ export const login = (body: LoginRequest) => client.post<LoginResponse>('/login'
 
 export const OAuthLogin = (code: string) =>
   client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
+
+export const getHistoryList = () => client.get<any>('/members/me/histories');
