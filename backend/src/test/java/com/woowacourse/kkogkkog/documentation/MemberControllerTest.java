@@ -13,10 +13,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -31,8 +34,10 @@ public class MemberControllerTest extends Documentation {
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
         List<MemberResponse> membersResponse = List.of(
-            new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1", "image"),
-            new MemberResponse(2L, "User2", "TWorkspace2", "user_nickname2", "image")
+            new MemberResponse(1L, "User1", "TWorkspace1", "user_nickname1", "email1@gmail.com",
+                "image"),
+            new MemberResponse(2L, "User2", "TWorkspace2", "user_nickname2", "email2@gmail.com",
+                "image")
         );
         given(memberService.findAll()).willReturn(membersResponse);
 
@@ -54,6 +59,7 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].workspaceId").type(JsonFieldType.STRING)
                         .description("워크스페이스 ID"),
                     fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING)
                         .description("이미지 주소")
                 ))
@@ -64,8 +70,7 @@ public class MemberControllerTest extends Documentation {
     void 나의_회원정보를_요청할_수_있다() throws Exception {
         // given
         MemberResponse memberResponse = new MemberResponse(1L, "User1", "TWorkspace1",
-            "user_nickname1",
-            "image");
+            "user_nickname1", "email1@gmail.com", "image");
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findById(any())).willReturn(memberResponse);
@@ -80,6 +85,7 @@ public class MemberControllerTest extends Documentation {
             .andExpect(jsonPath("$.userId").value("User1"))
             .andExpect(jsonPath("$.workspaceId").value("TWorkspace1"))
             .andExpect(jsonPath("$.nickname").value("user_nickname1"))
+            .andExpect(jsonPath("$.email").value("email1@gmail.com"))
             .andExpect(jsonPath("$.imageUrl").value("image"));
 
         // docs
@@ -97,7 +103,53 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("workspaceId").type(JsonFieldType.STRING)
                         .description("워크스페이스 ID"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
+                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소")
+                ))
+            );
+    }
+
+    @Test
+    void 나의_기록들을_조회할_수_있다() throws Exception {
+        // given
+        List<MemberHistoryResponse> historiesResponse = List.of(
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null));
+
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(memberService.findHistoryById(any())).willReturn(historiesResponse);
+
+        // when
+        ResultActions perform = mockMvc.perform(get("/api/members/me/history")
+            .header("Authorization", "Bearer AccessToken"));
+
+        // then
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    new MemberHistoriesResponse(historiesResponse))));
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-showMeHistory",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestHeaders(
+                    headerWithName("Authorization").description("Bearer {accessToken}")
+                ),
+                responseFields(
+                    fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("기록 ID"),
+                    fieldWithPath("data.[].nickname").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자의 이름"),
+                    fieldWithPath("data.[].imageUrl").type(JsonFieldType.STRING)
+                        .description("이벤트를 보낸 사용자 프로필 주소"),
+                    fieldWithPath("data.[].couponId").type(JsonFieldType.NUMBER)
+                        .description("이벤트에 해당하는 쿠폰 ID"),
+                    fieldWithPath("data.[].couponType").type(JsonFieldType.STRING)
+                        .description("이벤트에 해당하는 쿠폰 타입"),
+                    fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
+                        .description("이벤트에 쿠폰 이벤트"),
+                    fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜")
                 ))
             );
     }
@@ -111,7 +163,7 @@ public class MemberControllerTest extends Documentation {
 
         // when
         ResultActions perform = mockMvc.perform(put("/api/members/me")
-            .header("Authorization", "Bearer AccessToken")
+            .header("Authorization", "Bearer accessToken")
             .content(objectMapper.writeValueAsString(memberUpdateMeRequest))
             .contentType(MediaType.APPLICATION_JSON));
 

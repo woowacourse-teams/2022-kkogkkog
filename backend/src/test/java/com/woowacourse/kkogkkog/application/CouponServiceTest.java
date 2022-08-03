@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.kkogkkog.application.dto.CouponChangeStatusRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.Member;
@@ -19,6 +20,7 @@ import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,13 +32,20 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("CouponService 클래스의")
 public class CouponServiceTest extends ServiceTest {
 
-    private static final Member JEONG = new Member(null, "UJeong", "T03LX3C5540", "정", "image");
-    private static final Member LEO = new Member(null, "ULeo", "T03LX3C5540", "레오", "image");
-    private static final Member ROOKIE = new Member(null, "URookie", "T03LX3C5540", "루키", "image");
-    private static final Member ARTHUR = new Member(null, "UArthur", "T03LX3C5540", "아서", "image");
+    private static final Member JEONG = new Member(null, "UJeong", "T03LX3C5540", "정",
+        "jeong@gmail.com", "image");
+    private static final Member LEO = new Member(null, "ULeo", "T03LX3C5540", "레오",
+        "leothelion@gmail.com", "image");
+    private static final Member ROOKIE = new Member(null, "URookie", "T03LX3C5540", "루키",
+        "rookie@gmail.com", "image");
+    private static final Member ARTHUR = new Member(null, "UArthur", "T03LX3C5540", "아서",
+        "arthur@gmail.com", "image");
 
     @Autowired
     private CouponService couponService;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -135,13 +144,18 @@ public class CouponServiceTest extends ServiceTest {
     class Save {
 
         @Test
-        @DisplayName("쿠폰 정보 및 보낸 사람과 받는 사람들을 받으면, 생성된 쿠폰들을 반환한다.")
+        @DisplayName("쿠폰 정보 및 보낸 사람과 받는 사람들을 받으면, 쿠폰 생성 이벤트를 저장하고 생성된 쿠폰들을 반환한다.")
         void success() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE,
                 List.of(ARTHUR, JEONG, LEO));
             List<CouponResponse> createdCoupons = couponService.save(couponSaveRequest);
+            List<MemberHistoryResponse> createdHistory = memberService.findHistoryById(
+                ARTHUR.getId());
 
-            assertThat(createdCoupons.size()).isEqualTo(3);
+            Assertions.assertAll(
+                () -> assertThat(createdCoupons.size()).isEqualTo(3),
+                () -> assertThat(createdHistory.size()).isEqualTo(1)
+            );
         }
 
         @Test
@@ -184,7 +198,14 @@ public class CouponServiceTest extends ServiceTest {
                 couponService.changeStatus(couponChangeStatusRequest);
                 CouponResponse actual = couponService.findById(couponId);
 
-                assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.REQUESTED.name());
+                List<MemberHistoryResponse> createdHistory = memberService.findHistoryById(
+                    ROOKIE.getId());
+
+                assertAll(
+                    () -> assertThat(actual.getCouponStatus()).isEqualTo(
+                        CouponStatus.REQUESTED.name()),
+                    () -> assertThat(createdHistory.size()).isEqualTo(1)
+                );
             }
 
             @Test
@@ -389,7 +410,17 @@ public class CouponServiceTest extends ServiceTest {
                 couponService.changeStatus(couponFinish);
 
                 CouponResponse actual = couponService.findById(couponId);
-                assertThat(actual.getCouponStatus()).isEqualTo(CouponStatus.FINISHED.name());
+                List<MemberHistoryResponse> senderHistory = memberService.findHistoryById(
+                    ROOKIE.getId());
+                List<MemberHistoryResponse> receiverHistory = memberService.findHistoryById(
+                    ARTHUR.getId());
+
+                assertAll(
+                    () -> assertThat(actual.getCouponStatus()).isEqualTo(
+                        CouponStatus.FINISHED.name()),
+                    () -> assertThat(senderHistory.size()).isEqualTo(1),
+                    () -> assertThat(receiverHistory.size()).isEqualTo(3)
+                );
             }
         }
 

@@ -45,6 +45,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                     memberResponse.getUserId(),
                     memberResponse.getWorkspaceId(),
                     memberResponse.getNickname(),
+                    memberResponse.getEmail(),
                     memberResponse.getImageUrl()));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
