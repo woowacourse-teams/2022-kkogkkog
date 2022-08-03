@@ -30,7 +30,7 @@ const Header = (props: HeaderProps) => {
         ) : (
           <Icon
             iconName='arrow'
-            size='16'
+            size='20'
             color={theme.colors.primary_400}
             onClick={() => navigate(-1)}
           />
@@ -40,9 +40,9 @@ const Header = (props: HeaderProps) => {
       <Styled.Profile>
         <Link to={PATH.PROFILE}>
           {me ? (
-            <Styled.ProfileImage src={me.imageUrl} alt='프사' width='26px' />
+            <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />
           ) : (
-            <Icon iconName='profile' size='26' color={theme.colors.primary_400} />
+            <Icon iconName='profile' size='30' color={theme.colors.primary_400} />
           )}
         </Link>
       </Styled.Profile>
