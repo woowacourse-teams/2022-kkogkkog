@@ -73,7 +73,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .when()
             .auth().oauth2(arthurAccessToken)
-            .get("/api/members/me/history")
+            .get("/api/members/me/histories")
             .then().log().all()
             .extract();
 
