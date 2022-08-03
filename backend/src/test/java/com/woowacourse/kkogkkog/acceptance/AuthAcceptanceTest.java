@@ -7,6 +7,8 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
+import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -36,6 +38,23 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsNew();
 
         assertThat(actual).isFalse();
+    }
+
+    @Test
+    void 슬랙_앱을_등록할_수_있다() {
+        given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
+            .willReturn(
+                new WorkspaceResponse("ACCESS_TOKEN", "TEAM_ID", "꼭꼭"));
+
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .body(new InstallSlackAppRequest(AUTHORIZATION_CODE))
+            .post("/api/install/bot")
+            .then().log().all()
+            .extract();
+
+        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     public static TokenResponse 회원가입_또는_로그인에_성공한다(MemberResponse memberResponse) {

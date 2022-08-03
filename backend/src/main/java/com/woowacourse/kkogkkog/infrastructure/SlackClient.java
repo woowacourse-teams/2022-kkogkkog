@@ -1,7 +1,8 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
-import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -18,11 +19,15 @@ import org.springframework.web.util.UriBuilder;
 @Component
 public class SlackClient {
 
-    private static final String OAUTH_LOGIN_URI = "https://slack.com/api/openid.connect.token";
-    private static final String OAUTH_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final String LOGIN_URI = "https://slack.com/api/openid.connect.token";
+    private static final String LOGIN_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
+    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
+    private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
+    private static final String BOT_TOKEN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
+    private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
 
@@ -30,16 +35,19 @@ public class SlackClient {
     private final String secretId;
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
+    private final WebClient botTokenClient;
 
     public SlackClient(@Value("${security.slack.client-id}") String clientId,
                        @Value("${security.slack.secret-id}") String secretId,
-                       @Value(OAUTH_LOGIN_URI) String oAuthLoginUri,
-                       @Value(OAUTH_USER_INFO) String userInfoUri,
+                       @Value(LOGIN_URI) String oAuthLoginUri,
+                       @Value(LOGIN_USER_INFO) String userInfoUri,
+                       @Value(BOT_TOKEN_URI) String botTokenUri,
                        WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
         this.userClient = toWebClient(webClient, userInfoUri);
+        this.botTokenClient = toWebClient(webClient, botTokenUri);
     }
 
     private WebClient toWebClient(WebClient webClient, String baseUrl) {
@@ -57,7 +65,7 @@ public class SlackClient {
     private String requestAccessToken(String code) {
         Map<String, Object> responseBody = oAuthLoginClient
             .post()
-            .uri(uriBuilder -> toRequestTokenUri(code, uriBuilder))
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, LOGIN_REDIRECT_URL))
             .headers(this::setHeaders)
             .retrieve()
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
@@ -66,19 +74,6 @@ public class SlackClient {
         validateResponseBody(responseBody);
 
         return responseBody.get("access_token").toString();
-    }
-
-    private URI toRequestTokenUri(String code, UriBuilder uriBuilder) {
-        return uriBuilder
-            .queryParam(CODE_PARAMETER, code)
-            .queryParam(CLIENT_ID_PARAMETER, clientId)
-            .queryParam(SECRET_ID_PARAMETER, secretId)
-            .build();
-    }
-
-    private void setHeaders(HttpHeaders header) {
-        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
     }
 
     private void validateResponseBody(Map<String, Object> responseBody) {
@@ -96,5 +91,37 @@ public class SlackClient {
             .bodyToMono(SlackUserInfo.class)
             .blockOptional()
             .orElseThrow(OAuthUserInfoRequestFailedException::new);
+    }
+
+    public WorkspaceResponse requestBotAccessToken(String code) {
+        BotTokenResponse botTokenResponse = botTokenClient
+            .post()
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
+            .headers(this::setHeaders)
+            .retrieve()
+            .bodyToMono(BotTokenResponse.class)
+            .blockOptional()
+            .orElseThrow(AccessTokenRequestFailedException::new);
+
+        if (!botTokenResponse.getOk()) {
+            throw new BotInstallationFailedException("슬랙 봇 등록에 실패하였습니다.");
+        }
+        return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
+            botTokenResponse.getTeam().getName(),
+            botTokenResponse.getAccessToken());
+    }
+
+    private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
+        return uriBuilder
+            .queryParam(CODE_PARAMETER, code)
+            .queryParam(CLIENT_ID_PARAMETER, clientId)
+            .queryParam(SECRET_ID_PARAMETER, secretId)
+            .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
+            .build();
+    }
+
+    private void setHeaders(HttpHeaders header) {
+        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
     }
 }

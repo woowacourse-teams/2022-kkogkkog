@@ -43,16 +43,15 @@ public class Member {
         this.imageUrl = imageUrl;
     }
 
-    // TODO: sort by field order
-    public void updateImageURL(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void updateEmail(String email) {
         this.email = email;
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
+    public void updateImageURL(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
