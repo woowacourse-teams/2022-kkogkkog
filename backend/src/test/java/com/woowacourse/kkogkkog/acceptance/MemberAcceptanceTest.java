@@ -85,6 +85,24 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 조회하지_않은_알림이면_알림의_방문상태가_변경된다() {
+        Member ROOKIE = new Member(1L, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com", "image");
+        Member ARTHUR = new Member(2L, "UArthur", "T03LX3C5540", "아서", "arthur@gmail.com", "image");
+        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
+        String arthurAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR)).getAccessToken();
+        쿠폰_발급에_성공한다(rookieAccessToken, List.of(ARTHUR));
+
+        ExtractableResponse<Response> extract = RestAssured.given().log().all()
+            .when()
+            .auth().oauth2(arthurAccessToken)
+            .patch("/api/members/me/histories/1")
+            .then().log().all()
+            .extract();
+
+        assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
     void 본인의_닉네임을_수정할_수_있다() {
         String newNickname = "새로운_닉네임";
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
