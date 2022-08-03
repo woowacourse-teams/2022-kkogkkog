@@ -9,13 +9,17 @@ import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +30,21 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
+    private final WorkspaceRepository workspaceRepository;
     private final MemberHistoryRepository memberHistoryRepository;
+    private final AuthService authService;
+    private final SlackClient slackClient;
 
     public CouponService(CouponRepository couponRepository, MemberRepository memberRepository,
-                         MemberHistoryRepository memberHistoryRepository) {
+                         WorkspaceRepository workspaceRepository,
+                         MemberHistoryRepository memberHistoryRepository, AuthService authService,
+                         SlackClient slackClient) {
         this.couponRepository = couponRepository;
         this.memberRepository = memberRepository;
+        this.workspaceRepository = workspaceRepository;
         this.memberHistoryRepository = memberHistoryRepository;
+        this.authService = authService;
+        this.slackClient = slackClient;
     }
 
     @Transactional(readOnly = true)
@@ -63,7 +75,9 @@ public class CouponService {
         List<Coupon> savedCoupons = couponRepository.saveAll(coupons);
 
         for (Coupon savedCoupon : savedCoupons) {
-            saveMemberHistory(savedCoupon.getReceiver(), savedCoupon.getSender(), savedCoupon, CouponEvent.INIT);
+            MemberHistory memberHistory = saveMemberHistory(savedCoupon.getReceiver(),
+                savedCoupon.getSender(), savedCoupon, CouponEvent.INIT);
+            sendNotification(memberHistory);
         }
         return savedCoupons.stream()
             .map(CouponResponse::of)
@@ -106,7 +120,9 @@ public class CouponService {
         }
 
         Member hostMember = coupon.getOppositeMember(loginMember);
-        saveMemberHistory(hostMember, loginMember, coupon, couponChangeStatusRequest.getEvent());
+        MemberHistory memberHistory = saveMemberHistory(hostMember, loginMember, coupon,
+            couponChangeStatusRequest.getEvent());
+        sendNotification(memberHistory);
     }
 
     private Member findMember(Long memberId) {
@@ -119,10 +135,24 @@ public class CouponService {
             .orElseThrow(CouponNotFoundException::new);
     }
 
-    private void saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
+    private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
                                    CouponEvent couponEvent) {
         MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, coupon.getId(),
             coupon.getCouponType(), couponEvent, coupon.getMeetingDate());
-        memberHistoryRepository.save(memberHistory);
+        return memberHistoryRepository.save(memberHistory);
+    }
+
+    private void sendNotification(MemberHistory memberHistory) {
+        Member hostMember = memberHistory.getHostMember();
+        Member targetMember = memberHistory.getTargetMember();
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
+            hostMember.getWorkspaceId());
+        if (workspace.isPresent()) {
+            String accessToken = workspace.get().getAccessToken();
+            String hostMemberId = hostMember.getUserId();
+            String message = targetMember.getNickname() + " 님이 "
+                + memberHistory.getCouponEvent().name() + " 이벤트를 발생하였습니다.";
+            slackClient.requestNotification(accessToken, hostMemberId, message);
+        }
     }
 }
