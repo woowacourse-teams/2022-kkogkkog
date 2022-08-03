@@ -162,24 +162,6 @@ class MemberServiceTest extends ServiceTest {
 
             assertDoesNotThrow(() -> memberService.updateMemberHistory(1L));
         }
-
-        @Test
-        @DisplayName("이미 isRead 가 true일 경우 예외를 던진다.")
-        void fail_isReadTrue() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
-                "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
-                "arthur@gmail.com", "image");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
-            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
-            couponService.save(couponSaveRequest);
-            memberService.updateMemberHistory(1L);
-
-            assertThatThrownBy(() -> memberService.updateMemberHistory(1L))
-                .isInstanceOf(InvalidRequestException.class);
-        }
     }
 
     @Nested
