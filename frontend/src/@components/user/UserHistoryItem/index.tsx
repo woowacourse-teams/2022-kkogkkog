@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 
+import { COUPON_ENG_TYPE, COUPON_EVENT, COUPON_KOREAN_TYPE } from '@/types/client/coupon';
 import { UserHistory } from '@/types/client/user';
 import { extractDate } from '@/utils';
 
@@ -10,13 +11,14 @@ interface UserHistoryItemProps {
   onClick: MouseEventHandler<HTMLDivElement>;
 }
 
-const couponTypeTextMapper = {
+/** Typing은 어려워 */
+const couponTypeTextMapper: Record<COUPON_ENG_TYPE, COUPON_KOREAN_TYPE> = {
   COFFEE: '커피',
-  DRINK: '맥주',
+  DRINK: '술',
   MEAL: '식사',
 };
 
-const couponEventTextMapper = {
+const couponEventTextMapper: Record<COUPON_EVENT, string> = {
   INIT: '쿠폰을 보냈어요.',
   REQUEST: '쿠폰 사용을 요청했어요.',
   CANCEL: '쿠폰 사용을 취소했어요.',

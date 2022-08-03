@@ -26,7 +26,7 @@ export const login = (body: LoginRequest) => client.post<LoginResponse>('/login'
 export const OAuthLogin = (code: string) =>
   client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
 
-export const getHistoryList = async () => {
+export const getUserHistoryList = async () => {
   const { data } = await client.get<UserHistoryResponse>('/members/me/histories');
 
   return data;

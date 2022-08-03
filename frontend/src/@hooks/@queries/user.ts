@@ -3,8 +3,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { client } from '@/apis';
 import {
   editMe,
-  getHistoryList,
   getMe,
+  getUserHistoryList,
   getUserList,
   join,
   login,
@@ -19,7 +19,7 @@ import { useToast } from '../@common/useToast';
 const QUERY_KEY = {
   me: 'me',
   getUserList: 'getUserList',
-  getHistoryList: 'getHistoryList',
+  getUserHistoryList: 'getUserHistoryList',
 };
 
 /** Query */
@@ -47,7 +47,7 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.getHistoryList], getHistoryList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
   });
 
@@ -122,13 +122,13 @@ export const useReadHistoryMutation = () => {
   const queryClient = useQueryClient();
 
   const onMutate = async ({ id }: ReadHistoryRequest) => {
-    await queryClient.cancelQueries([QUERY_KEY.getHistoryList]);
+    await queryClient.cancelQueries([QUERY_KEY.getUserHistoryList]);
 
     const previousQueryData = queryClient.getQueryData<UserHistoryResponse>([
-      QUERY_KEY.getHistoryList,
+      QUERY_KEY.getUserHistoryList,
     ]);
 
-    queryClient.setQueryData<UserHistoryResponse>([QUERY_KEY.getHistoryList], oldData => {
+    queryClient.setQueryData<UserHistoryResponse>([QUERY_KEY.getUserHistoryList], oldData => {
       const newData = {
         ...oldData,
         data: oldData?.data?.map(history =>
@@ -152,7 +152,7 @@ export const useReadHistoryMutation = () => {
     variables: ReadHistoryRequest,
     context: UserHistoryResponse | undefined
   ) => {
-    queryClient.setQueryData([QUERY_KEY.getHistoryList], context);
+    queryClient.setQueryData([QUERY_KEY.getUserHistoryList], context);
   };
 
   return useMutation(readHistory, {
