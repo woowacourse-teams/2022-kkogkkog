@@ -21,7 +21,7 @@ public class SlackClient {
 
     private static final String LOGIN_URI = "https://slack.com/api/openid.connect.token";
     private static final String LOGIN_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
-    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
+    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/login/redirect";
     private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
     private static final String BOT_TOKEN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
     private static final String CODE_PARAMETER = "code";
