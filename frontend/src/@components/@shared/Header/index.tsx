@@ -36,7 +36,7 @@ const Header = (props: HeaderProps) => {
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
         <Position>
-          <Link to={PATH.NOTICATION}>
+          <Link to={PATH.USER_HISTORY}>
             <Icon iconName='notification' size='26' color={'transparent'} />
           </Link>
           {me?.unReadCount !== 0 && (
