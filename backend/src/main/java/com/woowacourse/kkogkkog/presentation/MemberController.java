@@ -52,7 +52,7 @@ public class MemberController {
 
     @PatchMapping("/me/histories/{historyId}")
     public ResponseEntity<Void> updateMemberHistory(@PathVariable Long historyId) {
-        memberService.updateMemberHistory(historyId);
+        memberService.updateIsReadMemberHistory(historyId);
 
         return ResponseEntity.noContent().build();
     }

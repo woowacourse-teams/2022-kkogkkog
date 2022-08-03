@@ -88,7 +88,7 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void updateMemberHistory(Long memberHistoryId) {
+    public void updateIsReadMemberHistory(Long memberHistoryId) {
         MemberHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
             .orElseThrow(MemberHistoryNotFoundException::new);
 

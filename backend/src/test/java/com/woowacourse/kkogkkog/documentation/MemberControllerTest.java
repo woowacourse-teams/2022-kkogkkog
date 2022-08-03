@@ -160,7 +160,7 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 조회된_기록들의_방문_여부를_업데이트_할_수_있다() throws Exception {
         // given
-        doNothing().when(memberService).updateMemberHistory(any());
+        doNothing().when(memberService).updateIsReadMemberHistory(any());
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when

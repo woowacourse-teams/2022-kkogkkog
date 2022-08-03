@@ -11,7 +11,6 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -144,8 +143,8 @@ class MemberServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("updateMemberHistory 메서드는")
-    class UpdateMemberHistory {
+    @DisplayName("updateIsReadMemberHistory 메서드는")
+    class UpdateIsReadMemberHistory {
 
         @Test
         @DisplayName("요청받을 경우 true 로 변경된다.")
@@ -160,7 +159,7 @@ class MemberServiceTest extends ServiceTest {
                 rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
             couponService.save(couponSaveRequest);
 
-            assertDoesNotThrow(() -> memberService.updateMemberHistory(1L));
+            assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
         }
     }
 
