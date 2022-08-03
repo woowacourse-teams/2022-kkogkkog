@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { HTMLAttributes } from 'react';
 
 import { IconNames } from '@/@components/@shared/Icon/Icons';
 
 import Icons from './Icons';
 
-interface IconProps {
+interface IconProps extends HTMLAttributes<HTMLDivElement> {
   iconName: IconNames;
   size?: string;
   color?: string;
@@ -28,6 +29,8 @@ export default Icon;
 
 const Styled = {
   Wrapper: styled.div`
+    cursor: pointer;
+
     & * {
       fill: currentColor;
     }

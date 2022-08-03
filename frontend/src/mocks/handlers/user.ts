@@ -2,6 +2,7 @@ import { rest } from 'msw';
 
 import { BASE_URL } from '@/apis';
 import users from '@/mocks/fixtures/users';
+import { EditMeRequest } from '@/types/remote/request';
 
 export const userHandler = [
   rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
@@ -14,6 +15,18 @@ export const userHandler = [
     } catch ({ message }) {
       return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
     }
+  }),
+
+  rest.put<EditMeRequest>(`${BASE_URL}/members/me`, (req, res, ctx) => {
+    const { body, headers } = req;
+
+    const loggedUser = users.findLoggedUser(headers.get('authorization'));
+
+    users.current = users.current.map(user =>
+      user.id === loggedUser.id ? { ...user, ...body } : user
+    );
+
+    return res(ctx.status(200));
   }),
 
   rest.get<any>(`${BASE_URL}/members`, (req, res, ctx) => {

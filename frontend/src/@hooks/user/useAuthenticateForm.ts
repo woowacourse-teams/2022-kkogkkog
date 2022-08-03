@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useInput from '@/@hooks/@common/useInput';
 import { PATH } from '@/Router';
 
 import { useJoinMutation, useLoginMutation } from '../@queries/user';
@@ -22,56 +23,15 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState(defaultEmail);
-  const [password, setPassword] = useState(defaultPassword);
-  const [confirmPassword, setConfirmPassword] = useState(defaultConfirmPassword);
-  const [name, setName] = useState(defaultName);
+  const [email, onChangeEmail] = useInput(defaultEmail);
+  const [password, onChangePassword] = useInput(defaultPassword);
+  const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
+  const [name, onChangeName] = useInput(defaultName);
 
   const joinMutate = useJoinMutation();
-
   const loginMutate = useLoginMutation();
 
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value: emailValue },
-    } = e;
-
-    // 검증
-
-    setEmail(emailValue);
-  };
-
-  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value: passwordValue },
-    } = e;
-
-    // 검증
-
-    setPassword(passwordValue);
-  };
-
-  const onChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value: confirmPasswordValue },
-    } = e;
-
-    // 검증
-
-    setConfirmPassword(confirmPasswordValue);
-  };
-
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value: nameValue },
-    } = e;
-
-    // 검증
-
-    setName(nameValue);
-  };
-
-  const onSubmitJoinForm = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
     joinMutate.mutate(
@@ -88,7 +48,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     );
   };
 
-  const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
     loginMutate.mutate(

@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { client } from '@/apis';
-import { getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
+import { editMe, getMe, getUserList, join, login, OAuthLogin } from '@/apis/user';
 
 import { useToast } from '../@common/useToast';
 
@@ -11,7 +11,6 @@ const QUERY_KEY = {
 };
 
 /** Query */
-
 export const useFetchMe = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
@@ -36,6 +35,15 @@ export const useFetchUserList = () => {
 };
 
 /** Mutation */
+export const useEditMeMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(editMe, {
+    onSuccess() {
+      queryClient.invalidateQueries(QUERY_KEY.me);
+    },
+  });
+};
 
 export const useOAuthLoginMutation = () => {
   return useMutation(OAuthLogin, {

@@ -1,8 +1,8 @@
-import { ChangeEvent } from 'react';
+import { ChangeEventHandler } from 'react';
 
 import Input from '@/@components/@shared/Input';
 import { useSearchUser } from '@/@hooks/user/useSearchUser';
-import { UserListResponse, UserResponse } from '@/types/remote/response';
+import { UserResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
@@ -16,7 +16,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 
   const { searchedUserList, searchUser } = useSearchUser();
 
-  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeSearchInput: ChangeEventHandler<HTMLInputElement> = e => {
     const {
       target: { value: searchInput },
     } = e;

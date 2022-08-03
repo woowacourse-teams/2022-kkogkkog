@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 
@@ -16,6 +17,8 @@ const Header = (props: HeaderProps) => {
 
   const isLandingPage = useLocation().pathname === PATH.LANDING;
 
+  const { me } = useFetchMe();
+
   return (
     <Styled.Root className={className}>
       <Styled.Logo>
@@ -24,15 +27,19 @@ const Header = (props: HeaderProps) => {
             <img src='/assets/images/logo.png' alt='로고' width='36' />
           </Link>
         ) : (
-          <Link to='..'>
-            <Icon iconName='arrow' size='16' color={theme.colors.primary_400} />
+          <Link to='-1'>
+            <Icon iconName='arrow' size='20' color={theme.colors.primary_400} />
           </Link>
         )}
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
         <Link to={PATH.PROFILE}>
-          <Icon iconName='profile' size='26' color={theme.colors.primary_400} />
+          {me ? (
+            <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />
+          ) : (
+            <Icon iconName='profile' size='30' color={theme.colors.primary_400} />
+          )}
         </Link>
       </Styled.Profile>
     </Styled.Root>

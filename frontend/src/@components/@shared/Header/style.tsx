@@ -36,3 +36,7 @@ export const Title = styled.div`
 `;
 
 export const Profile = styled.div``;
+
+export const ProfileImage = styled.img`
+  border-radius: 50%;
+`;
