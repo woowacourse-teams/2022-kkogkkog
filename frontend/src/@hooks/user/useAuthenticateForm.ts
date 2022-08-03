@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
@@ -31,7 +31,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const joinMutate = useJoinMutation();
   const loginMutate = useLoginMutation();
 
-  const onSubmitJoinForm = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
     joinMutate.mutate(
@@ -48,7 +48,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     );
   };
 
-  const onSubmitLoginForm = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
     loginMutate.mutate(

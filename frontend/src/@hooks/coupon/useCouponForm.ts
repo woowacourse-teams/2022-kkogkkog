@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
@@ -51,7 +51,7 @@ export const useCouponForm = () => {
     setReceiverList(prev => [...prev, user]);
   };
 
-  const onSubmitCreateForm = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitCreateForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
     if (receiverList.length === 0) {
