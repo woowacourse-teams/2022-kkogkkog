@@ -1,5 +1,7 @@
 {
   "packageManager": "yarn@3.2.1",
+  "name": "kkogkkog-frontend",
+  "version": "0.1.0",
   "scripts": {
     "start": "webpack serve --mode none",
     "start:dev": "webpack serve --mode development",

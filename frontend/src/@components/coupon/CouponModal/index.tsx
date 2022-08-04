@@ -19,7 +19,7 @@ interface CouponItemProps {
   closeModal: () => void;
 }
 
-type buttonType = '취소' | '완료' | '요청' | '승인';
+type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
 
 const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
@@ -32,7 +32,7 @@ const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons:
   },
   FINISHED: {
     title: '이미 사용한 쿠폰입니다.',
-    buttons: ['취소'],
+    buttons: [],
   },
   READY: {
     title: '쿠폰을 사용하시겠어요?',
@@ -43,7 +43,7 @@ const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons:
 const sentCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
   REQUESTED: {
     title: '쿠폰 사용 요청을 승인하시겠어요?',
-    buttons: ['승인'],
+    buttons: ['승인', '거절'],
   },
   ACCEPTED: {
     title: '쿠폰 사용하셨나요??',
@@ -69,7 +69,8 @@ const CouponModal = (props: CouponItemProps) => {
 
   const [meetingDate, onChangeMeetingDate] = useInput('');
 
-  const { cancelCoupon, requestCoupon, finishCoupon, acceptCoupon } = useChangeCouponStatus(id);
+  const { cancelCoupon, requestCoupon, finishCoupon, acceptCoupon, declineCoupon } =
+    useChangeCouponStatus(id);
 
   const isSent = me?.id === sender.id;
 
@@ -125,6 +126,14 @@ const CouponModal = (props: CouponItemProps) => {
     });
   };
 
+  const onClickDeclineButton = () => {
+    declineCoupon({
+      onSuccessCallback() {
+        onCloseModal();
+      },
+    });
+  };
+
   return (
     <Modal.WithHeader
       title={title}
@@ -171,6 +180,11 @@ const CouponModal = (props: CouponItemProps) => {
             {buttonType === '승인' && (
               <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
                 사용 승인
+              </Button>
+            )}
+            {buttonType === '거절' && (
+              <Button onClick={onClickDeclineButton} css={Styled.ExtendedButton}>
+                사용 거절
               </Button>
             )}
           </React.Fragment>

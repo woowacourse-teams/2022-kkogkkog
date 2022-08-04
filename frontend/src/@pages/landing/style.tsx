@@ -46,7 +46,7 @@ export const CreateCouponContainer = styled.div`
 
   background-color: ${({ theme }) => theme.colors.primary_400_opacity};
 
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 50px 50px;
 `;
 
 export const ListContainer = styled.div`
