@@ -152,7 +152,7 @@ class CouponEventTest {
     class GenerateNoticeMessage {
 
         @Test
-        @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 생성할 수 있다.")
+        @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
         void formatString() {
             Member member = new Member(null, "UJeong", "T03LX3C5540",
                 "정", "jeong@gmail.com", "image");
@@ -160,7 +160,7 @@ class CouponEventTest {
             CouponType meal = CouponType.MEAL;
 
             String actual = couponEvent.generateNoticeMessage(member, meal);
-            String expected = member.getNickname() + "님이 " + meal.getDisplayName() + " 쿠폰을 보냈어요.";
+            String expected = "정님이 식사 쿠폰을 보냈어요.";
 
             assertThat(actual).isEqualTo(expected);
         }
