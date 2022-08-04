@@ -3,10 +3,6 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 
 import * as Styled from './style';
 
-interface CouponStatusProps {
-  status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
-}
-
 const couponStatusMapper: Record<COUPON_STATUS, { backgroundColor: string; text: string }> = {
   REQUESTED: {
     backgroundColor: theme.colors.primary_500,
@@ -25,6 +21,10 @@ const couponStatusMapper: Record<COUPON_STATUS, { backgroundColor: string; text:
     text: '사용완료',
   },
 };
+
+interface CouponStatusProps {
+  status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
+}
 
 const CouponStatus = (props: CouponStatusProps) => {
   const { status } = props;
