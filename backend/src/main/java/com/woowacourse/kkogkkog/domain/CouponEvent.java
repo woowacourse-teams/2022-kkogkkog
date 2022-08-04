@@ -6,18 +6,19 @@ import java.util.function.BiConsumer;
 
 public enum CouponEvent {
 
-    INIT(CouponEvent::canInit),
-    REQUEST(CouponEvent::canRequest),
-    CANCEL(CouponEvent::canCancel),
-    DECLINE(CouponEvent::canDecline),
-    ACCEPT(CouponEvent::canAccept),
-    FINISH(CouponEvent::canFinish)
-    ;
+    INIT(CouponEvent::canInit, "%s님이 %s 쿠폰을 보냈어요."),
+    REQUEST(CouponEvent::canRequest, "%s님이 %s 쿠폰 사용을 요청했어요."),
+    CANCEL(CouponEvent::canCancel, "%s님이 %s 쿠폰 사용을 취소했어요."),
+    DECLINE(CouponEvent::canDecline, "%s님이 %s 쿠폰 사용을 거절했어요."),
+    ACCEPT(CouponEvent::canAccept, "%s님이 %s 쿠폰 사용을 승낙했어요."),
+    FINISH(CouponEvent::canFinish, "%s님이 %s 쿠폰 사용을 완료했어요.");
 
     private final BiConsumer<Boolean, Boolean> canChange;
+    private final String noticeFormat;
 
-    CouponEvent(BiConsumer<Boolean, Boolean> canChange) {
+    CouponEvent(BiConsumer<Boolean, Boolean> canChange, String noticeFormat) {
         this.canChange = canChange;
+        this.noticeFormat = noticeFormat;
     }
 
     public static CouponEvent of(String value) {
@@ -64,5 +65,10 @@ public enum CouponEvent {
         if (!isSender && !isReceiver) {
             throw new ForbiddenException("쿠폰을 보낸 사람과 받은 사람만 사용 완료할 수 있습니다.");
         }
+    }
+
+    public String generateNoticeMessage(Member member, CouponType couponType) {
+        String noticeReceiver = member.getNickname();
+        return String.format(noticeFormat, noticeReceiver, couponType.getDisplayName());
     }
 }

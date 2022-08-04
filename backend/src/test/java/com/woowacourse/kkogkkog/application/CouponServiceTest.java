@@ -4,6 +4,7 @@ import static com.woowacourse.kkogkkog.fixture.MemberFixture.NON_EXISTING_MEMBER
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.verify;
 
 import com.woowacourse.kkogkkog.application.dto.CouponChangeStatusRequest;
 import com.woowacourse.kkogkkog.application.dto.CouponResponse;
@@ -11,8 +12,11 @@ import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
+import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
@@ -32,14 +36,19 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("CouponService 클래스의")
 public class CouponServiceTest extends ServiceTest {
 
-    private static final Member JEONG = new Member(null, "UJeong", "T03LX3C5540", "정",
+    private static final String WORKSPACE_ID = "T03LX3C5540";
+    private static final String BOT_ACCESS_TOKEN = "xoxb-bot-access-token";
+
+    private static final Member JEONG = new Member(null, "UJeong", WORKSPACE_ID, "정",
         "jeong@gmail.com", "image");
-    private static final Member LEO = new Member(null, "ULeo", "T03LX3C5540", "레오",
+    private static final Member LEO = new Member(null, "ULeo", WORKSPACE_ID, "레오",
         "leothelion@gmail.com", "image");
-    private static final Member ROOKIE = new Member(null, "URookie", "T03LX3C5540", "루키",
+    private static final Member ROOKIE = new Member(null, "URookie", WORKSPACE_ID, "루키",
         "rookie@gmail.com", "image");
-    private static final Member ARTHUR = new Member(null, "UArthur", "T03LX3C5540", "아서",
+    private static final Member ARTHUR = new Member(null, "UArthur", WORKSPACE_ID, "아서",
         "arthur@gmail.com", "image");
+    private static final Workspace KKOGKKOG_WORKSPACE = new Workspace(null, WORKSPACE_ID,
+        "KkogKkog", BOT_ACCESS_TOKEN);
 
     @Autowired
     private CouponService couponService;
@@ -49,6 +58,9 @@ public class CouponServiceTest extends ServiceTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Override
     @BeforeEach
@@ -159,6 +171,19 @@ public class CouponServiceTest extends ServiceTest {
         }
 
         @Test
+        @DisplayName("쿠폰을 받은 사람에게 슬랙 알림을 보낸다.")
+        void success_notification() {
+            workspaceRepository.save(KKOGKKOG_WORKSPACE);
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+
+            couponService.save(couponSaveRequest);
+            String message = String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(),
+                CouponType.COFFEE.getDisplayName());
+
+            verify(slackClient).requestPushAlarm(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
+        }
+
+        @Test
         @DisplayName("보낸 사람이 존재하지 않는다면, 예외를 던진다.")
         void fail_senderNotFound() {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(NON_EXISTING_MEMBER,
@@ -206,6 +231,25 @@ public class CouponServiceTest extends ServiceTest {
                         CouponStatus.REQUESTED.name()),
                     () -> assertThat(createdHistory.size()).isEqualTo(1)
                 );
+            }
+
+            @Test
+            @DisplayName("받은 사람이 REQUEST 와 약속날짜를 보내면, 보낸 사람에게 슬랙 알림을 보낸다.")
+            void success_notification() {
+                workspaceRepository.save(KKOGKKOG_WORKSPACE);
+                CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
+                Long couponId = couponService.save(couponSaveRequest).get(0).getId();
+                CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
+                    ARTHUR.getId(), couponId, CouponEvent.REQUEST, LocalDate.of(2022, 07, 27));
+
+                couponService.changeStatus(couponChangeStatusRequest);
+
+                String botToken = KKOGKKOG_WORKSPACE.getAccessToken();
+                String coffee = CouponType.COFFEE.getDisplayName();
+                verify(slackClient).requestPushAlarm(botToken, ARTHUR.getUserId(),
+                    String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(), coffee));
+                verify(slackClient).requestPushAlarm(botToken, ROOKIE.getUserId(),
+                    String.format("%s님이 %s 쿠폰 사용을 요청했어요.", ARTHUR.getNickname(), coffee));
             }
 
             @Test

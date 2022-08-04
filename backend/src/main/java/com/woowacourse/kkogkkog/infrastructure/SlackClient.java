@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
+import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
@@ -20,14 +21,19 @@ import org.springframework.web.util.UriBuilder;
 public class SlackClient {
 
     private static final String LOGIN_URI = "https://slack.com/api/openid.connect.token";
-    private static final String LOGIN_USER_INFO = "https://slack.com/api/openid.connect.userInfo";
-    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/login/redirect";
+    private static final String LOGIN_USER_INFO_URI = "https://slack.com/api/openid.connect.userInfo";
     private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
+    private static final String MESSAGE_URI = "https://slack.com/api/chat.postMessage";
+
+    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/login/redirect";
     private static final String BOT_TOKEN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
+
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
     private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
+    private static final String USER_ID_PARAMETER = "channel";
+    private static final String MESSAGE_PARAMETER = "text";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
 
@@ -36,18 +42,21 @@ public class SlackClient {
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
     private final WebClient botTokenClient;
+    private final WebClient messageClient;
 
     public SlackClient(@Value("${security.slack.client-id}") String clientId,
                        @Value("${security.slack.secret-id}") String secretId,
                        @Value(LOGIN_URI) String oAuthLoginUri,
-                       @Value(LOGIN_USER_INFO) String userInfoUri,
+                       @Value(LOGIN_USER_INFO_URI) String userInfoUri,
                        @Value(BOT_TOKEN_URI) String botTokenUri,
+                       @Value(MESSAGE_URI) String messageUri,
                        WebClient webClient) {
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
         this.userClient = toWebClient(webClient, userInfoUri);
         this.botTokenClient = toWebClient(webClient, botTokenUri);
+        this.messageClient = toWebClient(webClient, messageUri);
     }
 
     private WebClient toWebClient(WebClient webClient, String baseUrl) {
@@ -109,6 +118,28 @@ public class SlackClient {
         return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
             botTokenResponse.getTeam().getName(),
             botTokenResponse.getAccessToken());
+    }
+
+    public void requestPushAlarm(String token, String userId, String message) {
+        try {
+            messageClient
+                .post()
+                .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .retrieve()
+                .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
+                .blockOptional()
+                .orElseThrow(PostMessageRequestFailedException::new);
+        } catch (PostMessageRequestFailedException e) {
+            e.printStackTrace(); // TODO: 사용자에게 예외 던지지 말고 로그만 찍기. 향후 로그백으로 대체.
+        }
+    }
+
+    private URI toRequestPostMessageUri(UriBuilder uriBuilder, String userId, String message) {
+        return uriBuilder
+            .queryParam(USER_ID_PARAMETER, userId)
+            .queryParam(MESSAGE_PARAMETER, message)
+            .build();
     }
 
     private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {

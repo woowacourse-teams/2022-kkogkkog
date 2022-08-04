@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.domain;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -59,5 +58,13 @@ public class MemberHistory {
 
     public void updateIsRead() {
         isRead = true;
+    }
+
+    public boolean shouldNotSendPushAlarm() {
+        return couponEvent == CouponEvent.FINISH;
+    }
+
+    public String toNoticeMessage() {
+        return couponEvent.generateNoticeMessage(targetMember, couponType);
     }
 }
