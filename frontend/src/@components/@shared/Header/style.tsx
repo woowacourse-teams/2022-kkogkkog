@@ -41,7 +41,7 @@ export const ProfileImage = styled.img`
 export const Profile = styled.div`
   display: flex;
 
-  gap: 10px;
+  gap: 20px;
 `;
 
 export const Bell = styled.div`
