@@ -49,4 +49,8 @@ public class MemberHistory {
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
     }
+
+    public String toNoticeMessage() {
+        return couponEvent.generateNoticeMessage(targetMember, couponType);
+    }
 }
