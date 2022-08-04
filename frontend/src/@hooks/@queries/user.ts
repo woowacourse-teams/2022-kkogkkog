@@ -128,20 +128,23 @@ export const useReadHistoryMutation = () => {
       QUERY_KEY.getUserHistoryList,
     ]);
 
-    queryClient.setQueryData<UserHistoryResponse>([QUERY_KEY.getUserHistoryList], oldData => {
-      if (oldData === undefined) {
-        return;
+    queryClient.setQueryData<UserHistoryResponse | undefined>(
+      [QUERY_KEY.getUserHistoryList],
+      oldData => {
+        if (oldData === undefined) {
+          return;
+        }
+
+        const newData = {
+          ...oldData,
+          data: oldData?.data?.map(history =>
+            history.id === id ? { ...history, isRead: true } : { ...history }
+          ),
+        };
+
+        return newData;
       }
-
-      const newData = {
-        ...oldData,
-        data: oldData?.data?.map(history =>
-          history.id === id ? { ...history, isRead: true } : { ...history }
-        ),
-      };
-
-      return newData;
-    });
+    );
 
     return previousQueryData;
   };
