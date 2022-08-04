@@ -54,11 +54,23 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
+  const declineCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
+    changeStatusMutate.mutate(
+      { id, body: { couponEvent: 'DECLINE' } },
+      {
+        onSuccess() {
+          onSuccessCallback?.();
+        },
+      }
+    );
+  };
+
   return {
     cancelCoupon,
     requestCoupon,
     finishCoupon,
     acceptCoupon,
+    declineCoupon,
   };
 };
 
