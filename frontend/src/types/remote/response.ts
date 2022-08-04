@@ -5,7 +5,7 @@ import {
   COUPON_MODIFIERS,
   COUPON_STATUS,
 } from '@/types/client/coupon';
-import { User } from '@/types/client/user';
+import { User, UserHistory } from '@/types/client/user';
 
 export interface UserResponse {
   id: number;
@@ -16,8 +16,10 @@ export interface UserResponse {
   imageUrl: string;
 }
 
-// MeResponse는 UserResponse 정보를 포함하고, 더 많은 프로퍼티가 추가될 것이다.
-export type MeResponse = UserResponse;
+export interface MeResponse extends UserResponse {
+  unReadCount: number;
+  histories: UserHistory[];
+}
 
 export type UserListResponse = { data: UserResponse[] };
 
@@ -43,3 +45,7 @@ export interface CouponResponse {
 }
 
 export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };
+
+export type UserHistoryResponse = {
+  data: UserHistory[];
+};

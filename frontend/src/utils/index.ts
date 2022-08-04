@@ -12,12 +12,16 @@ export const addZero = (num: number): string => {
   return Math.floor(num / 10) === 0 ? `0${num}` : String(num);
 };
 
-export const extractDate = (date: string | undefined) => {
+export const generateDateText = (date: string | undefined, includeYear = false) => {
   if (!date) {
     return null;
   }
 
   const [year, month, day] = date.split('-');
 
-  return month && day && `${month}월 ${day}일`;
+  const dateText = includeYear
+    ? year && month && day && `${year}년 ${month}월 ${day}일`
+    : month && day && `${month}월 ${day}일`;
+
+  return dateText;
 };

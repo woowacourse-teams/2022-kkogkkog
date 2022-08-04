@@ -2,10 +2,11 @@ package com.woowacourse.kkogkkog.application;
 
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
@@ -57,11 +58,12 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberResponse findById(Long memberId) {
+    public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
+        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
 
-        return MemberResponse.of(findMember);
+        return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
 
     @Transactional(readOnly = true)

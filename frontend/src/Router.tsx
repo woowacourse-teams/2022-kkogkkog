@@ -6,6 +6,7 @@ import Loading from '@/@components/@shared/Loading';
 import NotFoundPage from '@/@pages/404';
 import CouponListPage from '@/@pages/coupon-list';
 import CouponCreatePage from '@/@pages/coupon-list/create';
+import UserHistoryPage from '@/@pages/history';
 import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
@@ -27,6 +28,7 @@ export const PATH = {
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
+  USER_HISTORY: '/history',
 };
 
 const Router = () => {
@@ -70,6 +72,7 @@ const Router = () => {
         />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
+        <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
       </Route>
       <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>

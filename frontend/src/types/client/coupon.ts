@@ -9,7 +9,7 @@ export const couponTypeCollection = [
 
 export const couponListType = ['received', 'sent'] as const;
 
-export const couponEvent = ['REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
+export const couponEvent = ['INIT', 'REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
 export const couponStatus = ['REQUESTED', 'READY', 'ACCEPTED', 'FINISHED'] as const;
 
 export const couponColors = [
