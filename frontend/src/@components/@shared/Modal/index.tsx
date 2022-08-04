@@ -2,6 +2,8 @@ import { MouseEvent, PropsWithChildren } from 'react';
 import ReactDOM from 'react-dom';
 
 import Dimmed from '@/@components/@shared/Dimmed';
+import Icon from '@/@components/@shared/Icon';
+import theme from '@/styles/theme';
 
 import * as Styled from './style';
 
@@ -41,7 +43,7 @@ Modal.WithHeader = function WithHeader(props: PropsWithChildren<ModalWithHeader>
     <Modal position={position} closeModal={closeModal} animation={animation}>
       <Styled.ModalTop>
         <header>{title}</header>
-        <button onClick={closeModal}>X</button>
+        <Icon iconName='close' size='24' color={theme.colors.grey_200} onClick={closeModal} />
       </Styled.ModalTop>
       {children}
     </Modal>
