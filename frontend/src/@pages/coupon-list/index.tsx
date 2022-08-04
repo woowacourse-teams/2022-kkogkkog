@@ -123,9 +123,11 @@ const CouponListPage = () => {
         )}
 
         {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
-        <Link to={PATH.COUPON_CREATE} css={Styled.StickyLink}>
-          <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
-        </Link>
+        <Styled.LinkInner>
+          <Link to={PATH.COUPON_CREATE}>
+            <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
+          </Link>
+        </Styled.LinkInner>
       </Styled.Root>
     </PageTemplate>
   );
@@ -174,13 +176,18 @@ export const Styled = {
       }
     `}
   `,
-  StickyLink: css`
+  LinkInner: styled.div`
     position: sticky;
     bottom: 0;
     right: 0;
 
     display: flex;
     justify-content: flex-end;
-    padding: 5px;
+
+    & > a {
+      position: relative;
+      right: 16px;
+      bottom: 16px;
+    }
   `,
 };
