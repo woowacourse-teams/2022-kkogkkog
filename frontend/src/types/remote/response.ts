@@ -47,5 +47,5 @@ export interface CouponResponse {
 export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };
 
 export type UserHistoryResponse = {
-  data?: UserHistory[];
+  data: UserHistory[];
 };
