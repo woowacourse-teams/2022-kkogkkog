@@ -1,4 +1,4 @@
-import { useChangeCouponStatusMutation } from '../@queries/coupon';
+import { useChangeCouponStatusMutation, useRequestCouponMutation } from '../@queries/coupon';
 
 type changeCouponStatusType = {
   onSuccessCallback?: () => void;
@@ -6,6 +6,7 @@ type changeCouponStatusType = {
 
 const useChangeCouponStatus = (id: number) => {
   const changeStatusMutate = useChangeCouponStatusMutation();
+  const requestCouponMutate = useRequestCouponMutation();
 
   const cancelCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
     changeStatusMutate.mutate(
@@ -22,7 +23,7 @@ const useChangeCouponStatus = (id: number) => {
     { meetingDate }: { meetingDate: string },
     { onSuccessCallback }: changeCouponStatusType
   ) => {
-    changeStatusMutate.mutate(
+    requestCouponMutate.mutate(
       { id, body: { couponEvent: 'REQUEST', meetingDate } },
       {
         onSuccess() {
