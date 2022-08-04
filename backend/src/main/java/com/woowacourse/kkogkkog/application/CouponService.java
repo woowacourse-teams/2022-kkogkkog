@@ -134,23 +134,21 @@ public class CouponService {
     }
 
     private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
-                                   CouponEvent couponEvent) {
-        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, coupon.getId(),
-            coupon.getCouponType(), couponEvent, coupon.getMeetingDate());
+                                            CouponEvent couponEvent) {
+        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember,
+            coupon.getId(), coupon.getCouponType(), couponEvent, coupon.getMeetingDate());
         return memberHistoryRepository.save(memberHistory);
     }
 
     private void sendNotification(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
-        Member targetMember = memberHistory.getTargetMember();
         Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
             hostMember.getWorkspaceId());
         if (workspace.isPresent()) {
             String accessToken = workspace.get().getAccessToken();
             String hostMemberId = hostMember.getUserId();
-            String message = targetMember.getNickname() + " 님이 "
-                + memberHistory.getCouponEvent().name() + " 이벤트를 발생하였습니다.";
-            slackClient.requestPostMessage(accessToken, hostMemberId, message);
+            String message = memberHistory.toNoticeMessage();
+            slackClient.requestPushAlarm(accessToken, hostMemberId, message);
         }
     }
 }

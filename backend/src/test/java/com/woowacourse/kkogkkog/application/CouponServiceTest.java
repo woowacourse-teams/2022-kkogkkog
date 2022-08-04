@@ -12,6 +12,7 @@ import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
+import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
@@ -170,17 +171,15 @@ public class CouponServiceTest extends ServiceTest {
         }
 
         @Test
-        @DisplayName("쿠폰 정보 및 보낸 사람과 받는 사람을 받으면, 쿠폰을 받은 사람에게 슬랙 알림을 보낸다.")
+        @DisplayName("쿠폰을 받은 사람에게 슬랙 알림을 보낸다.")
         void success_notification() {
             workspaceRepository.save(KKOGKKOG_WORKSPACE);
-            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE,
-                List.of(ARTHUR));
+            CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
 
             couponService.save(couponSaveRequest);
+            String message = "루키님이 커피 쿠폰을 보냈어요.";
 
-            String message = ROOKIE.getNickname() + " 님이 "
-                + CouponEvent.INIT.name() + " 이벤트를 발생하였습니다.";
-            verify(slackClient).requestPostMessage(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
+            verify(slackClient).requestPushAlarm(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
         }
 
         @Test
@@ -244,10 +243,11 @@ public class CouponServiceTest extends ServiceTest {
 
                 couponService.changeStatus(couponChangeStatusRequest);
 
-                String message = ARTHUR.getNickname() + " 님이 "
-                    + CouponEvent.REQUEST.name() + " 이벤트를 발생하였습니다.";
-                verify(slackClient).requestPostMessage(KKOGKKOG_WORKSPACE.getAccessToken(),
-                    ROOKIE.getUserId(), message);
+                String coffee = CouponType.COFFEE.getDisplayName();
+                verify(slackClient).requestPushAlarm(KKOGKKOG_WORKSPACE.getAccessToken(),
+                    ARTHUR.getUserId(), ROOKIE.getNickname() + "님이 " + coffee + " 쿠폰을 보냈어요.");
+                verify(slackClient).requestPushAlarm(KKOGKKOG_WORKSPACE.getAccessToken(),
+                    ROOKIE.getUserId(), ARTHUR.getNickname() + "님이 " + coffee + " 쿠폰 사용을 요청했어요.");
             }
 
             @Test
