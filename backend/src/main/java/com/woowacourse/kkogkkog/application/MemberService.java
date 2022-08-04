@@ -83,9 +83,8 @@ public class MemberService {
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        List<MemberHistory> histories = memberHistoryRepository.findAllByHostMember(findMember);
 
-        return histories.stream()
+        return memberHistoryRepository.findAllByHostMemberOrderByCreatedAtDesc(findMember).stream()
             .map(MemberHistoryResponse::of)
             .collect(toList());
     }

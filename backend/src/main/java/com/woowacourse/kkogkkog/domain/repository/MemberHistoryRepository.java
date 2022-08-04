@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberHistoryRepository extends JpaRepository<MemberHistory, Long> {
 
-    List<MemberHistory> findAllByHostMember(Member member);
+    List<MemberHistory> findAllByHostMemberOrderByCreatedAtDesc(Member member);
 
     long countByHostMemberAndIsReadFalse(Member member);
 }
