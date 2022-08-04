@@ -27,3 +27,7 @@ export interface ChangeCouponStatusRequest {
   couponEvent: COUPON_EVENT;
   meetingDate?: string;
 }
+
+export interface ReadHistoryRequest {
+  id: number;
+}

@@ -54,4 +54,44 @@ export const userHandler = [
 
     return res(ctx.status(400, 'unauthorized'), ctx.json({ error: 'login failed' }));
   }),
+
+  rest.get<any>(`${BASE_URL}/members/me/histories`, (req, res, ctx) => {
+    const { headers } = req;
+
+    try {
+      const { histories } = users.findLoggedUser(headers.get('authorization'));
+
+      return res(ctx.status(200, 'authorized'), ctx.json({ data: histories }));
+    } catch ({ message }) {
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+    }
+  }),
+
+  rest.patch<any>(`${BASE_URL}/members/me/histories/:historyId`, (req, res, ctx) => {
+    const {
+      headers,
+      params: { historyId },
+    } = req;
+
+    try {
+      const user = users.findLoggedUser(headers.get('authorization'));
+
+      user.histories = user.histories.map(history => {
+        if (history.id === Number(historyId)) {
+          return {
+            ...history,
+            isRead: true,
+          };
+        }
+
+        return history;
+      });
+
+      user.unReadCount = user.unReadCount - 1;
+
+      return res(ctx.status(200, 'authorized'));
+    } catch ({ message }) {
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+    }
+  }),
 ];

@@ -1,9 +1,15 @@
 import { client } from '@/apis';
-import { EditMeRequest, JoinRequest, LoginRequest } from '@/types/remote/request';
+import {
+  EditMeRequest,
+  JoinRequest,
+  LoginRequest,
+  ReadHistoryRequest,
+} from '@/types/remote/request';
 import {
   LoginResponse,
   MeResponse,
   OAuthLoginResponse,
+  UserHistoryResponse,
   UserListResponse,
 } from '@/types/remote/response';
 
@@ -19,3 +25,12 @@ export const login = (body: LoginRequest) => client.post<LoginResponse>('/login'
 
 export const OAuthLogin = (code: string) =>
   client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
+
+export const getUserHistoryList = async () => {
+  const { data } = await client.get<UserHistoryResponse>('/members/me/histories');
+
+  return data;
+};
+
+export const readHistory = ({ id }: ReadHistoryRequest) =>
+  client.patch(`/members/me/histories/${id}`);

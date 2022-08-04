@@ -35,8 +35,21 @@ export const Title = styled.div`
   flex: 1;
 `;
 
-export const Profile = styled.div``;
-
 export const ProfileImage = styled.img`
   border-radius: 50%;
+`;
+export const Profile = styled.div`
+  display: flex;
+
+  gap: 10px;
+`;
+
+export const Bell = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.red_800};
+  `};
 `;
