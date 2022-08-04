@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -86,7 +87,6 @@ class CouponEventTest {
         }
     }
 
-
     @Nested
     @DisplayName("ACCEPT 이벤트는")
     class Accept {
@@ -144,6 +144,25 @@ class CouponEventTest {
 
             assertThatThrownBy(() -> CouponEvent.FINISH.checkExecutable(isSender, isReceiver))
                 .isInstanceOf(ForbiddenException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("generateNoticeMessage 메서드는")
+    class GenerateNoticeMessage {
+
+        @Test
+        @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 생성할 수 있다.")
+        void formatString() {
+            Member member = new Member(null, "UJeong", "T03LX3C5540",
+                "정", "jeong@gmail.com", "image");
+            CouponEvent couponEvent = CouponEvent.INIT;
+            CouponType meal = CouponType.MEAL;
+
+            String actual = couponEvent.generateNoticeMessage(member, meal);
+            String expected = member.getNickname() + "님이 " + meal.getDisplayName() + " 쿠폰을 보냈어요.";
+
+            assertThat(actual).isEqualTo(expected);
         }
     }
 }
