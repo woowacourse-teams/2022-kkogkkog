@@ -41,8 +41,6 @@ export const SelectedUserContainer = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
     color: ${theme.colors.white_100};
-
-    box-shadow: ${theme.shadow.type_6};
   `}
 `;
 
