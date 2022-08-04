@@ -54,6 +54,9 @@ public class MemberHistoryResponse {
             memberHistory.getCouponEvent().name(),
             memberHistory.getMeetingDate(),
             memberHistory.getIsRead(),
-            memberHistory.getCreatedAt());
+            LocalDate.of(
+                memberHistory.getCreatedAt().getYear(),
+                memberHistory.getCreatedAt().getMonth(),
+                memberHistory.getCreatedAt().getDayOfMonth()));
     }
 }
