@@ -38,3 +38,6 @@ out/
 
 ### Spring Rest Docs
 **/src/main/resources/static/*.html
+
+### Log
+.log

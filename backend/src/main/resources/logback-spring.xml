@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="30 seconds">
+  <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
+  <property name="LOG_PATTERN"
+    value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %yellow([traceId=%X{trace_id}]) %highlight(%-5level) : %msg%n"/>
+
+  <springProfile name="!prod">
+    <include resource="console-appender.xml"/>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="prod">
+    <include resource="file-info-appender.xml"/>
+    <include resource="file-error-appender.xml"/>
+    <include resource="file-all-appender.xml"/>
+
+    <root level="INFO">
+      <appender-ref ref="FILE-INFO"/>
+      <appender-ref ref="FILE-ERROR"/>
+      <appender-ref ref="FILE-ALL"/>
+    </root>
+  </springProfile>
+</configuration>

@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
 import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class MemberHistoryResponse {
     private String couponEvent;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate meetingDate;
+    private Boolean isRead;
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -26,7 +28,8 @@ public class MemberHistoryResponse {
                                  Long couponId,
                                  String couponType,
                                  String couponEvent,
-                                 LocalDate meetingDate) {
+                                 LocalDate meetingDate,
+                                 Boolean isRead) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
@@ -34,18 +37,18 @@ public class MemberHistoryResponse {
         this.couponType = couponType;
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
+        this.isRead = isRead;
     }
 
-    @Override
-    public String toString() {
-        return "MemberHistoryResponse{" +
-            "id=" + id +
-            ", nickname='" + nickname + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", couponId=" + couponId +
-            ", couponType='" + couponType + '\'' +
-            ", couponEvent='" + couponEvent + '\'' +
-            ", meetingDate=" + meetingDate +
-            '}';
+    public static MemberHistoryResponse of(MemberHistory memberHistory) {
+        return new MemberHistoryResponse(
+            memberHistory.getId(),
+            memberHistory.getTargetMember().getNickname(),
+            memberHistory.getTargetMember().getImageUrl(),
+            memberHistory.getCouponId(),
+            memberHistory.getCouponType().name(),
+            memberHistory.getCouponEvent().name(),
+            memberHistory.getMeetingDate(),
+            memberHistory.getIsRead());
     }
 }

@@ -16,4 +16,4 @@ operation::coupon-show[snippets='http-request,http-response,response-fields']
 operation::coupon-showAll[snippets='http-request,http-response,response-fields']
 
 === 쿠폰 상태 변경
-operation::coupon-action[snippets='http-request,http-response,response-fields']
+operation::coupon-action[snippets='http-request,http-response']

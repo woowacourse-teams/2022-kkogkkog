@@ -8,6 +8,8 @@ import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,8 +45,15 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/me/history")
+    @GetMapping("/me/histories")
     public ResponseEntity<MemberHistoriesResponse> showHistory(@LoginMember Long id) {
         return ResponseEntity.ok(new MemberHistoriesResponse(memberService.findHistoryById(id)));
+    }
+
+    @PatchMapping("/me/histories/{historyId}")
+    public ResponseEntity<Void> updateMemberHistory(@PathVariable Long historyId) {
+        memberService.updateIsReadMemberHistory(historyId);
+
+        return ResponseEntity.noContent().build();
     }
 }

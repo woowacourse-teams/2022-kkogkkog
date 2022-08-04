@@ -1,9 +1,41 @@
 export default {
   current: [
-    { id: 0, email: 'wnsgur8397@naver.com', password: '1234', nickname: '준찌' },
-    { id: 1, email: 'euijinkk97@gmail.com', password: '1234', nickname: '시지프' },
-    { id: 2, email: 'lllafssfa@naver.com', password: '1234', nickname: '아서' },
-    { id: 3, email: 'lllafasdfasdfasdfssfa@naver.com', password: '1234', nickname: '정' },
+    {
+      id: 0,
+      email: 'wnsgur8397@naver.com',
+      userId: 'aaa123',
+      workspaceId: 'woowacourse',
+      imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      password: '1234',
+      nickname: '준찌',
+    },
+    {
+      id: 1,
+      email: 'euijinkk97@gmail.com',
+      userId: 'aaa1234',
+      workspaceId: 'woowacourse',
+      imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      password: '1234',
+      nickname: '시지프',
+    },
+    {
+      id: 2,
+      email: 'lllafssfa@naver.com',
+      userId: 'aaa1235',
+      workspaceId: 'woowacourse',
+      imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      password: '1234',
+      nickname: '아서',
+    },
+    {
+      id: 3,
+      email: 'lllafasdfasdfasdfssfa@naver.com',
+      userId: 'aaa1236',
+      workspaceId: 'woowacourse',
+      imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      password: '1234',
+      nickname: '정',
+    },
   ],
 
   findLoggedUser(authorizationToken: string | null) {

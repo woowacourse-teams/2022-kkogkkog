@@ -7,17 +7,17 @@ import {
 } from '@/types/client/coupon';
 import { User } from '@/types/client/user';
 
-export interface MeResponse {
-  id: number;
-  email: string;
-  nickname: string;
-}
-
 export interface UserResponse {
   id: number;
+  userId: string;
+  workspaceId: string;
   email: string;
   nickname: string;
+  imageUrl: string;
 }
+
+// MeResponse는 UserResponse 정보를 포함하고, 더 많은 프로퍼티가 추가될 것이다.
+export type MeResponse = UserResponse;
 
 export type UserListResponse = { data: UserResponse[] };
 

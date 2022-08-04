@@ -6,8 +6,7 @@ const Button = styled.button`
   padding: 10px;
 
   border: none;
-  border-radius: 20px;
-  box-shadow: 0 4px 4px 0 #00000025;
+  border-radius: 10px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
