@@ -13,7 +13,7 @@ spring:
   config.activate.on-profile: prod
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
