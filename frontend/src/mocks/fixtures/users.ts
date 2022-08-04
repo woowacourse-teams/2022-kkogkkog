@@ -19,6 +19,7 @@ export default {
           couponEvent: 'REQUEST',
           meetingTime: '2022-08-08',
           isRead: false,
+          createdAt: '2022-08-08',
         },
         {
           id: 2,
@@ -29,6 +30,7 @@ export default {
           couponEvent: 'INIT',
           meetingTime: '2022-08-08',
           isRead: false,
+          createdAt: '2022-08-08',
         },
         {
           id: 3,
@@ -39,6 +41,7 @@ export default {
           couponEvent: 'REQUEST',
           meetingTime: '2022-08-08',
           isRead: false,
+          createdAt: '2022-08-08',
         },
       ],
     },

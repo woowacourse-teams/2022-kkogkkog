@@ -13,6 +13,7 @@ export type UserHistory = {
   couponId: number;
   couponType: COUPON_ENG_TYPE;
   couponEvent: COUPON_EVENT;
-  meetingTime: string;
+  meetingTime?: string;
   isRead: boolean;
+  createdAt: string;
 };

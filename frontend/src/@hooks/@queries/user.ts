@@ -128,18 +128,25 @@ export const useReadHistoryMutation = () => {
       QUERY_KEY.getUserHistoryList,
     ]);
 
-    queryClient.setQueryData<UserHistoryResponse>([QUERY_KEY.getUserHistoryList], oldData => {
-      const newData = {
-        ...oldData,
-        data: oldData?.data?.map(history =>
-          history.id === id ? { ...history, isRead: true } : { ...history }
-        ),
-      };
+    // Typing 어려워.. 2
+    queryClient.setQueryData<UserHistoryResponse | undefined>(
+      [QUERY_KEY.getUserHistoryList],
+      oldData => {
+        if (!oldData) {
+          return oldData;
+        }
 
-      return newData;
-    });
+        const newData = {
+          ...oldData,
+          data: oldData?.data?.map(history =>
+            history.id === id ? { ...history, isRead: true } : { ...history }
+          ),
+        };
 
-    // onError, onSettled에서 context로 조회가능
+        return newData;
+      }
+    );
+
     return previousQueryData;
   };
 
