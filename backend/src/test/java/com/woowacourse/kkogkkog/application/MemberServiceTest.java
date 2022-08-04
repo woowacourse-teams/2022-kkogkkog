@@ -137,7 +137,6 @@ class MemberServiceTest extends ServiceTest {
 
             List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
                 arthurCreateResponse.getId());
-
             assertThat(historiesResponse).hasSize(1);
         }
     }

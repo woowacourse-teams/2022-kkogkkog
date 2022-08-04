@@ -24,6 +24,7 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -117,7 +118,7 @@ public class MemberControllerTest extends Documentation {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDate.now()));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
@@ -154,7 +155,8 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
                         .description("이벤트에 쿠폰 이벤트"),
                     fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜"),
-                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN).description("이벤트 클릭(조회) 여부")
+                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN).description("이벤트 클릭(조회) 여부"),
+                    fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("이벤트 생성 날짜")
                 ))
             );
     }
