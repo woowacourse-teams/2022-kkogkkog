@@ -31,7 +31,7 @@ const UserHistoryItem = (props: UserHistoryItemProps) => {
   const { history, onClick } = props;
   const { imageUrl, meetingTime, nickname, couponEvent, couponType, isRead } = history;
 
-  const meetingDateText = generateDateText(meetingTime);
+  const meetingDateText = generateDateText(meetingTime, true);
 
   return (
     <Styled.Root isRead={isRead} onClick={onClick}>
