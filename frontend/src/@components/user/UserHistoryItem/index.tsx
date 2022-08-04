@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 
 import { COUPON_ENG_TYPE, COUPON_EVENT, COUPON_KOREAN_TYPE } from '@/types/client/coupon';
 import { UserHistory } from '@/types/client/user';
-import { extractDate } from '@/utils';
+import { generateDateText } from '@/utils';
 
 import * as Styled from './style';
 
@@ -31,7 +31,7 @@ const UserHistoryItem = (props: UserHistoryItemProps) => {
   const { history, onClick } = props;
   const { imageUrl, meetingTime, nickname, couponEvent, couponType, isRead } = history;
 
-  const meetingDateText = extractDate(meetingTime, true);
+  const meetingDateText = generateDateText(meetingTime);
 
   return (
     <Styled.Root isRead={isRead} onClick={onClick}>

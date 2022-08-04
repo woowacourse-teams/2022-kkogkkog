@@ -5,7 +5,7 @@ import CouponStatus from '@/@components/coupon/CouponStatus';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
-import { extractDate } from '@/utils';
+import { generateDateText } from '@/utils';
 
 import * as Styled from './big.style';
 
@@ -37,7 +37,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const { me } = useFetchMe();
 
-  const meetingDateText = extractDate(meetingDate);
+  const meetingDateText = generateDateText(meetingDate);
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
