@@ -1,6 +1,6 @@
 import * as Styled from './style';
 
-const Footer = () => {
+const DownloadPage = () => {
   return (
     <Styled.Root>
       <Styled.Title>쿠폰 알림은 어떻게 받을 수 있나요?</Styled.Title>
@@ -24,4 +24,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default DownloadPage;
