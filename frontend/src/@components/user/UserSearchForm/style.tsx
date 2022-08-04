@@ -93,6 +93,10 @@ export const TextContainer = styled.div`
 
   ${({ theme }) => css`
     color: ${theme.colors.grey_200};
+
+    & > div + div {
+      border-top: 1px solid ${theme.colors.light_grey_200};
+    }
   `}
 `;
 
@@ -109,14 +113,11 @@ export const SearchedUser = styled.div<{ isSelected: boolean }>`
 
   cursor: pointer;
 
-  ${({ theme, isSelected }) => css`
-    border-bottom: 1px solid ${theme.colors.light_grey_200};
-
-    ${isSelected &&
+  ${({ theme, isSelected }) =>
+    isSelected &&
     css`
       background-color: ${theme.colors.light_grey_100};
     `}
-  `}
 `;
 
 export const ProfileImage = styled.img`
