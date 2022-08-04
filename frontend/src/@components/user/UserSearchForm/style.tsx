@@ -99,6 +99,12 @@ export const TextContainer = styled.div`
 `;
 
 export const SearchedUser = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: 14px;
+
   padding: 10px;
 
   animation: show-up 0.3s ease-in;
@@ -113,4 +119,13 @@ export const SearchedUser = styled.div<{ isSelected: boolean }>`
       background-color: ${theme.colors.light_grey_100};
     `}
   `}
+`;
+
+export const ProfileImage = styled.img`
+  border-radius: 4px;
+  margin-right: 8px;
+`;
+
+export const Email = styled.span`
+  font-weight: 400;
 `;
