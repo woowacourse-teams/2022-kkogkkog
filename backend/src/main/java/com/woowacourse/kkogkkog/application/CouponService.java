@@ -144,6 +144,9 @@ public class CouponService {
         Member hostMember = memberHistory.getHostMember();
         Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
             hostMember.getWorkspaceId());
+        if (memberHistory.shouldNotSendPushAlarm()) {
+            return;
+        }
         if (workspace.isPresent()) {
             String accessToken = workspace.get().getAccessToken();
             String hostMemberId = hostMember.getUserId();
