@@ -125,15 +125,15 @@ class SlackClientTest {
     }
 
     @Test
-    @DisplayName("슬랙 서버로 메세지 전송 요청을 보낸다.")
-    void requestPostMessage() throws IOException {
+    @DisplayName("슬랙 서버로 푸쉬 알람 요청을 보낸다.")
+    void requestPushAlarm() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, POST_MESSAGE_RESPONSE);
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         assertThatNoException().isThrownBy(() ->
-            slackClient.requestPostMessage(BOT_ACCESS_TOKEN, USER_ID, MESSAGE));
+            slackClient.requestPushAlarm(BOT_ACCESS_TOKEN, USER_ID, MESSAGE));
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {

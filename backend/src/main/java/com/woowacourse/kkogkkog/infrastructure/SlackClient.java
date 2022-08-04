@@ -120,15 +120,19 @@ public class SlackClient {
             botTokenResponse.getAccessToken());
     }
 
-    public void requestPostMessage(String token, String userId, String message) {
-        messageClient
-            .post()
-            .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
-            .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-            .retrieve()
-            .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
-            .blockOptional()
-            .orElseThrow(PostMessageRequestFailedException::new);
+    public void requestPushAlarm(String token, String userId, String message) {
+        try {
+            messageClient
+                .post()
+                .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .retrieve()
+                .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
+                .blockOptional()
+                .orElseThrow(PostMessageRequestFailedException::new);
+        } catch (PostMessageRequestFailedException e) {
+            e.printStackTrace(); // TODO: 사용자에게 예외 던지지 말고 로그만 찍기. 향후 로그백으로 대체.
+        }
     }
 
     private URI toRequestPostMessageUri(UriBuilder uriBuilder, String userId, String message) {
