@@ -9,7 +9,9 @@ const UserHistoryPage = () => {
   const { readHistory } = useUserHistory();
 
   const onClickHistoryItem = (id: number, isRead: boolean) => {
-    readHistory(id, isRead);
+    if (!isRead) {
+      readHistory(id);
+    }
   };
 
   return (
