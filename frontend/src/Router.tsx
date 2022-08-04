@@ -12,9 +12,10 @@ import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
+import DownloadPage from './@pages/download';
 import LoginPage from './@pages/login';
-import LoginRedirect from './@pages/login/redirect';
 import ProfileEditPage from './@pages/profile/edit';
+import Redirect from './@pages/redirect';
 
 export const PATH = {
   LANDING: '/',
@@ -29,6 +30,8 @@ export const PATH = {
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
   USER_HISTORY: '/history',
+  DOWNLOAD_REDIRECT: '/download/redirect',
+  DOWNLOAD: '/download',
 };
 
 const Router = () => {
@@ -43,7 +46,9 @@ const Router = () => {
         }
       />
       <Route path={PATH.LOGIN} element={<LoginPage />} />
-      <Route path={PATH.LOGIN_REDIRECT} element={<LoginRedirect />} />
+      <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
+      <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
+      <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
       <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
