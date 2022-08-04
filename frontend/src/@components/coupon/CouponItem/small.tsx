@@ -23,9 +23,11 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
   const { me } = useFetchMe();
 
+  const isSent = me?.id === sender.id;
+
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>
-      <CouponStatus status={couponStatus} />
+      <CouponStatus status={couponStatus} isSent={isSent} />
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 
