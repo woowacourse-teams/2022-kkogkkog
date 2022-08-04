@@ -177,7 +177,8 @@ public class CouponServiceTest extends ServiceTest {
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
 
             couponService.save(couponSaveRequest);
-            String message = "루키님이 커피 쿠폰을 보냈어요.";
+            String message = String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(),
+                CouponType.COFFEE.getDisplayName());
 
             verify(slackClient).requestPushAlarm(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
         }
@@ -243,11 +244,12 @@ public class CouponServiceTest extends ServiceTest {
 
                 couponService.changeStatus(couponChangeStatusRequest);
 
+                String botToken = KKOGKKOG_WORKSPACE.getAccessToken();
                 String coffee = CouponType.COFFEE.getDisplayName();
-                verify(slackClient).requestPushAlarm(KKOGKKOG_WORKSPACE.getAccessToken(),
-                    ARTHUR.getUserId(), ROOKIE.getNickname() + "님이 " + coffee + " 쿠폰을 보냈어요.");
-                verify(slackClient).requestPushAlarm(KKOGKKOG_WORKSPACE.getAccessToken(),
-                    ROOKIE.getUserId(), ARTHUR.getNickname() + "님이 " + coffee + " 쿠폰 사용을 요청했어요.");
+                verify(slackClient).requestPushAlarm(botToken, ARTHUR.getUserId(),
+                    String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(), coffee));
+                verify(slackClient).requestPushAlarm(botToken, ROOKIE.getUserId(),
+                    String.format("%s님이 %s 쿠폰 사용을 요청했어요.", ARTHUR.getNickname(), coffee));
             }
 
             @Test
