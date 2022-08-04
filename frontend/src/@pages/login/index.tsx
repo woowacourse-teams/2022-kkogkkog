@@ -28,7 +28,6 @@ const LoginPage = () => {
           <Icon iconName='slack' size='20' />
           슬랙으로 로그인
         </Styled.SlackLink>
-        <Link to={PATH.JOIN}>회원가입</Link>
       </Styled.Root>
     </PageTemplate>
   );
