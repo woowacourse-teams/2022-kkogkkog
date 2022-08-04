@@ -18,7 +18,7 @@ const VerticalCouponList = (props: VerticalCouponListProps) => {
     return (
       <Styled.Root>
         <Styled.TextContainer fontSize='40px'>😱</Styled.TextContainer>
-        <Styled.TextContainer>해당 꼭꼭이 존재하지 않아요 ㅠㅠ</Styled.TextContainer>
+        <Styled.TextContainer>해당 쿠폰이 존재하지 않아요 ㅠㅠ</Styled.TextContainer>
       </Styled.Root>
     );
   }

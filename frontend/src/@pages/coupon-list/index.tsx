@@ -133,7 +133,7 @@ const CouponListPage = () => {
 
 CouponListPage.Skeleton = function Skeleton() {
   return (
-    <PageTemplate title='꼭꼭 모아보기'>
+    <PageTemplate title='쿠폰 모아보기'>
       <Styled.Root>
         <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
       </Styled.Root>

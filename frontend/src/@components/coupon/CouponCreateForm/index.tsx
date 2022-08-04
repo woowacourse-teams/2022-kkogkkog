@@ -108,7 +108,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
 
       <Styled.ButtonContainer>
         <Styled.ButtonInner>
-          <Button>꼭꼭 발급하기</Button>
+          <Button>쿠폰 발급하기</Button>
         </Styled.ButtonInner>
       </Styled.ButtonContainer>
     </Styled.FormRoot>
