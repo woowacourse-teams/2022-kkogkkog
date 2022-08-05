@@ -36,7 +36,7 @@ const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons:
   },
   READY: {
     title: '쿠폰을 사용하시겠어요?',
-    buttons: ['요청', '완료'],
+    buttons: ['요청'],
   },
 };
 
