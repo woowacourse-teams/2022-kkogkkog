@@ -43,7 +43,7 @@ export const Message = styled.p`
 `;
 
 export const MeetingDate = styled.span<{ couponStatus: COUPON_STATUS }>`
-  font-size: 12px;
+  font-size: 14px;
 
   ${({ theme, couponStatus }) => {
     if (couponStatus === 'REQUESTED') {
