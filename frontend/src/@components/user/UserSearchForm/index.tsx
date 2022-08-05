@@ -79,7 +79,9 @@ const UserSearchResult = (props: UserSearchResultProps) => {
           isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
           onClick={() => onSelectReceiver(user)}
         >
-          {user.nickname}({user.email})
+          <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
+          <span>{user.nickname}&nbsp;</span>
+          <Styled.Email>({user.email})</Styled.Email>
         </Styled.SearchedUser>
       ))}
     </>

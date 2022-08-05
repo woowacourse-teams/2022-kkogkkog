@@ -69,5 +69,5 @@ export const Root = styled.div<{ position: 'top' | 'middle' | 'bottom'; animatio
 export const ModalTop = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 `;

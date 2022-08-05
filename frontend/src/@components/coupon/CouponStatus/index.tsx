@@ -3,14 +3,12 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 
 import * as Styled from './style';
 
-interface CouponStatusProps {
-  status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
-}
-
-const couponStatusMapper: Record<COUPON_STATUS, { backgroundColor: string; text: string }> = {
+const couponStatusMapper = (
+  isSent: boolean
+): Record<COUPON_STATUS, { backgroundColor: string; text: string }> => ({
   REQUESTED: {
     backgroundColor: theme.colors.primary_500,
-    text: '요청중',
+    text: isSent ? '요청옴' : '요청중',
   },
   READY: {
     backgroundColor: theme.colors.primary_300,
@@ -18,18 +16,23 @@ const couponStatusMapper: Record<COUPON_STATUS, { backgroundColor: string; text:
   },
   ACCEPTED: {
     backgroundColor: theme.colors.green_500,
-    text: '승인됨',
+    text: isSent ? '승인함' : '승인됨',
   },
   FINISHED: {
     backgroundColor: theme.colors.light_grey_100,
     text: '사용완료',
   },
-};
+});
+
+interface CouponStatusProps {
+  status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
+  isSent: boolean;
+}
 
 const CouponStatus = (props: CouponStatusProps) => {
-  const { status } = props;
+  const { status, isSent } = props;
 
-  const { text, backgroundColor } = couponStatusMapper[status];
+  const { text, backgroundColor } = couponStatusMapper(isSent)[status];
 
   return <Styled.Root backgroundColor={backgroundColor}>{text}</Styled.Root>;
 };

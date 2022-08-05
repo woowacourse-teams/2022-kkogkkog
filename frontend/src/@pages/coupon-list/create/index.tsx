@@ -27,11 +27,11 @@ const CouponCreatePage = () => {
   }, [receiverList]);
 
   return (
-    <PageTemplate title='꼭꼭 보내기'>
+    <PageTemplate title='쿠폰 보내기'>
       <Styled.Root>
         <Styled.PreviewContainer ref={elementRef}>
           {receiverList.length === 0 ? (
-            <Styled.GuideContainer>꼭꼭을 완성해보세요!</Styled.GuideContainer>
+            <Styled.GuideContainer>쿠폰을 완성해보세요!</Styled.GuideContainer>
           ) : (
             receiverList.map(receiver => (
               <BigCouponItem.Preview

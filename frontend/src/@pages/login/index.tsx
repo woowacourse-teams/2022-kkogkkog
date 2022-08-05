@@ -28,7 +28,6 @@ const LoginPage = () => {
           <Icon iconName='slack' size='20' />
           슬랙으로 로그인
         </Styled.SlackLink>
-        <Link to={PATH.JOIN}>회원가입</Link>
       </Styled.Root>
     </PageTemplate>
   );
@@ -55,40 +54,6 @@ const Styled = {
     ${({ theme }) => css`
       color: ${theme.colors.primary_400};
     `}
-  `,
-  LoginForm: styled.form`
-    width: 100%;
-
-    & input {
-      width: 100%;
-      height: 50px;
-      font-size: 14px;
-      border: 1px solid ${({ theme }) => theme.colors.light_grey_100};
-
-      padding: 0 10px;
-    }
-
-    & input::placeholder {
-      ${({ theme }) => css`
-        color: ${theme.colors.light_grey_100};
-      `}
-    }
-
-    & > button {
-      width: 100%;
-      height: 50px;
-
-      font-weight: bold;
-
-      border-radius: 20px;
-
-      margin-bottom: 10px;
-
-      ${({ theme }) => css`
-        background-color: ${theme.colors.primary_400};
-        color: ${theme.colors.white_100};
-      `}
-    }
   `,
   SlackLink: styled.a`
     display: inline-flex;

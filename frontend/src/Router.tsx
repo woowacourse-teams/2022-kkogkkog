@@ -7,7 +7,6 @@ import NotFoundPage from '@/@pages/404';
 import CouponListPage from '@/@pages/coupon-list';
 import CouponCreatePage from '@/@pages/coupon-list/create';
 import UserHistoryPage from '@/@pages/history';
-import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
@@ -25,7 +24,6 @@ export const PATH = {
   COUPON_CREATE: '/coupon-list/create',
   LOGIN: '/login',
   LOGIN_REDIRECT: '/login/redirect',
-  JOIN: '/join',
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
@@ -49,7 +47,6 @@ const Router = () => {
       <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
       <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
       <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
-      <Route path={PATH.JOIN} element={<JoinPage />} />
       <Route element={<PrivateRoute />}>
         <Route
           path={PATH.SENT_COUPON_LIST}

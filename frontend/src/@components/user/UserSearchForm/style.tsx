@@ -41,8 +41,6 @@ export const SelectedUserContainer = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
     color: ${theme.colors.white_100};
-
-    box-shadow: ${theme.shadow.type_6};
   `}
 `;
 
@@ -95,22 +93,38 @@ export const TextContainer = styled.div`
 
   ${({ theme }) => css`
     color: ${theme.colors.grey_200};
+
+    & > div + div {
+      border-top: 1px solid ${theme.colors.light_grey_200};
+    }
   `}
 `;
 
 export const SearchedUser = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: 14px;
+
   padding: 10px;
 
   animation: show-up 0.3s ease-in;
 
   cursor: pointer;
 
-  ${({ theme, isSelected }) => css`
-    border-bottom: 1px solid ${theme.colors.light_grey_200};
-
-    ${isSelected &&
+  ${({ theme, isSelected }) =>
+    isSelected &&
     css`
       background-color: ${theme.colors.light_grey_100};
     `}
-  `}
+`;
+
+export const ProfileImage = styled.img`
+  border-radius: 4px;
+  margin-right: 8px;
+`;
+
+export const Email = styled.span`
+  font-weight: 400;
 `;

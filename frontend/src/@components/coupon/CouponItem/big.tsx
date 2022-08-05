@@ -39,10 +39,12 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const meetingDateText = generateDateText(meetingDate);
 
+  const isSent = me?.id === sender.id;
+
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
-        <CouponStatus status={couponStatus} />
+        <CouponStatus status={couponStatus} isSent={isSent} />
 
         <Styled.ImageInner backgroundColor={backgroundColor}>
           <img src={thumbnail} alt='쿠폰' />

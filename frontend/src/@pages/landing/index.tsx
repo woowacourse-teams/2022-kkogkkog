@@ -91,7 +91,7 @@ const AuthorizedLanding = () => {
           <Link to={PATH.COUPON_CREATE}>
             <Position>
               <Button css={Styled.ExtendedButton}>
-                꼭꼭 보내러가기
+                쿠폰 보내러가기
                 <Position
                   position='absolute'
                   css={css`
@@ -123,7 +123,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && couponList.received}
+                couponList={couponList && [...couponList.received].reverse()}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -144,7 +144,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && couponList.sent}
+                couponList={couponList && [...couponList.sent].reverse()}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />

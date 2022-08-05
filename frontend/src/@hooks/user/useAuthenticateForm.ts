@@ -42,7 +42,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       },
       {
         onSuccess() {
-          navigate(PATH.JOIN);
+          // navigate(PATH.JOIN);
         },
       }
     );

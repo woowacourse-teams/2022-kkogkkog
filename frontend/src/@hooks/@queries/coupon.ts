@@ -21,7 +21,7 @@ export const useFetchCouponList = () => {
   const parsedSentCouponList = useMemo(
     () =>
       couponList &&
-      couponList?.sent?.reduce<Record<COUPON_STATUS, CouponResponse[]>>(
+      couponList?.sent?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
         (prev, coupon) => {
           const key = coupon.couponStatus;
 
@@ -40,7 +40,7 @@ export const useFetchCouponList = () => {
   const parsedReceivedCouponList = useMemo(
     () =>
       couponList &&
-      couponList?.received?.reduce<Record<COUPON_STATUS, CouponResponse[]>>(
+      couponList?.received?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
         (prev, coupon) => {
           const key = coupon.couponStatus;
 
