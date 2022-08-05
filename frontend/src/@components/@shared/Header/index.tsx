@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -39,7 +40,12 @@ const Header = (props: HeaderProps) => {
       </Styled.Logo>
       <Styled.Title>{title}</Styled.Title>
       <Styled.Profile>
-        <Position>
+        <Position
+          css={css`
+            display: flex;
+            align-items: center;
+          `}
+        >
           <Link to={PATH.USER_HISTORY}>
             <Icon iconName='notification' size='26' color={'transparent'} />
           </Link>
@@ -49,7 +55,13 @@ const Header = (props: HeaderProps) => {
             </Position>
           )}
         </Position>
-        <Link to={PATH.PROFILE}>
+        <Link
+          to={PATH.PROFILE}
+          css={css`
+            display: flex;
+            align-items: center;
+          `}
+        >
           {me ? (
             <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />
           ) : (
