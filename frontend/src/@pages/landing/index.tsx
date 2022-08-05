@@ -123,7 +123,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && couponList.received}
+                couponList={couponList && [...couponList.received].reverse()}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -144,7 +144,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && couponList.sent}
+                couponList={couponList && [...couponList.sent].reverse()}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
