@@ -1,0 +1,4 @@
+[submodule "backend/src/main/resources/backend-secret"]
+	path = backend/src/main/resources/backend-secret
+	url = https://github.com/team-kkogkkog/backend-secret.git
+	branch = main
