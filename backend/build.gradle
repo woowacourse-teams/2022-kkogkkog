@@ -2,6 +2,8 @@ plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id "org.sonarqube" version "3.4.0.2513"
+    id 'jacoco'
     id 'java'
 }
 
@@ -56,6 +58,7 @@ dependencies {
 test {
     useJUnitPlatform()
     outputs.dir snippetsDir
+    finalizedBy 'jacocoTestReport'
 }
 
 asciidoctor {
@@ -89,4 +92,20 @@ build {
 bootJar {
     dependsOn copySecret
     dependsOn createDocument
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "woowacourse-teams_2022-kkogkkog"
+        property "sonar.organization", "woowacourse-teams"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+    }
 }
