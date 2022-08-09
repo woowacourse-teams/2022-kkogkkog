@@ -42,10 +42,10 @@ class AuthServiceTest extends ServiceTest {
                     new SlackUserInfo(
                         memberResponse.getUserId(),
                         memberResponse.getWorkspaceId(),
+                        WORKSPACE_NAME,
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
-                        memberResponse.getImageUrl(),
-                        WORKSPACE_NAME));
+                        memberResponse.getImageUrl()));
 
             TokenResponse tokenResponse = authService.login(AUTHORIZATION_CODE);
 
@@ -77,10 +77,10 @@ class AuthServiceTest extends ServiceTest {
                     new SlackUserInfo(
                         memberResponse.getUserId(),
                         memberResponse.getWorkspaceId(),
+                        WORKSPACE_NAME,
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
-                        memberResponse.getImageUrl(),
-                        WORKSPACE_NAME));
+                        memberResponse.getImageUrl()));
             authService.login(AUTHORIZATION_CODE);
 
             given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
