@@ -1,5 +1,5 @@
 spring:
-  profiles.active: test
+  config.activate.on-profile: default
   jpa:
     hibernate:
       ddl-auto: create-drop
