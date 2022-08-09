@@ -2,7 +2,6 @@ package com.woowacourse.kkogkkog.application;
 
 import static com.woowacourse.kkogkkog.fixture.MemberFixture.ROOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
@@ -10,7 +9,6 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
-import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,9 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 class AuthServiceTest extends ServiceTest {
 
     private static final String AUTHORIZATION_CODE = "code";
-    private static final String WORKSPACE_ID = "workspace_id";
-    private static final String WORKSPACE_NAME = "workspace_name";
-    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     @Autowired
     private AuthService authService;
@@ -41,10 +36,13 @@ class AuthServiceTest extends ServiceTest {
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
-                        memberResponse.getWorkspaceId(),
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
-                        memberResponse.getImageUrl()));
+                        memberResponse.getImageUrl(),
+                        memberResponse.getWorkspaceId(),
+                        "TEAM_ID",
+                        "팀_이미지_주소"
+                    ));
 
             TokenResponse tokenResponse = authService.login(AUTHORIZATION_CODE);
 
@@ -60,34 +58,6 @@ class AuthServiceTest extends ServiceTest {
             assertThatThrownBy(
                 () -> authService.login("invalid_code")
             ).isInstanceOf(AccessTokenRetrievalFailedException.class);
-        }
-    }
-
-    @Nested
-    @DisplayName("installSlackApp 메서드는")
-    class InstallSlackBot {
-
-        @Test
-        @DisplayName("임시 코드를 입력하면, 봇 토큰을 저장한다")
-        void success() {
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-
-            assertThatNoException()
-                .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
-        }
-
-        @Test
-        @DisplayName("이미 등록된 워크스페이스인 경우, 엑세스 토큰을 업데이트한다.")
-        void success_update() {
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            authService.installSlackApp(AUTHORIZATION_CODE);
-
-            assertThatNoException()
-                .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
         }
     }
 }
