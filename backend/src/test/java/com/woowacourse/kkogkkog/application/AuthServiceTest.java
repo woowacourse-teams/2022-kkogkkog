@@ -23,7 +23,7 @@ class AuthServiceTest extends ServiceTest {
 
     private static final String AUTHORIZATION_CODE = "code";
     private static final String WORKSPACE_ID = "T03LX3C5540";
-    private static final String WORKSPACE_NAME = "꼭꼭";
+    private static final String WORKSPACE_NAME = "workspace_name";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     @Autowired
