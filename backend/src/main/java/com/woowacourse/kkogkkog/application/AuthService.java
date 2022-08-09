@@ -40,17 +40,9 @@ public class AuthService {
 
     private void saveOrUpdateWorkspace(SlackUserInfo userInfo) {
         workspaceRepository.findByWorkspaceId(userInfo.getTeamId())
-            .ifPresentOrElse(workspace -> updateWorkspaceToMatchSlack(workspace, userInfo),
-                () -> saveWorkspace(userInfo));
-    }
-
-    private void saveWorkspace(SlackUserInfo userInfo) {
-        workspaceRepository.save(
-            new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
-    }
-
-    private void updateWorkspaceToMatchSlack(Workspace workspace, SlackUserInfo userInfo) {
-        workspace.updateName(userInfo.getTeamName());
+            .ifPresentOrElse(workspace -> workspace.updateName(userInfo.getTeamName()),
+                () -> workspaceRepository.save(
+                    new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null)));
     }
 
     public void installSlackApp(String code) {
