@@ -32,6 +32,9 @@ class MemberServiceTest extends ServiceTest {
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private WorkspaceService workspaceService;
+
     @Nested
     @DisplayName("save 메서드는")
     class Save {
@@ -76,12 +79,13 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "루키", "rookie@gmail.com",
                 "user_image", "T03LX3C5540", "kkogkkog", "workspace_image");
             Long memberId = memberService.saveOrFind(slackUserInfo).getId();
+            workspaceService.saveOrUpdate(slackUserInfo);
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MyProfileResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
-                    "user_image", 0L)
+                new MyProfileResponse(null, "URookie", "루키", "rookie@gmail.com", "user_image",
+                    "T03LX3C5540", "kkogkkog", "workspace_image", 0L)
             );
         }
 
@@ -171,8 +175,9 @@ class MemberServiceTest extends ServiceTest {
         @DisplayName("사용자의 닉네임을 수정한다.")
         void success() {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "루키", "rookie@gmail.com",
-                "user_image", "T03LX3C5540", "kkogkkog", "workspace_image");
+                "user_image", "workspace_id", "kkogkkog", "workspace_image");
             Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
+            workspaceService.saveOrUpdate(rookieUserInfo);
 
             String expected = "새로운_닉네임";
             memberService.update(new MemberUpdateRequest(memberId, expected));

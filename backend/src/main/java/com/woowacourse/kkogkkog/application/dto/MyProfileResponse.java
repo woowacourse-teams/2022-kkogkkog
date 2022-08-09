@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.application.dto;
 
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,31 +12,39 @@ public class MyProfileResponse {
 
     private Long id;
     private String userId;
-    private String workspaceId;
     private String nickname;
     private String email;
-    private String imageUrl;
+    private String userImageUrl;
+    private String workspaceId;
+    private String workspaceName;
+    private String workspaceImageUrl;
     private Long unReadCount;
 
-    public MyProfileResponse(Long id, String userId, String workspaceId, String nickname,
-                             String email, String imageUrl, Long unReadCount) {
+    public MyProfileResponse(Long id, String userId, String nickname, String email,
+                             String userImageUrl,
+                             String workspaceId, String workspaceName, String workspaceImageUrl,
+                             Long unReadCount) {
         this.id = id;
         this.userId = userId;
-        this.workspaceId = workspaceId;
         this.nickname = nickname;
         this.email = email;
-        this.imageUrl = imageUrl;
+        this.userImageUrl = userImageUrl;
+        this.workspaceId = workspaceId;
+        this.workspaceName = workspaceName;
+        this.workspaceImageUrl = workspaceImageUrl;
         this.unReadCount = unReadCount;
     }
 
-    public static MyProfileResponse of(Member member,  Long unreadHistoryCount) {
+    public static MyProfileResponse of(Member member, Workspace workspace, Long unreadHistoryCount) {
         return new MyProfileResponse(
             member.getId(),
             member.getUserId(),
-            member.getWorkspaceId(),
             member.getNickname(),
             member.getEmail(),
             member.getImageUrl(),
+            workspace.getWorkspaceId(),
+            workspace.getName(),
+            workspace.getImageUrl(),
             unreadHistoryCount
         );
     }
