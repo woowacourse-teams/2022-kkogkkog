@@ -25,13 +25,25 @@ public class Workspace {
     private String name;
 
     @Column(nullable = false)
+    private String imageUrl;
+
     private String accessToken;
 
-    public Workspace(Long id, String workspaceId, String name, String accessToken) {
+    public Workspace(Long id, String workspaceId, String name, String imageUrl,
+                     String accessToken) {
         this.id = id;
-        this.name = name;
         this.workspaceId = workspaceId;
+        this.name = name;
+        this.imageUrl = imageUrl;
         this.accessToken = accessToken;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void updateAccessToken(String accessToken) {
