@@ -24,7 +24,6 @@ public class Workspace {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String accessToken;
 
     public Workspace(Long id, String workspaceId, String name, String accessToken) {
