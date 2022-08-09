@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.presentation;
 
 import com.woowacourse.kkogkkog.application.AuthService;
+import com.woowacourse.kkogkkog.application.WorkspaceService;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final WorkspaceService workspaceService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, WorkspaceService workspaceService) {
         this.authService = authService;
+        this.workspaceService = workspaceService;
     }
 
     @GetMapping("/login/token")
@@ -30,7 +33,7 @@ public class AuthController {
 
     @PostMapping("/install/bot")
     public ResponseEntity<Void> installSlackApp(@RequestBody InstallSlackAppRequest installSlackAppRequest) {
-        authService.installSlackApp(installSlackAppRequest.getCode());
+        workspaceService.installSlackApp(installSlackAppRequest.getCode());
 
         return ResponseEntity.ok().build();
     }

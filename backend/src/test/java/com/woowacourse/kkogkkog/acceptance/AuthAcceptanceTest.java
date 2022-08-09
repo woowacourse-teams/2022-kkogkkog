@@ -44,7 +44,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     void 슬랙_앱을_등록할_수_있다() {
         given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
             .willReturn(
-                new WorkspaceResponse("ACCESS_TOKEN", "TEAM_ID", "꼭꼭"));
+                new WorkspaceResponse("T03LX3C5540", "팀_이름", "ACCESS_TOKEN"));
+        MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        회원가입_또는_로그인에_성공한다(memberResponse);
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -62,10 +64,13 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .willReturn(
                 new SlackUserInfo(
                     memberResponse.getUserId(),
-                    memberResponse.getWorkspaceId(),
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
-                    memberResponse.getImageUrl()));
+                    memberResponse.getImageUrl(),
+                    memberResponse.getWorkspaceId(),
+                    "팀_이름",
+                    "팀_이미지_주소"
+                ));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
