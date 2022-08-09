@@ -14,18 +14,30 @@ public class SlackUserInfo {
     @JsonProperty(SLACK_URI + "/user_id")
     private String userId;
 
+    private String name;
+    private String email;
+
+    @JsonProperty(SLACK_URI + "/user_image_512")
+    private String userImageUrl;
+
     @JsonProperty(SLACK_URI + "/team_id")
     private String teamId;
 
-    private String name;
-    private String email;
-    private String picture;
+    @JsonProperty(SLACK_URI + "/team_name")
+    private String teamName;
 
-    public SlackUserInfo(String userId, String teamId, String name, String email, String picture) {
+    @JsonProperty(SLACK_URI + "/team_image_230")
+    private String teamImageUrl;
+
+    public SlackUserInfo(String userId, String name, String email, String userImageUrl,
+                         String teamId,
+                         String teamName, String teamImageUrl) {
         this.userId = userId;
-        this.teamId = teamId;
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        this.userImageUrl = userImageUrl;
+        this.teamId = teamId;
+        this.teamName = teamName;
+        this.teamImageUrl = teamImageUrl;
     }
 }

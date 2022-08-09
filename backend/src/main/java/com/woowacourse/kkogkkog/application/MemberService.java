@@ -36,7 +36,7 @@ public class MemberService {
         String workspaceId = slackUserInfo.getTeamId();
         String nickname = slackUserInfo.getName();
         String email = slackUserInfo.getEmail();
-        String imageUrl = slackUserInfo.getPicture();
+        String imageUrl = slackUserInfo.getUserImageUrl();
 
         return memberRepository.findByUserId(userId)
             .stream()

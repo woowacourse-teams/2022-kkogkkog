@@ -48,7 +48,7 @@ public class CouponServiceTest extends ServiceTest {
     private static final Member ARTHUR = new Member(null, "UArthur", WORKSPACE_ID, "아서",
         "arthur@gmail.com", "image");
     private static final Workspace KKOGKKOG_WORKSPACE = new Workspace(null, WORKSPACE_ID,
-        "KkogKkog", BOT_ACCESS_TOKEN);
+        "KkogKkog", "image", BOT_ACCESS_TOKEN);
 
     @Autowired
     private CouponService couponService;
