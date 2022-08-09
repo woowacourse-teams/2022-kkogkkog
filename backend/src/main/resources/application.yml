@@ -1,42 +1,14 @@
 spring:
-  profiles.active: test
+  config.activate.on-profile: default
   jpa:
+    hibernate:
+      ddl-auto: create-drop
     open-in-view: false
     properties:
       hibernate:
         show_sql: true
         format_sql: true
 
----
-
-spring:
-  config.activate.on-profile: prod
-  jpa:
-    hibernate:
-      ddl-auto: none
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-
-security:
-  jwt:
-    token:
-      secret-key: ${JWT_TOKEN_SECRET_KEY}
-      expire-length: 3600000
-  slack:
-    client-id: ${OAUTH_SLACK_CLIENT_ID}
-    secret-id: ${OAUTH_SLACK_SECRET_ID}
-
----
-
-spring:
-  config.activate.on-profile: test
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1

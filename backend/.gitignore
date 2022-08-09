@@ -39,5 +39,8 @@ out/
 ### Spring Rest Docs
 **/src/main/resources/static/*.html
 
+### yml
+src/main/**/application-*.yml
+
 ### Log
 .log
