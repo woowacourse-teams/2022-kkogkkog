@@ -3,6 +3,9 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 module.exports = (env, args) => {
   const isDevelopment = args.mode === 'development';
@@ -41,21 +44,18 @@ module.exports = (env, args) => {
         {
           test: /\.(js|jsx|ts|tsx)$/,
           use: {
-            loader: 'babel-loader',
+            loader: require.resolve('babel-loader'),
             options: {
+              envName: isDevelopment ? 'development' : 'production',
               presets: [
                 '@babel/preset-env',
                 ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
                 '@babel/preset-typescript',
               ],
-              env: {
-                development: {
-                  plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(
-                    Boolean
-                  ),
-                },
-              },
-              plugins: ['@emotion/babel-plugin'],
+              plugins: [
+                '@emotion/babel-plugin',
+                isDevelopment && require.resolve('react-refresh/babel'),
+              ].filter(Boolean),
             },
           },
         },
@@ -79,6 +79,9 @@ module.exports = (env, args) => {
         ],
       }),
       new Dotenv(),
+      new webpack.DefinePlugin({
+        PRODUCT_ENV: JSON.stringify(process.env.NODE_ENV),
+      }),
     ].filter(Boolean),
   };
 };
