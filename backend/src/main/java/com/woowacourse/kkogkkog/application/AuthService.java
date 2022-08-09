@@ -31,10 +31,17 @@ public class AuthService {
     public TokenResponse login(String code) {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
         MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo);
-
+        saveOrUpdateWorkspace(userInfo);
+        
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
             memberCreateResponse.getIsNew());
+    }
+
+    private void saveOrUpdateWorkspace(SlackUserInfo userInfo) {
+        workspaceRepository.findByWorkspaceId(userInfo.getTeamId())
+            .ifPresentOrElse(workspace -> workspace.updateName(userInfo.getTeamName()),
+                () -> new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
     }
 
     public void installSlackApp(String code) {
