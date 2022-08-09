@@ -21,11 +21,16 @@ public class SlackUserInfo {
     private String email;
     private String picture;
 
-    public SlackUserInfo(String userId, String teamId, String name, String email, String picture) {
+    @JsonProperty(SLACK_URI + "/team_name")
+    private String teamName;
+
+    public SlackUserInfo(String userId, String teamId, String name, String email, String picture,
+                         String teamName) {
         this.userId = userId;
         this.teamId = teamId;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.teamName = teamName;
     }
 }
