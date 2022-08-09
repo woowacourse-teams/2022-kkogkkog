@@ -7,6 +7,11 @@ on:
       - develop
     paths:
       - backend/**
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, ready_for_review, reopened, synchronize]
 
 jobs:
   sonar_build:
