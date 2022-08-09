@@ -9,8 +9,11 @@ import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.exception.auth.WorkspaceNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -24,11 +27,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberHistoryRepository memberHistoryRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     public MemberService(MemberRepository memberRepository,
-                         MemberHistoryRepository memberHistoryRepository) {
+                         MemberHistoryRepository memberHistoryRepository,
+                         WorkspaceRepository workspaceRepository) {
         this.memberRepository = memberRepository;
         this.memberHistoryRepository = memberHistoryRepository;
+        this.workspaceRepository = workspaceRepository;
     }
 
     public MemberCreateResponse saveOrFind(SlackUserInfo slackUserInfo) {
@@ -61,9 +67,11 @@ public class MemberService {
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
+        Workspace workspace = workspaceRepository.findByWorkspaceId(findMember.getWorkspaceId())
+            .orElseThrow(WorkspaceNotFoundException::new);
         long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
 
-        return MyProfileResponse.of(findMember, unreadHistoryCount);
+        return MyProfileResponse.of(findMember, workspace.getName(), unreadHistoryCount);
     }
 
     @Transactional(readOnly = true)

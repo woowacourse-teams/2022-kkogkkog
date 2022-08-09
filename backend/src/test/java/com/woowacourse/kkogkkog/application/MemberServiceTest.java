@@ -11,6 +11,8 @@ import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -28,6 +30,9 @@ class MemberServiceTest extends ServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Autowired
     private CouponService couponService;
@@ -76,13 +81,13 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
                 "rookie@gmail.com", "image", "workspace_name");
             Long memberId = memberService.saveOrFind(slackUserInfo).getId();
+            workspaceRepository.save(new Workspace(null, "T03LX3C5540", "꼭꼭", null));
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
             assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MyProfileResponse(null, "URookie", "T03LX3C5540", "루키", "rookie@gmail.com",
-                    "image", 0L)
-            );
+                new MyProfileResponse(null, "URookie", "T03LX3C5540", "꼭꼭", "루키",
+                    "rookie@gmail.com", "image", 0L));
         }
 
         @Test
@@ -155,7 +160,8 @@ class MemberServiceTest extends ServiceTest {
             MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
             MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
             CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는", "추가 메세지", "##11032", "COFFEE");
+                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
+                "추가 메세지", "##11032", "COFFEE");
             couponService.save(couponSaveRequest);
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
@@ -172,6 +178,7 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540", "루키",
                 "rookie@gmail.com", "image", "workspace_name");
             Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
+            workspaceRepository.save(new Workspace(null, "T03LX3C5540", "꼭꼭", null));
 
             String expected = "새로운_닉네임";
             memberService.update(new MemberUpdateRequest(memberId, expected));
