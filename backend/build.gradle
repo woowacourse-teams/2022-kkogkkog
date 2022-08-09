@@ -62,12 +62,16 @@ test {
 }
 
 asciidoctor {
-    dependsOn test
     configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
-
+    sources {
+        include("**/index.adoc")
+    }
     baseDirFollowsSourceFile()
+    dependsOn test
 }
+
+processResources.dependsOn('copySecret')
 
 task copySecret(type: Copy) {
     from 'src/main/resources/backend-secret/application-prod.yml'
@@ -77,21 +81,18 @@ task copySecret(type: Copy) {
     into 'src/main/resources'
 }
 
-task createDocument(type: Copy) {
+task copyDocument(type: Copy) {
     dependsOn asciidoctor
-    delete file('src/main/resources/static/index.html')
-    from file("build/docs/asciidoc/index.html")
-    into file("src/main/resources/static")
+    from file("${asciidoctor.outputDir}")
+    into file("build/resources/main/static")
 }
 
 build {
-    dependsOn copySecret
-    dependsOn createDocument
+    dependsOn copyDocument
 }
 
 bootJar {
-    dependsOn copySecret
-    dependsOn createDocument
+    dependsOn copyDocument
 }
 
 jacocoTestReport {
