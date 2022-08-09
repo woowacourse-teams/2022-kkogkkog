@@ -4,10 +4,10 @@ import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.exception.auth.WorkspaceNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +32,7 @@ public class AuthService {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
         MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo);
         saveOrUpdateWorkspace(userInfo);
-        
+
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
             memberCreateResponse.getIsNew());
@@ -40,20 +40,25 @@ public class AuthService {
 
     private void saveOrUpdateWorkspace(SlackUserInfo userInfo) {
         workspaceRepository.findByWorkspaceId(userInfo.getTeamId())
-            .ifPresentOrElse(workspace -> workspace.updateName(userInfo.getTeamName()),
-                () -> new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
+            .ifPresentOrElse(workspace -> updateWorkspaceToMatchSlack(workspace, userInfo),
+                () -> saveWorkspace(userInfo));
+    }
+
+    private void saveWorkspace(SlackUserInfo userInfo) {
+        workspaceRepository.save(
+            new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
+    }
+
+    private void updateWorkspaceToMatchSlack(Workspace workspace, SlackUserInfo userInfo) {
+        workspace.updateName(userInfo.getTeamName());
     }
 
     public void installSlackApp(String code) {
         WorkspaceResponse botTokenResponse = slackClient.requestBotAccessToken(code);
-        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
-            botTokenResponse.getWorkspaceId());
+        Workspace workspace = workspaceRepository.findByWorkspaceId(
+                botTokenResponse.getWorkspaceId())
+            .orElseThrow(WorkspaceNotFoundException::new);
 
-        if (workspace.isPresent()) {
-            workspace.get().updateAccessToken(botTokenResponse.getAccessToken());
-            return;
-        }
-        workspaceRepository.save(new Workspace(null, botTokenResponse.getWorkspaceId(),
-            botTokenResponse.getWorkspaceName(), botTokenResponse.getAccessToken()));
+        workspace.updateAccessToken(botTokenResponse.getAccessToken());
     }
 }

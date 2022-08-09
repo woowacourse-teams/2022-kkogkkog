@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 class AuthServiceTest extends ServiceTest {
 
     private static final String AUTHORIZATION_CODE = "code";
-    private static final String WORKSPACE_ID = "workspace_id";
+    private static final String WORKSPACE_ID = "T03LX3C5540";
     private static final String WORKSPACE_NAME = "workspace_name";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
@@ -45,7 +45,7 @@ class AuthServiceTest extends ServiceTest {
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
                         memberResponse.getImageUrl(),
-                        "workspace_name"));
+                        WORKSPACE_NAME));
 
             TokenResponse tokenResponse = authService.login(AUTHORIZATION_CODE);
 
@@ -71,21 +71,20 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("임시 코드를 입력하면, 봇 토큰을 저장한다")
         void success() {
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
+            MemberResponse memberResponse = MemberResponse.of(ROOKIE);
+            given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+                .willReturn(
+                    new SlackUserInfo(
+                        memberResponse.getUserId(),
+                        memberResponse.getWorkspaceId(),
+                        memberResponse.getNickname(),
+                        memberResponse.getEmail(),
+                        memberResponse.getImageUrl(),
+                        WORKSPACE_NAME));
+            authService.login(AUTHORIZATION_CODE);
 
-            assertThatNoException()
-                .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
-        }
-
-        @Test
-        @DisplayName("이미 등록된 워크스페이스인 경우, 엑세스 토큰을 업데이트한다.")
-        void success_update() {
             given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
                 .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            authService.installSlackApp(AUTHORIZATION_CODE);
 
             assertThatNoException()
                 .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
