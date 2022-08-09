@@ -50,7 +50,6 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE)).getAccessToken();
-        회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         MyProfileResponse memberResponse = extract.as(MyProfileResponse.class);
@@ -58,8 +57,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
-                new MyProfileResponse(1L, "URookie", "T03LX3C5540",
-                    "루키", "rookie@gmail.com", "image", 0L))
+                new MyProfileResponse(1L, "URookie", "루키", "rookie@gmail.com",
+                    "image", "T03LX3C5540", "workspace_name",
+                    "workspace_image", 0L))
         );
     }
 

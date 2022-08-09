@@ -68,8 +68,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                     memberResponse.getEmail(),
                     memberResponse.getImageUrl(),
                     memberResponse.getWorkspaceId(),
-                    "팀_이름",
-                    "팀_이미지_주소"
+                    "workspace_name",
+                    "workspace_image"
                 ));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()

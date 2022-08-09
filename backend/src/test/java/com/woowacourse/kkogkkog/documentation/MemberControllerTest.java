@@ -73,8 +73,8 @@ public class MemberControllerTest extends Documentation {
     @Test
     void 나의_회원정보를_요청할_수_있다() throws Exception {
         // given
-        MyProfileResponse memberResponse = new MyProfileResponse(1L, "User1", "TWorkspace1",
-            "user_nickname1", "email1@gmail.com", "image", 10L);
+        MyProfileResponse memberResponse = new MyProfileResponse(1L, "User1", "user_nickname1",
+            "email1@gmail.com", "user_image", "TWorkspace1", "workspace_name","workspace_image", 10L);
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findById(any())).willReturn(memberResponse);
@@ -87,10 +87,14 @@ public class MemberControllerTest extends Documentation {
         perform.andExpect(status().isOk())
             .andExpect(jsonPath("$.id").value("1"))
             .andExpect(jsonPath("$.userId").value("User1"))
-            .andExpect(jsonPath("$.workspaceId").value("TWorkspace1"))
             .andExpect(jsonPath("$.nickname").value("user_nickname1"))
             .andExpect(jsonPath("$.email").value("email1@gmail.com"))
-            .andExpect(jsonPath("$.imageUrl").value("image"));
+            .andExpect(jsonPath("$.userImageUrl").value("user_image"))
+            .andExpect(jsonPath("$.workspaceId").value("TWorkspace1"))
+            .andExpect(jsonPath("$.workspaceName").value("workspace_name"))
+            .andExpect(jsonPath("$.workspaceImageUrl").value("workspace_image"))
+            .andExpect(jsonPath("$.unReadCount").value(10L));
+
 
         // docs
         perform
@@ -104,12 +108,17 @@ public class MemberControllerTest extends Documentation {
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
                     fieldWithPath("userId").type(JsonFieldType.STRING).description("유저 Id"),
-                    fieldWithPath("workspaceId").type(JsonFieldType.STRING)
-                        .description("워크스페이스 ID"),
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
-                    fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소"),
-                    fieldWithPath("unReadCount").type(JsonFieldType.NUMBER).description("읽지 않은 알림 개수")
+                    fieldWithPath("userImageUrl").type(JsonFieldType.STRING).description("유저 이미지 주소"),
+                    fieldWithPath("workspaceId").type(JsonFieldType.STRING)
+                        .description("워크스페이스 ID"),
+                    fieldWithPath("workspaceName").type(JsonFieldType.STRING)
+                        .description("워크스페이스 이름"),
+                    fieldWithPath("workspaceImageUrl").type(JsonFieldType.STRING)
+                        .description("워크스페이스 이미지 주소"),
+                    fieldWithPath("unReadCount").type(JsonFieldType.NUMBER)
+                        .description("읽지 않은 알림 개수")
                 ))
             );
     }
@@ -118,7 +127,8 @@ public class MemberControllerTest extends Documentation {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDate.now()));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false,
+                LocalDate.now()));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
@@ -155,8 +165,10 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
                         .description("이벤트에 쿠폰 이벤트"),
                     fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜"),
-                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN).description("이벤트 클릭(조회) 여부"),
-                    fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("이벤트 생성 날짜")
+                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN)
+                        .description("이벤트 클릭(조회) 여부"),
+                    fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING)
+                        .description("이벤트 생성 날짜")
                 ))
             );
     }
