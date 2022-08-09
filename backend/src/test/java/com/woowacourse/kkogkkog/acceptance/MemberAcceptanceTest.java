@@ -58,7 +58,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
-                new MyProfileResponse(1L, "URookie", "T03LX3C5540", "workspace_name",
+                new MyProfileResponse(1L, "URookie", "T03LX3C5540", "꼭꼭",
                     "루키", "rookie@gmail.com", "image", 0L))
         );
     }

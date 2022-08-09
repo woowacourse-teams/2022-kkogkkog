@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 public class AuthAcceptanceTest extends AcceptanceTest {
 
     private static final String AUTHORIZATION_CODE = "CODE";
+    private static final String WORKSPACE_NAME = "꼭꼭";
 
     @Test
     void 가입되지_않은_회원은_정보가_저장되고_로그인을_할_수_있다() {
@@ -44,7 +45,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     void 슬랙_앱을_등록할_수_있다() {
         given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
             .willReturn(
-                new WorkspaceResponse("T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+                new WorkspaceResponse("T03LX3C5540", WORKSPACE_NAME, "ACCESS_TOKEN"));
 
         MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
         회원가입_또는_로그인에_성공한다(memberResponse);
@@ -66,7 +67,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 new SlackUserInfo(
                     memberResponse.getUserId(),
                     memberResponse.getWorkspaceId(),
-                    "workspace_name",
+                    WORKSPACE_NAME,
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
                     memberResponse.getImageUrl()));
