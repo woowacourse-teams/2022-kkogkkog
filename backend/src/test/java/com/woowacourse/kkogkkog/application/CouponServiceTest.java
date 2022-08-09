@@ -36,19 +36,17 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("CouponService 클래스의")
 public class CouponServiceTest extends ServiceTest {
 
-    private static final String WORKSPACE_ID = "T03LX3C5540";
-    private static final String BOT_ACCESS_TOKEN = "xoxb-bot-access-token";
+    private static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name",
+        "xoxb-bot-access-token");
 
-    private static final Member JEONG = new Member(null, "UJeong", WORKSPACE_ID, "정",
+    private static final Member JEONG = new Member(null, "UJeong", WORKSPACE, "정",
         "jeong@gmail.com", "image");
-    private static final Member LEO = new Member(null, "ULeo", WORKSPACE_ID, "레오",
+    private static final Member LEO = new Member(null, "ULeo", WORKSPACE, "레오",
         "leothelion@gmail.com", "image");
-    private static final Member ROOKIE = new Member(null, "URookie", WORKSPACE_ID, "루키",
+    private static final Member ROOKIE = new Member(null, "URookie", WORKSPACE, "루키",
         "rookie@gmail.com", "image");
-    private static final Member ARTHUR = new Member(null, "UArthur", WORKSPACE_ID, "아서",
+    private static final Member ARTHUR = new Member(null, "UArthur", WORKSPACE, "아서",
         "arthur@gmail.com", "image");
-    private static final Workspace KKOGKKOG_WORKSPACE = new Workspace(null, WORKSPACE_ID,
-        "KkogKkog", BOT_ACCESS_TOKEN);
 
     @Autowired
     private CouponService couponService;
@@ -66,6 +64,7 @@ public class CouponServiceTest extends ServiceTest {
     @BeforeEach
     void setUp() {
         super.setUp();
+        workspaceRepository.save(WORKSPACE);
         memberRepository.save(JEONG);
         memberRepository.save(LEO);
         memberRepository.save(ROOKIE);
@@ -173,14 +172,14 @@ public class CouponServiceTest extends ServiceTest {
         @Test
         @DisplayName("쿠폰을 받은 사람에게 슬랙 알림을 보낸다.")
         void success_notification() {
-            workspaceRepository.save(KKOGKKOG_WORKSPACE);
             CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
 
             couponService.save(couponSaveRequest);
             String message = String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(),
                 CouponType.COFFEE.getDisplayName());
 
-            verify(slackClient).requestPushAlarm(BOT_ACCESS_TOKEN, ARTHUR.getUserId(), message);
+            verify(slackClient).requestPushAlarm(WORKSPACE.getAccessToken(), ARTHUR.getUserId(),
+                message);
         }
 
         @Test
@@ -236,7 +235,6 @@ public class CouponServiceTest extends ServiceTest {
             @Test
             @DisplayName("받은 사람이 REQUEST 와 약속날짜를 보내면, 보낸 사람에게 슬랙 알림을 보낸다.")
             void success_notification() {
-                workspaceRepository.save(KKOGKKOG_WORKSPACE);
                 CouponSaveRequest couponSaveRequest = toCouponSaveRequest(ROOKIE, List.of(ARTHUR));
                 Long couponId = couponService.save(couponSaveRequest).get(0).getId();
                 CouponChangeStatusRequest couponChangeStatusRequest = new CouponChangeStatusRequest(
@@ -244,7 +242,7 @@ public class CouponServiceTest extends ServiceTest {
 
                 couponService.changeStatus(couponChangeStatusRequest);
 
-                String botToken = KKOGKKOG_WORKSPACE.getAccessToken();
+                String botToken = WORKSPACE.getAccessToken();
                 String coffee = CouponType.COFFEE.getDisplayName();
                 verify(slackClient).requestPushAlarm(botToken, ARTHUR.getUserId(),
                     String.format("%s님이 %s 쿠폰을 보냈어요.", ROOKIE.getNickname(), coffee));

@@ -2,9 +2,12 @@ package com.woowacourse.kkogkkog.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +24,9 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String userId;
 
-    @Column(nullable = false)
-    private String workspaceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id")
+    private Workspace workspace;
 
     @Column(nullable = false)
     private String nickname;
@@ -33,11 +37,11 @@ public class Member {
     @Column(nullable = false)
     private String imageUrl;
 
-    public Member(Long id, String userId, String workspaceId, String nickname, String email,
+    public Member(Long id, String userId, Workspace workspace, String nickname, String email,
                   String imageUrl) {
         this.id = id;
         this.userId = userId;
-        this.workspaceId = workspaceId;
+        this.workspace = workspace;
         this.nickname = nickname;
         this.email = email;
         this.imageUrl = imageUrl;

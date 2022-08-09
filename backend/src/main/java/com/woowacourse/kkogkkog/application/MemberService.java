@@ -27,29 +27,23 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberHistoryRepository memberHistoryRepository;
-    private final WorkspaceRepository workspaceRepository;
 
     public MemberService(MemberRepository memberRepository,
-                         MemberHistoryRepository memberHistoryRepository,
-                         WorkspaceRepository workspaceRepository) {
+                         MemberHistoryRepository memberHistoryRepository) {
         this.memberRepository = memberRepository;
         this.memberHistoryRepository = memberHistoryRepository;
-        this.workspaceRepository = workspaceRepository;
     }
 
-    public MemberCreateResponse saveOrFind(SlackUserInfo slackUserInfo) {
-        String userId = slackUserInfo.getUserId();
-        String workspaceId = slackUserInfo.getTeamId();
-        String nickname = slackUserInfo.getName();
-        String email = slackUserInfo.getEmail();
-        String imageUrl = slackUserInfo.getPicture();
+    public MemberCreateResponse saveOrFind(SlackUserInfo userInfo, Workspace workspace) {
+        String userId = userInfo.getUserId();
+        String nickname = userInfo.getName();
+        String email = userInfo.getEmail();
+        String imageUrl = userInfo.getPicture();
 
         return memberRepository.findByUserId(userId)
-            .stream()
             .map(member -> updateToMatchSlack(member, email, imageUrl))
-            .findFirst()
             .orElseGet(() ->
-                save(new Member(null, userId, workspaceId, nickname, email, imageUrl)));
+                save(new Member(null, userId, workspace, nickname, email, imageUrl)));
     }
 
     private MemberCreateResponse updateToMatchSlack(Member member, String email, String imageUrl) {
@@ -67,11 +61,9 @@ public class MemberService {
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        Workspace workspace = workspaceRepository.findByWorkspaceId(findMember.getWorkspaceId())
-            .orElseThrow(WorkspaceNotFoundException::new);
         long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
 
-        return MyProfileResponse.of(findMember, workspace.getName(), unreadHistoryCount);
+        return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
 
     @Transactional(readOnly = true)

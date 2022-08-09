@@ -18,6 +18,7 @@ import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("MemberService 클래스의")
 class MemberServiceTest extends ServiceTest {
 
+    private static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name",
+        "xoxb-bot-access-token");
+
     @Autowired
     private MemberService memberService;
 
@@ -37,6 +41,11 @@ class MemberServiceTest extends ServiceTest {
     @Autowired
     private CouponService couponService;
 
+    @BeforeEach
+    void setup() {
+        workspaceRepository.save(WORKSPACE);
+    }
+
     @Nested
     @DisplayName("save 메서드는")
     class Save {
@@ -44,11 +53,10 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("가입되지 않은 회원 정보를 받으면, 회원을 저장하고 저장된 Id와 회원가입 여부를 반환한다.")
         void success_save() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키",
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-
-            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
+            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo,
+                WORKSPACE);
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
@@ -59,12 +67,12 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("가입된 회원 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 반환한다.")
         void success_find() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키",
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
 
-            memberService.saveOrFind(slackUserInfo);
-            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo);
+            memberService.saveOrFind(slackUserInfo, WORKSPACE);
+            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo,
+                WORKSPACE);
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
@@ -80,10 +88,9 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("저장된 회원의 Id를 받으면, 해당 회원의 정보를 반환한다.")
         void success() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키", "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrFind(slackUserInfo).getId();
-            workspaceRepository.save(new Workspace(null, "T03LX3C5540", "workspace_name", null));
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            Long memberId = memberService.saveOrFind(slackUserInfo, WORKSPACE).getId();
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
@@ -109,13 +116,12 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("회원가입된 모든 회원들의 정보를 반환한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키", "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540",
-                "workspace_name", "아서", "arthur@gmail.com", "image");
-
-            memberService.saveOrFind(rookieUserInfo);
-            memberService.saveOrFind(arthurUserInfo);
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
+                "arthur@gmail.com", "image");
+            memberService.saveOrFind(rookieUserInfo, WORKSPACE);
+            memberService.saveOrFind(arthurUserInfo, WORKSPACE);
 
             List<MemberResponse> membersResponse = memberService.findAll();
 
@@ -130,12 +136,14 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("로그인된 사용자의 history를 반환한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키", "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
-                "arthur@gmail.com", "image", "workspace_name");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
+                "arthur@gmail.com", "image");
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo,
+                WORKSPACE);
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
+                WORKSPACE);
 
             CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
                 rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
@@ -155,12 +163,14 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("요청받을 경우 true 로 변경된다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키", "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", "T03LX3C5540", "아서",
-                "arthur@gmail.com", "image", "workspace_name");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo);
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
+                "arthur@gmail.com", "image");
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo,
+                WORKSPACE);
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
+                WORKSPACE);
             CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
                 rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
                 "추가 메세지", "##11032", "COFFEE");
@@ -177,10 +187,9 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("사용자의 닉네임을 수정한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", "T03LX3C5540",
-                "workspace_name", "루키", "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrFind(rookieUserInfo).getId();
-            workspaceRepository.save(new Workspace(null, "T03LX3C5540", "workspace_name", null));
+            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            Long memberId = memberService.saveOrFind(rookieUserInfo, WORKSPACE).getId();
 
             String expected = "새로운_닉네임";
             memberService.update(new MemberUpdateRequest(memberId, expected));

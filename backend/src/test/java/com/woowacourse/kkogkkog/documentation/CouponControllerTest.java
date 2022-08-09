@@ -22,6 +22,7 @@ import com.woowacourse.kkogkkog.domain.CouponEvent;
 import com.woowacourse.kkogkkog.domain.CouponStatus;
 import com.woowacourse.kkogkkog.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MyCouponsResponse;
@@ -29,6 +30,7 @@ import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import java.time.LocalDate;
 import java.util.List;
 import org.apache.http.HttpHeaders;
+import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -42,11 +44,12 @@ class CouponControllerTest extends Documentation {
     private static final String MODIFIER = "한턱내는";
     private static final String MESSAGE = "추가 메세지";
     private static final CouponType COUPON_TYPE = CouponType.COFFEE;
-    private static final Member JEONG = new Member(1L, "UJeong", "T03LX3C5540", "정",
+    private static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name", null);
+    private static final Member JEONG = new Member(1L, "UJeong", WORKSPACE, "정",
         "jeong@gmail.com", "image");
-    private static final Member LEO = new Member(2L, "ULeo", "T03LX3C5540", "레오",
+    private static final Member LEO = new Member(2L, "ULeo", WORKSPACE, "레오",
         "leothelion@gmail.com", "image");
-    private static final Member ARTHUR = new Member(3L, "UArthur", "T03LX3C5540", "아서",
+    private static final Member ARTHUR = new Member(3L, "UArthur", WORKSPACE, "아서",
         "arthur@gmail.com", "image");
 
     @Test
@@ -97,8 +100,6 @@ class CouponControllerTest extends Documentation {
                         .description("쿠폰을 보낸 사람의 ID"),
                     fieldWithPath("data.[].sender.userId").type(JsonFieldType.STRING)
                         .description("쿠폰을 보낸 사람의 소셜 ID"),
-                    fieldWithPath("data.[].sender.workspaceId").type(JsonFieldType.STRING)
-                        .description("쿠폰을 보낸 사람의 워크스페이스 ID"),
                     fieldWithPath("data.[].sender.nickname").type(JsonFieldType.STRING)
                         .description("쿠폰을 보낸 사람의 닉네임"),
                     fieldWithPath("data.[].sender.email").type(JsonFieldType.STRING)
@@ -109,8 +110,6 @@ class CouponControllerTest extends Documentation {
                         .description("쿠폰을 받을 사람의 ID"),
                     fieldWithPath("data.[].receiver.userId").type(JsonFieldType.STRING)
                         .description("쿠폰을 받을 사람의 소셜 ID"),
-                    fieldWithPath("data.[].receiver.workspaceId").type(JsonFieldType.STRING)
-                        .description("쿠폰을 받을 사람의 워크스페이스 ID"),
                     fieldWithPath("data.[].receiver.nickname").type(JsonFieldType.STRING)
                         .description("쿠폰을 받을 사람의 닉네임"),
                     fieldWithPath("data.[].receiver.email").type(JsonFieldType.STRING)
@@ -158,8 +157,6 @@ class CouponControllerTest extends Documentation {
                         .description("보낸 사람 ID"),
                     fieldWithPath("sender.userId").type(JsonFieldType.STRING)
                         .description("보낸 사람 소셜 ID"),
-                    fieldWithPath("sender.workspaceId").type(JsonFieldType.STRING)
-                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("sender.nickname").type(JsonFieldType.STRING)
                         .description("보낸 사람 닉네임"),
                     fieldWithPath("sender.email").type(JsonFieldType.STRING)
@@ -170,8 +167,6 @@ class CouponControllerTest extends Documentation {
                         .description("받는 사람의 ID"),
                     fieldWithPath("receiver.userId").type(JsonFieldType.STRING)
                         .description("받는 사람 소셜 ID"),
-                    fieldWithPath("receiver.workspaceId").type(JsonFieldType.STRING)
-                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("receiver.nickname").type(JsonFieldType.STRING)
                         .description("받는 사람 닉네임"),
                     fieldWithPath("receiver.email").type(JsonFieldType.STRING)
@@ -227,8 +222,6 @@ class CouponControllerTest extends Documentation {
                         .description("보낸 사람 ID"),
                     fieldWithPath("data.received.[].sender.userId").type(JsonFieldType.STRING)
                         .description("보낸 사람 소셜 ID"),
-                    fieldWithPath("data.received.[].sender.workspaceId").type(JsonFieldType.STRING)
-                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("data.received.[].sender.nickname").type(JsonFieldType.STRING)
                         .description("보낸 사람 닉네임"),
                     fieldWithPath("data.received.[].sender.email").type(JsonFieldType.STRING)
@@ -239,9 +232,6 @@ class CouponControllerTest extends Documentation {
                         .description("받는 사람의 ID"),
                     fieldWithPath("data.received.[].receiver.userId").type(JsonFieldType.STRING)
                         .description("받는 사람 소셜 ID"),
-                    fieldWithPath("data.received.[].receiver.workspaceId").type(
-                            JsonFieldType.STRING)
-                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("data.received.[].receiver.nickname").type(JsonFieldType.STRING)
                         .description("받는 사람 닉네임"),
                     fieldWithPath("data.received.[].receiver.email").type(JsonFieldType.STRING)
@@ -267,8 +257,6 @@ class CouponControllerTest extends Documentation {
                         .description("보낸 사람 ID"),
                     fieldWithPath("data.sent.[].sender.userId").type(JsonFieldType.STRING)
                         .description("보낸 사람 소셜 ID"),
-                    fieldWithPath("data.sent.[].sender.workspaceId").type(JsonFieldType.STRING)
-                        .description("보낸 사람 워크스페이스 ID"),
                     fieldWithPath("data.sent.[].sender.nickname").type(JsonFieldType.STRING)
                         .description("보낸 사람 닉네임"),
                     fieldWithPath("data.sent.[].sender.email").type(JsonFieldType.STRING)
@@ -279,8 +267,6 @@ class CouponControllerTest extends Documentation {
                         .description("받는 사람의 ID"),
                     fieldWithPath("data.sent.[].receiver.userId").type(JsonFieldType.STRING)
                         .description("받는 사람 소셜 ID"),
-                    fieldWithPath("data.sent.[].receiver.workspaceId").type(JsonFieldType.STRING)
-                        .description("받는 사람 워크스페이스 ID"),
                     fieldWithPath("data.sent.[].receiver.nickname").type(JsonFieldType.STRING)
                         .description("받는 사람 닉네임"),
                     fieldWithPath("data.sent.[].receiver.email").type(JsonFieldType.STRING)

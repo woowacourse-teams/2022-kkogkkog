@@ -154,8 +154,9 @@ class CouponEventTest {
         @Test
         @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
         void formatString() {
-            Member member = new Member(null, "UJeong", "T03LX3C5540",
-                "정", "jeong@gmail.com", "image");
+            Workspace workspace = new Workspace(1L, "T03LX3C5540", "workspace_name",
+                "xoxb-bot-access-token");
+            Member member = new Member(null, "UJeong", workspace, "정", "jeong@gmail.com", "image");
             CouponEvent couponEvent = CouponEvent.INIT;
             CouponType meal = CouponType.MEAL;
 

@@ -4,7 +4,6 @@ import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.exception.auth.WorkspaceNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
@@ -30,10 +29,9 @@ public class AuthService {
 
     public TokenResponse login(String code) {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
-        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo);
-        WorkspaceResponse workspaceResponse = new WorkspaceResponse(userInfo.getTeamId(),
-            userInfo.getTeamName(), null);
-        saveOrUpdateWorkspace(workspaceResponse);
+        Workspace workspace = saveOrUpdateWorkspace(
+            new WorkspaceResponse(userInfo.getTeamId(), userInfo.getTeamName(), null));
+        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo, workspace);
 
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
@@ -45,18 +43,20 @@ public class AuthService {
         saveOrUpdateWorkspace(workspaceResponse);
     }
 
-    private void saveOrUpdateWorkspace(WorkspaceResponse workspaceResponse) {
+    private Workspace saveOrUpdateWorkspace(WorkspaceResponse workspaceResponse) {
         String workspaceId = workspaceResponse.getWorkspaceId();
         String workspaceName = workspaceResponse.getWorkspaceName();
         String accessToken = workspaceResponse.getAccessToken();
-        workspaceRepository.findByWorkspaceId(workspaceId)
-            .ifPresentOrElse(workspace -> updateToMatchSlack(workspace, workspaceName, accessToken),
-                () -> workspaceRepository.save(
-                    new Workspace(null, workspaceId, workspaceName, accessToken)));
+        return workspaceRepository.findByWorkspaceId(workspaceId)
+            .map(workspace -> updateToMatchSlack(workspace, workspaceName, accessToken))
+            .orElseGet(() -> workspaceRepository.save(
+                new Workspace(null, workspaceId, workspaceName, accessToken)));
     }
 
-    private void updateToMatchSlack(Workspace workspace, String workspaceName, String accessToken) {
+    private Workspace updateToMatchSlack(Workspace workspace, String workspaceName,
+                                         String accessToken) {
         workspace.updateName(workspaceName);
         workspace.updateAccessToken(accessToken);
+        return workspace;
     }
 }

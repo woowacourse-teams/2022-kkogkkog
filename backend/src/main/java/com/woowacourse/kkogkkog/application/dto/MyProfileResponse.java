@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.application.dto;
 
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,13 +31,14 @@ public class MyProfileResponse {
         this.unReadCount = unReadCount;
     }
 
-    public static MyProfileResponse of(Member member, String workspaceName,
+    public static MyProfileResponse of(Member member,
                                        Long unreadHistoryCount) {
+        Workspace workspace = member.getWorkspace();
         return new MyProfileResponse(
             member.getId(),
             member.getUserId(),
-            member.getWorkspaceId(),
-            workspaceName,
+            workspace.getWorkspaceId(),
+            workspace.getName(),
             member.getNickname(),
             member.getEmail(),
             member.getImageUrl(),

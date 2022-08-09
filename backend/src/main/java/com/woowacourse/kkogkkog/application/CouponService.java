@@ -142,13 +142,9 @@ public class CouponService {
 
     private void sendNotification(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
-        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
-            hostMember.getWorkspaceId());
-        if (memberHistory.shouldNotSendPushAlarm()) {
-            return;
-        }
-        if (workspace.isPresent()) {
-            String accessToken = workspace.get().getAccessToken();
+        Workspace workspace = hostMember.getWorkspace();
+        String accessToken = workspace.getAccessToken();
+        if (accessToken != null) {
             String hostMemberId = hostMember.getUserId();
             String message = memberHistory.toNoticeMessage();
             slackClient.requestPushAlarm(accessToken, hostMemberId, message);
