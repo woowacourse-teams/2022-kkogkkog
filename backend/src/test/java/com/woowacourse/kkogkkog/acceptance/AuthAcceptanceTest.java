@@ -20,7 +20,7 @@ import org.springframework.http.MediaType;
 public class AuthAcceptanceTest extends AcceptanceTest {
 
     private static final String AUTHORIZATION_CODE = "CODE";
-    private static final String WORKSPACE_NAME = "꼭꼭";
+    private static final String WORKSPACE_NAME = "workspace_name";
 
     @Test
     void 가입되지_않은_회원은_정보가_저장되고_로그인을_할_수_있다() {
