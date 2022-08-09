@@ -8,10 +8,10 @@ import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './small.style';
 
-export type SmallCouponItemProps = CouponResponse & {
+export interface SmallCouponItemProps extends CouponResponse {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
-};
+}
 
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;

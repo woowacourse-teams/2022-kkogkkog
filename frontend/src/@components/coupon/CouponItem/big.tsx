@@ -9,14 +9,10 @@ import { generateDateText } from '@/utils';
 
 import * as Styled from './big.style';
 
-export type BigCouponItemProps = CouponResponse & {
+export interface BigCouponItemProps extends CouponResponse {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
-};
-
-type BigCouponItemPreviewProps = Omit<CouponResponse, 'id' | 'couponStatus' | 'sender'> & {
-  className?: string;
-};
+}
 
 const BigCouponItem = (props: BigCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
@@ -72,6 +68,10 @@ const BigCouponItem = (props: BigCouponItemProps) => {
       </Styled.TextContainer>
     </Styled.Root>
   );
+};
+
+type BigCouponItemPreviewProps = Omit<CouponResponse, 'id' | 'couponStatus' | 'sender'> & {
+  className?: string;
 };
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
