@@ -66,6 +66,14 @@ asciidoctor {
     baseDirFollowsSourceFile()
 }
 
+task copySecret(type: Copy) {
+    from 'src/main/resources/backend-secret/application-prod.yml'
+    into 'src/main/resources'
+
+    from 'src/main/resources/backend-secret/application-dev.yml'
+    into 'src/main/resources'
+}
+
 task createDocument(type: Copy) {
     dependsOn asciidoctor
     delete file('src/main/resources/static/index.html')
@@ -74,9 +82,11 @@ task createDocument(type: Copy) {
 }
 
 build {
+    dependsOn copySecret
     dependsOn createDocument
 }
 
 bootJar {
+    dependsOn copySecret
     dependsOn createDocument
 }
