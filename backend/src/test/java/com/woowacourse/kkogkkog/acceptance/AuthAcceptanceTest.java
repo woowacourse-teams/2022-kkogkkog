@@ -66,10 +66,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 new SlackUserInfo(
                     memberResponse.getUserId(),
                     memberResponse.getWorkspaceId(),
+                    "workspace_name",
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
-                    memberResponse.getImageUrl(),
-                    "workspace_name"));
+                    memberResponse.getImageUrl()));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
