@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +30,23 @@ public class AuthService {
 
     public TokenResponse login(String code) {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
-        Workspace workspace = saveOrUpdateWorkspace(
-            new WorkspaceResponse(userInfo.getTeamId(), userInfo.getTeamName(), null));
+        Workspace workspace = getWorkspace(userInfo);
         MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo, workspace);
 
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
             memberCreateResponse.getIsNew());
+    }
+
+    private Workspace getWorkspace(SlackUserInfo userInfo) {
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(userInfo.getTeamId());
+        if (workspace.isPresent()) {
+            Workspace workspace1 = workspace.get();
+            workspace1.updateName(userInfo.getTeamName());
+            return workspace1;
+        }
+        return workspaceRepository.save(
+            new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
     }
 
     public void installSlackApp(String code) {
