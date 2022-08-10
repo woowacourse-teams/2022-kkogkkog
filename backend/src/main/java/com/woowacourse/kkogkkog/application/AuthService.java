@@ -49,22 +49,17 @@ public class AuthService {
 
     public void installSlackApp(String code) {
         WorkspaceResponse workspaceResponse = slackClient.requestBotAccessToken(code);
-        saveOrUpdateWorkspace(workspaceResponse);
-    }
-
-    private Workspace saveOrUpdateWorkspace(WorkspaceResponse workspaceResponse) {
         String workspaceId = workspaceResponse.getWorkspaceId();
         String workspaceName = workspaceResponse.getWorkspaceName();
         String accessToken = workspaceResponse.getAccessToken();
-        return workspaceRepository.findByWorkspaceId(workspaceId)
-            .map(workspace -> updateToMatchSlack(workspace, workspaceName, accessToken))
-            .orElseGet(() -> workspaceRepository.save(
-                new Workspace(null, workspaceId, workspaceName, accessToken)));
-    }
 
-    private Workspace updateToMatchSlack(Workspace workspace, String workspaceName,
-                                         String accessToken) {
-        return workspace.updateName(workspaceName)
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(workspaceId);
+        if (workspace.isEmpty()) {
+            workspaceRepository.save(new Workspace(null, workspaceId, workspaceName, accessToken));
+            return;
+        }
+        workspace.get()
+            .updateName(workspaceName)
             .updateAccessToken(accessToken);
     }
 }
