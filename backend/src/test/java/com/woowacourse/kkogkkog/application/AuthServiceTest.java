@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 class AuthServiceTest extends ServiceTest {
 
     private static final String AUTHORIZATION_CODE = "code";
-    private static final String WORKSPACE_ID = "workspace_id";
+    private static final String WORKSPACE_ID = "T03LX3C5540";
     private static final String WORKSPACE_NAME = "workspace_name";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
@@ -37,11 +38,13 @@ class AuthServiceTest extends ServiceTest {
         @DisplayName("임시 코드를 입력받으면, 토큰과 초기 사용자 여부를 반환한다.")
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE);
+            WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
             given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
-                        memberResponse.getWorkspaceId(),
+                        workspaceResponse.getWorkspaceId(),
+                        workspaceResponse.getWorkspaceName(),
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
                         memberResponse.getImageUrl()));
@@ -70,21 +73,21 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("임시 코드를 입력하면, 봇 토큰을 저장한다")
         void success() {
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
+            MemberResponse memberResponse = MemberResponse.of(ROOKIE);
+            WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
+            given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+                .willReturn(
+                    new SlackUserInfo(
+                        memberResponse.getUserId(),
+                        workspaceResponse.getWorkspaceId(),
+                        workspaceResponse.getWorkspaceName(),
+                        memberResponse.getNickname(),
+                        memberResponse.getEmail(),
+                        memberResponse.getImageUrl()));
+            authService.login(AUTHORIZATION_CODE);
 
-            assertThatNoException()
-                .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
-        }
-
-        @Test
-        @DisplayName("이미 등록된 워크스페이스인 경우, 엑세스 토큰을 업데이트한다.")
-        void success_update() {
             given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
                 .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
-            authService.installSlackApp(AUTHORIZATION_CODE);
 
             assertThatNoException()
                 .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));

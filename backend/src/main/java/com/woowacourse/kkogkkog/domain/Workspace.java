@@ -24,7 +24,6 @@ public class Workspace {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String accessToken;
 
     public Workspace(Long id, String workspaceId, String name, String accessToken) {
@@ -32,6 +31,10 @@ public class Workspace {
         this.name = name;
         this.workspaceId = workspaceId;
         this.accessToken = accessToken;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
     }
 
     public void updateAccessToken(String accessToken) {

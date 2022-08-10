@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.fixture.MemberFixture;
+import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
 import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
@@ -24,8 +25,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 가입되지_않은_회원은_정보가_저장되고_로그인을_할_수_있다() {
         MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
 
-        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsNew();
+        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse).getIsNew();
 
         assertThat(actual).isTrue();
     }
@@ -33,9 +35,11 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 가입된_회원은_로그인을_할_수_있다() {
         MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
+        회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse);
 
-        회원가입_또는_로그인에_성공한다(memberResponse);
-        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse).getIsNew();
+        회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse);
+        Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse).getIsNew();
 
         assertThat(actual).isFalse();
     }
@@ -44,7 +48,11 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     void 슬랙_앱을_등록할_수_있다() {
         given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
             .willReturn(
-                new WorkspaceResponse("ACCESS_TOKEN", "TEAM_ID", "꼭꼭"));
+                new WorkspaceResponse("T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+
+        MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
+        회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse);
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -57,12 +65,13 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-    public static TokenResponse 회원가입_또는_로그인에_성공한다(MemberResponse memberResponse) {
+    public static TokenResponse 회원가입_또는_로그인에_성공한다(MemberResponse memberResponse, WorkspaceResponse workspaceResponse) {
         given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
             .willReturn(
                 new SlackUserInfo(
                     memberResponse.getUserId(),
-                    memberResponse.getWorkspaceId(),
+                    workspaceResponse.getWorkspaceId(),
+                    workspaceResponse.getWorkspaceName(),
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
                     memberResponse.getImageUrl()));

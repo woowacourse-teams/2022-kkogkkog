@@ -30,23 +30,38 @@ public class AuthService {
 
     public TokenResponse login(String code) {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
-        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo);
+        Workspace workspace = getWorkspace(userInfo);
+        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo, workspace);
 
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
             memberCreateResponse.getIsNew());
     }
 
-    public void installSlackApp(String code) {
-        WorkspaceResponse botTokenResponse = slackClient.requestBotAccessToken(code);
-        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
-            botTokenResponse.getWorkspaceId());
-
+    private Workspace getWorkspace(SlackUserInfo userInfo) {
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(userInfo.getTeamId());
         if (workspace.isPresent()) {
-            workspace.get().updateAccessToken(botTokenResponse.getAccessToken());
+            Workspace existingWorkspace = workspace.get();
+            existingWorkspace.updateName(userInfo.getTeamName());
+            return existingWorkspace;
+        }
+        return workspaceRepository.save(
+            new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
+    }
+
+    public void installSlackApp(String code) {
+        WorkspaceResponse workspaceResponse = slackClient.requestBotAccessToken(code);
+        String workspaceId = workspaceResponse.getWorkspaceId();
+        String workspaceName = workspaceResponse.getWorkspaceName();
+        String accessToken = workspaceResponse.getAccessToken();
+
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(workspaceId);
+        if (workspace.isPresent()) {
+            Workspace existingWorkspace = workspace.get();
+            existingWorkspace.updateName(workspaceName);
+            existingWorkspace.updateAccessToken(accessToken);
             return;
         }
-        workspaceRepository.save(new Workspace(null, botTokenResponse.getWorkspaceId(),
-            botTokenResponse.getWorkspaceName(), botTokenResponse.getAccessToken()));
+        workspaceRepository.save(new Workspace(null, workspaceId, workspaceName, accessToken));
     }
 }

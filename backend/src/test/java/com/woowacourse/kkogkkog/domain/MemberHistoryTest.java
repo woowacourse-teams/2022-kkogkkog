@@ -16,9 +16,11 @@ class MemberHistoryTest {
         @Test
         @DisplayName("기록의 상대방 회원이 발생시킨 쿠폰 이벤트를 토대로 알림 메시지를 만들어 반환한다.")
         void generateString() {
-            Member jeong = new Member(null, "UJeong", "T03LX3C5540",
+            Workspace workspace = new Workspace(1L, "T03LX3C5540", "workspace_name",
+                "xoxb-bot-access-token");
+            Member jeong = new Member(null, "UJeong", workspace,
                 "정", "jeong@gmail.com", "image");
-            Member leo = new Member(null, "ULeo", "T03LX3C5540",
+            Member leo = new Member(null, "ULeo", workspace,
                 "레오", "leothelion@gmail.com", "image");
             CouponType coffee = CouponType.COFFEE;
             Coupon coupon = new Coupon(1L, jeong, leo, "한턱쏘는", "추가 메세지", "#241223",
@@ -38,8 +40,10 @@ class MemberHistoryTest {
     @DisplayName("단일 알림에 대해서 읽지 않았을 경우, 읽음으로 상태를 변경한다")
     void isRead() {
         // given
-        Member sender = new Member(1L, "userId", "workspaceId", "sender", "email", "imageUrl");
-        Member receiver = new Member(1L, "userId", "workspaceId", "receiver", "email", "imageUrl");
+        Workspace workspace = new Workspace(1L, "T03LX3C5540", "workspace_name",
+            "xoxb-bot-access-token");
+        Member sender = new Member(1L, "userId", workspace, "sender", "email", "imageUrl");
+        Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
         MemberHistory memberHistory = new MemberHistory(
             1L, sender, receiver, 1L,
             CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDate.now());
