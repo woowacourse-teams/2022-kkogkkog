@@ -5,11 +5,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.application.AuthService;
-import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.AuthController;
-import com.woowacourse.kkogkkog.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
