@@ -31,14 +31,14 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 
-      {sender.id === me?.id ? (
+      {isSent ? (
         <Styled.TextContainer>
           <Styled.Preposition>To. </Styled.Preposition>
           {receiver.nickname}
         </Styled.TextContainer>
       ) : (
         <Styled.TextContainer>
-          <Styled.Preposition>From. </Styled.Preposition>
+          <Styled.Preposition>From.123</Styled.Preposition>
           {sender.nickname}
         </Styled.TextContainer>
       )}

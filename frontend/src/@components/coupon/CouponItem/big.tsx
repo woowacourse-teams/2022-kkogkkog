@@ -48,7 +48,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
         <Styled.Top>
-          {sender.id === me?.id ? (
+          {isSent ? (
             <Styled.Member>
               <Styled.English>To.</Styled.English> {receiver.nickname}
             </Styled.Member>
