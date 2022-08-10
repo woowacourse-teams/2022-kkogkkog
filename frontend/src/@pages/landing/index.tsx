@@ -8,12 +8,9 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
-import CouponModal from '@/@components/coupon/CouponModal';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
-import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
@@ -69,12 +66,6 @@ const UnAuthorizedLanding = () => {
 const AuthorizedLanding = () => {
   const { couponList, isLoading } = useFetchCouponList();
 
-  const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
-
-  const onClickCouponItem = (coupon: CouponResponse) => {
-    openCouponModal(coupon);
-  };
-
   return (
     <PageTemplate.LandingPage title='꼭꼭'>
       <Styled.Root>
@@ -125,7 +116,6 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 couponList={couponList && [...couponList.received].reverse()}
                 CouponItem={SmallCouponItem}
-                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
@@ -146,12 +136,10 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 couponList={couponList && [...couponList.sent].reverse()}
                 CouponItem={SmallCouponItem}
-                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
         </Styled.ListContainer>
-        {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
       </Styled.Root>
     </PageTemplate.LandingPage>
   );
