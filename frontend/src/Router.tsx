@@ -11,6 +11,7 @@ import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
+import CouponDetail from './@pages/coupon-detail';
 import DownloadPage from './@pages/download';
 import LoginPage from './@pages/login';
 import ProfileEditPage from './@pages/profile/edit';
@@ -30,6 +31,7 @@ export const PATH = {
   USER_HISTORY: '/history',
   DOWNLOAD_REDIRECT: '/download/redirect',
   DOWNLOAD: '/download',
+  COUPON_DETAIL: '/coupon-list/:couponId',
 };
 
 const Router = () => {
@@ -72,6 +74,7 @@ const Router = () => {
             </Suspense>
           }
         />
+        <Route path={PATH.COUPON_DETAIL} element={<CouponDetail />} />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
         <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
