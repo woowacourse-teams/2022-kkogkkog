@@ -7,6 +7,8 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,5 +59,9 @@ public class CouponDtoFixture {
             "예약 요청 메시지를 입력할 수 있어요",
             LocalDateTime.of(2022, 1, 1, 0, 0, 0)
         );
+    }
+
+    public static ReservationSaveRequest 예약_저장_요청(Long id, LocalDate now) {
+        return new ReservationSaveRequest(id, now, "예약할 때 보내는 메시지");
     }
 }

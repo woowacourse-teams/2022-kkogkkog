@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -16,9 +17,12 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -49,9 +53,10 @@ public class Coupon {
     private CouponStatus couponStatus;
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
 
-    private LocalDateTime updateAt;
+    @LastModifiedDate
+    private LocalDateTime updatedTime;
 
     public Coupon(Member sender, Member receiver, String hashtag, String description,
                   CouponType couponType, CouponStatus couponStatus) {

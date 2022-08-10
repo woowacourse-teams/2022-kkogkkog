@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,11 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -33,6 +38,12 @@ public class Reservation {
     private String message;
 
     private boolean isFinished;
+
+    @CreatedDate
+    private LocalDateTime createdTime;
+
+    @LastModifiedDate
+    private LocalDateTime updatedTime;
 
     public Reservation(Long id,
                        Coupon coupon,
