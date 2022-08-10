@@ -54,6 +54,8 @@ public class AuthService {
                 botTokenResponse.getWorkspaceName(), botTokenResponse.getAccessToken()));
             return;
         }
-        workspace.get().updateAccessToken(botTokenResponse.getAccessToken());
+        Workspace existingWorkspace = workspace.get();
+        existingWorkspace.updateName(botTokenResponse.getWorkspaceName());
+        existingWorkspace.updateAccessToken(botTokenResponse.getAccessToken());
     }
 }
