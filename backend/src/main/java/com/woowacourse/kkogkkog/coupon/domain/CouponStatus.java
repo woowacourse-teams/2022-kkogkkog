@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.coupon.domain;
 
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 
