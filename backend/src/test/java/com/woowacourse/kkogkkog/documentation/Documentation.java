@@ -11,6 +11,8 @@ import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.coupon.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.AuthController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
+import com.woowacourse.kkogkkog.reservation.application.ReservationService;
+import com.woowacourse.kkogkkog.reservation.presentation.ReservationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
     AuthController.class,
     CouponController.class,
     MemberController.class,
+    ReservationController.class
 })
 public abstract class Documentation {
 
@@ -48,6 +51,9 @@ public abstract class Documentation {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected ReservationService reservationService;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;

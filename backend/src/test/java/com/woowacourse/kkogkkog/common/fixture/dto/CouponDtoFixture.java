@@ -60,8 +60,4 @@ public class CouponDtoFixture {
             LocalDateTime.of(2022, 1, 1, 0, 0, 0)
         );
     }
-
-    public static ReservationSaveRequest 예약_저장_요청(Long id, LocalDate now) {
-        return new ReservationSaveRequest(id, now, "예약할 때 보내는 메시지");
-    }
 }

@@ -1,0 +1,11 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+
+== Reservation
+
+=== 예약 요청
+operation::reservation-create[snippets='http-request,http-response']

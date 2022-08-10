@@ -1,9 +1,9 @@
-package com.woowacourse.kkogkkog.reservation.application;
+package com.woowacourse.kkogkkog.core.reservation.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.예약_저장_요청;
+import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
@@ -11,6 +11,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
