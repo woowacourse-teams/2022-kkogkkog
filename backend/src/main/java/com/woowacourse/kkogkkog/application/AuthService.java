@@ -41,9 +41,7 @@ public class AuthService {
     private Workspace getWorkspace(SlackUserInfo userInfo) {
         Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(userInfo.getTeamId());
         if (workspace.isPresent()) {
-            Workspace workspace1 = workspace.get();
-            workspace1.updateName(userInfo.getTeamName());
-            return workspace1;
+            return workspace.get().updateName(userInfo.getTeamName());
         }
         return workspaceRepository.save(
             new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
@@ -66,8 +64,7 @@ public class AuthService {
 
     private Workspace updateToMatchSlack(Workspace workspace, String workspaceName,
                                          String accessToken) {
-        workspace.updateName(workspaceName);
-        workspace.updateAccessToken(accessToken);
-        return workspace;
+        return workspace.updateName(workspaceName)
+            .updateAccessToken(accessToken);
     }
 }
