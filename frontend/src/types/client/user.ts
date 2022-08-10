@@ -1,4 +1,4 @@
-import { COUPON_ENG_TYPE, COUPON_EVENT } from '@/types/client/coupon';
+import { CommonHistory } from './common';
 
 export interface User {
   id: number;
@@ -6,14 +6,7 @@ export interface User {
   nickname: string;
 }
 
-export type UserHistory = {
-  id: number;
-  nickname: string;
-  imageUrl: string;
+export interface UserHistory extends CommonHistory {
   couponId: number;
-  couponType: COUPON_ENG_TYPE;
-  couponEvent: COUPON_EVENT;
-  meetingTime?: string;
   isRead: boolean;
-  createdAt: string;
-};
+}

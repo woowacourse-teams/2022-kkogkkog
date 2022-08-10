@@ -1,6 +1,8 @@
 import theme from '@/styles/theme';
 import { User } from '@/types/client/user';
 
+import { CommonHistory } from './common';
+
 export const couponTypeCollection = [
   { koreanType: '커피', engType: 'COFFEE' } as const,
   { koreanType: '술', engType: 'DRINK' } as const,
@@ -51,3 +53,7 @@ export type COUPON_MODIFIERS = typeof couponModifiers[number];
 
 export type COUPON_EVENT = typeof couponEvent[number];
 export type COUPON_STATUS = typeof couponStatus[number];
+
+export interface CouponHistory extends CommonHistory {
+  message: string;
+}

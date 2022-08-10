@@ -4,6 +4,7 @@ import {
   COUPON_LIST_TYPE,
   COUPON_MODIFIERS,
   COUPON_STATUS,
+  CouponHistory,
 } from '@/types/client/coupon';
 import { User, UserHistory } from '@/types/client/user';
 
@@ -42,6 +43,10 @@ export interface CouponResponse {
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
   meetingDate?: string;
+}
+
+export interface CouponDetailResponse extends CouponResponse {
+  couponHistories: CouponHistory[];
 }
 
 export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };

@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { changeCouponStatus, createCoupon, getCouponList, requestCoupon } from '@/apis/coupon';
+import {
+  changeCouponStatus,
+  createCoupon,
+  getCoupon,
+  getCouponList,
+  requestCoupon,
+} from '@/apis/coupon';
 import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
@@ -60,6 +66,15 @@ export const useFetchCouponList = () => {
     couponList,
     parsedSentCouponList,
     parsedReceivedCouponList,
+    ...rest,
+  };
+};
+
+export const useFetchCoupon = (id: number) => {
+  const { data, ...rest } = useQuery([QUERY_KEY.couponList], () => getCoupon(id));
+
+  return {
+    coupon: data?.data,
     ...rest,
   };
 };
