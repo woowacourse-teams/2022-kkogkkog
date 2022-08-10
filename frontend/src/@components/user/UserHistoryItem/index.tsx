@@ -29,9 +29,9 @@ const couponEventTextMapper: Record<COUPON_EVENT, string> = {
 
 const UserHistoryItem = (props: UserHistoryItemProps) => {
   const { history, onClick } = props;
-  const { imageUrl, createdAt, nickname, couponEvent, couponType, isRead } = history;
+  const { imageUrl, createdTime, nickname, couponEvent, couponType, isRead } = history;
 
-  const createdAtText = generateDateText(createdAt, true);
+  const createdTimeText = generateDateText(createdTime, true);
 
   return (
     <Styled.Root isRead={isRead} onClick={onClick}>
@@ -43,7 +43,7 @@ const UserHistoryItem = (props: UserHistoryItemProps) => {
           {nickname}님이 {couponTypeTextMapper[couponType]}&nbsp;
           {couponEventTextMapper[couponEvent]}
         </Styled.Contents>
-        <Styled.Date>{createdAtText}</Styled.Date>
+        <Styled.Date>{createdTimeText}</Styled.Date>
       </Styled.InformationContainer>
     </Styled.Root>
   );
