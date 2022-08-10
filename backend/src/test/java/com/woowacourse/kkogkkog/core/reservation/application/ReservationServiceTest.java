@@ -5,9 +5,11 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHO
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
@@ -49,11 +51,15 @@ class ReservationServiceTest {
         @Test
         @DisplayName("쿠폰을 통해서 예약을 생성하고, 예약 ID를 반환한다.")
         void success() {
-            reservationSaveRequest = 예약_저장_요청(coupon.getId(), LocalDate.now());
+            reservationSaveRequest = 예약_저장_요청(receiver.getId(), coupon.getId(), LocalDate.now());
 
             Long actual = reservationService.save(reservationSaveRequest);
 
-            assertThat(actual).isNotNull();
+            assertAll(
+                () -> assertThat(actual).isNotNull(),
+                () -> assertThat(couponRepository.findById(coupon.getId()).get().getCouponStatus())
+                    .isEqualTo(CouponStatus.REQUESTED)
+            );
         }
     }
 }

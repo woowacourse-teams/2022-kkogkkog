@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.reservation.presentation;
 
+import com.woowacourse.kkogkkog.presentation.LoginMember;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
 import java.net.URI;
@@ -20,8 +21,9 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody ReservationCreateRequest request) {
-        Long reservationId = reservationService.save(request.toReservationSaveRequest());
+    public ResponseEntity<Void> create(@LoginMember Long loginMemberId,
+                                       @RequestBody ReservationCreateRequest request) {
+        Long reservationId = reservationService.save(request.toReservationSaveRequest(loginMemberId));
 
         return ResponseEntity.created(URI.create("/api/reservations/" + reservationId)).build();
     }

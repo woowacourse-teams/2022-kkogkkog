@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.reservation.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.domain.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,5 +55,9 @@ public class Reservation {
         this.coupon = coupon;
         this.meetingDate = meetingDate;
         this.message = message;
+    }
+
+    public void changeCouponStatus(CouponEvent couponEvent, Member member) {
+        coupon.changeStatus(couponEvent, member);
     }
 }

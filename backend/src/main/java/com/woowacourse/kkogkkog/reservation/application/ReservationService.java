@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.reservation.application;
 
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
+
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
@@ -30,9 +32,10 @@ public class ReservationService {
 
     public Long save(ReservationSaveRequest request) {
         Coupon findCoupon = findCoupon(request.getCouponId());
-        validateExistMember(findCoupon.getSender(), findCoupon.getReceiver());
+        Member member = findMember(request.getMemberId());
 
         Reservation reservation = request.toEntity(findCoupon);
+        reservation.changeCouponStatus(REQUEST, member);
 
         return reservationRepository.save(reservation).getId();
     }
@@ -42,13 +45,8 @@ public class ReservationService {
             .orElseThrow(CouponNotFoundException::new);
     }
 
-    // 해당 로직은 추후 Member의 논리적 삭제에서 사용될 예정 (현재는 테스트 x)
-    private void validateExistMember(Member sender, Member receiver) {
-        boolean existSender = memberRepository.existsById(sender.getId());
-        boolean existReceiver = memberRepository.existsById(receiver.getId());
-
-        if (!existSender || !existReceiver) {
-            throw new MemberNotFoundException();
-        }
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
     }
 }

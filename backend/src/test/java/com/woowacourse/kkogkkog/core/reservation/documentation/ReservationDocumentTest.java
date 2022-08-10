@@ -24,12 +24,13 @@ public class ReservationDocumentTest extends Documentation {
 
     @Test
     void 예약_생성_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(reservationService.save(any())).willReturn(1L);
 
         ResultActions perform = mockMvc.perform(
             post("/api/reservations")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, LocalDate.now())))
+                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, 1L, LocalDate.now())))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated());

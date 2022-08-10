@@ -13,12 +13,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReservationSaveRequest {
 
+    private Long memberId;
     private Long couponId;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate meetingDate;
     private String message;
 
-    public ReservationSaveRequest(Long couponId, LocalDate meetingDate, String message) {
+    public ReservationSaveRequest(Long memberId, Long couponId, LocalDate meetingDate,
+                                  String message) {
+        this.memberId = memberId;
         this.couponId = couponId;
         this.meetingDate = meetingDate;
         this.message = message;

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class ReservationDtoFixture {
 
-    public static ReservationSaveRequest 예약_저장_요청(Long id, LocalDate now) {
-        return new ReservationSaveRequest(id, now, "예약할 때 보내는 메시지");
+    public static ReservationSaveRequest 예약_저장_요청(Long memberId, Long couponId, LocalDate now) {
+        return new ReservationSaveRequest(memberId, couponId, now, "예약할 때 보내는 메시지");
     }
 }
