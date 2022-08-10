@@ -25,7 +25,7 @@ public class CouponController {
         this.couponService = couponService;
     }
 
-    @GetMapping("/me")
+    @GetMapping
     public ResponseEntity<MyCouponsReservationResponse> showAll(@LoginMember Long loginMemberId) {
         MyCouponsReservationResponse response = new MyCouponsReservationResponse(
             new CouponsReservationResponse(

@@ -105,7 +105,7 @@ public class CouponDocumentTest extends Documentation {
             쿠폰과_예약정보_응답(2L, 2L, 1L)));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/me")
+            get("/api/coupons")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
