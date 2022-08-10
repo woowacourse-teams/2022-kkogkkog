@@ -4,10 +4,10 @@ import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.exception.auth.WorkspaceNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,10 +47,13 @@ public class AuthService {
 
     public void installSlackApp(String code) {
         WorkspaceResponse botTokenResponse = slackClient.requestBotAccessToken(code);
-        Workspace workspace = workspaceRepository.findByWorkspaceId(
-                botTokenResponse.getWorkspaceId())
-            .orElseThrow(WorkspaceNotFoundException::new);
-
-        workspace.updateAccessToken(botTokenResponse.getAccessToken());
+        Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(
+            botTokenResponse.getWorkspaceId());
+        if (workspace.isEmpty()) {
+            workspaceRepository.save(new Workspace(null, botTokenResponse.getWorkspaceId(),
+                botTokenResponse.getWorkspaceName(), botTokenResponse.getAccessToken()));
+            return;
+        }
+        workspace.get().updateAccessToken(botTokenResponse.getAccessToken());
     }
 }
