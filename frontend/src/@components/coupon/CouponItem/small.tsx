@@ -38,7 +38,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
         </Styled.TextContainer>
       ) : (
         <Styled.TextContainer>
-          <Styled.Preposition>From.123</Styled.Preposition>
+          <Styled.Preposition>From.</Styled.Preposition>
           {sender.nickname}
         </Styled.TextContainer>
       )}
