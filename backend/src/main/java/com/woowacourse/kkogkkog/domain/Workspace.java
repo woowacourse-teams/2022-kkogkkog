@@ -33,13 +33,11 @@ public class Workspace {
         this.accessToken = accessToken;
     }
 
-    public Workspace updateName(String name) {
+    public void updateName(String name) {
         this.name = name;
-        return this;
     }
 
-    public Workspace updateAccessToken(String accessToken) {
+    public void updateAccessToken(String accessToken) {
         this.accessToken = accessToken;
-        return this;
     }
 }

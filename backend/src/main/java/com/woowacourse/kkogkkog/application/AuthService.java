@@ -41,7 +41,9 @@ public class AuthService {
     private Workspace getWorkspace(SlackUserInfo userInfo) {
         Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(userInfo.getTeamId());
         if (workspace.isPresent()) {
-            return workspace.get().updateName(userInfo.getTeamName());
+            Workspace existingWorkspace = workspace.get();
+            existingWorkspace.updateName(userInfo.getTeamName());
+            return existingWorkspace;
         }
         return workspaceRepository.save(
             new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
@@ -54,12 +56,12 @@ public class AuthService {
         String accessToken = workspaceResponse.getAccessToken();
 
         Optional<Workspace> workspace = workspaceRepository.findByWorkspaceId(workspaceId);
-        if (workspace.isEmpty()) {
-            workspaceRepository.save(new Workspace(null, workspaceId, workspaceName, accessToken));
+        if (workspace.isPresent()) {
+            Workspace existingWorkspace = workspace.get();
+            existingWorkspace.updateName(workspaceName);
+            existingWorkspace.updateAccessToken(accessToken);
             return;
         }
-        workspace.get()
-            .updateName(workspaceName)
-            .updateAccessToken(accessToken);
+        workspaceRepository.save(new Workspace(null, workspaceId, workspaceName, accessToken));
     }
 }

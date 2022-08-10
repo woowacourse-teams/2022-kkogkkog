@@ -12,8 +12,6 @@ import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.exception.auth.WorkspaceNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -61,7 +59,8 @@ public class MemberService {
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
+        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(
+            findMember);
 
         return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
