@@ -91,9 +91,7 @@ const CouponDetail = () => {
   };
 
   const onClickRequestButton = () => {
-    navigate(PATH.COUPON_REQUEST, {
-      state: { coupon, isSent, couponId: Number(couponId) },
-    });
+    navigate(`/coupon-list/${couponId}/request`);
   };
 
   const onClickFinishButton = () => {
@@ -103,11 +101,11 @@ const CouponDetail = () => {
   };
 
   const onClickAcceptButton = () => {
-    navigate(PATH.COUPON_ACCEPT);
+    navigate(`/coupon-list/${couponId}/accept`);
   };
 
   const onClickDeclineButton = () => {
-    navigate(PATH.COUPON_DECLINE);
+    navigate(`/coupon-list/${couponId}/decline`);
   };
 
   return (
