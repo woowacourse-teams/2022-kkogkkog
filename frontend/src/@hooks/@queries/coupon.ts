@@ -13,6 +13,7 @@ import { CouponResponse } from '@/types/remote/response';
 
 const QUERY_KEY = {
   couponList: 'couponList',
+  coupon: 'coupon',
 };
 
 /** Query */
@@ -71,7 +72,7 @@ export const useFetchCouponList = () => {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useQuery([QUERY_KEY.couponList], () => getCoupon(id));
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon], () => getCoupon(id));
 
   return {
     coupon: data?.data,
