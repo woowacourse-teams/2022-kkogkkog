@@ -74,7 +74,15 @@ const Router = () => {
             </Suspense>
           }
         />
-        <Route path={PATH.COUPON_DETAIL} element={<CouponDetail />} />
+        {/* @TODO: Skeleton */}
+        <Route
+          path={PATH.COUPON_DETAIL}
+          element={
+            <Suspense fallback={<Loading>👻</Loading>}>
+              <CouponDetail />
+            </Suspense>
+          }
+        />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
         <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
