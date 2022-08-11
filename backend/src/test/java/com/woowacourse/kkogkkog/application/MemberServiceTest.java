@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("MemberService 클래스의")
 class MemberServiceTest extends ServiceTest {
 
-    public static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name",
+    private static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name",
         "xoxb-bot-access-token");
 
     @Autowired
@@ -95,9 +96,9 @@ class MemberServiceTest extends ServiceTest {
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
-//            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-//                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "루키",
-//                    "rookie@gmail.com", "image", 0L));
+            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
+                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "루키",
+                    "rookie@gmail.com", "image", 0L));
         }
 
         @Test
@@ -146,8 +147,7 @@ class MemberServiceTest extends ServiceTest {
             MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
                 WORKSPACE);
 
-            couponService.save(COFFEE_쿠폰_저장_요청(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
 
             List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
                 arthurCreateResponse.getId());
@@ -170,8 +170,7 @@ class MemberServiceTest extends ServiceTest {
                 WORKSPACE);
             MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
                 WORKSPACE);
-            couponService.save(COFFEE_쿠폰_저장_요청(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
         }

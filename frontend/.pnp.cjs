@@ -62,6 +62,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.2.5"],\
             ["copy-webpack-plugin", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:11.0.0"],\
+            ["cross-env", "npm:7.0.3"],\
             ["dotenv-webpack", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.0.0"],\
             ["eslint", "npm:8.19.0"],\
             ["eslint-config-prettier", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.5.0"],\
@@ -11083,6 +11084,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["cross-env", [\
+        ["npm:7.0.3", {\
+          "packageLocation": "./.yarn/cache/cross-env-npm-7.0.3-96d81820f4-26f2f3ea2a.zip/node_modules/cross-env/",\
+          "packageDependencies": [\
+            ["cross-env", "npm:7.0.3"],\
+            ["cross-spawn", "npm:7.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["cross-spawn", [\
         ["npm:6.0.5", {\
           "packageLocation": "./.yarn/cache/cross-spawn-npm-6.0.5-2deab6c280-f893bb0d96.zip/node_modules/cross-spawn/",\
@@ -15953,6 +15964,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["babel-loader", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.2.5"],\
             ["copy-webpack-plugin", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:11.0.0"],\
+            ["cross-env", "npm:7.0.3"],\
             ["dotenv-webpack", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.0.0"],\
             ["eslint", "npm:8.19.0"],\
             ["eslint-config-prettier", "virtual:5cbfde9251fd20c4597f6e921f5ef4c2f586202e8dace908b499a1f1b4fc5406b3f711714e85bb96a31ec68ada63a09c864c864bfcedf2af634831dbdf37ff3a#npm:8.5.0"],\

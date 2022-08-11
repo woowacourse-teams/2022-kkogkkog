@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;

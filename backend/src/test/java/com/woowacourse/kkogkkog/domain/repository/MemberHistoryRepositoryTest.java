@@ -27,7 +27,6 @@ class MemberHistoryRepositoryTest {
 
     @Autowired
     private WorkspaceRepository workspaces;
-
     @Autowired
     private MemberHistoryRepository memberHistories;
 
@@ -40,7 +39,7 @@ class MemberHistoryRepositoryTest {
             "정", "jeong@gmail.com", "image"));
         Member receiver = members.save(new Member(null, "ULeo", workspace,
             "레오", "leothelion@gmail.com", "image"));
-        Coupon coupon = coupons.save(COFFEE.getCoupon(sender, receiver));
+        Coupon coupon = COFFEE.getCoupon(sender, receiver);
 
         MemberHistory initHistory = toMemberHistory(receiver, sender, coupon, CouponEvent.INIT);
         initHistory.updateIsRead();

@@ -3,10 +3,10 @@
   "name": "kkogkkog-frontend",
   "version": "0.1.0",
   "scripts": {
-    "start": "webpack serve --mode none",
-    "start:dev": "webpack serve --mode development",
-    "build": "webpack --progress --mode production",
-    "build:dev": "webpack --progress --mode development",
+    "start": "cross-env NODE_ENV=local webpack serve --mode=development",
+    "start:dev": "cross-env NODE_ENV=development webpack serve  --mode=development",
+    "build": " cross-env NODE_ENV=production webpack --progress --mode=production",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=development",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -46,6 +46,7 @@
     "@typescript-eslint/parser": "^5.30.4",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
     "dotenv-webpack": "^8.0.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
