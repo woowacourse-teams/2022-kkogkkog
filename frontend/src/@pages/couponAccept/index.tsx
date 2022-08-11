@@ -94,7 +94,7 @@ const CouponAcceptPage = () => {
             `}
           >
             <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
-              약속 확정
+              사용 승인
             </Button>
           </Position>
         </Styled.Main>
