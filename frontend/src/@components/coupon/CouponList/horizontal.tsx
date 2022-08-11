@@ -29,7 +29,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
         <CouponItem
           key={coupon.id}
           onClick={() => {
-            navigate(coupon.id);
+            navigate(`/coupon-list/${coupon.id}`);
           }}
           {...coupon}
         />

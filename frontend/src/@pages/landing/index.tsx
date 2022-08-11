@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
@@ -11,6 +11,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
+import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
@@ -64,7 +65,13 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
+  const navigate = useNavigate();
+
   const { couponList, isLoading } = useFetchCouponList();
+
+  const onClickCouponItem = (coupon: CouponResponse) => {
+    navigate(`/coupon-list/${coupon.id}`);
+  };
 
   return (
     <PageTemplate.LandingPage title='꼭꼭'>
@@ -116,6 +123,7 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 couponList={couponList && [...couponList.received].reverse()}
                 CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
@@ -136,6 +144,7 @@ const AuthorizedLanding = () => {
               <HorizontalCouponList
                 couponList={couponList && [...couponList.sent].reverse()}
                 CouponItem={SmallCouponItem}
+                onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
           </div>
