@@ -71,7 +71,7 @@ export const FullListContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: 42px;
+  gap: 21px;
 `;
 
 export const FullListTitle = styled.div`
