@@ -1,6 +1,6 @@
 import { CouponHistory } from '@/types/client/coupon';
 
-import CouponListItem from '../CouponListItem';
+import CouponHistoryItem from '../CouponListItem';
 import * as Styled from './style';
 
 interface CouponHistoryListProps {
@@ -13,7 +13,7 @@ const CouponHistoryList = (props: CouponHistoryListProps) => {
   return (
     <Styled.Root>
       {historyList?.map(history => (
-        <CouponListItem key={history.id} history={history} />
+        <CouponHistoryItem key={history.id} history={history} />
       ))}
     </Styled.Root>
   );

@@ -2,13 +2,21 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
-  display: flex;
-
   padding: 21px 19px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.drak_grey_200};
+  `}
+`;
+
+export const CouponInfoContainer = styled.div`
+  display: flex;
 
   gap: 18px;
 
   cursor: pointer;
+
+  margin-bottom: 24px;
 `;
 
 export const ProfileImageContainer = styled.div`
@@ -39,4 +47,8 @@ export const Date = styled.div`
   ${({ theme }) => css`
     color: ${theme.colors.grey_200};
   `}
+`;
+
+export const Message = styled.p`
+  font-size: 12px;
 `;
