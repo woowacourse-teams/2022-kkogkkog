@@ -47,6 +47,13 @@ public class Member {
         this.imageUrl = imageUrl;
     }
 
+    public static Member ofRandomNickname(String userId, Workspace workspace, String email,
+                                          String imageUrl) {
+        String randomNum = String.valueOf(Math.random());
+        String anonymousNickname = String.format("익명%s", randomNum.substring(2, 6));
+        return new Member(null, userId, workspace, anonymousNickname, email, imageUrl);
+    }
+
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }
