@@ -115,7 +115,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 본인의_닉네임을_수정할_수_있다() {
-        String newNickname = "새로운_닉네임";
+        String newNickname = "새로운닉네임";
         String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE),
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
 
