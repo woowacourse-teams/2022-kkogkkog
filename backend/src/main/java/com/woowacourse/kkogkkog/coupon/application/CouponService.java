@@ -27,20 +27,17 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final CouponQueryRepository couponQueryRepository;
-    private final WorkspaceRepository workspaceRepository;
     private final MemberHistoryRepository memberHistoryRepository;
     private final SlackClient slackClient;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponQueryRepository couponQueryRepository,
-                         WorkspaceRepository workspaceRepository,
                          MemberHistoryRepository memberHistoryRepository,
                          SlackClient slackClient) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponQueryRepository = couponQueryRepository;
-        this.workspaceRepository = workspaceRepository;
         this.memberHistoryRepository = memberHistoryRepository;
         this.slackClient = slackClient;
     }
