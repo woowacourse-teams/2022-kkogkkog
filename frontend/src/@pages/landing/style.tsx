@@ -66,6 +66,23 @@ export const ListTitle = styled.div`
   }
 `;
 
+export const FullListContainer = styled.div`
+  padding: 32px 16px 16px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+`;
+
+export const FullListTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    font-weight: 600;
+  }
+`;
+
 export const ExtraBold = styled.span`
   font-weight: 800;
 `;

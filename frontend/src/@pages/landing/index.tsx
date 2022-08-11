@@ -6,6 +6,7 @@ import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
+import AcceptedCouponList from '@/@components/coupon/AcceptedCouponList';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
@@ -66,8 +67,7 @@ const UnAuthorizedLanding = () => {
 
 const AuthorizedLanding = () => {
   const navigate = useNavigate();
-
-  const { couponList, isLoading } = useFetchCouponList();
+  const { couponList, acceptedCouponList, isLoading } = useFetchCouponList();
 
   const onClickCouponItem = (coupon: CouponResponse) => {
     navigate(`/coupon-list/${coupon.id}`);
@@ -110,6 +110,16 @@ const AuthorizedLanding = () => {
             </Position>
           </Link>
         </Styled.CreateCouponContainer>
+
+        <Styled.FullListContainer>
+          <Styled.FullListTitle>
+            <span>승인된 꼭꼭</span>
+          </Styled.FullListTitle>
+
+          <CustomSuspense fallback={<div>hi</div>} isLoading={isLoading}>
+            <AcceptedCouponList acceptedCouponList={acceptedCouponList} />
+          </CustomSuspense>
+        </Styled.FullListContainer>
 
         <Styled.ListContainer>
           <div>
