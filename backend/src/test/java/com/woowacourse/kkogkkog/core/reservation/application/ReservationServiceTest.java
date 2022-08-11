@@ -22,7 +22,7 @@ import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveReque
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -61,7 +61,7 @@ class ReservationServiceTest {
         @Test
         @DisplayName("쿠폰을 통해서 예약을 생성하고, 예약 ID를 반환한다.")
         void success() {
-            reservationSaveRequest = 예약_저장_요청(receiver.getId(), coupon.getId(), LocalDate.now());
+            reservationSaveRequest = 예약_저장_요청(receiver.getId(), coupon.getId(), LocalDateTime.now());
 
             Long actual = reservationService.save(reservationSaveRequest);
 

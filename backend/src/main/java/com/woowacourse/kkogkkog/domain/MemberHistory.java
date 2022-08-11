@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -41,14 +41,14 @@ public class MemberHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CouponEvent couponEvent;
 
-    private LocalDate meetingDate;
+    private LocalDateTime meetingDate;
 
     private Boolean isRead = false;
 
     public MemberHistory(Long id, Member hostMember,
                          Member targetMember, Long couponId,
                          CouponType couponType, CouponEvent couponEvent,
-                         LocalDate meetingDate) {
+                         LocalDateTime meetingDate) {
         this.id = id;
         this.hostMember = hostMember;
         this.targetMember = targetMember;

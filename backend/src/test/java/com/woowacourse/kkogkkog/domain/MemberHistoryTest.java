@@ -5,11 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class MemberHistoryTest {
@@ -50,7 +49,7 @@ class MemberHistoryTest {
         Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
         MemberHistory memberHistory = new MemberHistory(
             1L, sender, receiver, 1L,
-            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDate.now());
+            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDateTime.now());
 
         // when
         memberHistory.updateIsRead();
