@@ -53,8 +53,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_받은_쿠폰과_보낸_쿠폰을_전부_조회할_수_있다() {
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR), WorkspaceResponse.of(WORKSPACE));
             List<CouponResponse> sentCoupons = 쿠폰_발급에_성공한다(jeongAccessToken,
                 List.of(LEO, ARTHUR)).getData();
@@ -64,8 +66,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             MyCouponsResponse actual = 쿠폰_전체_조회에_성공한다(jeongAccessToken);
             MyCouponsResponse expected = new MyCouponsResponse(receivedCoupons, sentCoupons);
 
-            assertThat(actual).usingRecursiveComparison()
-                .isEqualTo(expected);
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
         }
 
         @Test
@@ -97,7 +98,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 로그인된_사용자는_복수의_사용자에게_쿠폰을_발급할_수_있다() {
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE), WorkspaceResponse.of(WORKSPACE));
@@ -109,7 +111,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
                 toCouponResponse(2L, JEONG, ARTHUR),
                 toCouponResponse(3L, JEONG, ROOKIE)));
 
-            assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+            assertThat(actual).usingRecursiveComparison()
+                .ignoringFields("data.receiver.nickname", "data.sender.nickname")
+                .isEqualTo(expected);
         }
 
         @Test
@@ -125,7 +129,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         @Test
         void 자신에게_쿠폰을_발급할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
-            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
 
             ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken, List.of(JEONG));
 
@@ -134,7 +139,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         @Test
         void 받는_사람이_존재하지_않는_경우_쿠폰을_발급할_수_없다() {
-            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
 
             ExtractableResponse<Response> response = 쿠폰_발급을_요청한다(accessToken,
                 List.of(MemberFixture.NON_EXISTING_MEMBER));
@@ -151,7 +157,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 생성된_쿠폰을_조회할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String accessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
 
             CouponResponse expected = 쿠폰_발급에_성공한다(accessToken, List.of(LEO)).getData().get(0);
             CouponResponse actual = 쿠폰_조회에_성공한다(expected.getId());
@@ -190,8 +197,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청을_보낼_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_사용을_요청한다(leoAccessToken, 1L,
@@ -204,8 +213,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 존재하지_않는_이벤트를_보낼_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -218,8 +229,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 쿠폰을_보낸_사람은_사용_요청을_취소_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -233,8 +246,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 사용_요청_상태가_아닌_쿠폰은_요청을_취소할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -247,8 +262,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자가_보낸_쿠폰에_대해_사용_요청을_받으면_요청을_거절할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -262,7 +279,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 쿠폰이_사용_준비_상태이면_사용_요청을_거절할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -275,8 +293,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자가_보낸_쿠폰에_대해_사용_요청을_받으면_요청을_수락할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -290,7 +310,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 쿠폰이_사용_준비_상태이면_사용_요청을_수락할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -303,8 +324,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_대기_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(leoAccessToken, 1L,
@@ -317,8 +340,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -332,8 +357,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_받은_쿠폰에_대해_사용_수락_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -348,8 +375,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 받은_쿠폰에_대해_사용_완료_상태이면_사용_완료를_할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -365,7 +394,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_대기_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             ExtractableResponse<Response> response = 쿠폰_상태_변경을_요청한다(jeongAccessToken, 1L,
@@ -378,8 +408,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_요청_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -393,8 +425,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 로그인된_사용자는_보낸_쿠폰에_대해_사용_수락_상태이면_사용_완료를_할_수_있다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");
@@ -409,8 +443,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         void 보낸_쿠폰에_대해_사용_완료_상태이면_사용_완료를_할_수_없다() {
             회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE));
             회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE));
-            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO), WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String jeongAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(JEONG),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
+            String leoAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(LEO),
+                WorkspaceResponse.of(WORKSPACE)).getAccessToken();
             쿠폰_발급에_성공한다(jeongAccessToken, List.of(LEO));
 
             쿠폰_사용을_요청한다(leoAccessToken, 1L, CouponEvent.REQUEST.name(), "2022-07-27");

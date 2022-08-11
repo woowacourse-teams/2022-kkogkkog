@@ -1,5 +1,9 @@
 package com.woowacourse.kkogkkog.domain;
 
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import java.security.SecureRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member {
+
+    private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9]{2,6}$");
+    private static final SecureRandom RANDOM_GENERATOR = new SecureRandom();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +54,18 @@ public class Member {
         this.imageUrl = imageUrl;
     }
 
+    public static Member ofRandomNickname(String userId, Workspace workspace, String email,
+                                          String imageUrl) {
+        String randomNum = String.valueOf(RANDOM_GENERATOR.nextDouble());
+        String anonymousNickname = String.format("익명%s", randomNum.substring(2, 6));
+        return new Member(null, userId, workspace, anonymousNickname, email, imageUrl);
+    }
+
     public void updateNickname(String nickname) {
+        Matcher matcher = NICKNAME_PATTERN.matcher(nickname);
+        if (!matcher.matches()) {
+            throw new InvalidRequestException("잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)");
+        }
         this.nickname = nickname;
     }
 

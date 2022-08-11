@@ -31,7 +31,7 @@ public class AuthService {
     public TokenResponse login(String code) {
         SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
         Workspace workspace = getWorkspace(userInfo);
-        MemberCreateResponse memberCreateResponse = memberService.saveOrFind(userInfo, workspace);
+        MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(userInfo, workspace);
 
         return new TokenResponse(
             jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
