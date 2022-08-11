@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,7 +41,7 @@ public class MemberController {
 
     @PutMapping("/me")
     public ResponseEntity<Void> updateMe(@LoginMember Long id,
-                                         @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
+                                         @Valid @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
         memberService.update(memberUpdateMeRequest.toMemberUpdateRequest(id));
 
         return ResponseEntity.ok().build();
