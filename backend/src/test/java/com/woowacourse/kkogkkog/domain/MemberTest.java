@@ -24,7 +24,7 @@ public class MemberTest {
                 "jeong@gmail.com", "image");
 
             String actual = member.getNickname();
-            assertThat(actual.matches("^[가-힣a-zA-Z0-9]{2,6}$")).isTrue();
+            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$");
         }
     }
 
@@ -43,7 +43,7 @@ public class MemberTest {
 
         @Test
         @DisplayName("6글자를 초과한 닉네임으로 수정하려는 경우 예외를 발생시킨다.")
-        void fail_longerThatSix() {
+        void fail_longerThanSix() {
             assertThatThrownBy(() -> member.updateNickname("일곱글자닉네임"))
                 .isInstanceOf(InvalidRequestException.class);
         }
