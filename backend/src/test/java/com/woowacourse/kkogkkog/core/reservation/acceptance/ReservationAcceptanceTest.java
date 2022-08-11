@@ -1,9 +1,11 @@
 package com.woowacourse.kkogkkog.core.reservation.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePostWithToken;
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_변경_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_생성_요청;
 import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +16,7 @@ import com.woowacourse.kkogkkog.acceptance.AcceptanceTest;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
+import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -40,9 +43,32 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
             leoToken, 예약_생성_요청(1L, LocalDate.now()));
 
         assertAll(
-            () -> assertThat(extract.header("Location").split("/")[3]).isEqualTo(1),
+            () -> assertThat(extract.header("Location").split("/")[3]).isEqualTo("1"),
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value())
         );
+    }
+
+    @Test
+    void 예약_상태를_변경할_수_있다() {
+        String rookieToken = 로그인을_하고(MemberResponse.of(ROOKIE.getMember()));
+        String leoToken = 로그인을_하고(MemberResponse.of(LEO.getMember()));
+        쿠폰_생성을_요청하고(rookieToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
+        예약을_신청하고(leoToken, 예약_생성_요청(1L, LocalDate.now()));
+
+        ExtractableResponse<Response> extract = 예약을_변경한다(
+            1L, rookieToken, 예약_변경_요청("ACCEPT"));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
+    public ExtractableResponse<Response> 예약을_변경한다(Long id, String token, Object data) {
+        return invokePutWithToken("/api/reservations/" + id, token, data);
+    }
+
+    public static void 예약을_신청하고(String token, ReservationCreateRequest request) {
+        invokePostWithToken("/api/reservations", token, request);
     }
 
     // 임시로 다음위치에 이동함 (리팩토링 대상)

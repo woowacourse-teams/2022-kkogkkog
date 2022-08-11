@@ -1,13 +1,13 @@
 package com.woowacourse.kkogkkog.support;
 
-import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-public class DataClearExtension implements AfterEachCallback {
+public class DataClearExtension implements BeforeEachCallback {
 
     @Override
-    public void afterEach(final ExtensionContext context) {
+    public void beforeEach(ExtensionContext context) throws Exception {
         DatabaseCleaner databaseCleaner = getDataBaseCleaner(context);
         databaseCleaner.execute();
     }
