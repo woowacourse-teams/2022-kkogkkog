@@ -1,38 +1,42 @@
 import { css } from '@emotion/react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import useInput from '@/@hooks/@common/useInput';
+import { useFetchCoupon } from '@/@hooks/@queries/coupon';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { CouponDetailResponse } from '@/types/remote/response';
 import { getToday } from '@/utils';
+import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
 
-const isOverMaxLength = (value: string, maxLength: number): boolean => {
-  return value.length >= maxLength;
-};
-
 const CouponRequestPage = () => {
   const navigate = useNavigate();
-  const { coupon, isSent, couponId } = useLocation().state as {
-    coupon: CouponDetailResponse;
-    isSent: boolean;
-    couponId: number;
-  };
+  const { couponId } = useParams();
 
   const [meetingDate, onChangeMeetingDate] = useInput('');
   const [message, onChangeMessage] = useInput('', [(value: string) => isOverMaxLength(value, 200)]);
 
-  const { requestCoupon } = useChangeCouponStatus(couponId);
+  const { me } = useFetchMe();
+  const { coupon } = useFetchCoupon(Number(couponId));
+
+  const { requestCoupon } = useChangeCouponStatus(Number(couponId));
+
+  if (!coupon) {
+    return <NotFoundPage />;
+  }
 
   const { sender, receiver, couponType, couponStatus, couponHistories } = coupon;
+
+  const isSent = me?.id === sender.id;
 
   const onClickRequestButton = () => {
     requestCoupon(
