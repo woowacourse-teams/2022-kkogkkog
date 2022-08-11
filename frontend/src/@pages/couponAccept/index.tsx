@@ -13,6 +13,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
+import { generateDateText } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from '../couponRequest/style';
@@ -32,7 +33,7 @@ const CouponAcceptPage = () => {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType, couponStatus, couponHistories } = coupon;
+  const { sender, receiver, couponType, meetingDate } = coupon;
 
   const isSent = me?.id === sender.id;
 
@@ -64,7 +65,7 @@ const CouponAcceptPage = () => {
         </Styled.Top>
         <Styled.Main>
           <Styled.SectionTitle>
-            {coupon.meetingDate} 으로 약속을 확정하시겠어요?
+            {generateDateText(meetingDate)} 으로 약속을 확정하시겠어요?
           </Styled.SectionTitle>
           <Styled.Description>메시지를 작성해주세요.</Styled.Description>
           <Position position='relative'>
