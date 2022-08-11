@@ -25,6 +25,7 @@ import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -119,7 +120,7 @@ public class MemberControllerTest extends Documentation {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDate.now()));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDateTime.now()));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);

@@ -7,6 +7,8 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
@@ -24,13 +26,15 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
 
-    public ReservationService(MemberRepository memberRepository,
-                              CouponRepository couponRepository,
-                              ReservationRepository reservationRepository) {
+    public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
+                              ReservationRepository reservationRepository,
+                              MemberHistoryRepository memberHistoryRepository) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.reservationRepository = reservationRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
     }
 
     public Long save(ReservationSaveRequest request) {
@@ -39,6 +43,9 @@ public class ReservationService {
 
         Reservation reservation = request.toEntity(findCoupon);
         reservation.changeCouponStatus(REQUEST, member);
+        memberHistoryRepository.save(new MemberHistory(null, member, findCoupon.getSender(),
+            findCoupon.getId(), findCoupon.getCouponType(), REQUEST, request.getMeetingDate(),
+            request.getMessage()));
 
         return reservationRepository.save(reservation).getId();
     }
@@ -56,8 +63,14 @@ public class ReservationService {
     public void update(ReservationUpdateRequest request) {
         Reservation reservation = findReservation(request.getReservationId());
         Coupon coupon = reservation.getCoupon();
+        Member requestMember = memberRepository.findById(request.getMemberId())
+            .orElseThrow(MemberNotFoundException::new);
 
         coupon.changeStatus(CouponEvent.of(request.getEvent()), findMember(request.getMemberId()));
+        memberHistoryRepository.save(
+            new MemberHistory(null, coupon.getOppositeMember(requestMember), requestMember,
+                coupon.getId(), coupon.getCouponType(), CouponEvent.of(request.getEvent()),
+                reservation.getMeetingDate(), request.getMessage()));
     }
 
     private Reservation findReservation(Long reservationId) {

@@ -8,6 +8,7 @@ import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.domain.Member;
@@ -43,7 +44,7 @@ class CouponTest {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
 
-            Coupon coffee = COFFEE.getCoupon(sender, receiver);
+            Coupon coffee = CouponFixture.COFFEE.getCoupon(sender, receiver);
 
             assertDoesNotThrow(() -> coffee.changeStatus(FINISH, sender));
         }

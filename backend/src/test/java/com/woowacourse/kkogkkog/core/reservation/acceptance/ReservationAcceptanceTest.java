@@ -21,6 +21,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
         쿠폰_생성을_요청하고(rookieToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = 예약을_신청한디(
-            leoToken, 예약_생성_요청(1L, LocalDate.now()));
+            leoToken, 예약_생성_요청(1L, LocalDateTime.now()));
 
         assertAll(
             () -> assertThat(extract.header("Location").split("/")[3]).isEqualTo("1"),
@@ -53,7 +54,7 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
         String rookieToken = 로그인을_하고(MemberResponse.of(ROOKIE.getMember()));
         String leoToken = 로그인을_하고(MemberResponse.of(LEO.getMember()));
         쿠폰_생성을_요청하고(rookieToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
-        예약을_신청하고(leoToken, 예약_생성_요청(1L, LocalDate.now()));
+        예약을_신청하고(leoToken, 예약_생성_요청(1L, LocalDateTime.now()));
 
         ExtractableResponse<Response> extract = 예약을_변경한다(
             1L, rookieToken, 예약_변경_요청("ACCEPT"));

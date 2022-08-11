@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ class MemberHistoryTest {
             Coupon coupon = COFFEE.getCoupon(jeong, leo);
 
             MemberHistory memberHistory = new MemberHistory(null, leo, jeong, coupon.getId(),
-                coupon.getCouponType(), CouponEvent.INIT, null);
+                coupon.getCouponType(), CouponEvent.INIT, null, null);
 
             String actual = memberHistory.toNoticeMessage();
             String expected = jeong.getNickname() + "님이 " + coffee.getDisplayName() + " 쿠폰을 보냈어요.";
@@ -50,7 +51,7 @@ class MemberHistoryTest {
         Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
         MemberHistory memberHistory = new MemberHistory(
             1L, sender, receiver, 1L,
-            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDate.now());
+            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDateTime.now(), null);
 
         // when
         memberHistory.updateIsRead();

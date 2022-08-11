@@ -81,6 +81,13 @@ public class Coupon {
         }
     }
 
+    public Member getOppositeMember(Member member) {
+        if (sender == member) {
+            return receiver;
+        }
+        return sender;
+    }
+
     public void changeStatus(CouponEvent couponEvent, Member member) {
         couponEvent.checkExecutable(sender.equals(member), receiver.equals(member));
         this.couponStatus = couponStatus.handle(couponEvent);

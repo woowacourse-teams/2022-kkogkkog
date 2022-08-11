@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.presentation;
 
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
@@ -23,6 +24,12 @@ public class CouponController {
 
     public CouponController(CouponService couponService) {
         this.couponService = couponService;
+    }
+
+    @GetMapping("/{couponId}")
+    public ResponseEntity<CouponDetailResponse> show(Long couponId) {
+        CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+        return ResponseEntity.ok(couponDetailResponse);
     }
 
     @GetMapping

@@ -1,10 +1,12 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
@@ -92,10 +94,8 @@ public class CouponService {
         return findMembers;
     }
 
-    private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
-                                            CouponEvent couponEvent) {
-        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember,
-            coupon.getId(), coupon.getCouponType(), couponEvent, null);
+    private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon, CouponEvent couponEvent) {
+        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember, coupon.getId(), coupon.getCouponType(), couponEvent, null, null);
         return memberHistoryRepository.save(memberHistory);
     }
 
@@ -109,5 +109,13 @@ public class CouponService {
         String hostMemberId = hostMember.getUserId();
         String message = memberHistory.toNoticeMessage();
         slackClient.requestPushAlarm(accessToken, hostMemberId, message);
+    }
+
+    @Transactional(readOnly = true)
+    public CouponDetailResponse find(Long couponId) {
+        CouponDetailData couponDetail = couponQueryRepository.findCouponWithMeetingDate(couponId);
+        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+            couponId);
+        return CouponDetailResponse.of(couponDetail, memberHistories);
     }
 }
