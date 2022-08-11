@@ -33,32 +33,24 @@ public class WorkspaceMember {
     private Workspace workspace;
 
     @Column(nullable = false)
-    private String nickname;
-
-    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String imageUrl;
 
     public WorkspaceMember(Long id, Member masterMember, String userId, Workspace workspace,
-                           String nickname, String email, String imageUrl) {
+                           String email, String imageUrl) {
         this.id = id;
         this.masterMember = masterMember;
         this.userId = userId;
         this.workspace = workspace;
-        this.nickname = nickname;
         this.email = email;
         this.imageUrl = imageUrl;
     }
 
     public static WorkspaceMember of(Member member) {
         return new WorkspaceMember(null, member, member.getUserId(), member.getWorkspace(),
-            member.getNickname(), member.getEmail(), member.getImageUrl());
-    }
-
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
+            member.getEmail(), member.getImageUrl());
     }
 
     public void updateEmail(String email) {

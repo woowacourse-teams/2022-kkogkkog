@@ -58,7 +58,8 @@ public class MemberService {
     }
 
     private void saveOrUpdateWorkspaceMember(Member member) {
-        Optional<WorkspaceMember> workspaceMember = workspaceMemberRepository.findByMasterMember(member);
+        Optional<WorkspaceMember> workspaceMember = workspaceMemberRepository.findByMasterMember(
+            member);
         if (workspaceMember.isEmpty()) {
             workspaceMemberRepository.save(WorkspaceMember.of(member));
             return;
@@ -88,11 +89,8 @@ public class MemberService {
     public void update(MemberUpdateRequest memberUpdateRequest) {
         Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
-        WorkspaceMember workspaceMember = workspaceMemberRepository.findByMasterMember(member)
-            .orElseThrow(MemberNotFoundException::new);
 
         member.updateNickname(memberUpdateRequest.getNickname());
-        workspaceMember.updateNickname(memberUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
