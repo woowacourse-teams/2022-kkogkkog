@@ -72,7 +72,7 @@ export const useFetchCouponList = () => {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useQuery([QUERY_KEY.coupon], () => getCoupon(id));
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
     coupon: data?.data,
@@ -95,12 +95,12 @@ export const useCreateCouponMutation = () => {
   });
 };
 
-export const useChangeCouponStatusMutation = () => {
+export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
 
   return useMutation(changeCouponStatus, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
+      queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
     onError() {
       alert('잘못된 접근입니다. 다시 시도해주세요.');
