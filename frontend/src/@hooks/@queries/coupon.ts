@@ -63,10 +63,25 @@ export const useFetchCouponList = () => {
     [couponList]
   );
 
+  const acceptedCouponList = useMemo(() => {
+    const combinedCouponList = [...(couponList?.received ?? []), ...(couponList?.sent ?? [])];
+
+    return combinedCouponList.reduce<Record<string, CouponResponse[]>>((prev, coupon) => {
+      const { couponStatus, meetingDate } = coupon;
+
+      if (couponStatus === 'ACCEPTED' && meetingDate) {
+        return { ...prev, [meetingDate]: [...(prev[meetingDate] ?? []), coupon] };
+      }
+
+      return prev;
+    }, {});
+  }, [couponList]);
+
   return {
     couponList,
     parsedSentCouponList,
     parsedReceivedCouponList,
+    acceptedCouponList,
     ...rest,
   };
 };
