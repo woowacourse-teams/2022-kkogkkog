@@ -40,8 +40,10 @@ public class Coupon {
     @JoinColumn(name = "receiver_member_id")
     private Member receiver;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String hashtag;
 
     @Enumerated(EnumType.STRING)
