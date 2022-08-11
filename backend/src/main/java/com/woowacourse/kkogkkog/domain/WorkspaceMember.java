@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class WorkspaceMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Member masterMember;
 
     @Column(nullable = false, unique = true)
     private String userId;
@@ -37,15 +41,20 @@ public class WorkspaceMember {
     @Column(nullable = false)
     private String imageUrl;
 
-    public WorkspaceMember(Long id, String userId, Workspace workspace, String nickname,
-                           String email,
-                           String imageUrl) {
+    public WorkspaceMember(Long id, Member masterMember, String userId, Workspace workspace,
+                           String nickname, String email, String imageUrl) {
         this.id = id;
+        this.masterMember = masterMember;
         this.userId = userId;
         this.workspace = workspace;
         this.nickname = nickname;
         this.email = email;
         this.imageUrl = imageUrl;
+    }
+
+    public static WorkspaceMember of(Member member) {
+        return new WorkspaceMember(null, member, member.getUserId(), member.getWorkspace(),
+            member.getNickname(), member.getEmail(), member.getImageUrl());
     }
 
     public void updateNickname(String nickname) {
