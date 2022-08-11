@@ -1,7 +1,12 @@
 package com.woowacourse.kkogkkog.domain;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import java.time.LocalDate;
@@ -23,11 +28,10 @@ class MemberHistoryTest {
             Member leo = new Member(null, "ULeo", workspace,
                 "레오", "leothelion@gmail.com", "image");
             CouponType coffee = CouponType.COFFEE;
-            Coupon coupon = new Coupon(1L, jeong, leo, "한턱쏘는", "추가 메세지", "#241223",
-                coffee, CouponStatus.READY);
+            Coupon coupon = COFFEE.getCoupon(jeong, leo);
 
             MemberHistory memberHistory = new MemberHistory(null, leo, jeong, coupon.getId(),
-                coupon.getCouponType(), CouponEvent.INIT, coupon.getMeetingDate());
+                coupon.getCouponType(), CouponEvent.INIT, null);
 
             String actual = memberHistory.toNoticeMessage();
             String expected = jeong.getNickname() + "님이 " + coffee.getDisplayName() + " 쿠폰을 보냈어요.";

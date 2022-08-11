@@ -10,3 +10,4 @@
 include::auth.adoc[]
 include::member.adoc[]
 include::coupon.adoc[]
+include::reservation.adoc[]

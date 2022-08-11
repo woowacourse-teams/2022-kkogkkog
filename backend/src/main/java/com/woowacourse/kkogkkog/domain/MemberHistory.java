@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.domain;
 
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
