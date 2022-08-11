@@ -44,25 +44,25 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public List<CouponReservationResponse> findAllBySender(Long senderId) {
-        Member findSender = findMember(senderId);
-        return couponQueryRepository.findAllBySender(findSender).stream()
+        Member sender = findMember(senderId);
+        return couponQueryRepository.findAllBySender(sender).stream()
             .map(CouponReservationResponse::of)
             .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<CouponReservationResponse> findAllByReceiver(Long receiverId) {
-        Member findSender = findMember(receiverId);
-        return couponQueryRepository.findAllByReceiver(findSender).stream()
+        Member sender = findMember(receiverId);
+        return couponQueryRepository.findAllByReceiver(sender).stream()
             .map(CouponReservationResponse::of)
             .collect(Collectors.toList());
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
-        Member findSender = findMember(request.getSenderId());
-        List<Member> findReceivers = findReceivers(request.getReceiverIds());
+        Member sender = findMember(request.getSenderId());
+        List<Member> receivers = findReceivers(request.getReceiverIds());
 
-        List<Coupon> coupons = request.toEntities(findSender, findReceivers);
+        List<Coupon> coupons = request.toEntities(sender, receivers);
 
         List<Coupon> saveCoupons = couponRepository.saveAll(coupons);
         for (Coupon savedCoupon : saveCoupons) {
@@ -81,12 +81,12 @@ public class CouponService {
     }
 
     private List<Member> findReceivers(List<Long> memberIds) {
-        List<Member> findMembers = memberRepository.findAllById(memberIds);
-        if (memberIds.size() != findMembers.size()) {
+        List<Member> foundMembers = memberRepository.findAllById(memberIds);
+        if (memberIds.size() != foundMembers.size()) {
             throw new MemberNotFoundException();
         }
 
-        return findMembers;
+        return foundMembers;
     }
 
     private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
