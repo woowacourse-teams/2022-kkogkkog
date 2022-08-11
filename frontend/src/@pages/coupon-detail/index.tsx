@@ -86,11 +86,7 @@ const CouponDetail = () => {
 
   const onClickCancelButton = () => {
     if (window.confirm(confirmMessage)) {
-      cancelCoupon({
-        onSuccessCallback() {
-          // invalidate
-        },
-      });
+      cancelCoupon();
     }
   };
 
@@ -102,11 +98,7 @@ const CouponDetail = () => {
 
   const onClickFinishButton = () => {
     if (window.confirm(confirmMessage)) {
-      finishCoupon({
-        onSuccessCallback() {
-          // invalidate
-        },
-      });
+      finishCoupon();
     }
   };
 
