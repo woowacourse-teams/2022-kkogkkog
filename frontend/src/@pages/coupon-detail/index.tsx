@@ -149,9 +149,9 @@ const CouponDetail = () => {
           <CouponHistoryList historyList={couponHistories} />
         </Styled.HistorySection>
         <Styled.FinishButtonInner>
-          {/* {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && ( */}
-          <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
-          {/* )} */}
+          {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
+            <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
+          )}
         </Styled.FinishButtonInner>
         <Position
           position='fixed'
