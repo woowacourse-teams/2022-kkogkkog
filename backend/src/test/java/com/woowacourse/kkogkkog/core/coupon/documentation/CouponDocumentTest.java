@@ -33,7 +33,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-public class CouponDocumentTest extends Documentation {
+class CouponDocumentTest extends Documentation {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 

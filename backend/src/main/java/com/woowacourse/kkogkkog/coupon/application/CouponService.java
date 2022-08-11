@@ -12,7 +12,6 @@ import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import java.util.List;

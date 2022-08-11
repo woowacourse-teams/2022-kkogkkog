@@ -1,7 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.domain.query;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import java.time.LocalDateTime;
