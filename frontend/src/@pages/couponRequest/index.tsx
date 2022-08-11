@@ -71,7 +71,7 @@ const CouponRequestPage = () => {
         </Styled.Top>
         <Styled.Main>
           <Styled.SectionTitle>쿠폰을 사용하시겠어요?</Styled.SectionTitle>
-          <Styled.Description>만나고 싶은 날짜를 지정해주세요.</Styled.Description>
+          <Styled.Description>만남 날짜를 지정해보세요.</Styled.Description>
           <Styled.DateInput
             type='date'
             value={meetingDate}
@@ -79,7 +79,7 @@ const CouponRequestPage = () => {
             onChange={onChangeMeetingDate}
             required
           />
-          <Styled.Description>메시지를 작성해주세요.</Styled.Description>
+          <Styled.Description>메시지를 작성해보세요.</Styled.Description>
           <Position position='relative'>
             <Styled.MessageTextarea
               placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'

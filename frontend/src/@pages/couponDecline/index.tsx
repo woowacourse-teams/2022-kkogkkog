@@ -69,7 +69,7 @@ const CouponDeclinePage = () => {
           <Styled.SectionTitle>
             {generateDateText(meetingDate)}에 만남이 어려우신가요?
           </Styled.SectionTitle>
-          <Styled.Description>메시지를 작성해주세요.</Styled.Description>
+          <Styled.Description>메시지를 작성해보세요.</Styled.Description>
           <Position position='relative'>
             <Styled.MessageTextarea
               placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
