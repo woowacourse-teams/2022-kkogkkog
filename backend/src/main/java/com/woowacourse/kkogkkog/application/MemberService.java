@@ -77,8 +77,10 @@ public class MemberService {
     public void update(MemberUpdateRequest memberUpdateRequest) {
         Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
+        MasterMember masterMember = member.getMasterMember();
 
         member.updateNickname(memberUpdateRequest.getNickname());
+        masterMember.updateNickname(memberUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {

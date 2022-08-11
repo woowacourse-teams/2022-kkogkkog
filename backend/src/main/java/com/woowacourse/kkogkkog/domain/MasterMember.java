@@ -25,4 +25,8 @@ public class MasterMember {
         this.id = id;
         this.nickname = nickname;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
