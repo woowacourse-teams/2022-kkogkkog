@@ -69,7 +69,7 @@ const CouponAcceptPage = () => {
           <Styled.SectionTitle>
             {generateDateText(meetingDate)}로 약속을 확정하시겠어요?
           </Styled.SectionTitle>
-          <Styled.Description>메시지를 작성해보세요.</Styled.Description>
+          <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
           <Position position='relative'>
             <Styled.MessageTextarea
               placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
