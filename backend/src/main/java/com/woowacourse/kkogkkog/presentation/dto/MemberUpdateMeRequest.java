@@ -16,6 +16,6 @@ public class MemberUpdateMeRequest {
     }
 
     public MemberUpdateRequest toMemberUpdateRequest(Long memberId) {
-        return new MemberUpdateRequest(memberId, nickname);
+        return new MemberUpdateRequest(memberId, nickname.trim());
     }
 }
