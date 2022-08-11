@@ -104,4 +104,30 @@ export const couponHandler = [
 
     return res(ctx.status(200), ctx.json({ data: newCouponList }));
   }),
+
+  rest.post<ChangeCouponStatusRequest>(
+    `${BASE_URL}/coupons/:couponId/event/request`,
+    (req, res, ctx) => {
+      const {
+        body: { couponEvent, meetingDate },
+        params: { couponId },
+      } = req;
+
+      const newCouponList = coupons.current.map(coupon => {
+        if (coupon.id === Number(couponId)) {
+          return {
+            ...coupon,
+            couponStatus: coupons.getStatusAfterEvent(couponEvent),
+            meetingDate,
+          };
+        }
+
+        return coupon;
+      });
+
+      coupons.current = newCouponList;
+
+      return res(ctx.status(200), ctx.json({ data: newCouponList }));
+    }
+  ),
 ];
