@@ -3,9 +3,13 @@ package com.woowacourse.kkogkkog.core.reservation.application;
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
+import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_수정_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
@@ -15,6 +19,9 @@ import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
+import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
+import com.woowacourse.kkogkkog.reservation.domain.Reservation;
+import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,10 +39,13 @@ class ReservationServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Nested
     @DisplayName("save 메서드는")
     class save {
+
         private Member sender;
         private Member receiver;
         private Coupon coupon;
@@ -59,6 +69,38 @@ class ReservationServiceTest {
                 () -> assertThat(actual).isNotNull(),
                 () -> assertThat(couponRepository.findById(coupon.getId()).get().getCouponStatus())
                     .isEqualTo(CouponStatus.REQUESTED)
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("update 메서드는")
+    class update {
+
+        private Member sender;
+        private Member receiver;
+        private Coupon coupon;
+        private Reservation reservation;
+        private ReservationUpdateRequest reservationUpdateRequest;
+
+        @BeforeEach
+        void setUp() {
+            sender = memberRepository.save(ROOKIE.getMember());
+            receiver = memberRepository.save(AUTHOR.getMember());
+            coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver, "REQUESTED"));
+            reservation = reservationRepository.save(RESERVE_SAVE.getReservation(coupon, now()));
+        }
+
+        @Test
+        @DisplayName("예약 ID, 요청회원 ID, 쿠폰 Event를 통해서, 예약 상태를 변경한다.")
+        void success() {
+            reservationUpdateRequest = 예약_수정_요청(sender.getId(), reservation.getId(), "ACCEPT");
+
+            assertAll(
+                () -> assertDoesNotThrow(() -> reservationService.update(reservationUpdateRequest)),
+                () -> assertThat(
+                    couponRepository.findById(1L).get().getCouponStatus()).isNotEqualTo(
+                    CouponStatus.REQUESTED)
             );
         }
     }
