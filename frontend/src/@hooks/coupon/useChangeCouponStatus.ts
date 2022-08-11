@@ -5,10 +5,10 @@ type changeCouponStatusType = {
 };
 
 const useChangeCouponStatus = (id: number) => {
-  const changeStatusMutate = useChangeCouponStatusMutation();
+  const changeStatusMutate = useChangeCouponStatusMutation(id);
   const requestCouponMutate = useRequestCouponMutation();
 
-  const cancelCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
+  const cancelCoupon = ({ onSuccessCallback }: changeCouponStatusType = {}) => {
     changeStatusMutate.mutate(
       { id, body: { couponEvent: 'CANCEL' } },
       {
@@ -21,7 +21,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const requestCoupon = (
     { meetingDate }: { meetingDate: string },
-    { onSuccessCallback }: changeCouponStatusType
+    { onSuccessCallback }: changeCouponStatusType = {}
   ) => {
     requestCouponMutate.mutate(
       { id, body: { couponEvent: 'REQUEST', meetingDate } },
@@ -33,7 +33,7 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
-  const finishCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
+  const finishCoupon = ({ onSuccessCallback }: changeCouponStatusType = {}) => {
     changeStatusMutate.mutate(
       { id, body: { couponEvent: 'FINISH' } },
       {
@@ -44,7 +44,7 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
-  const acceptCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
+  const acceptCoupon = ({ onSuccessCallback }: changeCouponStatusType = {}) => {
     changeStatusMutate.mutate(
       { id, body: { couponEvent: 'ACCEPT' } },
       {
@@ -55,7 +55,7 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
-  const declineCoupon = ({ onSuccessCallback }: changeCouponStatusType) => {
+  const declineCoupon = ({ onSuccessCallback }: changeCouponStatusType = {}) => {
     changeStatusMutate.mutate(
       { id, body: { couponEvent: 'DECLINE' } },
       {
