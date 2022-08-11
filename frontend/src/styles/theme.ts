@@ -44,6 +44,8 @@ const shadow = {
   type_5: '0px 0px 2px rgba(0, 0, 0, 0.2)',
   type_6: '0px 4px 12px rgba(0, 0, 0, 0.16)',
   type_7: '0px 0px 12px rgba(0, 0, 0, 0.16)',
+
+  top_1: '0 -12px 12px -12px rgba(0, 0, 0, 0.16);',
 };
 
 const theme = {
