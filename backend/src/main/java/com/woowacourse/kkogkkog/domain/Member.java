@@ -1,5 +1,8 @@
 package com.woowacourse.kkogkkog.domain;
 
+import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member {
+
+    private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9]{2,6}$");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +60,10 @@ public class Member {
     }
 
     public void updateNickname(String nickname) {
+        Matcher matcher = NICKNAME_PATTERN.matcher(nickname);
+        if (!matcher.matches()) {
+            throw new InvalidRequestException("잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)");
+        }
         this.nickname = nickname;
     }
 
