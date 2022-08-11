@@ -18,6 +18,7 @@ import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,8 @@ class CouponServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -45,14 +48,16 @@ class CouponServiceTest {
         private Member sender;
         private Member receiver1;
         private Member receiver2;
+        private Workspace workspace;
         private CouponSaveRequest couponSaveRequest;
 
         // 이부분에서 Message 로직이 강하게 엮어 있어 Fixture 사용 불가. slack Message는 분리가 필요
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(new Member(null, "sender",  new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "sender", "rookie@gmail.com", "https://slack"));
-            receiver1 = memberRepository.save(new Member(null,"receiver1", new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "receiver", "rookie@gmail.com", "https://slack"));
-            receiver2 = memberRepository.save(new Member(null,"receiver2", new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "receiver", "rookie@gmail.com", "https://slack"));
+            workspace = workspaceRepository.save(new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            sender = memberRepository.save(new Member(null, "sender", workspace, "sender", "rookie@gmail.com", "https://slack"));
+            receiver1 = memberRepository.save(new Member(null,"receiver1", workspace, "receiver", "rookie@gmail.com", "https://slack"));
+            receiver2 = memberRepository.save(new Member(null,"receiver2", workspace, "receiver", "rookie@gmail.com", "https://slack"));
         }
 
         @Test
