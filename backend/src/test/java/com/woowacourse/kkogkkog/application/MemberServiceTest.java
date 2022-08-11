@@ -94,8 +94,8 @@ class MemberServiceTest extends ServiceTest {
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
-            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "루키",
+            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id", "nickname").isEqualTo(
+                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "익명1234",
                     "rookie@gmail.com", "image", 0L));
         }
 
@@ -191,7 +191,7 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             Long memberId = memberService.saveOrUpdate(rookieUserInfo, WORKSPACE).getId();
 
-            String expected = "새로운_닉네임";
+            String expected = "새로운닉네임";
             memberService.update(new MemberUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 

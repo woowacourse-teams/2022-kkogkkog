@@ -40,16 +40,16 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(membersResponse.getData()).hasSize(2),
-            () -> assertThat(membersResponse.getData()).usingRecursiveComparison().isEqualTo(
-                List.of(
-                    MemberResponse.of(new Member(1L, "URookie",
-                        new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
-                        "루키", "rookie@gmail.com", "image")),
-                    MemberResponse.of(new Member(2L, "UArthur",
-                        new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
-                        "아서", "arthur@gmail.com", "image"))
-                )
-            ));
+            () -> assertThat(membersResponse.getData()).usingRecursiveComparison()
+                .ignoringFields("nickname").isEqualTo(List.of(
+                        MemberResponse.of(new Member(1L, "URookie",
+                            new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
+                            "익명1234", "rookie@gmail.com", "image")),
+                        MemberResponse.of(new Member(2L, "UArthur",
+                            new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
+                            "익명4321", "arthur@gmail.com", "image"))
+                    )
+                ));
     }
 
     @Test
@@ -63,9 +63,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(memberResponse).usingRecursiveComparison().isEqualTo(
-                new MyProfileResponse(1L, "URookie", "T03LX3C5540", "workspace_name",
-                    "루키", "rookie@gmail.com", "image", 0L))
+            () -> assertThat(memberResponse).usingRecursiveComparison().ignoringFields("nickname")
+                .isEqualTo(new MyProfileResponse(1L, "URookie", "T03LX3C5540", "workspace_name",
+                        "익명1234", "rookie@gmail.com", "image", 0L))
         );
     }
 
