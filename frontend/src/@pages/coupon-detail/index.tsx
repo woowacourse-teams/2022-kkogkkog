@@ -60,7 +60,6 @@ const sentCouponMapper: Record<COUPON_STATUS, { confirmMessage?: string; buttons
 
 const CouponDetail = () => {
   const { couponId } = useParams();
-
   const navigate = useNavigate();
 
   const { coupon } = useFetchCoupon(Number(couponId));
@@ -79,19 +78,13 @@ const CouponDetail = () => {
     ? sentCouponMapper[couponStatus]
     : receivedCouponMapper[couponStatus];
 
-  const onClickCancelButton = () => {
-    if (window.confirm(confirmMessage)) {
-      cancelCoupon();
-    }
-  };
-
   const onClickRequestButton = () => {
     navigate(`/coupon-list/${couponId}/request`);
   };
 
-  const onClickFinishButton = () => {
+  const onClickCancelButton = () => {
     if (window.confirm(confirmMessage)) {
-      finishCoupon();
+      cancelCoupon();
     }
   };
 
@@ -101,6 +94,12 @@ const CouponDetail = () => {
 
   const onClickDeclineButton = () => {
     navigate(`/coupon-list/${couponId}/decline`);
+  };
+
+  const onClickFinishButton = () => {
+    if (window.confirm(confirmMessage)) {
+      finishCoupon();
+    }
   };
 
   return (
@@ -134,19 +133,7 @@ const CouponDetail = () => {
               <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
             )}
           </Styled.FinishButtonInner>
-          <Position
-            position='fixed'
-            bottom='0'
-            right='0'
-            css={theme => css`
-              width: 100%;
-              display: flex;
-
-              & > button + button {
-                border-left: 1px solid ${theme.colors.grey_100};
-              }
-            `}
-          >
+          <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             {buttons.map(buttonType => (
               <Fragment key={buttonType}>
                 {buttonType === '취소' && (
