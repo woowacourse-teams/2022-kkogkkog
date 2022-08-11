@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Coupon 클래스의")
-public class MemberTest {
+class MemberTest {
 
     @Nested
     @DisplayName("ofRandomNickname 정적 팩토리 메서드는")

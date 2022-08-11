@@ -1,11 +1,11 @@
 package com.woowacourse.kkogkkog.acceptance;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
@@ -24,7 +24,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 가입되지_않은_회원은_정보가_저장되고_로그인을_할_수_있다() {
-        MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
         WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
 
         Boolean actual = 회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse).getIsNew();
@@ -34,7 +34,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 가입된_회원은_로그인을_할_수_있다() {
-        MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
         WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
         회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse);
 
@@ -50,7 +50,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .willReturn(
                 new WorkspaceResponse("T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
 
-        MemberResponse memberResponse = MemberResponse.of(MemberFixture.ROOKIE);
+        MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
         WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
         회원가입_또는_로그인에_성공한다(memberResponse, workspaceResponse);
 

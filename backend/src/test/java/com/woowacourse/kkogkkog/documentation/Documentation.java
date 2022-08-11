@@ -5,12 +5,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.application.AuthService;
-import com.woowacourse.kkogkkog.application.CouponService;
 import com.woowacourse.kkogkkog.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.AuthController;
-import com.woowacourse.kkogkkog.presentation.CouponController;
 import com.woowacourse.kkogkkog.presentation.MemberController;
+import com.woowacourse.kkogkkog.reservation.application.ReservationService;
+import com.woowacourse.kkogkkog.reservation.presentation.ReservationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs
-@WebMvcTest({
-    AuthController.class,
-    CouponController.class,
-    MemberController.class,
-})
+@WebMvcTest
 public abstract class Documentation {
 
     @Autowired
@@ -48,6 +46,9 @@ public abstract class Documentation {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected ReservationService reservationService;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;

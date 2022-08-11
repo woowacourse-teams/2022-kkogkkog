@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +17,8 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String workspaceId;
 
-    @Column(nullable = false)
     private String name;
 
     private String accessToken;

@@ -1,20 +1,22 @@
 package com.woowacourse.kkogkkog.application;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.fixture.MemberFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -102,7 +104,7 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("존재하지 않는 회원 Id를 받으면, 예외를 던진다.")
         void fail_noExistMember() {
-            Member nonExistingMember = MemberFixture.NON_EXISTING_MEMBER;
+            Member nonExistingMember = SENDER.getMember(2L);
 
             Assertions.assertThatThrownBy(() -> memberService.findById(nonExistingMember.getId()))
                 .isInstanceOf(MemberNotFoundException.class);
@@ -145,10 +147,7 @@ class MemberServiceTest extends ServiceTest {
             MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
 
-            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
-                "추가 메세지", "##11032", "COFFEE");
-            couponService.save(couponSaveRequest);
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
 
             List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
                 arthurCreateResponse.getId());
@@ -171,10 +170,7 @@ class MemberServiceTest extends ServiceTest {
                 WORKSPACE);
             MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
-            CouponSaveRequest couponSaveRequest = new CouponSaveRequest(
-                rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId()), "한턱쏘는",
-                "추가 메세지", "##11032", "COFFEE");
-            couponService.save(couponSaveRequest);
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
         }

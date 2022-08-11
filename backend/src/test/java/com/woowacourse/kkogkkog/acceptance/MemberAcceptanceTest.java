@@ -1,10 +1,11 @@
 package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_또는_로그인에_성공한다;
-import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.WORKSPACE;
-import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.쿠폰_발급에_성공한다;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.ARTHUR;
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.WORKSPACE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -29,8 +30,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 회원_가입된_전체_사용자_조회를_할_수_있다() {
-        회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE), WorkspaceResponse.of(WORKSPACE));
-        회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR), WorkspaceResponse.of(WORKSPACE));
+        회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE.getMember()), WorkspaceResponse.of(WORKSPACE));
+        회원가입_또는_로그인에_성공한다(MemberResponse.of(AUTHOR.getMember()), WorkspaceResponse.of(WORKSPACE));
 
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
@@ -42,21 +43,21 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(membersResponse.getData()).hasSize(2),
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison()
                 .ignoringFields("nickname").isEqualTo(List.of(
-                        MemberResponse.of(new Member(1L, "URookie",
+                        MemberResponse.of(new Member(1L, "rookieId1",
                             new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
-                            "익명1234", "rookie@gmail.com", "image")),
-                        MemberResponse.of(new Member(2L, "UArthur",
+                            "익명1234", "rookie@gmail.com", "https://slack")),
+                        MemberResponse.of(new Member(2L, "authorId2",
                             new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
-                            "익명4321", "arthur@gmail.com", "image"))
+                            "익명4321", "author@gmail.com", "https://slack"))
                     )
                 ));
     }
 
     @Test
     void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
-        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE),
+        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE.getMember()),
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-        회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR), WorkspaceResponse.of(WORKSPACE));
+        회원가입_또는_로그인에_성공한다(MemberResponse.of(AUTHOR.getMember()), WorkspaceResponse.of(WORKSPACE));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         MyProfileResponse memberResponse = extract.as(MyProfileResponse.class);
@@ -64,8 +65,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().ignoringFields("nickname")
-                .isEqualTo(new MyProfileResponse(1L, "URookie", "T03LX3C5540", "workspace_name",
-                        "익명1234", "rookie@gmail.com", "image", 0L))
+                .isEqualTo(new MyProfileResponse(1L, "rookieId1", "T03LX3C5540", "workspace_name",
+                    "익명1234", "rookie@gmail.com", "https://slack", 0L))
         );
     }
 
@@ -77,7 +78,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
         String arthurAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR),
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-        쿠폰_발급에_성공한다(rookieAccessToken, List.of(ARTHUR));
+        쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .when()
@@ -101,7 +102,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
         String arthurAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ARTHUR),
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
-        쿠폰_발급에_성공한다(rookieAccessToken, List.of(ARTHUR));
+        쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .when()
@@ -116,7 +117,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void 본인의_닉네임을_수정할_수_있다() {
         String newNickname = "새로운닉네임";
-        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE),
+        String rookieAccessToken = 회원가입_또는_로그인에_성공한다(MemberResponse.of(ROOKIE.getMember()),
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
 
         프로필_수정을_성공하고(newNickname, rookieAccessToken);
