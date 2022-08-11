@@ -13,6 +13,7 @@ import ProfilePage from '@/@pages/profile';
 import { useFetchMe } from './@hooks/@queries/user';
 import CouponDetail from './@pages/coupon-detail';
 import CouponAcceptPage from './@pages/couponAccept/index';
+import CouponDeclinePage from './@pages/couponDecline';
 import CouponRequestPage from './@pages/couponRequest';
 import DownloadPage from './@pages/download';
 import LoginPage from './@pages/login';
@@ -90,7 +91,7 @@ const Router = () => {
         />
         <Route path={PATH.COUPON_REQUEST} element={<CouponRequestPage />} />
         <Route path={PATH.COUPON_ACCEPT} element={<CouponAcceptPage />} />
-        {/* <Route path={PATH.COUPON_REQUEST} element={<CouponRequestPage />} /> */}
+        <Route path={PATH.COUPON_DECLINE} element={<CouponDeclinePage />} />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
         <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
