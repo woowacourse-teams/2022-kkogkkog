@@ -24,4 +24,9 @@ public enum CouponFixture {
         return new Coupon(
             sender, receiver, tag, imageUrl, CouponType.valueOf(couponType), CouponStatus.READY);
     }
+
+    public Coupon getCoupon(Member sender, Member receiver, String status) {
+        return new Coupon(
+            sender, receiver, tag, imageUrl, CouponType.valueOf(couponType), CouponStatus.valueOf(status));
+    }
 }

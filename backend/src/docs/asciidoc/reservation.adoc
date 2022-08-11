@@ -9,3 +9,7 @@
 
 === 예약 요청
 operation::reservation-create[snippets='http-request,http-response']
+
+=== 예약 상태 변경
+operation::reservation-update[snippets='http-request,http-response']
+

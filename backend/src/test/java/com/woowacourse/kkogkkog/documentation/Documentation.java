@@ -29,12 +29,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs
-@WebMvcTest({
-    AuthController.class,
-    CouponController.class,
-    MemberController.class,
-    ReservationController.class
-})
+@WebMvcTest
 public abstract class Documentation {
 
     @Autowired
