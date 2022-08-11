@@ -8,11 +8,11 @@ public class DataClearExtension implements BeforeEachCallback {
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-        DatabaseCleaner databaseCleaner = getDataBaseCleaner(context);
+        DatabaseCleaner databaseCleaner = getDatabaseCleaner(context);
         databaseCleaner.execute();
     }
 
-    private DatabaseCleaner getDataBaseCleaner(final ExtensionContext extensionContext) {
+    private DatabaseCleaner getDatabaseCleaner(final ExtensionContext extensionContext) {
         return (DatabaseCleaner) SpringExtension.getApplicationContext(extensionContext)
             .getBean("databaseCleaner");
     }
