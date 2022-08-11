@@ -57,7 +57,7 @@ class MemberServiceTest extends ServiceTest {
         void success_save() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo,
+            MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
                 WORKSPACE);
 
             assertAll(
@@ -72,8 +72,8 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
 
-            memberService.saveOrFind(slackUserInfo, WORKSPACE);
-            MemberCreateResponse memberCreateResponse = memberService.saveOrFind(slackUserInfo,
+            memberService.saveOrUpdate(slackUserInfo, WORKSPACE);
+            MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
                 WORKSPACE);
 
             assertAll(
@@ -92,12 +92,12 @@ class MemberServiceTest extends ServiceTest {
         void success() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrFind(slackUserInfo, WORKSPACE).getId();
+            Long memberId = memberService.saveOrUpdate(slackUserInfo, WORKSPACE).getId();
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
-            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id").isEqualTo(
-                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "루키",
+            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id", "nickname").isEqualTo(
+                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "익명1234",
                     "rookie@gmail.com", "image", 0L));
         }
 
@@ -122,8 +122,8 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
                 "arthur@gmail.com", "image");
-            memberService.saveOrFind(rookieUserInfo, WORKSPACE);
-            memberService.saveOrFind(arthurUserInfo, WORKSPACE);
+            memberService.saveOrUpdate(rookieUserInfo, WORKSPACE);
+            memberService.saveOrUpdate(arthurUserInfo, WORKSPACE);
 
             List<MemberResponse> membersResponse = memberService.findAll();
 
@@ -142,9 +142,9 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
                 "arthur@gmail.com", "image");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo,
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrUpdate(rookieUserInfo,
                 WORKSPACE);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
 
             couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
@@ -166,9 +166,9 @@ class MemberServiceTest extends ServiceTest {
                 "rookie@gmail.com", "image");
             SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
                 "arthur@gmail.com", "image");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrFind(rookieUserInfo,
+            MemberCreateResponse rookieCreateResponse = memberService.saveOrUpdate(rookieUserInfo,
                 WORKSPACE);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrFind(arthurUserInfo,
+            MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
             couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
 
@@ -185,9 +185,9 @@ class MemberServiceTest extends ServiceTest {
         void success() {
             SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrFind(rookieUserInfo, WORKSPACE).getId();
+            Long memberId = memberService.saveOrUpdate(rookieUserInfo, WORKSPACE).getId();
 
-            String expected = "새로운_닉네임";
+            String expected = "새로운닉네임";
             memberService.update(new MemberUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 
