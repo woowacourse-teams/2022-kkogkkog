@@ -12,7 +12,6 @@ import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
@@ -21,7 +20,7 @@ import * as Styled from './style';
 
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
 
-const receivedCouponModalMapper: Record<
+const receivedCouponMapper: Record<
   COUPON_STATUS,
   { confirmMessage?: string; buttons: buttonType[] }
 > = {
@@ -42,25 +41,22 @@ const receivedCouponModalMapper: Record<
   },
 };
 
-const sentCouponModalMapper: Record<
-  COUPON_STATUS,
-  { confirmMessage?: string; buttons: buttonType[] }
-> = {
-  REQUESTED: {
-    confirmMessage: '쿠폰 사용 요청을 승인하시겠어요?',
-    buttons: ['승인', '거절'],
-  },
-  ACCEPTED: {
-    confirmMessage: '쿠폰 사용하셨나요?',
-    buttons: ['완료'],
-  },
-  FINISHED: {
-    buttons: [],
-  },
-  READY: {
-    buttons: [],
-  },
-};
+const sentCouponMapper: Record<COUPON_STATUS, { confirmMessage?: string; buttons: buttonType[] }> =
+  {
+    REQUESTED: {
+      buttons: ['승인', '거절'],
+    },
+    ACCEPTED: {
+      confirmMessage: '쿠폰 사용하셨나요?',
+      buttons: ['완료'],
+    },
+    FINISHED: {
+      buttons: [],
+    },
+    READY: {
+      buttons: [],
+    },
+  };
 
 const CouponDetail = () => {
   const { couponId } = useParams();
@@ -71,7 +67,6 @@ const CouponDetail = () => {
   const { me } = useFetchMe();
   const { cancelCoupon, finishCoupon } = useChangeCouponStatus(Number(couponId));
 
-  // Suspense 처리 후 NotFound 띄우기
   if (!coupon) {
     return <NotFoundPage />;
   }
@@ -81,8 +76,8 @@ const CouponDetail = () => {
   const isSent = me?.id === sender.id;
 
   const { confirmMessage, buttons } = isSent
-    ? sentCouponModalMapper[couponStatus]
-    : receivedCouponModalMapper[couponStatus];
+    ? sentCouponMapper[couponStatus]
+    : receivedCouponMapper[couponStatus];
 
   const onClickCancelButton = () => {
     if (window.confirm(confirmMessage)) {
