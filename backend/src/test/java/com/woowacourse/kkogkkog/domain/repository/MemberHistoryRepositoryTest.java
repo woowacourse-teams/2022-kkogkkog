@@ -1,13 +1,14 @@
 package com.woowacourse.kkogkkog.domain.repository;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.kkogkkog.domain.Coupon;
-import com.woowacourse.kkogkkog.domain.CouponEvent;
-import com.woowacourse.kkogkkog.domain.CouponStatus;
-import com.woowacourse.kkogkkog.domain.CouponType;
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,21 @@ class MemberHistoryRepositoryTest {
     private MemberRepository members;
 
     @Autowired
+    private WorkspaceRepository workspaces;
+
+    @Autowired
     private MemberHistoryRepository memberHistories;
 
     @Test
     @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 안은 기록들의 개수를 반환한다.")
     void countByHostMemberAndIsReadFalse() {
-        Member sender = members.save(new Member(null, "UJeong", "T03LX3C5540",
+        Workspace workspace = workspaces.save(new Workspace(1L, "T03LX3C5540", "workspace_name",
+            "xoxb-bot-access-token"));
+        Member sender = members.save(new Member(null, "UJeong", workspace,
             "정", "jeong@gmail.com", "image"));
-        Member receiver = members.save(new Member(null, "ULeo", "T03LX3C5540",
+        Member receiver = members.save(new Member(null, "ULeo", workspace,
             "레오", "leothelion@gmail.com", "image"));
-        Coupon coupon = coupons.save(new Coupon(null, sender, receiver, "한턱쏘는",
-            "추가 메세지", "#241223", CouponType.COFFEE, CouponStatus.READY));
+        Coupon coupon = coupons.save(COFFEE.getCoupon(sender, receiver));
 
         MemberHistory initHistory = toMemberHistory(receiver, sender, coupon, CouponEvent.INIT);
         initHistory.updateIsRead();
@@ -51,6 +56,6 @@ class MemberHistoryRepositoryTest {
     private MemberHistory toMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
                                           CouponEvent event) {
         return new MemberHistory(null, hostMember, targetMember, coupon.getId(),
-            coupon.getCouponType(), event, coupon.getMeetingDate());
+            coupon.getCouponType(), event, null);
     }
 }

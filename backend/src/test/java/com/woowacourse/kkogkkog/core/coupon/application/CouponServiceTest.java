@@ -16,6 +16,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,11 +47,12 @@ class CouponServiceTest {
         private Member receiver2;
         private CouponSaveRequest couponSaveRequest;
 
+        // 이부분에서 Message 로직이 강하게 엮어 있어 Fixture 사용 불가. slack Message는 분리가 필요
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(ROOKIE.getMember());
-            receiver1 = memberRepository.save(AUTHOR.getMember());
-            receiver2 = memberRepository.save(JEONG.getMember());
+            sender = memberRepository.save(new Member(null, "sender",  new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "sender", "rookie@gmail.com", "https://slack"));
+            receiver1 = memberRepository.save(new Member(null,"receiver1", new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "receiver", "rookie@gmail.com", "https://slack"));
+            receiver2 = memberRepository.save(new Member(null,"receiver2", new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"), "receiver", "rookie@gmail.com", "https://slack"));
         }
 
         @Test

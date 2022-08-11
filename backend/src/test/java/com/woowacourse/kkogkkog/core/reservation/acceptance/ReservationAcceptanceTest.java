@@ -77,7 +77,8 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
             .willReturn(
                 new SlackUserInfo(
                     memberResponse.getUserId(),
-                    memberResponse.getWorkspaceId(),
+                    null,
+                    null,
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
                     memberResponse.getImageUrl()));

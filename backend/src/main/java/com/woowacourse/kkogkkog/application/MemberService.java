@@ -9,6 +9,7 @@ import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
@@ -31,19 +32,16 @@ public class MemberService {
         this.memberHistoryRepository = memberHistoryRepository;
     }
 
-    public MemberCreateResponse saveOrFind(SlackUserInfo slackUserInfo) {
-        String userId = slackUserInfo.getUserId();
-        String workspaceId = slackUserInfo.getTeamId();
-        String nickname = slackUserInfo.getName();
-        String email = slackUserInfo.getEmail();
-        String imageUrl = slackUserInfo.getPicture();
+    public MemberCreateResponse saveOrFind(SlackUserInfo userInfo, Workspace workspace) {
+        String userId = userInfo.getUserId();
+        String nickname = userInfo.getName();
+        String email = userInfo.getEmail();
+        String imageUrl = userInfo.getPicture();
 
         return memberRepository.findByUserId(userId)
-            .stream()
             .map(member -> updateToMatchSlack(member, email, imageUrl))
-            .findFirst()
             .orElseGet(() ->
-                save(new Member(null, userId, workspaceId, nickname, email, imageUrl)));
+                save(new Member(null, userId, workspace, nickname, email, imageUrl)));
     }
 
     private MemberCreateResponse updateToMatchSlack(Member member, String email, String imageUrl) {
@@ -61,7 +59,8 @@ public class MemberService {
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
+        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(
+            findMember);
 
         return MyProfileResponse.of(findMember, unreadHistoryCount);
     }

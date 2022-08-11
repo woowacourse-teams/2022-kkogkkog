@@ -74,11 +74,12 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
     // 임시로 다음위치에 이동함 (리팩토링 대상)
     private String 로그인을_하고(MemberResponse memberResponse) {
-        given(slackClient.getUserInfoByCode("CODE"))
+        given(slackClient.getUserInfoByCode("AUTHORIZATION_CODE"))
             .willReturn(
                 new SlackUserInfo(
                     memberResponse.getUserId(),
-                    memberResponse.getWorkspaceId(),
+                    null,
+                    null,
                     memberResponse.getNickname(),
                     memberResponse.getEmail(),
                     memberResponse.getImageUrl()));
@@ -86,7 +87,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> extract = RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
-            .queryParam("code", "CODE")
+            .queryParam("code", "AUTHORIZATION_CODE")
             .get("/api/login/token")
             .then().log().all()
             .extract();

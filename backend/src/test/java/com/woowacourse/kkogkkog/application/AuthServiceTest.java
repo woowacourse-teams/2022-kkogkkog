@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
-import static com.woowacourse.kkogkkog.fixture.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.given;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -36,12 +37,14 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("임시 코드를 입력받으면, 토큰과 초기 사용자 여부를 반환한다.")
         void success() {
-            MemberResponse memberResponse = MemberResponse.of(ROOKIE);
+            MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
+            WorkspaceResponse workspaceResponse = WorkspaceResponse.of(WorkspaceFixture.WORKSPACE);
             given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
-                        memberResponse.getWorkspaceId(),
+                        workspaceResponse.getWorkspaceId(),
+                        workspaceResponse.getWorkspaceName(),
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
                         memberResponse.getImageUrl()));

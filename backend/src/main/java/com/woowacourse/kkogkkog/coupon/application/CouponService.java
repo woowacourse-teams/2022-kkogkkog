@@ -4,11 +4,17 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -21,13 +27,22 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final CouponQueryRepository couponQueryRepository;
+    private final WorkspaceRepository workspaceRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
+    private final SlackClient slackClient;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
-                         CouponQueryRepository couponQueryRepository) {
+                         CouponQueryRepository couponQueryRepository,
+                         WorkspaceRepository workspaceRepository,
+                         MemberHistoryRepository memberHistoryRepository,
+                         SlackClient slackClient) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponQueryRepository = couponQueryRepository;
+        this.workspaceRepository = workspaceRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
+        this.slackClient = slackClient;
     }
 
     @Transactional(readOnly = true)
@@ -53,6 +68,11 @@ public class CouponService {
         List<Coupon> coupons = request.toEntities(findSender, findReceivers);
 
         List<Coupon> saveCoupons = couponRepository.saveAll(coupons);
+        for (Coupon savedCoupon : saveCoupons) {
+            MemberHistory memberHistory = saveMemberHistory(savedCoupon.getReceiver(),
+                savedCoupon.getSender(), savedCoupon, CouponEvent.INIT);
+            sendNotification(memberHistory);
+        }
         return saveCoupons.stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
@@ -70,5 +90,24 @@ public class CouponService {
         }
 
         return findMembers;
+    }
+
+    private MemberHistory saveMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
+                                            CouponEvent couponEvent) {
+        MemberHistory memberHistory = new MemberHistory(null, hostMember, targetMember,
+            coupon.getId(), coupon.getCouponType(), couponEvent, null);
+        return memberHistoryRepository.save(memberHistory);
+    }
+
+    private void sendNotification(MemberHistory memberHistory) {
+        Member hostMember = memberHistory.getHostMember();
+        Workspace workspace = hostMember.getWorkspace();
+        String accessToken = workspace.getAccessToken();
+        if (accessToken == null || memberHistory.shouldNotSendPushAlarm()) {
+            return;
+        }
+        String hostMemberId = hostMember.getUserId();
+        String message = memberHistory.toNoticeMessage();
+        slackClient.requestPushAlarm(accessToken, hostMemberId, message);
     }
 }
