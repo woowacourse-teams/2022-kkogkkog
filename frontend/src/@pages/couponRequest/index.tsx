@@ -6,6 +6,7 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import useInput from '@/@hooks/@common/useInput';
+import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
@@ -30,6 +31,8 @@ const CouponRequestPage = () => {
 
   const { requestCoupon } = useChangeCouponStatus(Number(couponId));
 
+  const { displayMessage } = useToast();
+
   if (!coupon) {
     return <NotFoundPage />;
   }
@@ -39,6 +42,12 @@ const CouponRequestPage = () => {
   const isSent = me?.id === sender.id;
 
   const onClickRequestButton = () => {
+    if (!meetingDate) {
+      displayMessage('날짜를 지정해주세요.', true);
+
+      return;
+    }
+
     if (window.confirm('쿠폰 사용을 요청하시겠어요?')) {
       requestCoupon(
         { meetingDate },
@@ -70,8 +79,8 @@ const CouponRequestPage = () => {
           </Styled.SummaryMessage>
         </Styled.Top>
         <Styled.Main>
-          <Styled.SectionTitle>쿠폰을 사용하시겠어요?</Styled.SectionTitle>
-          <Styled.Description>만남 날짜를 지정해보세요.</Styled.Description>
+          <Styled.SectionTitle>쿠폰을 사용하시겠어요? </Styled.SectionTitle>
+          <Styled.Description>만남 날짜를 지정해보세요. (필수)</Styled.Description>
           <Styled.DateInput
             type='date'
             value={meetingDate}
@@ -79,7 +88,7 @@ const CouponRequestPage = () => {
             onChange={onChangeMeetingDate}
             required
           />
-          <Styled.Description>메시지를 작성해보세요.</Styled.Description>
+          <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
           <Position position='relative'>
             <Styled.MessageTextarea
               placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
