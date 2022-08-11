@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private MasterMember masterMember;
 
     @Column(nullable = false, unique = true)
     private String userId;
@@ -44,9 +48,10 @@ public class Member {
     @Column(nullable = false)
     private String imageUrl;
 
-    public Member(Long id, String userId, Workspace workspace, String nickname, String email,
-                  String imageUrl) {
+    public Member(Long id, MasterMember masterMember, String userId, Workspace workspace,
+                  String nickname, String email, String imageUrl) {
         this.id = id;
+        this.masterMember = masterMember;
         this.userId = userId;
         this.workspace = workspace;
         this.nickname = nickname;
@@ -54,11 +59,17 @@ public class Member {
         this.imageUrl = imageUrl;
     }
 
-    public static Member ofRandomNickname(String userId, Workspace workspace, String email,
-                                          String imageUrl) {
+    // TODO: 테스트 깨지기 때문에 임시로 생성. Fixture 사용하여 기본 생성자로 대체하기
+    public Member(Long id, String userId, Workspace workspace, String nickname, String email,
+                  String imageUrl) {
+        this(id, null, userId, workspace, nickname, email, imageUrl);
+    }
+
+    public static Member ofRandomNickname(String userId, MasterMember masterMember,
+                                          Workspace workspace, String email, String imageUrl) {
         String randomNum = String.valueOf(RANDOM_GENERATOR.nextDouble());
-        String anonymousNickname = String.format("익명%s", randomNum.substring(2, 6));
-        return new Member(null, userId, workspace, anonymousNickname, email, imageUrl);
+        String nickname = String.format("익명%s", randomNum.substring(2, 6));
+        return new Member(null, masterMember, userId, workspace, nickname, email, imageUrl);
     }
 
     public void updateNickname(String nickname) {
