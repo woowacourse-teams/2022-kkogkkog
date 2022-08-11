@@ -1,6 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+export const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
 export const Top = styled.div`
   width: 100%;
   height: 200px;
@@ -25,10 +31,8 @@ export const SummaryMessage = styled.span`
   font-weight: 600;
 `;
 
-export const CouponSummary = styled.div``;
-
 export const Main = styled.main`
-  height: 100%;
+  height: calc(100% - 100px);
   padding: 30px 16px 40px;
   border-radius: 20px 20px 0 0;
   position: relative;
@@ -36,7 +40,7 @@ export const Main = styled.main`
   background-color: white;
 
   ${({ theme }) => css`
-    box-shadow: ${theme.shadow.type_7};
+    box-shadow: ${theme.shadow.top_1};
   `}
 `;
 
@@ -72,6 +76,7 @@ export const FinishButtonInner = styled.div`
 `;
 
 export const ExtendedButton = css`
+  height: 50px;
   border-radius: 0;
   flex: 1;
 `;
