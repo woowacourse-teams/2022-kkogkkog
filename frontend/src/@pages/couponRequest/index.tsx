@@ -34,7 +34,7 @@ const CouponRequestPage = () => {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType, couponStatus, couponHistories } = coupon;
+  const { sender, receiver, couponType } = coupon;
 
   const isSent = me?.id === sender.id;
 
@@ -90,19 +90,7 @@ const CouponRequestPage = () => {
               <span>{message.length} / 200</span>
             </Position>
           </Position>
-          <Position
-            position='fixed'
-            bottom='0'
-            right='0'
-            css={theme => css`
-              width: 100%;
-              display: flex;
-
-              & > button + button {
-                border-left: 1px solid ${theme.colors.grey_100};
-              }
-            `}
-          >
+          <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickRequestButton} css={Styled.ExtendedButton}>
               사용 요청
             </Button>

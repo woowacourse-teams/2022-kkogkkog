@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
@@ -89,4 +89,13 @@ export const ExtendedButton = css`
   height: 50px;
   border-radius: 0;
   flex: 1;
+`;
+
+export const ExtendedPosition = (theme: Theme) => css`
+  width: 100%;
+  display: flex;
+
+  & > button + button {
+    border-left: 1px solid ${theme.colors.grey_100};
+  }
 `;
