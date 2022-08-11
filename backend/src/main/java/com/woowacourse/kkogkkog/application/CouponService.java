@@ -19,7 +19,6 @@ import com.woowacourse.kkogkkog.exception.coupon.CouponNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -144,10 +143,11 @@ public class CouponService {
         Member hostMember = memberHistory.getHostMember();
         Workspace workspace = hostMember.getWorkspace();
         String accessToken = workspace.getAccessToken();
-        if (accessToken != null) {
-            String hostMemberId = hostMember.getUserId();
-            String message = memberHistory.toNoticeMessage();
-            slackClient.requestPushAlarm(accessToken, hostMemberId, message);
+        if (accessToken == null || memberHistory.shouldNotSendPushAlarm()) {
+            return;
         }
+        String hostMemberId = hostMember.getUserId();
+        String message = memberHistory.toNoticeMessage();
+        slackClient.requestPushAlarm(accessToken, hostMemberId, message);
     }
 }
