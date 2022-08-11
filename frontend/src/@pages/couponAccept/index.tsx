@@ -38,11 +38,13 @@ const CouponAcceptPage = () => {
   const isSent = me?.id === sender.id;
 
   const onClickAcceptButton = () => {
-    acceptCoupon({
-      onSuccessCallback() {
-        navigate(PATH.LANDING);
-      },
-    });
+    if (window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {
+      acceptCoupon({
+        onSuccessCallback() {
+          navigate(PATH.LANDING);
+        },
+      });
+    }
   };
 
   return (
@@ -65,7 +67,7 @@ const CouponAcceptPage = () => {
         </Styled.Top>
         <Styled.Main>
           <Styled.SectionTitle>
-            {generateDateText(meetingDate)} 으로 약속을 확정하시겠어요?
+            {generateDateText(meetingDate)}로 약속을 확정하시겠어요?
           </Styled.SectionTitle>
           <Styled.Description>메시지를 작성해주세요.</Styled.Description>
           <Position position='relative'>

@@ -39,14 +39,16 @@ const CouponRequestPage = () => {
   const isSent = me?.id === sender.id;
 
   const onClickRequestButton = () => {
-    requestCoupon(
-      { meetingDate },
-      {
-        onSuccessCallback() {
-          navigate(PATH.LANDING);
-        },
-      }
-    );
+    if (window.confirm('쿠폰 사용을 요청하시겠어요?')) {
+      requestCoupon(
+        { meetingDate },
+        {
+          onSuccessCallback() {
+            navigate(PATH.LANDING);
+          },
+        }
+      );
+    }
   };
 
   return (
