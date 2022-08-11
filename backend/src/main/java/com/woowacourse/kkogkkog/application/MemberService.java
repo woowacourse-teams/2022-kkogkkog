@@ -16,6 +16,7 @@ import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,27 +33,22 @@ public class MemberService {
         this.memberHistoryRepository = memberHistoryRepository;
     }
 
-    public MemberCreateResponse saveOrFind(SlackUserInfo userInfo, Workspace workspace) {
+    public MemberCreateResponse saveOrUpdate(SlackUserInfo userInfo, Workspace workspace) {
         String userId = userInfo.getUserId();
         String nickname = userInfo.getName();
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
 
-        return memberRepository.findByUserId(userId)
-            .map(member -> updateToMatchSlack(member, email, imageUrl))
-            .orElseGet(() ->
-                save(new Member(null, userId, workspace, nickname, email, imageUrl)));
-    }
-
-    private MemberCreateResponse updateToMatchSlack(Member member, String email, String imageUrl) {
-        member.updateEmail(email);
-        member.updateImageURL(imageUrl);
-        return new MemberCreateResponse(member.getId(), false);
-    }
-
-    private MemberCreateResponse save(Member member) {
-        memberRepository.save(member);
-        return new MemberCreateResponse(member.getId(), true);
+        Optional<Member> member = memberRepository.findByUserId(userId);
+        if (member.isPresent()) {
+            Member existingMember = member.get();
+            existingMember.updateEmail(email);
+            existingMember.updateImageURL(imageUrl);
+            return new MemberCreateResponse(existingMember.getId(), false);
+        }
+        Member newMember = memberRepository.save(
+            new Member(null, userId, workspace, nickname, email, imageUrl));
+        return new MemberCreateResponse(newMember.getId(), true);
     }
 
     @Transactional(readOnly = true)
