@@ -65,6 +65,7 @@ export const FinishButtonInner = styled.div`
   width: 100%;
   text-align: right;
   font-size: 12px;
+  margin-top: 16px;
 
   ${({ theme }) => css`
     color: ${theme.colors.grey_200};
