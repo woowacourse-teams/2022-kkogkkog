@@ -4,10 +4,15 @@ import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -119,6 +124,25 @@ class CouponEventTest {
 
             assertThatThrownBy(() -> FINISH.checkExecutable(isSender, isReceiver))
                 .isInstanceOf(ForbiddenException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("generateNoticeMessage 메서드는")
+    class GenerateNoticeMessage {
+
+        @Test
+        @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
+        void formatString() {
+            Member member = new Member(null, "UJeong", new Workspace(null, "workspaceId", "name", "accessToken"),
+                "정", "jeong@gmail.com", "image");
+            CouponEvent couponEvent = CouponEvent.INIT;
+            CouponType meal = CouponType.MEAL;
+
+            String actual = couponEvent.generateNoticeMessage(member, meal);
+            String expected = "정님이 식사 쿠폰을 보냈어요.";
+
+            assertThat(actual).isEqualTo(expected);
         }
     }
 }
