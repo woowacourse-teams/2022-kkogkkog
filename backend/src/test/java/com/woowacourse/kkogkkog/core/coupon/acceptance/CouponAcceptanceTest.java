@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @SuppressWarnings("NonAsciiCharacters")
+public
 class CouponAcceptanceTest extends AcceptanceTest {
 
     @Test
