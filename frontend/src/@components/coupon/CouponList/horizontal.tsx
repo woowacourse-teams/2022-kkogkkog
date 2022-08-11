@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { SmallCouponItemProps } from '@/@components/coupon/CouponItem/small';
 import { CouponResponse } from '@/types/remote/response';
@@ -9,11 +8,11 @@ import * as Styled from './horizontal.style';
 interface HorizontalCouponListProps {
   couponList?: CouponResponse[];
   CouponItem: React.FunctionComponent<SmallCouponItemProps>;
+  onClickCouponItem?: (coupon: CouponResponse) => void;
 }
 
 const HorizontalCouponList = (props: HorizontalCouponListProps) => {
-  const { couponList, CouponItem } = props;
-  const navigate = useNavigate();
+  const { couponList, CouponItem, onClickCouponItem } = props;
 
   if (couponList?.length === 0) {
     return (
@@ -26,13 +25,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
   return (
     <Styled.SlideRoot>
       {couponList?.map(coupon => (
-        <CouponItem
-          key={coupon.id}
-          onClick={() => {
-            navigate(`/coupon-list/${coupon.id}`);
-          }}
-          {...coupon}
-        />
+        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.SlideRoot>
   );
