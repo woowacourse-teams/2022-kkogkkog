@@ -7,9 +7,11 @@ import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.domain.MasterMember;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MasterMemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
@@ -25,11 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MasterMemberRepository masterMemberRepository;
     private final MemberHistoryRepository memberHistoryRepository;
 
     public MemberService(MemberRepository memberRepository,
+                         MasterMemberRepository masterMemberRepository,
                          MemberHistoryRepository memberHistoryRepository) {
         this.memberRepository = memberRepository;
+        this.masterMemberRepository = masterMemberRepository;
         this.memberHistoryRepository = memberHistoryRepository;
     }
 
@@ -46,8 +51,9 @@ public class MemberService {
             existingMember.updateImageURL(imageUrl);
             return new MemberCreateResponse(existingMember.getId(), false);
         }
+        MasterMember masterMember = masterMemberRepository.save(new MasterMember(null, nickname));
         Member newMember = memberRepository.save(
-            Member.ofRandomNickname(userId, workspace, email, imageUrl));
+            Member.ofRandomNickname(userId, masterMember, workspace, email, imageUrl));
         return new MemberCreateResponse(newMember.getId(), true);
     }
 
