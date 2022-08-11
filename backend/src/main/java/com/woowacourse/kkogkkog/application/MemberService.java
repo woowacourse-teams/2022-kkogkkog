@@ -47,7 +47,7 @@ public class MemberService {
             return new MemberCreateResponse(existingMember.getId(), false);
         }
         Member newMember = memberRepository.save(
-            new Member(null, userId, workspace, nickname, email, imageUrl));
+            Member.ofRandomNickname(userId, workspace, email, imageUrl));
         return new MemberCreateResponse(newMember.getId(), true);
     }
 
