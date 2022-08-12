@@ -31,6 +31,7 @@ export interface LoginResponse {
 export interface OAuthLoginResponse {
   accessToken: string;
   isCreated: boolean;
+  isNew: boolean;
 }
 
 export interface CouponResponse {
