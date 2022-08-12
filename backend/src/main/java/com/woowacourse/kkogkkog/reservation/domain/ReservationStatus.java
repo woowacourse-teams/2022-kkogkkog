@@ -17,6 +17,9 @@ public enum ReservationStatus {
         if (event == CouponEvent.DECLINE) {
             return handleDecline();
         }
+        if (event == CouponEvent.ACCEPT) {
+            return handleAccept();
+        }
         if (event == CouponEvent.FINISH) {
             return handleFinish();
         }
@@ -32,9 +35,16 @@ public enum ReservationStatus {
 
     private ReservationStatus handleDecline() {
         if (this != PROGRESS) {
-            throw new InvalidRequestException("취소를 할 수 없는 상태의 예약입니다.");
+            throw new InvalidRequestException("거절을 할 수 없는 상태의 예약입니다.");
         }
         return CANCEL;
+    }
+
+    private ReservationStatus handleAccept() {
+        if (this != PROGRESS) {
+            throw new InvalidRequestException("승인을 할 수 없는 상태의 예약입니다.");
+        }
+        return PROGRESS;
     }
 
     private ReservationStatus handleFinish() {

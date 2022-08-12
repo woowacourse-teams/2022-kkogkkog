@@ -38,12 +38,13 @@ class ReservationStatusTest {
         }
 
         @Test
-        @DisplayName("ACCEPT 이벤트를 받으면, 예외를 발생시킨다.")
+        @DisplayName("ACCEPT 이벤트를 받으면, PROGRESS을 반환한다.")
         void fail_approve() {
             ReservationStatus status = ReservationStatus.PROGRESS;
 
-            assertThatThrownBy(() -> status.handle(CouponEvent.ACCEPT))
-                .isInstanceOf(InvalidRequestException.class);
+            ReservationStatus actual = status.handle(CouponEvent.ACCEPT);
+
+            assertThat(actual).isEqualTo(ReservationStatus.PROGRESS);
         }
 
         @Test
