@@ -55,19 +55,16 @@ class CouponQueryRepositoryTest {
             reservation = reservationRepository.save(RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
         }
 
-        @DisplayName("받은 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
+        @DisplayName("받 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
         @Test
         void findAllBySender() {
             // given
-            coupon1.changeStatus(CouponEvent.REQUEST, receiver);
-            couponRepository.flush();
-            reservation.changeCouponStatus(CouponEvent.CANCEL, receiver);
+            reservation.changeCouponStatus(CouponEvent.REQUEST, receiver);
             reservation.changeStatus(CouponEvent.CANCEL);
+            couponRepository.flush();
             reservationRepository.flush();
-
             // when
-            Reservation save = reservationRepository.save(
-                RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
+            reservationRepository.save(RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
 
             // then
             List<CouponReservationData> actual = couponQueryRepository.findAllBySender(sender);
