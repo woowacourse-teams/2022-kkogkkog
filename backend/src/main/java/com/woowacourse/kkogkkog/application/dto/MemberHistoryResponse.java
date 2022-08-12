@@ -18,10 +18,10 @@ public class MemberHistoryResponse {
     private Long couponId;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime meetingDate;
     private Boolean isRead;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
     public MemberHistoryResponse(Long id,

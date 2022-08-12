@@ -1,16 +1,17 @@
 package com.woowacourse.kkogkkog.core.coupon.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
+import com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
@@ -19,6 +20,8 @@ import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 @ApplicationTest
 @DisplayName("CouponService의")
@@ -54,10 +56,17 @@ class CouponServiceTest {
         // 이부분에서 Message 로직이 강하게 엮어 있어 Fixture 사용 불가. slack Message는 분리가 필요
         @BeforeEach
         void setUp() {
-            workspace = workspaceRepository.save(new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
-            sender = memberRepository.save(new Member(null, "sender", workspace, "sender", "rookie@gmail.com", "https://slack"));
-            receiver1 = memberRepository.save(new Member(null,"receiver1", workspace, "receiver", "rookie@gmail.com", "https://slack"));
-            receiver2 = memberRepository.save(new Member(null,"receiver2", workspace, "receiver", "rookie@gmail.com", "https://slack"));
+            workspace = workspaceRepository.save(
+                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            sender = memberRepository.save(
+                new Member(null, "sender", workspace, "sender", "rookie@gmail.com",
+                    "https://slack"));
+            receiver1 = memberRepository.save(
+                new Member(null, "receiver1", workspace, "receiver", "rookie@gmail.com",
+                    "https://slack"));
+            receiver2 = memberRepository.save(
+                new Member(null, "receiver2", workspace, "receiver", "rookie@gmail.com",
+                    "https://slack"));
         }
 
         @Test
@@ -120,7 +129,8 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID를 통해, 해당 ID로 받은 쿠폰 리스트를 반환한다.")
         void success() {
-            List<CouponReservationResponse> actual = couponService.findAllByReceiver(receiver.getId());
+            List<CouponReservationResponse> actual = couponService.findAllByReceiver(
+                receiver.getId());
 
             List<Long> actualIds = actual.stream()
                 .map(it -> it.getMemberId())
@@ -128,6 +138,47 @@ class CouponServiceTest {
             assertAll(
                 () -> assertThat(actual).hasSize(2),
                 () -> assertThat(actualIds).containsOnly(receiver.getId())
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("find 메서드는")
+    class Find {
+
+        private Workspace workspace;
+        private Member sender;
+        private Member receiver;
+        private ReservationSaveRequest reservationSaveRequest;
+
+        @BeforeEach
+        void setUp() {
+            workspace = workspaceRepository.save(
+                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            sender = memberRepository.save(
+                new Member(null, "sender", workspace, "sender", "rookie@gmail.com",
+                    "https://slack"));
+            receiver = memberRepository.save(
+                new Member(null, "receiver1", workspace, "receiver", "rookie@gmail.com",
+                    "https://slack"));
+        }
+
+        @Test
+        @DisplayName("쿠폰 아이디를 받으면, 쿠폰 상세 정보를 반환한다.")
+        void success() {
+            List<CouponResponse> response = couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
+            Long couponId = response.get(0).getId();
+
+            CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+            String couponStatus = couponDetailResponse.getCouponStatus();
+            LocalDateTime meetingDate = couponDetailResponse.getMeetingDate();
+            List<CouponHistoryResponse> couponHistories = couponDetailResponse.getCouponHistories();
+
+            assertAll(
+                () -> assertThat(couponStatus).isEqualTo("READY"),
+                () -> assertThat(meetingDate).isNull(),
+                () -> assertThat(couponHistories.size()).isEqualTo(1)
             );
         }
     }
