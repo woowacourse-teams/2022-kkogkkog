@@ -63,11 +63,27 @@ export const Description = styled.div`
 
 export const DateInput = styled.input`
   width: 100%;
+  background-color: transparent;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
 
+  text-align: left;
+
   position: relative;
+
+  &[type='date']::before {
+    content: attr(data-placeholder);
+    width: 100%;
+    ${({ theme }) => css`
+      color: ${theme.colors.grey_100};
+    `}
+  }
+
+  &[type='date']:focus::before,
+  &[type='date']:valid::before {
+    display: none;
+  }
 
   &[type='date']::-webkit-calendar-picker-indicator {
     width: auto;

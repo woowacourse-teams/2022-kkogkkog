@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -85,6 +84,7 @@ const CouponRequestPage = () => {
             type='date'
             value={meetingDate}
             min={getToday()}
+            data-placeholder='날짜 선택'
             onChange={onChangeMeetingDate}
             required
           />
