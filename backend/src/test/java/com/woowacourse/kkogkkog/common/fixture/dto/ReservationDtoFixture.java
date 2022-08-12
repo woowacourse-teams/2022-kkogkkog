@@ -17,12 +17,12 @@ public class ReservationDtoFixture {
     }
 
     public static ReservationChangeRequest 예약_변경_요청(String event) {
-        return new ReservationChangeRequest(event);
+        return new ReservationChangeRequest(event, "예약 상태를 변경할 때 보내는 메시지");
     }
 
     public static ReservationUpdateRequest 예약_수정_요청(Long memberId,
                                                     Long reservationId,
                                                     String event) {
-        return new ReservationUpdateRequest(memberId, reservationId, event);
+        return new ReservationUpdateRequest(memberId, reservationId, event, "예약수정할 때 보내는 메시지");
     }
 }

@@ -30,7 +30,7 @@ class MemberHistoryTest {
             Coupon coupon = COFFEE.getCoupon(jeong, leo);
 
             MemberHistory memberHistory = new MemberHistory(null, leo, jeong, coupon.getId(),
-                coupon.getCouponType(), CouponEvent.INIT, null);
+                coupon.getCouponType(), CouponEvent.INIT, null, "메세지");
 
             String actual = memberHistory.toNoticeMessage();
             String expected = jeong.getNickname() + "님이 " + coffee.getDisplayName() + " 쿠폰을 보냈어요.";
@@ -48,8 +48,7 @@ class MemberHistoryTest {
         Member sender = new Member(1L, "userId", workspace, "sender", "email", "imageUrl");
         Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
         MemberHistory memberHistory = new MemberHistory(
-            1L, sender, receiver, 1L,
-            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDateTime.now());
+            1L, sender, receiver, 1L, CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDateTime.now(), "메시지");
 
         // when
         memberHistory.updateIsRead();

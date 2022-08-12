@@ -10,13 +10,15 @@ import lombok.NoArgsConstructor;
 public class ReservationChangeRequest {
 
     private String event;
+    private String message;
 
-    public ReservationChangeRequest(String event) {
+    public ReservationChangeRequest(String event, String message) {
         this.event = event;
+        this.message = message;
     }
 
     public ReservationUpdateRequest toReservationUpdateRequest(Long reservationId,
                                                                Long loginMemberId) {
-        return new ReservationUpdateRequest(loginMemberId, reservationId, event);
+        return new ReservationUpdateRequest(loginMemberId, reservationId, event, message);
     }
 }

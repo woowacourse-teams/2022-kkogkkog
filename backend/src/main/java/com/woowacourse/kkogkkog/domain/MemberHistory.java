@@ -43,12 +43,13 @@ public class MemberHistory extends BaseEntity {
 
     private LocalDateTime meetingDate;
 
+    private String message;
+
     private Boolean isRead = false;
 
-    public MemberHistory(Long id, Member hostMember,
-                         Member targetMember, Long couponId,
-                         CouponType couponType, CouponEvent couponEvent,
-                         LocalDateTime meetingDate) {
+    public MemberHistory(Long id, Member hostMember, Member targetMember, Long couponId,
+                         CouponType couponType, CouponEvent couponEvent, LocalDateTime meetingDate,
+                         String message) {
         this.id = id;
         this.hostMember = hostMember;
         this.targetMember = targetMember;
@@ -56,6 +57,7 @@ public class MemberHistory extends BaseEntity {
         this.couponType = couponType;
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
+        this.message = message;
     }
 
     public void updateIsRead() {
