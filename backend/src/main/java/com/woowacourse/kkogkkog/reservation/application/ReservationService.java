@@ -55,9 +55,10 @@ public class ReservationService {
 
     public void update(ReservationUpdateRequest request) {
         Reservation reservation = findReservation(request.getReservationId());
-        Coupon coupon = reservation.getCoupon();
 
-        coupon.changeStatus(CouponEvent.of(request.getEvent()), findMember(request.getMemberId()));
+        reservation.changeCouponStatus(
+            CouponEvent.of(request.getEvent()), findMember(request.getMemberId()));
+        reservation.changeStatus(CouponEvent.of(request.getEvent()));
     }
 
     private Reservation findReservation(Long reservationId) {
