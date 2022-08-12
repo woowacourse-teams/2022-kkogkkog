@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.application;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +16,7 @@ import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
@@ -31,10 +34,11 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("MemberService 클래스의")
 class MemberServiceTest extends ServiceTest {
 
-    private static final Workspace WORKSPACE = WorkspaceFixture.KKOGKKOG.getWorkspace(1L);
-
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private WorkspaceRepository workspaceRepository;
@@ -42,11 +46,14 @@ class MemberServiceTest extends ServiceTest {
     @Autowired
     private CouponService couponService;
 
+    private Workspace workspace;
+
     @BeforeEach
     void setup() {
-        workspaceRepository.save(WORKSPACE);
+        workspace = workspaceRepository.save(WorkspaceFixture.KKOGKKOG.getWorkspace());
     }
 
+    // TODO: saveOrUpdate에 대한 테스트로 제대로 수정하거나 saveOrUpdate 메서드 자체를 수정
     @Nested
     @DisplayName("save 메서드는")
     class Save {
@@ -57,7 +64,7 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
             MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
-                WORKSPACE);
+                workspace);
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
@@ -71,9 +78,9 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
 
-            memberService.saveOrUpdate(slackUserInfo, WORKSPACE);
+            memberService.saveOrUpdate(slackUserInfo, workspace);
             MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
-                WORKSPACE);
+                workspace);
 
             assertAll(
                 () -> assertThat(memberCreateResponse.getId()).isNotNull(),
@@ -89,15 +96,11 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("저장된 회원의 Id를 받으면, 해당 회원의 정보를 반환한다.")
         void success() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrUpdate(slackUserInfo, WORKSPACE).getId();
+            Member member = memberRepository.save(ROOKIE.getMember());
+            MyProfileResponse memberResponse = memberService.findById(member.getId());
 
-            MyProfileResponse memberResponse = memberService.findById(memberId);
-
-            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id", "nickname")
-                .isEqualTo(new MyProfileResponse(null, "URookie", WORKSPACE.getWorkspaceId(),
-                    WORKSPACE.getName(), "익명1234", "rookie@gmail.com", "image", 0L));
+            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id")
+                .isEqualTo(MyProfileResponse.of(member, 0L));
         }
 
         @Test
@@ -117,12 +120,8 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("회원가입된 모든 회원들의 정보를 반환한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
-                "arthur@gmail.com", "image");
-            memberService.saveOrUpdate(rookieUserInfo, WORKSPACE);
-            memberService.saveOrUpdate(arthurUserInfo, WORKSPACE);
+            memberRepository.save(ROOKIE.getMember(workspace));
+            memberRepository.save(AUTHOR.getMember(workspace));
 
             List<MemberResponse> membersResponse = memberService.findAll();
 
@@ -135,23 +134,15 @@ class MemberServiceTest extends ServiceTest {
     class FindHistoryById {
 
         @Test
-        @DisplayName("로그인된 사용자의 history를 반환한다.")
+        @DisplayName("사용자의 history를 반환한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
-                "arthur@gmail.com", "image");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrUpdate(rookieUserInfo,
-                WORKSPACE);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
-                WORKSPACE);
+            Member rookie = memberRepository.save(ROOKIE.getMember(workspace));
+            Member arthur = memberRepository.save(AUTHOR.getMember(workspace));
+            couponService.save(COFFEE_쿠폰_저장_요청(rookie.getId(), List.of(arthur.getId())));
 
-            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(),
-                List.of(arthurCreateResponse.getId())));
+            List<MemberHistoryResponse> actual = memberService.findHistoryById(arthur.getId());
 
-            List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
-                arthurCreateResponse.getId());
-            assertThat(historiesResponse).hasSize(1);
+            assertThat(actual).hasSize(1);
         }
     }
 
@@ -162,16 +153,10 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("요청받을 경우 true 로 변경된다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            SlackUserInfo arthurUserInfo = new SlackUserInfo("UArthur", null, null, "아서",
-                "arthur@gmail.com", "image");
-            MemberCreateResponse rookieCreateResponse = memberService.saveOrUpdate(rookieUserInfo,
-                WORKSPACE);
-            MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
-                WORKSPACE);
-            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(),
-                List.of(arthurCreateResponse.getId())));
+            Member rookie = memberRepository.save(ROOKIE.getMember(workspace));
+            Member arthur = memberRepository.save(AUTHOR.getMember(workspace));
+
+            couponService.save(COFFEE_쿠폰_저장_요청(rookie.getId(), List.of(arthur.getId())));
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
         }
@@ -184,11 +169,9 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("사용자의 닉네임을 수정한다.")
         void success() {
-            SlackUserInfo rookieUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            Long memberId = memberService.saveOrUpdate(rookieUserInfo, WORKSPACE).getId();
-
+            Long memberId = memberRepository.save(ROOKIE.getMember(workspace)).getId();
             String expected = "새로운닉네임";
+
             memberService.update(new MemberUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 
