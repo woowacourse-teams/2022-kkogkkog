@@ -53,8 +53,10 @@ export interface CouponDetailResponse {
   id: number;
   senderId: number;
   senderNickname: string;
+  senderImageUrl: string;
   receiverId: number;
   receiverNickname: string;
+  receiverImageUrl: string;
   imageUrl: string;
   hashtag: COUPON_HASHTAGS;
   meetingDate?: string;

@@ -39,7 +39,14 @@ const CouponRequestPage = () => {
     return <NotFoundPage />;
   }
 
-  const { senderId, senderNickname, receiverNickname, imageUrl, couponType } = coupon;
+  const {
+    senderId,
+    senderNickname,
+    senderImageUrl,
+    receiverNickname,
+    receiverImageUrl,
+    couponType,
+  } = coupon;
 
   const isSent = me?.id === senderId;
 
@@ -74,7 +81,7 @@ const CouponRequestPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={imageUrl} alt='' />
+          <Styled.ProfileImage src={isSent ? receiverImageUrl : senderImageUrl} alt='' />
           <Styled.SummaryMessage>
             <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
             &nbsp;
