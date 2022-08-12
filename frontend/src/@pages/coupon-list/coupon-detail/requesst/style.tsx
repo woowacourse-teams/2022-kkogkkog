@@ -67,6 +67,24 @@ export const DateInput = styled.input`
   padding: 10px;
   margin-bottom: 20px;
 
+  position: relative;
+
+  &[type='date']::-webkit-calendar-picker-indicator {
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    background: transparent;
+    color: transparent;
+
+    cursor: pointer;
+  }
+
   ${({ theme }) => css`
     border: 1px solid ${theme.colors.grey_100};
   `}
