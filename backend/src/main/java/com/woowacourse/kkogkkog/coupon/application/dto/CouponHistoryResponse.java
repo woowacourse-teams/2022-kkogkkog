@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -19,14 +21,14 @@ public class CouponHistoryResponse {
     private String message;
     private LocalDateTime createdTime;
 
-    public CouponHistoryResponse(Long id, String nickname, String imageUrl, String couponType,
-                                 String couponEvent, LocalDateTime meetingDate, String message,
+    public CouponHistoryResponse(Long id, String nickname, String imageUrl, CouponType couponType,
+                                 CouponEvent couponEvent, LocalDateTime meetingDate, String message,
                                  LocalDateTime createdTime) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
-        this.couponType = couponType;
-        this.couponEvent = couponEvent;
+        this.couponType = couponType.name();
+        this.couponEvent = couponEvent.name();
         this.meetingDate = meetingDate;
         this.message = message;
         this.createdTime = createdTime;
@@ -37,8 +39,8 @@ public class CouponHistoryResponse {
             memberHistory.getId(),
             memberHistory.getHostMember().getNickname(),
             memberHistory.getHostMember().getImageUrl(),
-            memberHistory.getCouponType().name(),
-            memberHistory.getCouponEvent().name(),
+            memberHistory.getCouponType(),
+            memberHistory.getCouponEvent(),
             memberHistory.getMeetingDate(),
             memberHistory.getMessage(),
             memberHistory.getCreatedAt()

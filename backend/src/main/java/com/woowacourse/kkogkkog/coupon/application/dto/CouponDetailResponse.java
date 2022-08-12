@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import java.time.LocalDateTime;
@@ -27,7 +29,7 @@ public class CouponDetailResponse {
 
     public CouponDetailResponse(Long id, Long senderId, String senderNickname, Long receiverId,
                                 String receiverNickname, String hashtag, String description,
-                                String couponType, String couponStatus, LocalDateTime meetingDate,
+                                CouponType couponType, CouponStatus couponStatus, LocalDateTime meetingDate,
                                 List<CouponHistoryResponse> couponHistories) {
         this.id = id;
         this.senderId = senderId;
@@ -36,8 +38,8 @@ public class CouponDetailResponse {
         this.receiverNickname = receiverNickname;
         this.hashtag = hashtag;
         this.description = description;
-        this.couponType = couponType;
-        this.couponStatus = couponStatus;
+        this.couponType = couponType.name();
+        this.couponStatus = couponStatus.name();
         this.meetingDate = meetingDate;
         this.couponHistories = couponHistories;
     }
@@ -56,8 +58,8 @@ public class CouponDetailResponse {
             couponDetail.getReceiverNickname(),
             couponDetail.getHashtag(),
             couponDetail.getDescription(),
-            couponDetail.getCouponType().name(),
-            couponDetail.getCouponStatus().name(),
+            couponDetail.getCouponType(),
+            couponDetail.getCouponStatus(),
             couponDetail.getMeetingDate(),
             couponHistoryResponses
         );
