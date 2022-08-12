@@ -13,12 +13,13 @@ export const Container = styled.div`
   max-width: 414px;
   min-width: 320px;
 
+  padding-bottom: 20px;
+
   margin: 0 auto;
 
   position: relative;
 
   ${({ theme }) => css`
-    /* box-shadow: ${theme.shadow.type_4}; */
     background-color: ${theme.colors.background_0};
   `}
 `;

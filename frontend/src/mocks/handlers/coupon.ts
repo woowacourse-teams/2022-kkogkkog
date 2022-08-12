@@ -25,13 +25,13 @@ export const couponHandler = [
     }
   }),
 
-  rest.get(`${BASE_URL}/coupons/:id`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/coupons/:couponId`, (req, res, ctx) => {
     const {
-      params: { id },
+      params: { couponId },
     } = req;
 
     try {
-      const coupon = coupons.findCoupon(id);
+      const coupon = coupons.findCoupon(couponId);
 
       return res(ctx.status(200), ctx.json(coupon));
     } catch ({ message }) {
@@ -104,4 +104,30 @@ export const couponHandler = [
 
     return res(ctx.status(200), ctx.json({ data: newCouponList }));
   }),
+
+  rest.post<ChangeCouponStatusRequest>(
+    `${BASE_URL}/coupons/:couponId/event/request`,
+    (req, res, ctx) => {
+      const {
+        body: { couponEvent, meetingDate },
+        params: { couponId },
+      } = req;
+
+      const newCouponList = coupons.current.map(coupon => {
+        if (coupon.id === Number(couponId)) {
+          return {
+            ...coupon,
+            couponStatus: coupons.getStatusAfterEvent(couponEvent),
+            meetingDate,
+          };
+        }
+
+        return coupon;
+      });
+
+      coupons.current = newCouponList;
+
+      return res(ctx.status(200), ctx.json({ data: newCouponList }));
+    }
+  ),
 ];

@@ -14,11 +14,6 @@ import { getToday } from '@/utils';
 import BigCouponItem from '../CouponItem/big';
 import * as Styled from './style';
 
-interface CouponItemProps {
-  coupon: CouponResponse;
-  closeModal: () => void;
-}
-
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
 
 const receivedCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: buttonType[] }> = {
@@ -58,6 +53,11 @@ const sentCouponModalMapper: Record<COUPON_STATUS, { title: string; buttons: but
     buttons: [],
   },
 };
+
+interface CouponItemProps {
+  coupon: CouponResponse;
+  closeModal: () => void;
+}
 
 const CouponModal = (props: CouponItemProps) => {
   const { coupon, closeModal } = props;

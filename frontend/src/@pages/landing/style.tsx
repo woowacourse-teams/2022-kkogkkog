@@ -66,6 +66,23 @@ export const ListTitle = styled.div`
   }
 `;
 
+export const FullListContainer = styled.div`
+  padding: 32px 16px 16px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+`;
+
+export const FullListTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > span {
+    font-weight: 600;
+  }
+`;
+
 export const ExtraBold = styled.span`
   font-weight: 800;
 `;
@@ -95,6 +112,5 @@ export const ExtendedButton = css`
   gap: 15px;
 
   font-size: 16px;
-  margin-top: 30px;
   padding: 13px 45px 13px 20px;
 `;

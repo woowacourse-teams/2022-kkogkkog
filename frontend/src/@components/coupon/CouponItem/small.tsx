@@ -8,10 +8,10 @@ import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './small.style';
 
-export type SmallCouponItemProps = CouponResponse & {
+export interface SmallCouponItemProps extends CouponResponse {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
-};
+}
 
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
@@ -31,14 +31,14 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 
-      {sender.id === me?.id ? (
+      {isSent ? (
         <Styled.TextContainer>
           <Styled.Preposition>To. </Styled.Preposition>
           {receiver.nickname}
         </Styled.TextContainer>
       ) : (
         <Styled.TextContainer>
-          <Styled.Preposition>From. </Styled.Preposition>
+          <Styled.Preposition>From.</Styled.Preposition>
           {sender.nickname}
         </Styled.TextContainer>
       )}

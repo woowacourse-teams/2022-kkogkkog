@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
@@ -9,10 +9,8 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
-import CouponModal from '@/@components/coupon/CouponModal';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
-import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
@@ -23,6 +21,8 @@ const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속
 export type FilterOption = typeof filterOption[number];
 
 const CouponListPage = () => {
+  const navigate = useNavigate();
+
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_COUPON_LIST ? 'sent' : 'received';
 
@@ -30,14 +30,13 @@ const CouponListPage = () => {
 
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
-  const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
-
   const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
   };
 
+  // 확장성을 고려해 coupon 자체를 받아옴.
   const onClickCouponItem = (coupon: CouponResponse) => {
-    openCouponModal(coupon);
+    navigate(`/coupon-list/${coupon.id}`);
   };
 
   const currentParsedCouponList =
@@ -122,7 +121,6 @@ const CouponListPage = () => {
           </>
         )}
 
-        {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
         <Styled.LinkInner>
           <Link to={PATH.COUPON_CREATE}>
             <Icon iconName='plus' size='37' color={theme.colors.primary_400} />

@@ -1,19 +1,35 @@
+import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { changeCouponStatus, createCoupon, getCouponList, requestCoupon } from '@/apis/coupon';
+import { useToast } from '@/@hooks/@common/useToast';
+import {
+  changeCouponStatus,
+  createCoupon,
+  getCoupon,
+  getCouponList,
+  requestCoupon,
+} from '@/apis/coupon';
 import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
 const QUERY_KEY = {
   couponList: 'couponList',
+  coupon: 'coupon',
 };
 
 /** Query */
 
 export const useFetchCouponList = () => {
+  const { displayMessage } = useToast();
+
   const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 
   const couponList = data?.data?.data;
@@ -56,10 +72,34 @@ export const useFetchCouponList = () => {
     [couponList]
   );
 
+  const acceptedCouponList = useMemo(() => {
+    const combinedCouponList = [...(couponList?.received ?? []), ...(couponList?.sent ?? [])];
+
+    return combinedCouponList.reduce<Record<string, CouponResponse[]>>((prev, coupon) => {
+      const { couponStatus, meetingDate } = coupon;
+
+      if (couponStatus === 'ACCEPTED' && meetingDate) {
+        return { ...prev, [meetingDate]: [...(prev[meetingDate] ?? []), coupon] };
+      }
+
+      return prev;
+    }, {});
+  }, [couponList]);
+
   return {
     couponList,
     parsedSentCouponList,
     parsedReceivedCouponList,
+    acceptedCouponList,
+    ...rest,
+  };
+};
+
+export const useFetchCoupon = (id: number) => {
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+
+  return {
+    coupon: data?.data,
     ...rest,
   };
 };
@@ -73,21 +113,15 @@ export const useCreateCouponMutation = () => {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
-    onError() {
-      alert('입력창을 확인하고 다시 시도해주세요.');
-    },
   });
 };
 
-export const useChangeCouponStatusMutation = () => {
+export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
 
   return useMutation(changeCouponStatus, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
+      queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
   });
 };
@@ -98,9 +132,6 @@ export const useRequestCouponMutation = () => {
   return useMutation(requestCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
     },
   });
 };

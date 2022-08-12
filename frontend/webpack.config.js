@@ -5,8 +5,6 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
 module.exports = (env, args) => {
   const isDevelopment = args.mode === 'development';
 
