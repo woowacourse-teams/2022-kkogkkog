@@ -4,6 +4,7 @@ import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePatchWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
+import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_및_닉네임을_수정하고;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
@@ -31,12 +32,12 @@ import org.springframework.http.HttpStatus;
 public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 회원_가입된_전체_사용자_조회를_할_수_있다() {
+    void 회원가입된_전체_사용자_조회를_할_수_있다() {
         Workspace workspace = KKOGKKOG.getWorkspace(1L);
         Member rookie = ROOKIE.getMember(1L, workspace);
         Member author = AUTHOR.getMember(2L, workspace);
-        회원가입을_하고(rookie);
-        회원가입을_하고(author);
+        회원가입_및_닉네임을_수정하고(rookie);
+        회원가입_및_닉네임을_수정하고(author);
 
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
@@ -47,15 +48,14 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(membersResponse.getData()).hasSize(2),
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison()
-                .ignoringFields("nickname")
                 .isEqualTo(List.of(MemberResponse.of(rookie), MemberResponse.of(author))));
     }
 
     @Test
-    void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
+    void 로그인한_경우_본인의_정보를_조회할_수_있다() {
         Workspace workspace = KKOGKKOG.getWorkspace();
         Member rookie = ROOKIE.getMember(1L, workspace);
-        String rookieAccessToken = 회원가입을_하고(rookie);
+        String rookieAccessToken = 회원가입_및_닉네임을_수정하고(rookie);
         회원가입을_하고(AUTHOR.getMember(workspace));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
@@ -63,7 +63,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(memberResponse).usingRecursiveComparison().ignoringFields("nickname")
+            () -> assertThat(memberResponse).usingRecursiveComparison()
                 .isEqualTo(MyProfileResponse.of(rookie, 0L))
         );
     }
@@ -113,7 +113,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         return invokeGet("/api/members");
     }
 
-    private void 프로필_수정을_성공하고(String nickname, String accessToken) {
+    public static void 프로필_수정을_성공하고(String nickname, String accessToken) {
         invokePutWithToken("/api/members/me", accessToken, new MemberUpdateMeRequest(nickname));
     }
 
