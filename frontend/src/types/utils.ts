@@ -9,3 +9,7 @@ export const hasKey = <T>(state: unknown, key: string): state is { [key: string]
 
   return key in state;
 };
+
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]?: T[P];
+};
