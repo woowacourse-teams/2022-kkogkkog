@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
+import { useToast } from '@/@hooks/@common/useToast';
 import {
   changeCouponStatus,
   createCoupon,
@@ -19,8 +21,15 @@ const QUERY_KEY = {
 /** Query */
 
 export const useFetchCouponList = () => {
+  const { displayMessage } = useToast();
+
   const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 
   const couponList = data?.data?.data;
@@ -104,9 +113,6 @@ export const useCreateCouponMutation = () => {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
-    onError() {
-      alert('입력창을 확인하고 다시 시도해주세요.');
-    },
   });
 };
 
@@ -117,9 +123,6 @@ export const useChangeCouponStatusMutation = (id: number) => {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
-    },
   });
 };
 
@@ -129,9 +132,6 @@ export const useRequestCouponMutation = () => {
   return useMutation(requestCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
-    },
-    onError() {
-      alert('잘못된 접근입니다. 다시 시도해주세요.');
     },
   });
 };

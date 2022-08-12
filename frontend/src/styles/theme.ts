@@ -34,6 +34,7 @@ const colors = {
 const layers = {
   header: 4900,
   dimmed: 5000,
+  toast: 5100,
 } as const;
 
 const shadow = {

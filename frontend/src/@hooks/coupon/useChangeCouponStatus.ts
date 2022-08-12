@@ -1,7 +1,13 @@
+import { AxiosError } from 'axios';
+
+import { useToast } from '@/@hooks/@common/useToast';
+
 import { useChangeCouponStatusMutation, useRequestCouponMutation } from '../@queries/coupon';
 import { EffectCallback } from '../types';
 
 const useChangeCouponStatus = (id: number) => {
+  const { displayMessage } = useToast();
+
   const changeStatusMutate = useChangeCouponStatusMutation(id);
   const requestCouponMutate = useRequestCouponMutation();
 
@@ -11,6 +17,13 @@ const useChangeCouponStatus = (id: number) => {
       {
         onSuccess() {
           onSuccessCallback?.();
+
+          displayMessage('쿠폰 사용을 취소했어요', false);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );
@@ -25,6 +38,13 @@ const useChangeCouponStatus = (id: number) => {
       {
         onSuccess() {
           onSuccessCallback?.();
+
+          displayMessage('쿠폰 사용을 요청했어요', false);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );
@@ -36,6 +56,13 @@ const useChangeCouponStatus = (id: number) => {
       {
         onSuccess() {
           onSuccessCallback?.();
+
+          displayMessage('쿠폰 사용을 완료했어요', false);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );
@@ -47,6 +74,13 @@ const useChangeCouponStatus = (id: number) => {
       {
         onSuccess() {
           onSuccessCallback?.();
+
+          displayMessage('쿠폰 사용을 승인했어요', false);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );
@@ -58,6 +92,13 @@ const useChangeCouponStatus = (id: number) => {
       {
         onSuccess() {
           onSuccessCallback?.();
+
+          displayMessage('쿠폰 사용을 거절했어요', false);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );

@@ -1,7 +1,9 @@
+import { AxiosError } from 'axios';
 import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
+import { useToast } from '@/@hooks/@common/useToast';
 import { PATH } from '@/Router';
 import {
   COUPON_COLORS,
@@ -16,6 +18,8 @@ import { UserResponse } from '@/types/remote/response';
 import { useCreateCouponMutation } from '../@queries/coupon';
 
 export const useCouponForm = () => {
+  const { displayMessage } = useToast();
+
   const navigate = useNavigate();
 
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
@@ -55,7 +59,13 @@ export const useCouponForm = () => {
     e.preventDefault();
 
     if (receiverList.length === 0) {
-      alert('정보를 모두 입력해주세요 !');
+      displayMessage('받을 사람을 선택해주세요', true);
+
+      return;
+    }
+
+    if (message.length > 50) {
+      displayMessage('50자 이내로 작성해주세요', true);
 
       return;
     }
@@ -70,11 +80,18 @@ export const useCouponForm = () => {
       },
       {
         onSuccess() {
+          displayMessage('쿠폰을 생성했어요', false);
+
           navigate(PATH.LANDING, {
             state: {
               action: 'create',
             },
           });
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );
