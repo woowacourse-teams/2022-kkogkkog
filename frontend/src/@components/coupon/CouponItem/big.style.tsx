@@ -148,7 +148,7 @@ export const ImageInner = styled.div<{ backgroundColor: string }>`
   }
 `;
 
-export const Modifier = styled.div`
+export const Hashtag = styled.div`
   width: 67px;
   height: 24px;
   line-height: 24px;

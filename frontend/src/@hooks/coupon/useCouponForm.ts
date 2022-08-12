@@ -8,9 +8,9 @@ import { PATH } from '@/Router';
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
-  COUPON_MODIFIERS,
+  COUPON_HASHTAGS,
   couponColors,
-  couponModifiers,
+  couponHashtags,
   couponTypeCollection,
 } from '@/types/client/coupon';
 import { UserResponse } from '@/types/remote/response';
@@ -24,7 +24,7 @@ export const useCouponForm = () => {
 
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
   const [type, setType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
-  const [modifier, setModifier] = useState<COUPON_MODIFIERS>(couponModifiers[0]);
+  const [hashtag, setHashtag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
   const [color, setColor] = useState<COUPON_COLORS>(couponColors[0]);
 
   const [message, onChangeMessage] = useInput('');
@@ -35,8 +35,8 @@ export const useCouponForm = () => {
     setType(type);
   };
 
-  const onSelectModifier = (modifier: COUPON_MODIFIERS) => {
-    setModifier(modifier);
+  const onSelectHashtag = (hashtag: COUPON_HASHTAGS) => {
+    setHashtag(hashtag);
   };
 
   const onSelectColor = (color: COUPON_COLORS) => {
@@ -74,7 +74,7 @@ export const useCouponForm = () => {
       {
         receivers: receiverList.map(({ id }) => id),
         backgroundColor: color,
-        modifier,
+        hashtag,
         message,
         couponType: type,
       },
@@ -101,14 +101,14 @@ export const useCouponForm = () => {
     state: {
       receiverList,
       couponType: type,
-      modifier,
+      hashtag,
       color,
       message,
     },
     changeHandler: {
       onSelectReceiver,
       onSelectType,
-      onSelectModifier,
+      onSelectHashtag,
       onSelectColor,
       onChangeMessage,
     },

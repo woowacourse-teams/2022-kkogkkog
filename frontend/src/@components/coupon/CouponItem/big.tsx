@@ -21,7 +21,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
     sender,
     receiver,
     backgroundColor,
-    modifier,
+    hashtag,
     couponStatus,
     message,
     meetingDate,
@@ -64,7 +64,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
           )}
         </Styled.Top>
         <Styled.Message>{message}</Styled.Message>
-        <Styled.Modifier>#{modifier}</Styled.Modifier>
+        <Styled.Hashtag>#{hashtag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
   );
@@ -76,7 +76,7 @@ type BigCouponItemPreviewProps = Omit<CouponResponse, 'id' | 'couponStatus' | 's
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
 BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
-  const { className, receiver, backgroundColor, modifier, thumbnail, message } = {
+  const { className, receiver, backgroundColor, hashtag, thumbnail, message } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
   };
@@ -93,7 +93,7 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
           <Styled.English>To.</Styled.English> {receiver.nickname}
         </Styled.Member>
         <Styled.Message>{message}</Styled.Message>
-        <Styled.Modifier>#{modifier}</Styled.Modifier>
+        <Styled.Hashtag>#{hashtag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
   );

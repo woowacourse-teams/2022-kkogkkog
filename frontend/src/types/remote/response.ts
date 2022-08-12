@@ -1,8 +1,8 @@
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
+  COUPON_HASHTAGS,
   COUPON_LIST_TYPE,
-  COUPON_MODIFIERS,
   COUPON_STATUS,
   CouponHistory,
 } from '@/types/client/coupon';
@@ -36,10 +36,10 @@ export interface OAuthLoginResponse {
 
 export interface CouponResponse {
   id: number;
-  sender: UserResponse;
-  receiver: UserResponse;
-  modifier: COUPON_MODIFIERS;
-  message: string;
+  sender: UserResponse; // memberId
+  receiver: UserResponse; //
+  hashtag: COUPON_HASHTAGS; // hashtag
+  message: string; // description
   backgroundColor: COUPON_COLORS;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
