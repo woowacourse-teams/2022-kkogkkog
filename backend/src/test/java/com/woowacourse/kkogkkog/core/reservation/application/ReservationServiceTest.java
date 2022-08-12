@@ -16,7 +16,9 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
@@ -41,6 +43,8 @@ class ReservationServiceTest {
     private CouponRepository couponRepository;
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -53,6 +57,8 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
+            Workspace workspace = workspaceRepository.save(
+                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
             sender = memberRepository.save(ROOKIE.getMember());
             receiver = memberRepository.save(AUTHOR.getMember());
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
@@ -85,8 +91,10 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(ROOKIE.getMember());
-            receiver = memberRepository.save(AUTHOR.getMember());
+            Workspace workspace = workspaceRepository.save(
+                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            sender = memberRepository.save(ROOKIE.getMember(workspace));
+            receiver = memberRepository.save(AUTHOR.getMember(workspace));
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver, "REQUESTED"));
             reservation = reservationRepository.save(RESERVE_SAVE.getReservation(coupon, now()));
         }

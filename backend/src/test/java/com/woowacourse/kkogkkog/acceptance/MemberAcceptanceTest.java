@@ -6,6 +6,7 @@ import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePatchW
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
@@ -71,10 +72,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 회원에게_전달된_알림들을_조회할_수_있다() {
-        Member ROOKIE = new Member(1L, "URookie", null, "루키", "rookie@gmail.com", "image");
-        Member ARTHUR = new Member(2L, "UArthur", null, "아서", "arthur@gmail.com", "image");
-        String rookieAccessToken = 회원가입을_하고(ROOKIE);
-        String arthurAccessToken = 회원가입을_하고(ARTHUR);
+        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
+        String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = 알림함을_확인한다(arthurAccessToken);
@@ -88,10 +87,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 조회하지_않은_알림이면_알림의_방문상태가_변경된다() {
-        Member ROOKIE = new Member(1L, "URookie", null, "루키", "rookie@gmail.com", "image");
-        Member ARTHUR = new Member(2L, "UArthur", null, "아서", "arthur@gmail.com", "image");
-        String rookieAccessToken = 회원가입을_하고(ROOKIE);
-        String arthurAccessToken = 회원가입을_하고(ARTHUR);
+        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
+        String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = 알림을_체크한다(1L, arthurAccessToken);
