@@ -32,8 +32,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 회원_가입된_전체_사용자_조회를_할_수_있다() {
-        회원가입을_하고(ROOKIE.getMember());
-        회원가입을_하고(AUTHOR.getMember());
+        Workspace workspace = KKOGKKOG.getWorkspace(1L);
+        Member rookie = ROOKIE.getMember(1L, workspace);
+        Member author = AUTHOR.getMember(2L, workspace);
+        회원가입을_하고(rookie);
+        회원가입을_하고(author);
 
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
@@ -44,19 +47,15 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(membersResponse.getData()).hasSize(2),
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison()
-                .ignoringFields("nickname").isEqualTo(List.of(
-                        MemberResponse.of(new Member(1L, "rookieId1", KKOGKKOG.getWorkspace(1L),
-                            "익명1234", "rookie@gmail.com", "https://slack")),
-                        MemberResponse.of(new Member(2L, "authorId2", KKOGKKOG.getWorkspace(1L),
-                            "익명4321", "author@gmail.com", "https://slack"))
-                    )
-                ));
+                .ignoringFields("nickname")
+                .isEqualTo(List.of(MemberResponse.of(rookie), MemberResponse.of(author))));
     }
 
     @Test
     void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
         Workspace workspace = KKOGKKOG.getWorkspace();
-        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember(workspace));
+        Member rookie = ROOKIE.getMember(1L, workspace);
+        String rookieAccessToken = 회원가입을_하고(rookie);
         회원가입을_하고(AUTHOR.getMember(workspace));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
@@ -65,8 +64,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().ignoringFields("nickname")
-                .isEqualTo(new MyProfileResponse(1L, "rookieId1", workspace.getWorkspaceId(),
-                    workspace.getName(), "익명1234", "rookie@gmail.com", "https://slack", 0L))
+                .isEqualTo(MyProfileResponse.of(rookie, 0L))
         );
     }
 

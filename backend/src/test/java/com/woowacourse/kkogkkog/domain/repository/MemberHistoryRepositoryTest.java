@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.domain.repository;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,10 +32,8 @@ class MemberHistoryRepositoryTest {
     @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 않은 기록들의 개수를 반환한다.")
     void countByHostMemberAndIsReadFalse() {
         Workspace workspace = workspaces.save(KKOGKKOG.getWorkspace());
-        Member sender = members.save(new Member(null, "UJeong", workspace,
-            "정", "jeong@gmail.com", "image"));
-        Member receiver = members.save(new Member(null, "ULeo", workspace,
-            "레오", "leothelion@gmail.com", "image"));
+        Member sender = members.save(JEONG.getMember(workspace));
+        Member receiver = members.save(LEO.getMember(workspace));
         Coupon coupon = COFFEE.getCoupon(sender, receiver);
 
         MemberHistory initHistory = toMemberHistory(receiver, sender, coupon, CouponEvent.INIT);

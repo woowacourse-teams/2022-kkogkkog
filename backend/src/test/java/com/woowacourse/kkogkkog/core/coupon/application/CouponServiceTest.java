@@ -3,6 +3,9 @@ package com.woowacourse.kkogkkog.core.coupon.application;
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER2;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,15 +57,9 @@ class CouponServiceTest {
         @BeforeEach
         void setUp() {
             workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
-            sender = memberRepository.save(
-                new Member(null, "sender", workspace, "sender", "rookie@gmail.com",
-                    "https://slack"));
-            receiver1 = memberRepository.save(
-                new Member(null, "receiver1", workspace, "receiver", "rookie@gmail.com",
-                    "https://slack"));
-            receiver2 = memberRepository.save(
-                new Member(null, "receiver2", workspace, "receiver", "rookie@gmail.com",
-                    "https://slack"));
+            sender = memberRepository.save(SENDER.getMember(workspace));
+            receiver1 = memberRepository.save(RECEIVER.getMember(workspace));
+            receiver2 = memberRepository.save(RECEIVER2.getMember(workspace));
         }
 
         @Test

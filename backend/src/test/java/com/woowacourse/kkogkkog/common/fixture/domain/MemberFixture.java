@@ -43,4 +43,8 @@ public enum MemberFixture {
     public Member getMember(Long id) {
         return new Member(id, userId, null, nickname, email, imageUrl);
     }
+
+    public Member getMember(Long id, Workspace workspace) {
+        return new Member(id, userId, workspace, nickname, email, imageUrl);
+    }
 }

@@ -1,6 +1,10 @@
 package com.woowacourse.kkogkkog.domain;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,10 +26,8 @@ class MemberHistoryTest {
         @DisplayName("기록의 상대방 회원이 발생시킨 쿠폰 이벤트를 토대로 알림 메시지를 만들어 반환한다.")
         void generateString() {
             Workspace workspace = KKOGKKOG.getWorkspace(1L);
-            Member jeong = new Member(null, "UJeong", workspace,
-                "정", "jeong@gmail.com", "image");
-            Member leo = new Member(null, "ULeo", workspace,
-                "레오", "leothelion@gmail.com", "image");
+            Member jeong = JEONG.getMember(workspace);
+            Member leo = LEO.getMember(workspace);
             CouponType coffee = CouponType.COFFEE;
             Coupon coupon = COFFEE.getCoupon(jeong, leo);
 
@@ -44,8 +46,8 @@ class MemberHistoryTest {
     void isRead() {
         // given
         Workspace workspace = KKOGKKOG.getWorkspace(1L);
-        Member sender = new Member(1L, "userId", workspace, "sender", "email", "imageUrl");
-        Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
+        Member sender = SENDER.getMember(workspace);
+        Member receiver = RECEIVER.getMember(workspace);
         MemberHistory memberHistory = new MemberHistory(
             1L, sender, receiver, 1L,
             CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDate.now());

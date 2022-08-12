@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.core.coupon.domain;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
@@ -134,8 +135,7 @@ class CouponEventTest {
         @Test
         @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
         void formatString() {
-            Member member = new Member(null, "UJeong", KKOGKKOG.getWorkspace(), "정",
-                "jeong@gmail.com", "image");
+            Member member = JEONG.getMember(KKOGKKOG.getWorkspace());
             CouponEvent couponEvent = CouponEvent.INIT;
             CouponType meal = CouponType.MEAL;
 
