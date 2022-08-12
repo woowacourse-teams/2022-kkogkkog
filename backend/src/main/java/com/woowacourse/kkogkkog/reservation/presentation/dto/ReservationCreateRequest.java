@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ReservationCreateRequest {
 
     private Long couponId;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime meetingDate;
     private String message;
 

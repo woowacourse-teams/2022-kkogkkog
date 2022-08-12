@@ -17,8 +17,8 @@ public class ReservationChangeRequest {
         this.message = message;
     }
 
-    public ReservationUpdateRequest toReservationUpdateRequest(Long reservationId,
-                                                               Long loginMemberId) {
+    public ReservationUpdateRequest toReservationUpdateRequest(Long loginMemberId,
+                                                               Long reservationId) {
         return new ReservationUpdateRequest(loginMemberId, reservationId, event, message);
     }
 }
