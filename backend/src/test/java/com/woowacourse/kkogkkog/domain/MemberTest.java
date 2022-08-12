@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.domain;
 
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.WORKSPACE;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,7 +20,7 @@ class MemberTest {
         @Test
         @DisplayName("익명1234라는 형식의 닉네임을 지닌 회원을 생성한다.")
         void success() {
-            Member member = Member.ofRandomNickname("UJeong", WORKSPACE,
+            Member member = Member.ofRandomNickname("UJeong", KKOGKKOG.getWorkspace(),
                 "jeong@gmail.com", "image");
 
             String actual = member.getNickname();
@@ -32,7 +32,7 @@ class MemberTest {
     @DisplayName("updateNickname 메서드는")
     class UpdateNickname {
 
-        private final Member member = Member.ofRandomNickname("UJeong", WORKSPACE,
+        private final Member member = Member.ofRandomNickname("UJeong", KKOGKKOG.getWorkspace(),
             "jeong@gmail.com", "image");
 
         @Test

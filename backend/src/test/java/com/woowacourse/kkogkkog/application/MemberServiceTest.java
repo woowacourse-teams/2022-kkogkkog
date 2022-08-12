@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.application;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +16,7 @@ import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -31,8 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DisplayName("MemberService 클래스의")
 class MemberServiceTest extends ServiceTest {
 
-    private static final Workspace WORKSPACE = new Workspace(1L, "T03LX3C5540", "workspace_name",
-        "xoxb-bot-access-token");
+    private static final Workspace WORKSPACE = WorkspaceFixture.KKOGKKOG.getWorkspace(1L);
 
     @Autowired
     private MemberService memberService;
@@ -96,9 +95,9 @@ class MemberServiceTest extends ServiceTest {
 
             MyProfileResponse memberResponse = memberService.findById(memberId);
 
-            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id", "nickname").isEqualTo(
-                new MyProfileResponse(null, "URookie", "T03LX3C5540", "workspace_name", "익명1234",
-                    "rookie@gmail.com", "image", 0L));
+            assertThat(memberResponse).usingRecursiveComparison().ignoringFields("id", "nickname")
+                .isEqualTo(new MyProfileResponse(null, "URookie", WORKSPACE.getWorkspaceId(),
+                    WORKSPACE.getName(), "익명1234", "rookie@gmail.com", "image", 0L));
         }
 
         @Test
@@ -147,7 +146,8 @@ class MemberServiceTest extends ServiceTest {
             MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
 
-            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(),
+                List.of(arthurCreateResponse.getId())));
 
             List<MemberHistoryResponse> historiesResponse = memberService.findHistoryById(
                 arthurCreateResponse.getId());
@@ -170,7 +170,8 @@ class MemberServiceTest extends ServiceTest {
                 WORKSPACE);
             MemberCreateResponse arthurCreateResponse = memberService.saveOrUpdate(arthurUserInfo,
                 WORKSPACE);
-            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(), List.of(arthurCreateResponse.getId())));
+            couponService.save(COFFEE_쿠폰_저장_요청(rookieCreateResponse.getId(),
+                List.of(arthurCreateResponse.getId())));
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
         }

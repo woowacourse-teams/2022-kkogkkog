@@ -1,8 +1,9 @@
 package com.woowacourse.kkogkkog.common.fixture.domain;
 
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 
 public enum MemberFixture {
 
@@ -39,7 +40,7 @@ public enum MemberFixture {
     }
 
     public Member getMember() {
-        return new Member(null, userId, WorkspaceFixture.WORKSPACE, nickname, email, imageUrl);
+        return new Member(null, userId, KKOGKKOG.getWorkspace(1L), nickname, email, imageUrl);
     }
 
     public Member getMember(Long id) {

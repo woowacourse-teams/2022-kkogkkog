@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.domain.repository;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
@@ -33,8 +34,7 @@ class MemberHistoryRepositoryTest {
     @Test
     @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 안은 기록들의 개수를 반환한다.")
     void countByHostMemberAndIsReadFalse() {
-        Workspace workspace = workspaces.save(new Workspace(1L, "T03LX3C5540", "workspace_name",
-            "xoxb-bot-access-token"));
+        Workspace workspace = workspaces.save(KKOGKKOG.getWorkspace());
         Member sender = members.save(new Member(null, "UJeong", workspace,
             "정", "jeong@gmail.com", "image"));
         Member receiver = members.save(new Member(null, "ULeo", workspace,

@@ -6,6 +6,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKI
 import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_수정_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -57,8 +58,7 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
-            Workspace workspace = workspaceRepository.save(
-                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(ROOKIE.getMember());
             receiver = memberRepository.save(AUTHOR.getMember());
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
@@ -91,8 +91,7 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
-            Workspace workspace = workspaceRepository.save(
-                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(ROOKIE.getMember(workspace));
             receiver = memberRepository.save(AUTHOR.getMember(workspace));
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver, "REQUESTED"));

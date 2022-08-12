@@ -10,6 +10,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -44,11 +45,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             () -> assertThat(membersResponse.getData()).hasSize(2),
             () -> assertThat(membersResponse.getData()).usingRecursiveComparison()
                 .ignoringFields("nickname").isEqualTo(List.of(
-                        MemberResponse.of(new Member(1L, "rookieId1",
-                            new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
+                        MemberResponse.of(new Member(1L, "rookieId1", KKOGKKOG.getWorkspace(1L),
                             "익명1234", "rookie@gmail.com", "https://slack")),
-                        MemberResponse.of(new Member(2L, "authorId2",
-                            new Workspace(1L, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"),
+                        MemberResponse.of(new Member(2L, "authorId2", KKOGKKOG.getWorkspace(1L),
                             "익명4321", "author@gmail.com", "https://slack"))
                     )
                 ));
@@ -56,8 +55,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 로그인_한_경우_본인의_정보를_조회할_수_있다() {
-        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
-        회원가입을_하고(AUTHOR.getMember());
+        Workspace workspace = KKOGKKOG.getWorkspace();
+        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember(workspace));
+        회원가입을_하고(AUTHOR.getMember(workspace));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         MyProfileResponse memberResponse = extract.as(MyProfileResponse.class);
@@ -65,8 +65,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(memberResponse).usingRecursiveComparison().ignoringFields("nickname")
-                .isEqualTo(new MyProfileResponse(1L, "rookieId1", "T03LX3C5540", "workspace_name",
-                    "익명1234", "rookie@gmail.com", "https://slack", 0L))
+                .isEqualTo(new MyProfileResponse(1L, "rookieId1", workspace.getWorkspaceId(),
+                    workspace.getName(), "익명1234", "rookie@gmail.com", "https://slack", 0L))
         );
     }
 

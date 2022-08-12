@@ -1,15 +1,15 @@
 package com.woowacourse.kkogkkog.domain;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class MemberHistoryTest {
@@ -21,8 +21,7 @@ class MemberHistoryTest {
         @Test
         @DisplayName("기록의 상대방 회원이 발생시킨 쿠폰 이벤트를 토대로 알림 메시지를 만들어 반환한다.")
         void generateString() {
-            Workspace workspace = new Workspace(1L, "T03LX3C5540", "workspace_name",
-                "xoxb-bot-access-token");
+            Workspace workspace = KKOGKKOG.getWorkspace(1L);
             Member jeong = new Member(null, "UJeong", workspace,
                 "정", "jeong@gmail.com", "image");
             Member leo = new Member(null, "ULeo", workspace,
@@ -44,8 +43,7 @@ class MemberHistoryTest {
     @DisplayName("단일 알림에 대해서 읽지 않았을 경우, 읽음으로 상태를 변경한다")
     void isRead() {
         // given
-        Workspace workspace = new Workspace(1L, "T03LX3C5540", "workspace_name",
-            "xoxb-bot-access-token");
+        Workspace workspace = KKOGKKOG.getWorkspace(1L);
         Member sender = new Member(1L, "userId", workspace, "sender", "email", "imageUrl");
         Member receiver = new Member(1L, "userId", workspace, "receiver", "email", "imageUrl");
         MemberHistory memberHistory = new MemberHistory(
