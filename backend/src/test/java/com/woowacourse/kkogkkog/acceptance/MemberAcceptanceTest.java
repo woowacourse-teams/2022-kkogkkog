@@ -1,5 +1,9 @@
 package com.woowacourse.kkogkkog.acceptance;
 
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePatchWithToken;
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_또는_로그인에_성공한다;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
@@ -17,13 +21,11 @@ import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 
 @SuppressWarnings("NonAsciiCharacters")
 public class MemberAcceptanceTest extends AcceptanceTest {
@@ -80,12 +82,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(arthurAccessToken)
-            .get("/api/members/me/histories")
-            .then().log().all()
-            .extract();
+        ExtractableResponse<Response> extract = 알림함을_확인한다(arthurAccessToken);
 
         MemberHistoriesResponse memberHistoriesResponse = extract.as(MemberHistoriesResponse.class);
         assertAll(
@@ -104,13 +101,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
             WorkspaceResponse.of(WORKSPACE)).getAccessToken();
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
-        ExtractableResponse<Response> extract = RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(arthurAccessToken)
-            .patch("/api/members/me/histories/1")
-            .then().log().all()
-            .extract();
-
+        ExtractableResponse<Response> extract = 알림을_체크한다(1L, arthurAccessToken);
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
@@ -128,30 +119,22 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     private ExtractableResponse<Response> 본인_정보_조회를_요청한다(String accessToken) {
-        return RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(accessToken)
-            .get("/api/members/me")
-            .then().log().all()
-            .extract();
+        return invokeGetWithToken("/api/members/me", accessToken);
     }
 
     private ExtractableResponse<Response> 전체_사용자_조회를_요청한다() {
-        return RestAssured.given().log().all()
-            .when()
-            .get("/api/members")
-            .then().log().all()
-            .extract();
+        return invokeGet("/api/members");
     }
 
     private void 프로필_수정을_성공하고(String nickname, String accessToken) {
-        RestAssured.given().log().all()
-            .when()
-            .auth().oauth2(accessToken)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(new MemberUpdateMeRequest(nickname))
-            .put("/api/members/me")
-            .then().log().all()
-            .extract();
+        invokePutWithToken("/api/members/me", accessToken, new MemberUpdateMeRequest(nickname));
+    }
+
+    private ExtractableResponse<Response> 알림함을_확인한다(String arthurAccessToken) {
+        return invokeGetWithToken("/api/members/me/histories", arthurAccessToken);
+    }
+
+    private ExtractableResponse<Response> 알림을_체크한다(Long historyId, String arthurAccessToken) {
+        return invokePatchWithToken("/api/members/me/histories/" + historyId, arthurAccessToken);
     }
 }
