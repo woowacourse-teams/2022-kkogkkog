@@ -17,6 +17,7 @@ const useInput = (
       target: { value },
     } = e;
 
+    // @TODO: validation에 에러 메시지 추가
     if (validations?.some(validation => validation(value))) {
       return;
     }

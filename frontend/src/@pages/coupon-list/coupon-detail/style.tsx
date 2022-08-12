@@ -27,8 +27,11 @@ export const ProfileImage = styled.img`
 `;
 
 export const SummaryMessage = styled.span`
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+
+  strong {
+    font-weight: 600;
+  }
 `;
 
 export const Main = styled.main`

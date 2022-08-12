@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -14,7 +13,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { getToday } from '@/utils';
+import { getToday, isBeforeToday } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
@@ -23,7 +22,7 @@ const CouponRequestPage = () => {
   const navigate = useNavigate();
   const { couponId } = useParams();
 
-  const [meetingDate, onChangeMeetingDate] = useInput('');
+  const [meetingDate, onChangeMeetingDate] = useInput('', [isBeforeToday]);
   const [message, onChangeMessage] = useInput('', [(value: string) => isOverMaxLength(value, 200)]);
 
   const { me } = useFetchMe();
@@ -74,7 +73,10 @@ const CouponRequestPage = () => {
           </Position>
           <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
           <Styled.SummaryMessage>
-            {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸&nbsp;
+            <strong>
+              {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸
+            </strong>
+            &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>
@@ -85,6 +87,7 @@ const CouponRequestPage = () => {
             type='date'
             value={meetingDate}
             min={getToday()}
+            data-placeholder='날짜 선택'
             onChange={onChangeMeetingDate}
             required
           />
