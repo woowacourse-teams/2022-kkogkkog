@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.core.coupon.acceptance;
 
+import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePostWithToken;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
@@ -13,6 +14,8 @@ import static org.mockito.BDDMockito.given;
 import com.woowacourse.kkogkkog.acceptance.AcceptanceTest;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
@@ -61,12 +64,38 @@ class CouponAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    @Test
+    void 단일_쿠폰을_상세_조회할_수_있다() {
+        로그인을_하고(MemberResponse.of(LEO.getMember()));
+        로그인을_하고(MemberResponse.of(AUTHOR.getMember()));
+        String accessToken = 로그인을_하고(MemberResponse.of(JEONG.getMember()));
+        ExtractableResponse<Response> extractableResponse = 쿠폰_생성을_요청한다(accessToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+
+        CouponsCreateResponse couponsCreateResponse = extractableResponse.as(CouponsCreateResponse.class);
+        ExtractableResponse<Response> extract = 회원의_단일쿠폰_상세정보를_조회한다(
+            couponsCreateResponse.getData().get(0).getId());
+
+        CouponDetailResponse couponDetailResponse = extract.as(CouponDetailResponse.class);
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(couponDetailResponse.getCouponStatus()).isEqualTo(CouponStatus.READY.name()),
+            () -> assertThat(couponDetailResponse.getCouponHistories()).hasSize(1)
+        );
+
+    }
+
     public ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
         return invokePostWithToken("/api/coupons", token, data);
     }
 
     public ExtractableResponse<Response> 회원의_보낸쿠폰_받은쿠폰_목록들을_조회한다(String token) {
         return invokeGetWithToken("/api/coupons", token);
+    }
+
+    public ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(Long couponId) {
+        return invokeGet("/api/coupons/" + couponId);
     }
 
     public static void 쿠폰_생성을_요청하고(String token, Object data) {
