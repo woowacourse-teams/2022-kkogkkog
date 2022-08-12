@@ -1,4 +1,6 @@
+import { p } from 'msw/lib/glossary-58eca5a8';
 import { useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import Position from '@/@components/@shared/Position';
@@ -17,6 +19,8 @@ interface AcceptedCouponListProps {
 const AcceptedCouponList = (props: AcceptedCouponListProps) => {
   const { acceptedCouponList } = props;
 
+  const navigate = useNavigate();
+
   const sortedKey = useMemo(
     () =>
       Object.keys(acceptedCouponList).sort((a, b) => {
@@ -24,6 +28,10 @@ const AcceptedCouponList = (props: AcceptedCouponListProps) => {
       }),
     [acceptedCouponList]
   );
+
+  const onClickCouponItem = (coupon: CouponResponse) => {
+    navigate(`/coupon-list/${coupon.id}`);
+  };
 
   // const scrollContainer = useRef<HTMLDivElement>(null);
 
@@ -66,6 +74,7 @@ const AcceptedCouponList = (props: AcceptedCouponListProps) => {
               <VerticalCouponList
                 CouponItem={BigCouponItem}
                 couponList={acceptedCouponList[date]}
+                onClickCouponItem={onClickCouponItem}
               />
             </Styled.DateContainer>
           ))
