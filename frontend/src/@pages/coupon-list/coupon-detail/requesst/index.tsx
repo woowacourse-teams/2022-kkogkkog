@@ -13,7 +13,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { getToday } from '@/utils';
+import { getToday, isBeforeToday } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
@@ -22,7 +22,7 @@ const CouponRequestPage = () => {
   const navigate = useNavigate();
   const { couponId } = useParams();
 
-  const [meetingDate, onChangeMeetingDate] = useInput('');
+  const [meetingDate, onChangeMeetingDate] = useInput('', [isBeforeToday]);
   const [message, onChangeMessage] = useInput('', [(value: string) => isOverMaxLength(value, 200)]);
 
   const { me } = useFetchMe();
