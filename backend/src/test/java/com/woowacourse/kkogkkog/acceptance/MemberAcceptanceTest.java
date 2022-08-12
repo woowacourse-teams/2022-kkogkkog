@@ -97,11 +97,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     void 본인의_닉네임을_수정할_수_있다() {
         String newNickname = "새로운닉네임";
         String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
-
         프로필_수정을_성공하고(newNickname, rookieAccessToken);
-        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
-        String actual = extract.as(MyProfileResponse.class).getNickname();
 
+        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
+
+        String actual = extract.as(MyProfileResponse.class).getNickname();
         assertThat(actual).isEqualTo(newNickname);
     }
 
@@ -113,8 +113,12 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         return invokeGet("/api/members");
     }
 
-    public static void 프로필_수정을_성공하고(String nickname, String accessToken) {
-        invokePutWithToken("/api/members/me", accessToken, new MemberUpdateMeRequest(nickname));
+    private void 프로필_수정을_성공하고(String nickname, String accessToken) {
+        프로필_수정을_성공한다(accessToken, new MemberUpdateMeRequest(nickname));
+    }
+
+    public static void 프로필_수정을_성공한다(String accessToken, MemberUpdateMeRequest body) {
+        invokePutWithToken("/api/members/me", accessToken, body);
     }
 
     private ExtractableResponse<Response> 알림함을_확인한다(String arthurAccessToken) {
