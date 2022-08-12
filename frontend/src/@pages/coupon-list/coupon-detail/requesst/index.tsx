@@ -5,6 +5,7 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import useInput from '@/@hooks/@common/useInput';
+import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
@@ -31,6 +32,8 @@ const CouponRequestPage = () => {
   const { requestCoupon } = useChangeCouponStatus(Number(couponId));
 
   const { displayMessage } = useToast();
+
+  usePreventReload();
 
   if (!coupon) {
     return <NotFoundPage />;
