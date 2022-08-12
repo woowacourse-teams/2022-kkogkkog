@@ -1,6 +1,7 @@
 import Airplane from '@/@components/@shared/Icon/Icons/Airplane';
 import Arrow from '@/@components/@shared/Icon/Icons/Arrow';
 import Close from '@/@components/@shared/Icon/Icons/Close';
+import Hand from '@/@components/@shared/Icon/Icons/Hand';
 import Notification from '@/@components/@shared/Icon/Icons/Notification';
 import Plus from '@/@components/@shared/Icon/Icons/Plus';
 import Profile from '@/@components/@shared/Icon/Icons/Profile';
@@ -14,6 +15,7 @@ const iconName = {
   arrow: Arrow,
   slack: Slack,
   notification: Notification,
+  hand: Hand,
 };
 
 export type IconNames = keyof typeof iconName;
