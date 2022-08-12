@@ -115,7 +115,10 @@ const CouponDetailPage = () => {
           </Position>
           <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
           <Styled.SummaryMessage>
-            {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸&nbsp;
+            <strong>
+              {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸
+            </strong>
+            &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>

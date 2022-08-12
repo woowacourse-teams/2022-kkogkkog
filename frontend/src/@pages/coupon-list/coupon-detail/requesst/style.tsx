@@ -16,7 +16,7 @@ export const Top = styled.div`
   align-items: center;
 
   ${({ theme }) => css`
-    background-color: ${theme.colors.primary_200};
+    background-color: ${theme.colors.primary_100};
   `}
 `;
 
@@ -27,8 +27,11 @@ export const ProfileImage = styled.img`
 `;
 
 export const SummaryMessage = styled.span`
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+
+  strong {
+    font-weight: 600;
+  }
 `;
 
 export const Main = styled.main`
@@ -45,7 +48,6 @@ export const Main = styled.main`
 `;
 
 export const SectionTitle = styled.div`
-  font-weight: 600;
   margin-bottom: 30px;
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
@@ -54,7 +56,6 @@ export const SectionTitle = styled.div`
 
 export const Description = styled.div`
   font-size: 14px;
-  font-weight: 600;
   margin-bottom: 16px;
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
