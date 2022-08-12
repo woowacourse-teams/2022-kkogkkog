@@ -62,21 +62,4 @@ public class CouponDetailResponse {
             couponHistoryResponses
         );
     }
-
-    @Override
-    public String toString() {
-        return "CouponDetailResponse{" +
-            "id=" + id +
-            ", senderId=" + senderId +
-            ", senderNickname='" + senderNickname + '\'' +
-            ", receiverId=" + receiverId +
-            ", receiverNickname='" + receiverNickname + '\'' +
-            ", hashtag='" + hashtag + '\'' +
-            ", description='" + description + '\'' +
-            ", couponType='" + couponType + '\'' +
-            ", couponStatus='" + couponStatus + '\'' +
-            ", meetingDate=" + meetingDate +
-            ", couponHistories=" + couponHistories +
-            '}';
-    }
 }
