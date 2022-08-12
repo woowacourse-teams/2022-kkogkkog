@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
@@ -78,6 +79,28 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
         return extract.as(TokenResponse.class);
+    }
+
+    public static String 회원가입을_하고(Member member) {
+        ExtractableResponse<Response> extract = 회원가입_혹은_로그인을_한다(member);
+        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
+        return extract.as(TokenResponse.class).getAccessToken();
+    }
+
+    private static ExtractableResponse<Response> 회원가입_혹은_로그인을_한다(Member member) {
+        given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+            .willReturn(
+                new SlackUserInfo(
+                    member.getUserId(),
+                    member.getWorkspace().getWorkspaceId(),
+                    member.getWorkspace().getName(),
+                    member.getNickname(),
+                    member.getEmail(),
+                    member.getImageUrl()));
+
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("code", AUTHORIZATION_CODE);
+        return invokeGetWithQueryParams("/api/login/token", queryParams);
     }
 
     private ExtractableResponse<Response> 슬랙_앱을_설치한다() {
