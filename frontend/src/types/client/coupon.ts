@@ -1,5 +1,6 @@
 import theme from '@/styles/theme';
-import { User } from '@/types/client/user';
+
+import { CommonHistory } from './common';
 
 export const couponTypeCollection = [
   { koreanType: '커피', engType: 'COFFEE' } as const,
@@ -29,17 +30,6 @@ export const THUMBNAIL: { [x: string]: string } = {
   MEAL: '/assets/images/meal.png',
 } as const;
 
-export interface Coupon {
-  id: number;
-  sender: User;
-  receiver: User;
-  backgroundColor: COUPON_COLORS;
-  modifier: COUPON_MODIFIERS;
-  couponType: COUPON_ENG_TYPE;
-  message: string;
-  // thumbnail: string;
-}
-
 export type COUPON_ENG_TYPE = typeof couponTypeCollection[number]['engType'];
 export type COUPON_KOREAN_TYPE = typeof couponTypeCollection[number]['koreanType'];
 
@@ -51,3 +41,7 @@ export type COUPON_MODIFIERS = typeof couponModifiers[number];
 
 export type COUPON_EVENT = typeof couponEvent[number];
 export type COUPON_STATUS = typeof couponStatus[number];
+
+export interface CouponHistory extends CommonHistory {
+  message: string;
+}

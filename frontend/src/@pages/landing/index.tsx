@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
@@ -8,10 +8,8 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
-import CouponModal from '@/@components/coupon/CouponModal';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useCouponModal from '@/@hooks/coupon/useCouponModal';
 import { PATH } from '@/Router';
 import { CouponResponse } from '@/types/remote/response';
 
@@ -67,12 +65,12 @@ const UnAuthorizedLanding = () => {
 /** ListHeaderContainer는 어디에 있어야하는가? */
 
 const AuthorizedLanding = () => {
+  const navigate = useNavigate();
+
   const { couponList, isLoading } = useFetchCouponList();
 
-  const { currentCoupon, openCouponModal, closeCouponModal } = useCouponModal();
-
   const onClickCouponItem = (coupon: CouponResponse) => {
-    openCouponModal(coupon);
+    navigate(`/coupon-list/${coupon.id}`);
   };
 
   return (
@@ -88,7 +86,12 @@ const AuthorizedLanding = () => {
           <Styled.AdditionalExplanation>
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
-          <Link to={PATH.COUPON_CREATE}>
+          <Link
+            to={PATH.COUPON_CREATE}
+            css={css`
+              margin-top: 30px;
+            `}
+          >
             <Position>
               <Button css={Styled.ExtendedButton}>
                 쿠폰 보내러가기
@@ -151,7 +154,6 @@ const AuthorizedLanding = () => {
             </CustomSuspense>
           </div>
         </Styled.ListContainer>
-        {currentCoupon && <CouponModal coupon={currentCoupon} closeModal={closeCouponModal} />}
       </Styled.Root>
     </PageTemplate.LandingPage>
   );

@@ -7,12 +7,12 @@ import * as Styled from './horizontal.style';
 
 interface HorizontalCouponListProps {
   couponList?: CouponResponse[];
-  onClickCouponItem?: (coupon: CouponResponse) => void;
   CouponItem: React.FunctionComponent<SmallCouponItemProps>;
+  onClickCouponItem?: (coupon: CouponResponse) => void;
 }
 
 const HorizontalCouponList = (props: HorizontalCouponListProps) => {
-  const { couponList, onClickCouponItem, CouponItem } = props;
+  const { couponList, CouponItem, onClickCouponItem } = props;
 
   if (couponList?.length === 0) {
     return (

@@ -4,8 +4,9 @@ import {
   COUPON_LIST_TYPE,
   COUPON_MODIFIERS,
   COUPON_STATUS,
+  CouponHistory,
 } from '@/types/client/coupon';
-import { User, UserHistory } from '@/types/client/user';
+import { UserHistory } from '@/types/client/user';
 
 export interface UserResponse {
   id: number;
@@ -34,14 +35,18 @@ export interface OAuthLoginResponse {
 
 export interface CouponResponse {
   id: number;
-  sender: User;
-  receiver: User;
+  sender: UserResponse;
+  receiver: UserResponse;
   modifier: COUPON_MODIFIERS;
   message: string;
   backgroundColor: COUPON_COLORS;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
   meetingDate?: string;
+}
+
+export interface CouponDetailResponse extends CouponResponse {
+  couponHistories: CouponHistory[];
 }
 
 export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };
