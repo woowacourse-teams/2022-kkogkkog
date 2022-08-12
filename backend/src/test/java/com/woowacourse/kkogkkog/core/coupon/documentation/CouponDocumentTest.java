@@ -4,6 +4,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHO
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.쿠폰_생성_상세조회_응답;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.쿠폰과_예약정보_응답;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
@@ -168,5 +169,23 @@ class CouponDocumentTest extends Documentation {
                         .description("예약 시간")
                 ))
             );
+    }
+
+    @Test
+    void 단일_쿠폰_상세_조회_API() throws Exception {
+        given(couponService.find(any()))
+            .willReturn(쿠폰_생성_상세조회_응답(1L, 1L, 2L));
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/coupons/1"));
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    쿠폰_생성_상세조회_응답(1L, 1L, 2L))));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-show"));
     }
 }
