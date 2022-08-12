@@ -68,10 +68,6 @@ export const DateInput = styled.input`
   padding: 10px;
   margin-bottom: 20px;
 
-  text-align: left;
-
-  position: relative;
-
   &[type='date']::before {
     content: attr(data-placeholder);
     width: 100%;
