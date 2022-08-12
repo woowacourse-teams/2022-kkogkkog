@@ -95,6 +95,5 @@ export const ExtendedButton = css`
   gap: 15px;
 
   font-size: 16px;
-  margin-top: 30px;
   padding: 13px 45px 13px 20px;
 `;

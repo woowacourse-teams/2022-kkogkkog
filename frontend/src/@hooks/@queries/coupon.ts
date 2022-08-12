@@ -1,12 +1,19 @@
 import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { changeCouponStatus, createCoupon, getCouponList, requestCoupon } from '@/apis/coupon';
+import {
+  changeCouponStatus,
+  createCoupon,
+  getCoupon,
+  getCouponList,
+  requestCoupon,
+} from '@/apis/coupon';
 import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
 const QUERY_KEY = {
   couponList: 'couponList',
+  coupon: 'coupon',
 };
 
 /** Query */
@@ -64,6 +71,15 @@ export const useFetchCouponList = () => {
   };
 };
 
+export const useFetchCoupon = (id: number) => {
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+
+  return {
+    coupon: data?.data,
+    ...rest,
+  };
+};
+
 /** Mutation */
 
 export const useCreateCouponMutation = () => {
@@ -79,12 +95,12 @@ export const useCreateCouponMutation = () => {
   });
 };
 
-export const useChangeCouponStatusMutation = () => {
+export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
 
   return useMutation(changeCouponStatus, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
+      queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
     onError() {
       alert('잘못된 접근입니다. 다시 시도해주세요.');

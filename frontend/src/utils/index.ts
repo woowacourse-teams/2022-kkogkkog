@@ -20,8 +20,8 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
   const [year, month, day] = date.split('-');
 
   const dateText = includeYear
-    ? year && month && day && `${year}년 ${month}월 ${day}일`
-    : month && day && `${month}월 ${day}일`;
+    ? year && month && day && `${year}년 ${Number(month)}월 ${Number(day)}일`
+    : month && day && `${Number(month)}월 ${Number(day)}일`;
 
   return dateText;
 };
