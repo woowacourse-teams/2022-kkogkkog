@@ -11,10 +11,10 @@ import LandingPage from '@/@pages/landing';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
-import CouponDetail from './@pages/coupon-detail';
-import CouponAcceptPage from './@pages/couponAccept/index';
-import CouponDeclinePage from './@pages/couponDecline';
-import CouponRequestPage from './@pages/couponRequest';
+import CouponDetailPage from './@pages/coupon-list/coupon-detail';
+import CouponAcceptPage from './@pages/coupon-list/coupon-detail/accept/index';
+import CouponDeclinePage from './@pages/coupon-list/coupon-detail/decline';
+import CouponRequestPage from './@pages/coupon-list/coupon-detail/requesst';
 import DownloadPage from './@pages/download';
 import LoginPage from './@pages/login';
 import ProfileEditPage from './@pages/profile/edit';
@@ -85,7 +85,7 @@ const Router = () => {
           path={PATH.COUPON_DETAIL}
           element={
             <Suspense fallback={<Loading>👻</Loading>}>
-              <CouponDetail />
+              <CouponDetailPage />
             </Suspense>
           }
         />

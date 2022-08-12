@@ -16,7 +16,7 @@ import theme from '@/styles/theme';
 import { generateDateText } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
-import * as Styled from '../couponRequest/style';
+import * as Styled from '../requesst/style';
 
 const CouponDeclinePage = () => {
   const navigate = useNavigate();

@@ -15,7 +15,7 @@ import { couponTypeTextMapper } from '@/constants/coupon';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
-import NotFoundPage from '../404';
+import NotFoundPage from '../../404';
 import * as Styled from './style';
 
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
@@ -58,7 +58,7 @@ const sentCouponMapper: Record<COUPON_STATUS, { confirmMessage?: string; buttons
     },
   };
 
-const CouponDetail = () => {
+const CouponDetailPage = () => {
   const { couponId } = useParams();
   const navigate = useNavigate();
 
@@ -170,4 +170,4 @@ const CouponDetail = () => {
   );
 };
 
-export default CouponDetail;
+export default CouponDetailPage;
