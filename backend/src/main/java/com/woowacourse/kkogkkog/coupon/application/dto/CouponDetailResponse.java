@@ -18,8 +18,10 @@ public class CouponDetailResponse {
     private Long id;
     private Long senderId;
     private String senderNickname;
+    private String senderImageUrl;
     private Long receiverId;
     private String receiverNickname;
+    private String receiverImageUrl;
     private String hashtag;
     private String description;
     private String couponType;
@@ -27,15 +29,19 @@ public class CouponDetailResponse {
     private LocalDateTime meetingDate;
     private List<CouponHistoryResponse> couponHistories;
 
-    public CouponDetailResponse(Long id, Long senderId, String senderNickname, Long receiverId,
-                                String receiverNickname, String hashtag, String description,
-                                CouponType couponType, CouponStatus couponStatus, LocalDateTime meetingDate,
+    public CouponDetailResponse(Long id, Long senderId, String senderNickname,
+                                String senderImageUrl, Long receiverId, String receiverNickname,
+                                String receiverImageUrl, String hashtag, String description,
+                                CouponType couponType, CouponStatus couponStatus,
+                                LocalDateTime meetingDate,
                                 List<CouponHistoryResponse> couponHistories) {
         this.id = id;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
+        this.senderImageUrl = senderImageUrl;
         this.receiverId = receiverId;
         this.receiverNickname = receiverNickname;
+        this.receiverImageUrl = receiverImageUrl;
         this.hashtag = hashtag;
         this.description = description;
         this.couponType = couponType.name();
@@ -54,8 +60,10 @@ public class CouponDetailResponse {
             couponDetail.getId(),
             couponDetail.getSenderId(),
             couponDetail.getSenderNickname(),
+            couponDetail.getSenderImageUrl(),
             couponDetail.getReceiverId(),
             couponDetail.getReceiverNickname(),
+            couponDetail.getReceiverImageUrl(),
             couponDetail.getHashtag(),
             couponDetail.getDescription(),
             couponDetail.getCouponType(),
