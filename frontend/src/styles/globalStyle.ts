@@ -94,6 +94,12 @@ const globalStyle = css`
       transform: scaleY(1);
     }
   }
+
+  @media (max-width: 410px) {
+    input {
+      font-size: 16px !important;
+    }
+  }
 `;
 
 export default globalStyle;
