@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.common.fixture.domain;
 
-import static com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.PROGRESS;
+import static com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.IN_PROGRESS;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
@@ -18,6 +18,6 @@ public enum ReservationFixture {
     }
 
     public Reservation getReservation(Coupon coupon, LocalDateTime meetingDate) {
-        return new Reservation(null, coupon, meetingDate, message, PROGRESS);
+        return new Reservation(null, coupon, meetingDate, message, IN_PROGRESS);
     }
 }

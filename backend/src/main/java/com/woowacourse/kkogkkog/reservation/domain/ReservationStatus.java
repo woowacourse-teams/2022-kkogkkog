@@ -5,7 +5,7 @@ import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 
 public enum ReservationStatus {
 
-    PROGRESS,
+    IN_PROGRESS,
     CANCEL,
     DONE
     ;
@@ -27,24 +27,24 @@ public enum ReservationStatus {
     }
 
     private ReservationStatus handleCancel() {
-        if (this != PROGRESS) {
+        if (this != IN_PROGRESS) {
             throw new InvalidRequestException("취소를 할 수 없는 상태의 예약입니다.");
         }
         return CANCEL;
     }
 
     private ReservationStatus handleDecline() {
-        if (this != PROGRESS) {
+        if (this != IN_PROGRESS) {
             throw new InvalidRequestException("거절을 할 수 없는 상태의 예약입니다.");
         }
         return CANCEL;
     }
 
     private ReservationStatus handleAccept() {
-        if (this != PROGRESS) {
+        if (this != IN_PROGRESS) {
             throw new InvalidRequestException("승인을 할 수 없는 상태의 예약입니다.");
         }
-        return PROGRESS;
+        return IN_PROGRESS;
     }
 
     private ReservationStatus handleFinish() {

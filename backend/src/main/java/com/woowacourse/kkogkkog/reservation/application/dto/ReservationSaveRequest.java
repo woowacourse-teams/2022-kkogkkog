@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.reservation.application.dto;
 
-import static com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.PROGRESS;
+import static com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.IN_PROGRESS;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
@@ -30,6 +30,6 @@ public class ReservationSaveRequest {
     }
 
     public Reservation toEntity(Coupon coupon) {
-        return new Reservation(null, coupon, meetingDate.atStartOfDay(), message, PROGRESS);
+        return new Reservation(null, coupon, meetingDate.atStartOfDay(), message, IN_PROGRESS);
     }
 }

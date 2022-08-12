@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 class ReservationStatusTest {
 
     @Nested
-    @DisplayName("상태가 PROGRESS일 때 ")
+    @DisplayName("상태가 IN_PROGRESS일 때 ")
     class progress {
 
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, CANCEL을 반환한다.")
         void success_cancel() {
-            ReservationStatus status = ReservationStatus.PROGRESS;
+            ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
             ReservationStatus actual = status.handle(CouponEvent.CANCEL);
 
@@ -30,7 +30,7 @@ class ReservationStatusTest {
         @Test
         @DisplayName("DECLINE 이벤트를 받으면, CANCEL을 반환한다.")
         void success_decline() {
-            ReservationStatus status = ReservationStatus.PROGRESS;
+            ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
             ReservationStatus actual = status.handle(CouponEvent.DECLINE);
 
@@ -40,17 +40,17 @@ class ReservationStatusTest {
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, PROGRESS을 반환한다.")
         void fail_approve() {
-            ReservationStatus status = ReservationStatus.PROGRESS;
+            ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
             ReservationStatus actual = status.handle(CouponEvent.ACCEPT);
 
-            assertThat(actual).isEqualTo(ReservationStatus.PROGRESS);
+            assertThat(actual).isEqualTo(ReservationStatus.IN_PROGRESS);
         }
 
         @Test
         @DisplayName("FINISH 이벤트를 받으면, DONE을 반환한다.")
         void success_finish() {
-            ReservationStatus status = ReservationStatus.PROGRESS;
+            ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
             ReservationStatus actual = status.handle(CouponEvent.FINISH);
 
