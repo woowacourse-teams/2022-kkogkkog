@@ -52,23 +52,33 @@ class CouponQueryRepositoryTest {
             receiver = memberRepository.save(RECEIVER.getMember());
             coupon1 = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
-            reservation = reservationRepository.save(RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
         }
 
-        @DisplayName("받 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
+        @DisplayName("보낸 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
         @Test
         void findAllBySender() {
             // given
-            reservation.changeCouponStatus(CouponEvent.REQUEST, receiver);
-            reservation.changeStatus(CouponEvent.CANCEL);
+            requestAndCancelReservation(coupon1);
+            requestAndCancelReservation(coupon1);
+            requestAndCancelReservation(coupon1);
             couponRepository.flush();
             reservationRepository.flush();
+
             // when
             reservationRepository.save(RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
 
             // then
             List<CouponReservationData> actual = couponQueryRepository.findAllBySender(sender);
-            assertThat(actual).hasSize(2);
+            assertThat(actual).hasSize(3);
+        }
+
+        private void requestAndCancelReservation(Coupon coupon1) {
+            Reservation reservation = reservationRepository.save(
+                RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
+            coupon1.changeStatus(CouponEvent.REQUEST, receiver);
+            reservation.changeCouponStatus(CouponEvent.CANCEL, receiver);
+            reservation.changeStatus(CouponEvent.CANCEL);
         }
     }
 }
