@@ -5,11 +5,13 @@ import CouponStatus from '@/@components/coupon/CouponStatus';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
+import { MakeOptional } from '@/types/utils';
 import { generateDateText } from '@/utils';
 
 import * as Styled from './big.style';
 
-export interface BigCouponItemProps extends CouponResponse {
+export interface BigCouponItemProps
+  extends MakeOptional<CouponResponse, 'couponId' | 'reservationId' | 'message'> {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
@@ -17,16 +19,7 @@ export interface BigCouponItemProps extends CouponResponse {
 const BigCouponItem = (props: BigCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const {
-    sender,
-    receiver,
-    backgroundColor,
-    hashtag,
-    couponStatus,
-    message,
-    meetingDate,
-    thumbnail,
-  } = {
+  const { memberId, nickname, hashtag, couponStatus, message, meetingDate, thumbnail } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
@@ -35,28 +28,22 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const meetingDateText = generateDateText(meetingDate);
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === memberId;
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
         <CouponStatus status={couponStatus} isSent={isSent} />
 
-        <Styled.ImageInner backgroundColor={backgroundColor}>
+        <Styled.ImageInner>
           <img src={thumbnail} alt='쿠폰' />
         </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
         <Styled.Top>
-          {isSent ? (
-            <Styled.Member>
-              <Styled.English>To.</Styled.English> {receiver.nickname}
-            </Styled.Member>
-          ) : (
-            <Styled.Member>
-              <Styled.English>From.</Styled.English> {sender.nickname}
-            </Styled.Member>
-          )}
+          <Styled.Member>
+            <Styled.English>{isSent ? 'To.' : 'From.'}</Styled.English> {nickname}
+          </Styled.Member>
           {meetingDate && (
             <Styled.MeetingDate couponStatus={couponStatus}>
               {meetingDateText} 약속 {couponStatus === 'REQUESTED' && '신청됨'}
@@ -70,13 +57,16 @@ const BigCouponItem = (props: BigCouponItemProps) => {
   );
 };
 
-type BigCouponItemPreviewProps = Omit<CouponResponse, 'id' | 'couponStatus' | 'sender'> & {
+type BigCouponItemPreviewProps = Omit<
+  CouponResponse,
+  'couponId' | 'memberId' | 'reservationId' | 'couponStatus' | 'description'
+> & {
   className?: string;
 };
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
 BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
-  const { className, receiver, backgroundColor, hashtag, thumbnail, message } = {
+  const { className, nickname, hashtag, thumbnail, message } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
   };
@@ -84,13 +74,13 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
   return (
     <Styled.Root className={className} hasCursor={false}>
       <Styled.ImageContainer>
-        <Styled.ImageInner backgroundColor={backgroundColor}>
+        <Styled.ImageInner>
           <img src={thumbnail} alt='쿠폰' />
         </Styled.ImageInner>
       </Styled.ImageContainer>
       <Styled.TextContainer>
         <Styled.Member>
-          <Styled.English>To.</Styled.English> {receiver.nickname}
+          <Styled.English>To.</Styled.English> {nickname}
         </Styled.Member>
         <Styled.Message>{message}</Styled.Message>
         <Styled.Hashtag>#{hashtag}</Styled.Hashtag>

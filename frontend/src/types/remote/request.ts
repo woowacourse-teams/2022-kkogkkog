@@ -24,8 +24,14 @@ export interface CreateCouponRequest {
 }
 
 export interface ChangeCouponStatusRequest {
-  couponEvent: COUPON_EVENT;
-  meetingDate?: string;
+  event: COUPON_EVENT;
+}
+
+export interface CouponReservationRequest {
+  couponId: number;
+  event: COUPON_EVENT;
+  meetingDate: string;
+  message: string;
 }
 
 export interface ReadHistoryRequest {

@@ -36,7 +36,7 @@ const CouponListPage = () => {
 
   // 확장성을 고려해 coupon 자체를 받아옴.
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.id}`);
+    navigate(`/coupon-list/${coupon.couponId}`);
   };
 
   const currentParsedCouponList =

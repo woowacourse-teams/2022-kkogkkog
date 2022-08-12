@@ -8,6 +8,8 @@ import {
 } from '@/types/client/coupon';
 import { UserHistory } from '@/types/client/user';
 
+import { login } from '../../apis/user';
+
 export interface UserResponse {
   id: number;
   userId: string;
@@ -35,18 +37,30 @@ export interface OAuthLoginResponse {
 }
 
 export interface CouponResponse {
-  id: number;
-  sender: UserResponse; // memberId
-  receiver: UserResponse; //
-  hashtag: COUPON_HASHTAGS; // hashtag
-  message: string; // description
-  backgroundColor: COUPON_COLORS;
+  couponId: number;
+  reservationId: number | null;
+  memberId: number;
+  nickname: string;
+  hashtag: COUPON_HASHTAGS;
+  description: string;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
+  message: string;
   meetingDate?: string;
 }
 
-export interface CouponDetailResponse extends CouponResponse {
+export interface CouponDetailResponse {
+  id: number;
+  senderId: number;
+  senderNickname: string;
+  receiverId: number;
+  receiverNickname: string;
+  imageUrl: string;
+  hashtag: COUPON_HASHTAGS;
+  meetingDate?: string;
+  description: string;
+  couponType: COUPON_ENG_TYPE;
+  couponStatus: COUPON_STATUS;
   couponHistories: CouponHistory[];
 }
 

@@ -39,9 +39,9 @@ const CouponRequestPage = () => {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType } = coupon;
+  const { senderId, senderNickname, receiverNickname, imageUrl, couponType } = coupon;
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === senderId;
 
   const onClickRequestButton = () => {
     if (!meetingDate) {
@@ -52,7 +52,7 @@ const CouponRequestPage = () => {
 
     if (window.confirm('쿠폰 사용을 요청하시겠어요?')) {
       requestCoupon(
-        { meetingDate },
+        { meetingDate, message },
         {
           onSuccessCallback() {
             navigate(PATH.LANDING);
@@ -74,11 +74,9 @@ const CouponRequestPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
+          <Styled.ProfileImage src={imageUrl} alt='' />
           <Styled.SummaryMessage>
-            <strong>
-              {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸
-            </strong>
+            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
             &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>

@@ -69,9 +69,18 @@ const CouponDetailPage = () => {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType, couponStatus, couponHistories } = coupon;
+  const {
+    senderId,
+    senderNickname,
+    receiverId,
+    receiverNickname,
+    imageUrl,
+    couponType,
+    couponStatus,
+    couponHistories,
+  } = coupon;
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === senderId;
 
   const { confirmMessage, buttons } = isSent
     ? sentCouponMapper[couponStatus]
@@ -113,18 +122,23 @@ const CouponDetailPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
+          <Styled.ProfileImage src={imageUrl} alt='' />
           <Styled.SummaryMessage>
-            <strong>
-              {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸
-            </strong>
+            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
             &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>
         <Styled.Main>
           <Styled.CouponInner>
-            <BigCouponItem {...coupon} />
+            {/* couponId, reservation, message 는 필요 없다. */}
+            <BigCouponItem
+              {...{
+                ...coupon,
+                memberId: isSent ? receiverId : senderId,
+                nickname: isSent ? receiverNickname : senderNickname,
+              }}
+            />
           </Styled.CouponInner>
           <Styled.HistorySection>
             <Styled.HistoryTitle>소통 히스토리</Styled.HistoryTitle>

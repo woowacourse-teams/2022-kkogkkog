@@ -14,7 +14,7 @@ import { useFetchMe } from './@hooks/@queries/user';
 import CouponDetailPage from './@pages/coupon-list/coupon-detail';
 import CouponAcceptPage from './@pages/coupon-list/coupon-detail/accept/index';
 import CouponDeclinePage from './@pages/coupon-list/coupon-detail/decline';
-import CouponRequestPage from './@pages/coupon-list/coupon-detail/requesst';
+import CouponRequestPage from './@pages/coupon-list/coupon-detail/request';
 import DownloadPage from './@pages/download';
 import LoginPage from './@pages/login';
 import ProfileEditPage from './@pages/profile/edit';

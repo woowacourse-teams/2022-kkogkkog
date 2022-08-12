@@ -36,8 +36,7 @@ const CouponCreatePage = () => {
             receiverList.map(receiver => (
               <BigCouponItem.Preview
                 key={receiver.id}
-                receiver={receiver}
-                backgroundColor={color}
+                nickname={receiver.nickname}
                 message={message}
                 hashtag={hashtag}
                 couponType={couponType}

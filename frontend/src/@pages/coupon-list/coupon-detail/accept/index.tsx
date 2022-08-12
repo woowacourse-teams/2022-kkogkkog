@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -17,7 +16,7 @@ import theme from '@/styles/theme';
 import { generateDateText } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
-import * as Styled from '../requesst/style';
+import * as Styled from '../request/style';
 
 const CouponAcceptPage = () => {
   const navigate = useNavigate();
@@ -36,9 +35,9 @@ const CouponAcceptPage = () => {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType, meetingDate } = coupon;
+  const { senderId, senderNickname, receiverNickname, imageUrl, couponType, meetingDate } = coupon;
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === senderId;
 
   const onClickAcceptButton = () => {
     if (window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {
@@ -62,9 +61,10 @@ const CouponAcceptPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
+          <Styled.ProfileImage src={imageUrl} alt='' />
           <Styled.SummaryMessage>
-            {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸&nbsp;
+            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
+            &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>
@@ -83,19 +83,7 @@ const CouponAcceptPage = () => {
               <span>{message.length} / 200</span>
             </Position>
           </Position>
-          <Position
-            position='fixed'
-            bottom='0'
-            right='0'
-            css={theme => css`
-              width: 100%;
-              display: flex;
-
-              & > button + button {
-                border-left: 1px solid ${theme.colors.grey_100};
-              }
-            `}
-          >
+          <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
               사용 승인
             </Button>
