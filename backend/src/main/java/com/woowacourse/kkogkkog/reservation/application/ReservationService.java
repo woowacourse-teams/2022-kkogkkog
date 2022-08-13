@@ -63,16 +63,18 @@ public class ReservationService {
     }
 
     public void update(ReservationUpdateRequest request) {
+        Member loginMember = findMember(request.getMemberId());
+
         Reservation reservation = findReservation(request.getReservationId());
+        reservation.changeCouponStatus(
+            CouponEvent.of(request.getEvent()), loginMember);
+        reservation.changeStatus(CouponEvent.of(request.getEvent()));
+
         Coupon coupon = reservation.getCoupon();
-        Member loginMember = memberRepository.findById(request.getMemberId())
-            .orElseThrow(MemberNotFoundException::new);
-
-        coupon.changeStatus(CouponEvent.of(request.getEvent()), findMember(request.getMemberId()));
-
         MemberHistory memberHistory = new MemberHistory(null, coupon.getOppositeMember(loginMember),
             loginMember, coupon.getId(), coupon.getCouponType(), CouponEvent.of(request.getEvent()),
             reservation.getMeetingDate(), request.getMessage());
+
         publisher.publishEvent(memberHistory);
     }
 

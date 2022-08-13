@@ -13,7 +13,7 @@ export const userHandler = [
 
       return res(ctx.status(200, 'authorized'), ctx.json(user));
     } catch ({ message }) {
-      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ message }));
     }
   }),
 
@@ -52,7 +52,7 @@ export const userHandler = [
       return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
     }
 
-    return res(ctx.status(400, 'unauthorized'), ctx.json({ error: 'login failed' }));
+    return res(ctx.status(400, 'unauthorized'), ctx.json({ message: 'login failed' }));
   }),
 
   rest.get<any>(`${BASE_URL}/members/me/histories`, (req, res, ctx) => {
@@ -63,7 +63,7 @@ export const userHandler = [
 
       return res(ctx.status(200, 'authorized'), ctx.json({ data: histories }));
     } catch ({ message }) {
-      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ message }));
     }
   }),
 
@@ -91,7 +91,7 @@ export const userHandler = [
 
       return res(ctx.status(200, 'authorized'));
     } catch ({ message }) {
-      return res(ctx.status(400, 'unauthorized'), ctx.json({ error: message }));
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ message }));
     }
   }),
 ];

@@ -1,10 +1,11 @@
-import { ChangeEventHandler, FormEventHandler } from 'react';
+import { ChangeEventHandler, FormEventHandler, useEffect } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchModal from '@/@components/user/UserSearchModal';
 import { useModal } from '@/@hooks/@common/useModal';
+import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
@@ -43,6 +44,8 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
     onChangeMessage,
     onSubmitCreateForm,
   } = props;
+
+  usePreventReload();
 
   const { isShowModal, openModal, closeModal } = useModal();
 
@@ -101,9 +104,10 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
 
       <Input
         label='하고 싶은 말을 적어주세요'
-        placeholder='쿠폰을 사용하는 사람을 생각하며 적어주세요!'
+        placeholder='50자 이하로 작성해주세요'
         value={currentMessage}
         onChange={onChangeMessage}
+        maxLength={50}
       />
 
       <Styled.ButtonContainer>

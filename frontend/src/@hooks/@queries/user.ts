@@ -36,8 +36,14 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
+  const { displayMessage } = useToast();
   const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 
   return {
@@ -47,8 +53,14 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
+  const { displayMessage } = useToast();
   const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 
   return {
@@ -59,16 +71,24 @@ export const useFetchUserHistoryList = () => {
 
 /** Mutation */
 export const useEditMeMutation = () => {
+  const { displayMessage } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 };
 
 export const useOAuthLoginMutation = () => {
+  const { displayMessage } = useToast();
+
   return useMutation(OAuthLogin, {
     onSuccess(response) {
       const { accessToken } = response.data;
@@ -76,6 +96,11 @@ export const useOAuthLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+    },
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
     },
   });
 };
@@ -85,12 +110,10 @@ export const useJoinMutation = () => {
 
   return useMutation(join, {
     onSuccess: () => {},
-    onError({
-      response: {
-        data: { error },
-      },
-    }) {
-      displayMessage(error, true);
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
     },
   });
 };
@@ -108,12 +131,10 @@ export const useLoginMutation = () => {
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     },
-    onError({
-      response: {
-        data: { error },
-      },
-    }) {
-      displayMessage(error, true);
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
     },
   });
 };

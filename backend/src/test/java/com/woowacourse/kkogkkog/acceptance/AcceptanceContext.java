@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.acceptance;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.Map;
 import org.springframework.http.MediaType;
 
 public class AcceptanceContext {
@@ -11,6 +12,16 @@ public class AcceptanceContext {
         return RestAssured.given().log().all()
             .when()
             .get(path, params)
+            .then().log().all()
+            .extract();
+    }
+
+    public static ExtractableResponse<Response> invokeGetWithQueryParams(String path, Map<String, Object> params) {
+        return RestAssured.given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .queryParams(params)
+            .get(path)
             .then().log().all()
             .extract();
     }
@@ -72,6 +83,15 @@ public class AcceptanceContext {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
             .put(path)
+            .then().log().all()
+            .extract();
+    }
+    public static ExtractableResponse<Response> invokePatchWithToken(String path, String token) {
+        return RestAssured.given().log().all()
+            .auth().oauth2(token)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .patch(path)
             .then().log().all()
             .extract();
     }

@@ -1,8 +1,8 @@
 import { client } from '@/apis';
 import { ChangeCouponStatusRequest, CreateCouponRequest } from '@/types/remote/request';
-import { CouponListResponse, CouponResponse } from '@/types/remote/response';
+import { CouponDetailResponse, CouponListResponse } from '@/types/remote/response';
 
-export const getCoupon = (id: number) => client.get<CouponResponse>(`/coupons/${id}`);
+export const getCoupon = (id: number) => client.get<CouponDetailResponse>(`/coupons/${id}`);
 
 export const getCouponList = () => client.get<CouponListResponse>('/coupons');
 

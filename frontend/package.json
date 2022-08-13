@@ -6,6 +6,7 @@
     "start": "cross-env NODE_ENV=local webpack serve --mode=development",
     "start:dev": "cross-env NODE_ENV=development webpack serve  --mode=development",
     "build": " cross-env NODE_ENV=production webpack --progress --mode=production",
+    "build:local": " cross-env NODE_ENV=local webpack --progress --mode=development",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=development",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

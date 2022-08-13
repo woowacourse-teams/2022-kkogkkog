@@ -20,8 +20,27 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
   const [year, month, day] = date.split('-');
 
   const dateText = includeYear
-    ? year && month && day && `${year}년 ${month}월 ${day}일`
-    : month && day && `${month}월 ${day}일`;
+    ? year && month && day && `${year}년 ${Number(month)}월 ${Number(day)}일`
+    : month && day && `${Number(month)}월 ${Number(day)}일`;
 
   return dateText;
+};
+
+// 2022-08-15 형식의 텍스트가 들어옴.
+// @TODO: string 타입 구체적으로 좁히기
+export const isBeforeToday = (date: string) => {
+  const today = getToday();
+
+  const [todayYear, todayMonth, todayDay] = today.split('-');
+  const [year, month, day] = date.split('-');
+
+  if (todayYear > year) {
+    return true;
+  } else if (todayMonth > month) {
+    return true;
+  } else if (todayDay > day) {
+    return true;
+  }
+
+  return false;
 };

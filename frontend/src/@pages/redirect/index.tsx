@@ -3,11 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
+import { useToast } from '@/@hooks/@common/useToast';
 import { useAddSlackAppMutation } from '@/@hooks/@queries/service';
 import { useOAuthLoginMutation } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
 const Redirect = () => {
+  const { displayMessage } = useToast();
+
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
 
@@ -21,8 +24,18 @@ const Redirect = () => {
 
     if (pathname === PATH.LOGIN_REDIRECT) {
       loginMutate.mutate(code, {
-        onSuccess() {
-          navigate(PATH.LANDING);
+        onSuccess(response) {
+          const { isNew } = response.data;
+
+          if (isNew) {
+            navigate(PATH.PROFILE_EDIT);
+
+            displayMessage('회원가입에 성공했어요. 닉네임을 변경해볼까요?', false);
+          } else {
+            navigate(PATH.LANDING);
+
+            displayMessage('로그인에 성공하였습니다.', false);
+          }
         },
       });
     }

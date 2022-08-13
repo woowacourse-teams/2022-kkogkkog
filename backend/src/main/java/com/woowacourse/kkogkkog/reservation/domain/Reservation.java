@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +41,8 @@ public class Reservation {
 
     private String message;
 
-    private boolean isFinished;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
 
     @CreatedDate
     private LocalDateTime createdTime;
@@ -50,14 +53,20 @@ public class Reservation {
     public Reservation(Long id,
                        Coupon coupon,
                        LocalDateTime meetingDate,
-                       String message) {
+                       String message,
+                       ReservationStatus reservationStatus) {
         this.id = id;
         this.coupon = coupon;
         this.meetingDate = meetingDate;
         this.message = message;
+        this.reservationStatus = reservationStatus;
     }
 
     public void changeCouponStatus(CouponEvent couponEvent, Member member) {
         coupon.changeStatus(couponEvent, member);
+    }
+
+    public void changeStatus(CouponEvent couponEvent) {
+        this.reservationStatus = reservationStatus.handle(couponEvent);
     }
 }

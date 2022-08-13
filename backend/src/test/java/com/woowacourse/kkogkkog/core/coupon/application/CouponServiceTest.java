@@ -3,7 +3,11 @@ package com.woowacourse.kkogkkog.core.coupon.application;
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER2;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -53,20 +57,13 @@ class CouponServiceTest {
         private Workspace workspace;
         private CouponSaveRequest couponSaveRequest;
 
-        // 이부분에서 Message 로직이 강하게 엮어 있어 Fixture 사용 불가. slack Message는 분리가 필요
+        // TODO: 이부분에서 Message 로직이 강하게 엮어 있어 Fixture 사용 불가. slack Message는 분리가 필요
         @BeforeEach
         void setUp() {
-            workspace = workspaceRepository.save(
-                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
-            sender = memberRepository.save(
-                new Member(null, "sender", workspace, "sender", "rookie@gmail.com",
-                    "https://slack"));
-            receiver1 = memberRepository.save(
-                new Member(null, "receiver1", workspace, "receiver", "rookie@gmail.com",
-                    "https://slack"));
-            receiver2 = memberRepository.save(
-                new Member(null, "receiver2", workspace, "receiver", "rookie@gmail.com",
-                    "https://slack"));
+            workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+            receiver1 = memberRepository.save(RECEIVER.getMember(workspace));
+            receiver2 = memberRepository.save(RECEIVER2.getMember(workspace));
         }
 
         @Test
@@ -90,8 +87,9 @@ class CouponServiceTest {
 
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(JEONG.getMember());
-            receiver = memberRepository.save(LEO.getMember());
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(JEONG.getMember(workspace));
+            receiver = memberRepository.save(LEO.getMember(workspace));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
         }
@@ -120,8 +118,9 @@ class CouponServiceTest {
 
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(JEONG.getMember());
-            receiver = memberRepository.save(LEO.getMember());
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(JEONG.getMember(workspace));
+            receiver = memberRepository.save(LEO.getMember(workspace));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
         }
