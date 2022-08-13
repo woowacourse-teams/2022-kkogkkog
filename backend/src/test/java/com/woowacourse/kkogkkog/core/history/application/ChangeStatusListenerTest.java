@@ -77,7 +77,7 @@ public class ChangeStatusListenerTest {
             Long couponId = response.get(0).getId();
             List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
                 couponId);
-            assertThat(memberHistories.size()).isEqualTo(1);
+            assertThat(memberHistories).hasSize(1);
         }
 
         @Test
@@ -93,7 +93,7 @@ public class ChangeStatusListenerTest {
             List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
                 couponId);
 
-            assertThat(memberHistories.size()).isEqualTo(2);
+            assertThat(memberHistories).hasSize(2);
         }
 
         @Test
@@ -111,7 +111,7 @@ public class ChangeStatusListenerTest {
             List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
                 couponId);
 
-            assertThat(memberHistories.size()).isEqualTo(3);
+            assertThat(memberHistories).hasSize(3);
         }
     }
 

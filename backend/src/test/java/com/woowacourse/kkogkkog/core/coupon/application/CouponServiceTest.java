@@ -177,7 +177,7 @@ class CouponServiceTest {
             assertAll(
                 () -> assertThat(couponStatus).isEqualTo("READY"),
                 () -> assertThat(meetingDate).isNull(),
-                () -> assertThat(couponHistories.size()).isEqualTo(1)
+                () -> assertThat(couponHistories).hasSize(1)
             );
         }
     }
