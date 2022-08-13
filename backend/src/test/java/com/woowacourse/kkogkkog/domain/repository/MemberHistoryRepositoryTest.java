@@ -1,44 +1,39 @@
 package com.woowacourse.kkogkkog.domain.repository;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.kkogkkog.common.annotaion.RepositoryTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@RepositoryTest
 class MemberHistoryRepositoryTest {
-
-    @Autowired
-    private CouponRepository coupons;
 
     @Autowired
     private MemberRepository members;
 
     @Autowired
     private WorkspaceRepository workspaces;
+
     @Autowired
     private MemberHistoryRepository memberHistories;
 
     @Test
-    @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 안은 기록들의 개수를 반환한다.")
+    @DisplayName("countByHostMemberAndIsReadFalse 메서드는 기록의 주인이 읽지 않은 기록들의 개수를 반환한다.")
     void countByHostMemberAndIsReadFalse() {
-        Workspace workspace = workspaces.save(new Workspace(1L, "T03LX3C5540", "workspace_name",
-            "xoxb-bot-access-token"));
-        Member sender = members.save(new Member(null, "UJeong", workspace,
-            "정", "jeong@gmail.com", "image"));
-        Member receiver = members.save(new Member(null, "ULeo", workspace,
-            "레오", "leothelion@gmail.com", "image"));
+        Workspace workspace = workspaces.save(KKOGKKOG.getWorkspace());
+        Member sender = members.save(JEONG.getMember(workspace));
+        Member receiver = members.save(LEO.getMember(workspace));
         Coupon coupon = COFFEE.getCoupon(sender, receiver);
 
         MemberHistory initHistory = toMemberHistory(receiver, sender, coupon, CouponEvent.INIT);

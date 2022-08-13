@@ -1,9 +1,11 @@
 package com.woowacourse.kkogkkog.core.coupon.domain;
 
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -12,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.exception.ForbiddenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -134,8 +135,7 @@ class CouponEventTest {
         @Test
         @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
         void formatString() {
-            Member member = new Member(null, "UJeong", new Workspace(null, "workspaceId", "name", "accessToken"),
-                "정", "jeong@gmail.com", "image");
+            Member member = JEONG.getMember(KKOGKKOG.getWorkspace());
             CouponEvent couponEvent = CouponEvent.INIT;
             CouponType meal = CouponType.MEAL;
 

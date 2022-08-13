@@ -6,6 +6,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKI
 import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_수정_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -16,7 +17,9 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
@@ -41,6 +44,8 @@ class ReservationServiceTest {
     private CouponRepository couponRepository;
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -53,6 +58,7 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(ROOKIE.getMember());
             receiver = memberRepository.save(AUTHOR.getMember());
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
@@ -85,8 +91,9 @@ class ReservationServiceTest {
 
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(ROOKIE.getMember());
-            receiver = memberRepository.save(AUTHOR.getMember());
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(ROOKIE.getMember(workspace));
+            receiver = memberRepository.save(AUTHOR.getMember(workspace));
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver, "REQUESTED"));
             reservation = reservationRepository.save(RESERVE_SAVE.getReservation(coupon, now()));
         }
