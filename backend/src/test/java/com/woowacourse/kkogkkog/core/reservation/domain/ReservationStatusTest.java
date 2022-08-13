@@ -24,7 +24,7 @@ class ReservationStatusTest {
 
             ReservationStatus actual = status.handle(CouponEvent.CANCEL);
 
-            assertThat(actual).isEqualTo(ReservationStatus.CANCEL);
+            assertThat(actual).isEqualTo(ReservationStatus.CANCELED);
         }
 
         @Test
@@ -34,7 +34,7 @@ class ReservationStatusTest {
 
             ReservationStatus actual = status.handle(CouponEvent.DECLINE);
 
-            assertThat(actual).isEqualTo(ReservationStatus.CANCEL);
+            assertThat(actual).isEqualTo(ReservationStatus.CANCELED);
         }
 
         @Test
@@ -59,13 +59,13 @@ class ReservationStatusTest {
     }
 
     @Nested
-    @DisplayName("상태가 CANCEL일 때 ")
+    @DisplayName("상태가 CANCELED일 때 ")
     class cancel {
 
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_cancel() {
-            ReservationStatus status = ReservationStatus.CANCEL;
+            ReservationStatus status = ReservationStatus.CANCELED;
 
             assertThatThrownBy(() -> status.handle(CouponEvent.CANCEL))
                 .isInstanceOf(InvalidRequestException.class);
@@ -74,7 +74,7 @@ class ReservationStatusTest {
         @Test
         @DisplayName("DECLINE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_decline() {
-            ReservationStatus status = ReservationStatus.CANCEL;
+            ReservationStatus status = ReservationStatus.CANCELED;
 
             assertThatThrownBy(() -> status.handle(CouponEvent.DECLINE))
                 .isInstanceOf(InvalidRequestException.class);
@@ -83,7 +83,7 @@ class ReservationStatusTest {
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_accept() {
-            ReservationStatus status = ReservationStatus.CANCEL;
+            ReservationStatus status = ReservationStatus.CANCELED;
 
             assertThatThrownBy(() -> status.handle(CouponEvent.ACCEPT))
                 .isInstanceOf(InvalidRequestException.class);
@@ -92,7 +92,7 @@ class ReservationStatusTest {
         @Test
         @DisplayName("FINISH 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_finish() {
-            ReservationStatus status = ReservationStatus.CANCEL;
+            ReservationStatus status = ReservationStatus.CANCELED;
 
             assertThatThrownBy(() -> status.handle(CouponEvent.FINISH))
                 .isInstanceOf(InvalidRequestException.class);
