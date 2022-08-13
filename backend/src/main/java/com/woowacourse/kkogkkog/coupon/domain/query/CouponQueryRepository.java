@@ -14,6 +14,7 @@ public interface CouponQueryRepository extends JpaRepository<Coupon, Long> {
             + " FROM Coupon c"
             + " JOIN c.sender m"
             + " LEFT JOIN Reservation r ON r.coupon = c WHERE m = :member"
+            + " AND (r.coupon is NULL OR r.reservationStatus NOT IN com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.CANCELED)"
             + " ORDER BY r.meetingDate DESC")
     List<CouponReservationData> findAllBySender(@Param("member") Member member);
 
@@ -22,6 +23,7 @@ public interface CouponQueryRepository extends JpaRepository<Coupon, Long> {
             + " FROM Coupon c"
             + " JOIN c.receiver m"
             + " LEFT JOIN Reservation r ON r.coupon = c WHERE m = :member"
+            + " AND (r.coupon is NULL OR r.reservationStatus NOT IN com.woowacourse.kkogkkog.reservation.domain.ReservationStatus.CANCELED)"
             + " ORDER BY r.meetingDate DESC")
     List<CouponReservationData> findAllByReceiver(@Param("member") Member member);
 }
