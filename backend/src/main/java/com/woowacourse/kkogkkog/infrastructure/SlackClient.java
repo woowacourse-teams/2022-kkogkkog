@@ -9,6 +9,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
+@Slf4j
 @Component
 public class SlackClient {
 
@@ -122,7 +124,7 @@ public class SlackClient {
 
     public void requestPushAlarm(String token, String userId, String message) {
         try {
-            messageClient
+            Map<String, Object> responseBody = messageClient
                 .post()
                 .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
@@ -130,8 +132,11 @@ public class SlackClient {
                 .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
                 .blockOptional()
                 .orElseThrow(PostMessageRequestFailedException::new);
+            if (responseBody.get("ok").equals("false")) {
+                throw new PostMessageRequestFailedException((String) responseBody.get("error"));
+            }
         } catch (PostMessageRequestFailedException e) {
-            e.printStackTrace(); // TODO: 사용자에게 예외 던지지 말고 로그만 찍기. 향후 로그백으로 대체.
+            log.info("Exception has been thrown : ", e);
         }
     }
 
