@@ -8,22 +8,16 @@ export const Root = styled.div`
 
   width: 100%;
 
-  & > button {
-    margin: 5px;
-  }
-  & > button:first-of-type {
-    margin-left: 0;
-  }
-  & > button:last-of-type {
-    margin-right: 0;
-  }
+  gap: 10px;
 `;
 
 export const FilterButton = styled.button<{ isFocus?: boolean; horizontalScroll?: boolean }>`
-  max-width: 100px;
+  max-width: 120px;
+
   aspect-ratio: 1/1;
 
-  padding: 10px;
+  padding: 5px;
+
   flex: 1;
 
   border-radius: 20px;
@@ -36,6 +30,14 @@ export const FilterButton = styled.button<{ isFocus?: boolean; horizontalScroll?
     background-color: ${isFocus ? theme.colors.primary_400 : theme.colors.white_100};
     color: ${isFocus ? theme.colors.white_100 : theme.colors.grey_100};
   `}
+
+  @media (max-width: 400px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 360px) {
+    font-size: 14px;
+  }
 `;
 
 export const ExtendedPlaceholder = css`
