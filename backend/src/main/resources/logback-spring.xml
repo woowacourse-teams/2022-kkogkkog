@@ -5,7 +5,7 @@
   <property name="LOG_PATTERN"
     value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %yellow([traceId=%X{trace_id}]) %highlight(%-5level) : %msg%n"/>
 
-  <springProfile name="!prod">
+  <springProfile name="default">
     <include resource="console-appender.xml"/>
 
     <root level="INFO">
@@ -13,7 +13,7 @@
     </root>
   </springProfile>
 
-  <springProfile name="prod">
+  <springProfile name="!default">
     <include resource="file-info-appender.xml"/>
     <include resource="file-error-appender.xml"/>
     <include resource="file-all-appender.xml"/>
