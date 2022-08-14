@@ -33,7 +33,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
-        <CouponStatus status={couponStatus} isSent={isSent} />
+        <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
         <Styled.ImageInner>
           <img src={thumbnail} alt='쿠폰' />
