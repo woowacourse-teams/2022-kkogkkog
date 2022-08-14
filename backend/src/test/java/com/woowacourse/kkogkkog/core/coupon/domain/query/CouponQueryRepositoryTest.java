@@ -4,6 +4,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFE
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
+import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.common.annotaion.RepositoryTest;
@@ -13,7 +14,9 @@ import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponReservationData;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import java.time.LocalDateTime;
@@ -30,6 +33,8 @@ class CouponQueryRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
+    private WorkspaceRepository workspaceRepository;
+    @Autowired
     private CouponRepository couponRepository;
     @Autowired
     private ReservationRepository reservationRepository;
@@ -44,12 +49,11 @@ class CouponQueryRepositoryTest {
         private Member receiver;
         private Coupon coupon1;
 
-        private Reservation reservation;
-
         @BeforeEach
         void setUp() {
-            sender = memberRepository.save(SENDER.getMember());
-            receiver = memberRepository.save(RECEIVER.getMember());
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+            receiver = memberRepository.save(RECEIVER.getMember(workspace));
             coupon1 = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
