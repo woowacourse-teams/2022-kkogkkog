@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
@@ -47,8 +48,10 @@ class NicknameTest {
             Nickname nickname = Nickname.ofRandom();
             String actual = nickname.getValue();
 
-            assertThat(actual).startsWith("익명");
-            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$");
+            assertAll(
+                () -> assertThat(actual).startsWith("익명"),
+                () -> assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$")
+            );
         }
     }
 }
