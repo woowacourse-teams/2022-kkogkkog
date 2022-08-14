@@ -1,9 +1,9 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
 import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
