@@ -10,12 +10,12 @@ public enum MemberFixture {
 
     ROOKIE("rookieId1", "루키", "rookie@gmail.com", "https://slack"),
     AUTHOR("authorId2", "아서", "author@gmail.com", "https://slack"),
-    JEONG("jeongId3", "정", "jeong@gmail.com", "https://slack"),
+    JEONG("jeongId3", "진우", "jeong@gmail.com", "https://slack"),
     LEO("leoId4", "레오", "leo@gmail.com", "https://slack"),
 
     SENDER("senderId1", "루키", "sender@gmail.com", "https://slack"),
     RECEIVER("receiverId1", "아서", "receiver@gmail.com", "https://slack"),
-    RECEIVER2("receiverId2", "정", "receiver@gmail.com", "https://slack"),
+    RECEIVER2("receiverId2", "진우", "receiver@gmail.com", "https://slack"),
     ;
 
     private final String userId;
