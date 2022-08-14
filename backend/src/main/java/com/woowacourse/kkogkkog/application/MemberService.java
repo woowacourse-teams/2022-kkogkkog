@@ -9,6 +9,7 @@ import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.Nickname;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
@@ -47,7 +48,7 @@ public class MemberService {
             return new MemberCreateResponse(existingMember.getId(), false);
         }
         Member newMember = memberRepository.save(
-            Member.ofRandomNickname(userId, workspace, email, imageUrl));
+            new Member(null, userId, workspace, Nickname.ofRandom(), email, imageUrl));
         return new MemberCreateResponse(newMember.getId(), true);
     }
 
