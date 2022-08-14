@@ -17,7 +17,7 @@ export const NoneContentsContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  gap: 10px;
+  gap: 20px;
 
   & > h2 {
     font-size: 50px;
@@ -41,7 +41,7 @@ export const NoneContentsContainer = styled.div`
 `;
 
 export const DateContainer = styled.div`
-  width: 90%;
+  width: 320px;
   height: 320px;
 
   display: flex;
@@ -50,11 +50,11 @@ export const DateContainer = styled.div`
   gap: 10px;
 
   padding: 20px;
-  margin: 0 10px;
 
   border-radius: 20px;
 
   overflow-y: scroll;
+  overflow-x: hidden;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_100};
