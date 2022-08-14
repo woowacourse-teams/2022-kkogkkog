@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.common.fixture.domain;
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.Nickname;
 import com.woowacourse.kkogkkog.domain.Workspace;
 
 public enum MemberFixture {
@@ -33,18 +34,18 @@ public enum MemberFixture {
     }
 
     public Member getMember(Workspace workspace) {
-        return new Member(null, userId, workspace, nickname, email, imageUrl);
+        return new Member(null, userId, workspace, new Nickname(nickname), email, imageUrl);
     }
 
     public Member getMember() {
-        return new Member(null, userId, KKOGKKOG.getWorkspace(1L), nickname, email, imageUrl);
+        return new Member(null, userId, KKOGKKOG.getWorkspace(1L), new Nickname(nickname), email, imageUrl);
     }
 
     public Member getMember(Long id) {
-        return new Member(id, userId, null, nickname, email, imageUrl);
+        return new Member(id, userId, null, new Nickname(nickname), email, imageUrl);
     }
 
     public Member getMember(Long id, Workspace workspace) {
-        return new Member(id, userId, workspace, nickname, email, imageUrl);
+        return new Member(id, userId, workspace, new Nickname(nickname), email, imageUrl);
     }
 }

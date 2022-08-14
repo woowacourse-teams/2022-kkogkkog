@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,8 +36,8 @@ public class Member {
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
 
-    @Column(nullable = false)
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
 
     @Column(nullable = false)
     private String email;
@@ -44,7 +45,7 @@ public class Member {
     @Column(nullable = false)
     private String imageUrl;
 
-    public Member(Long id, String userId, Workspace workspace, String nickname, String email,
+    public Member(Long id, String userId, Workspace workspace, Nickname nickname, String email,
                   String imageUrl) {
         this.id = id;
         this.userId = userId;
@@ -57,8 +58,12 @@ public class Member {
     public static Member ofRandomNickname(String userId, Workspace workspace, String email,
                                           String imageUrl) {
         String randomNum = String.valueOf(RANDOM_GENERATOR.nextDouble());
-        String anonymousNickname = String.format("익명%s", randomNum.substring(2, 6));
+        Nickname anonymousNickname = new Nickname(String.format("익명%s", randomNum.substring(2, 6)));
         return new Member(null, userId, workspace, anonymousNickname, email, imageUrl);
+    }
+
+    public String getNickname() {
+        return nickname.getValue();
     }
 
     public void updateNickname(String nickname) {
@@ -66,7 +71,7 @@ public class Member {
         if (!matcher.matches()) {
             throw new InvalidRequestException("잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)");
         }
-        this.nickname = nickname;
+        this.nickname = new Nickname(nickname);
     }
 
     public void updateEmail(String email) {
