@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -67,7 +68,8 @@ const UnAuthorizedLanding = () => {
 
 const AuthorizedLanding = () => {
   const navigate = useNavigate();
-  const { couponList, acceptedCouponList, isLoading } = useFetchCouponList();
+  const { acceptedCouponList, receivedOpenCouponList, sentOpenCouponList, isLoading } =
+    useFetchCouponList();
 
   const onClickCouponItem = (coupon: CouponResponse) => {
     navigate(`/coupon-list/${coupon.couponId}`);
@@ -116,7 +118,7 @@ const AuthorizedLanding = () => {
             <span>승인된 꼭꼭</span>
           </Styled.FullListTitle>
 
-          <CustomSuspense fallback={<div>hi</div>} isLoading={isLoading}>
+          <CustomSuspense fallback={<AcceptedCouponList.Skeleton />} isLoading={isLoading}>
             <AcceptedCouponList acceptedCouponList={acceptedCouponList} />
           </CustomSuspense>
         </Styled.FullListContainer>
@@ -136,7 +138,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && [...couponList.received].reverse()}
+                couponList={receivedOpenCouponList}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />
@@ -157,7 +159,7 @@ const AuthorizedLanding = () => {
               isLoading={isLoading}
             >
               <HorizontalCouponList
-                couponList={couponList && [...couponList.sent].reverse()}
+                couponList={sentOpenCouponList}
                 CouponItem={SmallCouponItem}
                 onClickCouponItem={onClickCouponItem}
               />

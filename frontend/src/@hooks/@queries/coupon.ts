@@ -24,6 +24,7 @@ const QUERY_KEY = {
 export const useFetchCouponList = () => {
   const { displayMessage } = useToast();
 
+  /** suspense false만 isLoading을 사용할 수 있다. */
   const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     onError(error) {
@@ -37,8 +38,7 @@ export const useFetchCouponList = () => {
 
   const parsedSentCouponList = useMemo(
     () =>
-      couponList &&
-      couponList?.sent?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
+      (couponList?.sent ?? [])?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
         (prev, coupon) => {
           const key = coupon.couponStatus;
 
@@ -56,8 +56,7 @@ export const useFetchCouponList = () => {
 
   const parsedReceivedCouponList = useMemo(
     () =>
-      couponList &&
-      couponList?.received?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
+      (couponList?.received ?? [])?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
         (prev, coupon) => {
           const key = coupon.couponStatus;
 
@@ -87,11 +86,23 @@ export const useFetchCouponList = () => {
     }, {});
   }, [couponList]);
 
+  const receivedOpenCouponList = useMemo(
+    () => [...parsedReceivedCouponList.REQUESTED, ...parsedReceivedCouponList.READY],
+    [parsedReceivedCouponList.REQUESTED, parsedReceivedCouponList.READY]
+  );
+
+  const sentOpenCouponList = useMemo(
+    () => [...parsedSentCouponList.REQUESTED, ...parsedSentCouponList.READY],
+    [parsedSentCouponList.REQUESTED, parsedSentCouponList.READY]
+  );
+
   return {
     couponList,
     parsedSentCouponList,
     parsedReceivedCouponList,
     acceptedCouponList,
+    receivedOpenCouponList,
+    sentOpenCouponList,
     ...rest,
   };
 };

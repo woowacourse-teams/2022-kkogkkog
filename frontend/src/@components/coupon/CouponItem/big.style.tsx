@@ -5,8 +5,11 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;
-  max-width: 380px;
-  min-width: 125px;
+
+  max-width: 340px;
+  min-width: 280px;
+
+  height: 120px;
 
   display: flex;
   justify-content: space-between;
@@ -14,8 +17,6 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
   gap: 20px;
 
   border-radius: 20px;
-
-  aspect-ratio: 3/1;
 
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
 
@@ -71,11 +72,9 @@ export const Member = styled.p`
 `;
 
 export const TextContainer = styled.div`
-  overflow-x: scroll;
-
   flex: 1;
-  height: 100%;
 
+  height: 100%;
   white-space: nowrap;
 
   display: flex;
@@ -89,14 +88,6 @@ export const TextContainer = styled.div`
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
   `}
-
-  @media (max-width: 400px) {
-    font-size: 16px;
-  }
-
-  @media (max-width: 360px) {
-    font-size: 14px;
-  }
 `;
 
 export const English = styled.span`
@@ -113,6 +104,7 @@ export const TypeText = styled.span`
 export const CouponPropertyContainer = styled.div`
   width: 30%;
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -132,7 +124,6 @@ export const ImageContainer = styled(CouponPropertyContainer)`
 export const ImageInner = styled.div`
   height: 58px;
   width: 58px;
-
   display: flex;
   justify-content: center;
   align-items: center;

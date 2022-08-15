@@ -6,6 +6,8 @@ export const Root = styled.div`
 
   overflow-x: scroll;
   overflow-y: hidden;
+
+  gap: 15px;
 `;
 
 export const NoneContentsContainer = styled.div`
@@ -17,7 +19,7 @@ export const NoneContentsContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  gap: 10px;
+  gap: 20px;
 
   & > h2 {
     font-size: 50px;
@@ -41,7 +43,7 @@ export const NoneContentsContainer = styled.div`
 `;
 
 export const DateContainer = styled.div`
-  width: 90%;
+  width: 350px;
   height: 320px;
 
   display: flex;
@@ -50,11 +52,11 @@ export const DateContainer = styled.div`
   gap: 10px;
 
   padding: 20px;
-  margin: 0 10px;
 
   border-radius: 20px;
 
   overflow-y: scroll;
+  overflow-x: hidden;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_100};
@@ -62,7 +64,7 @@ export const DateContainer = styled.div`
 `;
 
 export const DateTitle = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 
   ${({ theme }) => css`

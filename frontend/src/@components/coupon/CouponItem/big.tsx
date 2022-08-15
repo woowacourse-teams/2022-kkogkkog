@@ -26,14 +26,12 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const { me } = useFetchMe();
 
-  const meetingDateText = generateDateText(meetingDate);
-
   const isSent = me?.id === memberId;
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
       <Styled.CouponPropertyContainer>
-        <CouponStatus status={couponStatus} isSent={isSent} />
+        <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
         <Styled.ImageInner>
           <img src={thumbnail} alt='쿠폰' />
@@ -44,11 +42,6 @@ const BigCouponItem = (props: BigCouponItemProps) => {
           <Styled.Member>
             <Styled.English>{isSent ? 'To.' : 'From.'}</Styled.English> {nickname}
           </Styled.Member>
-          {meetingDate && (
-            <Styled.MeetingDate couponStatus={couponStatus}>
-              {meetingDateText} 약속 {couponStatus === 'REQUESTED' && '신청됨'}
-            </Styled.MeetingDate>
-          )}
         </Styled.Top>
         <Styled.Message>{description}</Styled.Message>
         <Styled.Hashtag>#{hashtag}</Styled.Hashtag>

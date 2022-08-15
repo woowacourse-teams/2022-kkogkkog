@@ -5,7 +5,7 @@ import { CSSProperties } from 'react';
 type PlaceholderProps = Pick<CSSProperties, 'width' | 'height' | 'aspectRatio'>;
 
 const Placeholder = styled.div<PlaceholderProps>`
-  border-radius: 4px;
+  border-radius: 20px;
   background-image: linear-gradient(90deg, #e0e0e0 0px, #ededed 30px, #e0e0e0 60px);
   animation: refresh 2s infinite ease-out;
 

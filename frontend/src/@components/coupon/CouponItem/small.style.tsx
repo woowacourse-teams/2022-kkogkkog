@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div<{ hasCursor?: boolean }>`
-  width: 120px;
+  width: 140px;
 
   display: flex;
   justify-content: center;
@@ -25,6 +25,8 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
 
 export const TextContainer = styled.div`
   font-weight: 600;
+
+  font-size: 14px;
 `;
 
 export const Preposition = styled.span`

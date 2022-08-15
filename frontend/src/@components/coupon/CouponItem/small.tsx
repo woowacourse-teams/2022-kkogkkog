@@ -16,7 +16,7 @@ export interface SmallCouponItemProps extends CouponResponse {
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberId, nickname, thumbnail, couponStatus } = {
+  const { memberId, nickname, thumbnail, couponStatus, meetingDate } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
@@ -27,7 +27,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>
-      <CouponStatus status={couponStatus} isSent={isSent} />
+      <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 

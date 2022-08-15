@@ -1,40 +1,44 @@
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
+import { generateDateText } from '@/utils';
 
 import * as Styled from './style';
 
 const couponStatusMapper = (
   isSent: boolean
-): Record<COUPON_STATUS, { backgroundColor: string; text: string }> => ({
+): Record<COUPON_STATUS, { backgroundColor: string }> => ({
   REQUESTED: {
     backgroundColor: theme.colors.primary_500,
-    text: isSent ? '요청옴' : '요청중',
   },
   READY: {
     backgroundColor: theme.colors.primary_300,
-    text: '대기중',
   },
   ACCEPTED: {
     backgroundColor: theme.colors.green_500,
-    text: isSent ? '승인함' : '승인됨',
   },
   FINISHED: {
     backgroundColor: theme.colors.light_grey_100,
-    text: '사용완료',
   },
 });
 
 interface CouponStatusProps {
   status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
+  meetingDate?: string;
   isSent: boolean;
 }
 
 const CouponStatus = (props: CouponStatusProps) => {
-  const { status, isSent } = props;
+  const { status, isSent, meetingDate } = props;
 
-  const { text, backgroundColor } = couponStatusMapper(isSent)[status];
+  const meetingDateText = generateDateText(meetingDate);
 
-  return <Styled.Root backgroundColor={backgroundColor}>{text}</Styled.Root>;
+  const { backgroundColor } = couponStatusMapper(isSent)[status];
+
+  if (status === 'READY') {
+    return <Styled.HiddenRoot backgroundColor={backgroundColor}>대기중</Styled.HiddenRoot>;
+  }
+
+  return <Styled.Root backgroundColor={backgroundColor}>{meetingDateText}</Styled.Root>;
 };
 
 export default CouponStatus;
