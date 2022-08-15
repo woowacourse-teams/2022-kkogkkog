@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.domain;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -52,6 +53,7 @@ public class MemberHistory {
     private Boolean isRead = false;
 
     @CreatedDate
+    @Column(nullable = false)
     private LocalDateTime createdTime;
 
     public MemberHistory(Long id, Member hostMember, Member targetMember, Long couponId,

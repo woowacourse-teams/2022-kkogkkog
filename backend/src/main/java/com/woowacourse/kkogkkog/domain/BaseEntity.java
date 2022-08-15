@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -14,8 +15,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseEntity {
 
     @CreatedDate
+    @Column(nullable = false)
     private LocalDateTime createdTime;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedTime;
 }
