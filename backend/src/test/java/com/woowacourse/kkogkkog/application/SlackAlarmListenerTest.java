@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.history.application;
+package com.woowacourse.kkogkkog.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
@@ -10,15 +10,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
 import com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture;
 import com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture;
-import com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
@@ -40,7 +36,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ApplicationTest
 @DisplayName("PushAlarmListener 클래스의")
-public class ChangeStatusListenerTest {
+public class SlackAlarmListenerTest {
 
     @Autowired
     MemberRepository memberRepository;
