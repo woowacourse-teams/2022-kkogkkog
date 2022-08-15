@@ -64,10 +64,6 @@ public class MemberHistory extends BaseEntity {
         isRead = true;
     }
 
-    public boolean shouldNotSendPushAlarm() {
-        return couponEvent == CouponEvent.FINISH;
-    }
-
     public String toNoticeMessage() {
         return couponEvent.generateNoticeMessage(targetMember, couponType);
     }
