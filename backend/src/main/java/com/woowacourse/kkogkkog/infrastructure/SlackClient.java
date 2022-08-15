@@ -1,17 +1,16 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
+import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -25,10 +24,6 @@ public class SlackClient {
     private static final String LOGIN_USER_INFO_URI = "https://slack.com/api/openid.connect.userInfo";
     private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
     private static final String MESSAGE_URI = "https://slack.com/api/chat.postMessage";
-
-    private static final String LOGIN_REDIRECT_URL = "/login/redirect";
-    private static final String BOT_TOKEN_REDIRECT_URL = "/download/redirect";
-
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
@@ -53,17 +48,17 @@ public class SlackClient {
                        @Value(LOGIN_USER_INFO_URI) String userInfoUri,
                        @Value(BOT_TOKEN_URI) String botTokenUri,
                        @Value(MESSAGE_URI) String messageUri,
-                       Environment env,
+                       @Value("${security.slack.redirect.login}") String loginRedirectUrl,
+                       @Value("${security.slack.redirect.bot-token}") String botTokenRedirectUrl,
                        WebClient webClient) {
-        String activeProfile = getActiveProfile(env);
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
         this.userClient = toWebClient(webClient, userInfoUri);
         this.botTokenClient = toWebClient(webClient, botTokenUri);
         this.messageClient = toWebClient(webClient, messageUri);
-        this.loginRedirectUrl = toPublicDomain(activeProfile) + LOGIN_REDIRECT_URL;
-        this.botTokenRedirectUrl = toPublicDomain(activeProfile) + BOT_TOKEN_REDIRECT_URL;
+        this.loginRedirectUrl = loginRedirectUrl;
+        this.botTokenRedirectUrl = botTokenRedirectUrl;
     }
 
     private WebClient toWebClient(WebClient webClient, String baseUrl) {
@@ -71,21 +66,6 @@ public class SlackClient {
             .baseUrl(baseUrl)
             .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
             .build();
-    }
-
-    private String getActiveProfile( Environment env) {
-        String[] activeProfiles = env.getActiveProfiles();
-        if (activeProfiles.length > 0) {
-            return activeProfiles[0];
-        }
-        return "default";
-    }
-
-    private String toPublicDomain(String activeProfile) {
-        if (activeProfile.equals("prod")) {
-            return "https://kkogkkog.com";
-        }
-        return "https://dev.kkogkkog.com";
     }
 
     public SlackUserInfo getUserInfoByCode(final String code) {
