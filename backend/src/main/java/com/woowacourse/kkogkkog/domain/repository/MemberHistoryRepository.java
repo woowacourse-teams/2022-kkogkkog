@@ -10,4 +10,6 @@ public interface MemberHistoryRepository extends JpaRepository<MemberHistory, Lo
     List<MemberHistory> findAllByHostMemberOrderByCreatedAtDesc(Member member);
 
     long countByHostMemberAndIsReadFalse(Member member);
+
+    List<MemberHistory> findAllByCouponIdOrderByCreatedAtDesc(Long couponId);
 }

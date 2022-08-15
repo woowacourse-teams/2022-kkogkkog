@@ -26,16 +26,17 @@ public class ReservationController {
     @PostMapping
     public ResponseEntity<Void> create(@LoginMember Long loginMemberId,
                                        @RequestBody ReservationCreateRequest request) {
-        Long reservationId = reservationService.save(request.toReservationSaveRequest(loginMemberId));
+        Long reservationId = reservationService.save(
+            request.toReservationSaveRequest(loginMemberId));
 
         return ResponseEntity.created(URI.create("/api/reservations/" + reservationId)).build();
     }
 
     @PutMapping("/{reservationId}")
-    public ResponseEntity<Void> update(@PathVariable Long reservationId,
-                                       @LoginMember Long loginMemberId,
+    public ResponseEntity<Void> update(@LoginMember Long loginMemberId,
+                                       @PathVariable Long reservationId,
                                        @RequestBody ReservationChangeRequest request) {
-        reservationService.update(request.toReservationUpdateRequest(reservationId, loginMemberId));
+        reservationService.update(request.toReservationUpdateRequest(loginMemberId, reservationId));
 
         return ResponseEntity.noContent().build();
     }

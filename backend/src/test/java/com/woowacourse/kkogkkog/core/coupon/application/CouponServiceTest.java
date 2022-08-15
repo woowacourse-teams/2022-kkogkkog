@@ -12,15 +12,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
+import com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +35,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 @ApplicationTest
 @DisplayName("CouponService의")
@@ -40,6 +46,8 @@ class CouponServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private MemberHistoryRepository memberHistoryRepository;
     @Autowired
     private WorkspaceRepository workspaceRepository;
 
@@ -71,6 +79,18 @@ class CouponServiceTest {
             List<CouponResponse> actual = couponService.save(couponSaveRequest);
 
             assertThat(actual).hasSize(2);
+        }
+
+        @Test
+        @DisplayName("쿠폰을 생성할 때, 쿠폰 사용 내역을 기록한다.")
+        void success_couponSave() {
+            List<CouponResponse> response = couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
+
+            Long couponId = response.get(0).getId();
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+                couponId);
+            assertThat(memberHistories).hasSize(1);
         }
     }
 
@@ -133,6 +153,42 @@ class CouponServiceTest {
             assertAll(
                 () -> assertThat(actual).hasSize(2),
                 () -> assertThat(actualIds).containsOnly(receiver.getId())
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("find 메서드는")
+    class Find {
+
+        private Workspace workspace;
+        private Member sender;
+        private Member receiver;
+        private ReservationSaveRequest reservationSaveRequest;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(JEONG.getMember(workspace));
+            receiver = memberRepository.save(LEO.getMember(workspace));
+        }
+
+        @Test
+        @DisplayName("쿠폰 아이디를 받으면, 쿠폰 상세 정보를 반환한다.")
+        void success() {
+            List<CouponResponse> response = couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
+            Long couponId = response.get(0).getId();
+
+            CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+            String couponStatus = couponDetailResponse.getCouponStatus();
+            LocalDateTime meetingDate = couponDetailResponse.getMeetingDate();
+            List<CouponHistoryResponse> couponHistories = couponDetailResponse.getCouponHistories();
+
+            assertAll(
+                () -> assertThat(couponStatus).isEqualTo("READY"),
+                () -> assertThat(meetingDate).isNull(),
+                () -> assertThat(couponHistories).hasSize(1)
             );
         }
     }
