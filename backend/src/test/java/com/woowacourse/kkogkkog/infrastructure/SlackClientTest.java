@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.env.MockEnvironment;
 import org.springframework.web.reactive.function.client.WebClient;
 
 class SlackClientTest {
@@ -137,10 +138,12 @@ class SlackClientTest {
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {
+        MockEnvironment env = new MockEnvironment();
+        env.setActiveProfiles("dev");
         String mockWebClientURI = String.format("http://%s:%s",
             mockWebServer.getHostName(), mockWebServer.getPort());
         return new SlackClient("clientId", "secretId", mockWebClientURI, mockWebClientURI,
-            mockWebClientURI, mockWebClientURI, WebClient.create());
+            mockWebClientURI, mockWebClientURI, env, WebClient.create());
     }
 
     private void setUpResponse(MockWebServer mockWebServer, String responseBody) {
