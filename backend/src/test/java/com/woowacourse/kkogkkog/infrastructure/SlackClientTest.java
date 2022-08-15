@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,9 +30,6 @@ class SlackClientTest {
         put("access_token", "xoxp-user-access-token");
         put("token_type", "Bearer");
         put("id_token", JWT_USER_ID_TOKEN);
-    }};
-    private static final Map<String, String> GET_TOKEN_ERROR_RESPONSE = new HashMap<>() {{
-        put("error", "invalid_code");
     }};
     private static final Map<String, String> SLACK_USER_INFO_RESPONSE = new HashMap<>() {{
         put("ok", "true");
@@ -63,6 +60,10 @@ class SlackClientTest {
         + "        \"type\": \"message\"\n"
         + "    }\n"
         + "}";
+    private static final Map<String, String> ERROR_RESPONSE = new HashMap<>() {{
+        put("ok", "false");
+        put("error", "reason_for_failure");
+    }};
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -87,7 +88,7 @@ class SlackClientTest {
     void getTokenException() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
-        setUpResponse(mockWebServer, objectMapper.writeValueAsString(GET_TOKEN_ERROR_RESPONSE));
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(ERROR_RESPONSE));
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
@@ -117,7 +118,7 @@ class SlackClientTest {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
 
-        setUpResponse(mockWebServer, "{\"ok\":false}");
+        setUpResponse(mockWebServer, objectMapper.writeValueAsString(ERROR_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         assertThatThrownBy(() -> slackClient.requestBotAccessToken("invalid_code"))
