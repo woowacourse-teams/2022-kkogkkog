@@ -55,7 +55,7 @@ public class SlackClient {
                        @Value(MESSAGE_URI) String messageUri,
                        Environment env,
                        WebClient webClient) {
-        String activeProfile = env.getActiveProfiles()[0];
+        String activeProfile = getActiveProfile(env);
         this.clientId = clientId;
         this.secretId = secretId;
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
@@ -71,6 +71,14 @@ public class SlackClient {
             .baseUrl(baseUrl)
             .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
             .build();
+    }
+
+    private String getActiveProfile( Environment env) {
+        String[] activeProfiles = env.getActiveProfiles();
+        if (activeProfiles.length > 0) {
+            return activeProfiles[0];
+        }
+        return "default";
     }
 
     private String toPublicDomain(String activeProfile) {
