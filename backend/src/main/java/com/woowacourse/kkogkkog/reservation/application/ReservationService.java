@@ -17,6 +17,7 @@ import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateReq
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import com.woowacourse.kkogkkog.reservation.exception.ReservationNotFoundException;
+import java.time.LocalDateTime;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,10 +49,9 @@ public class ReservationService {
 
         Reservation reservation = request.toEntity(findCoupon);
         reservation.changeCouponStatus(REQUEST, loginMember);
-        MemberHistory memberHistory = new MemberHistory(null, findCoupon.getSender(), loginMember,
-            findCoupon.getId(), findCoupon.getCouponType(), REQUEST, request.getMeetingDate(),
+        MemberHistory memberHistory = saveMemberHistory(
+            findCoupon.getSender(), loginMember, findCoupon, REQUEST, request.getMeetingDate(),
             request.getMessage());
-        memberHistoryRepository.save(memberHistory);
 
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
 
@@ -77,12 +77,21 @@ public class ReservationService {
         reservation.changeStatus(CouponEvent.of(request.getEvent()));
 
         Coupon coupon = reservation.getCoupon();
-        MemberHistory memberHistory = new MemberHistory(null, coupon.getOppositeMember(loginMember),
-            loginMember, coupon.getId(), coupon.getCouponType(), CouponEvent.of(request.getEvent()),
-            reservation.getMeetingDate(), request.getMessage());
-        memberHistoryRepository.save(memberHistory);
+        MemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
+            loginMember, coupon, CouponEvent.of(request.getEvent()), reservation.getMeetingDate(),
+            request.getMessage());
 
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+    }
+
+    private MemberHistory saveMemberHistory(Member findCoupon, Member loginMember,
+                                            Coupon findCoupon1, CouponEvent request,
+                                            LocalDateTime request1, String request2) {
+        MemberHistory memberHistory = new MemberHistory(null, findCoupon, loginMember,
+            findCoupon1.getId(), findCoupon1.getCouponType(), request, request1,
+            request2);
+        memberHistoryRepository.save(memberHistory);
+        return memberHistory;
     }
 
     private Reservation findReservation(Long reservationId) {

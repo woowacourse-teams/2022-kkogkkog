@@ -67,10 +67,7 @@ public class CouponService {
 
         List<Coupon> saveCoupons = couponRepository.saveAll(coupons);
         for (Coupon savedCoupon : saveCoupons) {
-            MemberHistory memberHistory = new MemberHistory(null, savedCoupon.getReceiver(),
-                savedCoupon.getSender(), savedCoupon.getId(), savedCoupon.getCouponType(),
-                CouponEvent.INIT, null, null);
-            memberHistoryRepository.save(memberHistory);
+            MemberHistory memberHistory = saveMemberHistory(savedCoupon);
 
             publisher.publishEvent(PushAlarmEvent.of(memberHistory));
         }
@@ -78,6 +75,14 @@ public class CouponService {
         return saveCoupons.stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
+    }
+
+    private MemberHistory saveMemberHistory(Coupon savedCoupon) {
+        MemberHistory memberHistory = new MemberHistory(null, savedCoupon.getReceiver(),
+            savedCoupon.getSender(), savedCoupon.getId(), savedCoupon.getCouponType(),
+            CouponEvent.INIT, null, null);
+        memberHistoryRepository.save(memberHistory);
+        return memberHistory;
     }
 
     private Member findMember(Long memberId) {
