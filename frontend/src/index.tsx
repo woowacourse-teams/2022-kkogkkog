@@ -28,14 +28,12 @@ const queryClient = new QueryClient({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <React.StrictMode>
-    <Global styles={globalStyle} />
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <App />
-        </ToastProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <ToastProvider>
+        <Global styles={globalStyle} />
+        <App />
+      </ToastProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
 );
