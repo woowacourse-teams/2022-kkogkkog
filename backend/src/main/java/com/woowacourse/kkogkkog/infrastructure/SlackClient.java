@@ -92,13 +92,17 @@ public class SlackClient {
     }
 
     private SlackUserInfo requestUserInfo(String token) {
-        return userClient
-            .get()
-            .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-            .retrieve()
-            .bodyToMono(SlackUserInfo.class)
-            .blockOptional()
-            .orElseThrow(OAuthUserInfoRequestFailedException::new);
+        try {
+            return userClient
+                .get()
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .retrieve()
+                .bodyToMono(SlackUserInfo.class)
+                .blockOptional()
+                .orElseThrow(OAuthUserInfoRequestFailedException::new);
+        } catch (WebClientException e) {
+            throw new OAuthUserInfoRequestFailedException();
+        }
     }
 
     public WorkspaceResponse requestBotAccessToken(String code) {
