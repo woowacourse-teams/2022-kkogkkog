@@ -54,7 +54,7 @@ public class MemberHistoryResponse {
             memberHistory.getCouponEvent().name(),
             memberHistory.getMeetingDate(),
             memberHistory.getIsRead(),
-            memberHistory.getCreatedAt()
+            memberHistory.getCreatedTime()
         );
     }
 }

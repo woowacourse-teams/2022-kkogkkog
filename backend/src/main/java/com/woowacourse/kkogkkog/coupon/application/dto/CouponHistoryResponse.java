@@ -43,7 +43,7 @@ public class CouponHistoryResponse {
             memberHistory.getCouponEvent(),
             memberHistory.getMeetingDate(),
             memberHistory.getMessage(),
-            memberHistory.getCreatedAt()
+            memberHistory.getCreatedTime()
         );
     }
 
