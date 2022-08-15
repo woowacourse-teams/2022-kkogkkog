@@ -2,13 +2,14 @@ package com.woowacourse.kkogkkog.infrastructure;
 
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.auth.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -16,8 +17,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.util.UriBuilder;
 
+@Slf4j
 @Component
 public class SlackClient {
 
@@ -102,49 +105,56 @@ public class SlackClient {
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
             .blockOptional()
             .orElseThrow(AccessTokenRequestFailedException::new);
-        validateResponseBody(responseBody);
 
+        if (!responseBody.containsKey("access_token")) {
+            log.info("Error message From Slack : ", responseBody.get("error"));
+            throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
+        }
         return responseBody.get("access_token").toString();
     }
 
-    private void validateResponseBody(Map<String, Object> responseBody) {
-        if (!responseBody.containsKey("access_token")) {
-            throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
-            // TODO: responseBody.get("error") 값 활용하여 로그 남기기
+    private SlackUserInfo requestUserInfo(String token) {
+        try {
+            return userClient
+                .get()
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .retrieve()
+                .bodyToMono(SlackUserInfo.class)
+                .blockOptional()
+                .orElseThrow(OAuthUserInfoRequestFailedException::new);
+        } catch (WebClientException e) {
+            throw new OAuthUserInfoRequestFailedException();
         }
     }
 
-    private SlackUserInfo requestUserInfo(String token) {
-        return userClient
-            .get()
-            .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-            .retrieve()
-            .bodyToMono(SlackUserInfo.class)
-            .blockOptional()
-            .orElseThrow(OAuthUserInfoRequestFailedException::new);
-    }
-
     public WorkspaceResponse requestBotAccessToken(String code) {
-        BotTokenResponse botTokenResponse = botTokenClient
-            .post()
-            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, botTokenRedirectUrl))
-            .headers(this::setHeaders)
-            .retrieve()
-            .bodyToMono(BotTokenResponse.class)
-            .blockOptional()
-            .orElseThrow(AccessTokenRequestFailedException::new);
-
+        BotTokenResponse botTokenResponse = getBotTokenResponse(code);
         if (!botTokenResponse.getOk()) {
-            throw new BotInstallationFailedException("슬랙 봇 등록에 실패하였습니다.");
+            throw new BotInstallationFailedException();
         }
         return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
             botTokenResponse.getTeam().getName(),
             botTokenResponse.getAccessToken());
     }
 
+    private BotTokenResponse getBotTokenResponse(String code) {
+        BotTokenResponse response = botTokenClient
+            .post()
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, botTokenRedirectUrl))
+            .headers(this::setHeaders)
+            .retrieve()
+            .bodyToMono(BotTokenResponse.class)
+            .blockOptional()
+            .orElseThrow(BotInstallationFailedException::new);
+        if (!response.getOk()) {
+            throw new BotInstallationFailedException(response.getError());
+        }
+        return response;
+    }
+
     public void requestPushAlarm(String token, String userId, String message) {
         try {
-            messageClient
+            Map<String, Object> responseBody = messageClient
                 .post()
                 .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
@@ -152,8 +162,11 @@ public class SlackClient {
                 .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
                 .blockOptional()
                 .orElseThrow(PostMessageRequestFailedException::new);
+            if (responseBody.get("ok").equals("false")) {
+                throw new PostMessageRequestFailedException((String) responseBody.get("error"));
+            }
         } catch (PostMessageRequestFailedException e) {
-            e.printStackTrace(); // TODO: 사용자에게 예외 던지지 말고 로그만 찍기. 향후 로그백으로 대체.
+            log.info("Exception has been thrown : ", e);
         }
     }
 

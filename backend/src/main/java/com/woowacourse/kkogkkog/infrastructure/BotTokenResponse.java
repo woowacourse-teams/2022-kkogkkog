@@ -13,6 +13,7 @@ public class BotTokenResponse {
     @JsonProperty(value = "access_token")
     private String accessToken;
     private TeamResponse team;
+    private String error = "";
 
     public BotTokenResponse(Boolean ok, String accessToken, String workspaceId, String workspaceName) {
         this.ok = ok;
@@ -31,5 +32,15 @@ public class BotTokenResponse {
             this.id = id;
             this.name = name;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BotTokenResponse{" +
+            "ok=" + ok +
+            ", accessToken='" + accessToken + '\'' +
+            ", team=" + team +
+            ", error='" + error + '\'' +
+            '}';
     }
 }
