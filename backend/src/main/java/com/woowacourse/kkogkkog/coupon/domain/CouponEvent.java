@@ -45,8 +45,8 @@ public enum CouponEvent {
     }
 
     private static void canCancel(boolean isSender, boolean isReceiver) {
-        if (!isReceiver) {
-            throw new ForbiddenException("쿠폰을 받은 사람만 사용 요청을 취소할 수 있습니다.");
+        if (!isSender && !isReceiver) {
+            throw new ForbiddenException("쿠폰을 보낸 사람과 받은 사람만 쿠폰 사용을 취소할 수 있습니다.");
         }
     }
 

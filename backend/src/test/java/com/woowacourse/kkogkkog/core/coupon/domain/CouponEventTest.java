@@ -61,13 +61,12 @@ class CouponEventTest {
         }
 
         @Test
-        @DisplayName("보낸 사람이 요청을 할 경우, 예외를 발생시킨다.")
+        @DisplayName("보낸 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
         void fail_senderCancel() {
             boolean isSender = true;
             boolean isReceiver = false;
 
-            assertThatThrownBy(() -> CANCEL.checkExecutable(isSender, isReceiver))
-                .isInstanceOf(ForbiddenException.class);
+            assertDoesNotThrow(() -> CANCEL.checkExecutable(isSender, isReceiver));
         }
     }
 
