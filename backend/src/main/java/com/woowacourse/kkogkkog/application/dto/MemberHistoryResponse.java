@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.application.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +18,11 @@ public class MemberHistoryResponse {
     private Long couponId;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate meetingDate;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime meetingDate;
     private Boolean isRead;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdAt;
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -30,9 +30,9 @@ public class MemberHistoryResponse {
                                  Long couponId,
                                  String couponType,
                                  String couponEvent,
-                                 LocalDate meetingDate,
+                                 LocalDateTime meetingDate,
                                  Boolean isRead,
-                                 LocalDate createdAt) {
+                                 LocalDateTime createdAt) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
@@ -54,6 +54,7 @@ public class MemberHistoryResponse {
             memberHistory.getCouponEvent().name(),
             memberHistory.getMeetingDate(),
             memberHistory.getIsRead(),
-            memberHistory.getCreatedAt().toLocalDate());
+            memberHistory.getCreatedTime()
+        );
     }
 }

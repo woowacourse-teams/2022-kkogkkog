@@ -1,11 +1,10 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
-import java.time.LocalDateTime;
+import com.woowacourse.kkogkkog.domain.BaseEntity;
+import com.woowacourse.kkogkkog.domain.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -17,16 +16,12 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Coupon {
+public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +49,6 @@ public class Coupon {
     @Column(nullable = false)
     private CouponStatus couponStatus;
 
-    @CreatedDate
-    private LocalDateTime createdTime;
-
-    @LastModifiedDate
-    private LocalDateTime updatedTime;
-
     public Coupon(Member sender, Member receiver, String hashtag, String description,
                   CouponType couponType, CouponStatus couponStatus) {
         this(null, sender, receiver, hashtag, description, couponType, couponStatus);
@@ -81,6 +70,13 @@ public class Coupon {
         if (sender.equals(receiver)) {
             throw new SameSenderReceiverException();
         }
+    }
+
+    public Member getOppositeMember(Member member) {
+        if (sender == member) {
+            return receiver;
+        }
+        return sender;
     }
 
     public void changeStatus(CouponEvent couponEvent, Member member) {

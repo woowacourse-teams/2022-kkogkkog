@@ -1,12 +1,14 @@
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
+  COUPON_HASHTAGS,
   COUPON_LIST_TYPE,
-  COUPON_MODIFIERS,
   COUPON_STATUS,
   CouponHistory,
 } from '@/types/client/coupon';
 import { UserHistory } from '@/types/client/user';
+
+import { login } from '../../apis/user';
 
 export interface UserResponse {
   id: number;
@@ -35,18 +37,32 @@ export interface OAuthLoginResponse {
 }
 
 export interface CouponResponse {
-  id: number;
-  sender: UserResponse;
-  receiver: UserResponse;
-  modifier: COUPON_MODIFIERS;
-  message: string;
-  backgroundColor: COUPON_COLORS;
+  couponId: number;
+  reservationId: number | null;
+  memberId: number;
+  nickname: string;
+  hashtag: COUPON_HASHTAGS;
+  description: string;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
+  message: string;
   meetingDate?: string;
 }
 
-export interface CouponDetailResponse extends CouponResponse {
+export interface CouponDetailResponse {
+  id: number;
+  senderId: number;
+  senderNickname: string;
+  senderImageUrl: string;
+  receiverId: number;
+  receiverNickname: string;
+  receiverImageUrl: string;
+  imageUrl: string;
+  hashtag: COUPON_HASHTAGS;
+  meetingDate?: string;
+  description: string;
+  couponType: COUPON_ENG_TYPE;
+  couponStatus: COUPON_STATUS;
   couponHistories: CouponHistory[];
 }
 

@@ -18,14 +18,20 @@ export interface LoginRequest {
 export interface CreateCouponRequest {
   receivers: number[];
   backgroundColor: string;
-  modifier: string;
+  hashtag: string;
   couponType: COUPON_ENG_TYPE;
   message: string;
 }
 
 export interface ChangeCouponStatusRequest {
-  couponEvent: COUPON_EVENT;
-  meetingDate?: string;
+  event: COUPON_EVENT;
+}
+
+export interface CouponReservationRequest {
+  couponId: number;
+  event: COUPON_EVENT;
+  meetingDate: string;
+  message: string;
 }
 
 export interface ReadHistoryRequest {

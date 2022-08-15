@@ -50,6 +50,6 @@ class MemberHistoryRepositoryTest {
     private MemberHistory toMemberHistory(Member hostMember, Member targetMember, Coupon coupon,
                                           CouponEvent event) {
         return new MemberHistory(null, hostMember, targetMember, coupon.getId(),
-            coupon.getCouponType(), event, null);
+            coupon.getCouponType(), event, null, "메시지");
     }
 }

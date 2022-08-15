@@ -5,6 +5,7 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEI
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -32,7 +33,6 @@ class CouponTest {
         }
     }
 
-
     @Nested
     @DisplayName("changeStatus 매서드는")
     class changeStatus {
@@ -46,6 +46,23 @@ class CouponTest {
             Coupon coffee = COFFEE.getCoupon(sender, receiver);
 
             assertDoesNotThrow(() -> coffee.changeStatus(FINISH, sender));
+        }
+    }
+
+    @Nested
+    @DisplayName("getOppositeMember 메서드는")
+    class GetOppositeMember {
+
+        @Test
+        @DisplayName("Coupon의 회원을 통해서, 상대 회원을 반환한다.")
+        void success() {
+            Member sender = SENDER.getMember();
+            Member receiver = RECEIVER.getMember();
+
+            Coupon coffee = COFFEE.getCoupon(sender, receiver);
+
+            Member actual = coffee.getOppositeMember(sender);
+            assertThat(actual).isEqualTo(receiver);
         }
     }
 }

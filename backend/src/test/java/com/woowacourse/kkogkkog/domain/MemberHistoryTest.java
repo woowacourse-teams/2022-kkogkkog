@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class MemberHistoryTest {
             Coupon coupon = COFFEE.getCoupon(jeong, leo);
 
             MemberHistory memberHistory = new MemberHistory(null, leo, jeong, coupon.getId(),
-                coupon.getCouponType(), CouponEvent.INIT, null);
+                coupon.getCouponType(), CouponEvent.INIT, null, "메세지");
 
             String actual = memberHistory.toNoticeMessage();
             String expected = jeong.getNickname() + "님이 " + coffee.getDisplayName() + " 쿠폰을 보냈어요.";
@@ -49,8 +49,7 @@ class MemberHistoryTest {
         Member sender = SENDER.getMember(workspace);
         Member receiver = RECEIVER.getMember(workspace);
         MemberHistory memberHistory = new MemberHistory(
-            1L, sender, receiver, 1L,
-            CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDate.now());
+            1L, sender, receiver, 1L, CouponType.valueOf("COFFEE"), CouponEvent.INIT, LocalDateTime.now(), "메시지");
 
         // when
         memberHistory.updateIsRead();

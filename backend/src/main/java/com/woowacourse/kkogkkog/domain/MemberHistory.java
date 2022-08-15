@@ -2,8 +2,10 @@ package com.woowacourse.kkogkkog.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -15,11 +17,14 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberHistory extends BaseEntity {
+public class MemberHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +46,19 @@ public class MemberHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CouponEvent couponEvent;
 
-    private LocalDate meetingDate;
+    private LocalDateTime meetingDate;
+
+    private String message;
 
     private Boolean isRead = false;
 
-    public MemberHistory(Long id, Member hostMember,
-                         Member targetMember, Long couponId,
-                         CouponType couponType, CouponEvent couponEvent,
-                         LocalDate meetingDate) {
+    @CreatedDate
+    @Column(nullable = false)
+    private LocalDateTime createdTime;
+
+    public MemberHistory(Long id, Member hostMember, Member targetMember, Long couponId,
+                         CouponType couponType, CouponEvent couponEvent, LocalDateTime meetingDate,
+                         String message) {
         this.id = id;
         this.hostMember = hostMember;
         this.targetMember = targetMember;
@@ -56,14 +66,11 @@ public class MemberHistory extends BaseEntity {
         this.couponType = couponType;
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
+        this.message = message;
     }
 
     public void updateIsRead() {
         isRead = true;
-    }
-
-    public boolean shouldNotSendPushAlarm() {
-        return couponEvent == CouponEvent.FINISH;
     }
 
     public String toNoticeMessage() {

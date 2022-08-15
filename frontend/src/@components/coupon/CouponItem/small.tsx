@@ -16,14 +16,14 @@ export interface SmallCouponItemProps extends CouponResponse {
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { sender, receiver, thumbnail, couponStatus } = {
+  const { memberId, nickname, thumbnail, couponStatus } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
 
   const { me } = useFetchMe();
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === memberId;
 
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>
@@ -31,17 +31,10 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
       <img src={thumbnail} alt='쿠폰' width='50px' />
 
-      {isSent ? (
-        <Styled.TextContainer>
-          <Styled.Preposition>To. </Styled.Preposition>
-          {receiver.nickname}
-        </Styled.TextContainer>
-      ) : (
-        <Styled.TextContainer>
-          <Styled.Preposition>From.</Styled.Preposition>
-          {sender.nickname}
-        </Styled.TextContainer>
-      )}
+      <Styled.TextContainer>
+        <Styled.Preposition>{isSent ? 'To.' : 'From.'} </Styled.Preposition>
+        {nickname}
+      </Styled.TextContainer>
     </Styled.Root>
   );
 };

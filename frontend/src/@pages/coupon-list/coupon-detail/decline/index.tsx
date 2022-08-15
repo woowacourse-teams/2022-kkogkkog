@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -6,6 +5,7 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import useInput from '@/@hooks/@common/useInput';
+import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
@@ -16,7 +16,7 @@ import theme from '@/styles/theme';
 import { generateDateText } from '@/utils';
 import { isOverMaxLength } from '@/utils/validations';
 
-import * as Styled from '../requesst/style';
+import * as Styled from '../request/style';
 
 const CouponDeclinePage = () => {
   const navigate = useNavigate();
@@ -29,13 +29,23 @@ const CouponDeclinePage = () => {
 
   const { declineCoupon } = useChangeCouponStatus(Number(couponId));
 
+  usePreventReload();
+
   if (!coupon) {
     return <NotFoundPage />;
   }
 
-  const { sender, receiver, couponType, meetingDate } = coupon;
+  const {
+    senderId,
+    senderNickname,
+    senderImageUrl,
+    receiverNickname,
+    receiverImageUrl,
+    couponType,
+    meetingDate,
+  } = coupon;
 
-  const isSent = me?.id === sender.id;
+  const isSent = me?.id === senderId;
 
   const onClickDeclineButton = () => {
     if (window.confirm('쿠폰 사용 요청을 거절하시겠어요?')) {
@@ -59,9 +69,10 @@ const CouponDeclinePage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={isSent ? receiver.imageUrl : sender.imageUrl} alt='' />
+          <Styled.ProfileImage src={isSent ? receiverImageUrl : senderImageUrl} alt='' />
           <Styled.SummaryMessage>
-            {isSent ? `${receiver.nickname}님에게 ` : `${sender.nickname}님이 `}보낸&nbsp;
+            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
+            &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>
@@ -80,19 +91,7 @@ const CouponDeclinePage = () => {
               <span>{message.length} / 200</span>
             </Position>
           </Position>
-          <Position
-            position='fixed'
-            bottom='0'
-            right='0'
-            css={theme => css`
-              width: 100%;
-              display: flex;
-
-              & > button + button {
-                border-left: 1px solid ${theme.colors.grey_100};
-              }
-            `}
-          >
+          <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickDeclineButton} css={Styled.ExtendedButton}>
               사용 거절
             </Button>

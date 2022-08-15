@@ -2,11 +2,14 @@ package com.woowacourse.kkogkkog.reservation.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
 
+import com.woowacourse.kkogkkog.application.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
@@ -14,6 +17,8 @@ import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateReq
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import com.woowacourse.kkogkkog.reservation.exception.ReservationNotFoundException;
+import java.time.LocalDateTime;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,21 +29,31 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
+    private final ApplicationEventPublisher publisher;
 
-    public ReservationService(MemberRepository memberRepository,
-                              CouponRepository couponRepository,
-                              ReservationRepository reservationRepository) {
+    public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
+                              ReservationRepository reservationRepository,
+                              MemberHistoryRepository memberHistoryRepository,
+                              ApplicationEventPublisher publisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.reservationRepository = reservationRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
+        this.publisher = publisher;
     }
 
     public Long save(ReservationSaveRequest request) {
         Coupon findCoupon = findCoupon(request.getCouponId());
-        Member member = findMember(request.getMemberId());
+        Member loginMember = findMember(request.getMemberId());
 
         Reservation reservation = request.toEntity(findCoupon);
-        reservation.changeCouponStatus(REQUEST, member);
+        reservation.changeCouponStatus(REQUEST, loginMember);
+        MemberHistory memberHistory = saveMemberHistory(
+            findCoupon.getSender(), loginMember, findCoupon, REQUEST, request.getMeetingDate(),
+            request.getMessage());
+
+        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
 
         return reservationRepository.save(reservation).getId();
     }
@@ -54,11 +69,29 @@ public class ReservationService {
     }
 
     public void update(ReservationUpdateRequest request) {
-        Reservation reservation = findReservation(request.getReservationId());
+        Member loginMember = findMember(request.getMemberId());
 
+        Reservation reservation = findReservation(request.getReservationId());
         reservation.changeCouponStatus(
-            CouponEvent.of(request.getEvent()), findMember(request.getMemberId()));
+            CouponEvent.of(request.getEvent()), loginMember);
         reservation.changeStatus(CouponEvent.of(request.getEvent()));
+
+        Coupon coupon = reservation.getCoupon();
+        MemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
+            loginMember, coupon, CouponEvent.of(request.getEvent()), reservation.getMeetingDate(),
+            request.getMessage());
+
+        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+    }
+
+    private MemberHistory saveMemberHistory(Member findCoupon, Member loginMember,
+                                            Coupon findCoupon1, CouponEvent request,
+                                            LocalDateTime request1, String request2) {
+        MemberHistory memberHistory = new MemberHistory(null, findCoupon, loginMember,
+            findCoupon1.getId(), findCoupon1.getCouponType(), request, request1,
+            request2);
+        memberHistoryRepository.save(memberHistory);
+        return memberHistory;
     }
 
     private Reservation findReservation(Long reservationId) {

@@ -47,14 +47,14 @@ class CouponQueryRepositoryTest {
 
         private Member sender;
         private Member receiver;
-        private Coupon coupon1;
+        private Coupon coupon;
 
         @BeforeEach
         void setUp() {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            coupon1 = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
         }
@@ -63,14 +63,14 @@ class CouponQueryRepositoryTest {
         @Test
         void findAllBySender() {
             // given
-            requestAndCancelReservation(coupon1);
-            requestAndCancelReservation(coupon1);
-            requestAndCancelReservation(coupon1);
+            requestAndCancelReservation(coupon);
+            requestAndCancelReservation(coupon);
+            requestAndCancelReservation(coupon);
             couponRepository.flush();
             reservationRepository.flush();
 
             // when
-            reservationRepository.save(RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
+            reservationRepository.save(RESERVE_SAVE.getReservation(coupon, LocalDateTime.now()));
 
             // then
             List<CouponReservationData> actual = couponQueryRepository.findAllBySender(sender);
