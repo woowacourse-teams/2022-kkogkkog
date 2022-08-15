@@ -86,7 +86,7 @@ export const userHandler = [
     }
   }),
 
-  rest.patch<any>(`${BASE_URL}/members/me/histories/:historyId`, (req, res, ctx) => {
+  rest.put<any>(`${BASE_URL}/members/me/histories/:historyId`, (req, res, ctx) => {
     const {
       headers,
       params: { historyId },

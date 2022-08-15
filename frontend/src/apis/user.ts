@@ -35,4 +35,4 @@ export const getUserHistoryList = async () => {
 export const readAllHistory = () => client.put('members/me/histories');
 
 export const readHistory = ({ id }: ReadHistoryRequest) =>
-  client.patch(`/members/me/histories/${id}`);
+  client.put(`/members/me/histories/${id}`);
