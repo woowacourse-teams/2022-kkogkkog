@@ -1,6 +1,6 @@
 import { CouponHistory } from '@/types/client/coupon';
 
-import CouponHistoryItem from '../CouponListItem';
+import CouponHistoryItem from '../CouponHistoryItem';
 import * as Styled from './style';
 
 interface CouponHistoryListProps {
