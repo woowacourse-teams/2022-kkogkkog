@@ -28,13 +28,9 @@ public class SlackClient {
     private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
     private static final String MESSAGE_URI = "https://slack.com/api/chat.postMessage";
 
-    private static final String LOGIN_REDIRECT_URL = "https://kkogkkog.com/login/redirect";
-    private static final String BOT_TOKEN_REDIRECT_URL = "https://kkogkkog.com/download/redirect";
-
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
-    private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
     private static final String USER_ID_PARAMETER = "channel";
     private static final String MESSAGE_PARAMETER = "text";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
@@ -77,7 +73,7 @@ public class SlackClient {
     private String requestAccessToken(String code) {
         Map<String, Object> responseBody = oAuthLoginClient
             .post()
-            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, LOGIN_REDIRECT_URL))
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code))
             .headers(this::setHeaders)
             .retrieve()
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
@@ -119,7 +115,7 @@ public class SlackClient {
         try {
             return botTokenClient
                 .post()
-                .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
+                .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code))
                 .headers(this::setHeaders)
                 .retrieve()
                 .bodyToMono(BotTokenResponse.class)
@@ -155,12 +151,11 @@ public class SlackClient {
             .build();
     }
 
-    private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
+    private URI toRequestTokenUri(UriBuilder uriBuilder, String code) {
         return uriBuilder
             .queryParam(CODE_PARAMETER, code)
             .queryParam(CLIENT_ID_PARAMETER, clientId)
             .queryParam(SECRET_ID_PARAMETER, secretId)
-            .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
             .build();
     }
 
