@@ -100,6 +100,14 @@ const globalStyle = css`
       font-size: 16px !important;
     }
   }
+  div {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  div::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export default globalStyle;
