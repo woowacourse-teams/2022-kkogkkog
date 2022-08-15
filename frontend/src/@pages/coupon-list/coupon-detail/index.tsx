@@ -19,43 +19,35 @@ import * as Styled from './style';
 
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
 
-const receivedCouponMapper: Record<
-  COUPON_STATUS,
-  { confirmMessage?: string; buttons: buttonType[] }
-> = {
+const receivedCouponMapper: Record<COUPON_STATUS, { buttons: buttonType[] }> = {
   REQUESTED: {
-    confirmMessage: '쿠폰 사용 요청을 취소하시겠어요?',
     buttons: ['취소'],
   },
   ACCEPTED: {
-    confirmMessage: '쿠폰을 사용하셨나요?',
     buttons: ['완료'],
   },
   FINISHED: {
     buttons: [],
   },
   READY: {
-    confirmMessage: '쿠폰을 사용하시겠어요?',
     buttons: ['요청'],
   },
 };
 
-const sentCouponMapper: Record<COUPON_STATUS, { confirmMessage?: string; buttons: buttonType[] }> =
-  {
-    REQUESTED: {
-      buttons: ['승인', '거절'],
-    },
-    ACCEPTED: {
-      confirmMessage: '쿠폰 사용하셨나요?',
-      buttons: ['완료'],
-    },
-    FINISHED: {
-      buttons: [],
-    },
-    READY: {
-      buttons: [],
-    },
-  };
+const sentCouponMapper: Record<COUPON_STATUS, { buttons: buttonType[] }> = {
+  REQUESTED: {
+    buttons: ['승인', '거절'],
+  },
+  ACCEPTED: {
+    buttons: ['완료'],
+  },
+  FINISHED: {
+    buttons: [],
+  },
+  READY: {
+    buttons: [],
+  },
+};
 
 const CouponDetailPage = () => {
   const { couponId } = useParams();
@@ -82,16 +74,14 @@ const CouponDetailPage = () => {
 
   const isSent = me?.id === senderId;
 
-  const { confirmMessage, buttons } = isSent
-    ? sentCouponMapper[couponStatus]
-    : receivedCouponMapper[couponStatus];
+  const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
   const onClickRequestButton = () => {
     navigate(`/coupon-list/${couponId}/request`);
   };
 
   const onClickCancelButton = () => {
-    if (window.confirm(confirmMessage)) {
+    if (window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
       cancelCoupon();
     }
   };
@@ -105,7 +95,7 @@ const CouponDetailPage = () => {
   };
 
   const onClickFinishButton = () => {
-    if (window.confirm(confirmMessage)) {
+    if (window.confirm('쿠폰을 사용하셨나요?')) {
       finishCoupon();
     }
   };
