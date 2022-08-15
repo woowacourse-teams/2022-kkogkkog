@@ -22,7 +22,7 @@ export const couponColors = [
   theme.colors.primary_500,
 ] as const;
 
-export const couponModifiers = ['고마워요', '축하해요', '미안해요', '화이팅!'] as const;
+export const couponHashtags = ['고마워요', '축하해요', '미안해요', '화이팅!'] as const;
 
 export const THUMBNAIL: { [x: string]: string } = {
   COFFEE: '/assets/images/coffee.png',
@@ -37,7 +37,7 @@ export type COUPON_LIST_TYPE = typeof couponListType[number];
 
 export type COUPON_COLORS = typeof couponColors[number];
 
-export type COUPON_MODIFIERS = typeof couponModifiers[number];
+export type COUPON_HASHTAGS = typeof couponHashtags[number];
 
 export type COUPON_EVENT = typeof couponEvent[number];
 export type COUPON_STATUS = typeof couponStatus[number];

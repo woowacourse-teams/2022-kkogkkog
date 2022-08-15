@@ -8,9 +8,10 @@ import {
   createCoupon,
   getCoupon,
   getCouponList,
-  requestCoupon,
+  reserveCoupon,
 } from '@/apis/coupon';
 import { COUPON_STATUS } from '@/types/client/coupon';
+import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
 const QUERY_KEY = {
@@ -129,9 +130,12 @@ export const useChangeCouponStatusMutation = (id: number) => {
 export const useRequestCouponMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(requestCoupon, {
-    onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
-    },
-  });
+  return useMutation<unknown, unknown, { id: number; body: CouponReservationRequest }>(
+    reserveCoupon,
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(QUERY_KEY.couponList);
+      },
+    }
+  );
 };

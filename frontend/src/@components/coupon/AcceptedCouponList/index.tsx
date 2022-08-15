@@ -1,5 +1,4 @@
-import { p } from 'msw/lib/glossary-58eca5a8';
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -30,7 +29,7 @@ const AcceptedCouponList = (props: AcceptedCouponListProps) => {
   );
 
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.id}`);
+    navigate(`/coupon-list/${coupon.couponId}`);
   };
 
   // const scrollContainer = useRef<HTMLDivElement>(null);

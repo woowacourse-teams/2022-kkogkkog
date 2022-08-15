@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FormEventHandler, useEffect } from 'react';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
@@ -9,8 +9,8 @@ import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
-  COUPON_MODIFIERS,
-  couponModifiers,
+  COUPON_HASHTAGS,
+  couponHashtags,
   couponTypeCollection,
   THUMBNAIL,
 } from '@/types/client/coupon';
@@ -21,12 +21,12 @@ import * as Styled from './style';
 interface CouponCreateFormProps {
   currentReceiverList: UserResponse[];
   currentType: COUPON_ENG_TYPE;
-  currentModifier: COUPON_MODIFIERS;
+  currentHashtag: COUPON_HASHTAGS;
   currentColor: COUPON_COLORS;
   currentMessage: string;
   onSelectReceiver: (user: UserResponse) => void;
   onSelectType: (type: COUPON_ENG_TYPE) => void;
-  onSelectModifier: (modifier: COUPON_MODIFIERS) => void;
+  onSelectHashtag: (hashtag: COUPON_HASHTAGS) => void;
   onSelectColor: (color: COUPON_COLORS) => void;
   onChangeMessage: ChangeEventHandler<HTMLInputElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
@@ -36,11 +36,11 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
   const {
     currentReceiverList,
     currentType,
-    currentModifier,
+    currentHashtag,
     currentMessage,
     onSelectReceiver,
     onSelectType,
-    onSelectModifier,
+    onSelectHashtag,
     onChangeMessage,
     onSubmitCreateForm,
   } = props;
@@ -91,13 +91,13 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
       </SelectInput>
 
       <SelectInput label='당신의 기분을 골라주세요'>
-        {couponModifiers.map(modifier => (
+        {couponHashtags.map(hashtag => (
           <Styled.FeelOption
-            key={modifier}
-            isSelected={modifier === currentModifier}
-            onClick={() => onSelectModifier(modifier)}
+            key={hashtag}
+            isSelected={hashtag === currentHashtag}
+            onClick={() => onSelectHashtag(hashtag)}
           >
-            #{modifier}
+            #{hashtag}
           </Styled.FeelOption>
         ))}
       </SelectInput>
