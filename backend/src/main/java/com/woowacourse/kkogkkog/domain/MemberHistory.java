@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -15,11 +16,14 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberHistory extends BaseEntity {
+public class MemberHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +50,9 @@ public class MemberHistory extends BaseEntity {
     private String message;
 
     private Boolean isRead = false;
+
+    @CreatedDate
+    private LocalDateTime createdTime;
 
     public MemberHistory(Long id, Member hostMember, Member targetMember, Long couponId,
                          CouponType couponType, CouponEvent couponEvent, LocalDateTime meetingDate,
