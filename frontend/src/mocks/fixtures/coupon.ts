@@ -47,7 +47,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -105,7 +105,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -164,7 +164,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -223,7 +223,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -282,7 +282,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -340,7 +340,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -398,7 +398,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -457,7 +457,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -516,7 +516,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
@@ -575,7 +575,7 @@ export default {
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
           createdTime: '2022-08-08',
-          message: '잠실에서 만나자!',
+          message: '',
         },
         {
           id: 1,
