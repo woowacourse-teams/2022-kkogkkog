@@ -6,6 +6,8 @@ export const Root = styled.div`
 
   overflow-x: scroll;
   overflow-y: hidden;
+
+  gap: 15px;
 `;
 
 export const NoneContentsContainer = styled.div`
@@ -41,7 +43,7 @@ export const NoneContentsContainer = styled.div`
 `;
 
 export const DateContainer = styled.div`
-  width: 320px;
+  width: 350px;
   height: 320px;
 
   display: flex;
@@ -62,7 +64,7 @@ export const DateContainer = styled.div`
 `;
 
 export const DateTitle = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 
   ${({ theme }) => css`
