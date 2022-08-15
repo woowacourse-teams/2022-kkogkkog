@@ -21,7 +21,9 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
@@ -44,6 +46,8 @@ class CouponServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private MemberHistoryRepository memberHistoryRepository;
     @Autowired
     private WorkspaceRepository workspaceRepository;
 
@@ -75,6 +79,18 @@ class CouponServiceTest {
             List<CouponResponse> actual = couponService.save(couponSaveRequest);
 
             assertThat(actual).hasSize(2);
+        }
+
+        @Test
+        @DisplayName("쿠폰을 생성할 때, 쿠폰 사용 내역을 기록한다.")
+        void success_couponSave() {
+            List<CouponResponse> response = couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
+
+            Long couponId = response.get(0).getId();
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+                couponId);
+            assertThat(memberHistories).hasSize(1);
         }
     }
 
