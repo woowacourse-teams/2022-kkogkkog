@@ -29,8 +29,6 @@ export const Input = styled.input`
   border-radius: 10px;
   padding: 10px 12px;
 
-  font-size: 12px;
-
   ${({ theme }) => css`
     border: 1px solid ${theme.colors.primary_200};
 
