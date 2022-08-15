@@ -16,7 +16,7 @@ import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
-const filterOption = ['전체', '열린 약속', '잡은 약속', '지난 약속'] as const;
+const filterOption = ['전체', '대기', '예약', '만료'] as const;
 
 export type FilterOption = typeof filterOption[number];
 
@@ -52,74 +52,76 @@ const CouponListPage = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        {currentParsedCouponList && (
-          <>
-            {status === '전체' && (
-              <Styled.Container>
-                <section>
-                  <h2>열린 약속</h2>
-                  <HorizontalCouponList
+        <Styled.Container>
+          {
+            <>
+              {status === '전체' && (
+                <Styled.HorizonListContainer>
+                  <section>
+                    <h2>열린 약속</h2>
+                    <HorizontalCouponList
+                      couponList={[
+                        ...currentParsedCouponList['REQUESTED'],
+                        ...currentParsedCouponList['READY'],
+                      ]}
+                      CouponItem={SmallCouponItem}
+                      onClickCouponItem={onClickCouponItem}
+                    />
+                  </section>
+                  <section>
+                    <h2>잡은 약속</h2>
+                    <HorizontalCouponList
+                      couponList={currentParsedCouponList['ACCEPTED']}
+                      CouponItem={SmallCouponItem}
+                      onClickCouponItem={onClickCouponItem}
+                    />
+                  </section>
+                  <section>
+                    <h2>지난 약속</h2>
+                    <HorizontalCouponList
+                      couponList={currentParsedCouponList['FINISHED']}
+                      CouponItem={SmallCouponItem}
+                      onClickCouponItem={onClickCouponItem}
+                    />
+                  </section>
+                </Styled.HorizonListContainer>
+              )}
+
+              {status === '대기' && (
+                <Styled.VerticalListContainer>
+                  <VerticalCouponList
                     couponList={[
                       ...currentParsedCouponList['REQUESTED'],
                       ...currentParsedCouponList['READY'],
                     ]}
-                    CouponItem={SmallCouponItem}
+                    CouponItem={BigCouponItem}
                     onClickCouponItem={onClickCouponItem}
                   />
-                </section>
-                <section>
-                  <h2>잡은 약속</h2>
-                  <HorizontalCouponList
+                </Styled.VerticalListContainer>
+              )}
+
+              {status === '예약' && (
+                <Styled.VerticalListContainer>
+                  <VerticalCouponList
                     couponList={currentParsedCouponList['ACCEPTED']}
-                    CouponItem={SmallCouponItem}
+                    CouponItem={BigCouponItem}
                     onClickCouponItem={onClickCouponItem}
                   />
-                </section>
-                <section>
-                  <h2>지난 약속</h2>
-                  <HorizontalCouponList
+                </Styled.VerticalListContainer>
+              )}
+
+              {status === '만료' && (
+                <Styled.VerticalListContainer>
+                  <VerticalCouponList
                     couponList={currentParsedCouponList['FINISHED']}
-                    CouponItem={SmallCouponItem}
+                    CouponItem={BigCouponItem}
                     onClickCouponItem={onClickCouponItem}
                   />
-                </section>
-              </Styled.Container>
-            )}
-
-            {status === '열린 약속' && (
-              <Styled.Container>
-                <VerticalCouponList
-                  couponList={[
-                    ...currentParsedCouponList['REQUESTED'],
-                    ...currentParsedCouponList['READY'],
-                  ]}
-                  CouponItem={BigCouponItem}
-                  onClickCouponItem={onClickCouponItem}
-                />
-              </Styled.Container>
-            )}
-
-            {status === '잡은 약속' && (
-              <Styled.Container>
-                <VerticalCouponList
-                  couponList={currentParsedCouponList['ACCEPTED']}
-                  CouponItem={BigCouponItem}
-                  onClickCouponItem={onClickCouponItem}
-                />
-              </Styled.Container>
-            )}
-
-            {status === '지난 약속' && (
-              <Styled.Container>
-                <VerticalCouponList
-                  couponList={currentParsedCouponList['FINISHED']}
-                  CouponItem={BigCouponItem}
-                  onClickCouponItem={onClickCouponItem}
-                />
-              </Styled.Container>
-            )}
-          </>
-        )}
+                </Styled.VerticalListContainer>
+              )}
+            </>
+          }
+        </Styled.Container>
 
         <Styled.LinkInner>
           <Link to={PATH.COUPON_CREATE}>
@@ -155,24 +157,7 @@ export const Styled = {
     padding: 0 20px;
   `,
   Container: styled.div`
-    padding-bottom: 20px;
     margin-bottom: 10px;
-
-    & > section {
-      padding: 20px;
-    }
-
-    & > section:nth-of-type(2n) {
-      background-color: #ffbb9415;
-    }
-
-    ${({ theme }) => css`
-      & > section > h2 {
-        color: ${theme.colors.grey_400};
-        font-size: 18px;
-        font-weight: 600;
-      }
-    `}
   `,
   LinkInner: styled.div`
     position: sticky;
@@ -187,5 +172,25 @@ export const Styled = {
       right: 16px;
       bottom: 16px;
     }
+  `,
+  VerticalListContainer: styled.div`
+    padding: 0 10px 20px 10px;
+  `,
+  HorizonListContainer: styled.div`
+    & > section {
+      padding: 10px 20px;
+    }
+
+    & > section:nth-of-type(2n) {
+      background-color: #ffbb9415;
+    }
+
+    ${({ theme }) => css`
+      & > section > h2 {
+        color: ${theme.colors.grey_400};
+        font-size: 18px;
+        font-weight: 600;
+      }
+    `}
   `,
 };
