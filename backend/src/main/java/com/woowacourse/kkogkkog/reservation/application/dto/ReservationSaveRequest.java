@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,11 +22,11 @@ public class ReservationSaveRequest {
     private LocalDateTime meetingDate;
     private String message;
 
-    public ReservationSaveRequest(Long memberId, Long couponId, LocalDateTime meetingDate,
+    public ReservationSaveRequest(Long memberId, Long couponId, LocalDate meetingDate,
                                   String message) {
         this.memberId = memberId;
         this.couponId = couponId;
-        this.meetingDate = meetingDate;
+        this.meetingDate = meetingDate.atStartOfDay();
         this.message = message;
     }
 

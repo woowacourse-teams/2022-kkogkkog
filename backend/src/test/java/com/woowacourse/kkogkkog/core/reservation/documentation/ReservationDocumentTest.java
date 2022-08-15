@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.core.reservation.documentation;
 
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_변경_요청;
+import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_생성_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.documentation.Documentation;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-public class ReservationDocumentTest extends Documentation {
+class ReservationDocumentTest extends Documentation {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 
@@ -33,7 +35,7 @@ public class ReservationDocumentTest extends Documentation {
         ResultActions perform = mockMvc.perform(
             post("/api/reservations")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, 1L, LocalDateTime.now())))
+                .content(objectMapper.writeValueAsString(예약_생성_요청(1L, LocalDate.now())))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated());
