@@ -10,6 +10,7 @@ import {
   join,
   login,
   OAuthLogin,
+  readAllHistory,
   readHistory,
 } from '@/apis/user';
 import { ReadHistoryRequest } from '@/types/remote/request';
@@ -136,6 +137,16 @@ export const useLoginMutation = () => {
       if (error instanceof AxiosError) {
         displayMessage(error?.response?.data?.message, true);
       }
+    },
+  });
+};
+
+export const useReadAllHistoryMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(readAllHistory, {
+    onSuccess() {
+      queryClient.invalidateQueries([QUERY_KEY.me]);
     },
   });
 };
