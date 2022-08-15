@@ -27,3 +27,6 @@ security:
   slack:
     client-id: "1111111111111.1111111111111"
     secret-id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    redirect:
+      login: "https://abc.com/login/redirect"
+      bot-token: "https://abc.com/download/redirect"
