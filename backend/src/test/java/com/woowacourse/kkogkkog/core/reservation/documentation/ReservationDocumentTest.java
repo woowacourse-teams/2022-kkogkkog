@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.core.reservation.documentation;
 
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_변경_요청;
+import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_생성_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
@@ -34,7 +35,7 @@ public class ReservationDocumentTest extends Documentation {
         ResultActions perform = mockMvc.perform(
             post("/api/reservations")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, 1L, LocalDate.now())))
+                .content(objectMapper.writeValueAsString(예약_생성_요청(1L, LocalDate.now())))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated());
