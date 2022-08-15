@@ -36,7 +36,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ApplicationTest
 @DisplayName("PushAlarmListener 클래스의")
-public class SlackAlarmListenerTest {
+public class PushAlarmListener {
 
     @Autowired
     MemberRepository memberRepository;
