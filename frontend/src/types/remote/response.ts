@@ -41,6 +41,7 @@ export interface CouponResponse {
   reservationId: number | null;
   memberId: number;
   nickname: string;
+  imageUrl: string;
   hashtag: COUPON_HASHTAGS;
   description: string;
   couponType: COUPON_ENG_TYPE;
