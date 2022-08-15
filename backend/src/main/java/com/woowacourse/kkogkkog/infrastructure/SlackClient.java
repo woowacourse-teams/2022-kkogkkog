@@ -1,10 +1,10 @@
 package com.woowacourse.kkogkkog.infrastructure;
 
-import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.util.UriBuilder;
 
 @Slf4j
@@ -82,16 +83,12 @@ public class SlackClient {
             .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
             .blockOptional()
             .orElseThrow(AccessTokenRequestFailedException::new);
-        validateResponseBody(responseBody);
 
-        return responseBody.get("access_token").toString();
-    }
-
-    private void validateResponseBody(Map<String, Object> responseBody) {
         if (!responseBody.containsKey("access_token")) {
+            log.info("Error message From Slack : ", responseBody.get("error"));
             throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
-            // TODO: responseBody.get("error") 값 활용하여 로그 남기기
         }
+        return responseBody.get("access_token").toString();
     }
 
     private SlackUserInfo requestUserInfo(String token) {
@@ -105,21 +102,28 @@ public class SlackClient {
     }
 
     public WorkspaceResponse requestBotAccessToken(String code) {
-        BotTokenResponse botTokenResponse = botTokenClient
-            .post()
-            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
-            .headers(this::setHeaders)
-            .retrieve()
-            .bodyToMono(BotTokenResponse.class)
-            .blockOptional()
-            .orElseThrow(AccessTokenRequestFailedException::new);
-
+        BotTokenResponse botTokenResponse = getBotTokenResponse(code);
         if (!botTokenResponse.getOk()) {
-            throw new BotInstallationFailedException("슬랙 봇 등록에 실패하였습니다.");
+            throw new BotInstallationFailedException();
         }
         return new WorkspaceResponse(botTokenResponse.getTeam().getId(),
             botTokenResponse.getTeam().getName(),
             botTokenResponse.getAccessToken());
+    }
+
+    private BotTokenResponse getBotTokenResponse(String code) {
+        try {
+            return botTokenClient
+                .post()
+                .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, BOT_TOKEN_REDIRECT_URL))
+                .headers(this::setHeaders)
+                .retrieve()
+                .bodyToMono(BotTokenResponse.class)
+                .blockOptional()
+                .orElseThrow(BotInstallationFailedException::new);
+        } catch (WebClientException e) {
+            throw new BotInstallationFailedException();
+        }
     }
 
     public void requestPushAlarm(String token, String userId, String message) {
