@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import MockLoginForm from '@/@components/user/MockLoginFrm';
-import { SLACK_LOGIN_URI } from '@/constants';
 import { PATH } from '@/Router';
 
 const LoginPage = () => {
