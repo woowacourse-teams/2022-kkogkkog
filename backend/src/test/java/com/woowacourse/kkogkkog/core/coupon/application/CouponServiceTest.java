@@ -88,7 +88,7 @@ class CouponServiceTest {
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
 
             Long couponId = response.get(0).getId();
-            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 couponId);
             assertThat(memberHistories).hasSize(1);
         }

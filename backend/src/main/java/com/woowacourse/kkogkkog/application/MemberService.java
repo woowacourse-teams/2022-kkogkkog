@@ -80,7 +80,7 @@ public class MemberService {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 
-        return memberHistoryRepository.findAllByHostMemberOrderByCreatedAtDesc(findMember).stream()
+        return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember).stream()
             .map(MemberHistoryResponse::of)
             .collect(toList());
     }
