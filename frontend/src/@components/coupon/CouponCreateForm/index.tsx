@@ -23,12 +23,12 @@ interface CouponCreateFormProps {
   currentType: COUPON_ENG_TYPE;
   currentHashtag: COUPON_HASHTAGS;
   currentColor: COUPON_COLORS;
-  currentMessage: string;
+  currentDescription: string;
   onSelectReceiver: (user: UserResponse) => void;
   onSelectType: (type: COUPON_ENG_TYPE) => void;
   onSelectHashtag: (hashtag: COUPON_HASHTAGS) => void;
   onSelectColor: (color: COUPON_COLORS) => void;
-  onChangeMessage: ChangeEventHandler<HTMLInputElement>;
+  onChangeDescription: ChangeEventHandler<HTMLInputElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
@@ -37,11 +37,11 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
     currentReceiverList,
     currentType,
     currentHashtag,
-    currentMessage,
+    currentDescription,
     onSelectReceiver,
     onSelectType,
     onSelectHashtag,
-    onChangeMessage,
+    onChangeDescription,
     onSubmitCreateForm,
   } = props;
 
@@ -105,8 +105,8 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
       <Input
         label='하고 싶은 말을 적어주세요'
         placeholder='50자 이하로 작성해주세요'
-        value={currentMessage}
-        onChange={onChangeMessage}
+        value={currentDescription}
+        onChange={onChangeDescription}
         maxLength={50}
       />
 

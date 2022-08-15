@@ -19,7 +19,7 @@ export interface CreateCouponRequest {
   receiverIds: number[];
   hashtag: string;
   couponType: COUPON_ENG_TYPE;
-  message: string;
+  description: string;
 }
 
 export interface ChangeCouponStatusRequest {

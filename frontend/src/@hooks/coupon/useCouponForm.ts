@@ -27,7 +27,7 @@ export const useCouponForm = () => {
   const [hashtag, setHashtag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
   const [color, setColor] = useState<COUPON_COLORS>(couponColors[0]);
 
-  const [message, onChangeMessage] = useInput('');
+  const [description, onChangeDescription] = useInput('');
 
   const createCouponMutate = useCreateCouponMutation();
 
@@ -64,7 +64,7 @@ export const useCouponForm = () => {
       return;
     }
 
-    if (message.length > 50) {
+    if (description.length > 50) {
       displayMessage('50자 이내로 작성해주세요', true);
 
       return;
@@ -74,7 +74,7 @@ export const useCouponForm = () => {
       {
         receiverIds: receiverList.map(({ id }) => id),
         hashtag,
-        message,
+        description,
         couponType: type,
       },
       {
@@ -102,14 +102,14 @@ export const useCouponForm = () => {
       couponType: type,
       hashtag,
       color,
-      message,
+      description,
     },
     changeHandler: {
       onSelectReceiver,
       onSelectType,
       onSelectHashtag,
       onSelectColor,
-      onChangeMessage,
+      onChangeDescription,
     },
     submitHandler: {
       create: onSubmitCreateForm,

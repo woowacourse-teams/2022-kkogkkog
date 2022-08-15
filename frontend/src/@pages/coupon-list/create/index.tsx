@@ -9,13 +9,13 @@ import { useCouponForm } from '@/@hooks/coupon/useCouponForm';
 
 const CouponCreatePage = () => {
   const {
-    state: { receiverList, couponType, hashtag, color, message },
+    state: { receiverList, couponType, hashtag, color, description },
     changeHandler: {
       onSelectReceiver,
       onSelectType,
       onSelectHashtag,
       onSelectColor,
-      onChangeMessage,
+      onChangeDescription,
     },
     submitHandler: { create: onSubmitForm },
   } = useCouponForm();
@@ -37,7 +37,7 @@ const CouponCreatePage = () => {
               <BigCouponItem.Preview
                 key={receiver.id}
                 nickname={receiver.nickname}
-                message={message}
+                description={description}
                 hashtag={hashtag}
                 couponType={couponType}
               />
@@ -50,12 +50,12 @@ const CouponCreatePage = () => {
             currentType={couponType}
             currentHashtag={hashtag}
             currentColor={color}
-            currentMessage={message}
+            currentDescription={description}
             onSelectReceiver={onSelectReceiver}
             onSelectType={onSelectType}
             onSelectHashtag={onSelectHashtag}
             onSelectColor={onSelectColor}
-            onChangeMessage={onChangeMessage}
+            onChangeDescription={onChangeDescription}
             onSubmitCreateForm={onSubmitForm}
           />
         </Styled.Inner>

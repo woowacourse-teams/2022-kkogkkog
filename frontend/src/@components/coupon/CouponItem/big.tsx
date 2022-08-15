@@ -19,7 +19,7 @@ export interface BigCouponItemProps
 const BigCouponItem = (props: BigCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberId, nickname, hashtag, couponStatus, message, meetingDate, thumbnail } = {
+  const { memberId, nickname, hashtag, couponStatus, description, meetingDate, thumbnail } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
@@ -50,7 +50,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
             </Styled.MeetingDate>
           )}
         </Styled.Top>
-        <Styled.Message>{message}</Styled.Message>
+        <Styled.Message>{description}</Styled.Message>
         <Styled.Hashtag>#{hashtag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
@@ -59,14 +59,14 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
 type BigCouponItemPreviewProps = Omit<
   CouponResponse,
-  'couponId' | 'memberId' | 'reservationId' | 'couponStatus' | 'description'
+  'couponId' | 'memberId' | 'reservationId' | 'couponStatus' | 'message'
 > & {
   className?: string;
 };
 
 /* UI에서 보이지 않는 id, ,sender, couponStatus, onClick를 제외한 props만 받는 프로토타입 컴포넌트 */
 BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
-  const { className, nickname, hashtag, thumbnail, message } = {
+  const { className, nickname, hashtag, thumbnail, description } = {
     ...props,
     thumbnail: THUMBNAIL[props.couponType],
   };
@@ -82,7 +82,7 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
         <Styled.Member>
           <Styled.English>To.</Styled.English> {nickname}
         </Styled.Member>
-        <Styled.Message>{message}</Styled.Message>
+        <Styled.Message>{description}</Styled.Message>
         <Styled.Hashtag>#{hashtag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
