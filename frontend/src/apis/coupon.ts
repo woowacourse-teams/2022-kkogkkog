@@ -13,7 +13,7 @@ export const getCouponList = () => client.get<CouponListResponse>('/coupons');
 export const createCoupon = (info: CreateCouponRequest) => client.post('/coupons', info);
 
 export const changeCouponStatus = ({ id, body }: { id: number; body: ChangeCouponStatusRequest }) =>
-  client.post(`/reservations/${id}`, body);
+  client.put(`/reservations/${id}`, body);
 
 // 고차 함수로 만들어서 body만 따로 받는 것은 어떨까?
 export const reserveCoupon = ({ id, body }: { id: number; body: CouponReservationRequest }) =>
