@@ -1,24 +1,21 @@
 import ReservationItem from '@/@components/reservation/ReservationItem';
 import { CouponResponse } from '@/types/remote/response';
 
+import * as Styled from './style';
+
 interface ReservationListProps {
-  couponList: CouponResponse[];
-  onClickReservationItem?: (coupon: CouponResponse) => void;
+  reservatedCouponList: CouponResponse[];
 }
 
 const ReservationList = (props: ReservationListProps) => {
-  const { couponList, onClickReservationItem } = props;
+  const { reservatedCouponList } = props;
 
   return (
-    <div>
-      {couponList.map(coupon => (
-        <ReservationItem
-          key={coupon.id}
-          coupon={coupon}
-          onClick={() => onClickReservationItem?.(coupon)}
-        />
+    <Styled.Root>
+      {reservatedCouponList.map(coupon => (
+        <ReservationItem key={coupon.couponId} reservatedCoupon={coupon} />
       ))}
-    </div>
+    </Styled.Root>
   );
 };
 

@@ -6,9 +6,9 @@ import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
-import AcceptedCouponList from '@/@components/coupon/AcceptedCouponList';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
+import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
@@ -67,7 +67,7 @@ const UnAuthorizedLanding = () => {
 
 const AuthorizedLanding = () => {
   const navigate = useNavigate();
-  const { acceptedCouponList, receivedOpenCouponList, sentOpenCouponList, isLoading } =
+  const { reservationRecord, receivedOpenCouponList, sentOpenCouponList, isLoading } =
     useFetchCouponList();
 
   const onClickCouponItem = (coupon: CouponResponse) => {
@@ -117,8 +117,8 @@ const AuthorizedLanding = () => {
             <span>승인된 꼭꼭</span>
           </Styled.FullListTitle>
 
-          <CustomSuspense fallback={<AcceptedCouponList.Skeleton />} isLoading={isLoading}>
-            <AcceptedCouponList acceptedCouponList={acceptedCouponList} />
+          <CustomSuspense fallback={<ReservationSection.Skeleton />} isLoading={isLoading}>
+            <ReservationSection reservationRecord={reservationRecord} />
           </CustomSuspense>
         </Styled.FullListContainer>
 
