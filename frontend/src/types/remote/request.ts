@@ -16,8 +16,7 @@ export interface LoginRequest {
 }
 
 export interface CreateCouponRequest {
-  receivers: number[];
-  backgroundColor: string;
+  receiverIds: number[];
   hashtag: string;
   couponType: COUPON_ENG_TYPE;
   message: string;

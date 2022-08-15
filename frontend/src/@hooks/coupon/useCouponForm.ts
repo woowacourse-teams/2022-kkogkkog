@@ -72,8 +72,7 @@ export const useCouponForm = () => {
 
     createCouponMutate.mutate(
       {
-        receivers: receiverList.map(({ id }) => id),
-        backgroundColor: color,
+        receiverIds: receiverList.map(({ id }) => id),
         hashtag,
         message,
         couponType: type,
