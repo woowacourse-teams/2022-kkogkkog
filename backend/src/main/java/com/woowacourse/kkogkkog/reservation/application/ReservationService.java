@@ -2,12 +2,14 @@ package com.woowacourse.kkogkkog.reservation.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
 
+import com.woowacourse.kkogkkog.application.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
@@ -26,14 +28,17 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
     private final ApplicationEventPublisher publisher;
 
     public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
                               ReservationRepository reservationRepository,
+                              MemberHistoryRepository memberHistoryRepository,
                               ApplicationEventPublisher publisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.reservationRepository = reservationRepository;
+        this.memberHistoryRepository = memberHistoryRepository;
         this.publisher = publisher;
     }
 
@@ -46,8 +51,9 @@ public class ReservationService {
         MemberHistory memberHistory = new MemberHistory(null, findCoupon.getSender(), loginMember,
             findCoupon.getId(), findCoupon.getCouponType(), REQUEST, request.getMeetingDate(),
             request.getMessage());
+        memberHistoryRepository.save(memberHistory);
 
-        publisher.publishEvent(memberHistory);
+        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
 
         return reservationRepository.save(reservation).getId();
     }
@@ -74,8 +80,9 @@ public class ReservationService {
         MemberHistory memberHistory = new MemberHistory(null, coupon.getOppositeMember(loginMember),
             loginMember, coupon.getId(), coupon.getCouponType(), CouponEvent.of(request.getEvent()),
             reservation.getMeetingDate(), request.getMessage());
+        memberHistoryRepository.save(memberHistory);
 
-        publisher.publishEvent(memberHistory);
+        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
     }
 
     private Reservation findReservation(Long reservationId) {

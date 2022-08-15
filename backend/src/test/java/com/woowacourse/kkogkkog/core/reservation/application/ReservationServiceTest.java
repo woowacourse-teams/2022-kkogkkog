@@ -17,7 +17,9 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.domain.MemberHistory;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
@@ -26,6 +28,7 @@ import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateReq
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -42,6 +45,8 @@ class ReservationServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private MemberHistoryRepository memberHistoryRepository;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
@@ -77,6 +82,18 @@ class ReservationServiceTest {
                     .isEqualTo(CouponStatus.REQUESTED)
             );
         }
+
+        @Test
+        @DisplayName("예약을 생성할 때, 쿠폰 사용 내역에 기록한다.")
+        void success_reservationSave() {
+            reservationSaveRequest = 예약_저장_요청(receiver.getId(), coupon.getId(), LocalDateTime.now());
+
+            reservationService.save(reservationSaveRequest);
+
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+                coupon.getId());
+            assertThat(memberHistories).hasSize(1);
+        }
     }
 
     @Nested
@@ -109,6 +126,18 @@ class ReservationServiceTest {
                     couponRepository.findById(1L).get().getCouponStatus()).isNotEqualTo(
                     CouponStatus.REQUESTED)
             );
+        }
+
+        @Test
+        @DisplayName("예약 상태를 변경할 때, 쿠폰 사용 내역에 기록한다.")
+        void success_reservationUpdate() {
+            reservationUpdateRequest = 예약_수정_요청(sender.getId(), reservation.getId(), "ACCEPT");
+
+            reservationService.update(reservationUpdateRequest);
+
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+                coupon.getId());
+            assertThat(memberHistories).hasSize(1);
         }
     }
 }
