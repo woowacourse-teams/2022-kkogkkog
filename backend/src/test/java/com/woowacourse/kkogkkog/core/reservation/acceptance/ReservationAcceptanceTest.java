@@ -16,6 +16,7 @@ import com.woowacourse.kkogkkog.acceptance.AcceptanceTest;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
         쿠폰_생성을_요청하고(rookieToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
         ExtractableResponse<Response> extract = 예약을_신청한다(
-            leoToken, 예약_생성_요청(1L, LocalDateTime.now()));
+            leoToken, 예약_생성_요청(1L, LocalDate.now()));
 
         assertAll(
             () -> assertThat(extract.header("Location").split("/")[3]).isEqualTo("1"),
@@ -43,7 +44,7 @@ public class ReservationAcceptanceTest extends AcceptanceTest {
         String rookieToken = 회원가입을_하고(ROOKIE.getMember());
         String leoToken = 회원가입을_하고(LEO.getMember());
         쿠폰_생성을_요청하고(rookieToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
-        예약을_신청하고(leoToken, 예약_생성_요청(1L, LocalDateTime.now()));
+        예약을_신청하고(leoToken, 예약_생성_요청(1L, LocalDate.now()));
 
         ExtractableResponse<Response> extract = 예약을_변경한다(
             1L, rookieToken, 예약_변경_요청("ACCEPT"));

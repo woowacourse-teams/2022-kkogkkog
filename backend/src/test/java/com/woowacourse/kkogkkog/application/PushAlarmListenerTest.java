@@ -5,7 +5,6 @@ import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_수정_요청;
 import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static java.time.LocalDateTime.now;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
 import com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture;
@@ -24,7 +23,7 @@ import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveReque
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -88,7 +87,7 @@ public class PushAlarmListenerTest {
         void success_reservationSave() {
             coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             reservationSaveRequest = 예약_저장_요청(receiver.getId(), coupon.getId(),
-                LocalDateTime.now());
+                LocalDate.now());
 
             reservationService.save(reservationSaveRequest);
 

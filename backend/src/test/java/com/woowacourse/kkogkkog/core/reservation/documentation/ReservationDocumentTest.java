@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.documentation.Documentation;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class ReservationDocumentTest extends Documentation {
         ResultActions perform = mockMvc.perform(
             post("/api/reservations")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, 1L, LocalDateTime.now())))
+                .content(objectMapper.writeValueAsString(예약_저장_요청(1L, 1L, LocalDate.now())))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated());
