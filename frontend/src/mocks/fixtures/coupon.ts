@@ -23,7 +23,7 @@ export default {
         password: '1234',
         nickname: '준찌',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
@@ -81,7 +81,7 @@ export default {
         password: '1234',
         nickname: '시지프',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
@@ -139,7 +139,7 @@ export default {
         password: '1234',
         nickname: '시지프',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'MEAL',
@@ -198,7 +198,7 @@ export default {
         password: '1234',
         nickname: '시지프',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'DRINK',
@@ -257,7 +257,7 @@ export default {
         password: '1234',
         nickname: '시지프',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'DRINK',
@@ -316,7 +316,7 @@ export default {
         password: '1234',
         nickname: '시지프',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '준찌가 시지프에게 보낸 2번째 쿠폰',
       couponType: 'COFFEE',
@@ -374,7 +374,7 @@ export default {
         password: '1234',
         nickname: '준찌',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',
@@ -432,7 +432,7 @@ export default {
         password: '1234',
         nickname: '준찌',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'DRINK',
@@ -491,7 +491,7 @@ export default {
         password: '1234',
         nickname: '준찌',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'MEAL',
@@ -550,7 +550,7 @@ export default {
         password: '1234',
         nickname: '준찌',
       },
-      backgroundColor: '#FFFFFF',
+
       hashtag: '한턱쏘는',
       message: '시지프가 준찌에게 보낸 1번째 쿠폰',
       couponType: 'COFFEE',

@@ -41,14 +41,14 @@ export const couponHandler = [
 
   rest.post<CreateCouponRequest>(`${BASE_URL}/coupons`, (req, res, ctx) => {
     const {
-      body: { receivers, ...body },
+      body: { receiverIds, ...body },
       headers,
     } = req;
 
     try {
       const loggedUser = users.findLoggedUser(headers.get('authorization'));
 
-      const newCouponList = receivers.map(receiverId => {
+      const newCouponList = receiverIds.map(receiverId => {
         const receiver = users.findUser(receiverId);
 
         const newCoupon = {
