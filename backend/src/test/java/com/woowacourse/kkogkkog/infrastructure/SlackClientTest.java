@@ -141,7 +141,7 @@ class SlackClientTest {
         String mockWebClientURI = String.format("http://%s:%s",
             mockWebServer.getHostName(), mockWebServer.getPort());
         return new SlackClient("clientId", "secretId", mockWebClientURI, mockWebClientURI,
-            mockWebClientURI, mockWebClientURI, "redirect", "redirect", WebClient.create());
+            mockWebClientURI, mockWebClientURI, mockWebClientURI, mockWebClientURI, WebClient.create());
     }
 
     private void setUpResponse(MockWebServer mockWebServer, String responseBody) {
