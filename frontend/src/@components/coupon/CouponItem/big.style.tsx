@@ -6,11 +6,10 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;
 
-  max-width: 320px;
+  max-width: 340px;
   min-width: 280px;
 
-  max-height: 170px;
-  min-height: 120px;
+  height: 120px;
 
   display: flex;
   justify-content: space-between;
