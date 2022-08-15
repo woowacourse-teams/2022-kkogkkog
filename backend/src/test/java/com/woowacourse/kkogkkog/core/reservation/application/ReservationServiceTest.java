@@ -90,7 +90,7 @@ class ReservationServiceTest {
 
             reservationService.save(reservationSaveRequest);
 
-            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 coupon.getId());
             assertThat(memberHistories).hasSize(1);
         }
@@ -135,7 +135,7 @@ class ReservationServiceTest {
 
             reservationService.update(reservationUpdateRequest);
 
-            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(
+            List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 coupon.getId());
             assertThat(memberHistories).hasSize(1);
         }

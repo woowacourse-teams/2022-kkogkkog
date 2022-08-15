@@ -102,7 +102,7 @@ public class CouponService {
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long couponId) {
         CouponDetailData couponDetail = couponQueryRepository.findCouponWithMeetingDate(couponId);
-        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedAtDesc(couponId);
+        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
         return CouponDetailResponse.of(couponDetail, memberHistories);
     }
 }
