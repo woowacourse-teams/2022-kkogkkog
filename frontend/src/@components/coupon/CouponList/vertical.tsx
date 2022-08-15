@@ -25,7 +25,7 @@ const VerticalCouponList = (props: VerticalCouponListProps) => {
   return (
     <Styled.Root>
       {couponList?.map(coupon => (
-        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
+        <CouponItem key={coupon.couponId} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.Root>
   );

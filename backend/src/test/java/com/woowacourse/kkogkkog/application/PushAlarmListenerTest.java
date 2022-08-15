@@ -35,8 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ApplicationTest
-@DisplayName("PushAlarmListener 클래스의")
-public class PushAlarmListener {
+@DisplayName("PushAlarmListenerTest 클래스의")
+public class PushAlarmListenerTest {
 
     @Autowired
     MemberRepository memberRepository;

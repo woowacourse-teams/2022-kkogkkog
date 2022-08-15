@@ -14,8 +14,6 @@ export const CouponInfoContainer = styled.div`
 
   gap: 18px;
 
-  cursor: pointer;
-
   margin-bottom: 24px;
 `;
 

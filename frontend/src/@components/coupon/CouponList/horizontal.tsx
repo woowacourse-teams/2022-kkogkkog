@@ -25,7 +25,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
   return (
     <Styled.SlideRoot>
       {couponList?.map(coupon => (
-        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
+        <CouponItem key={coupon.couponId} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.SlideRoot>
   );

@@ -70,7 +70,7 @@ const AuthorizedLanding = () => {
   const { couponList, acceptedCouponList, isLoading } = useFetchCouponList();
 
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.id}`);
+    navigate(`/coupon-list/${coupon.couponId}`);
   };
 
   return (

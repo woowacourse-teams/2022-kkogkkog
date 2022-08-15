@@ -7,13 +7,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class DataClearExtension implements BeforeEachCallback {
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) {
         DatabaseCleaner databaseCleaner = getDatabaseCleaner(context);
         databaseCleaner.execute();
     }
 
     private DatabaseCleaner getDatabaseCleaner(final ExtensionContext extensionContext) {
-        return (DatabaseCleaner) SpringExtension.getApplicationContext(extensionContext)
-            .getBean("databaseCleaner");
+        return SpringExtension.getApplicationContext(extensionContext)
+            .getBean(DatabaseCleaner.class);
     }
 }

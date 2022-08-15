@@ -168,14 +168,9 @@ class CouponServiceTest {
 
         @BeforeEach
         void setUp() {
-            workspace = workspaceRepository.save(
-                new Workspace(null, "T03LX3C5540", "workspace_name", "ACCESS_TOKEN"));
-            sender = memberRepository.save(
-                new Member(null, "sender", workspace, "sender", "rookie@gmail.com",
-                    "https://slack"));
-            receiver = memberRepository.save(
-                new Member(null, "receiver1", workspace, "receiver", "rookie@gmail.com",
-                    "https://slack"));
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(JEONG.getMember(workspace));
+            receiver = memberRepository.save(LEO.getMember(workspace));
         }
 
         @Test

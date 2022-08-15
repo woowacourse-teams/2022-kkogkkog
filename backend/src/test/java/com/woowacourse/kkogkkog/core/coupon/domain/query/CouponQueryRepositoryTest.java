@@ -33,13 +33,13 @@ class CouponQueryRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
+    private WorkspaceRepository workspaceRepository;
+    @Autowired
     private CouponRepository couponRepository;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
     private CouponQueryRepository couponQueryRepository;
-    @Autowired
-    private WorkspaceRepository workspaceRepository;
 
     @Nested
     @DisplayName("보유하고 있는 쿠폰 중, ")

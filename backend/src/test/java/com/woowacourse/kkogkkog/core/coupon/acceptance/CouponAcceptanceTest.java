@@ -25,8 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("NonAsciiCharacters")
-public
-class CouponAcceptanceTest extends AcceptanceTest {
+public class CouponAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 쿠폰_생성을_할_수_있다() {

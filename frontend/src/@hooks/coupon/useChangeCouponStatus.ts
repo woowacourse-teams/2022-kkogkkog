@@ -13,7 +13,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const cancelCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { couponEvent: 'CANCEL' } },
+      { id, body: { event: 'CANCEL' } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -30,11 +30,11 @@ const useChangeCouponStatus = (id: number) => {
   };
 
   const requestCoupon = (
-    { meetingDate }: { meetingDate: string },
+    { meetingDate, message }: { meetingDate: string; message: string },
     { onSuccessCallback }: EffectCallback = {}
   ) => {
     requestCouponMutate.mutate(
-      { id, body: { couponEvent: 'REQUEST', meetingDate } },
+      { id, body: { couponId: id, event: 'REQUEST', meetingDate, message } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -52,7 +52,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const finishCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { couponEvent: 'FINISH' } },
+      { id, body: { event: 'FINISH' } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -70,7 +70,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const acceptCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { couponEvent: 'ACCEPT' } },
+      { id, body: { event: 'ACCEPT' } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -88,7 +88,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const declineCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { couponEvent: 'DECLINE' } },
+      { id, body: { event: 'DECLINE' } },
       {
         onSuccess() {
           onSuccessCallback?.();
