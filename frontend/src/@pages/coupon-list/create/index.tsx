@@ -77,7 +77,7 @@ export const Styled = {
     display: flex;
     padding: 25px;
 
-    height: 180px;
+    height: 170px;
 
     overflow-x: scroll;
 
