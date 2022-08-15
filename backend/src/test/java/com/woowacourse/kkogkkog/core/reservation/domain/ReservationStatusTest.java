@@ -18,7 +18,7 @@ class ReservationStatusTest {
     class progress {
 
         @Test
-        @DisplayName("CANCEL 이벤트를 받으면, CANCEL을 반환한다.")
+        @DisplayName("CANCEL 이벤트를 받으면, CANCELED을 반환한다.")
         void success_cancel() {
             ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
@@ -28,7 +28,7 @@ class ReservationStatusTest {
         }
 
         @Test
-        @DisplayName("DECLINE 이벤트를 받으면, CANCEL을 반환한다.")
+        @DisplayName("DECLINE 이벤트를 받으면, CANCELED을 반환한다.")
         void success_decline() {
             ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
@@ -38,7 +38,7 @@ class ReservationStatusTest {
         }
 
         @Test
-        @DisplayName("ACCEPT 이벤트를 받으면, PROGRESS을 반환한다.")
+        @DisplayName("ACCEPT 이벤트를 받으면, IN_PROGRESS을 반환한다.")
         void fail_approve() {
             ReservationStatus status = ReservationStatus.IN_PROGRESS;
 
