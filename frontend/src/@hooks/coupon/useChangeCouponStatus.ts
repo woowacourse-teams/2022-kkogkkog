@@ -34,7 +34,7 @@ const useChangeCouponStatus = (id: number) => {
     { onSuccessCallback }: EffectCallback = {}
   ) => {
     requestCouponMutate.mutate(
-      { id, body: { couponId: id, event: 'REQUEST', meetingDate, message } },
+      { id, body: { couponId: id, meetingDate, message } },
       {
         onSuccess() {
           onSuccessCallback?.();

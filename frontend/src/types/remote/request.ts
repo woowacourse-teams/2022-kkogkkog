@@ -28,7 +28,6 @@ export interface ChangeCouponStatusRequest {
 
 export interface CouponReservationRequest {
   couponId: number;
-  event: COUPON_EVENT;
   meetingDate: string;
   message: string;
 }
