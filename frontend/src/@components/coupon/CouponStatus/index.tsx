@@ -35,7 +35,7 @@ const CouponStatus = (props: CouponStatusProps) => {
   const { backgroundColor } = couponStatusMapper(isSent)[status];
 
   if (status === 'READY') {
-    return <Styled.Root backgroundColor={backgroundColor}>대기중</Styled.Root>;
+    return <Styled.HiddenRoot backgroundColor={backgroundColor}>대기중</Styled.HiddenRoot>;
   }
 
   return <Styled.Root backgroundColor={backgroundColor}>{meetingDateText}</Styled.Root>;
