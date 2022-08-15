@@ -23,7 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-public class ReservationDocumentTest extends Documentation {
+class ReservationDocumentTest extends Documentation {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 
