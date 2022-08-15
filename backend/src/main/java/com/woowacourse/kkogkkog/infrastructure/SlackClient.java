@@ -112,18 +112,18 @@ public class SlackClient {
     }
 
     private BotTokenResponse getBotTokenResponse(String code) {
-        try {
-            return botTokenClient
-                .post()
-                .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code))
-                .headers(this::setHeaders)
-                .retrieve()
-                .bodyToMono(BotTokenResponse.class)
-                .blockOptional()
-                .orElseThrow(BotInstallationFailedException::new);
-        } catch (WebClientException e) {
-            throw new BotInstallationFailedException();
+        BotTokenResponse response = botTokenClient
+            .post()
+            .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code))
+            .headers(this::setHeaders)
+            .retrieve()
+            .bodyToMono(BotTokenResponse.class)
+            .blockOptional()
+            .orElseThrow(BotInstallationFailedException::new);
+        if (!response.getOk()) {
+            throw new BotInstallationFailedException(response.getError());
         }
+        return response;
     }
 
     public void requestPushAlarm(String token, String userId, String message) {
