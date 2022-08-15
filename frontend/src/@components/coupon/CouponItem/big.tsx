@@ -26,8 +26,6 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const { me } = useFetchMe();
 
-  const meetingDateText = generateDateText(meetingDate);
-
   const isSent = me?.id === memberId;
 
   return (
@@ -44,11 +42,6 @@ const BigCouponItem = (props: BigCouponItemProps) => {
           <Styled.Member>
             <Styled.English>{isSent ? 'To.' : 'From.'}</Styled.English> {nickname}
           </Styled.Member>
-          {meetingDate && (
-            <Styled.MeetingDate couponStatus={couponStatus}>
-              {meetingDateText} 약속 {couponStatus === 'REQUESTED' && '신청됨'}
-            </Styled.MeetingDate>
-          )}
         </Styled.Top>
         <Styled.Message>{message}</Styled.Message>
         <Styled.Hashtag>#{hashtag}</Styled.Hashtag>

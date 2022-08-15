@@ -11,14 +11,9 @@ interface ReservationItemProps {
 }
 
 const ReservationItem = (props: ReservationItemProps) => {
-  const {
-    coupon: { receiver, sender },
-    onClick,
-  } = props;
-
   const { me } = useFetchMe();
 
-  return <Styled.Root onClick={onClick}>ReservationItem</Styled.Root>;
+  return <Styled.Root>ReservationItem</Styled.Root>;
 };
 
 export default ReservationItem;

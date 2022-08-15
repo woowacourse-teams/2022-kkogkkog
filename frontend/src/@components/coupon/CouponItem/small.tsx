@@ -16,7 +16,7 @@ export interface SmallCouponItemProps extends CouponResponse {
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberId, nickname, thumbnail, couponStatus } = {
+  const { memberId, nickname, thumbnail, couponStatus, meetingDate } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
