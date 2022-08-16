@@ -30,13 +30,14 @@ public class CouponDetailResponse {
     private String couponStatus;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
+    private Long reservationId;
     private List<CouponHistoryResponse> couponHistories;
 
     public CouponDetailResponse(Long id, Long senderId, String senderNickname,
                                 String senderImageUrl, Long receiverId, String receiverNickname,
                                 String receiverImageUrl, String hashtag, String description,
                                 CouponType couponType, CouponStatus couponStatus,
-                                LocalDateTime meetingDate,
+                                LocalDateTime meetingDate, Long reservationId,
                                 List<CouponHistoryResponse> couponHistories) {
         this.id = id;
         this.senderId = senderId;
@@ -50,6 +51,7 @@ public class CouponDetailResponse {
         this.couponType = couponType.name();
         this.couponStatus = couponStatus.name();
         this.meetingDate = meetingDate;
+        this.reservationId = reservationId;
         this.couponHistories = couponHistories;
     }
 
@@ -72,6 +74,7 @@ public class CouponDetailResponse {
             couponDetail.getCouponType(),
             couponDetail.getCouponStatus(),
             couponDetail.getMeetingDate(),
+            couponDetail.getReservationId(),
             couponHistoryResponses
         );
     }

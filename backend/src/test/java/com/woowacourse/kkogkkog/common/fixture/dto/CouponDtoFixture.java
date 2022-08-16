@@ -77,6 +77,7 @@ public class CouponDtoFixture {
             CouponType.COFFEE,
             CouponStatus.READY,
             null,
+            1L,
             List.of(new CouponHistoryResponse(
                 1L,
                 "보낸 사람 닉네임",
