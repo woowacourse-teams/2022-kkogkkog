@@ -9,15 +9,15 @@ import * as Styled from './style';
 export const ToastMessage = ({ isError, message, onClickToast }: any) => {
   return (
     <Styled.ToastContainer isError={isError}>
-      <Styled.ToastMessage>
-        <div>{message || '다시 시도해주세요'}</div>
+      <Styled.ToastMessageContainer>
+        <Styled.ToastMessage>{message || '다시 시도해주세요'}</Styled.ToastMessage>
         <Icon
           iconName='close'
           color={isError ? theme.colors.red_800 : theme.colors.green_500}
           size='18'
           onClick={onClickToast}
         />
-      </Styled.ToastMessage>
+      </Styled.ToastMessageContainer>
     </Styled.ToastContainer>
   );
 };
@@ -42,14 +42,31 @@ const ToastProvider = (props: React.PropsWithChildren) => {
   });
 
   const displayMessage = (currentMessage: string, isError: boolean) => {
-    setMessage(prev => ({ ...prev, isError, message: currentMessage, isShow: true }));
-
     if (!timeout.current) {
+      setMessage(prev => ({ ...prev, isError, message: currentMessage, isShow: true }));
+
       timeout.current = setTimeout(() => {
         setMessage(prev => ({ ...prev, isShow: false }));
-
-        timeout.current = null;
       }, 1500);
+
+      return;
+    }
+
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+      timeout.current = null;
+
+      setMessage(prev => ({ ...prev, isShow: false }));
+
+      requestAnimationFrame(() => {
+        setMessage(prev => ({ ...prev, isError, message: currentMessage, isShow: true }));
+
+        timeout.current = setTimeout(() => {
+          setMessage(prev => ({ ...prev, isShow: false }));
+        }, 1500);
+      });
+
+      return;
     }
   };
 
@@ -58,7 +75,6 @@ const ToastProvider = (props: React.PropsWithChildren) => {
 
     if (timeout.current) {
       clearTimeout(timeout.current);
-
       timeout.current = null;
     }
   };

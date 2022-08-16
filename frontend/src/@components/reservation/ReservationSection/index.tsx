@@ -1,38 +1,31 @@
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import Placeholder from '@/@components/@shared/Placeholder';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
-import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
+import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { CouponResponse } from '@/types/remote/response';
-import { generateDateText } from '@/utils';
+import { computeDay, generateDateText, generateDDay } from '@/utils';
 
 import * as Styled from './style';
 
 interface AcceptedCouponListProps {
-  acceptedCouponList: Record<string, CouponResponse[]>;
+  reservationRecord: Record<string, CouponResponse[]>;
 }
 
-const AcceptedCouponList = (props: AcceptedCouponListProps) => {
-  const { acceptedCouponList } = props;
-
-  const navigate = useNavigate();
+const ReservationSection = (props: AcceptedCouponListProps) => {
+  const { reservationRecord } = props;
 
   const sortedKey = useMemo(
     () =>
-      Object.keys(acceptedCouponList).sort((a, b) => {
+      Object.keys(reservationRecord).sort((a, b) => {
         return Number(a.replace(/-/g, '')) - Number(b.replace(/-/g, ''));
       }),
-    [acceptedCouponList]
+    [reservationRecord]
   );
 
-  const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.couponId}`);
-  };
-
-  if (Object.keys(acceptedCouponList).length === 0) {
+  if (Object.keys(reservationRecord).length === 0) {
     return (
       <Styled.NoneContentsContainer>
         <Icon iconName='hand' size='36' color={theme.colors.primary_400} />
@@ -44,23 +37,31 @@ const AcceptedCouponList = (props: AcceptedCouponListProps) => {
 
   return (
     <Styled.Root>
-      {sortedKey.map(date => (
-        <Styled.DateContainer key={date}>
-          <Styled.DateTitle>{generateDateText(date)}</Styled.DateTitle>
-          <VerticalCouponList
-            CouponItem={BigCouponItem}
-            couponList={acceptedCouponList[date]}
-            onClickCouponItem={onClickCouponItem}
-          />
-        </Styled.DateContainer>
-      ))}
+      {sortedKey.map(date => {
+        const dateText = generateDateText(date);
+        const day = computeDay(date);
+        const dDay = generateDDay(date);
+
+        return (
+          <Styled.DateContainer key={date}>
+            <Styled.DateTitle>
+              <div>
+                {dateText}({day})
+              </div>
+              <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
+            </Styled.DateTitle>
+            <ReservationList reservatedCouponList={reservationRecord[date]} />
+            {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
+          </Styled.DateContainer>
+        );
+      })}
     </Styled.Root>
   );
 };
 
-export default AcceptedCouponList;
+export default ReservationSection;
 
-AcceptedCouponList.Skeleton = function Skeleton() {
+ReservationSection.Skeleton = function Skeleton() {
   return (
     <Styled.Root>
       <Placeholder width='320px' height='320px'>
