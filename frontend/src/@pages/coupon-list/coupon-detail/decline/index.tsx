@@ -52,11 +52,14 @@ const CouponDeclinePage = () => {
 
   const onClickDeclineButton = () => {
     if (window.confirm('쿠폰 사용 요청을 거절하시겠어요?')) {
-      declineCoupon({
-        onSuccessCallback() {
-          navigate(PATH.LANDING);
-        },
-      });
+      declineCoupon(
+        { message },
+        {
+          onSuccessCallback() {
+            navigate(PATH.LANDING);
+          },
+        }
+      );
     }
   };
 
