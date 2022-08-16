@@ -74,9 +74,12 @@ const useChangeCouponStatus = ({
     );
   };
 
-  const acceptCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
+  const acceptCoupon = (
+    { message }: { message: string },
+    { onSuccessCallback }: EffectCallback = {}
+  ) => {
     changeStatusMutate.mutate(
-      { reservationId, body: { event: 'ACCEPT' } },
+      { reservationId, body: { event: 'ACCEPT', message } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -92,9 +95,12 @@ const useChangeCouponStatus = ({
     );
   };
 
-  const declineCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
+  const declineCoupon = (
+    { message }: { message: string },
+    { onSuccessCallback }: EffectCallback = {}
+  ) => {
     changeStatusMutate.mutate(
-      { reservationId, body: { event: 'DECLINE' } },
+      { reservationId, body: { event: 'DECLINE', message } },
       {
         onSuccess() {
           onSuccessCallback?.();

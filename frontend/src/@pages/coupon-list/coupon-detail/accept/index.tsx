@@ -52,11 +52,14 @@ const CouponAcceptPage = () => {
 
   const onClickAcceptButton = () => {
     if (window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {
-      acceptCoupon({
-        onSuccessCallback() {
-          navigate(PATH.LANDING);
-        },
-      });
+      acceptCoupon(
+        { message },
+        {
+          onSuccessCallback() {
+            navigate(PATH.LANDING);
+          },
+        }
+      );
     }
   };
 
