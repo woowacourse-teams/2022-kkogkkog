@@ -58,7 +58,7 @@ const CouponListPage = () => {
               {status === '전체' && (
                 <Styled.HorizonListContainer>
                   <section>
-                    <h2>기다리고 있어요...</h2>
+                    <h2>기다리고 있어요!</h2>
                     <HorizontalCouponList
                       couponList={[
                         ...currentParsedCouponList['REQUESTED'],
