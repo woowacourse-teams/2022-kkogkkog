@@ -19,15 +19,19 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
     return '-';
   }
 
-  const propDateInstance = new Date(date);
+  const [year, month, day] = date.split('-').map(str => Number(str));
+  const propDateInstance = new Date(year, month - 1, day);
 
-  const year = propDateInstance.getFullYear();
-  const month = propDateInstance.getMonth() + 1;
-  const day = propDateInstance.getDate();
+  const propYear = propDateInstance.getFullYear();
+  const propMonth = propDateInstance.getMonth() + 1;
+  const propDay = propDateInstance.getDate();
 
   const dateText = includeYear
-    ? year && month && day && `${year}년 ${Number(month)}월 ${Number(day)}일`
-    : month && day && `${Number(month)}월 ${Number(day)}일`;
+    ? propYear &&
+      propMonth &&
+      propDay &&
+      `${propYear}년 ${Number(propMonth)}월 ${Number(propDay)}일`
+    : propMonth && propDay && `${Number(propMonth)}월 ${Number(propDay)}일`;
 
   return dateText;
 };
@@ -41,17 +45,18 @@ export const isBeforeToday = (date: string) => {
   const todayMonth = today.getMonth() + 1;
   const todayDay = today.getDate();
 
-  const dateObj = new Date(date);
+  const [year, month, day] = date.split('-').map(str => Number(str));
+  const dateObj = new Date(year, month - 1, day);
 
-  const year = dateObj.getFullYear();
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getDate();
+  const propYear = dateObj.getFullYear();
+  const propMonth = dateObj.getMonth() + 1;
+  const propDay = dateObj.getDate();
 
-  if (todayYear > year) {
+  if (todayYear > propYear) {
     return true;
-  } else if (todayMonth > month) {
+  } else if (todayMonth > propMonth) {
     return true;
-  } else if (todayDay > day) {
+  } else if (todayDay > propDay) {
     return true;
   }
 
@@ -63,13 +68,15 @@ export const generateDDay = (date: string) => {
     return 999;
   }
 
-  const propDateInstance = new Date(date);
+  const [year, month, day] = date.split('-').map(str => Number(str));
+
+  const propDateInstance = new Date(year, month - 1, day);
 
   const todayDateInstance = new Date();
 
-  const dDay =
-    Math.ceil((propDateInstance.getTime() - todayDateInstance.getTime()) / (1000 * 60 * 60 * 24)) -
-    1;
+  const dDay = Math.ceil(
+    (propDateInstance.getTime() - todayDateInstance.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
   return dDay > 999 ? 999 : dDay;
 };
@@ -79,9 +86,9 @@ export const computeDay = (date: string) => {
     return '-';
   }
 
-  const propDate = new Date(date);
+  const [year, month, day] = date.split('-').map(str => Number(str));
 
-  const day = propDate.getDay();
+  const propDate = new Date(year, month - 1, day);
 
-  return week[day];
+  return week[propDate.getDay()];
 };
