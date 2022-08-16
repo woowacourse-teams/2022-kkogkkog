@@ -19,8 +19,9 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
     return '-';
   }
 
-  const [year, month, day] = date.split('-').map(str => Number(str));
-  const propDateInstance = new Date(year, month - 1, day);
+  const [year, month, day] = date.split('-');
+
+  const propDateInstance = new Date(Number(year), Number(month) - 1, Number(day.slice(0, 2)));
 
   const propYear = propDateInstance.getFullYear();
   const propMonth = propDateInstance.getMonth() + 1;
@@ -45,8 +46,8 @@ export const isBeforeToday = (date: string) => {
   const todayMonth = today.getMonth() + 1;
   const todayDay = today.getDate();
 
-  const [year, month, day] = date.split('-').map(str => Number(str));
-  const dateObj = new Date(year, month - 1, day);
+  const [year, month, day] = date.split('-');
+  const dateObj = new Date(Number(year), Number(month) - 1, Number(day.slice(0, 2)));
 
   const propYear = dateObj.getFullYear();
   const propMonth = dateObj.getMonth() + 1;
