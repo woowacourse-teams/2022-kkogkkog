@@ -31,7 +31,10 @@ const CouponRequestPage = () => {
   const { me } = useFetchMe();
   const { coupon } = useFetchCoupon(Number(couponId));
 
-  const { requestCoupon } = useChangeCouponStatus(Number(couponId));
+  const { requestCoupon } = useChangeCouponStatus({
+    id: Number(couponId),
+    reservationId: coupon?.reservationId ?? null,
+  });
 
   const { displayMessage } = useToast();
 

@@ -132,6 +132,7 @@ const CouponDetailPage = () => {
                 ...coupon,
                 memberId: isSent ? receiverId : senderId,
                 nickname: isSent ? receiverNickname : senderNickname,
+                memberType: isSent ? 'SENT' : 'RECEIVED',
               }}
             />
           </Styled.CouponInner>
