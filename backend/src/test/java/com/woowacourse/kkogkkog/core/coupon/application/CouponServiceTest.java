@@ -27,6 +27,7 @@ import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
@@ -181,7 +182,7 @@ class CouponServiceTest {
 
             CouponDetailResponse couponDetailResponse = couponService.find(couponId);
             String couponStatus = couponDetailResponse.getCouponStatus();
-            String meetingDate = couponDetailResponse.getMeetingDate();
+            LocalDateTime meetingDate = couponDetailResponse.getMeetingDate();
             List<CouponHistoryResponse> couponHistories = couponDetailResponse.getCouponHistories();
 
             assertAll(

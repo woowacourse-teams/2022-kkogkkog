@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
-import static com.woowacourse.kkogkkog.util.JsonFormatUtils.toLocalDate;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
@@ -19,9 +19,11 @@ public class CouponHistoryResponse {
     private String imageUrl;
     private String couponType;
     private String couponEvent;
-    private String meetingDate;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime meetingDate;
     private String message;
-    private String createdTime;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdTime;
 
     public CouponHistoryResponse(Long id, String nickname, String imageUrl, CouponType couponType,
                                  CouponEvent couponEvent, LocalDateTime meetingDate, String message,
@@ -31,9 +33,9 @@ public class CouponHistoryResponse {
         this.imageUrl = imageUrl;
         this.couponType = couponType.name();
         this.couponEvent = couponEvent.name();
-        this.meetingDate = toLocalDate(meetingDate);
+        this.meetingDate = meetingDate;
         this.message = message;
-        this.createdTime = toLocalDate(createdTime);
+        this.createdTime = createdTime;
     }
 
     public static CouponHistoryResponse of(MemberHistory memberHistory) {
