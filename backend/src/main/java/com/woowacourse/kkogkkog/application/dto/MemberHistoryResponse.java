@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import static com.woowacourse.kkogkkog.util.JsonFormatUtils.toLocalDate;
+
 import com.woowacourse.kkogkkog.domain.MemberHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -18,11 +18,9 @@ public class MemberHistoryResponse {
     private Long couponId;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime meetingDate;
+    private String meetingDate;
     private Boolean isRead;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime createdAt;
+    private String createdAt; // TODO: createdTime으로 수정
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -39,9 +37,9 @@ public class MemberHistoryResponse {
         this.couponId = couponId;
         this.couponType = couponType;
         this.couponEvent = couponEvent;
-        this.meetingDate = meetingDate;
+        this.meetingDate = toLocalDate(meetingDate);
         this.isRead = isRead;
-        this.createdAt = createdAt;
+        this.createdAt = toLocalDate(createdAt);
     }
 
     public static MemberHistoryResponse of(MemberHistory memberHistory) {

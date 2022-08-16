@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import static com.woowacourse.kkogkkog.util.JsonFormatUtils.toLocalDate;
+
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
@@ -26,7 +28,7 @@ public class CouponDetailResponse {
     private String description;
     private String couponType;
     private String couponStatus;
-    private LocalDateTime meetingDate;
+    private String meetingDate;
     private List<CouponHistoryResponse> couponHistories;
 
     public CouponDetailResponse(Long id, Long senderId, String senderNickname,
@@ -46,7 +48,7 @@ public class CouponDetailResponse {
         this.description = description;
         this.couponType = couponType.name();
         this.couponStatus = couponStatus.name();
-        this.meetingDate = meetingDate;
+        this.meetingDate = toLocalDate(meetingDate);
         this.couponHistories = couponHistories;
     }
 

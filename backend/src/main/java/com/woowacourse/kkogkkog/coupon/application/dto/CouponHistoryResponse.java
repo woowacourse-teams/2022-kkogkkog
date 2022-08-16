@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import static com.woowacourse.kkogkkog.util.JsonFormatUtils.toLocalDate;
+
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.domain.MemberHistory;
@@ -17,9 +19,9 @@ public class CouponHistoryResponse {
     private String imageUrl;
     private String couponType;
     private String couponEvent;
-    private LocalDateTime meetingDate;
+    private String meetingDate;
     private String message;
-    private LocalDateTime createdTime;
+    private String createdTime;
 
     public CouponHistoryResponse(Long id, String nickname, String imageUrl, CouponType couponType,
                                  CouponEvent couponEvent, LocalDateTime meetingDate, String message,
@@ -29,9 +31,9 @@ public class CouponHistoryResponse {
         this.imageUrl = imageUrl;
         this.couponType = couponType.name();
         this.couponEvent = couponEvent.name();
-        this.meetingDate = meetingDate;
+        this.meetingDate = toLocalDate(meetingDate);
         this.message = message;
-        this.createdTime = createdTime;
+        this.createdTime = toLocalDate(createdTime);
     }
 
     public static CouponHistoryResponse of(MemberHistory memberHistory) {
@@ -45,19 +47,5 @@ public class CouponHistoryResponse {
             memberHistory.getMessage(),
             memberHistory.getCreatedTime()
         );
-    }
-
-    @Override
-    public String toString() {
-        return "CouponHistoryResponse{" +
-            "id=" + id +
-            ", nickname='" + nickname + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", couponType='" + couponType + '\'' +
-            ", couponEvent='" + couponEvent + '\'' +
-            ", meetingDate=" + meetingDate +
-            ", message='" + message + '\'' +
-            ", createdTime=" + createdTime +
-            '}';
     }
 }
