@@ -55,6 +55,7 @@ const CouponDetailPage = () => {
 
   const { coupon } = useFetchCoupon(Number(couponId));
   const { me } = useFetchMe();
+  // @TODO reservation null type check
   const { cancelCoupon, finishCoupon } = useChangeCouponStatus({
     id: Number(couponId),
     reservationId: coupon?.reservationId ?? null,
