@@ -7,10 +7,10 @@
 
 == Coupon
 === 쿠폰 생성
-operation::coupon-create[snippets='http-request,http-response,request-fields']
+operation::coupon-create[snippets='http-request,http-response']
 
 === 쿠폰 전체 조회
-operation::coupon-showAll-me[snippets='http-request,http-response,response-fields']
+operation::coupon-showAll-me[snippets='http-request,http-response']
 
 === 단일 쿠폰 상세 조회
-operation::coupon-show[snippets='http-request,http-response,response-fields']
+operation::coupon-show[snippets='http-request,http-response']
