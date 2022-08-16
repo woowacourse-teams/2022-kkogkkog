@@ -6,7 +6,7 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { CouponResponse } from '@/types/remote/response';
-import { computeDay, generateDateText, generateDDay } from '@/utils';
+import { computeDay, generateDateText, generateDDay } from '@/utils/time';
 
 import * as Styled from './style';
 
