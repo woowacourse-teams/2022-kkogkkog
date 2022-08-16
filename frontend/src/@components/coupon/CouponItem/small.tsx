@@ -2,7 +2,6 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import CouponStatus from '@/@components/coupon/CouponStatus';
-import { useFetchMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
@@ -16,14 +15,12 @@ export interface SmallCouponItemProps extends CouponResponse {
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberId, nickname, thumbnail, couponStatus, meetingDate } = {
+  const { memberType, nickname, thumbnail, couponStatus, meetingDate } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
 
-  const { me } = useFetchMe();
-
-  const isSent = me?.id === memberId;
+  const isSent = memberType === 'SENT';
 
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>

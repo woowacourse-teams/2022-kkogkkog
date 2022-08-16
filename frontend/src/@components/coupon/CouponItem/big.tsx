@@ -2,11 +2,9 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import CouponStatus from '@/@components/coupon/CouponStatus';
-import { useFetchMe } from '@/@hooks/@queries/user';
 import { THUMBNAIL } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 import { MakeOptional } from '@/types/utils';
-import { generateDateText } from '@/utils';
 
 import * as Styled from './big.style';
 
@@ -19,14 +17,12 @@ export interface BigCouponItemProps
 const BigCouponItem = (props: BigCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberId, nickname, hashtag, couponStatus, description, meetingDate, thumbnail } = {
+  const { memberType, nickname, hashtag, couponStatus, description, meetingDate, thumbnail } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
 
-  const { me } = useFetchMe();
-
-  const isSent = me?.id === memberId;
+  const isSent = memberType === 'SENT';
 
   return (
     <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>

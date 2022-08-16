@@ -42,6 +42,8 @@ export type COUPON_HASHTAGS = typeof couponHashtags[number];
 export type COUPON_EVENT = typeof couponEvent[number];
 export type COUPON_STATUS = typeof couponStatus[number];
 
+export type COUPON_MEMBER_TYPE = 'SENT' | 'RECEIVED';
+
 export interface CouponHistory extends CommonHistory {
   message: string;
 }

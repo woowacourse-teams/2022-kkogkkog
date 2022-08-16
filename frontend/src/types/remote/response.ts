@@ -1,5 +1,4 @@
 import {
-  COUPON_COLORS,
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
   COUPON_LIST_TYPE,
@@ -8,7 +7,7 @@ import {
 } from '@/types/client/coupon';
 import { UserHistory } from '@/types/client/user';
 
-import { login } from '../../apis/user';
+import { COUPON_MEMBER_TYPE } from './../client/coupon';
 
 export interface UserResponse {
   id: number;
@@ -48,6 +47,7 @@ export interface CouponResponse {
   couponStatus: COUPON_STATUS;
   message: string;
   meetingDate?: string;
+  memberType: COUPON_MEMBER_TYPE;
 }
 
 export interface CouponDetailResponse {
