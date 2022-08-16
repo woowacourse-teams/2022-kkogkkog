@@ -24,9 +24,8 @@ public class CouponReservationResponse {
     private String couponType;
     private String couponStatus;
     private String message;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
-
 
     public CouponReservationResponse(Long couponId,
                                      Long reservationId,
