@@ -15,9 +15,4 @@ public class MyCouponsReservationResponse {
     public MyCouponsReservationResponse(CouponsReservationResponse data) {
         this.data = data;
     }
-
-    public MyCouponsReservationResponse(List<CouponReservationResponse> received,
-                                        List<CouponReservationResponse> sent) {
-        this.data = new CouponsReservationResponse(received, sent);
-    }
 }
