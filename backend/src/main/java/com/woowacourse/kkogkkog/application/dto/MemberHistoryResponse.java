@@ -20,7 +20,7 @@ public class MemberHistoryResponse {
     private String couponEvent;
     private String meetingDate;
     private Boolean isRead;
-    private String createdAt; // TODO: createdTime으로 수정
+    private String createdTime;
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -30,7 +30,7 @@ public class MemberHistoryResponse {
                                  String couponEvent,
                                  LocalDateTime meetingDate,
                                  Boolean isRead,
-                                 LocalDateTime createdAt) {
+                                 LocalDateTime createdTime) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
@@ -39,7 +39,7 @@ public class MemberHistoryResponse {
         this.couponEvent = couponEvent;
         this.meetingDate = toLocalDate(meetingDate);
         this.isRead = isRead;
-        this.createdAt = toLocalDate(createdAt);
+        this.createdTime = toLocalDate(createdTime);
     }
 
     public static MemberHistoryResponse of(MemberHistory memberHistory) {
