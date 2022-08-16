@@ -141,12 +141,9 @@ export const useChangeCouponStatusMutation = (id: number) => {
 export const useRequestCouponMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<unknown, unknown, { id: number; body: CouponReservationRequest }>(
-    reserveCoupon,
-    {
-      onSuccess() {
-        queryClient.invalidateQueries(QUERY_KEY.couponList);
-      },
-    }
-  );
+  return useMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
+    onSuccess() {
+      queryClient.invalidateQueries(QUERY_KEY.couponList);
+    },
+  });
 };

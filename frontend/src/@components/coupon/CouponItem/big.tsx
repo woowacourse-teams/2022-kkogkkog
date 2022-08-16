@@ -11,7 +11,7 @@ import { generateDateText } from '@/utils';
 import * as Styled from './big.style';
 
 export interface BigCouponItemProps
-  extends MakeOptional<CouponResponse, 'couponId' | 'reservationId' | 'message'> {
+  extends MakeOptional<CouponResponse, 'couponId' | 'reservationId' | 'message' | 'imageUrl'> {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
