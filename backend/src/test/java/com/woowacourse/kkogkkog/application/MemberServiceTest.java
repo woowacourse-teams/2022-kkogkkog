@@ -16,12 +16,15 @@ import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.domain.WorkspaceUser;
 import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +44,9 @@ class MemberServiceTest extends ServiceTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private WorkspaceUserRepository workspaceUserRepository;
+
+    @Autowired
     private WorkspaceRepository workspaceRepository;
 
     @Autowired
@@ -53,38 +59,63 @@ class MemberServiceTest extends ServiceTest {
         workspace = workspaceRepository.save(WorkspaceFixture.KKOGKKOG.getWorkspace());
     }
 
-    // TODO: saveOrUpdate에 대한 테스트로 제대로 수정하거나 saveOrUpdate 메서드 자체를 수정
     @Nested
-    @DisplayName("save 메서드는")
-    class Save {
+    @DisplayName("saveOrUpdate 메서드는")
+    class SaveOrUpdate {
 
         @Test
-        @DisplayName("가입되지 않은 회원 정보를 받으면, 회원을 저장하고 저장된 Id와 회원가입 여부를 반환한다.")
-        void success_save() {
+        @DisplayName("가입되지 않은 이메일 정보를 받으면 신규 회원과 워크스페이스 계정을 저장한다.")
+        void initialSignUp() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
-                workspace);
+            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo, workspace);
+            Optional<Member> savedMember = memberRepository.findByEmail("rookie@gmail.com");
+            Optional<WorkspaceUser> savedWorkspaceUser = workspaceUserRepository.findByUserId(
+                "URookie");
 
             assertAll(
-                () -> assertThat(memberCreateResponse.getId()).isNotNull(),
-                () -> assertThat(memberCreateResponse.getIsNew()).isTrue()
+                () -> assertThat(response.getId()).isNotNull(),
+                () -> assertThat(response.getIsNew()).isTrue(),
+                () -> assertThat(savedMember).isPresent(),
+                () -> assertThat(savedWorkspaceUser).isPresent()
             );
         }
 
         @Test
-        @DisplayName("가입된 회원 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 반환한다.")
-        void success_find() {
+        @DisplayName("가입된 워크스페이스 계정 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 참으로 반환한다.")
+        void signIn() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-
             memberService.saveOrUpdate(slackUserInfo, workspace);
-            MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(slackUserInfo,
-                workspace);
+
+            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo, workspace);
 
             assertAll(
-                () -> assertThat(memberCreateResponse.getId()).isNotNull(),
-                () -> assertThat(memberCreateResponse.getIsNew()).isFalse()
+                () -> assertThat(response.getId()).isNotNull(),
+                () -> assertThat(response.getIsNew()).isFalse()
+            );
+        }
+
+        @Test
+        @DisplayName("미가입된 워크스페이스 계정 정보와 가입된 회원의 이메일을 받으면, 해당 회원에 연관된 워크스페이스 계정을 저장한다.")
+        void memberIntegration() {
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
+                "rookie@gmail.com", "image");
+            SlackUserInfo slackUserInfo2 = new SlackUserInfo("URookie2", null, null, "루키",
+                "rookie@gmail.com", "image2");
+
+            memberService.saveOrUpdate(slackUserInfo, workspace);
+            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo2, workspace);
+            Member savedMember = memberRepository.findByEmail("rookie@gmail.com").get();
+            Optional<WorkspaceUser> integratedWorkspaceUser = workspaceUserRepository.findByUserId(
+                "URookie2");
+
+            assertAll(
+                () -> assertThat(response.getId()).isNotNull(),
+                () -> assertThat(response.getIsNew()).isFalse(),
+                () -> assertThat(savedMember.getUserId()).isEqualTo("URookie2"),
+                () -> assertThat(savedMember.getImageUrl()).isEqualTo("image2"),
+                () -> assertThat(integratedWorkspaceUser).isPresent()
             );
         }
     }
