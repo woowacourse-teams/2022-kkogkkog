@@ -48,7 +48,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
 type BigCouponItemPreviewProps = Omit<
   CouponResponse,
-  'couponId' | 'memberId' | 'reservationId' | 'couponStatus' | 'message'
+  'couponId' | 'memberId' | 'reservationId' | 'couponStatus' | 'message' | 'memberType' | 'imageUrl'
 > & {
   className?: string;
 };
