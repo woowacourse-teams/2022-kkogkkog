@@ -89,7 +89,7 @@ export const DateInput = styled.input`
 
     position: absolute;
     background: transparent;
-    color: red;
+    color: transparent;
 
     cursor: pointer;
   }
