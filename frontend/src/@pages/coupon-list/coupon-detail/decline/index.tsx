@@ -29,7 +29,10 @@ const CouponDeclinePage = () => {
   const { me } = useFetchMe();
   const { coupon } = useFetchCoupon(Number(couponId));
 
-  const { declineCoupon } = useChangeCouponStatus(Number(couponId));
+  const { declineCoupon } = useChangeCouponStatus({
+    id: Number(couponId),
+    reservationId: coupon?.reservationId ?? null,
+  });
 
   if (!coupon) {
     return <NotFoundPage />;
