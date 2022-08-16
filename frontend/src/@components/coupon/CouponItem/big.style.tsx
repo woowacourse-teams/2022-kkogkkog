@@ -73,6 +73,7 @@ export const Member = styled.p`
 
 export const TextContainer = styled.div`
   flex: 1;
+  overflow: hidden;
 
   height: 100%;
   white-space: nowrap;

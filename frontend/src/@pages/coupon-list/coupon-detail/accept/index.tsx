@@ -103,7 +103,7 @@ const CouponAcceptPage = () => {
 
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
-              사용 승인
+              약속 확정하기
             </Button>
           </Position>
         </Styled.Main>

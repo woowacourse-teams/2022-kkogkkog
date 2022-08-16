@@ -150,7 +150,7 @@ const CouponDetailPage = () => {
               <Fragment key={buttonType}>
                 {buttonType === '취소' && (
                   <Button onClick={onClickCancelButton} css={Styled.ExtendedButton}>
-                    사용 취소
+                    요청 취소하기
                   </Button>
                 )}
                 {buttonType === '완료' && (
@@ -160,17 +160,17 @@ const CouponDetailPage = () => {
                 )}
                 {buttonType === '요청' && (
                   <Button onClick={onClickRequestButton} css={Styled.ExtendedButton}>
-                    사용 요청
+                    약속 요청하기
                   </Button>
                 )}
                 {buttonType === '승인' && (
                   <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
-                    사용 승인
+                    약속 확정하기
                   </Button>
                 )}
                 {buttonType === '거절' && (
                   <Button onClick={onClickDeclineButton} css={Styled.ExtendedButton}>
-                    사용 거절
+                    약속 거절하기
                   </Button>
                 )}
               </Fragment>

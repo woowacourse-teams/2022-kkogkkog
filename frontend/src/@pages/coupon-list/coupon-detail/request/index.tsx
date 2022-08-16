@@ -118,7 +118,7 @@ const CouponRequestPage = () => {
 
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickRequestButton} css={Styled.ExtendedButton}>
-              사용 요청
+              약속 요청하기
             </Button>
           </Position>
         </Styled.Main>
