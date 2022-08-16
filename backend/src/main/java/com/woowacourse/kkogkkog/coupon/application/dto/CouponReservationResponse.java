@@ -26,6 +26,7 @@ public class CouponReservationResponse {
     private String message;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
+    private String memberType;
 
     public CouponReservationResponse(Long couponId,
                                      Long reservationId,
@@ -37,7 +38,8 @@ public class CouponReservationResponse {
                                      CouponType couponType,
                                      CouponStatus couponStatus,
                                      String message,
-                                     LocalDateTime meetingDate) {
+                                     LocalDateTime meetingDate,
+                                     String memberType) {
         this.couponId = couponId;
         this.reservationId = reservationId;
         this.memberId = memberId;
@@ -49,13 +51,14 @@ public class CouponReservationResponse {
         this.couponStatus = couponStatus.name();
         this.message = message;
         this.meetingDate = meetingDate;
+        this.memberType = memberType;
     }
 
-    public static CouponReservationResponse of(CouponReservationData data) {
+    public static CouponReservationResponse of(CouponReservationData data, String memberType) {
         return new CouponReservationResponse(
             data.getCouponId(), data.getReservationId(), data.getMemberId(), data.getNickname(),
             data.getImageUrl(), data.getHashtag(), data.getDescription(),
             data.getCouponType(), data.getCouponStatus(),
-            data.getMessage(), data.getMeetingDate());
+            data.getMessage(), data.getMeetingDate(), memberType);
     }
 }

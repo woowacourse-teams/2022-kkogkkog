@@ -8,10 +8,10 @@
 == Member
 
 === 본인 정보 조회
-operation::member-showMe[snippets='http-request,http-response,response-fields']
+operation::member-showMe[snippets='http-request,http-response']
 
 === 본인 이벤트 기록 조회
-operation::member-showMeHistory[snippets='http-request,http-response,response-fields']
+operation::member-showMeHistory[snippets='http-request,http-response']
 
 == 본인 모든 이벤트 방문 수정
 operation::member-updateAllMeHistories[snippets='http-request,http-response']
@@ -20,7 +20,7 @@ operation::member-updateAllMeHistories[snippets='http-request,http-response']
 operation::member-updateMeHistory[snippets='http-request,http-response']
 
 === 전체 조회
-operation::member-showAll[snippets='http-request,http-response,response-fields']
+operation::member-showAll[snippets='http-request,http-response']
 
 == 본인 정보 수정
 operation::member-update[snippets='http-request,http-response']
