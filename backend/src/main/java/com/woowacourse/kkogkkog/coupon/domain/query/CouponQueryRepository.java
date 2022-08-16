@@ -25,7 +25,6 @@ public interface CouponQueryRepository extends JpaRepository<Coupon, Long> {
             + " ORDER BY r.meetingDate DESC")
     List<CouponReservationData> findAllByReceiver(@Param("member") Member member);
 
-
     @Query(
         "SELECT new com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData(c.id, c.sender.id, c.sender.nickname.value, c.sender.imageUrl, c.receiver.id, c.receiver.nickname.value, c.receiver.imageUrl, c.hashtag, c.description, c.couponType, c.couponStatus, r.meetingDate, r.id)"
             + " FROM Coupon c"
