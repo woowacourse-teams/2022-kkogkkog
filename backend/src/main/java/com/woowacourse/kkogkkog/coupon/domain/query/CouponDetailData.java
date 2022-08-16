@@ -23,11 +23,13 @@ public class CouponDetailData {
     private CouponType couponType;
     private CouponStatus couponStatus;
     private LocalDateTime meetingDate;
+    private Long reservationId;
 
     public CouponDetailData(Long id, Long senderId, String senderNickname, String senderImageUrl,
                             Long receiverId, String receiverNickname, String receiverImageUrl,
                             String hashtag, String description, CouponType couponType,
-                            CouponStatus couponStatus, LocalDateTime meetingDate) {
+                            CouponStatus couponStatus, LocalDateTime meetingDate,
+                            Long reservationId) {
         this.id = id;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
@@ -40,5 +42,6 @@ public class CouponDetailData {
         this.couponType = couponType;
         this.couponStatus = couponStatus;
         this.meetingDate = meetingDate;
+        this.reservationId = reservationId;
     }
 }
