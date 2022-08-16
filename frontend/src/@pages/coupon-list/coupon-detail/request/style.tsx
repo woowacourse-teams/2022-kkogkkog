@@ -84,17 +84,12 @@ export const DateInput = styled.input`
   }
 
   &[type='date']::-webkit-calendar-picker-indicator {
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 39px;
 
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-
     background: transparent;
-    color: transparent;
+    color: red;
 
     cursor: pointer;
   }
