@@ -67,7 +67,26 @@ export const userHandler = [
     }
   }),
 
-  rest.patch<any>(`${BASE_URL}/members/me/histories/:historyId`, (req, res, ctx) => {
+  rest.put(`${BASE_URL}/members/me/histories`, (req, res, ctx) => {
+    const { headers } = req;
+
+    try {
+      const user = users.findLoggedUser(headers.get('authorization'));
+
+      user.histories = user.histories.map(history => ({
+        ...history,
+        isRead: true,
+      }));
+
+      user.unReadCount = 0;
+
+      return res(ctx.status(200, 'authorized'));
+    } catch ({ message }) {
+      return res(ctx.status(400, 'unauthorized'), ctx.json({ message }));
+    }
+  }),
+
+  rest.put<any>(`${BASE_URL}/members/me/histories/:historyId`, (req, res, ctx) => {
     const {
       headers,
       params: { historyId },
@@ -87,7 +106,9 @@ export const userHandler = [
         return history;
       });
 
-      user.unReadCount = user.unReadCount - 1;
+      if (user.unReadCount > 0) {
+        user.unReadCount = user.unReadCount - 1;
+      }
 
       return res(ctx.status(200, 'authorized'));
     } catch ({ message }) {
