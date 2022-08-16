@@ -34,6 +34,7 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
 export const Top = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 export const Message = styled.p`
