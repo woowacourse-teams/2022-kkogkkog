@@ -85,7 +85,7 @@ export const useCouponForm = () => {
           displayMessage('쿠폰을 생성했어요', false);
 
           if (coupons.length === 1) {
-            navigate(`/coupon-list/${coupons[0].id}`);
+            navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
 
             return;
           }
