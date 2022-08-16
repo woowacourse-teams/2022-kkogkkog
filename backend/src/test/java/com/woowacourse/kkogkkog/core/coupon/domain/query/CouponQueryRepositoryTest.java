@@ -77,11 +77,15 @@ class CouponQueryRepositoryTest {
             assertThat(actual).hasSize(3);
         }
 
-        private void requestAndCancelReservation(Coupon coupon1) {
+        private void requestAndCancelReservation(Coupon coupon) {
             Reservation reservation = reservationRepository.save(
-                RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
-            coupon1.changeStatus(CouponEvent.REQUEST, receiver);
+                RESERVE_SAVE.getReservation(coupon, LocalDateTime.now()));
+            coupon.changeStatus(CouponEvent.REQUEST, receiver);
             reservation.changeCouponStatus(CouponEvent.CANCEL, receiver);
+            reservationRepository.delete(reservation);
+            couponRepository.flush();
+            reservationRepository.flush();
+
         }
     }
 }
