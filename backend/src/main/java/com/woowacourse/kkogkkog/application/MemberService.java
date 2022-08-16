@@ -40,10 +40,9 @@ public class MemberService {
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
 
-        Optional<Member> member = memberRepository.findByUserId(userId);
+        Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()) {
             Member existingMember = member.get();
-            existingMember.updateEmail(email);
             existingMember.updateImageURL(imageUrl);
             return new MemberCreateResponse(existingMember.getId(), false);
         }
