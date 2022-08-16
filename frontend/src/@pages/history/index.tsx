@@ -15,7 +15,6 @@ const UserHistoryPage = () => {
   const state = useLocation().state as { shouldRefetch: boolean } | null;
 
   const { historyList, refetch } = useFetchUserHistoryList();
-
   const { mutate: readAllHistory } = useReadAllHistoryMutation();
   const readHistory = useReadHistory();
 
@@ -29,7 +28,7 @@ const UserHistoryPage = () => {
 
   const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
     if (!isRead) {
-      readHistory({ id });
+      readHistory(id);
     }
     navigate(`/coupon-list/${couponId}`);
   };

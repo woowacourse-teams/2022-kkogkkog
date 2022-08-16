@@ -12,7 +12,6 @@ import {
   OAuthLogin,
   readAllHistory,
 } from '@/apis/user';
-import { ReadHistoryRequest } from '@/types/remote/request';
 import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
@@ -153,7 +152,7 @@ export const useReadAllHistoryMutation = () => {
 export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
-  const readHistory = async ({ id }: ReadHistoryRequest) => {
+  const readHistory = (id: number) => {
     queryClient.setQueryData<UserHistoryResponse | undefined>(
       [QUERY_KEY.getUserHistoryList],
       oldData => {
