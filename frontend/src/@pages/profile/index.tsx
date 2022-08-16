@@ -30,7 +30,7 @@ const ProfilePage = () => {
           <Styled.ProfileImage src={me?.imageUrl} width='51px' alt='프사' />
           <Styled.Nickname>{me?.nickname}</Styled.Nickname>
         </Styled.MeInfo>
-        <Link to={PATH.PROFILE_EDIT}>
+        <Link to={PATH.PROFILE_EDIT} replace>
           <Button>프로필 수정</Button>
         </Link>
         <Styled.ButtonInner>
