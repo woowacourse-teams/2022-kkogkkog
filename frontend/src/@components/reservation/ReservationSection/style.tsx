@@ -19,7 +19,7 @@ export const NoneContentsContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  gap: 20px;
+  gap: 10px;
 
   & > h2 {
     font-size: 50px;
