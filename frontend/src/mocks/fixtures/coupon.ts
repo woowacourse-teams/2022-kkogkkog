@@ -39,7 +39,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'REQUEST',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '이때 만나자!',
         },
         {
@@ -49,7 +49,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '',
         },
         {
@@ -59,7 +59,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'REQUEST',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '선릉에서 만나자!',
         },
       ],
@@ -101,7 +101,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'REQUEST',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '이때 만나자!',
         },
         {
@@ -111,7 +111,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'INIT',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '',
         },
         {
@@ -121,7 +121,7 @@ export default {
           couponType: 'COFFEE',
           couponEvent: 'REQUEST',
           meetingDate: '2022-08-08',
-          createdTime: '2022-08-08 13:50:20',
+          createdTime: '2022-08-08',
           message: '선릉에서 만나자!',
         },
       ],

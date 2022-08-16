@@ -102,7 +102,7 @@ const CouponDeclinePage = () => {
 
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickDeclineButton} css={Styled.ExtendedButton}>
-              사용 거절
+              약속 거절하기
             </Button>
           </Position>
         </Styled.Main>
