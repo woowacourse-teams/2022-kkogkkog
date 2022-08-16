@@ -41,9 +41,10 @@ public class WorkspaceUser {
     @Column(nullable = false)
     private String imageUrl;
 
-    public WorkspaceUser(Long id, String userId, Workspace workspace, String displayName, String email,
-                         String imageUrl) {
+    public WorkspaceUser(Long id, Member masterMember, String userId, Workspace workspace,
+                         String displayName, String email, String imageUrl) {
         this.id = id;
+        this.masterMember = masterMember;
         this.userId = userId;
         this.workspace = workspace;
         this.displayName = displayName;
@@ -53,10 +54,6 @@ public class WorkspaceUser {
 
     public void updateDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public void updateEmail(String email) {
-        this.email = email;
     }
 
     public void updateImageURL(String imageUrl) {
