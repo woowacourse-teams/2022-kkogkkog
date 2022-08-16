@@ -52,6 +52,7 @@ export interface CouponResponse {
 
 export interface CouponDetailResponse {
   id: number;
+  reservationId: number | null;
   senderId: number;
   senderNickname: string;
   senderImageUrl: string;
