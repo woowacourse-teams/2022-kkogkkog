@@ -167,6 +167,31 @@ public class MemberControllerTest extends Documentation {
     }
 
     @Test
+    void 나의_모든_히스토리의_방문_여부를_업데이트_할_수_있다() throws Exception {
+        // given
+        doNothing().when(memberService).updateIsReadMemberHistory(any());
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+
+        // when
+        ResultActions perform = mockMvc.perform(put("/api/members/me/histories")
+            .header("Authorization", "Bearer AccessToken"));
+
+        // then
+        perform.andExpect(status().isNoContent());
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-updateAllMeHistories",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestHeaders(
+                    headerWithName("Authorization").description("Bearer {accessToken}")
+                )
+            ));
+    }
+
+    @Test
     void 조회된_기록들의_방문_여부를_업데이트_할_수_있다() throws Exception {
         // given
         doNothing().when(memberService).updateIsReadMemberHistory(any());

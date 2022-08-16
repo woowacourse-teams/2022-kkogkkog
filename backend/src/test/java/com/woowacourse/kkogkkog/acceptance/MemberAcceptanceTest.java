@@ -94,6 +94,16 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 나의_히스토리의_방문상태가_변경된다() {
+        String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
+        String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
+        쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
+
+        ExtractableResponse<Response> extract = 나의_알림을_체크한다(arthurAccessToken);
+        assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
     void 본인의_닉네임을_수정할_수_있다() {
         String newNickname = "새로운닉네임";
         String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
@@ -127,5 +137,9 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
     private ExtractableResponse<Response> 알림을_체크한다(Long historyId, String arthurAccessToken) {
         return invokePatchWithToken("/api/members/me/histories/" + historyId, arthurAccessToken);
+    }
+
+    private ExtractableResponse<Response> 나의_알림을_체크한다(String accessToken) {
+        return invokePutWithToken("/api/members/me/histories/", accessToken);
     }
 }

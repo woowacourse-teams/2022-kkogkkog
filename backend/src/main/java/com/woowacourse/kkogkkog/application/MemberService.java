@@ -80,7 +80,8 @@ public class MemberService {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 
-        return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember).stream()
+        return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember)
+            .stream()
             .map(MemberHistoryResponse::of)
             .collect(toList());
     }
@@ -90,5 +91,16 @@ public class MemberService {
             .orElseThrow(MemberHistoryNotFoundException::new);
 
         memberHistory.updateIsRead();
+    }
+
+    public void updateAllIsReadMemberHistories(Long memberId) {
+        Member foundMember = memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+
+        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(
+            foundMember);
+        for (MemberHistory memberHistory : memberHistories) {
+            memberHistory.updateIsRead();
+        }
     }
 }
