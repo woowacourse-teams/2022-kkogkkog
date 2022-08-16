@@ -53,6 +53,7 @@ public class CouponDtoFixture {
             reservationId,
             memberId,
             "멤버 닉네임",
+            "https://",
             "고마워요",
             "쿠폰에 대한 설명을 작성했어요",
             CouponType.COFFEE,

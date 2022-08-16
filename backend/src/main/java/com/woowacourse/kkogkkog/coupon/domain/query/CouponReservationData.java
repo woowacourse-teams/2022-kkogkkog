@@ -15,6 +15,7 @@ public class CouponReservationData {
     private Long reservationId;
     private Long memberId;
     private String nickname;
+    private String imageUrl;
     private String hashtag;
     private String description;
     private CouponType couponType;
@@ -26,6 +27,7 @@ public class CouponReservationData {
                                  Long reservationId,
                                  Long memberId,
                                  String nickname,
+                                 String imageUrl,
                                  String hashtag,
                                  String description,
                                  CouponType couponType,
@@ -36,6 +38,7 @@ public class CouponReservationData {
         this.reservationId = reservationId;
         this.memberId = memberId;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
         this.hashtag = hashtag;
         this.description = description;
         this.couponType = couponType;
