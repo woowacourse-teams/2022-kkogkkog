@@ -52,12 +52,12 @@ public class Member {
         return nickname.getValue();
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = new Nickname(nickname);
+    public void updateMainSlackUserId(String userId) {
+        this.userId = userId;
     }
 
-    public void updateEmail(String email) {
-        this.email = email;
+    public void updateNickname(String nickname) {
+        this.nickname = new Nickname(nickname);
     }
 
     public void updateImageURL(String imageUrl) {

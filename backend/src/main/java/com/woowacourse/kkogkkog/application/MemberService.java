@@ -43,20 +43,22 @@ public class MemberService {
         String userId = userInfo.getUserId();
         Optional<WorkspaceUser> workspaceUser = workspaceUserRepository.findByUserId(userId);
         if (workspaceUser.isPresent()) {
-            return updateExistingUser(userInfo, workspaceUser.get());
+            return updateExistingMember(userInfo, workspaceUser.get());
         }
         Optional<Member> member = memberRepository.findByEmail(userInfo.getEmail());
         if (member.isPresent()) {
             return integrateNewWorkspaceUser(userInfo, member.get(), workspace);
         }
-        return saveNewUser(userInfo, workspace);
+        return saveNewMember(userInfo, workspace);
     }
 
-    private MemberCreateResponse updateExistingUser(SlackUserInfo userInfo,
-                                                    WorkspaceUser workspaceUser) {
+    private MemberCreateResponse updateExistingMember(SlackUserInfo userInfo,
+                                                      WorkspaceUser workspaceUser) {
         workspaceUser.updateDisplayName(userInfo.getName());
         workspaceUser.updateImageURL(userInfo.getPicture());
+
         Member member = workspaceUser.getMasterMember();
+        member.updateMainSlackUserId(userInfo.getUserId());
         member.updateImageURL(userInfo.getPicture());
         return new MemberCreateResponse(member.getId(), false);
     }
@@ -65,13 +67,14 @@ public class MemberService {
                                                            Member existingMember,
                                                            Workspace workspace) {
         existingMember.updateImageURL(userInfo.getPicture());
+        existingMember.updateMainSlackUserId(userInfo.getUserId());
         workspaceUserRepository.save(
             new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
                 userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
         return new MemberCreateResponse(existingMember.getId(), false);
     }
 
-    private MemberCreateResponse saveNewUser(SlackUserInfo userInfo, Workspace workspace) {
+    private MemberCreateResponse saveNewMember(SlackUserInfo userInfo, Workspace workspace) {
         String userId = userInfo.getUserId();
         String nickname = userInfo.getName();
         String email = userInfo.getEmail();
