@@ -4,6 +4,10 @@ import styled from '@emotion/styled';
 export const Root = styled.div`
   padding: 21px 19px;
 
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
   `}
@@ -13,8 +17,6 @@ export const CouponInfoContainer = styled.div`
   display: flex;
 
   gap: 18px;
-
-  margin-bottom: 24px;
 `;
 
 export const ProfileImageContainer = styled.div`

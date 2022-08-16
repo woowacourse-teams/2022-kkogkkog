@@ -4,13 +4,18 @@ import {
   CouponReservationRequest,
   CreateCouponRequest,
 } from '@/types/remote/request';
-import { CouponDetailResponse, CouponListResponse } from '@/types/remote/response';
+import {
+  CouponCreateResponse,
+  CouponDetailResponse,
+  CouponListResponse,
+} from '@/types/remote/response';
 
 export const getCoupon = (id: number) => client.get<CouponDetailResponse>(`/coupons/${id}`);
 
 export const getCouponList = () => client.get<CouponListResponse>('/coupons');
 
-export const createCoupon = (info: CreateCouponRequest) => client.post('/coupons', info);
+export const createCoupon = (info: CreateCouponRequest) =>
+  client.post<CouponCreateResponse>('/coupons', info);
 
 export const changeCouponStatus = ({ id, body }: { id: number; body: ChangeCouponStatusRequest }) =>
   client.put(`/reservations/${id}`, body);

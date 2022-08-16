@@ -5,7 +5,7 @@ import * as Styled from './style';
 
 interface UserHistoryListProps {
   historyList: UserHistory[];
-  onClickHistoryItem: (id: number, isRead: boolean) => void;
+  onClickHistoryItem: (userHistory: UserHistory) => void;
 }
 
 const UserHistoryList = (props: UserHistoryListProps) => {
@@ -17,7 +17,7 @@ const UserHistoryList = (props: UserHistoryListProps) => {
         <UserHistoryItem
           key={history.id}
           history={history}
-          onClick={() => onClickHistoryItem(history.id, history.isRead)}
+          onClick={() => onClickHistoryItem(history)}
         />
       ))}
     </Styled.Root>

@@ -64,9 +64,10 @@ const CouponDetailPage = () => {
   const {
     senderId,
     senderNickname,
+    senderImageUrl,
     receiverId,
     receiverNickname,
-    imageUrl,
+    receiverImageUrl,
     couponType,
     couponStatus,
     couponHistories,
@@ -112,7 +113,7 @@ const CouponDetailPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={imageUrl} alt='' />
+          <Styled.ProfileImage src={isSent ? receiverImageUrl : senderImageUrl} alt='' />
           <Styled.SummaryMessage>
             <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
             &nbsp;

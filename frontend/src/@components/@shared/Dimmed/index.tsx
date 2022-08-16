@@ -7,7 +7,7 @@ interface DimmedProps {
 
 export const Dimmed = styled.div<DimmedProps>`
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 
   position: fixed;
   top: 0;

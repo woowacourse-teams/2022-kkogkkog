@@ -4,6 +4,7 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import UserHistoryList from '@/@components/user/UserHistoryList';
 import { useFetchUserHistoryList } from '@/@hooks/@queries/user';
 import { useUserHistory } from '@/@hooks/user/useUserHistory';
+import { UserHistory } from '@/types/client/user';
 
 const UserHistoryPage = () => {
   const navigate = useNavigate();
@@ -12,11 +13,11 @@ const UserHistoryPage = () => {
 
   const { readHistory } = useUserHistory();
 
-  const onClickHistoryItem = (id: number, isRead: boolean) => {
+  const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
     if (!isRead) {
       readHistory(id);
     }
-    navigate(`/coupon-list/${id}`);
+    navigate(`/coupon-list/${couponId}`);
   };
 
   return (

@@ -8,7 +8,7 @@ export const Root = styled.div`
 `;
 
 export const Container = styled.div`
-  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 
   max-width: 414px;
   min-width: 320px;
