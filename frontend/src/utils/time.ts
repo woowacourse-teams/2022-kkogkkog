@@ -19,7 +19,11 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
     return '-';
   }
 
-  const [year, month, day] = date.split('-');
+  const propDateInstance = new Date(date);
+
+  const year = propDateInstance.getFullYear();
+  const month = propDateInstance.getMonth();
+  const day = propDateInstance.getDate();
 
   const dateText = includeYear
     ? year && month && day && `${year}년 ${Number(month)}월 ${Number(day)}일`

@@ -14,6 +14,15 @@ export const Root = styled.div`
 
   opacity: 0.8;
 
+  & > h2 {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  & > h3 {
+    font-size: 12px;
+  }
+
   ${({ theme }) => css`
     color: ${theme.colors.primary_400};
     font-size: 16px;

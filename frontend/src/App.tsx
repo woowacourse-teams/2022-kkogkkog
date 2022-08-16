@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import ScrollToTop from '@/@components/@shared/ScrollToTop';
 import Router from '@/Router';
 
 function setScreenSize() {
@@ -16,6 +17,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Router />
     </BrowserRouter>
   );

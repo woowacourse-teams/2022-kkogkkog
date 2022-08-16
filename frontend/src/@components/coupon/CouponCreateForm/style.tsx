@@ -21,6 +21,8 @@ export const FindUserContainer = styled.div`
 `;
 
 export const FindUserInput = styled.div`
+  min-height: 50px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,12 +30,12 @@ export const FindUserInput = styled.div`
   padding: 10px;
   border-radius: 10px;
 
-  font-size: 12px;
+  font-size: 16px;
 
   cursor: pointer;
 
   ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primary_200};
+    background-color: ${theme.colors.background_3};
     color: ${theme.colors.light_grey_200};
   `}
 `;
@@ -48,6 +50,8 @@ export const SelectedUserContainer = styled.div`
   padding: 6px 9px;
 
   border-radius: 20px;
+
+  font-size: 12px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
@@ -102,4 +106,44 @@ export const ButtonContainer = styled.div`
 
 export const ButtonInner = styled.div`
   width: 40%;
+`;
+
+export const MessageTextarea = styled.textarea`
+  width: 100%;
+  height: 200px;
+  border: none;
+  outline: none;
+  resize: none;
+
+  margin-bottom: 10px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.background_3};
+  `}
+`;
+
+export const TextareaContainer = styled.div`
+  & > label {
+    display: inline-block;
+
+    color: ${({ theme }) => theme.colors.drak_grey_200};
+    font-weight: 600;
+    font-size: 14px;
+
+    margin-bottom: 8px;
+  }
+`;
+
+export const MessageTextareaContainer = styled.div`
+  border-radius: 20px;
+
+  padding: 20px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.background_3};
+  `}
+`;
+
+export const MessageLength = styled.div`
+  text-align: right;
 `;
