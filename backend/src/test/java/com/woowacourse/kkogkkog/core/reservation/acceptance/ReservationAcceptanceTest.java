@@ -17,7 +17,6 @@ import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRe
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

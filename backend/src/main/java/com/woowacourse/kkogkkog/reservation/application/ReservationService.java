@@ -72,24 +72,29 @@ public class ReservationService {
         Member loginMember = findMember(request.getMemberId());
 
         Reservation reservation = findReservation(request.getReservationId());
-        reservation.changeCouponStatus(
-            CouponEvent.of(request.getEvent()), loginMember);
-        reservation.changeStatus(CouponEvent.of(request.getEvent()));
+        reservation.changeCouponStatus(CouponEvent.of(request.getEvent()), loginMember);
 
         Coupon coupon = reservation.getCoupon();
         MemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
             loginMember, coupon, CouponEvent.of(request.getEvent()), reservation.getMeetingDate(),
             request.getMessage());
 
+        if (validateCancelReservation(request)) {
+            reservationRepository.delete(reservation);
+        }
+
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
     }
 
-    private MemberHistory saveMemberHistory(Member findCoupon, Member loginMember,
-                                            Coupon findCoupon1, CouponEvent request,
-                                            LocalDateTime request1, String request2) {
-        MemberHistory memberHistory = new MemberHistory(null, findCoupon, loginMember,
-            findCoupon1.getId(), findCoupon1.getCouponType(), request, request1,
-            request2);
+    private boolean validateCancelReservation(ReservationUpdateRequest request) {
+        return request.getEvent().equals("CANCEL") || request.getEvent().equals("DECLINE");
+    }
+
+    private MemberHistory saveMemberHistory(Member member, Member loginMember,
+                                            Coupon coupon, CouponEvent request,
+                                            LocalDateTime dateTime, String message) {
+        MemberHistory memberHistory = new MemberHistory(null, member, loginMember,
+            coupon.getId(), coupon.getCouponType(), request, dateTime, message);
         memberHistoryRepository.save(memberHistory);
         return memberHistory;
     }
