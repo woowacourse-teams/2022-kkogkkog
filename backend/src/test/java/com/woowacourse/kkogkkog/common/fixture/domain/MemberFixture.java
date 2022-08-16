@@ -15,7 +15,7 @@ public enum MemberFixture {
 
     SENDER("senderId1", "루키", "sender@gmail.com", "https://slack"),
     RECEIVER("receiverId1", "아서", "receiver@gmail.com", "https://slack"),
-    RECEIVER2("receiverId2", "진우", "receiver@gmail.com", "https://slack"),
+    RECEIVER2("receiverId2", "진우", "receiver2@gmail.com", "https://slack"),
     ;
 
     private final String userId;
