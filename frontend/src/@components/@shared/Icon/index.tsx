@@ -8,13 +8,14 @@ import Icons from './Icons';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
   iconName: IconNames;
+  hasCursor?: boolean;
   size?: string;
   color?: string;
   className?: string;
 }
 
 const Icon = (props: IconProps) => {
-  const { iconName, size = '24', color = '#ffffff', ...rest } = props;
+  const { iconName, hasCursor = true, size = '24', color = '#ffffff', ...rest } = props;
 
   const IconComponent = Icons[iconName];
 
@@ -28,17 +29,16 @@ const Icon = (props: IconProps) => {
 export default Icon;
 
 const Styled = {
-  Wrapper: styled.div`
-    cursor: pointer;
-
+  Wrapper: styled.div<Pick<IconProps, 'size' | 'color' | 'hasCursor'>>`
     & * {
       fill: currentColor;
     }
 
-    ${({ size, color }: Pick<IconProps, 'size' | 'color'>) => css`
+    ${({ size, color, hasCursor }) => css`
       color: ${color};
       width: ${size}px;
       height: ${size}px;
+      cursor: ${hasCursor && 'pointer'};
     `}
   `,
 };
