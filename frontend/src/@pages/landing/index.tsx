@@ -114,7 +114,7 @@ const AuthorizedLanding = () => {
 
         <Styled.FullListContainer>
           <Styled.FullListTitle>
-            <span>승인된 꼭꼭</span>
+            <span>예정된 약속</span>
           </Styled.FullListTitle>
 
           <CustomSuspense fallback={<ReservationSection.Skeleton />} isLoading={isLoading}>
