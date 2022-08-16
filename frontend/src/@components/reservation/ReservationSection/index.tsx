@@ -6,7 +6,7 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { CouponResponse } from '@/types/remote/response';
-import { computeDay, generateDateText, generateDDay } from '@/utils';
+import { computeDay, generateDateText, generateDDay } from '@/utils/time';
 
 import * as Styled from './style';
 
@@ -28,7 +28,7 @@ const ReservationSection = (props: AcceptedCouponListProps) => {
   if (Object.keys(reservationRecord).length === 0) {
     return (
       <Styled.NoneContentsContainer>
-        <Icon iconName='hand' size='36' color={theme.colors.primary_400} />
+        <Icon iconName='hand' hasCursor={false} size='36' color={theme.colors.primary_400} />
         <h3>아직 승인된 약속이 존재하지 않아요!</h3>
         <h4>약속을 기다리는 사람에게 신청해볼까요 ?</h4>
       </Styled.NoneContentsContainer>

@@ -24,6 +24,7 @@ export interface CreateCouponRequest {
 
 export interface ChangeCouponStatusRequest {
   event: COUPON_EVENT;
+  message?: string;
 }
 
 export interface CouponReservationRequest {

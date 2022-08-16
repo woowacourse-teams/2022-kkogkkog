@@ -1,7 +1,6 @@
 import { ChangeEventHandler, FormEventHandler } from 'react';
 
 import Button from '@/@components/@shared/Button';
-import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchModal from '@/@components/user/UserSearchModal';
 import { useModal } from '@/@hooks/@common/useModal';
@@ -28,7 +27,7 @@ interface CouponCreateFormProps {
   onSelectType: (type: COUPON_ENG_TYPE) => void;
   onSelectHashtag: (hashtag: COUPON_HASHTAGS) => void;
   onSelectColor: (color: COUPON_COLORS) => void;
-  onChangeDescription: ChangeEventHandler<HTMLInputElement>;
+  onChangeDescription: ChangeEventHandler<HTMLTextAreaElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
@@ -52,7 +51,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
       <Styled.FindUserContainer>
-        <div>누구에게 보내시나요?</div>
+        <div>누구에게 보내시나요 ?</div>
         <Styled.FindUserInput onClick={openModal}>
           {currentReceiverList.length === 0 && <span>유저를 찾아보세요</span>}
 
@@ -78,7 +77,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         />
       )}
 
-      <SelectInput label='어떤 쿠폰인가요?'>
+      <SelectInput label='어떤 쿠폰인가요 ?'>
         {couponTypeCollection.map(({ engType }) => (
           <Styled.TypeOption
             key={engType}
@@ -90,7 +89,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         ))}
       </SelectInput>
 
-      <SelectInput label='당신의 기분을 골라주세요'>
+      <SelectInput label='당신의 마음을 선택해주세요 !'>
         {couponHashtags.map(hashtag => (
           <Styled.FeelOption
             key={hashtag}
@@ -102,13 +101,18 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         ))}
       </SelectInput>
 
-      <Input
-        label='하고 싶은 말을 적어주세요'
-        placeholder='50자 이하로 작성해주세요'
-        value={currentDescription}
-        onChange={onChangeDescription}
-        maxLength={50}
-      />
+      <Styled.TextareaContainer>
+        <label htmlFor='message-textarea'>메세지를 작성해보세요 (선택)</label>
+        <Styled.MessageTextareaContainer>
+          <Styled.MessageTextarea
+            id='message-textarea'
+            placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
+            value={currentDescription}
+            onChange={onChangeDescription}
+          />
+          <Styled.MessageLength>{currentDescription.length} / 50</Styled.MessageLength>
+        </Styled.MessageTextareaContainer>
+      </Styled.TextareaContainer>
 
       <Styled.ButtonContainer>
         <Styled.ButtonInner>

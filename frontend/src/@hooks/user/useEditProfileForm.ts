@@ -5,7 +5,7 @@ import useInput from '@/@hooks/@common/useInput';
 import { useEditMeMutation, useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
-const useEditProfileForm = () => {
+const useEditProfileForm = ({ type }: { type: 'join' | null }) => {
   const navigate = useNavigate();
 
   const [nickname, onChangeNickname, setNickname] = useInput('');
@@ -23,7 +23,7 @@ const useEditProfileForm = () => {
     e.preventDefault();
 
     if (nickname === me?.nickname) {
-      navigate(PATH.LANDING);
+      navigate(PATH[type === 'join' ? 'LANDING' : 'PROFILE'], { replace: true });
 
       return;
     }
@@ -32,7 +32,7 @@ const useEditProfileForm = () => {
       { nickname },
       {
         onSuccess() {
-          navigate(PATH.LANDING);
+          navigate(PATH[type === 'join' ? 'LANDING' : 'PROFILE'], { replace: true });
         },
       }
     );

@@ -55,7 +55,11 @@ const CouponDetailPage = () => {
 
   const { coupon } = useFetchCoupon(Number(couponId));
   const { me } = useFetchMe();
-  const { cancelCoupon, finishCoupon } = useChangeCouponStatus(Number(couponId));
+  // @TODO reservation null type check
+  const { cancelCoupon, finishCoupon } = useChangeCouponStatus({
+    id: Number(couponId),
+    reservationId: coupon?.reservationId ?? null,
+  });
 
   if (!coupon) {
     return <NotFoundPage />;
@@ -128,6 +132,7 @@ const CouponDetailPage = () => {
                 ...coupon,
                 memberId: isSent ? receiverId : senderId,
                 nickname: isSent ? receiverNickname : senderNickname,
+                memberType: isSent ? 'SENT' : 'RECEIVED',
               }}
             />
           </Styled.CouponInner>
@@ -136,9 +141,9 @@ const CouponDetailPage = () => {
             <CouponHistoryList historyList={couponHistories} />
           </Styled.HistorySection>
           <Styled.FinishButtonInner>
-            {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
+            {/* {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
               <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
-            )}
+            )} */}
           </Styled.FinishButtonInner>
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             {buttons.map(buttonType => (

@@ -13,12 +13,14 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { generateDateText } from '@/utils';
+import { generateDateText } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from '../request/style';
 
 const CouponDeclinePage = () => {
+  usePreventReload();
+
   const navigate = useNavigate();
   const { couponId } = useParams();
 
@@ -27,9 +29,10 @@ const CouponDeclinePage = () => {
   const { me } = useFetchMe();
   const { coupon } = useFetchCoupon(Number(couponId));
 
-  const { declineCoupon } = useChangeCouponStatus(Number(couponId));
-
-  usePreventReload();
+  const { declineCoupon } = useChangeCouponStatus({
+    id: Number(couponId),
+    reservationId: coupon?.reservationId ?? null,
+  });
 
   if (!coupon) {
     return <NotFoundPage />;
@@ -49,11 +52,14 @@ const CouponDeclinePage = () => {
 
   const onClickDeclineButton = () => {
     if (window.confirm('쿠폰 사용 요청을 거절하시겠어요?')) {
-      declineCoupon({
-        onSuccessCallback() {
-          navigate(PATH.LANDING);
-        },
-      });
+      declineCoupon(
+        { message },
+        {
+          onSuccessCallback() {
+            navigate(PATH.LANDING);
+          },
+        }
+      );
     }
   };
 
@@ -81,16 +87,19 @@ const CouponDeclinePage = () => {
             {generateDateText(meetingDate)}에 만남이 어려우신가요?
           </Styled.SectionTitle>
           <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
-          <Position position='relative'>
-            <Styled.MessageTextarea
-              placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
-              value={message}
-              onChange={onChangeMessage}
-            />
-            <Position position='absolute' bottom='12px' right='12px'>
-              <span>{message.length} / 200</span>
-            </Position>
-          </Position>
+
+          <Styled.TextareaContainer>
+            <Styled.MessageTextareaContainer>
+              <Styled.MessageTextarea
+                id='message-textarea'
+                placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
+                value={message}
+                onChange={onChangeMessage}
+              />
+              <Styled.MessageLength>{message.length} / 200</Styled.MessageLength>
+            </Styled.MessageTextareaContainer>
+          </Styled.TextareaContainer>
+
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickDeclineButton} css={Styled.ExtendedButton}>
               사용 거절

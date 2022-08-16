@@ -5,7 +5,13 @@ import { useToast } from '@/@hooks/@common/useToast';
 import { useChangeCouponStatusMutation, useRequestCouponMutation } from '../@queries/coupon';
 import { EffectCallback } from '../types';
 
-const useChangeCouponStatus = (id: number) => {
+const useChangeCouponStatus = ({
+  id,
+  reservationId,
+}: {
+  id: number;
+  reservationId: number | null;
+}) => {
   const { displayMessage } = useToast();
 
   const changeStatusMutate = useChangeCouponStatusMutation(id);
@@ -13,7 +19,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const cancelCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { event: 'CANCEL' } },
+      { reservationId, body: { event: 'CANCEL' } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -34,7 +40,7 @@ const useChangeCouponStatus = (id: number) => {
     { onSuccessCallback }: EffectCallback = {}
   ) => {
     requestCouponMutate.mutate(
-      { id, body: { couponId: id, meetingDate, message } },
+      { body: { couponId: id, meetingDate, message } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -52,7 +58,7 @@ const useChangeCouponStatus = (id: number) => {
 
   const finishCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
     changeStatusMutate.mutate(
-      { id, body: { event: 'FINISH' } },
+      { reservationId, body: { event: 'FINISH' } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -68,9 +74,12 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
-  const acceptCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
+  const acceptCoupon = (
+    { message }: { message: string },
+    { onSuccessCallback }: EffectCallback = {}
+  ) => {
     changeStatusMutate.mutate(
-      { id, body: { event: 'ACCEPT' } },
+      { reservationId, body: { event: 'ACCEPT', message } },
       {
         onSuccess() {
           onSuccessCallback?.();
@@ -86,9 +95,12 @@ const useChangeCouponStatus = (id: number) => {
     );
   };
 
-  const declineCoupon = ({ onSuccessCallback }: EffectCallback = {}) => {
+  const declineCoupon = (
+    { message }: { message: string },
+    { onSuccessCallback }: EffectCallback = {}
+  ) => {
     changeStatusMutate.mutate(
-      { id, body: { event: 'DECLINE' } },
+      { reservationId, body: { event: 'DECLINE', message } },
       {
         onSuccess() {
           onSuccessCallback?.();

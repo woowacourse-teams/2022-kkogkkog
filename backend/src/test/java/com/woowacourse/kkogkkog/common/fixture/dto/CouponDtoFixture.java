@@ -59,7 +59,8 @@ public class CouponDtoFixture {
             CouponType.COFFEE,
             CouponStatus.REQUESTED,
             "예약 요청 메시지를 입력할 수 있어요",
-            LocalDateTime.of(2022, 1, 1, 0, 0, 0)
+            LocalDateTime.of(2022, 1, 1, 0, 0, 0),
+            null
         );
     }
     public static CouponDetailResponse 쿠폰_생성_상세조회_응답(Long couponId, Long senderId, Long receiverId) {
@@ -76,6 +77,7 @@ public class CouponDtoFixture {
             CouponType.COFFEE,
             CouponStatus.READY,
             null,
+            1L,
             List.of(new CouponHistoryResponse(
                 1L,
                 "보낸 사람 닉네임",

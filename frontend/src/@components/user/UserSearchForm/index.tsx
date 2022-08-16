@@ -40,7 +40,6 @@ const UserSearchForm = (props: UserSearchFormProps) => {
         label='누구에게 주고 싶나요?'
         placeholder='🔍 유저 검색'
         onChange={onChangeSearchInput}
-        autoFocus
       />
 
       <Styled.SearchContainer>

@@ -1,4 +1,5 @@
-import { css, Theme } from '@emotion/react';
+import type { Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
@@ -16,7 +17,7 @@ export const Top = styled.div`
   align-items: center;
 
   ${({ theme }) => css`
-    background-color: ${theme.colors.primary_200};
+    background-color: ${theme.colors.primary_400_opacity};
   `}
 `;
 

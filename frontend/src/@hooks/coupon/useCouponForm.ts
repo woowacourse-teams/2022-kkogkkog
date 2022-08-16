@@ -14,6 +14,7 @@ import {
   couponTypeCollection,
 } from '@/types/client/coupon';
 import { UserResponse } from '@/types/remote/response';
+import { isOverMaxLength } from '@/utils/validations';
 
 import { useCreateCouponMutation } from '../@queries/coupon';
 
@@ -27,7 +28,9 @@ export const useCouponForm = () => {
   const [hashtag, setHashtag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
   const [color, setColor] = useState<COUPON_COLORS>(couponColors[0]);
 
-  const [description, onChangeDescription] = useInput('');
+  const [description, onChangeDescription] = useInput('', [
+    (value: string) => isOverMaxLength(value, 50),
+  ]);
 
   const createCouponMutate = useCreateCouponMutation();
 
@@ -82,7 +85,7 @@ export const useCouponForm = () => {
           displayMessage('쿠폰을 생성했어요', false);
 
           if (coupons.length === 1) {
-            navigate(`/coupon-list/${coupons[0].id}`);
+            navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
 
             return;
           }
