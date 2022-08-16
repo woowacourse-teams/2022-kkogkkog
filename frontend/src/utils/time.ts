@@ -22,7 +22,7 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
   const propDateInstance = new Date(date);
 
   const year = propDateInstance.getFullYear();
-  const month = propDateInstance.getMonth();
+  const month = propDateInstance.getMonth() + 1;
   const day = propDateInstance.getDate();
 
   const dateText = includeYear
