@@ -11,7 +11,6 @@ import {
   login,
   OAuthLogin,
   readAllHistory,
-  readHistory,
 } from '@/apis/user';
 import { ReadHistoryRequest } from '@/types/remote/request';
 import { UserHistoryResponse } from '@/types/remote/response';
@@ -151,16 +150,10 @@ export const useReadAllHistoryMutation = () => {
   });
 };
 
-export const useReadHistoryMutation = () => {
+export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
-  const onMutate = async ({ id }: ReadHistoryRequest) => {
-    await queryClient.cancelQueries([QUERY_KEY.getUserHistoryList]);
-
-    const previousQueryData = queryClient.getQueryData<UserHistoryResponse>([
-      QUERY_KEY.getUserHistoryList,
-    ]);
-
+  const readHistory = async ({ id }: ReadHistoryRequest) => {
     queryClient.setQueryData<UserHistoryResponse | undefined>(
       [QUERY_KEY.getUserHistoryList],
       oldData => {
@@ -178,25 +171,7 @@ export const useReadHistoryMutation = () => {
         return newData;
       }
     );
-
-    return previousQueryData;
   };
 
-  const onSuccess = () => {
-    queryClient.invalidateQueries([QUERY_KEY.me]);
-  };
-
-  const onError = (
-    error: unknown,
-    variables: ReadHistoryRequest,
-    context: UserHistoryResponse | undefined
-  ) => {
-    queryClient.setQueryData([QUERY_KEY.getUserHistoryList], context);
-  };
-
-  return useMutation(readHistory, {
-    onMutate,
-    onSuccess,
-    onError,
-  });
+  return readHistory;
 };

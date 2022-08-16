@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import UserHistoryList from '@/@components/user/UserHistoryList';
-import { useFetchUserHistoryList, useReadAllHistoryMutation } from '@/@hooks/@queries/user';
-import { useUserHistory } from '@/@hooks/user/useUserHistory';
+import {
+  useFetchUserHistoryList,
+  useReadAllHistoryMutation,
+  useReadHistory,
+} from '@/@hooks/@queries/user';
 import { UserHistory } from '@/types/client/user';
 
 const UserHistoryPage = () => {
@@ -13,8 +16,8 @@ const UserHistoryPage = () => {
 
   const { historyList, refetch } = useFetchUserHistoryList();
 
-  const { readHistory } = useUserHistory();
   const { mutate: readAllHistory } = useReadAllHistoryMutation();
+  const readHistory = useReadHistory();
 
   useEffect(() => {
     if (state?.shouldRefetch) {
@@ -26,7 +29,7 @@ const UserHistoryPage = () => {
 
   const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
     if (!isRead) {
-      readHistory(id);
+      readHistory({ id });
     }
     navigate(`/coupon-list/${couponId}`);
   };
