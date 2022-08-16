@@ -17,7 +17,7 @@ export const Top = styled.div`
   align-items: center;
 
   ${({ theme }) => css`
-    background-color: ${theme.colors.primary_200};
+    background-color: ${theme.colors.primary_400_opacity};
   `}
 `;
 
