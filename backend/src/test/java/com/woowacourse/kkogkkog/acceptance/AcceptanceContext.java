@@ -86,6 +86,17 @@ public class AcceptanceContext {
             .then().log().all()
             .extract();
     }
+
+    public static ExtractableResponse<Response> invokePutWithToken(String path, String token) {
+        return RestAssured.given().log().all()
+            .auth().oauth2(token)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .put(path)
+            .then().log().all()
+            .extract();
+    }
+
     public static ExtractableResponse<Response> invokePatchWithToken(String path, String token) {
         return RestAssured.given().log().all()
             .auth().oauth2(token)

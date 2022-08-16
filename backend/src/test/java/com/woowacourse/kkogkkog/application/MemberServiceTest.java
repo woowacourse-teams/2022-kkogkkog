@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
@@ -190,6 +191,24 @@ class MemberServiceTest extends ServiceTest {
             couponService.save(COFFEE_쿠폰_저장_요청(rookie.getId(), List.of(arthur.getId())));
 
             assertDoesNotThrow(() -> memberService.updateIsReadMemberHistory(1L));
+        }
+    }
+
+    @Nested
+    @DisplayName("updateAllIsReadMemberHistories 메서드는")
+    class updateAllIsReadMemberHistories {
+
+        @Test
+        @DisplayName("나의 모든 히스토리의 읽음 여부를 True 로 변경한다.")
+        void success() {
+            Member rookie = memberRepository.save(ROOKIE.getMember(workspace));
+            Member leo = memberRepository.save(LEO.getMember(workspace));
+            Member arthur = memberRepository.save(AUTHOR.getMember(workspace));
+
+            couponService.save(COFFEE_쿠폰_저장_요청(rookie.getId(), List.of(arthur.getId())));
+            couponService.save(COFFEE_쿠폰_저장_요청(leo.getId(), List.of(arthur.getId())));
+
+            assertDoesNotThrow(() -> memberService.updateAllIsReadMemberHistories(arthur.getId()));
         }
     }
 

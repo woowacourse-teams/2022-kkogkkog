@@ -52,6 +52,13 @@ public class MemberController {
         return ResponseEntity.ok(new MemberHistoriesResponse(memberService.findHistoryById(id)));
     }
 
+    @PutMapping("/me/histories")
+    public ResponseEntity<Void> updateAllMemberHistories(@LoginMember Long id) {
+        memberService.updateAllIsReadMemberHistories(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/me/histories/{historyId}")
     public ResponseEntity<Void> updateMemberHistory(@PathVariable Long historyId) {
         memberService.updateIsReadMemberHistory(historyId);

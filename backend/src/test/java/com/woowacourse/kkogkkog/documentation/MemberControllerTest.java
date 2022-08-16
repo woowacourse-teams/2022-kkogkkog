@@ -110,7 +110,8 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
                     fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                     fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이미지 주소"),
-                    fieldWithPath("unReadCount").type(JsonFieldType.NUMBER).description("읽지 않은 알림 개수")
+                    fieldWithPath("unReadCount").type(JsonFieldType.NUMBER)
+                        .description("읽지 않은 알림 개수")
                 ))
             );
     }
@@ -119,7 +120,8 @@ public class MemberControllerTest extends Documentation {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDateTime.now()));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false,
+                LocalDateTime.now()));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
@@ -156,10 +158,37 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].couponEvent").type(JsonFieldType.STRING)
                         .description("이벤트에 쿠폰 이벤트"),
                     fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜"),
-                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN).description("이벤트 클릭(조회) 여부"),
-                    fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("이벤트 생성 날짜")
+                    fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN)
+                        .description("이벤트 클릭(조회) 여부"),
+                    fieldWithPath("data.[].createdTime").type(JsonFieldType.STRING)
+                        .description("이벤트 생성 날짜")
                 ))
             );
+    }
+
+    @Test
+    void 나의_모든_히스토리의_방문_여부를_업데이트_할_수_있다() throws Exception {
+        // given
+        doNothing().when(memberService).updateIsReadMemberHistory(any());
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+
+        // when
+        ResultActions perform = mockMvc.perform(put("/api/members/me/histories")
+            .header("Authorization", "Bearer AccessToken"));
+
+        // then
+        perform.andExpect(status().isNoContent());
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("member-updateAllMeHistories",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestHeaders(
+                    headerWithName("Authorization").description("Bearer {accessToken}")
+                )
+            ));
     }
 
     @Test

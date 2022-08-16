@@ -46,7 +46,7 @@ const Header = (props: HeaderProps) => {
             align-items: center;
           `}
         >
-          <Link to={PATH.USER_HISTORY}>
+          <Link to={PATH.USER_HISTORY} state={{ shouldRefetch: true }}>
             <Icon iconName='notification' size='26' color={'transparent'} />
           </Link>
           {me?.unReadCount !== 0 && (

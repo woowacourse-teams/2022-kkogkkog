@@ -13,6 +13,9 @@ operation::member-showMe[snippets='http-request,http-response,response-fields']
 === 본인 이벤트 기록 조회
 operation::member-showMeHistory[snippets='http-request,http-response,response-fields']
 
+== 본인 모든 이벤트 방문 수정
+operation::member-updateAllMeHistories[snippets='http-request,http-response']
+
 === 본인 이벤트 방문 수정
 operation::member-updateMeHistory[snippets='http-request,http-response']
 

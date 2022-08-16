@@ -12,8 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.acceptance.AcceptanceTest;
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
@@ -68,7 +66,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> extractableResponse = 쿠폰_생성을_요청한다(accessToken,
             COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
 
-        CouponsCreateResponse couponsCreateResponse = extractableResponse.as(CouponsCreateResponse.class);
+        CouponsCreateResponse couponsCreateResponse = extractableResponse.as(
+            CouponsCreateResponse.class);
         ExtractableResponse<Response> extract = 회원의_단일쿠폰_상세정보를_조회한다(
             couponsCreateResponse.getData().get(0).getId());
 
@@ -76,7 +75,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(couponDetailResponse.getCouponStatus()).isEqualTo(CouponStatus.READY.name()),
+            () -> assertThat(couponDetailResponse.getCouponStatus()).isEqualTo(
+                CouponStatus.READY.name()),
             () -> assertThat(couponDetailResponse.getCouponHistories()).hasSize(1)
         );
 

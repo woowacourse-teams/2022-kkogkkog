@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
@@ -26,6 +28,7 @@ public class CouponDetailResponse {
     private String description;
     private String couponType;
     private String couponStatus;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
     private List<CouponHistoryResponse> couponHistories;
 
