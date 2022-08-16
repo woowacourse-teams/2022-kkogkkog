@@ -25,11 +25,11 @@ public class WorkspaceUser {
     private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "master_member_id")
+    @JoinColumn(name = "master_member_id", nullable = false)
     private Member masterMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
+    @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
 
     @Column(nullable = false)
