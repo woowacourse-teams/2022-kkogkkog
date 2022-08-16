@@ -37,27 +37,13 @@ public class CouponHistoryResponse {
     public static CouponHistoryResponse of(MemberHistory memberHistory) {
         return new CouponHistoryResponse(
             memberHistory.getId(),
-            memberHistory.getHostMember().getNickname(),
-            memberHistory.getHostMember().getImageUrl(),
+            memberHistory.getTargetMember().getNickname(),
+            memberHistory.getTargetMember().getImageUrl(),
             memberHistory.getCouponType(),
             memberHistory.getCouponEvent(),
             memberHistory.getMeetingDate(),
             memberHistory.getMessage(),
             memberHistory.getCreatedTime()
         );
-    }
-
-    @Override
-    public String toString() {
-        return "CouponHistoryResponse{" +
-            "id=" + id +
-            ", nickname='" + nickname + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", couponType='" + couponType + '\'' +
-            ", couponEvent='" + couponEvent + '\'' +
-            ", meetingDate=" + meetingDate +
-            ", message='" + message + '\'' +
-            ", createdTime=" + createdTime +
-            '}';
     }
 }
