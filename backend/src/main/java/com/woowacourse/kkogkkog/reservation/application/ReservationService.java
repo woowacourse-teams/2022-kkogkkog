@@ -72,16 +72,22 @@ public class ReservationService {
         Member loginMember = findMember(request.getMemberId());
 
         Reservation reservation = findReservation(request.getReservationId());
-        reservation.changeCouponStatus(
-            CouponEvent.of(request.getEvent()), loginMember);
-        reservation.changeStatus(CouponEvent.of(request.getEvent()));
+        reservation.changeCouponStatus(CouponEvent.of(request.getEvent()), loginMember);
 
         Coupon coupon = reservation.getCoupon();
         MemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
             loginMember, coupon, CouponEvent.of(request.getEvent()), reservation.getMeetingDate(),
             request.getMessage());
 
+        validateCancelReservation(reservation, request);
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+    }
+
+    private void validateCancelReservation(Reservation reservation,
+                                           ReservationUpdateRequest request) {
+        if (request.getEvent().equals("CANCEL") || request.getEvent().equals("DECLINE")) {
+            reservationRepository.delete(reservation);
+        }
     }
 
     private MemberHistory saveMemberHistory(Member findCoupon, Member loginMember,

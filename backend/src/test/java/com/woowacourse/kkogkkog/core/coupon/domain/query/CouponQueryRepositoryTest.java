@@ -82,7 +82,6 @@ class CouponQueryRepositoryTest {
                 RESERVE_SAVE.getReservation(coupon1, LocalDateTime.now()));
             coupon1.changeStatus(CouponEvent.REQUEST, receiver);
             reservation.changeCouponStatus(CouponEvent.CANCEL, receiver);
-            reservation.changeStatus(CouponEvent.CANCEL);
         }
     }
 }
