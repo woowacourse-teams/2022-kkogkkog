@@ -108,13 +108,40 @@ export const MessageTextarea = styled.textarea`
   width: 100%;
   height: 200px;
   border: none;
-  padding: 16px;
   outline: none;
   resize: none;
+
+  margin-bottom: 10px;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.background_3};
   `}
+`;
+
+export const TextareaContainer = styled.div`
+  & > label {
+    display: inline-block;
+
+    color: ${({ theme }) => theme.colors.drak_grey_200};
+    font-weight: 600;
+    font-size: 14px;
+
+    margin-bottom: 8px;
+  }
+`;
+
+export const MessageTextareaContainer = styled.div`
+  border-radius: 20px;
+
+  padding: 20px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.background_3};
+  `}
+`;
+
+export const MessageLength = styled.div`
+  text-align: right;
 `;
 
 export const ExtendedButton = css`

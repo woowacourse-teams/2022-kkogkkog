@@ -14,12 +14,14 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { getToday, isBeforeToday } from '@/utils';
+import { getToday, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
 
 const CouponRequestPage = () => {
+  usePreventReload();
+
   const navigate = useNavigate();
   const { couponId } = useParams();
 
@@ -32,8 +34,6 @@ const CouponRequestPage = () => {
   const { requestCoupon } = useChangeCouponStatus(Number(couponId));
 
   const { displayMessage } = useToast();
-
-  usePreventReload();
 
   if (!coupon) {
     return <NotFoundPage />;
@@ -100,16 +100,19 @@ const CouponRequestPage = () => {
             required
           />
           <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
-          <Position position='relative'>
-            <Styled.MessageTextarea
-              placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
-              value={message}
-              onChange={onChangeMessage}
-            />
-            <Position position='absolute' bottom='12px' right='12px'>
-              <span>{message.length} / 200</span>
-            </Position>
-          </Position>
+
+          <Styled.TextareaContainer>
+            <Styled.MessageTextareaContainer>
+              <Styled.MessageTextarea
+                id='message-textarea'
+                placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
+                value={message}
+                onChange={onChangeMessage}
+              />
+              <Styled.MessageLength>{message.length} / 200</Styled.MessageLength>
+            </Styled.MessageTextareaContainer>
+          </Styled.TextareaContainer>
+
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickRequestButton} css={Styled.ExtendedButton}>
               사용 요청

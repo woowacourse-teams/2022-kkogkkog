@@ -13,12 +13,14 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { generateDateText } from '@/utils';
+import { generateDateText } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from '../request/style';
 
 const CouponAcceptPage = () => {
+  usePreventReload();
+
   const navigate = useNavigate();
   const { couponId } = useParams();
 
@@ -28,8 +30,6 @@ const CouponAcceptPage = () => {
   const { coupon } = useFetchCoupon(Number(couponId));
 
   const { acceptCoupon } = useChangeCouponStatus(Number(couponId));
-
-  usePreventReload();
 
   if (!coupon) {
     return <NotFoundPage />;
@@ -80,17 +80,21 @@ const CouponAcceptPage = () => {
           <Styled.SectionTitle>
             {generateDateText(meetingDate)}로 약속을 확정하시겠어요?
           </Styled.SectionTitle>
+
           <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
-          <Position position='relative'>
-            <Styled.MessageTextarea
-              placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
-              value={message}
-              onChange={onChangeMessage}
-            />
-            <Position position='absolute' bottom='12px' right='12px'>
-              <span>{message.length} / 200</span>
-            </Position>
-          </Position>
+
+          <Styled.TextareaContainer>
+            <Styled.MessageTextareaContainer>
+              <Styled.MessageTextarea
+                id='message-textarea'
+                placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
+                value={message}
+                onChange={onChangeMessage}
+              />
+              <Styled.MessageLength>{message.length} / 200</Styled.MessageLength>
+            </Styled.MessageTextareaContainer>
+          </Styled.TextareaContainer>
+
           <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
             <Button onClick={onClickAcceptButton} css={Styled.ExtendedButton}>
               사용 승인
