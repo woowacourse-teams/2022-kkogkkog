@@ -28,17 +28,17 @@ const Redirect = () => {
           const { isNew } = response.data;
 
           if (isNew) {
-            navigate(PATH.PROFILE_EDIT);
+            navigate(PATH.PROFILE_EDIT, { replace: true });
 
             displayMessage('회원가입에 성공했어요. 닉네임을 변경해볼까요?', false);
           } else {
-            navigate(PATH.LANDING);
+            navigate(PATH.LANDING, { replace: true });
 
             displayMessage('로그인에 성공하였습니다.', false);
           }
         },
         onError() {
-          navigate(PATH.LANDING);
+          navigate(PATH.LANDING, { replace: true });
         },
       });
     }
@@ -46,7 +46,7 @@ const Redirect = () => {
     if (pathname === PATH.DOWNLOAD_REDIRECT) {
       addSlackAppMutate.mutate(code, {
         onSuccess() {
-          navigate(PATH.LANDING);
+          navigate(PATH.LANDING, { replace: true });
         },
       });
     }
