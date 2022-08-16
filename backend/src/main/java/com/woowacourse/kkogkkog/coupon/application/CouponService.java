@@ -48,7 +48,7 @@ public class CouponService {
     public List<CouponReservationResponse> findAllBySender(Long memberId) {
         Member member = findMember(memberId);
         return couponQueryRepository.findAllBySender(member).stream()
-            .map(CouponReservationResponse::of)
+            .map(it -> CouponReservationResponse.of(it, "SENT"))
             .collect(Collectors.toList());
     }
 
@@ -56,7 +56,7 @@ public class CouponService {
     public List<CouponReservationResponse> findAllByReceiver(Long memberId) {
         Member member = findMember(memberId);
         return couponQueryRepository.findAllByReceiver(member).stream()
-            .map(CouponReservationResponse::of)
+            .map(it -> CouponReservationResponse.of(it, "RECEIVED"))
             .collect(Collectors.toList());
     }
 
