@@ -28,7 +28,7 @@ const Redirect = () => {
           const { isNew } = response.data;
 
           if (isNew) {
-            navigate(PATH.PROFILE_EDIT, { replace: true });
+            navigate(PATH.PROFILE_EDIT, { replace: true, state: { type: 'join' } });
 
             displayMessage('회원가입에 성공했어요. 닉네임을 변경해볼까요?', false);
           } else {
