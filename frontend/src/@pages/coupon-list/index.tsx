@@ -16,7 +16,7 @@ import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
 
-const filterOption = ['전체', '대기', '예약', '만료'] as const;
+const filterOption = ['전체', '대기', '예약', '완료'] as const;
 
 export type FilterOption = typeof filterOption[number];
 
@@ -110,7 +110,7 @@ const CouponListPage = () => {
                 </Styled.VerticalListContainer>
               )}
 
-              {status === '만료' && (
+              {status === '완료' && (
                 <Styled.VerticalListContainer>
                   <VerticalCouponList
                     couponList={currentParsedCouponList['FINISHED']}
