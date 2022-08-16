@@ -1,19 +1,36 @@
-import { MouseEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useFetchMe } from '@/@hooks/@queries/user';
+import Position from '@/@components/@shared/Position';
 import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
 
 interface ReservationItemProps {
-  coupon: CouponResponse;
-  onClick?: MouseEventHandler;
+  reservatedCoupon: CouponResponse;
 }
 
 const ReservationItem = (props: ReservationItemProps) => {
-  const { me } = useFetchMe();
+  const { reservatedCoupon } = props;
 
-  return <Styled.Root>ReservationItem</Styled.Root>;
+  const { couponId } = reservatedCoupon;
+
+  return (
+    <Position>
+      <Styled.Root>
+        <Styled.Bar />
+        <Styled.ImageContainer>
+          <img src={reservatedCoupon.imageUrl} alt='profile' />
+        </Styled.ImageContainer>
+        <Styled.TextContainer>{reservatedCoupon.nickname}님과의 약속</Styled.TextContainer>
+
+        <Position position='absolute' right='10px'>
+          <Link to={`/coupon-list/${couponId}`} css={Styled.LinkButton}>
+            쿠폰보기
+          </Link>
+        </Position>
+      </Styled.Root>
+    </Position>
+  );
 };
 
 export default ReservationItem;

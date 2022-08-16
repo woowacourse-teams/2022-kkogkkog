@@ -134,6 +134,8 @@ class CouponDocumentTest extends Documentation {
                         .description("받은 사람 ID"),
                     fieldWithPath("data.received.[].nickname").type(JsonFieldType.STRING)
                         .description("받은 사람 닉네임"),
+                    fieldWithPath("data.received.[].imageUrl").type(JsonFieldType.STRING)
+                        .description("받은 사람 이미지"),
                     fieldWithPath("data.received.[].hashtag").type(JsonFieldType.STRING)
                         .description("받은 쿠폰 해시태그"),
                     fieldWithPath("data.received.[].description").type(JsonFieldType.STRING)
@@ -155,6 +157,8 @@ class CouponDocumentTest extends Documentation {
                         .description("보낸 사람 ID"),
                     fieldWithPath("data.sent.[].nickname").type(JsonFieldType.STRING)
                         .description("보낸 사람 닉네임"),
+                    fieldWithPath("data.sent.[].imageUrl").type(JsonFieldType.STRING)
+                        .description("받은 사람 이미지"),
                     fieldWithPath("data.sent.[].hashtag").type(JsonFieldType.STRING)
                         .description("보낸 쿠폰 해시태그"),
                     fieldWithPath("data.sent.[].description").type(JsonFieldType.STRING)

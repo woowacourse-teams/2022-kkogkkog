@@ -37,6 +37,9 @@ const Redirect = () => {
             displayMessage('로그인에 성공하였습니다.', false);
           }
         },
+        onError() {
+          navigate(PATH.LANDING);
+        },
       });
     }
 

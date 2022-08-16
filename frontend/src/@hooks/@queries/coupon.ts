@@ -72,7 +72,7 @@ export const useFetchCouponList = () => {
     [couponList]
   );
 
-  const acceptedCouponList = useMemo(() => {
+  const reservationRecord = useMemo(() => {
     const combinedCouponList = [...(couponList?.received ?? []), ...(couponList?.sent ?? [])];
 
     return combinedCouponList.reduce<Record<string, CouponResponse[]>>((prev, coupon) => {
@@ -100,7 +100,7 @@ export const useFetchCouponList = () => {
     couponList,
     parsedSentCouponList,
     parsedReceivedCouponList,
-    acceptedCouponList,
+    reservationRecord,
     receivedOpenCouponList,
     sentOpenCouponList,
     ...rest,

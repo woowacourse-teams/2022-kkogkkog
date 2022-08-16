@@ -23,7 +23,7 @@ const useEditProfileForm = () => {
     e.preventDefault();
 
     if (nickname === me?.nickname) {
-      navigate(PATH.PROFILE);
+      navigate(PATH.LANDING);
 
       return;
     }
@@ -32,7 +32,7 @@ const useEditProfileForm = () => {
       { nickname },
       {
         onSuccess() {
-          navigate(PATH.PROFILE);
+          navigate(PATH.LANDING);
         },
       }
     );

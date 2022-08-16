@@ -120,7 +120,7 @@ class CouponServiceTest {
                 .collect(Collectors.toList());
             assertAll(
                 () -> assertThat(actual).hasSize(2),
-                () -> assertThat(actualIds).containsOnly(sender.getId())
+                () -> assertThat(actualIds).containsOnly(receiver.getId())
             );
         }
     }
@@ -152,7 +152,7 @@ class CouponServiceTest {
                 .collect(Collectors.toList());
             assertAll(
                 () -> assertThat(actual).hasSize(2),
-                () -> assertThat(actualIds).containsOnly(receiver.getId())
+                () -> assertThat(actualIds).containsOnly(sender.getId())
             );
         }
     }

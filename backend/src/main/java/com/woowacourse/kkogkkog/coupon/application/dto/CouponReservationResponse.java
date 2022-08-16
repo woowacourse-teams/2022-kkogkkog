@@ -18,6 +18,7 @@ public class CouponReservationResponse {
     private Long reservationId;
     private Long memberId;
     private String nickname;
+    private String imageUrl;
     private String hashtag;
     private String description;
     private String couponType;
@@ -31,6 +32,7 @@ public class CouponReservationResponse {
                                      Long reservationId,
                                      Long memberId,
                                      String nickname,
+                                     String imageUrl,
                                      String hashtag,
                                      String description,
                                      CouponType couponType,
@@ -41,6 +43,7 @@ public class CouponReservationResponse {
         this.reservationId = reservationId;
         this.memberId = memberId;
         this.nickname = nickname;
+        this.imageUrl = imageUrl;
         this.hashtag = hashtag;
         this.description = description;
         this.couponType = couponType.name();
@@ -52,7 +55,7 @@ public class CouponReservationResponse {
     public static CouponReservationResponse of(CouponReservationData data) {
         return new CouponReservationResponse(
             data.getCouponId(), data.getReservationId(), data.getMemberId(), data.getNickname(),
-            data.getHashtag(), data.getDescription(),
+            data.getImageUrl(), data.getHashtag(), data.getDescription(),
             data.getCouponType(), data.getCouponStatus(),
             data.getMessage(), data.getMeetingDate());
     }

@@ -1,3 +1,5 @@
+const week = ['일', '월', '화', '수', '목', '금', '토'];
+
 export const getToday = () => {
   const now = new Date();
 
@@ -14,7 +16,7 @@ export const addZero = (num: number): string => {
 
 export const generateDateText = (date: string | undefined, includeYear = false) => {
   if (!date) {
-    return null;
+    return '-';
   }
 
   const [year, month, day] = date.split('-');
@@ -43,4 +45,32 @@ export const isBeforeToday = (date: string) => {
   }
 
   return false;
+};
+
+export const generateDDay = (date: string) => {
+  if (!date) {
+    return 999;
+  }
+
+  const propDateInstance = new Date(date);
+
+  const todayDateInstance = new Date();
+
+  const dDay =
+    Math.ceil((propDateInstance.getTime() - todayDateInstance.getTime()) / (1000 * 60 * 60 * 24)) -
+    1;
+
+  return dDay > 999 ? 999 : dDay;
+};
+
+export const computeDay = (date: string) => {
+  if (!date) {
+    return '-';
+  }
+
+  const propDate = new Date(date);
+
+  const day = propDate.getDay();
+
+  return week[day];
 };

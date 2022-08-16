@@ -50,7 +50,7 @@ const Styled = {
     align-items: center;
     padding: 0 40px;
 
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
   `,
   BrandName: styled.h1`
     font-size: 20px;

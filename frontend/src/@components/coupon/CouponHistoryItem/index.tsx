@@ -28,7 +28,7 @@ const CouponHistoryItem = (props: CouponHistoryItemProps) => {
           <Styled.Date>{createdTimeText}</Styled.Date>
         </Styled.InformationContainer>
       </Styled.CouponInfoContainer>
-      <Styled.Message>{message}</Styled.Message>
+      {message && <Styled.Message>{message}</Styled.Message>}
     </Styled.Root>
   );
 };

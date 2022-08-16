@@ -41,6 +41,7 @@ export interface CouponResponse {
   reservationId: number | null;
   memberId: number;
   nickname: string;
+  imageUrl: string;
   hashtag: COUPON_HASHTAGS;
   description: string;
   couponType: COUPON_ENG_TYPE;
@@ -57,7 +58,6 @@ export interface CouponDetailResponse {
   receiverId: number;
   receiverNickname: string;
   receiverImageUrl: string;
-  imageUrl: string;
   hashtag: COUPON_HASHTAGS;
   meetingDate?: string;
   description: string;
@@ -65,6 +65,13 @@ export interface CouponDetailResponse {
   couponStatus: COUPON_STATUS;
   couponHistories: CouponHistory[];
 }
+
+export type CouponCreateResponse = {
+  data: Omit<
+    CouponDetailResponse,
+    'senderImageUrl' | 'receiverImageUrl' | 'couponHistories' | 'meetingDate'
+  >[];
+};
 
 export type CouponListResponse = { data: Record<COUPON_LIST_TYPE, CouponResponse[]> };
 

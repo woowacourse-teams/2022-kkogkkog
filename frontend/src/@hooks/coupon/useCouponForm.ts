@@ -78,14 +78,15 @@ export const useCouponForm = () => {
         couponType: type,
       },
       {
-        onSuccess() {
+        onSuccess({ data: { data: coupons } }) {
           displayMessage('쿠폰을 생성했어요', false);
 
-          navigate(PATH.LANDING, {
-            state: {
-              action: 'create',
-            },
-          });
+          if (coupons.length === 1) {
+            navigate(`/coupon-list/${coupons[0].id}`);
+
+            return;
+          }
+          navigate(PATH.LANDING);
         },
         onError(error) {
           if (error instanceof AxiosError) {

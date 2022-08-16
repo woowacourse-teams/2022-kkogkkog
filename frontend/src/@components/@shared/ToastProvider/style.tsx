@@ -92,12 +92,18 @@ export const ToastContainer = styled.div<{ isError: boolean }>`
   `}
 `;
 
-export const ToastMessage = styled.h2`
-  display: flex;
+export const ToastMessageContainer = styled.h2`
   width: 100%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 10px 20px 20px;
 
   border-radius: 0 10px 10px 0;
+`;
+
+export const ToastMessage = styled.div`
+  width: 240px;
+
+  word-wrap: break-word;
 `;

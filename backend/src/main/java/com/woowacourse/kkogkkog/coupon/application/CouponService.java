@@ -45,17 +45,17 @@ public class CouponService {
     }
 
     @Transactional(readOnly = true)
-    public List<CouponReservationResponse> findAllBySender(Long senderId) {
-        Member sender = findMember(senderId);
-        return couponQueryRepository.findAllBySender(sender).stream()
+    public List<CouponReservationResponse> findAllBySender(Long memberId) {
+        Member member = findMember(memberId);
+        return couponQueryRepository.findAllBySender(member).stream()
             .map(CouponReservationResponse::of)
             .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<CouponReservationResponse> findAllByReceiver(Long receiverId) {
-        Member sender = findMember(receiverId);
-        return couponQueryRepository.findAllByReceiver(sender).stream()
+    public List<CouponReservationResponse> findAllByReceiver(Long memberId) {
+        Member member = findMember(memberId);
+        return couponQueryRepository.findAllByReceiver(member).stream()
             .map(CouponReservationResponse::of)
             .collect(Collectors.toList());
     }

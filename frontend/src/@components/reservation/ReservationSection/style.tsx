@@ -64,6 +64,9 @@ export const DateContainer = styled.div`
 `;
 
 export const DateTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+
   font-size: 18px;
   font-weight: 600;
 
