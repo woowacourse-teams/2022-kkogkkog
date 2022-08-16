@@ -18,11 +18,11 @@ public class MemberHistoryResponse {
     private Long couponId;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
     private Boolean isRead;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdTime;
 
     public MemberHistoryResponse(Long id,
                                  String nickname,
@@ -32,7 +32,7 @@ public class MemberHistoryResponse {
                                  String couponEvent,
                                  LocalDateTime meetingDate,
                                  Boolean isRead,
-                                 LocalDateTime createdAt) {
+                                 LocalDateTime createdTime) {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
@@ -41,7 +41,7 @@ public class MemberHistoryResponse {
         this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
         this.isRead = isRead;
-        this.createdAt = createdAt;
+        this.createdTime = createdTime;
     }
 
     public static MemberHistoryResponse of(MemberHistory memberHistory) {

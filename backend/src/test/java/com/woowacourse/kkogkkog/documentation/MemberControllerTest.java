@@ -160,7 +160,7 @@ public class MemberControllerTest extends Documentation {
                     fieldWithPath("data.[].meetingDate").description("이벤트의 예약 날짜"),
                     fieldWithPath("data.[].isRead").type(JsonFieldType.BOOLEAN)
                         .description("이벤트 클릭(조회) 여부"),
-                    fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING)
+                    fieldWithPath("data.[].createdTime").type(JsonFieldType.STRING)
                         .description("이벤트 생성 날짜")
                 ))
             );
