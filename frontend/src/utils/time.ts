@@ -69,9 +69,9 @@ export const generateDDay = (date: string) => {
     return 999;
   }
 
-  const [year, month, day] = date.split('-').map(str => Number(str));
+  const [year, month, day] = date.split('-');
 
-  const propDateInstance = new Date(year, month - 1, day);
+  const propDateInstance = new Date(Number(year), Number(month) - 1, Number(day.slice(0, 2)));
 
   const todayDateInstance = new Date();
 
@@ -87,9 +87,9 @@ export const computeDay = (date: string) => {
     return '-';
   }
 
-  const [year, month, day] = date.split('-').map(str => Number(str));
+  const [year, month, day] = date.split('-');
 
-  const propDate = new Date(year, month - 1, day);
+  const propDate = new Date(Number(year), Number(month) - 1, Number(day.slice(0, 2)));
 
   return week[propDate.getDay()];
 };
