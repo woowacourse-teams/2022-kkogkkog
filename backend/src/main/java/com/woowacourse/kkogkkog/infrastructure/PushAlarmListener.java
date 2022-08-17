@@ -1,7 +1,5 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.infrastructure;
 
-import com.woowacourse.kkogkkog.application.PushAlarmEvent;
-import com.woowacourse.kkogkkog.infrastructure.SlackClient;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

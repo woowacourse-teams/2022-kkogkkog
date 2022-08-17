@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.reservation.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
 
-import com.woowacourse.kkogkkog.application.PushAlarmEvent;
+import com.woowacourse.kkogkkog.infrastructure.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
