@@ -32,6 +32,8 @@ export const ProfileImageContainer = styled.div`
 `;
 
 export const InformationContainer = styled.div`
+  width: 100%;
+
   display: flex;
   flex-direction: column;
 
@@ -39,7 +41,10 @@ export const InformationContainer = styled.div`
 `;
 
 export const Contents = styled.div`
+  width: 80%;
   font-size: 12px;
+
+  word-break: break-all;
 `;
 export const Date = styled.div`
   font-size: 12px;
