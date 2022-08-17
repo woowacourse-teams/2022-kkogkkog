@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.member.presentation;
 
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
-import com.woowacourse.kkogkkog.common.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
@@ -32,14 +32,14 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MyProfileResponse> showMe(@LoginMember Long id) {
+    public ResponseEntity<MyProfileResponse> showMe(@LoginMemberId Long id) {
         MyProfileResponse memberResponse = memberService.findById(id);
 
         return ResponseEntity.ok(memberResponse);
     }
 
     @PutMapping("/me")
-    public ResponseEntity<Void> updateMe(@LoginMember Long id,
+    public ResponseEntity<Void> updateMe(@LoginMemberId Long id,
                                          @Valid @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
         memberService.update(memberUpdateMeRequest.toMemberUpdateRequest(id));
 
@@ -47,12 +47,12 @@ public class MemberController {
     }
 
     @GetMapping("/me/histories")
-    public ResponseEntity<MemberHistoriesResponse> showHistory(@LoginMember Long id) {
+    public ResponseEntity<MemberHistoriesResponse> showHistory(@LoginMemberId Long id) {
         return ResponseEntity.ok(new MemberHistoriesResponse(memberService.findHistoryById(id)));
     }
 
     @PutMapping("/me/histories")
-    public ResponseEntity<Void> updateAllMemberHistories(@LoginMember Long id) {
+    public ResponseEntity<Void> updateAllMemberHistories(@LoginMemberId Long id) {
         memberService.updateAllIsReadMemberHistories(id);
 
         return ResponseEntity.noContent().build();
