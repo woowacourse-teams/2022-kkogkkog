@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 interface DimmedProps {
   position?: 'top' | 'middle' | 'bottom';
+  backgroundColor?: string;
 }
 
 export const Dimmed = styled.div<DimmedProps>`
@@ -16,10 +17,9 @@ export const Dimmed = styled.div<DimmedProps>`
   display: flex;
   justify-content: center;
 
-  background-color: rgba(0, 0, 0, 0.5);
-
-  ${({ theme }) => css`
+  ${({ theme, backgroundColor }) => css`
     z-index: ${theme.layers.dimmed};
+    background-color: ${backgroundColor || 'rgba(0, 0, 0, 0.5)'};
   `}
 
   ${({ position }) => {

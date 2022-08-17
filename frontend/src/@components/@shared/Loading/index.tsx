@@ -5,14 +5,12 @@ import Dimmed from '@/@components/@shared/Dimmed';
 
 import * as Styled from './style';
 
-type LoadingProps = React.PropsWithChildren;
-
-function Loading(props: LoadingProps) {
-  const { children } = props;
-
+function Loading() {
   return ReactDOM.createPortal(
-    <Dimmed>
-      <Styled.Root>{children}</Styled.Root>
+    <Dimmed backgroundColor='white'>
+      <Styled.Root>
+        <img src='/assets/images/logo.png' alt='로고' width='36' />
+      </Styled.Root>
     </Dimmed>,
     document.querySelector('#root') as Element
   );

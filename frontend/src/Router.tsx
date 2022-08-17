@@ -46,7 +46,7 @@ const Router = () => {
       <Route
         path={PATH.LANDING}
         element={
-          <Suspense fallback={<Loading>👻</Loading>}>
+          <Suspense fallback={<Loading />}>
             <LandingPage />
           </Suspense>
         }
@@ -75,7 +75,7 @@ const Router = () => {
         <Route
           path={PATH.COUPON_CREATE}
           element={
-            <Suspense fallback={<Loading>👻</Loading>}>
+            <Suspense fallback={<Loading />}>
               <CouponCreatePage />
             </Suspense>
           }
@@ -84,7 +84,7 @@ const Router = () => {
         <Route
           path={PATH.COUPON_DETAIL}
           element={
-            <Suspense fallback={<Loading>👻</Loading>}>
+            <Suspense fallback={<Loading />}>
               <CouponDetailPage />
             </Suspense>
           }
@@ -109,7 +109,7 @@ const PrivateRoute = () => {
   return me ? (
     <Outlet />
   ) : (
-    <CustomSuspense isLoading={isLoading} fallback={<Loading>👻</Loading>}>
+    <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
       <Navigate to='/' replace />
     </CustomSuspense>
   );
