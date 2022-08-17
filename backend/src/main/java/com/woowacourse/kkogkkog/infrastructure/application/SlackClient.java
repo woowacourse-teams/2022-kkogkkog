@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.auth.exception.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
@@ -34,8 +35,6 @@ public class SlackClient {
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
     private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
-    private static final String USER_ID_PARAMETER = "channel";
-    private static final String MESSAGE_PARAMETER = "text";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
 
@@ -139,8 +138,9 @@ public class SlackClient {
         try {
             Map<String, Object> responseBody = messageClient
                 .post()
-                .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .bodyValue(PushAlarmRequest.of(userId, message))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
                 .blockOptional()
@@ -151,13 +151,6 @@ public class SlackClient {
         } catch (PostMessageRequestFailedException e) {
             log.info("Exception has been thrown : ", e);
         }
-    }
-
-    private URI toRequestPostMessageUri(UriBuilder uriBuilder, String userId, String message) {
-        return uriBuilder
-            .queryParam(USER_ID_PARAMETER, userId)
-            .queryParam(MESSAGE_PARAMETER, message)
-            .build();
     }
 
     private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {

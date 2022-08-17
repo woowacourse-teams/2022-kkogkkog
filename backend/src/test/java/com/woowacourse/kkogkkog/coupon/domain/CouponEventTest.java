@@ -137,7 +137,7 @@ class CouponEventTest {
             CouponType meal = CouponType.MEAL;
 
             String actual = couponEvent.generateNoticeMessage(member, meal);
-            String expected = "진우님이 식사 쿠폰을 보냈어요.";
+            String expected = "`진우` 님이 `식사` 쿠폰을 보냈어요👋";
 
             assertThat(actual).isEqualTo(expected);
         }
