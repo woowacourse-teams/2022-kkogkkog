@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsReservationResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
-import com.woowacourse.kkogkkog.support.documenation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-class CouponDocumentTest extends Documentation {
+class CouponDocumentTest extends DocumentTest {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 

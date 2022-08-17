@@ -24,7 +24,7 @@ import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
-import com.woowacourse.kkogkkog.support.documenation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-public class MemberControllerTest extends Documentation {
+public class MemberDocumentTest extends DocumentTest {
 
     @Test
     void 회원_전체를_조회할_수_있다() throws Exception {

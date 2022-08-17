@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.support.documenation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
 import java.time.LocalDate;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-class ReservationDocumentTest extends Documentation {
+class ReservationDocumentTest extends DocumentTest {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 

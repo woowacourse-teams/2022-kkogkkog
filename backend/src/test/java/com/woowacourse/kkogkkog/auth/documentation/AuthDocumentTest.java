@@ -13,13 +13,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.support.documenation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-class AuthControllerTest extends Documentation {
+class AuthDocumentTest extends DocumentTest {
 
     @Test
     void 회원가입_또는_로그인을_요청한다() throws Exception {
