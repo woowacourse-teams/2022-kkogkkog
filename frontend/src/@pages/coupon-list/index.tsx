@@ -28,13 +28,13 @@ const CouponListPage = () => {
 
   const { parsedSentCouponList, parsedReceivedCouponList } = useFetchCouponList();
 
+  // 항상 전체가 기본값으로 들어가야 하는가?
   const { status, changeStatus } = useStatus<FilterOption>('전체');
 
   const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
   };
 
-  // 확장성을 고려해 coupon 자체를 받아옴.
   const onClickCouponItem = (coupon: CouponResponse) => {
     navigate(`/coupon-list/${coupon.couponId}`);
   };

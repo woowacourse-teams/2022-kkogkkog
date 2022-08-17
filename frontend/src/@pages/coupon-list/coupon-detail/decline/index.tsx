@@ -56,7 +56,7 @@ const CouponDeclinePage = () => {
         { message },
         {
           onSuccessCallback() {
-            navigate(PATH.LANDING);
+            navigate(PATH.COUPON_LIST);
           },
         }
       );

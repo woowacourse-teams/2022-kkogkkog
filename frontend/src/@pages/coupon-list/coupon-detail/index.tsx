@@ -11,6 +11,7 @@ import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
 import { couponTypeTextMapper } from '@/constants/coupon';
+import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
@@ -88,7 +89,11 @@ const CouponDetailPage = () => {
 
   const onClickCancelButton = () => {
     if (window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
-      cancelCoupon();
+      cancelCoupon({
+        onSuccessCallback() {
+          navigate(PATH.COUPON_LIST);
+        },
+      });
     }
   };
 
@@ -102,7 +107,11 @@ const CouponDetailPage = () => {
 
   const onClickFinishButton = () => {
     if (window.confirm('쿠폰을 사용하셨나요?')) {
-      finishCoupon();
+      finishCoupon({
+        onSuccessCallback() {
+          navigate(PATH.COUPON_LIST);
+        },
+      });
     }
   };
 
