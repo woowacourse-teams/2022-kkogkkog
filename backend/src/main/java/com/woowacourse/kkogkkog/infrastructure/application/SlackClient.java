@@ -1,10 +1,13 @@
-package com.woowacourse.kkogkkog.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
 import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.dto.BotTokenResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;

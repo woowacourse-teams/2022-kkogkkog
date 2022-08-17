@@ -1,5 +1,6 @@
-package com.woowacourse.kkogkkog.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.application;
 
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

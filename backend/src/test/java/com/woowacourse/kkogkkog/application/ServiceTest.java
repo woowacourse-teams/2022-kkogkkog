@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.application;
 
-import com.woowacourse.kkogkkog.infrastructure.SlackClient;
+import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

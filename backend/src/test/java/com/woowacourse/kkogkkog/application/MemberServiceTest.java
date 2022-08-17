@@ -23,7 +23,7 @@ import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
-import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;

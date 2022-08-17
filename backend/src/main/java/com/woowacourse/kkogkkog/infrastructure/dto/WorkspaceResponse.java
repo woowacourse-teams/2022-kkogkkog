@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.dto;
 
 import com.woowacourse.kkogkkog.domain.Workspace;
 import lombok.AccessLevel;

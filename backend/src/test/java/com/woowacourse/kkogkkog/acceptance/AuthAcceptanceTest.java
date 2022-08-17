@@ -10,8 +10,8 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
-import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import io.restassured.response.ExtractableResponse;

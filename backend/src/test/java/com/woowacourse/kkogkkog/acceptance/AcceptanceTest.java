@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import com.woowacourse.kkogkkog.infrastructure.SlackClient;
+import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
