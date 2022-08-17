@@ -6,7 +6,7 @@ import lombok.Getter;
 public class PushAlarmRequest {
 
     private static final String KKOGKKOG_PROD_URL = "https://kkogkkog.com";
-    private static final String ATTACHMENTS = "[\n"
+    private static final String ATTACHMENTS_FORMAT = "[\n"
         + "{\n"
         + "\"color\": \"#FF9620\",\n"
         + "\"title\": \"꼭꼭 바로가기\",\n"
@@ -28,6 +28,6 @@ public class PushAlarmRequest {
     }
 
     public static PushAlarmRequest of(String channel, String text) {
-        return new PushAlarmRequest(channel, text, ATTACHMENTS);
+        return new PushAlarmRequest(channel, text, ATTACHMENTS_FORMAT);
     }
 }
