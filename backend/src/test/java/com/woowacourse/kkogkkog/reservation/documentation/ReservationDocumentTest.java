@@ -2,8 +2,8 @@ package com.woowacourse.kkogkkog.reservation.documentation;
 
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_변경_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_생성_요청;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.documentation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.Documentation;
 import java.time.LocalDate;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;

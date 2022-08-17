@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.documentation;
+package com.woowacourse.kkogkkog.support.documenation;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

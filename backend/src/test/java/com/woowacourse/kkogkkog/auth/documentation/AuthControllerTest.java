@@ -1,7 +1,7 @@
-package com.woowacourse.kkogkkog.documentation;
+package com.woowacourse.kkogkkog.auth.documentation;
 
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.support.documenation.Documentation;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;

@@ -1,19 +1,16 @@
 package com.woowacourse.kkogkkog.coupon.documentation;
 
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_생성_상세조회_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰과_예약정보_응답;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsReservationResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
-import com.woowacourse.kkogkkog.documentation.Documentation;
+import com.woowacourse.kkogkkog.support.documenation.Documentation;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;

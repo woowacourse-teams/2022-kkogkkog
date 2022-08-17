@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.documentation.support;
+package com.woowacourse.kkogkkog.support.documenation;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;

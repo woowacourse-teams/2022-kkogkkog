@@ -1,7 +1,7 @@
-package com.woowacourse.kkogkkog.documentation;
+package com.woowacourse.kkogkkog.member.documentation;
 
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -24,6 +24,7 @@ import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
+import com.woowacourse.kkogkkog.support.documenation.Documentation;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
