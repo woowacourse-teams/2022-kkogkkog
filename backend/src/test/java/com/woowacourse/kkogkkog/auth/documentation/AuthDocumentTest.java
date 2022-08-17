@@ -6,15 +6,19 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -46,6 +50,31 @@ class AuthDocumentTest extends DocumentTest {
                 responseFields(
                     fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰"),
                     fieldWithPath("isNew").type(JsonFieldType.BOOLEAN).description("회원가입 여부")
+                )
+            ));
+    }
+
+    @Test
+    void 슬랙_앱을_설치한다() throws Exception {
+        //given
+        InstallSlackAppRequest installSlackAppRequest = new InstallSlackAppRequest("code");
+
+        // when
+        ResultActions perform = mockMvc.perform(post("/api/install/bot")
+            .content(objectMapper.writeValueAsString(installSlackAppRequest))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        perform
+            .andExpect(status().isOk());
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("slack-bot-install",
+                getDocumentRequest(),
+                requestFields(
+                    fieldWithPath("code").type(JsonFieldType.STRING).description("인가 코드")
                 )
             ));
     }
