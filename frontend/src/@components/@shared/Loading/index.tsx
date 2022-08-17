@@ -7,7 +7,7 @@ import * as Styled from './style';
 
 function Loading() {
   return ReactDOM.createPortal(
-    <Dimmed backgroundColor='white'>
+    <Dimmed>
       <Styled.Root>
         <img src='/assets/images/logo.png' alt='로고' width='36' />
       </Styled.Root>
