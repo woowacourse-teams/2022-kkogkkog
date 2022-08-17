@@ -105,7 +105,7 @@ public class PushAlarmListenerTest {
 
             Mockito.verify(slackClient)
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
-                    "`" + sender.getNickname() + "`님이 `커피` 쿠폰 사용을 승인했어요\uD83D\uDE00");
+                    "`" + sender.getNickname() + "` 님이 `커피` 쿠폰 사용을 승인했어요\uD83D\uDE00");
         }
     }
 }
