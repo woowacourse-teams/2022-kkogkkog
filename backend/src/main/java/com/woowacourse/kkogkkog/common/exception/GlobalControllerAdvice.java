@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.exception;
+package com.woowacourse.kkogkkog.common.exception;
 
 import java.util.stream.Collectors;
 import lombok.Getter;

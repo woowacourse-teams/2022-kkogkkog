@@ -10,7 +10,7 @@ import static org.mockito.BDDMockito.given;
 import com.woowacourse.kkogkkog.support.setup.ServiceTest;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.exception.infrastructure.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import org.junit.jupiter.api.DisplayName;

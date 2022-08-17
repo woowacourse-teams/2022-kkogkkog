@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.kkogkkog.exception.infrastructure.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import java.io.IOException;

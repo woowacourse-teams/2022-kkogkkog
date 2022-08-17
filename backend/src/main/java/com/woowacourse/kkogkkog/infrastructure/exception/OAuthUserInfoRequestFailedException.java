@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.exception.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.exception;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 
 public class OAuthUserInfoRequestFailedException extends InvalidRequestException {
 

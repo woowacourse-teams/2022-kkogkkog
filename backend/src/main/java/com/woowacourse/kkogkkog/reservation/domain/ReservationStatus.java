@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.reservation.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 
 public enum ReservationStatus {
 

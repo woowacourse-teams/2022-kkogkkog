@@ -11,7 +11,7 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;

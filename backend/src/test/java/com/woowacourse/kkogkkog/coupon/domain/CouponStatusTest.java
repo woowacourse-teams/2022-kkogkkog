@@ -12,8 +12,7 @@ import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.REQUESTED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

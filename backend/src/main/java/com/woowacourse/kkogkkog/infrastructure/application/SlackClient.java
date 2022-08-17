@@ -1,10 +1,10 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.OAuthUserInfoRequestFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
-import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
+import com.woowacourse.kkogkkog.auth.exception.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.BotTokenResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;

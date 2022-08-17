@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.exception.auth;
+package com.woowacourse.kkogkkog.auth.exception;
 
-import com.woowacourse.kkogkkog.exception.UnauthenticatedException;
+import com.woowacourse.kkogkkog.common.exception.UnauthenticatedException;
 
 public class UnauthenticatedTokenException extends UnauthenticatedException {
 

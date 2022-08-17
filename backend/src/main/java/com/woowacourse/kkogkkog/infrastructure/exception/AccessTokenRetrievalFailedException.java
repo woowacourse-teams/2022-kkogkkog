@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.exception.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.exception;
 
-import com.woowacourse.kkogkkog.exception.UnauthenticatedException;
+import com.woowacourse.kkogkkog.common.exception.UnauthenticatedException;
 
 public class AccessTokenRetrievalFailedException extends UnauthenticatedException {
 

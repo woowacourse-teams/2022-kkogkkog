@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.exception.member;
+package com.woowacourse.kkogkkog.member.exception;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 
 public class MemberHistoryNotFoundException extends InvalidRequestException {
 

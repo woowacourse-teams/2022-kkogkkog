@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.auth.application;
 
-import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
+import com.woowacourse.kkogkkog.auth.exception.UnauthenticatedTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.exception.member;
+package com.woowacourse.kkogkkog.member.exception;
 
-import com.woowacourse.kkogkkog.exception.NotFoundException;
+import com.woowacourse.kkogkkog.common.exception.NotFoundException;
 
 public class MemberNotFoundException extends NotFoundException {
 

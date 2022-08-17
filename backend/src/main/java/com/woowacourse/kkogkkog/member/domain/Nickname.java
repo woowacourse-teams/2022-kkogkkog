@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.member.domain;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

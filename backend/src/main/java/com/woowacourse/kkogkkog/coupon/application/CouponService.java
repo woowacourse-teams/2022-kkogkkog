@@ -14,7 +14,7 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
+import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.context.ApplicationEventPublisher;

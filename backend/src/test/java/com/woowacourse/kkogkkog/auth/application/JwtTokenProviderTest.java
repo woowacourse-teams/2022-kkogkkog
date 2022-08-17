@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.auth.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
+import com.woowacourse.kkogkkog.auth.exception.UnauthenticatedTokenException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

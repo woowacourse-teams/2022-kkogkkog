@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.exception;
+package com.woowacourse.kkogkkog.common.exception;
 
 public class InvalidRequestException extends RuntimeException {
 

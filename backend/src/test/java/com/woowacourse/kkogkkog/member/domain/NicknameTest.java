@@ -5,8 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
-import com.woowacourse.kkogkkog.member.domain.Nickname;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

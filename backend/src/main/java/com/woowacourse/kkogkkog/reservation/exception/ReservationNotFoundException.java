@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.reservation.exception;
 
-import com.woowacourse.kkogkkog.exception.NotFoundException;
+import com.woowacourse.kkogkkog.common.exception.NotFoundException;
 
 public class ReservationNotFoundException extends NotFoundException {
 

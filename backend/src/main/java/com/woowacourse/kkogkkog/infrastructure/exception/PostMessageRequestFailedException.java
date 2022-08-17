@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.exception.infrastructure;
+package com.woowacourse.kkogkkog.infrastructure.exception;
 
 public class PostMessageRequestFailedException extends RuntimeException {
 
