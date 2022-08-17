@@ -25,7 +25,7 @@ public class LogAspect {
 
     private static final String TRACING_ID = "trace_id";
 
-    @Pointcut("execution(* com.woowacourse.kkogkkog.presentation.*.*(..) )")
+    @Pointcut("execution(* com.woowacourse.kkogkkog.*.presentation.*.*(..) )")
     public void controllerAdvice() {
     }
 
