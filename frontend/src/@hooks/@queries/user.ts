@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
+import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
   editMe,
@@ -37,7 +38,7 @@ export const useFetchMe = () => {
 
 export const useFetchUserList = () => {
   const { displayMessage } = useToast();
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
     onError(error) {
       if (error instanceof AxiosError) {
