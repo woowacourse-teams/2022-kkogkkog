@@ -155,14 +155,6 @@ public class SlackClient {
         }
     }
 
-    @Deprecated
-    private URI toRequestPostMessageUri(UriBuilder uriBuilder, String userId, String message) {
-        return uriBuilder
-            .queryParam(USER_ID_PARAMETER, userId)
-            .queryParam(MESSAGE_PARAMETER, message)
-            .build();
-    }
-
     private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {
         return uriBuilder
             .queryParam(CODE_PARAMETER, code)
