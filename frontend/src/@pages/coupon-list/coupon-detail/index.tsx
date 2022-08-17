@@ -75,6 +75,7 @@ const CouponDetailPage = () => {
     couponType,
     couponStatus,
     couponHistories,
+    description,
   } = coupon;
 
   const isSent = me?.id === senderId;
@@ -136,10 +137,15 @@ const CouponDetailPage = () => {
               }}
             />
           </Styled.CouponInner>
-          <Styled.HistorySection>
-            <Styled.HistoryTitle>소통 히스토리</Styled.HistoryTitle>
+          <Styled.SubSection>
+            <Styled.SubSectionTitle>쿠폰 메시지</Styled.SubSectionTitle>
+            <Styled.DescriptionContainer>{description}</Styled.DescriptionContainer>
+          </Styled.SubSection>
+
+          <Styled.SubSection>
+            <Styled.SubSectionTitle>소통 히스토리</Styled.SubSectionTitle>
             <CouponHistoryList historyList={couponHistories} />
-          </Styled.HistorySection>
+          </Styled.SubSection>
           <Styled.FinishButtonInner>
             {/* {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
               <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>

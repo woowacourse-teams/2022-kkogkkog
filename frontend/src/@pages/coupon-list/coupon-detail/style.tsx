@@ -54,14 +54,32 @@ export const CouponInner = styled.div`
   justify-content: center;
 `;
 
-export const HistorySection = styled.section`
+export const SubSection = styled.section`
   margin-top: 40px;
 `;
 
-export const HistoryTitle = styled.span`
+export const SubSectionTitle = styled.span`
   font-weight: 600;
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
+  `}
+`;
+
+export const DescriptionContainer = styled.div`
+  min-height: 100px;
+
+  margin-top: 10px;
+
+  font-size: 14px;
+  border-radius: 20px;
+
+  padding: 15px;
+
+  line-height: 1.5;
+  word-break: break-all;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.background_3};
   `}
 `;
 
