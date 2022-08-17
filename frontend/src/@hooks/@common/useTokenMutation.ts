@@ -1,27 +1,26 @@
 import { AxiosError } from 'axios';
-import { QueryFunction, QueryKey, useQuery, UseQueryOptions } from 'react-query';
+import { MutationFunction, useMutation, UseMutationOptions } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@/Router';
 
 import { useToast } from './useToast';
 
-export const useTokenQuery = <
-  TQueryFnData = unknown,
+export const useTokenMutation = <
+  TData = unknown,
   TError = unknown,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TVariables = void,
+  TContext = unknown
 >(
-  queryKey: TQueryKey,
-  queryFn: QueryFunction<TQueryFnData, TQueryKey>,
-  options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>
+  mutationFn: MutationFunction<TData, TVariables>,
+  options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>
 ) => {
   const { displayMessage } = useToast();
   const navigate = useNavigate();
 
-  return useQuery(queryKey, queryFn, {
+  return useMutation(mutationFn, {
     ...options,
-    onError(error) {
+    onError(error, variables, context) {
       if (error instanceof AxiosError && error.response?.status === 401) {
         localStorage.removeItem('user-token');
         displayMessage('다시 로그인해주세요', true);
@@ -30,7 +29,7 @@ export const useTokenQuery = <
         return;
       }
 
-      options?.onError?.(error);
+      options?.onError?.(error, variables, context);
     },
   });
 };
