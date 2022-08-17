@@ -29,6 +29,7 @@ export const useFetchMe = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
+    staleTime: 6000,
   });
 
   return {

@@ -89,12 +89,40 @@ const Router = () => {
             </Suspense>
           }
         />
-        <Route path={PATH.COUPON_REQUEST} element={<CouponRequestPage />} />
-        <Route path={PATH.COUPON_ACCEPT} element={<CouponAcceptPage />} />
-        <Route path={PATH.COUPON_DECLINE} element={<CouponDeclinePage />} />
+        <Route
+          path={PATH.COUPON_REQUEST}
+          element={
+            <Suspense fallback={<Loading />}>
+              <CouponRequestPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path={PATH.COUPON_ACCEPT}
+          element={
+            <Suspense fallback={<Loading />}>
+              <CouponAcceptPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path={PATH.COUPON_DECLINE}
+          element={
+            <Suspense fallback={<Loading />}>
+              <CouponDeclinePage />
+            </Suspense>
+          }
+        />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
         <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
-        <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
+        <Route
+          path={PATH.USER_HISTORY}
+          element={
+            <Suspense fallback={<Loading />}>
+              <UserHistoryPage />
+            </Suspense>
+          }
+        />
       </Route>
       <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>

@@ -147,7 +147,12 @@ export const ExtendedButton = css`
 
 export const ExtendedPosition = (theme: Theme) => css`
   width: 100%;
+  max-width: 414px;
+
   display: flex;
+
+  left: 50%;
+  transform: translateX(-50%);
 
   & > button + button {
     border-left: 1px solid ${theme.colors.grey_100};
