@@ -10,9 +10,14 @@ interface CouponHistoryItemProps {
 
 const CouponHistoryItem = (props: CouponHistoryItemProps) => {
   const { history } = props;
-  const { imageUrl, createdTime, nickname, couponEvent, couponType, message } = history;
+  const { imageUrl, createdTime, nickname, couponEvent, couponType, message, meetingDate } =
+    history;
 
   const createdTimeText = generateDateText(createdTime, true);
+
+  const meetingDateText = generateDateText(meetingDate, true);
+
+  const hasMeetingDateText = couponEvent === 'REQUEST';
 
   return (
     <Styled.Root>
@@ -22,7 +27,8 @@ const CouponHistoryItem = (props: CouponHistoryItemProps) => {
         </Styled.ProfileImageContainer>
         <Styled.InformationContainer>
           <Styled.Contents>
-            {nickname}님이 {couponTypeTextMapper[couponType]}&nbsp;
+            {nickname}님이 {hasMeetingDateText ? `${meetingDateText}로 ` : ''}
+            {couponTypeTextMapper[couponType]}&nbsp;
             {couponEventTextMapper[couponEvent]}
           </Styled.Contents>
           <Styled.Date>{createdTimeText}</Styled.Date>

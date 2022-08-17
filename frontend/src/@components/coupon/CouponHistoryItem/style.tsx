@@ -51,4 +51,6 @@ export const Date = styled.div`
 
 export const Message = styled.p`
   font-size: 12px;
+
+  word-break: break-all;
 `;
