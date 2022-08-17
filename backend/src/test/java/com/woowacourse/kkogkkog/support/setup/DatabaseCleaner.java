@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.support;
+package com.woowacourse.kkogkkog.support.setup;
 
 import com.google.common.base.CaseFormat;
 import java.util.List;

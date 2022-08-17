@@ -1,19 +1,19 @@
 package com.woowacourse.kkogkkog.member.application;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.application.ServiceTest;
+import com.woowacourse.kkogkkog.support.setup.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
-import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
+import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;

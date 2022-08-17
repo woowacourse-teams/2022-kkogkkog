@@ -1,18 +1,18 @@
 package com.woowacourse.kkogkkog.core.coupon.application;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER2;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
-import com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture;
+import com.woowacourse.kkogkkog.support.setup.ApplicationTest;
+import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;

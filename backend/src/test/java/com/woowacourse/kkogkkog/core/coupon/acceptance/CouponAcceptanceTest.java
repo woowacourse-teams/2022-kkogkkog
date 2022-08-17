@@ -4,10 +4,10 @@ import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePostWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

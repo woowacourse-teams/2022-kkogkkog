@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.fixture;
+package com.woowacourse.kkogkkog.support.fixture.domain;
 
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 

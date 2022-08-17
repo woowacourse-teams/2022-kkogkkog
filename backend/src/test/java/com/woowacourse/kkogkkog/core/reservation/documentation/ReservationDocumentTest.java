@@ -1,8 +1,7 @@
 package com.woowacourse.kkogkkog.core.reservation.documentation;
 
-import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_변경_요청;
-import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_생성_요청;
-import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_변경_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_생성_요청;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.kkogkkog.documentation.Documentation;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

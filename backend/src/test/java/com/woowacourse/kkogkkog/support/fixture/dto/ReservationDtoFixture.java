@@ -1,11 +1,10 @@
-package com.woowacourse.kkogkkog.common.fixture.dto;
+package com.woowacourse.kkogkkog.support.fixture.dto;
 
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationChangeRequest;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ReservationDtoFixture {
 

@@ -1,19 +1,17 @@
 package com.woowacourse.kkogkkog.core.coupon.documentation;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.쿠폰_생성_상세조회_응답;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.쿠폰과_예약정보_응답;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_생성_상세조회_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰과_예약정보_응답;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,7 +28,6 @@ import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")

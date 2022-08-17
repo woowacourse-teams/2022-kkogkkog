@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.common.fixture.domain;
+package com.woowacourse.kkogkkog.support.fixture.domain;
 
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Nickname;

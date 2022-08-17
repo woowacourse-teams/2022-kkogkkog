@@ -1,11 +1,11 @@
 package com.woowacourse.kkogkkog.core.coupon.domain;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

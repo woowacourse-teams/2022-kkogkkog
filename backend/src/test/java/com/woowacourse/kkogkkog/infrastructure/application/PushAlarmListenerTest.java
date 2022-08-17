@@ -1,14 +1,14 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
-import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_수정_요청;
-import static com.woowacourse.kkogkkog.common.fixture.dto.ReservationDtoFixture.예약_저장_요청;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.ReservationFixture.RESERVE_SAVE;
+import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_수정_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static java.time.LocalDateTime.now;
 
-import com.woowacourse.kkogkkog.common.annotaion.ApplicationTest;
-import com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture;
-import com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture;
+import com.woowacourse.kkogkkog.support.setup.ApplicationTest;
+import com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture;
+import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
@@ -16,7 +16,7 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
+import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;

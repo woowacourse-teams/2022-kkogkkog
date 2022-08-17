@@ -1,13 +1,13 @@
 package com.woowacourse.kkogkkog.core.coupon.domain.query;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
-import static com.woowacourse.kkogkkog.common.fixture.domain.ReservationFixture.RESERVE_SAVE;
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.ReservationFixture.RESERVE_SAVE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.kkogkkog.common.annotaion.RepositoryTest;
+import com.woowacourse.kkogkkog.support.setup.RepositoryTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;

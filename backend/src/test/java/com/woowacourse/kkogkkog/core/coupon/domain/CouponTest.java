@@ -1,9 +1,9 @@
 package com.woowacourse.kkogkkog.core.coupon.domain;
 
-import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.RECEIVER;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

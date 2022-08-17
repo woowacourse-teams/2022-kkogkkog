@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.common.fixture.dto;
+package com.woowacourse.kkogkkog.support.fixture.dto;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;

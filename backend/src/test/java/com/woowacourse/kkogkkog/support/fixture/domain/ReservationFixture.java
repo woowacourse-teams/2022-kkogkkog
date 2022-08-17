@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.common.fixture.domain;
+package com.woowacourse.kkogkkog.support.fixture.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;

@@ -1,8 +1,6 @@
-package com.woowacourse.kkogkkog.common.annotaion;
+package com.woowacourse.kkogkkog.support.setup;
 
 import com.woowacourse.kkogkkog.config.DatabaseConfig;
-import com.woowacourse.kkogkkog.support.DataClearExtension;
-import com.woowacourse.kkogkkog.support.DatabaseCleaner;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

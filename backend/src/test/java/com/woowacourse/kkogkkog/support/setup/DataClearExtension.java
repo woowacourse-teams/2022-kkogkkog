@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.support;
+package com.woowacourse.kkogkkog.support.setup;
 
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
