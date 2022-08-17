@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { useTokenMutation, useTokenQuery } from '@/@hooks/@common/useTokenQuery';
+import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
   editMe,
@@ -16,6 +16,7 @@ import {
 import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
+import { useTokenMutation } from '../@common/useTokenMutation';
 
 const QUERY_KEY = {
   me: 'me',
@@ -25,7 +26,7 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.me], getMe, {
+  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
   });

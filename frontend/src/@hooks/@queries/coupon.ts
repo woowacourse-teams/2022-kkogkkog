@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 import { useToast } from '@/@hooks/@common/useToast';
 import {
@@ -14,6 +14,7 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
+import { useTokenMutation } from '../@common/useTokenMutation';
 import { useTokenQuery } from '../@common/useTokenQuery';
 
 const QUERY_KEY = {
@@ -123,7 +124,7 @@ export const useFetchCoupon = (id: number) => {
 export const useCreateCouponMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(createCoupon, {
+  return useTokenMutation(createCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
@@ -133,7 +134,7 @@ export const useCreateCouponMutation = () => {
 export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
 
-  return useMutation(changeCouponStatus, {
+  return useTokenMutation(changeCouponStatus, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
@@ -143,7 +144,7 @@ export const useChangeCouponStatusMutation = (id: number) => {
 export const useRequestCouponMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
+  return useTokenMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
