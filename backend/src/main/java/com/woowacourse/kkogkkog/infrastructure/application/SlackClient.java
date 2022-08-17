@@ -141,7 +141,7 @@ public class SlackClient {
             Map<String, Object> responseBody = messageClient
                 .post()
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-                .bodyValue(new PushAlarmRequest(userId, message))
+                .bodyValue(PushAlarmRequest.of(userId, message))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)

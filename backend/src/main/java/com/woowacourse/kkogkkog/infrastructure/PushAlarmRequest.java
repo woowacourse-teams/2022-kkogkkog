@@ -21,9 +21,13 @@ public class PushAlarmRequest {
     private final String text;
     private final String attachments;
 
-    public PushAlarmRequest(String channel, String text) {
+    private PushAlarmRequest(String channel, String text, String attachments) {
         this.channel = channel;
         this.text = text;
-        this.attachments = ATTACHMENTS;
+        this.attachments = attachments;
+    }
+
+    public static PushAlarmRequest of(String channel, String text) {
+        return new PushAlarmRequest(channel, text, ATTACHMENTS);
     }
 }
