@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
-import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
+import { useTokenMutation, useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
   editMe,
@@ -25,7 +25,7 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
+  const { data, ...rest } = useTokenQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
   });
@@ -55,7 +55,7 @@ export const useFetchUserList = () => {
 
 export const useFetchUserHistoryList = () => {
   const { displayMessage } = useToast();
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     onError(error) {
       if (error instanceof AxiosError) {
@@ -75,7 +75,7 @@ export const useEditMeMutation = () => {
   const { displayMessage } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation(editMe, {
+  return useTokenMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
@@ -143,7 +143,7 @@ export const useLoginMutation = () => {
 export const useReadAllHistoryMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(readAllHistory, {
+  return useTokenMutation(readAllHistory, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.me]);
     },

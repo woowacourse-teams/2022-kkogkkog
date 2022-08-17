@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { useToast } from '@/@hooks/@common/useToast';
 import {
@@ -14,6 +14,8 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
+import { useTokenQuery } from '../@common/useTokenQuery';
+
 const QUERY_KEY = {
   couponList: 'couponList',
   coupon: 'coupon',
@@ -25,7 +27,7 @@ export const useFetchCouponList = () => {
   const { displayMessage } = useToast();
 
   /** suspense false만 isLoading을 사용할 수 있다. */
-  const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
+  const { data, ...rest } = useTokenQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     onError(error) {
       if (error instanceof AxiosError) {
@@ -108,7 +110,7 @@ export const useFetchCouponList = () => {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data, ...rest } = useTokenQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
     coupon: data?.data,
