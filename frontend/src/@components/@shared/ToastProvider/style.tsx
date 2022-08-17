@@ -105,7 +105,7 @@ export const ToastMessageContainer = styled.h2`
 `;
 
 export const ToastMessage = styled.div`
-  width: 200px;
+  width: 240px;
 
   line-height: 1.5;
 
