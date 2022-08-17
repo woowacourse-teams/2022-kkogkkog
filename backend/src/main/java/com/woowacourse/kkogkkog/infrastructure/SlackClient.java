@@ -136,8 +136,9 @@ public class SlackClient {
         try {
             Map<String, Object> responseBody = messageClient
                 .post()
-                .uri(uriBuilder -> toRequestPostMessageUri(uriBuilder, userId, message))
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
+                .bodyValue(new PushAlarmRequest(userId, message))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
                 .blockOptional()
@@ -150,6 +151,7 @@ public class SlackClient {
         }
     }
 
+    @Deprecated
     private URI toRequestPostMessageUri(UriBuilder uriBuilder, String userId, String message) {
         return uriBuilder
             .queryParam(USER_ID_PARAMETER, userId)
