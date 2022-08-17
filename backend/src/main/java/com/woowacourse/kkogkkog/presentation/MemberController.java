@@ -1,13 +1,11 @@
 package com.woowacourse.kkogkkog.presentation;
 
 import com.woowacourse.kkogkkog.application.MemberService;
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.auth.presentation.LoginMember;
-import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
-import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
-import java.util.List;
+import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
+import com.woowacourse.kkogkkog.presentation.dto.MembersResponse;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +27,8 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponse<List<MemberResponse>>> showAll() {
-        return ResponseEntity.ok(new SuccessResponse<>(memberService.findAll()));
+    public ResponseEntity<MembersResponse> showAll() {
+        return ResponseEntity.ok(new MembersResponse(memberService.findAll()));
     }
 
     @GetMapping("/me")

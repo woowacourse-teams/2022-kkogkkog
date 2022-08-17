@@ -21,7 +21,7 @@ import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.domain.Workspace;
 import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
-import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
+import com.woowacourse.kkogkkog.presentation.dto.MembersResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -42,7 +42,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
             .getList("data", MemberResponse.class);
-        SuccessResponse<List<MemberResponse>> membersResponse = new SuccessResponse<>(members);
+        MembersResponse membersResponse = new MembersResponse(members);
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
