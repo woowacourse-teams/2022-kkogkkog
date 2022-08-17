@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.config;
+package com.woowacourse.kkogkkog.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

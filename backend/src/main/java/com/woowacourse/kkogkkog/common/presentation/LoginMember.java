@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.auth.presentation;
+package com.woowacourse.kkogkkog.common.presentation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

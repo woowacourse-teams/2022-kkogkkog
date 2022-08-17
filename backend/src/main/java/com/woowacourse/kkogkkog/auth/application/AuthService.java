@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.auth.application;
 
+import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;

@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.config;
+package com.woowacourse.kkogkkog.common.config;
 
-import com.woowacourse.kkogkkog.auth.presentation.AuthenticationPrincipalArgumentResolver;
+import com.woowacourse.kkogkkog.common.presentation.AuthenticationPrincipalArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

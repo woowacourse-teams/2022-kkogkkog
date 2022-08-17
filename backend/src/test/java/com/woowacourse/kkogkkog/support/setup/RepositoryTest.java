@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.support.setup;
 
-import com.woowacourse.kkogkkog.config.DatabaseConfig;
+import com.woowacourse.kkogkkog.common.config.DatabaseConfig;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

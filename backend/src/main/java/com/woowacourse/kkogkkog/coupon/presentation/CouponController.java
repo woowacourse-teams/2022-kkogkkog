@@ -7,7 +7,7 @@ import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsReservationResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
-import com.woowacourse.kkogkkog.auth.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMember;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

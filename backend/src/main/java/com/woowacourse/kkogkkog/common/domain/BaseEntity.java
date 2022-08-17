@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.common.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

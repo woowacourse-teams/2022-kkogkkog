@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.config;
+package com.woowacourse.kkogkkog.common.config;
 
 import java.util.Arrays;
 import java.util.Map;

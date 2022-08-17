@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.member.presentation;
 
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
-import com.woowacourse.kkogkkog.auth.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMember;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;

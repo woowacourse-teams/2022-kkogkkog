@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.reservation.presentation;
 
-import com.woowacourse.kkogkkog.auth.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMember;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationChangeRequest;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
