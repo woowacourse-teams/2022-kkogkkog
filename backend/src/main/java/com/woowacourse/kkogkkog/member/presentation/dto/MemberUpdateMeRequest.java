@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.presentation.dto;
+package com.woowacourse.kkogkkog.member.presentation.dto;
 
-import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;

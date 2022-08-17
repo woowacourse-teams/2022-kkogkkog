@@ -1,7 +1,6 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.member.domain;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,48 +15,45 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class WorkspaceUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
     private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
+    @JoinColumn(name = "master_member_id", nullable = false)
+    private Member masterMember;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
 
-    @Embedded
-    private Nickname nickname;
+    @Column(nullable = false)
+    private String displayName;
+
+    @Column(nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String imageUrl;
 
-    public Member(Long id, String userId, Workspace workspace, Nickname nickname, String email,
-                  String imageUrl) {
+    public WorkspaceUser(Long id, Member masterMember, String userId, Workspace workspace,
+                         String displayName, String email, String imageUrl) {
         this.id = id;
+        this.masterMember = masterMember;
         this.userId = userId;
         this.workspace = workspace;
-        this.nickname = nickname;
+        this.displayName = displayName;
         this.email = email;
         this.imageUrl = imageUrl;
     }
 
-    public String getNickname() {
-        return nickname.getValue();
-    }
-
-    public void updateMainSlackUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void updateNickname(String nickname) {
-        this.nickname = new Nickname(nickname);
+    public void updateDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public void updateImageURL(String imageUrl) {

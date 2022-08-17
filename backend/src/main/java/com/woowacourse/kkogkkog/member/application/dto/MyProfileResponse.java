@@ -1,7 +1,7 @@
-package com.woowacourse.kkogkkog.application.dto;
+package com.woowacourse.kkogkkog.member.application.dto;
 
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

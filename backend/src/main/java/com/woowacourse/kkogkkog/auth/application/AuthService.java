@@ -1,10 +1,10 @@
 package com.woowacourse.kkogkkog.auth.application;
 
-import com.woowacourse.kkogkkog.application.MemberService;
+import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;

@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.member.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;

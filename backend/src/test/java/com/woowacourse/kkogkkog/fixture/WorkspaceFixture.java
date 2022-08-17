@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.fixture;
 
-import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
 
 public enum WorkspaceFixture {
 

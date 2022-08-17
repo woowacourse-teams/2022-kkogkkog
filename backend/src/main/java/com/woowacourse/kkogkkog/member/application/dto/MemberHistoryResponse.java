@@ -1,8 +1,8 @@
-package com.woowacourse.kkogkkog.application.dto;
+package com.woowacourse.kkogkkog.member.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;

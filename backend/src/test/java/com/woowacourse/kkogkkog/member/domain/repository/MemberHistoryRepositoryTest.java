@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain.repository;
+package com.woowacourse.kkogkkog.member.domain.repository;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
@@ -9,9 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.kkogkkog.common.annotaion.RepositoryTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
-import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

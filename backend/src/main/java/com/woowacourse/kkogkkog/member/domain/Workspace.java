@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.member.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

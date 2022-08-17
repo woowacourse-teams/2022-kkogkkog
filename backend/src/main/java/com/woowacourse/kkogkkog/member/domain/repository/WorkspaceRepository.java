@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.domain.repository;
+package com.woowacourse.kkogkkog.member.domain.repository;
 
-import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

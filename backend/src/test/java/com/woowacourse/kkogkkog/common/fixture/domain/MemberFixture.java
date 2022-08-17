@@ -2,9 +2,9 @@ package com.woowacourse.kkogkkog.common.fixture.domain;
 
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.Nickname;
-import com.woowacourse.kkogkkog.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.Nickname;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
 
 public enum MemberFixture {
 

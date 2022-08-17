@@ -1,20 +1,20 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.member.application;
 
 import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
-import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
-import com.woowacourse.kkogkkog.domain.Nickname;
-import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.domain.WorkspaceUser;
-import com.woowacourse.kkogkkog.domain.repository.MemberHistoryRepository;
-import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceUserRepository;
+import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.Nickname;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.WorkspaceUser;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;

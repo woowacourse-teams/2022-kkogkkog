@@ -1,11 +1,11 @@
-package com.woowacourse.kkogkkog.presentation;
+package com.woowacourse.kkogkkog.member.presentation;
 
-import com.woowacourse.kkogkkog.application.MemberService;
-import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.member.application.MemberService;
+import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.auth.presentation.LoginMember;
-import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
-import com.woowacourse.kkogkkog.presentation.dto.MembersResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
+import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.member.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.LEO;
@@ -9,21 +9,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.application.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
-import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.domain.WorkspaceUser;
-import com.woowacourse.kkogkkog.domain.repository.MemberRepository;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.exception.member.MemberNotFoundException;
 import com.woowacourse.kkogkkog.fixture.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
+import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
+import com.woowacourse.kkogkkog.member.domain.WorkspaceUser;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;

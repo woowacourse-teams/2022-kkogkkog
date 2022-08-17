@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.member.domain;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
@@ -11,6 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

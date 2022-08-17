@@ -1,7 +1,7 @@
-package com.woowacourse.kkogkkog.domain.repository;
+package com.woowacourse.kkogkkog.member.domain.repository;
 
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.presentation.dto;
+package com.woowacourse.kkogkkog.member.presentation.dto;
 
-import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;

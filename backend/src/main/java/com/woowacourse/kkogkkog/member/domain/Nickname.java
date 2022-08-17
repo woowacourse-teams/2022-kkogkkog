@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.domain;
+package com.woowacourse.kkogkkog.member.domain;
 
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 import java.security.SecureRandom;
