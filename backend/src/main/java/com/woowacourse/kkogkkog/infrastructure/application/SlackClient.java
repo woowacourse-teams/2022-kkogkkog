@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.auth.exception.AccessTokenRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.PushAlarmRequest;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
