@@ -35,7 +35,7 @@ class MemberHistoryTest {
                 coupon.getCouponType(), CouponEvent.INIT, null, "메세지");
 
             String actual = memberHistory.toNoticeMessage();
-            String expected = jeong.getNickname() + "님이 " + coffee.getDisplayName() + " 쿠폰을 보냈어요.";
+            String expected = String.format("`%s` 님이 `%s` 쿠폰을 보냈어요\uD83D\uDC4B", jeong.getNickname(), coffee.getDisplayName());
 
             assertThat(actual).isEqualTo(expected);
         }

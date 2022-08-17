@@ -79,7 +79,7 @@ public class PushAlarmListenerTest {
 
             Mockito.verify(slackClient)
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
-                    sender.getNickname() + "님이 커피 쿠폰을 보냈어요.");
+                    "`"+sender.getNickname() + "` 님이 `커피` 쿠폰을 보냈어요\uD83D\uDC4B");
         }
 
         @Test
@@ -90,10 +90,9 @@ public class PushAlarmListenerTest {
                 LocalDate.now());
 
             reservationService.save(reservationSaveRequest);
-
             Mockito.verify(slackClient)
                 .requestPushAlarm(workspace.getAccessToken(), sender.getUserId(),
-                    receiver.getNickname() + "님이 커피 쿠폰 사용을 요청했어요.");
+                    "`" + receiver.getNickname() + "` 님이 `커피` 쿠폰 사용을 요청했어요🙏");
         }
 
         @Test
@@ -107,7 +106,7 @@ public class PushAlarmListenerTest {
 
             Mockito.verify(slackClient)
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
-                    sender.getNickname() + "님이 커피 쿠폰 사용을 승인했어요.");
+                    "`" + sender.getNickname() + "`님이 `커피` 쿠폰 사용을 승인했어요\uD83D\uDE00");
         }
     }
 }
