@@ -63,4 +63,8 @@ public class Member {
     public void updateImageURL(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public void updateWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
 }

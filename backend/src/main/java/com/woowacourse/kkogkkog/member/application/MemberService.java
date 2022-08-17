@@ -43,7 +43,7 @@ public class MemberService {
         String userId = userInfo.getUserId();
         Optional<WorkspaceUser> workspaceUser = workspaceUserRepository.findByUserId(userId);
         if (workspaceUser.isPresent()) {
-            return updateExistingMember(userInfo, workspaceUser.get());
+            return updateExistingMember(userInfo, workspaceUser.get(), workspace);
         }
         Optional<Member> member = memberRepository.findByEmail(userInfo.getEmail());
         if (member.isPresent()) {
@@ -53,21 +53,24 @@ public class MemberService {
     }
 
     private MemberCreateResponse updateExistingMember(SlackUserInfo userInfo,
-                                                      WorkspaceUser workspaceUser) {
+                                                      WorkspaceUser workspaceUser,
+                                                      Workspace workspace) {
         workspaceUser.updateDisplayName(userInfo.getName());
         workspaceUser.updateImageURL(userInfo.getPicture());
 
         Member member = workspaceUser.getMasterMember();
         member.updateMainSlackUserId(userInfo.getUserId());
         member.updateImageURL(userInfo.getPicture());
+        member.updateWorkspace(workspace);
         return new MemberCreateResponse(member.getId(), false);
     }
 
     private MemberCreateResponse integrateNewWorkspaceUser(SlackUserInfo userInfo,
                                                            Member existingMember,
                                                            Workspace workspace) {
-        existingMember.updateImageURL(userInfo.getPicture());
         existingMember.updateMainSlackUserId(userInfo.getUserId());
+        existingMember.updateImageURL(userInfo.getPicture());
+        existingMember.updateWorkspace(workspace);
         workspaceUserRepository.save(
             new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
                 userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
