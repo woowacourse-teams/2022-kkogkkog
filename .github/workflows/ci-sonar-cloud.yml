@@ -5,11 +5,15 @@ on:
     branches:
       - main
       - develop
+    paths:
+      - backend/**
   pull_request:
     branches:
       - main
       - develop
     types: [opened, ready_for_review, reopened, synchronize]
+    paths:
+      - backend/**
 
 jobs:
   sonar_build:
