@@ -22,7 +22,6 @@ public class PushAlarmEvent {
         this.couponEvent = couponEvent;
     }
 
-
     public static PushAlarmEvent of(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
         Workspace workspace = hostMember.getWorkspace();
