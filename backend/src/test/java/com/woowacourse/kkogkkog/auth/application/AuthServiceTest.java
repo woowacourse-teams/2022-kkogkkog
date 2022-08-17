@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.auth.application;
 
 import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
@@ -7,8 +7,9 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
+import com.woowacourse.kkogkkog.application.ServiceTest;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;

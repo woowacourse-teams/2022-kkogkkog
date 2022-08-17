@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.auth.application;
 
 import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
 import io.jsonwebtoken.Claims;

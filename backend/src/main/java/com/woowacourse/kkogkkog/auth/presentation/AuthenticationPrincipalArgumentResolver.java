@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.presentation;
+package com.woowacourse.kkogkkog.auth.presentation;
 
 
 import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PAYLOAD;

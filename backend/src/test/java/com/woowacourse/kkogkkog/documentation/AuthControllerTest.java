@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;

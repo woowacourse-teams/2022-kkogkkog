@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application.dto;
+package com.woowacourse.kkogkkog.auth.application.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

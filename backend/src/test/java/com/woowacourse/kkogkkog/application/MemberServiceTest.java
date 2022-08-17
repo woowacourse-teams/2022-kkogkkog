@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;

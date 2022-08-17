@@ -1,8 +1,8 @@
-package com.woowacourse.kkogkkog.presentation;
+package com.woowacourse.kkogkkog.auth.presentation;
 
-import com.woowacourse.kkogkkog.application.AuthService;
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.auth.application.AuthService;
+import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

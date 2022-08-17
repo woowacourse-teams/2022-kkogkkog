@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.config;
 
-import com.woowacourse.kkogkkog.application.JwtTokenProvider;
-import com.woowacourse.kkogkkog.presentation.LoginInterceptor;
+import com.woowacourse.kkogkkog.auth.application.JwtTokenProvider;
+import com.woowacourse.kkogkkog.auth.presentation.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

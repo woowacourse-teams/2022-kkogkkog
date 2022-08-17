@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.application;
+package com.woowacourse.kkogkkog.auth.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

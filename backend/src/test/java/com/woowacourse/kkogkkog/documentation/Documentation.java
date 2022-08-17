@@ -4,15 +4,11 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.kkogkkog.application.AuthService;
-import com.woowacourse.kkogkkog.application.JwtTokenProvider;
+import com.woowacourse.kkogkkog.auth.application.AuthService;
+import com.woowacourse.kkogkkog.auth.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.application.MemberService;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.coupon.presentation.CouponController;
-import com.woowacourse.kkogkkog.presentation.AuthController;
-import com.woowacourse.kkogkkog.presentation.MemberController;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
-import com.woowacourse.kkogkkog.reservation.presentation.ReservationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

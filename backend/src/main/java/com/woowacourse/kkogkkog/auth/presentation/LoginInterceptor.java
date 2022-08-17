@@ -1,8 +1,8 @@
-package com.woowacourse.kkogkkog.presentation;
+package com.woowacourse.kkogkkog.auth.presentation;
 
 import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PAYLOAD;
 
-import com.woowacourse.kkogkkog.application.JwtTokenProvider;
+import com.woowacourse.kkogkkog.auth.application.JwtTokenProvider;
 import com.woowacourse.kkogkkog.config.AuthorizationExtractor;
 import com.woowacourse.kkogkkog.exception.auth.UnauthenticatedTokenException;
 import javax.servlet.http.HttpServletRequest;

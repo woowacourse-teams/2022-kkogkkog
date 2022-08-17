@@ -8,11 +8,11 @@ import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.domain.Member;
 import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
-import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

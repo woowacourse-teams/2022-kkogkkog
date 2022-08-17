@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.application;
 
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.kkogkkog.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.application.dto.MemberUpdateRequest;
