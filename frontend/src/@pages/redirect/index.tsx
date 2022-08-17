@@ -55,7 +55,7 @@ const Redirect = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Loading>👻</Loading>;
+  return <Loading />;
 };
 
 export default Redirect;
