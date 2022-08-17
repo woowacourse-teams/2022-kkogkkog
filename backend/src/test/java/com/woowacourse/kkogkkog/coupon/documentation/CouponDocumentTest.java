@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.coupon.documentation;
+package com.woowacourse.kkogkkog.coupon.documentation;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;

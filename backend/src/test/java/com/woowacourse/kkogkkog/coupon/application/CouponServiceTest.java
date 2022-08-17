@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.coupon.application;
+package com.woowacourse.kkogkkog.coupon.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;

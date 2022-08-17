@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.reservation.documentation;
+package com.woowacourse.kkogkkog.reservation.documentation;
 
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_변경_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_생성_요청;

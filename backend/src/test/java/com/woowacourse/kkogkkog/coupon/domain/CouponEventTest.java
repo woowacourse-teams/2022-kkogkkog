@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;

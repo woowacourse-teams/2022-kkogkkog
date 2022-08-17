@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.reservation.domain;
+package com.woowacourse.kkogkkog.reservation.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

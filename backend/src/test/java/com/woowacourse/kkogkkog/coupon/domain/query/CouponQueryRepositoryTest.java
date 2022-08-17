@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.coupon.domain.query;
+package com.woowacourse.kkogkkog.coupon.domain.query;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;

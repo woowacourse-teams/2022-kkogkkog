@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.coupon.acceptance;
+package com.woowacourse.kkogkkog.coupon.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;

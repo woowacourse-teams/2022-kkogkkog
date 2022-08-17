@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.core.reservation.acceptance;
+package com.woowacourse.kkogkkog.reservation.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePostWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
@@ -8,7 +8,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOK
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_변경_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_생성_요청;
-import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
+import static com.woowacourse.kkogkkog.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
