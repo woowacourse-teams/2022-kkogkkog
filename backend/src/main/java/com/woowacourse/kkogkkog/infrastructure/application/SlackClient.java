@@ -35,8 +35,6 @@ public class SlackClient {
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
     private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
-    private static final String USER_ID_PARAMETER = "channel";
-    private static final String MESSAGE_PARAMETER = "text";
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
     };
 
