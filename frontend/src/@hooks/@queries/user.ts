@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
+import { useLoading } from '@/@hooks/@common/useLoading';
 import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
@@ -59,6 +60,7 @@ export const useFetchUserHistoryList = () => {
   const { displayMessage } = useToast();
   const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
+    cacheTime: 10000,
     onError(error) {
       if (error instanceof AxiosError) {
         displayMessage(error?.response?.data?.message, true);
@@ -74,8 +76,10 @@ export const useFetchUserHistoryList = () => {
 
 /** Mutation */
 export const useEditMeMutation = () => {
-  const { displayMessage } = useToast();
   const queryClient = useQueryClient();
+
+  const { displayMessage } = useToast();
+  const { showLoading, hideLoading } = useLoading();
 
   return useTokenMutation(editMe, {
     onSuccess() {
@@ -86,11 +90,18 @@ export const useEditMeMutation = () => {
         displayMessage(error?.response?.data?.message, true);
       }
     },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
+    },
   });
 };
 
 export const useOAuthLoginMutation = () => {
   const { displayMessage } = useToast();
+  const { showLoading, hideLoading } = useLoading();
 
   return useMutation(OAuthLogin, {
     onSuccess(response) {
@@ -104,6 +115,12 @@ export const useOAuthLoginMutation = () => {
       if (error instanceof AxiosError) {
         displayMessage(error?.response?.data?.message, true);
       }
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
     },
   });
 };
@@ -145,9 +162,17 @@ export const useLoginMutation = () => {
 export const useReadAllHistoryMutation = () => {
   const queryClient = useQueryClient();
 
+  const { showLoading, hideLoading } = useLoading();
+
   return useTokenMutation(readAllHistory, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.me]);
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
     },
   });
 };

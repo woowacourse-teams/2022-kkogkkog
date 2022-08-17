@@ -73,31 +73,33 @@ export const useCouponForm = () => {
       return;
     }
 
-    createCouponMutate.mutate(
-      {
-        receiverIds: receiverList.map(({ id }) => id),
-        hashtag,
-        description,
-        couponType: type,
-      },
-      {
-        onSuccess({ data: { data: coupons } }) {
-          displayMessage('쿠폰을 생성했어요', false);
-
-          if (coupons.length === 1) {
-            navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
-
-            return;
-          }
-          navigate(PATH.LANDING);
+    if (window.confirm('쿠폰을 생성하시겠습니까?')) {
+      createCouponMutate.mutate(
+        {
+          receiverIds: receiverList.map(({ id }) => id),
+          hashtag,
+          description,
+          couponType: type,
         },
-        onError(error) {
-          if (error instanceof AxiosError) {
-            displayMessage(error?.response?.data?.message, true);
-          }
-        },
-      }
-    );
+        {
+          onSuccess({ data: { data: coupons } }) {
+            displayMessage('쿠폰을 생성했어요', false);
+
+            if (coupons.length === 1) {
+              navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
+
+              return;
+            }
+            navigate(PATH.LANDING);
+          },
+          onError(error) {
+            if (error instanceof AxiosError) {
+              displayMessage(error?.response?.data?.message, true);
+            }
+          },
+        }
+      );
+    }
   };
 
   return {

@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
+import { useLoading } from '@/@hooks/@common/useLoading';
 import { useToast } from '@/@hooks/@common/useToast';
 import {
   changeCouponStatus,
@@ -123,30 +124,51 @@ export const useFetchCoupon = (id: number) => {
 
 export const useCreateCouponMutation = () => {
   const queryClient = useQueryClient();
+  const { showLoading, hideLoading } = useLoading();
 
   return useTokenMutation(createCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
     },
   });
 };
 
 export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
+  const { showLoading, hideLoading } = useLoading();
 
   return useTokenMutation(changeCouponStatus, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
     },
   });
 };
 
 export const useRequestCouponMutation = () => {
   const queryClient = useQueryClient();
+  const { showLoading, hideLoading } = useLoading();
 
   return useTokenMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
     },
   });
 };
