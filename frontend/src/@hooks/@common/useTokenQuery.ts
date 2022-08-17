@@ -1,24 +1,32 @@
-import { QueryFunction, QueryKey, useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import { AxiosError } from 'axios';
+import { QueryFunction, QueryKey, useQuery, UseQueryOptions } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
-type Query<
+import { PATH } from '@/Router';
+
+import { useToast } from './useToast';
+
+export const useTokenQuery = <
   TQueryFnData = unknown,
   TError = unknown,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey
-> = (
+>(
   queryKey: TQueryKey,
   queryFn: QueryFunction<TQueryFnData, TQueryKey>,
   options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>
-) => UseQueryResult<TData, TError>;
+) => {
+  const { displayMessage } = useToast();
+  const navigate = useNavigate();
 
-export const useTokenQuery: Query = (key, fetcher, options) => {
-  return useQuery(key, fetcher, {
+  return useQuery(queryKey, queryFn, {
     ...options,
     onError(error) {
-      if (error.response.status === 401) {
-        // Token 파기
-        // Routing ?
-        // DisplayMessage ?
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        localStorage.removeItem('user-token');
+        displayMessage('다시 로그인해주세요', true);
+        navigate(PATH.LOGIN);
+
         return;
       }
 
