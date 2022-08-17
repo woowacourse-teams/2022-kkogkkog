@@ -1,13 +1,14 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithQueryParams;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePost;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithQueryParams;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePost;
 import static com.woowacourse.kkogkkog.acceptance.MemberAcceptanceTest.프로필_수정을_성공한다;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;

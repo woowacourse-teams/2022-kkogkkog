@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.acceptance;
+package com.woowacourse.kkogkkog.acceptance.support;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;

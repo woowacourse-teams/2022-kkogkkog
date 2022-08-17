@@ -1,20 +1,21 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePatchWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePatchWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_및_닉네임을_수정하고;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
-import static com.woowacourse.kkogkkog.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
+import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;

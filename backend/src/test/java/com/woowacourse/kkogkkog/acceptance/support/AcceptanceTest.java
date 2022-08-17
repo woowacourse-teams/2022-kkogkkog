@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.acceptance;
+package com.woowacourse.kkogkkog.acceptance.support;
 
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.common.DatabaseCleaner;

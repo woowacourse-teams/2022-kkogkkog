@@ -1,8 +1,8 @@
-package com.woowacourse.kkogkkog.coupon.acceptance;
+package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePostWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
@@ -11,7 +11,7 @@ import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFF
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.acceptance.AcceptanceTest;
+import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
@@ -82,19 +82,19 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
     }
 
-    public ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
+    static ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
         return invokePostWithToken("/api/coupons", token, data);
     }
 
-    public ExtractableResponse<Response> 회원의_보낸쿠폰_받은쿠폰_목록들을_조회한다(String token) {
+    static ExtractableResponse<Response> 회원의_보낸쿠폰_받은쿠폰_목록들을_조회한다(String token) {
         return invokeGetWithToken("/api/coupons", token);
     }
 
-    public ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(Long couponId) {
+    static ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(Long couponId) {
         return invokeGet("/api/coupons/" + couponId);
     }
 
-    public static void 쿠폰_생성을_요청하고(String token, Object data) {
+    static void 쿠폰_생성을_요청하고(String token, Object data) {
         invokePostWithToken("/api/coupons", token, data);
     }
 }
