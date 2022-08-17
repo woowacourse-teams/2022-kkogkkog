@@ -22,6 +22,10 @@ const Header = (props: HeaderProps) => {
 
   const { me } = useFetchMe();
 
+  const onClickGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Styled.Root className={className}>
       <Styled.Logo>
@@ -32,9 +36,13 @@ const Header = (props: HeaderProps) => {
         ) : (
           <Icon
             iconName='arrow'
-            size='20'
+            size='30'
             color={theme.colors.primary_400}
-            onClick={() => navigate(-1)}
+            onClick={onClickGoBack}
+            css={css`
+              padding: 5px;
+              box-sizing: border-box;
+            `}
           />
         )}
       </Styled.Logo>
