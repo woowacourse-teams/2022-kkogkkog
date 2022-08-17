@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.exception.auth;
+package com.woowacourse.kkogkkog.exception.infrastructure;
 
 import com.woowacourse.kkogkkog.exception.InvalidRequestException;
 

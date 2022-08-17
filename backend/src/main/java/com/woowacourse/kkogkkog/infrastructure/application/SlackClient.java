@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.exception.auth.AccessTokenRequestFailedException;
-import com.woowacourse.kkogkkog.exception.auth.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.exception.auth.OAuthUserInfoRequestFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.exception.infrastructure.OAuthUserInfoRequestFailedException;
 import com.woowacourse.kkogkkog.exception.infrastructure.BotInstallationFailedException;
 import com.woowacourse.kkogkkog.exception.infrastructure.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.BotTokenResponse;
@@ -91,7 +91,7 @@ public class SlackClient {
 
         if (!responseBody.containsKey("access_token")) {
             log.info("Error message From Slack : ", responseBody.get("error"));
-            throw new AccessTokenRetrievalFailedException("슬랙 서버로부터 토큰 조회에 실패하였습니다.");
+            throw new AccessTokenRetrievalFailedException();
         }
         return responseBody.get("access_token").toString();
     }
