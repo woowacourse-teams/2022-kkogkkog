@@ -56,7 +56,11 @@ const CouponAcceptPage = () => {
         { message },
         {
           onSuccessCallback() {
-            navigate(PATH.COUPON_LIST);
+            if (isSent) {
+              navigate(PATH.SENT_COUPON_LIST);
+            } else {
+              navigate(PATH.RECEIVED_COUPON_LIST);
+            }
           },
         }
       );

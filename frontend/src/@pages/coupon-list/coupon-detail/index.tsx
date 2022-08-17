@@ -91,7 +91,11 @@ const CouponDetailPage = () => {
     if (window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
       cancelCoupon({
         onSuccessCallback() {
-          navigate(PATH.COUPON_LIST);
+          if (isSent) {
+            navigate(PATH.SENT_COUPON_LIST);
+          } else {
+            navigate(PATH.RECEIVED_COUPON_LIST);
+          }
         },
       });
     }
@@ -109,7 +113,11 @@ const CouponDetailPage = () => {
     if (window.confirm('쿠폰을 사용하셨나요?')) {
       finishCoupon({
         onSuccessCallback() {
-          navigate(PATH.COUPON_LIST);
+          if (isSent) {
+            navigate(PATH.SENT_COUPON_LIST);
+          } else {
+            navigate(PATH.RECEIVED_COUPON_LIST);
+          }
         },
       });
     }
