@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 
 public enum CouponStatus {
 

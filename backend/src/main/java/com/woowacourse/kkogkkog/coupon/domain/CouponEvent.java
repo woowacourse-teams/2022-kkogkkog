@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.exception.ForbiddenException;
-import com.woowacourse.kkogkkog.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.common.exception.ForbiddenException;
+import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import java.util.function.BiConsumer;
 
 public enum CouponEvent {

@@ -7,7 +7,7 @@ import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsReservationResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
-import com.woowacourse.kkogkkog.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +34,7 @@ public class CouponController {
     }
 
     @GetMapping
-    public ResponseEntity<MyCouponsReservationResponse> showAll(@LoginMember Long loginMemberId) {
+    public ResponseEntity<MyCouponsReservationResponse> showAll(@LoginMemberId Long loginMemberId) {
         MyCouponsReservationResponse response = new MyCouponsReservationResponse(
             new CouponsReservationResponse(
                 couponService.findAllByReceiver(loginMemberId),
@@ -44,10 +44,10 @@ public class CouponController {
     }
 
     @PostMapping
-    public ResponseEntity<CouponsCreateResponse> save(@LoginMember Long loginMember,
+    public ResponseEntity<CouponsCreateResponse> save(@LoginMemberId Long loginMemberId,
                                                       @RequestBody CouponCreateRequest request) {
         List<CouponResponse> responses = couponService.save(
-            request.toCouponSaveRequest(loginMember));
+            request.toCouponSaveRequest(loginMemberId));
 
         return ResponseEntity.created(null).body(new CouponsCreateResponse(responses));
     }

@@ -1,27 +1,28 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGet;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePatchWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePutWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePatchWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_및_닉네임을_수정하고;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.AUTHOR;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.JEONG;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.common.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
-import static com.woowacourse.kkogkkog.core.coupon.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.application.dto.MyProfileResponse;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.domain.Workspace;
-import com.woowacourse.kkogkkog.presentation.dto.MemberHistoriesResponse;
-import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
-import com.woowacourse.kkogkkog.presentation.dto.SuccessResponse;
+import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.Workspace;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
+import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -42,7 +43,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
             .getList("data", MemberResponse.class);
-        SuccessResponse<List<MemberResponse>> membersResponse = new SuccessResponse<>(members);
+        MembersResponse membersResponse = new MembersResponse(members);
 
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),

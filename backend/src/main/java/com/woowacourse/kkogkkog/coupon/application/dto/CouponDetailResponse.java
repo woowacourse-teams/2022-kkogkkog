@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

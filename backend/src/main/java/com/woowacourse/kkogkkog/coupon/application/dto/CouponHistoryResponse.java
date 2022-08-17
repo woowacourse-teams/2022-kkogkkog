@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.domain.MemberHistory;
+import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
