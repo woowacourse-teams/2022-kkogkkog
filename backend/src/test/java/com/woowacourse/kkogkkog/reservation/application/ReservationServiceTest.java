@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.support.setup.ApplicationTest;
+import com.woowacourse.kkogkkog.support.application.ApplicationTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
@@ -22,7 +22,6 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
-import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationUpdateRequest;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;

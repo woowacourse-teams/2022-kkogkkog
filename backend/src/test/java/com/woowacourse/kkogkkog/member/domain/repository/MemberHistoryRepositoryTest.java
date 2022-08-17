@@ -6,7 +6,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.kkogkkog.support.setup.RepositoryTest;
+import com.woowacourse.kkogkkog.support.repository.RepositoryTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.member.domain.Member;

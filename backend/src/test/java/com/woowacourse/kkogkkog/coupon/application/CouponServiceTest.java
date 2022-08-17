@@ -11,9 +11,8 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.support.setup.ApplicationTest;
+import com.woowacourse.kkogkkog.support.application.ApplicationTest;
 import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
-import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;

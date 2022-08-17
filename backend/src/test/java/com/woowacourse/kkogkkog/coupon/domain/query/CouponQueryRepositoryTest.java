@@ -7,11 +7,9 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.ReservationFixture
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.kkogkkog.support.setup.RepositoryTest;
+import com.woowacourse.kkogkkog.support.repository.RepositoryTest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
-import com.woowacourse.kkogkkog.coupon.domain.query.CouponReservationData;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;

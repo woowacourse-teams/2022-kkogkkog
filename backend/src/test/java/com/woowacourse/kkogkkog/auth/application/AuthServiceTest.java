@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.kkogkkog.support.setup.ServiceTest;
+import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;

@@ -6,7 +6,7 @@ import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture
 import static com.woowacourse.kkogkkog.support.fixture.dto.ReservationDtoFixture.예약_저장_요청;
 import static java.time.LocalDateTime.now;
 
-import com.woowacourse.kkogkkog.support.setup.ApplicationTest;
+import com.woowacourse.kkogkkog.support.application.ApplicationTest;
 import com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture;
 import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;

@@ -1,5 +1,6 @@
-package com.woowacourse.kkogkkog.support.setup;
+package com.woowacourse.kkogkkog.support.application;
 
+import com.woowacourse.kkogkkog.support.common.DataClearExtension;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
