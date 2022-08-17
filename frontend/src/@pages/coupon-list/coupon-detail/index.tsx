@@ -145,7 +145,7 @@ const CouponDetailPage = () => {
               <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
             )} */}
           </Styled.FinishButtonInner>
-          <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
+          <Position position='fixed' bottom='0' css={Styled.ExtendedPosition}>
             {buttons.map(buttonType => (
               <Fragment key={buttonType}>
                 {buttonType === '취소' && (
