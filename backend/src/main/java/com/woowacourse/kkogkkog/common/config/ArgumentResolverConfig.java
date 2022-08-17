@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.common.config;
 
-import com.woowacourse.kkogkkog.common.presentation.AuthenticationPrincipalArgumentResolver;
+import com.woowacourse.kkogkkog.common.presentation.AuthenticationArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -11,6 +11,6 @@ public class ArgumentResolverConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthenticationPrincipalArgumentResolver());
+        resolvers.add(new AuthenticationArgumentResolver());
     }
 }
