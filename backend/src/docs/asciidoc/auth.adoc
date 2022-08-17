@@ -8,3 +8,6 @@
 == Auth
 === 로그인
 operation::auth-login[snippets='http-request,http-response']
+
+=== 슬랙 앱 설치
+operation::slack-bot-install[snippets='http-request,http-response,request-fields']
