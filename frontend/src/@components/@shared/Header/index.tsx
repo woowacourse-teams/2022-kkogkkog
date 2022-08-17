@@ -41,7 +41,6 @@ const Header = (props: HeaderProps) => {
             onClick={onClickGoBack}
             css={css`
               padding: 5px;
-              box-sizing: border-box;
             `}
           />
         )}
