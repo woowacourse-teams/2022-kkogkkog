@@ -20,7 +20,7 @@ const Icon = (props: IconProps) => {
   const IconComponent = Icons[iconName];
 
   return (
-    <Styled.Wrapper size={size} color={color} {...rest}>
+    <Styled.Wrapper size={size} color={color} hasCursor={hasCursor} {...rest}>
       <IconComponent width='100%' height='100%' />
     </Styled.Wrapper>
   );
