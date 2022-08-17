@@ -3,7 +3,6 @@ package com.woowacourse.kkogkkog.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
@@ -43,15 +42,12 @@ class NicknameTest {
     class OfRandom {
 
         @Test
-        @DisplayName("익명1234라는 형식의 닉네임을 생성한다.")
+        @DisplayName("'형용사동물명'이라는 형식의 닉네임을 생성한다.")
         void success() {
             Nickname nickname = Nickname.ofRandom();
             String actual = nickname.getValue();
 
-            assertAll(
-                () -> assertThat(actual).startsWith("익명"),
-                () -> assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$")
-            );
+            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$");
         }
     }
 }
