@@ -11,6 +11,8 @@ export const ShowUpRoot = styled.div`
   display: flex;
   justify-content: center;
 
+  z-index: ${({ theme }) => theme.layers.toast};
+
   -webkit-animation: slide-in-blurred-bottom 1.5s cubic-bezier(0.23, 1, 0.32, 1) 1 alternate both;
   animation: slide-in-blurred-bottom 1.5s cubic-bezier(0.23, 1, 0.32, 1) 1 alternate both;
 
@@ -103,7 +105,10 @@ export const ToastMessageContainer = styled.h2`
 `;
 
 export const ToastMessage = styled.div`
-  width: 240px;
+  width: 200px;
+
+  line-height: 1.5;
 
   word-wrap: break-word;
+  white-space: pre-wrap;
 `;

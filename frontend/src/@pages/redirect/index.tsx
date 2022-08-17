@@ -30,7 +30,7 @@ const Redirect = () => {
           if (isNew) {
             navigate(PATH.PROFILE_EDIT, { replace: true, state: { type: 'join' } });
 
-            displayMessage('회원가입에 성공했어요. 닉네임을 변경해볼까요?', false);
+            displayMessage('회원가입에 성공했어요.\n닉네임을 변경해볼까요?', false);
           } else {
             navigate(PATH.LANDING, { replace: true });
 
@@ -55,7 +55,7 @@ const Redirect = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Loading>👻</Loading>;
+  return <Loading />;
 };
 
 export default Redirect;

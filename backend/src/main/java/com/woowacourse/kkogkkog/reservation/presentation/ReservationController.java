@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.reservation.presentation;
 
-import com.woowacourse.kkogkkog.presentation.LoginMember;
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationChangeRequest;
 import com.woowacourse.kkogkkog.reservation.presentation.dto.ReservationCreateRequest;
@@ -24,7 +24,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@LoginMember Long loginMemberId,
+    public ResponseEntity<Void> create(@LoginMemberId Long loginMemberId,
                                        @RequestBody ReservationCreateRequest request) {
         Long reservationId = reservationService.save(
             request.toReservationSaveRequest(loginMemberId));
@@ -33,7 +33,7 @@ public class ReservationController {
     }
 
     @PutMapping("/{reservationId}")
-    public ResponseEntity<Void> update(@LoginMember Long loginMemberId,
+    public ResponseEntity<Void> update(@LoginMemberId Long loginMemberId,
                                        @PathVariable Long reservationId,
                                        @RequestBody ReservationChangeRequest request) {
         reservationService.update(request.toReservationUpdateRequest(loginMemberId, reservationId));

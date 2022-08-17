@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain.query;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

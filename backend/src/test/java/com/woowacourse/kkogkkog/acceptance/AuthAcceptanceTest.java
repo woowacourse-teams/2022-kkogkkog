@@ -1,19 +1,20 @@
 package com.woowacourse.kkogkkog.acceptance;
 
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokeGetWithQueryParams;
-import static com.woowacourse.kkogkkog.acceptance.AcceptanceContext.invokePost;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithQueryParams;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePost;
 import static com.woowacourse.kkogkkog.acceptance.MemberAcceptanceTest.프로필_수정을_성공한다;
-import static com.woowacourse.kkogkkog.common.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.fixture.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.kkogkkog.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.domain.Member;
-import com.woowacourse.kkogkkog.infrastructure.SlackUserInfo;
-import com.woowacourse.kkogkkog.infrastructure.WorkspaceResponse;
-import com.woowacourse.kkogkkog.presentation.dto.InstallSlackAppRequest;
-import com.woowacourse.kkogkkog.presentation.dto.MemberUpdateMeRequest;
+import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
+import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
+import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.HashMap;
