@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.config;
+package com.woowacourse.kkogkkog.auth.presentation;
 
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
