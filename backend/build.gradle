@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.77.Final:osx-aarch_64'
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
 
     // Guava
     implementation group: 'com.google.guava', name: 'guava', version: 'r05'

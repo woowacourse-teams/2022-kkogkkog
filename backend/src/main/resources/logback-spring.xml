@@ -4,12 +4,15 @@
   <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
   <property name="LOG_PATTERN"
     value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %yellow([traceId=%X{trace_id}]) %highlight(%-5level) : %msg%n"/>
+  <springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
 
   <springProfile name="default">
     <include resource="console-appender.xml"/>
+    <include resource="slack-appender.xml"/>
 
     <root level="INFO">
       <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="ASYNC_SLACK"/>
     </root>
   </springProfile>
 
@@ -24,4 +27,5 @@
       <appender-ref ref="FILE-ALL"/>
     </root>
   </springProfile>
+
 </configuration>
