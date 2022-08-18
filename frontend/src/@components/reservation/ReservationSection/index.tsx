@@ -6,7 +6,7 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { CouponResponse } from '@/types/remote/response';
-import { computeDay, generateDateText, generateDDay } from '@/utils/time';
+import { computeDay, generateDateText, generateDDay, sortByTime } from '@/utils/time';
 
 import * as Styled from './style';
 
@@ -18,10 +18,7 @@ const ReservationSection = (props: AcceptedCouponListProps) => {
   const { reservationRecord } = props;
 
   const sortedKey = useMemo(
-    () =>
-      Object.keys(reservationRecord).sort((a, b) => {
-        return Number(a.replace(/-/g, '')) - Number(b.replace(/-/g, ''));
-      }),
+    () => Object.keys(reservationRecord).sort(sortByTime),
     [reservationRecord]
   );
 

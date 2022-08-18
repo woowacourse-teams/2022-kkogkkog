@@ -93,3 +93,10 @@ export const computeDay = (date: string) => {
 
   return week[propDate.getDay()];
 };
+
+export const sortByTime = (targetDateA: string, targetDateB: string) => {
+  const [yearA, monthA, dayA] = targetDateA.split(/[- ]/);
+  const [yearB, monthB, dayB] = targetDateB.split(/[- ]/);
+
+  return Number(`${yearA}${monthA}${dayA}`) - Number(`${yearB}${monthB}${dayB}`);
+};
