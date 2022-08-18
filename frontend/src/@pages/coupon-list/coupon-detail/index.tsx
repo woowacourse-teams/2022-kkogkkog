@@ -92,9 +92,9 @@ const CouponDetailPage = () => {
       cancelCoupon({
         onSuccessCallback() {
           if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST);
+            navigate(PATH.SENT_COUPON_LIST, { replace: true });
           } else {
-            navigate(PATH.RECEIVED_COUPON_LIST);
+            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
           }
         },
       });
@@ -114,9 +114,9 @@ const CouponDetailPage = () => {
       finishCoupon({
         onSuccessCallback() {
           if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST);
+            navigate(PATH.SENT_COUPON_LIST, { replace: true });
           } else {
-            navigate(PATH.RECEIVED_COUPON_LIST);
+            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
           }
         },
       });
