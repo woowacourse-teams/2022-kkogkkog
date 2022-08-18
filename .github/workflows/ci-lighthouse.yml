@@ -35,7 +35,7 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
-          yarn add -global @lhci/cli
+          npm install -g @lhci/cli
           lhci autorun || echo "Fail to Run Lighthouse CI!"
       - name: Format lighthouse score
         id: format_lighthouse_score
