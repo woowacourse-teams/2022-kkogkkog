@@ -74,7 +74,8 @@ jobs:
 
 
               const detail = [
-                `| Performence-Category | Score |`,
+                `⚡️ Performence detail!`,
+                `| Category | Score |`,
                 `| --- | --- |`,
                 `| ${score(
                   audits["first-contentful-paint"].score * 100
@@ -103,7 +104,7 @@ jobs:
                 }|`,
 
               ].join("\n");
-              comments += comment + "\n" + detail + "\n";
+              comments += comment + "\n\n\n\n" + detail + "\n";
             });
             core.setOutput('comments', comments)
 
