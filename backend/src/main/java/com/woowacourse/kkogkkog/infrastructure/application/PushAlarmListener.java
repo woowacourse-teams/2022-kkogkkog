@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +15,7 @@ public class PushAlarmListener {
     }
 
     @EventListener
+    @Async("threadPoolTaskExecutor")
     public void sendNotification(PushAlarmEvent pushAlarmEvent) {
         if (pushAlarmEvent.shouldNotSendPushAlarm()) {
             return;
