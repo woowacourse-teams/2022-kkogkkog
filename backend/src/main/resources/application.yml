@@ -18,6 +18,9 @@ spring:
 logging:
   level:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  slack:
+    webhook-uri: https://aaa.com
+    config: classpath:logback-spring.xml
 
 security:
   jwt:
