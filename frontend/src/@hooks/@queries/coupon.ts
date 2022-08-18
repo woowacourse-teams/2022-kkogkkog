@@ -31,6 +31,7 @@ export const useFetchCouponList = () => {
   /** suspense false만 isLoading을 사용할 수 있다. */
   const { data, ...rest } = useTokenQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
+    staleTime: 10000,
     onError(error) {
       if (error instanceof AxiosError) {
         displayMessage(error?.response?.data?.message, true);
@@ -145,6 +146,7 @@ export const useChangeCouponStatusMutation = (id: number) => {
 
   return useTokenMutation(changeCouponStatus, {
     onSuccess() {
+      queryClient.invalidateQueries(QUERY_KEY.couponList);
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
     },
     onMutate() {

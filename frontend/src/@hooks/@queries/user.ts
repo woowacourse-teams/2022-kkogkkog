@@ -30,7 +30,7 @@ export const useFetchMe = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
-    staleTime: 6000,
+    staleTime: 10000,
   });
 
   return {
@@ -60,7 +60,7 @@ export const useFetchUserHistoryList = () => {
   const { displayMessage } = useToast();
   const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
-    cacheTime: 10000,
+    staleTime: 10000,
     onError(error) {
       if (error instanceof AxiosError) {
         displayMessage(error?.response?.data?.message, true);
@@ -167,6 +167,7 @@ export const useReadAllHistoryMutation = () => {
   return useTokenMutation(readAllHistory, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.me]);
+      // QUERY_KEY.getUserHistoryList 은 재요청하지 않기위해 구식으로 만들지 않는다.
     },
     onMutate() {
       showLoading();
