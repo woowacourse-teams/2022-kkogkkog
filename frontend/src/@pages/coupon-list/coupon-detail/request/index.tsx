@@ -66,15 +66,16 @@ const CouponRequestPage = () => {
         {
           onSuccessCallback() {
             if (isSent) {
-              navigate(PATH.SENT_COUPON_LIST);
+              navigate(PATH.SENT_COUPON_LIST, { replace: true });
             } else {
-              navigate(PATH.RECEIVED_COUPON_LIST);
+              navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
             }
           },
         }
       );
     }
   };
+
 
   return (
     <PageTemplate title='쿠폰' hasHeader={false}>

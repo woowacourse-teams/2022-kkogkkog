@@ -2,11 +2,13 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
-  padding: 21px 19px;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  padding: 10px 0;
 
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
@@ -16,10 +18,11 @@ export const Root = styled.div`
 export const CouponInfoContainer = styled.div`
   display: flex;
 
-  gap: 18px;
+  gap: 10px;
 `;
 
 export const ProfileImageContainer = styled.div`
+  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +35,7 @@ export const ProfileImageContainer = styled.div`
 `;
 
 export const InformationContainer = styled.div`
-  width: 100%;
+  width: 75%;
 
   display: flex;
   flex-direction: column;
@@ -41,11 +44,11 @@ export const InformationContainer = styled.div`
 `;
 
 export const Contents = styled.div`
-  width: 80%;
   font-size: 12px;
 
   word-break: break-all;
 `;
+
 export const Date = styled.div`
   font-size: 12px;
 
