@@ -21,14 +21,18 @@ export const FindUserContainer = styled.div`
 `;
 
 export const FindUserInput = styled.div`
+  width: 100%;
   min-height: 50px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 10px;
+  gap: 10px;
+
   border-radius: 10px;
+
+  padding: 10px;
 
   font-size: 16px;
 
@@ -41,7 +45,17 @@ export const FindUserInput = styled.div`
 `;
 
 export const SelectedUserListContainer = styled.div`
+  flex: 1;
+
   display: flex;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  ${({ theme }) => css`
+    background-color: transparent;
+    color: ${theme.colors.light_grey_200};
+  `}
 `;
 
 export const SelectedUserContainer = styled.div`
@@ -56,8 +70,6 @@ export const SelectedUserContainer = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.primary_400};
     color: ${theme.colors.white_100};
-
-    box-shadow: ${theme.shadow.type_6};
   `}
 `;
 
