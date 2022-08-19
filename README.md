@@ -19,8 +19,7 @@
 <img width="543" alt="스크린샷 2022-08-18 21 55 17" src="https://user-images.githubusercontent.com/76774809/185399941-57c83d9c-6605-4aef-9ccd-ca7b28da6be5.png">
 </p>
 
-더 많은 이야기를 보고싶다면?  
-[팀 블로그](https://velog.io/@teamkkogkkog)  
+더 많은 이야기를 보고싶다면?
 [1차 데모 영상](https://youtu.be/AD5pNHNMyrA)
 
 ## 🧑🏻‍💻 팀원 소개
