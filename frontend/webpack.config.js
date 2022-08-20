@@ -43,18 +43,6 @@ module.exports = (env, args) => {
           test: /\.(js|jsx|ts|tsx)$/,
           use: {
             loader: require.resolve('babel-loader'),
-            options: {
-              envName: isDevelopment ? 'development' : 'production',
-              presets: [
-                '@babel/preset-env',
-                ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
-                '@babel/preset-typescript',
-              ],
-              plugins: [
-                '@emotion/babel-plugin',
-                isDevelopment && require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
-            },
           },
         },
       ],
