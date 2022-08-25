@@ -17,10 +17,10 @@
 지금 꼭꼭에서 생각나는 사람에게 쿠폰을 보내보세요😃
 
 <img width="543" alt="스크린샷 2022-08-18 21 55 17" src="https://user-images.githubusercontent.com/76774809/185399941-57c83d9c-6605-4aef-9ccd-ca7b28da6be5.png">
-</p>
 
-더 많은 이야기를 보고싶다면?
-[1차 데모 영상](https://youtu.be/AD5pNHNMyrA)
+더 많은 이야기를 보고싶다면?  
+[1차 데모 영상](https://youtu.be/AD5pNHNMyrA)  
+[2차 데모 영상](https://youtu.be/QVOQI4lYX6Y)  
 [3차 데모 영상](https://youtu.be/N5IB9lCsjbI)
 
 ## 🧑🏻‍💻 팀원 소개
