@@ -10,7 +10,7 @@ const DownloadPage = () => {
         쿠폰 알림을 받을 수 있어요.
       </Styled.Description>
       <Styled.SlackAddButtonInner>
-        {process.env.NODE_ENV === 'production' ? (
+        {PRODUCT_ENV === 'production' ? (
           <a href='https://slack.com/oauth/v2/authorize?client_id=3711114175136.3863202543751&scope=chat:write,chat:write.public,users:read.email,users:read&user_scope=email,openid,profile&redirect_uri=https://kkogkkog.com/download/redirect'>
             <img
               alt='Add to Slack'

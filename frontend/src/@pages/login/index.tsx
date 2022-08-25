@@ -24,7 +24,7 @@ const LoginPage = () => {
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         {PRODUCT_ENV === 'local' && <MockLoginForm />}
-        {process.env.NODE_ENV === 'production' ? (
+        {PRODUCT_ENV === 'production' ? (
           <Styled.SlackLink href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3863202543751'>
             <Icon iconName='slack' size='20' />
             슬랙으로 로그인
