@@ -22,7 +22,7 @@ public class CouponState {
     private LocalDateTime meetingDate;
 
     public void changeStatus(CouponEvent couponEvent) {
-        this.couponStatus = couponStatus.handle(couponEvent.getType());
+        this.couponStatus = couponStatus.handle(couponEvent);
         this.meetingDate = couponEvent.getMeetingDate();
     }
 }
