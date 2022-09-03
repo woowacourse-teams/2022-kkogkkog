@@ -27,4 +27,8 @@ public class CouponEvent {
     public void checkExecutable(boolean isSender, boolean isReceiver) {
         type.checkExecutable(isSender, isReceiver);
     }
+
+    public boolean shouldUpdateMeetingDate() {
+        return type.isUpdateMeetingDateType();
+    }
 }

@@ -23,6 +23,12 @@ public class CouponState {
 
     public void changeStatus(CouponEvent couponEvent) {
         this.couponStatus = couponStatus.handle(couponEvent);
-        this.meetingDate = couponEvent.getMeetingDate();
+        updateMeetingDate(couponEvent);
+    }
+
+    private void updateMeetingDate(CouponEvent couponEvent) {
+        if (couponEvent.shouldUpdateMeetingDate()) {
+            this.meetingDate = couponEvent.getMeetingDate();
+        }
     }
 }

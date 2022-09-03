@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.common.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public enum CouponEventType {
@@ -71,6 +72,10 @@ public enum CouponEventType {
         if (!isSender && !isReceiver) {
             throw new ForbiddenException("쿠폰을 보낸 사람과 받은 사람만 사용 완료할 수 있습니다.");
         }
+    }
+
+    public boolean isUpdateMeetingDateType() {
+        return List.of(REQUEST, CANCEL, DECLINE).contains(this);
     }
 
     public String generateNoticeMessage(Member member, CouponType couponType) {
