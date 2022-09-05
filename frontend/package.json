@@ -1,5 +1,5 @@
 {
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "yarn@3.2.3",
   "name": "kkogkkog-frontend",
   "version": "0.1.0",
   "scripts": {
