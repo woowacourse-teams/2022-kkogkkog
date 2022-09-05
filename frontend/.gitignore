@@ -4,6 +4,9 @@
 # misc
 .DS_Store
 
+## teest
+/coverage
+
 # debug
 npm-debug.log*
 yarn-debug.log*

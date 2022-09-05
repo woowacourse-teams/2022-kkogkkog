@@ -23,7 +23,7 @@ const ProfileEditPage = () => {
           <img src={me?.imageUrl} alt='프사' width='86px' />
         </Styled.ImageInner>
         <Styled.Form onSubmit={onSubmitEditedForm}>
-          <Input label='닉네임' value={nickname} onChange={onChangeNickname} />
+          <Input label='닉네임 (2~6자)' value={nickname} onChange={onChangeNickname} />
           <Styled.ButtonInner>
             <Button>완료</Button>
           </Styled.ButtonInner>

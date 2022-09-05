@@ -18,7 +18,13 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["@emotion/react/types/css-prop"]
+    "types": [
+      "@emotion/react/types/css-prop",
+      "node",
+      "jest",
+      "@testing-library/jest-dom",
+      "@types/jest"
+    ]
   },
   "include": ["src"]
 }
