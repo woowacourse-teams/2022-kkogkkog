@@ -17,7 +17,7 @@ class NicknameTest {
     class Constructor {
 
         @Test
-        @DisplayName("2~6글자 사이의 한글, 숫자, 영문자로 구성된 문자열을 받는다.")
+        @DisplayName("1~6글자 사이의 한글, 숫자, 영문자로 구성된 문자열을 받는다.")
         void success() {
             assertThatNoException().isThrownBy(() -> new Nickname("가aB12"));
         }
@@ -47,7 +47,7 @@ class NicknameTest {
             Nickname nickname = Nickname.ofRandom();
             String actual = nickname.getValue();
 
-            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$");
+            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{1,6}$");
         }
     }
 }
