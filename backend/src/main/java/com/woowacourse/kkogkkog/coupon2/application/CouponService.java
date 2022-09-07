@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.coupon2.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent2;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -24,16 +25,19 @@ public class CouponService {
 
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
+    private final CouponQueryRepository couponQueryRepository;
     private final CouponHistoryRepository couponHistoryRepository;
 
     private final ApplicationEventPublisher publisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
+                         CouponQueryRepository couponQueryRepository,
                          CouponHistoryRepository couponHistoryRepository,
                          ApplicationEventPublisher applicationEventPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
+        this.couponQueryRepository = couponQueryRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.publisher = applicationEventPublisher;
     }
@@ -45,6 +49,22 @@ public class CouponService {
         List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
             couponId);
         return CouponDetailResponse.of(coupon, memberHistories);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllBySender(Long memberId) {
+        Member member = findMember(memberId);
+        return couponQueryRepository.findAllBySender(member).stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllByReceiver(Long memberId) {
+        Member member = findMember(memberId);
+        return couponQueryRepository.findAllByReceiver(member).stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
