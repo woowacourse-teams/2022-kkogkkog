@@ -58,7 +58,8 @@ public class CouponHistory {
     private LocalDateTime createdTime;
 
     public CouponHistory(Long id, Member hostMember, Member targetMember, Coupon coupon,
-                         CouponEventType couponEventType, LocalDateTime meetingDate, String message) {
+                         CouponEventType couponEventType, LocalDateTime meetingDate,
+                         String message) {
         this.id = id;
         this.hostMember = hostMember;
         this.targetMember = targetMember;
@@ -70,7 +71,14 @@ public class CouponHistory {
 
     public CouponHistory(Member hostMember, Member targetMember, Coupon coupon,
                          CouponEvent couponEvent, String message) {
-        this(null, hostMember, targetMember, coupon, couponEvent.getType(), couponEvent.getMeetingDate(), message);
+        this(null, hostMember, targetMember, coupon, couponEvent.getType(),
+            couponEvent.getMeetingDate(), message);
+    }
+
+    public static CouponHistory ofNew(Coupon coupon) {
+        Member historyHostMember = coupon.getReceiver();
+        CouponEvent initEvent = new CouponEvent(CouponEventType.INIT, null);
+        return new CouponHistory(historyHostMember, coupon.getSender(), coupon, initEvent, null);
     }
 
     public void updateIsRead() {

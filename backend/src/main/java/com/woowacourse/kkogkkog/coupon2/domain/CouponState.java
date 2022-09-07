@@ -26,6 +26,10 @@ public class CouponState {
         this.meetingDate = meetingDate;
     }
 
+    public static CouponState ofReady() {
+        return new CouponState(CouponStatus.READY, null);
+    }
+
     public void changeStatus(CouponEvent couponEvent) {
         this.couponStatus = couponStatus.handle(couponEvent.getType());
         updateMeetingDate(couponEvent);
