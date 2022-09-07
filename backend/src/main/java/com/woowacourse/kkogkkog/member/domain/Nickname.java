@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Nickname {
 
-    private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9]{2,6}$");
+    private static final Pattern NICKNAME_PATTERN = Pattern.compile("^[가-힣a-zA-Z0-9]{1,6}$");
     private static final SecureRandom RANDOM_GENERATOR = new SecureRandom();
     private static final List<String> ADJECTIVES = List.of(
         "귀여운", "작은", "졸린", "착한", "무서운", "작은", "예쁜", "상냥한", "해로운", "느린", "빠른", "커다란");
@@ -35,7 +35,7 @@ public class Nickname {
     public Nickname(String value) {
         Matcher matcher = NICKNAME_PATTERN.matcher(value);
         if (!matcher.matches()) {
-            throw new InvalidRequestException("잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)");
+            throw new InvalidRequestException("잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)");
         }
         this.value = value;
     }

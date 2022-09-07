@@ -8,6 +8,8 @@ import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayName("Nickname 클래스의")
 class NicknameTest {
@@ -16,10 +18,11 @@ class NicknameTest {
     @DisplayName("생성자는")
     class Constructor {
 
-        @Test
-        @DisplayName("2~6글자 사이의 한글, 숫자, 영문자로 구성된 문자열을 받는다.")
-        void success() {
-            assertThatNoException().isThrownBy(() -> new Nickname("가aB12"));
+        @ParameterizedTest
+        @DisplayName("1~6글자 사이의 한글, 숫자, 영문자로 구성된 문자열을 받는다.")
+        @ValueSource(strings = {"a", "가aB1", "여섯글자이름"})
+        void success(String nickname) {
+            assertThatNoException().isThrownBy(() -> new Nickname(nickname));
         }
 
         @Test
@@ -47,7 +50,7 @@ class NicknameTest {
             Nickname nickname = Nickname.ofRandom();
             String actual = nickname.getValue();
 
-            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{2,6}$");
+            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{1,6}$");
         }
     }
 }
