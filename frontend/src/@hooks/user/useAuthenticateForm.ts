@@ -1,8 +1,11 @@
+import { AxiosError } from 'axios';
 import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
+import { useToast } from '@/@hooks/@common/useToast';
 import { PATH } from '@/Router';
+import { nicknameRegularExpression } from '@/utils/regularExpression';
 
 import { useJoinMutation, useLoginMutation } from '../@queries/user';
 
@@ -23,10 +26,12 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
   const navigate = useNavigate();
 
+  const { displayMessage } = useToast();
+
   const [email, onChangeEmail] = useInput(defaultEmail);
   const [password, onChangePassword] = useInput(defaultPassword);
   const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
-  const [name, onChangeName] = useInput(defaultName);
+  const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
 
   const joinMutate = useJoinMutation();
   const loginMutate = useLoginMutation();
@@ -34,15 +39,24 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
 
+    if (!name.match(nicknameRegularExpression)) {
+      displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)', true);
+
+      return;
+    }
+
     joinMutate.mutate(
       {
-        email,
-        password,
         nickname: name,
       },
       {
         onSuccess() {
-          // navigate(PATH.JOIN);
+          navigate(PATH.LANDING);
+        },
+        onError(error) {
+          if (error instanceof AxiosError) {
+            displayMessage(error?.response?.data?.message, true);
+          }
         },
       }
     );

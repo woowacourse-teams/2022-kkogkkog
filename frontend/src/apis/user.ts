@@ -19,7 +19,7 @@ export const editMe = (body: EditMeRequest) => client.put('/members/me', body);
 
 export const getUserList = () => client.get<UserListResponse>('/members');
 
-export const join = (body: JoinRequest) => client.post('/members', body);
+export const join = (body: JoinRequest) => client.post('/sign-up', body);
 
 export const login = (body: LoginRequest) => client.post<LoginResponse>('/login', body);
 

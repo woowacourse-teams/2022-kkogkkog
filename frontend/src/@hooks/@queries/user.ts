@@ -78,18 +78,13 @@ export const useFetchUserHistoryList = () => {
 export const useEditMeMutation = () => {
   const queryClient = useQueryClient();
 
-  const { displayMessage } = useToast();
   const { showLoading, hideLoading } = useLoading();
 
   return useTokenMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
+    onError() {},
     onMutate() {
       showLoading();
     },
@@ -99,23 +94,10 @@ export const useEditMeMutation = () => {
   });
 };
 
-export const useOAuthLoginMutation = () => {
-  const { displayMessage } = useToast();
+export const useSlackOAuthLoginMutation = () => {
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(OAuthLogin, {
-    onSuccess(response) {
-      const { accessToken } = response.data;
-
-      localStorage.setItem('user-token', accessToken);
-
-      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-    },
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
     onMutate() {
       showLoading();
     },
@@ -126,14 +108,13 @@ export const useOAuthLoginMutation = () => {
 };
 
 export const useJoinMutation = () => {
-  const { displayMessage } = useToast();
-
   return useMutation(join, {
-    onSuccess: () => {},
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
+    onSuccess(response) {
+      const { accessToken } = response.data;
+
+      localStorage.setItem('user-token', accessToken);
+
+      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     },
   });
 };
