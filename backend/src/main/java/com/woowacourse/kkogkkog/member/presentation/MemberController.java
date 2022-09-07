@@ -41,7 +41,7 @@ public class MemberController {
     @PutMapping("/me")
     public ResponseEntity<Void> updateMe(@LoginMemberId Long id,
                                          @Valid @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
-        memberService.update(memberUpdateMeRequest.toMemberUpdateRequest(id));
+        memberService.updateNickname(memberUpdateMeRequest.toMemberUpdateRequest(id));
 
         return ResponseEntity.ok().build();
     }
