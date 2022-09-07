@@ -14,8 +14,6 @@ export const Container = styled.div`
   max-width: 414px;
   min-width: 320px;
 
-  padding-bottom: 20px;
-
   margin: 0 auto;
 
   position: relative;
