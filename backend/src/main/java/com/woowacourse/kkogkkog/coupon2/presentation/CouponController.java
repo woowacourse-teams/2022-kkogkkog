@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.coupon2.application.CouponService;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponCreateRequest;
+import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponUpdateRequest;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsCreateResponse;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.MyCouponsResponse;
 import java.util.List;
@@ -35,8 +36,8 @@ public class CouponController {
     @GetMapping
     public ResponseEntity<MyCouponsResponse> showAll(@LoginMemberId Long loginMemberId) {
         MyCouponsResponse response = new MyCouponsResponse(
-                couponService.findAllByReceiver(loginMemberId),
-                couponService.findAllBySender(loginMemberId));
+            couponService.findAllByReceiver(loginMemberId),
+            couponService.findAllBySender(loginMemberId));
         return ResponseEntity.ok(response);
     }
 
@@ -46,5 +47,13 @@ public class CouponController {
         List<CouponResponse> responses = couponService.save(
             request.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponsCreateResponse(responses));
+    }
+
+    @PostMapping("/{couponId}/event")
+    public ResponseEntity<CouponsCreateResponse> update(@LoginMemberId Long loginMemberId,
+                                                        @PathVariable Long couponId,
+                                                        @RequestBody CouponUpdateRequest request) {
+        couponService.update(request.toCouponEventRequest(loginMemberId, couponId));
+        return ResponseEntity.ok().build();
     }
 }
