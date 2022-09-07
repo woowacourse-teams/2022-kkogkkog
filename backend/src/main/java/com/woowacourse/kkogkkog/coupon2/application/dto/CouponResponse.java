@@ -1,7 +1,11 @@
 package com.woowacourse.kkogkkog.coupon2.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon2.domain.CouponState;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +25,10 @@ public class CouponResponse {
     private String description;
     private String couponType;
     private String couponStatus;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime meetingDate;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdTime;
 
     public CouponResponse(Long couponId,
                           Long senderId,
@@ -32,7 +40,9 @@ public class CouponResponse {
                           String hashtag,
                           String description,
                           String couponType,
-                          String couponStatus) {
+                          String couponStatus,
+                          LocalDateTime meetingDate,
+                          LocalDateTime createdTime) {
         this.couponId = couponId;
         this.senderId = senderId;
         this.senderImageUrl = senderImageUrl;
@@ -44,11 +54,14 @@ public class CouponResponse {
         this.description = description;
         this.couponType = couponType;
         this.couponStatus = couponStatus;
+        this.meetingDate = meetingDate;
+        this.createdTime = createdTime;
     }
 
     public static CouponResponse of(Coupon coupon) {
         Member sender = coupon.getSender();
         Member receiver = coupon.getReceiver();
+        CouponState couponState = coupon.getCouponState();
         return new CouponResponse(
             coupon.getId(),
             sender.getId(),
@@ -60,7 +73,9 @@ public class CouponResponse {
             coupon.getHashtag(),
             coupon.getDescription(),
             coupon.getCouponType().name(),
-            coupon.getCouponState().getCouponStatus().name()
+            couponState.getCouponStatus().name(),
+            couponState.getMeetingDate(),
+            coupon.getCreatedTime()
         );
     }
 }
