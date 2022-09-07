@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
-class CouponQueryRepositoryTest {
+class CouponRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -30,8 +30,6 @@ class CouponQueryRepositoryTest {
     private WorkspaceRepository workspaceRepository;
     @Autowired
     private CouponRepository couponRepository;
-    @Autowired
-    private CouponQueryRepository couponQueryRepository;
 
     @Nested
     @DisplayName("보유하고 있는 쿠폰 중, ")
@@ -61,7 +59,7 @@ class CouponQueryRepositoryTest {
                 CouponType.COFFEE, CouponState.ofReady()));
             couponRepository.flush();
 
-            List<Coupon> actual = couponQueryRepository.findAllBySender(sender);
+            List<Coupon> actual = couponRepository.findAllBySender(sender);
             assertThat(actual).hasSize(2);
         }
     }

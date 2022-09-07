@@ -8,7 +8,6 @@ import com.woowacourse.kkogkkog.coupon2.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponHistoryRepository;
-import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent2;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -26,35 +25,32 @@ public class CouponService {
 
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
-    private final CouponQueryRepository couponQueryRepository;
     private final CouponHistoryRepository couponHistoryRepository;
 
     private final ApplicationEventPublisher publisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
-                         CouponQueryRepository couponQueryRepository,
                          CouponHistoryRepository couponHistoryRepository,
                          ApplicationEventPublisher applicationEventPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
-        this.couponQueryRepository = couponQueryRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.publisher = applicationEventPublisher;
     }
 
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long couponId) {
-        Coupon coupon = getCoupon(couponId);
-        List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
+        Coupon coupon = findCoupon(couponId);
+        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
             couponId);
-        return CouponDetailResponse.of(coupon, memberHistories);
+        return CouponDetailResponse.of(coupon, couponHistories);
     }
 
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllBySender(Long memberId) {
         Member member = findMember(memberId);
-        return couponQueryRepository.findAllBySender(member).stream()
+        return couponRepository.findAllBySender(member).stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -62,7 +58,7 @@ public class CouponService {
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllByReceiver(Long memberId) {
         Member member = findMember(memberId);
-        return couponQueryRepository.findAllByReceiver(member).stream()
+        return couponRepository.findAllByReceiver(member).stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -71,27 +67,20 @@ public class CouponService {
         Member sender = findMember(request.getSenderId());
         List<Member> receivers = findReceivers(request.getReceiverIds());
         List<Coupon> coupons = request.toEntities(sender, receivers);
-
-        List<Coupon> saveCoupons = couponRepository.saveAll(coupons);
-        for (Coupon savedCoupon : saveCoupons) {
-            CouponHistory couponHistory = saveCouponHistory(savedCoupon);
-            publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
-        }
-        return saveCoupons.stream()
+        return couponRepository.saveAll(coupons).stream()
+            .peek(this::saveCouponHistory)
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
 
     public void update(CouponEventRequest request) {
         Member loginMember = findMember(request.getMemberId());
-        Coupon coupon = getCoupon(request.getCouponId());
+        Coupon coupon = findCoupon(request.getCouponId());
         coupon.changeState(request.toEvent(), loginMember);
-
-        CouponHistory couponHistory = saveCouponHistory(coupon);
-        publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
+        saveCouponHistory(coupon);
     }
 
-    private Coupon getCoupon(Long couponId) {
+    private Coupon findCoupon(Long couponId) {
         return couponRepository.findById(couponId)
             .orElseThrow(CouponNotFoundException::new);
     }
@@ -104,9 +93,10 @@ public class CouponService {
         return foundMembers;
     }
 
-    private CouponHistory saveCouponHistory(Coupon savedCoupon) {
-        CouponHistory memberHistory = CouponHistory.ofNew(savedCoupon);
-        return couponHistoryRepository.save(memberHistory);
+    private void saveCouponHistory(Coupon savedCoupon) {
+        CouponHistory couponHistory = CouponHistory.ofNew(savedCoupon);
+        couponHistory = couponHistoryRepository.save(couponHistory);
+        publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
     }
 
     private Member findMember(Long memberId) {
