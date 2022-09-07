@@ -6,18 +6,22 @@ import static com.woowacourse.kkogkkog.acceptance.MemberAcceptanceTest.프로필
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.HashMap;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -25,22 +29,25 @@ import org.springframework.http.HttpStatus;
 public class AuthAcceptanceTest extends AcceptanceTest {
 
     private static final String AUTHORIZATION_CODE = "ABC123";
+    private static final String USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN";
 
     @Test
-    void 가입되지_않은_회원은_새로운_정보가_저장되고_로그인을_할_수_있다() {
-        TokenResponse tokenResponse = 회원가입_혹은_로그인을_한다(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
+    void 회원가입을_할_수_있다() {
+        String accessToken = 회원가입을_하고(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
 
-        assertThat(tokenResponse.getIsNew()).isTrue();
-        assertThat(tokenResponse.getAccessToken()).isNotBlank();
+        assertThat(accessToken).isNotBlank();
     }
 
     @Test
     void 가입된_회원은_로그인을_할_수_있다() {
-        회원가입을_하고(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
-        TokenResponse tokenResponse = 회원가입_혹은_로그인을_한다(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
+        회원가입을_하고(ROOKIE.getMember());
 
-        assertThat(tokenResponse.getIsNew()).isFalse();
-        assertThat(tokenResponse.getAccessToken()).isNotBlank();
+        TokenResponse tokenResponse = 로그인을_한다(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
+
+        Assertions.assertAll(
+            () -> assertThat(tokenResponse.getIsNew()).isFalse(),
+            () -> assertThat(tokenResponse.getAccessToken()).isNotBlank()
+        );
     }
 
     @Test
@@ -58,11 +65,24 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     public static String 회원가입을_하고(Member member) {
-        return 회원가입_혹은_로그인을_한다(member).getAccessToken();
+        given(slackClient.requestUserInfo(any()))
+            .willReturn(new SlackUserInfo(
+                member.getUserId(),
+                member.getWorkspace().getWorkspaceId(),
+                member.getWorkspace().getName(),
+                member.getNickname(),
+                member.getEmail(),
+                member.getImageUrl()));
+
+        ExtractableResponse<Response> response = 회원가입을_요청한다(
+            new MemberCreateRequest(USER_ACCESS_TOKEN, member.getNickname()));
+        return response.as(MemberCreateResponse.class).getAccessToken();
     }
 
-    public static TokenResponse 회원가입_혹은_로그인을_한다(Member member) {
-        given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+    public static TokenResponse 로그인을_한다(Member member) {
+        given(slackClient.requestAccessToken(AUTHORIZATION_CODE))
+            .willReturn(USER_ACCESS_TOKEN);
+        given(slackClient.requestUserInfo(USER_ACCESS_TOKEN))
             .willReturn(new SlackUserInfo(
                 member.getUserId(),
                 member.getWorkspace().getWorkspaceId(),
@@ -85,5 +105,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .willReturn(WorkspaceResponse.of(KKOGKKOG.getWorkspace()));
 
         return invokePost("/api/install/bot", new InstallSlackAppRequest(AUTHORIZATION_CODE));
+    }
+
+    static ExtractableResponse<Response> 회원가입을_요청한다(Object data) {
+        return invokePost("/api/sign-up", data);
     }
 }

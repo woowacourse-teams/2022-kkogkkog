@@ -3,6 +3,8 @@ package com.woowacourse.kkogkkog.auth.presentation;
 import com.woowacourse.kkogkkog.auth.application.AuthService;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +35,13 @@ public class AuthController {
         authService.installSlackApp(installSlackAppRequest.getCode());
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<MemberCreateResponse> save(@RequestBody MemberCreateRequest memberCreateRequest) {
+        Long id = authService.signUp(memberCreateRequest);
+        MemberCreateResponse memberCreateResponse = authService.loginByMemberId(id);
+
+        return ResponseEntity.created(null).body(memberCreateResponse);
     }
 }
