@@ -17,7 +17,7 @@ import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -221,7 +221,7 @@ class MemberServiceTest extends ServiceTest {
             Long memberId = memberRepository.save(ROOKIE.getMember(workspace)).getId();
             String expected = "새로운닉네임";
 
-            memberService.updateNickname(new MemberUpdateRequest(memberId, expected));
+            memberService.updateNickname(new MemberNicknameUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);

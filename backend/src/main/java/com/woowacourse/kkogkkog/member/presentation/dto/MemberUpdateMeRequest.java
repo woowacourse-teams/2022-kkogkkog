@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.member.presentation.dto;
 
-import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class MemberUpdateMeRequest {
         this.nickname = nickname;
     }
 
-    public MemberUpdateRequest toMemberUpdateRequest(Long memberId) {
-        return new MemberUpdateRequest(memberId, nickname.trim());
+    public MemberNicknameUpdateRequest toMemberUpdateRequest(Long memberId) {
+        return new MemberNicknameUpdateRequest(memberId, nickname.trim());
     }
 }

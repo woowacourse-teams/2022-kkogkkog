@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
@@ -110,11 +110,11 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void updateNickname(MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
+    public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
+        Member member = memberRepository.findById(memberNicknameUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
 
-        member.updateNickname(memberUpdateRequest.getNickname());
+        member.updateNickname(memberNicknameUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
