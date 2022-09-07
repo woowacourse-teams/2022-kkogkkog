@@ -14,12 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Table(name = "member_history")
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,12 +40,14 @@ public class MemberHistory {
     @JoinColumn(name = "target_member_id")
     private Member targetMember;
 
+    @Column(name = "coupon_id") // TODO: 버그 Fix 목적으로 임시 추가
     private Long couponId;
 
     @Enumerated(EnumType.STRING)
     private CouponType couponType;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "coupon_event") // TODO: 버그 Fix 목적으로 임시 추가
     private CouponEvent couponEvent;
 
     private LocalDateTime meetingDate;
