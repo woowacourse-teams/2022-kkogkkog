@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.coupon2.application;
 
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon2.application.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Service
+@Service(value = "couponService2")
 public class CouponService {
 
     private final MemberRepository memberRepository;
@@ -44,8 +45,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long couponId) {
-        Coupon coupon = couponRepository.findById(couponId)
-            .orElseThrow(CouponNotFoundException::new);
+        Coupon coupon = getCoupon(couponId);
         List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
             couponId);
         return CouponDetailResponse.of(coupon, memberHistories);
@@ -82,14 +82,18 @@ public class CouponService {
             .collect(Collectors.toList());
     }
 
-    private CouponHistory saveCouponHistory(Coupon savedCoupon) {
-        CouponHistory memberHistory = CouponHistory.ofNew(savedCoupon);
-        return couponHistoryRepository.save(memberHistory);
+    public void update(CouponEventRequest request) {
+        Member loginMember = findMember(request.getMemberId());
+        Coupon coupon = getCoupon(request.getCouponId());
+        coupon.changeState(request.toEvent(), loginMember);
+
+        CouponHistory couponHistory = saveCouponHistory(coupon);
+        publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
     }
 
-    private Member findMember(Long memberId) {
-        return memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+    private Coupon getCoupon(Long couponId) {
+        return couponRepository.findById(couponId)
+            .orElseThrow(CouponNotFoundException::new);
     }
 
     private List<Member> findReceivers(List<Long> memberIds) {
@@ -98,5 +102,15 @@ public class CouponService {
             throw new MemberNotFoundException();
         }
         return foundMembers;
+    }
+
+    private CouponHistory saveCouponHistory(Coupon savedCoupon) {
+        CouponHistory memberHistory = CouponHistory.ofNew(savedCoupon);
+        return couponHistoryRepository.save(memberHistory);
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
     }
 }
