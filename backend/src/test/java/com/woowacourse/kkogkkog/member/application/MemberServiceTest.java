@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.kkogkkog.support.application.ServiceTest;
-import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
@@ -62,22 +62,21 @@ class MemberServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("saveOrUpdate 메서드는")
-    class SaveOrUpdate {
+    @DisplayName("save 메서드는")
+    class Save {
 
         @Test
         @DisplayName("가입되지 않은 이메일 정보를 받으면 신규 회원과 워크스페이스 계정을 저장한다.")
         void initialSignUp() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo, workspace);
+            Long id = memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
             Optional<Member> savedMember = memberRepository.findByEmail("rookie@gmail.com");
             Optional<WorkspaceUser> savedWorkspaceUser = workspaceUserRepository.findByUserId(
                 "URookie");
 
             assertAll(
-                () -> assertThat(response.getId()).isNotNull(),
-                () -> assertThat(response.getIsNew()).isTrue(),
+                () -> assertThat(id).isNotNull(),
                 () -> assertThat(savedMember).isPresent(),
                 () -> assertThat(savedWorkspaceUser).isPresent()
             );
@@ -88,9 +87,8 @@ class MemberServiceTest extends ServiceTest {
         void signIn() {
             SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
                 "rookie@gmail.com", "image");
-            memberService.saveOrUpdate(slackUserInfo, workspace);
-
-            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo, workspace);
+            memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
+            MemberUpdateResponse response = memberService.update(slackUserInfo, workspace);
 
             assertAll(
                 () -> assertThat(response.getId()).isNotNull(),
@@ -106,8 +104,8 @@ class MemberServiceTest extends ServiceTest {
             SlackUserInfo slackUserInfo2 = new SlackUserInfo("URookie2", null, null, "루키",
                 "rookie@gmail.com", "image2");
 
-            memberService.saveOrUpdate(slackUserInfo, workspace);
-            MemberCreateResponse response = memberService.saveOrUpdate(slackUserInfo2, workspace);
+            memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
+            MemberUpdateResponse response = memberService.update(slackUserInfo2, workspace);
             Member savedMember = memberRepository.findByEmail("rookie@gmail.com").get();
             Optional<WorkspaceUser> integratedWorkspaceUser = workspaceUserRepository.findByUserId(
                 "URookie2");
@@ -214,8 +212,8 @@ class MemberServiceTest extends ServiceTest {
     }
 
     @Nested
-    @DisplayName("update 메서드는")
-    class Update {
+    @DisplayName("updateNickname 메서드는")
+    class UpdateNickname {
 
         @Test
         @DisplayName("사용자의 닉네임을 수정한다.")
@@ -223,7 +221,7 @@ class MemberServiceTest extends ServiceTest {
             Long memberId = memberRepository.save(ROOKIE.getMember(workspace)).getId();
             String expected = "새로운닉네임";
 
-            memberService.update(new MemberUpdateRequest(memberId, expected));
+            memberService.updateNickname(new MemberUpdateRequest(memberId, expected));
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);
