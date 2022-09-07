@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon2.application;
 
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.coupon2.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
@@ -34,6 +36,15 @@ public class CouponService {
         this.couponRepository = couponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.publisher = applicationEventPublisher;
+    }
+
+    @Transactional(readOnly = true)
+    public CouponDetailResponse find(Long couponId) {
+        Coupon coupon = couponRepository.findById(couponId)
+            .orElseThrow(CouponNotFoundException::new);
+        List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
+            couponId);
+        return CouponDetailResponse.of(coupon, memberHistories);
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
