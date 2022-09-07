@@ -108,6 +108,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 회원가입을_요청한다(Object data) {
-        return invokePost("/api/sign-up", data);
+        return invokePost("/api/signup/token", data);
     }
 }

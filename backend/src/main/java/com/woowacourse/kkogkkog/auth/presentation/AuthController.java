@@ -37,7 +37,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup/token")
     public ResponseEntity<MemberCreateResponse> save(@RequestBody MemberCreateRequest memberCreateRequest) {
         Long id = authService.signUp(memberCreateRequest);
         MemberCreateResponse memberCreateResponse = authService.loginByMemberId(id);
