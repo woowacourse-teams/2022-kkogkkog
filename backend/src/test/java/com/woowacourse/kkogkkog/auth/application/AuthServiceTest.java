@@ -26,7 +26,8 @@ class AuthServiceTest extends ServiceTest {
     private static final String AUTHORIZATION_CODE = "code";
     private static final String WORKSPACE_ID = "T03LX3C5540";
     private static final String WORKSPACE_NAME = "workspace_name";
-    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    private static final String USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN";
+    private static final String BOT_ACCESS_TOKEN = "BOT_ACCESS_TOKEN";
 
     @Autowired
     private AuthService authService;
@@ -40,7 +41,9 @@ class AuthServiceTest extends ServiceTest {
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
             WorkspaceResponse workspaceResponse = WorkspaceResponse.of(KKOGKKOG.getWorkspace());
-            given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+            given(slackClient.requestAccessToken(AUTHORIZATION_CODE))
+                .willReturn(USER_ACCESS_TOKEN);
+            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN))
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
@@ -58,7 +61,7 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("올바르지 않은 임시 코드를 입력하면, 예외를 던진다")
         void fail_invalidCode() {
-            given(slackClient.getUserInfoByCode("invalid_code"))
+            given(slackClient.requestAccessToken("invalid_code"))
                 .willThrow(new AccessTokenRetrievalFailedException());
 
             assertThatThrownBy(
@@ -76,7 +79,9 @@ class AuthServiceTest extends ServiceTest {
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
             WorkspaceResponse workspaceResponse = WorkspaceResponse.of(KKOGKKOG.getWorkspace());
-            given(slackClient.getUserInfoByCode(AUTHORIZATION_CODE))
+            given(slackClient.requestAccessToken(AUTHORIZATION_CODE))
+                .willReturn(USER_ACCESS_TOKEN);
+            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN))
                 .willReturn(
                     new SlackUserInfo(
                         memberResponse.getUserId(),
@@ -88,7 +93,7 @@ class AuthServiceTest extends ServiceTest {
             authService.login(AUTHORIZATION_CODE);
 
             given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, ACCESS_TOKEN));
+                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, BOT_ACCESS_TOKEN));
 
             assertThatNoException()
                 .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
