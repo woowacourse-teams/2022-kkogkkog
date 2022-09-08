@@ -22,9 +22,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
     @Column(nullable = false)
     private String userId;
 
@@ -35,8 +32,16 @@ public class Member {
     @Embedded
     private Nickname nickname;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String imageUrl;
+
+    public Member(String userId, Workspace workspace, Nickname nickname, String email,
+                  String imageUrl) {
+        this(null, userId, workspace, nickname, email, imageUrl);
+    }
 
     public Member(Long id, String userId, Workspace workspace, Nickname nickname, String email,
                   String imageUrl) {

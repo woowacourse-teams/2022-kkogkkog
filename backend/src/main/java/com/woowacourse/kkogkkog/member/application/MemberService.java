@@ -50,10 +50,8 @@ public class MemberService {
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
 
-        Member newMember = memberRepository.save(
-            new Member(null, userId, workspace, new Nickname(nickname), email, imageUrl));
-        workspaceUserRepository.save(
-            new WorkspaceUser(null, newMember, userId, workspace, nickname, email, imageUrl));
+        Member newMember = memberRepository.save(new Member( userId, workspace, new Nickname(nickname), email, imageUrl));
+        workspaceUserRepository.save(new WorkspaceUser( newMember, userId, workspace, nickname, email, imageUrl));
         return newMember.getId();
     }
 
