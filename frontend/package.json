@@ -8,7 +8,7 @@
     "build": " cross-env NODE_ENV=production webpack --progress --mode=production",
     "build:local": " cross-env NODE_ENV=local webpack --progress --mode=development",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=development",
-    "test": "jest",
+    "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
