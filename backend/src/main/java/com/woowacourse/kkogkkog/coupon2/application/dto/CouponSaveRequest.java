@@ -1,7 +1,6 @@
 package com.woowacourse.kkogkkog.coupon2.application.dto;
 
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon2.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon2.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.List;
@@ -31,13 +30,11 @@ public class CouponSaveRequest {
 
     public List<Coupon> toEntities(Member sender, List<Member> receivers) {
         return receivers.stream()
-            .map(receiver -> new Coupon(
-                sender,
-                receiver,
-                hashtag,
-                description,
-                CouponType.valueOf(couponType),
-                CouponState.ofReady()))
+            .map(receiver -> getCoupon(sender, receiver))
             .collect(Collectors.toList());
+    }
+
+    private Coupon getCoupon(Member sender, Member receiver) {
+        return new Coupon(sender, receiver, hashtag, description, CouponType.valueOf(couponType));
     }
 }

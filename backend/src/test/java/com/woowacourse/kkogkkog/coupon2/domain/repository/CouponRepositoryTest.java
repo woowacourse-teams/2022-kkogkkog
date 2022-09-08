@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.coupon2.domain.repository;
 
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture2.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
@@ -7,8 +8,6 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon2.domain.CouponState;
-import com.woowacourse.kkogkkog.coupon2.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -47,16 +46,13 @@ class CouponRepositoryTest {
             receiver2 = memberRepository.save(RECEIVER2.getMember(workspace));
         }
 
-        // TODO: fixture로 대체 필요. 정렬 검증도 추가하면 이상적일 듯?
+        // TODO: 정렬 검증도 추가하면 이상적일 듯?
         @DisplayName("보낸 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
         @Test
         void findAllBySender() {
-            couponRepository.save(new Coupon(sender, receiver, "hashtag", "description",
-                    CouponType.COFFEE, CouponState.ofReady()));
-            couponRepository.save(new Coupon(sender, receiver2, "hashtag", "description",
-                CouponType.COFFEE, CouponState.ofReady()));
-            couponRepository.save(new Coupon(receiver, sender, "hashtag", "description",
-                CouponType.COFFEE, CouponState.ofReady()));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver2));
+            couponRepository.save(COFFEE.getCoupon(receiver, sender));
             couponRepository.flush();
 
             List<Coupon> actual = couponRepository.findAllBySender(sender);

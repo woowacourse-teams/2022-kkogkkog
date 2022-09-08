@@ -50,11 +50,6 @@ public class Coupon extends BaseEntity {
     @Embedded
     private CouponState couponState;
 
-    public Coupon(Member sender, Member receiver, String hashtag, String description,
-                  CouponType couponType, CouponState couponState) {
-        this(null, sender, receiver, hashtag, description, couponType, couponState);
-    }
-
     public Coupon(Long id, Member sender, Member receiver, String hashtag, String description,
                   CouponType couponType, CouponState couponState) {
         validateSameMember(sender, receiver);
@@ -65,6 +60,11 @@ public class Coupon extends BaseEntity {
         this.description = description;
         this.couponType = couponType;
         this.couponState = couponState;
+    }
+
+    public Coupon(Member sender, Member receiver, String hashtag, String description,
+                  CouponType couponType) {
+        this(null, sender, receiver, hashtag, description, couponType, CouponState.ofReady());
     }
 
     private void validateSameMember(Member sender, Member receiver) {
