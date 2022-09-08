@@ -19,13 +19,13 @@ export const useSlackOAuthLogin = () => {
         const { isNew, accessToken } = response.data;
 
         if (isNew) {
+          localStorage.setItem('slack-signup-token', accessToken);
+
           navigate(PATH.JOIN);
-
-          localStorage.setItem('slack-oauth-token', accessToken);
         } else {
-          navigate(PATH.LANDING, { replace: true });
-
           localStorage.setItem('user-token', accessToken);
+
+          navigate(PATH.LANDING, { replace: true });
 
           displayMessage('로그인에 성공하였습니다.', false);
         }
