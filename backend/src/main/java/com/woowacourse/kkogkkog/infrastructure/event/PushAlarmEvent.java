@@ -9,13 +9,16 @@ import lombok.Getter;
 @Getter
 public class PushAlarmEvent {
 
+    private static final String WOOWACOURSE_WORKSPACE_ID = "TFELTJB7V";
+    private final String workspaceId;
     private final String botAccessToken;
     private final String hostMemberId;
     private final String message;
     private final CouponEvent couponEvent;
 
-    public PushAlarmEvent(String botAccessToken, String hostMemberId, String message,
+    public PushAlarmEvent(String workspaceId, String botAccessToken, String hostMemberId, String message,
                           CouponEvent couponEvent) {
+        this.workspaceId = workspaceId;
         this.botAccessToken = botAccessToken;
         this.hostMemberId = hostMemberId;
         this.message = message;
@@ -25,7 +28,7 @@ public class PushAlarmEvent {
     public static PushAlarmEvent of(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
         Workspace workspace = hostMember.getWorkspace();
-        return new PushAlarmEvent(workspace.getAccessToken(), hostMember.getUserId(),
+        return new PushAlarmEvent(workspace.getWorkspaceId(), workspace.getAccessToken(), hostMember.getUserId(),
             memberHistory.toNoticeMessage(), memberHistory.getCouponEvent());
     }
 
@@ -35,5 +38,9 @@ public class PushAlarmEvent {
 
     public boolean hasBotAccessToken() {
         return botAccessToken != null;
+    }
+
+    public boolean isWoowacourseWorkspace() {
+        return WOOWACOURSE_WORKSPACE_ID.equals(workspaceId);
     }
 }
