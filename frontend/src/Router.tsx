@@ -29,7 +29,7 @@ export const PATH = {
   COUPON_CREATE: '/coupon-list/create',
   LOGIN: '/login',
   LOGIN_REDIRECT: '/login/redirect',
-  JOIN: '/join',
+  SIGNUP: '/signup',
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
@@ -54,7 +54,7 @@ const Router = () => {
         }
       />
       <Route path={PATH.LOGIN} element={<LoginPage />} />
-      <Route path={PATH.JOIN} element={<JoinPage />} />
+      <Route path={PATH.SIGNUP} element={<JoinPage />} />
       <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
       <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
       <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
