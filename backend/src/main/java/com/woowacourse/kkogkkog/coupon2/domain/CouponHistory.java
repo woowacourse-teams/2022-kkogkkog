@@ -81,6 +81,11 @@ public class CouponHistory {
         return new CouponHistory(historyHostMember, coupon.getSender(), coupon, initEvent, null);
     }
 
+    public static CouponHistory of(Member loginMember, Coupon coupon, CouponEvent event, String message) {
+        Member historyHostMember = coupon.getOppositeMember(loginMember);
+        return new CouponHistory(historyHostMember, loginMember, coupon, event, message);
+    }
+
     public void updateIsRead() {
         isRead = true;
     }

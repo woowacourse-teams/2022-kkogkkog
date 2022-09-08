@@ -6,6 +6,7 @@ import com.woowacourse.kkogkkog.coupon2.application.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon2.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon2.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponRepository;
@@ -68,16 +69,17 @@ public class CouponService {
         List<Member> receivers = findReceivers(request.getReceiverIds());
         List<Coupon> coupons = request.toEntities(sender, receivers);
         return couponRepository.saveAll(coupons).stream()
-            .peek(this::saveCouponHistory)
+            .peek(it -> saveCouponHistory(CouponHistory.ofNew(it)))
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
 
     public void update(CouponEventRequest request) {
+        CouponEvent event = request.toEvent();
         Member loginMember = findMember(request.getMemberId());
         Coupon coupon = findCoupon(request.getCouponId());
-        coupon.changeState(request.toEvent(), loginMember);
-        saveCouponHistory(coupon);
+        coupon.changeState(event, loginMember);
+        saveCouponHistory(CouponHistory.of(loginMember, coupon, event, request.getMessage()));
     }
 
     private Coupon findCoupon(Long couponId) {
@@ -93,8 +95,7 @@ public class CouponService {
         return foundMembers;
     }
 
-    private void saveCouponHistory(Coupon savedCoupon) {
-        CouponHistory couponHistory = CouponHistory.ofNew(savedCoupon);
+    private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
         publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
     }
