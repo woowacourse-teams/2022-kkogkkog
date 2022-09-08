@@ -4,8 +4,9 @@ import { MeResponse } from './response';
 
 export type EditMeRequest = Pick<MeResponse, 'nickname'>;
 
-export interface JoinRequest {
+export interface SignupRequest {
   nickname: string;
+  accessToken: string;
 }
 
 export interface LoginRequest {

@@ -9,7 +9,6 @@ import {
   getMe,
   getUserHistoryList,
   getUserList,
-  join,
   login,
   OAuthLogin,
   readAllHistory,
@@ -18,6 +17,7 @@ import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
 import { useTokenMutation } from '../@common/useTokenMutation';
+import { signUpToken } from './../../apis/user';
 
 const QUERY_KEY = {
   me: 'me',
@@ -107,10 +107,12 @@ export const useSlackOAuthLoginMutation = () => {
   });
 };
 
-export const useJoinMutation = () => {
-  return useMutation(join, {
+export const useSignupMutation = () => {
+  return useMutation(signUpToken, {
     onSuccess(response) {
       const { accessToken } = response.data;
+
+      localStorage.removeItem('slack-signup-token');
 
       localStorage.setItem('user-token', accessToken);
 

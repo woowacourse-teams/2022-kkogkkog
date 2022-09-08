@@ -7,7 +7,8 @@ import { useToast } from '@/@hooks/@common/useToast';
 import { PATH } from '@/Router';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
-import { useJoinMutation, useLoginMutation } from '../@queries/user';
+import { useLoginMutation } from '../@queries/user';
+import { useSignupMutation } from './../@queries/user';
 
 type UseAuthenticateFormProps = {
   defaultEmail?: string;
@@ -33,11 +34,17 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
   const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
 
-  const joinMutate = useJoinMutation();
+  const signupMutate = useSignupMutation();
   const loginMutate = useLoginMutation();
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
+
+    const slackSignupToken = localStorage.getItem('slack-signup-token');
+
+    if (!slackSignupToken) {
+      return;
+    }
 
     if (!name.match(nicknameRegularExpression)) {
       displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)', true);
@@ -45,9 +52,10 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       return;
     }
 
-    joinMutate.mutate(
+    signupMutate.mutate(
       {
         nickname: name,
+        accessToken: slackSignupToken,
       },
       {
         onSuccess() {

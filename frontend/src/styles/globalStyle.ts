@@ -1,10 +1,6 @@
 import { css } from '@emotion/react';
 
 const globalStyle = css`
-  :root {
-    --vh: 100%;
-  }
-
   * {
     margin: 0;
     padding: 0;
