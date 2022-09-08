@@ -34,7 +34,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
   const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
 
-  const joinMutate = useSignupMutation();
+  const signupMutate = useSignupMutation();
   const loginMutate = useLoginMutation();
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
@@ -52,7 +52,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       return;
     }
 
-    joinMutate.mutate(
+    signupMutate.mutate(
       {
         nickname: name,
         accessToken: slackSignupToken,
