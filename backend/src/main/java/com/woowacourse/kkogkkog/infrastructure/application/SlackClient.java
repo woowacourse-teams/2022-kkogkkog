@@ -1,14 +1,12 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.auth.exception.AccessTokenRequestFailedException;
-import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
-import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.BotTokenResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -30,7 +28,6 @@ public class SlackClient {
     private static final String LOGIN_URI = "https://slack.com/api/openid.connect.token";
     private static final String LOGIN_USER_INFO_URI = "https://slack.com/api/openid.connect.userInfo";
     private static final String BOT_TOKEN_URI = "https://slack.com/api/oauth.v2.access";
-    private static final String MESSAGE_URI = "https://slack.com/api/chat.postMessage";
     private static final String CODE_PARAMETER = "code";
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
@@ -43,7 +40,6 @@ public class SlackClient {
     private final WebClient oAuthLoginClient;
     private final WebClient userClient;
     private final WebClient botTokenClient;
-    private final WebClient messageClient;
     private final String loginRedirectUrl;
     private final String botTokenRedirectUrl;
 
@@ -52,7 +48,6 @@ public class SlackClient {
                        @Value(LOGIN_URI) String oAuthLoginUri,
                        @Value(LOGIN_USER_INFO_URI) String userInfoUri,
                        @Value(BOT_TOKEN_URI) String botTokenUri,
-                       @Value(MESSAGE_URI) String messageUri,
                        @Value("${security.slack.redirect.login}") String loginRedirectUrl,
                        @Value("${security.slack.redirect.bot-token}") String botTokenRedirectUrl,
                        WebClient webClient) {
@@ -61,7 +56,6 @@ public class SlackClient {
         this.oAuthLoginClient = toWebClient(webClient, oAuthLoginUri);
         this.userClient = toWebClient(webClient, userInfoUri);
         this.botTokenClient = toWebClient(webClient, botTokenUri);
-        this.messageClient = toWebClient(webClient, messageUri);
         this.loginRedirectUrl = loginRedirectUrl;
         this.botTokenRedirectUrl = botTokenRedirectUrl;
     }
@@ -132,25 +126,6 @@ public class SlackClient {
             throw new BotInstallationFailedException(response.getError());
         }
         return response;
-    }
-
-    public void requestPushAlarm(String token, String userId, String message) {
-        try {
-            Map<String, Object> responseBody = messageClient
-                .post()
-                .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
-                .bodyValue(PushAlarmRequest.of(userId, message))
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
-                .blockOptional()
-                .orElseThrow(PostMessageRequestFailedException::new);
-            if (responseBody.get("ok").equals("false")) {
-                throw new PostMessageRequestFailedException((String) responseBody.get("error"));
-            }
-        } catch (PostMessageRequestFailedException e) {
-            log.info("Exception has been thrown : ", e);
-        }
     }
 
     private URI toRequestTokenUri(UriBuilder uriBuilder, String code, String redirectUri) {

@@ -127,23 +127,11 @@ class SlackClientTest {
             .isInstanceOf(BotInstallationFailedException.class);
     }
 
-    @Test
-    @DisplayName("슬랙 서버로 푸쉬 알람 요청을 보낸다.")
-    void requestPushAlarm() throws IOException {
-        MockWebServer mockWebServer = new MockWebServer();
-        mockWebServer.start();
-        setUpResponse(mockWebServer, POST_MESSAGE_RESPONSE);
-        SlackClient slackClient = buildMockSlackClient(mockWebServer);
-
-        assertThatNoException().isThrownBy(() ->
-            slackClient.requestPushAlarm(BOT_ACCESS_TOKEN, USER_ID, MESSAGE));
-    }
-
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {
         String mockWebClientURI = String.format("http://%s:%s",
             mockWebServer.getHostName(), mockWebServer.getPort());
         return new SlackClient("clientId", "secretId", mockWebClientURI, mockWebClientURI,
-            mockWebClientURI, mockWebClientURI, mockWebClientURI, mockWebClientURI, WebClient.create());
+            mockWebClientURI, mockWebClientURI, mockWebClientURI, WebClient.create());
     }
 
     private void setUpResponse(MockWebServer mockWebServer, String responseBody) {
