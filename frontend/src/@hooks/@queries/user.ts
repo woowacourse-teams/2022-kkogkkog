@@ -95,9 +95,24 @@ export const useEditMeMutation = () => {
 };
 
 export const useSlackOAuthLoginMutation = () => {
+  const { displayMessage } = useToast();
+
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(OAuthLogin, {
+    onSuccess(response) {
+      const { isNew, accessToken } = response.data;
+
+      if (isNew) {
+        localStorage.setItem('slack-signup-token', accessToken);
+      } else {
+        localStorage.setItem('user-token', accessToken);
+
+        client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+        displayMessage('로그인에 성공하였습니다.', false);
+      }
+    },
     onMutate() {
       showLoading();
     },
