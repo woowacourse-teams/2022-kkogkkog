@@ -4,7 +4,9 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 
 public enum WorkspaceFixture {
 
-    KKOGKKOG("ABC1234", "Kkogkkog", "xoxb-bot-access-token");
+    KKOGKKOG("ABC1234", "Kkogkkog", "xoxb-bot-access-token"),
+    WOOWACOURSE("TFELTJB7V", "Kkogkkog", "xoxb-bot-access-token")
+    ;
 
     private final String workspaceId;
     private final String name;
