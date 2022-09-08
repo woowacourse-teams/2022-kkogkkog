@@ -30,6 +30,10 @@ public class PushAlarmEvent {
     }
 
     public boolean shouldNotSendPushAlarm() {
-        return botAccessToken == null || couponEvent == CouponEvent.FINISH;
+        return couponEvent == CouponEvent.FINISH;
+    }
+
+    public boolean hasBotAccessToken() {
+        return botAccessToken != null;
     }
 }
