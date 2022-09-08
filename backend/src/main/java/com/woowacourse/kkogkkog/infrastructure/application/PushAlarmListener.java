@@ -26,10 +26,12 @@ public class PushAlarmListener {
         String accessToken = pushAlarmEvent.getBotAccessToken();
         String hostMemberId = pushAlarmEvent.getHostMemberId();
         String message = pushAlarmEvent.getMessage();
+        if (pushAlarmEvent.isWoowacourseWorkspace()) {
+            woowacoursePushAlarmClient.requestPushAlarm(accessToken, hostMemberId, message);
+        }
         if (pushAlarmEvent.hasBotAccessToken()) {
             commonPushAlarmClient.requestPushAlarm(accessToken, hostMemberId, message);
-            return;
         }
-        woowacoursePushAlarmClient.requestPushAlarm(accessToken, hostMemberId, message);
+
     }
 }
