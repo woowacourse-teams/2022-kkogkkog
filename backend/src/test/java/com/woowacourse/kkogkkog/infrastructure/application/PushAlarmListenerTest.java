@@ -49,15 +49,19 @@ public class PushAlarmListenerTest {
     @Autowired
     ReservationRepository reservationRepository;
     @MockBean
-    SlackClient slackClient;
+    CommonPushAlarmClient commonPushAlarmClient;
+    @MockBean
+    WoowacoursePushAlarmClient woowacoursePushAlarmClient;
 
     @Nested
     @DisplayName("sendNotification 메서드는")
     class SendNotification {
 
         private Workspace workspace;
+        private Workspace workspace2;
         private Member sender;
         private Member receiver;
+        private Member receiver2;
         private Coupon coupon;
         private Reservation reservation;
         private ReservationSaveRequest reservationSaveRequest;
@@ -66,8 +70,11 @@ public class PushAlarmListenerTest {
         @BeforeEach
         void setUp() {
             workspace = workspaceRepository.save(WorkspaceFixture.KKOGKKOG.getWorkspace(1L));
+            workspace2 = workspaceRepository.save(
+                WorkspaceFixture.KKOGKKOG.getWorkspace(2L, null));
             sender = memberRepository.save(MemberFixture.SENDER.getMember(workspace));
             receiver = memberRepository.save(MemberFixture.RECEIVER.getMember(workspace));
+            receiver2 = memberRepository.save(MemberFixture.RECEIVER2.getMember(workspace2));
         }
 
         @Test
@@ -76,9 +83,20 @@ public class PushAlarmListenerTest {
             couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(commonPushAlarmClient, Mockito.timeout(1000))
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
                     "`"+sender.getNickname() + "` 님이 `커피` 쿠폰을 *보냈어요*\uD83D\uDC4B");
+        }
+
+        @Test
+        @DisplayName("쿠폰을 생성할 때, 받는 사람의 워크스페이스에 봇 토큰이 없으면 WoowaCorsePushAlarmClient로 Push 알림을 보낸다.")
+        void success_couponSave_woowacourse() {
+            couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver2.getId())));
+
+            Mockito.verify(woowacoursePushAlarmClient, Mockito.timeout(1000))
+                .requestPushAlarm(workspace2.getAccessToken(), receiver2.getUserId(),
+                    "`" + sender.getNickname() + "` 님이 `커피` 쿠폰을 *보냈어요*\uD83D\uDC4B");
         }
 
         @Test
@@ -89,7 +107,7 @@ public class PushAlarmListenerTest {
                 LocalDate.now());
 
             reservationService.save(reservationSaveRequest);
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(commonPushAlarmClient, Mockito.timeout(1000))
                 .requestPushAlarm(workspace.getAccessToken(), sender.getUserId(),
                     "`" + receiver.getNickname() + "` 님이 `커피` 쿠폰 사용을 *요청했어요*🙏");
         }
@@ -103,7 +121,7 @@ public class PushAlarmListenerTest {
 
             reservationService.update(reservationUpdateRequest);
 
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(commonPushAlarmClient, Mockito.timeout(1000))
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
                     "`" + sender.getNickname() + "` 님이 `커피` 쿠폰 사용을 *승인했어요*\uD83D\uDE00");
         }

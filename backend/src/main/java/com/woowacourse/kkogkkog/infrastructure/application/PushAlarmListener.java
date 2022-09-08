@@ -8,10 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class PushAlarmListener {
 
-    private final SlackClient slackClient;
+    private final CommonPushAlarmClient commonPushAlarmClient;
+    private final WoowacoursePushAlarmClient woowacoursePushAlarmClient;
 
-    public PushAlarmListener(SlackClient slackClient) {
-        this.slackClient = slackClient;
+    public PushAlarmListener(CommonPushAlarmClient commonPushAlarmClient,
+                             WoowacoursePushAlarmClient woowacoursePushAlarmClient) {
+        this.commonPushAlarmClient = commonPushAlarmClient;
+        this.woowacoursePushAlarmClient = woowacoursePushAlarmClient;
     }
 
     @EventListener
@@ -23,6 +26,10 @@ public class PushAlarmListener {
         String accessToken = pushAlarmEvent.getBotAccessToken();
         String hostMemberId = pushAlarmEvent.getHostMemberId();
         String message = pushAlarmEvent.getMessage();
-        slackClient.requestPushAlarm(accessToken, hostMemberId, message);
+        if (pushAlarmEvent.hasBotAccessToken()) {
+            commonPushAlarmClient.requestPushAlarm(accessToken, hostMemberId, message);
+            return;
+        }
+        woowacoursePushAlarmClient.requestPushAlarm(accessToken, hostMemberId, message);
     }
 }
