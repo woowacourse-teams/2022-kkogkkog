@@ -22,8 +22,6 @@ export const useSlackOAuthLogin = () => {
           navigate(PATH.SIGNUP);
         } else {
           navigate(PATH.LANDING, { replace: true });
-
-          displayMessage('로그인에 성공하였습니다.', false);
         }
       },
       onError(error) {
