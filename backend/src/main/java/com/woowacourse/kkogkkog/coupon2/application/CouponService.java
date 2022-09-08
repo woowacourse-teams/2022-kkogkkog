@@ -75,7 +75,7 @@ public class CouponService {
     }
 
     public void update(CouponEventRequest request) {
-        CouponEvent event = request.toEvent();
+        CouponEvent event = request.getEvent();
         Member loginMember = findMember(request.getMemberId());
         Coupon coupon = findCoupon(request.getCouponId());
         coupon.changeState(event, loginMember);
