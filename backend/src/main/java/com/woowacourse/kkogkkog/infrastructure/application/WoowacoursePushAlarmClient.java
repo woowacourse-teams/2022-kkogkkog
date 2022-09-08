@@ -38,10 +38,7 @@ public class WoowacoursePushAlarmClient implements PushAlarmClient {
                 .onStatus(HttpStatus::isError,
                     status -> Mono.error(new PostMessageRequestFailedException(
                         String.format(POST_MESSAGE_FAILED_CAUSE_FORMAT, status.statusCode(), userId,
-                            message))))
-                .toBodilessEntity()
-                .blockOptional()
-                .orElseThrow(PostMessageRequestFailedException::new);
+                            message))));
         } catch (PostMessageRequestFailedException e) {
             log.info("Exception has been thrown : ", e);
         }
