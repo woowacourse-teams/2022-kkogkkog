@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberCreateResponse {
+public class MemberUpdateResponse {
 
     private Long id;
     private Boolean isNew;
 
-    public MemberCreateResponse(Long id, Boolean isNew) {
+    public MemberUpdateResponse(Long id, Boolean isNew) {
         this.id = id;
         this.isNew = isNew;
     }

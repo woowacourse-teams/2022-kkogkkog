@@ -2,10 +2,10 @@ package com.woowacourse.kkogkkog.member.application;
 
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
@@ -39,20 +39,34 @@ public class MemberService {
         this.memberHistoryRepository = memberHistoryRepository;
     }
 
-    public MemberCreateResponse saveOrUpdate(SlackUserInfo userInfo, Workspace workspace) {
+    public boolean existsMember(SlackUserInfo userInfo) {
+        String email = userInfo.getEmail();
+        return memberRepository.findByEmail(email)
+            .isPresent();
+    }
+
+    public Long save(SlackUserInfo userInfo, Workspace workspace, String nickname) {
+        String userId = userInfo.getUserId();
+        String email = userInfo.getEmail();
+        String imageUrl = userInfo.getPicture();
+
+        Member newMember = memberRepository.save(new Member( userId, workspace, new Nickname(nickname), email, imageUrl));
+        workspaceUserRepository.save(new WorkspaceUser( newMember, userId, workspace, nickname, email, imageUrl));
+        return newMember.getId();
+    }
+
+    public MemberUpdateResponse update(SlackUserInfo userInfo, Workspace workspace) {
         String userId = userInfo.getUserId();
         Optional<WorkspaceUser> workspaceUser = workspaceUserRepository.findByUserId(userId);
         if (workspaceUser.isPresent()) {
             return updateExistingMember(userInfo, workspaceUser.get(), workspace);
         }
-        Optional<Member> member = memberRepository.findByEmail(userInfo.getEmail());
-        if (member.isPresent()) {
-            return integrateNewWorkspaceUser(userInfo, member.get(), workspace);
-        }
-        return saveNewMember(userInfo, workspace);
+        Member member = memberRepository.findByEmail(userInfo.getEmail())
+            .orElseThrow(MemberNotFoundException::new);
+        return integrateNewWorkspaceUser(userInfo, member, workspace);
     }
 
-    private MemberCreateResponse updateExistingMember(SlackUserInfo userInfo,
+    private MemberUpdateResponse updateExistingMember(SlackUserInfo userInfo,
                                                       WorkspaceUser workspaceUser,
                                                       Workspace workspace) {
         workspaceUser.updateDisplayName(userInfo.getName());
@@ -62,10 +76,10 @@ public class MemberService {
         member.updateMainSlackUserId(userInfo.getUserId());
         member.updateImageURL(userInfo.getPicture());
         member.updateWorkspace(workspace);
-        return new MemberCreateResponse(member.getId(), false);
+        return new MemberUpdateResponse(member.getId(), false);
     }
 
-    private MemberCreateResponse integrateNewWorkspaceUser(SlackUserInfo userInfo,
+    private MemberUpdateResponse integrateNewWorkspaceUser(SlackUserInfo userInfo,
                                                            Member existingMember,
                                                            Workspace workspace) {
         existingMember.updateMainSlackUserId(userInfo.getUserId());
@@ -74,20 +88,7 @@ public class MemberService {
         workspaceUserRepository.save(
             new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
                 userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
-        return new MemberCreateResponse(existingMember.getId(), false);
-    }
-
-    private MemberCreateResponse saveNewMember(SlackUserInfo userInfo, Workspace workspace) {
-        String userId = userInfo.getUserId();
-        String nickname = userInfo.getName();
-        String email = userInfo.getEmail();
-        String imageUrl = userInfo.getPicture();
-
-        Member newMember = memberRepository.save(
-            new Member(null, userId, workspace, Nickname.ofRandom(), email, imageUrl));
-        workspaceUserRepository.save(
-            new WorkspaceUser(null, newMember, userId, workspace, nickname, email, imageUrl));
-        return new MemberCreateResponse(newMember.getId(), true);
+        return new MemberUpdateResponse(existingMember.getId(), false);
     }
 
     @Transactional(readOnly = true)
@@ -107,11 +108,11 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void update(MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
+    public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
+        Member member = memberRepository.findById(memberNicknameUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
 
-        member.updateNickname(memberUpdateRequest.getNickname());
+        member.updateNickname(memberNicknameUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {

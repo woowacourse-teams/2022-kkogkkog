@@ -37,8 +37,8 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         Workspace workspace = KKOGKKOG.getWorkspace(1L);
         Member rookie = ROOKIE.getMember(1L, workspace);
         Member author = AUTHOR.getMember(2L, workspace);
-        회원가입_및_닉네임을_수정하고(rookie);
-        회원가입_및_닉네임을_수정하고(author);
+        회원가입을_하고(rookie);
+        회원가입을_하고(author);
 
         ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
@@ -56,7 +56,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     void 로그인한_경우_본인의_정보를_조회할_수_있다() {
         Workspace workspace = KKOGKKOG.getWorkspace();
         Member rookie = ROOKIE.getMember(1L, workspace);
-        String rookieAccessToken = 회원가입_및_닉네임을_수정하고(rookie);
+        String rookieAccessToken = 회원가입을_하고(rookie);
         회원가입을_하고(AUTHOR.getMember(workspace));
 
         ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);

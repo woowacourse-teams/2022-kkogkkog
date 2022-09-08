@@ -1,14 +1,16 @@
 package com.woowacourse.kkogkkog.auth.application;
 
+import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.member.application.MemberService;
-import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,14 +32,28 @@ public class AuthService {
         this.slackClient = slackClient;
     }
 
-    public TokenResponse login(String code) {
-        SlackUserInfo userInfo = slackClient.getUserInfoByCode(code);
+    public Long signUp(MemberCreateRequest memberCreateRequest) {
+        String accessToken = memberCreateRequest.getAccessToken();
+        SlackUserInfo userInfo = slackClient.requestUserInfo(accessToken);
         Workspace workspace = getWorkspace(userInfo);
-        MemberCreateResponse memberCreateResponse = memberService.saveOrUpdate(userInfo, workspace);
+        String nickname = memberCreateRequest.getNickname();
+        return memberService.save(userInfo, workspace, nickname);
+    }
 
-        return new TokenResponse(
-            jwtTokenProvider.createToken(memberCreateResponse.getId().toString()),
-            memberCreateResponse.getIsNew());
+    public TokenResponse login(String code) {
+        String accessToken = slackClient.requestAccessToken(code);
+        SlackUserInfo userInfo = slackClient.requestUserInfo(accessToken);
+        Workspace workspace = getWorkspace(userInfo);
+        if (memberService.existsMember(userInfo)) {
+            MemberUpdateResponse memberUpdateResponse = memberService.update(userInfo, workspace);
+            return new TokenResponse(
+                jwtTokenProvider.createToken(memberUpdateResponse.getId().toString()), false);
+        }
+        return new TokenResponse(accessToken, true);
+    }
+
+    public MemberCreateResponse loginByMemberId(Long id) {
+        return new MemberCreateResponse(jwtTokenProvider.createToken(id.toString()));
     }
 
     private Workspace getWorkspace(SlackUserInfo userInfo) {

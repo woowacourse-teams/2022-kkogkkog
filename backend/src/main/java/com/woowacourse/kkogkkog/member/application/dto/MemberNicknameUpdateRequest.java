@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MemberUpdateRequest {
+public class MemberNicknameUpdateRequest {
 
     private Long memberId;
     private String nickname;
 
-    public MemberUpdateRequest(Long memberId, String nickname) {
+    public MemberNicknameUpdateRequest(Long memberId, String nickname) {
         this.memberId = memberId;
         this.nickname = nickname;
     }
