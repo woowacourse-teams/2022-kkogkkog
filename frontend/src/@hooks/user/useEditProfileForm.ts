@@ -2,11 +2,15 @@ import { FormEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
+import { useToast } from '@/@hooks/@common/useToast';
 import { useEditMeMutation, useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
+import { nicknameRegularExpression } from '@/utils/regularExpression';
 
-const useEditProfileForm = ({ type }: { type: 'join' | null }) => {
+const useEditProfileForm = () => {
   const navigate = useNavigate();
+
+  const { displayMessage } = useToast();
 
   const [nickname, onChangeNickname, setNickname] = useInput('');
 
@@ -23,7 +27,11 @@ const useEditProfileForm = ({ type }: { type: 'join' | null }) => {
     e.preventDefault();
 
     if (nickname === me?.nickname) {
-      navigate(PATH[type === 'join' ? 'LANDING' : 'PROFILE'], { replace: true });
+      return;
+    }
+
+    if (!nickname.match(nicknameRegularExpression)) {
+      displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)', true);
 
       return;
     }
@@ -32,7 +40,9 @@ const useEditProfileForm = ({ type }: { type: 'join' | null }) => {
       { nickname },
       {
         onSuccess() {
-          navigate(PATH[type === 'join' ? 'LANDING' : 'PROFILE'], { replace: true });
+          displayMessage('닉네임이 변경되었습니다', false);
+
+          navigate(PATH.PROFILE, { replace: true });
         },
       }
     );

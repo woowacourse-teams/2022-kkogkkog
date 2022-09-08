@@ -6,8 +6,6 @@ export type EditMeRequest = Pick<MeResponse, 'nickname'>;
 
 export interface JoinRequest {
   nickname: string;
-  email: string;
-  password: string;
 }
 
 export interface LoginRequest {
