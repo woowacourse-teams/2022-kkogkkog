@@ -53,10 +53,13 @@ const Header = (props: HeaderProps) => {
             align-items: center;
           `}
         >
-          <Link to={PATH.USER_HISTORY} state={{ shouldRefetch: true }}>
-            <Icon iconName='notification' size='26' color={'transparent'} />
-          </Link>
-          {me?.unReadCount !== 0 && (
+          {me && (
+            <Link to={PATH.USER_HISTORY} state={{ shouldRefetch: true }}>
+              <Icon iconName='notification' size='26' color={'transparent'} />
+            </Link>
+          )}
+
+          {me && me?.unReadCount !== 0 && (
             <Position position='absolute' top='0' right='0'>
               <Styled.Bell />
             </Position>
