@@ -23,4 +23,8 @@ public enum WorkspaceFixture {
     public Workspace getWorkspace(Long id) {
         return new Workspace(id, workspaceId, name, accessToken);
     }
+
+    public Workspace getWorkspace(Long id, String accessToken) {
+        return new Workspace(id, workspaceId, name, accessToken);
+    }
 }
