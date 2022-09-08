@@ -10,6 +10,7 @@ import lombok.Getter;
 public class PushAlarmEvent {
 
     private static final String WOOWACOURSE_WORKSPACE_ID = "TFELTJB7V";
+
     private final String workspaceId;
     private final String botAccessToken;
     private final String hostMemberId;
