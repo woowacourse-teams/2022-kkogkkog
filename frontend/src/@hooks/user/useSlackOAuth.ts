@@ -16,18 +16,12 @@ export const useSlackOAuthLogin = () => {
   const loginBySlackOAuth = (slackOAuthCode: string) => {
     loginMutate.mutate(slackOAuthCode, {
       onSuccess(response) {
-        const { isNew, accessToken } = response.data;
+        const { isNew } = response.data;
 
         if (isNew) {
-          localStorage.setItem('slack-signup-token', accessToken);
-
-          navigate(PATH.JOIN);
+          navigate(PATH.SIGNUP);
         } else {
-          localStorage.setItem('user-token', accessToken);
-
           navigate(PATH.LANDING, { replace: true });
-
-          displayMessage('로그인에 성공하였습니다.', false);
         }
       },
       onError(error) {
