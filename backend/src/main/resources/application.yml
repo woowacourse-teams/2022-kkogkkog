@@ -33,3 +33,8 @@ security:
     redirect:
       login: "https://abc.com/login/redirect"
       bot-token: "https://abc.com/download/redirect"
+    workspace:
+      woowacourse:
+        request-url: "https://sample.woowacourse.com"
+        token: "aaa.bbb.ccc"
+
