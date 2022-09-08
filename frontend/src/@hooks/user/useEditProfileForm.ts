@@ -5,6 +5,7 @@ import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useEditMeMutation, useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
+import { nicknameRegularExpression } from '@/utils/regularExpression';
 
 const useEditProfileForm = () => {
   const navigate = useNavigate();
@@ -26,12 +27,10 @@ const useEditProfileForm = () => {
     e.preventDefault();
 
     if (nickname === me?.nickname) {
-      navigate(PATH.PROFILE, { replace: true });
-
       return;
     }
 
-    if (!nickname.match(/^[가-힣a-zA-Z0-9]{1,6}$/)) {
+    if (!nickname.match(nicknameRegularExpression)) {
       displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)', true);
 
       return;

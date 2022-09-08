@@ -40,7 +40,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     e.preventDefault();
 
     if (!name.match(nicknameRegularExpression)) {
-      displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 2~6글자)', true);
+      displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)', true);
 
       return;
     }
