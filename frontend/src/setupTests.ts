@@ -13,6 +13,8 @@ export const testUser = users.current[0]; // 준찌 mock
 
 beforeAll(() => {
   client.defaults.headers['Authorization'] = `Bearer ${testUser.email}`;
+  localStorage.setItem('user-token', testUser.email);
+
   worker.listen();
 });
 
