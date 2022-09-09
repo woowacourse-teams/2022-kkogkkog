@@ -76,7 +76,7 @@ public class PushAlarmListenerTest {
             couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(slackClient, Mockito.timeout(5000))
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
                     "`"+sender.getNickname() + "` 님이 `커피` 쿠폰을 *보냈어요*\uD83D\uDC4B");
         }
@@ -89,7 +89,7 @@ public class PushAlarmListenerTest {
                 LocalDate.now());
 
             reservationService.save(reservationSaveRequest);
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(slackClient, Mockito.timeout(5000))
                 .requestPushAlarm(workspace.getAccessToken(), sender.getUserId(),
                     "`" + receiver.getNickname() + "` 님이 `커피` 쿠폰 사용을 *요청했어요*🙏");
         }
@@ -103,7 +103,7 @@ public class PushAlarmListenerTest {
 
             reservationService.update(reservationUpdateRequest);
 
-            Mockito.verify(slackClient, Mockito.timeout(1000))
+            Mockito.verify(slackClient, Mockito.timeout(5000))
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
                     "`" + sender.getNickname() + "` 님이 `커피` 쿠폰 사용을 *승인했어요*\uD83D\uDE00");
         }
