@@ -58,5 +58,17 @@ class CouponRepositoryTest {
             List<Coupon> actual = couponRepository.findAllBySender(sender);
             assertThat(actual).hasSize(2);
         }
+
+        @DisplayName("받은 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
+        @Test
+        void findAllByReceiver() {
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver2));
+            couponRepository.save(COFFEE.getCoupon(receiver, sender));
+            couponRepository.flush();
+
+            List<Coupon> actual = couponRepository.findAllByReceiver(receiver);
+            assertThat(actual).hasSize(1);
+        }
     }
 }
