@@ -6,9 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.auth.application.AuthService;
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
+import com.woowacourse.kkogkkog.coupon2.application.CouponService;
 import com.woowacourse.kkogkkog.member.application.MemberService;
-import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,8 @@ public abstract class DocumentTest {
     @MockBean
     protected AuthService authService;
 
-    @MockBean
-    protected ReservationService reservationService;
+//    @MockBean
+//    protected ReservationService reservationService;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;
