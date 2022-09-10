@@ -14,8 +14,10 @@ public class PushAlarmEvent {
     private final String message;
     private final CouponEventType couponEventType;
 
-    public PushAlarmEvent(String botAccessToken, String hostMemberId, String message,
-                          CouponEventType couponEventType) {
+    public PushAlarmEvent(final String botAccessToken,
+                          final String hostMemberId,
+                          final String message,
+                          final CouponEventType couponEventType) {
         this.botAccessToken = botAccessToken;
         this.hostMemberId = hostMemberId;
         this.message = message;
