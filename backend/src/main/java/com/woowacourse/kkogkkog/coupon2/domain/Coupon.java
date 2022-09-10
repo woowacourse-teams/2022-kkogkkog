@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon2.domain;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
-import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
+import com.woowacourse.kkogkkog.coupon2.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,13 +14,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "coupon")
-@Entity(name = "Coupon2")
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Coupon extends BaseEntity {

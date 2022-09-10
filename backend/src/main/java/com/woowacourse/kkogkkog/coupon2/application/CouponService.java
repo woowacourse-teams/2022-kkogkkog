@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon2.application;
 
-import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
@@ -10,7 +9,8 @@ import com.woowacourse.kkogkkog.coupon2.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent2;
+import com.woowacourse.kkogkkog.coupon2.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Service(value = "couponService2")
+@Service
 public class CouponService {
 
     private final MemberRepository memberRepository;
@@ -97,7 +97,7 @@ public class CouponService {
 
     private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
-        publisher.publishEvent(PushAlarmEvent2.of(couponHistory));
+        publisher.publishEvent(PushAlarmEvent.of(couponHistory));
     }
 
     private Member findMember(Long memberId) {

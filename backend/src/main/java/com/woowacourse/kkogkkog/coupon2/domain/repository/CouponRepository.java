@@ -6,20 +6,18 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository(value = "couponRepository2")
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     @Query("SELECT c "
-        + "From Coupon2 c "
+        + "From Coupon c "
         + "JOIN Member m ON c.sender = m "
         + "WHERE m = :member "
         + "ORDER BY c.couponState.meetingDate DESC")
     List<Coupon> findAllBySender(@Param("member") Member member);
 
     @Query("SELECT c "
-        + "FROM Coupon2 c "
+        + "FROM Coupon c "
         + "JOIN Member m ON c.receiver = m "
         + "WHERE m = :member "
         + "ORDER BY c.couponState.meetingDate DESC")

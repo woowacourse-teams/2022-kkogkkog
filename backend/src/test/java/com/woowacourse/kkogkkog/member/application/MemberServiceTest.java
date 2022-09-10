@@ -9,9 +9,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.coupon2.application.CouponService;
 import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;

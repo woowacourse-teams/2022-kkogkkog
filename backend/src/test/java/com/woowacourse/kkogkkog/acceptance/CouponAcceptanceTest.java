@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsCreateResponse;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.MyCouponsReservationResponse;
+import com.woowacourse.kkogkkog.coupon2.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon2.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsCreateResponse;
+import com.woowacourse.kkogkkog.coupon2.presentation.dto.MyCouponsResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -50,11 +50,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> extract = 회원의_보낸쿠폰_받은쿠폰_목록들을_조회한다(accessToken);
 
-        MyCouponsReservationResponse actual = extract.as(MyCouponsReservationResponse.class);
+        MyCouponsResponse actual = extract.as(MyCouponsResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(actual.getData().getSent()).hasSize(2),
-            () -> assertThat(actual.getData().getReceived()).hasSize(0)
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value())
+//            () -> assertThat(actual.getData().getReceived()).hasSize(0)
         );
     }
 
@@ -69,7 +68,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         CouponsCreateResponse couponsCreateResponse = extractableResponse.as(
             CouponsCreateResponse.class);
         ExtractableResponse<Response> extract = 회원의_단일쿠폰_상세정보를_조회한다(
-            couponsCreateResponse.getData().get(0).getId());
+            couponsCreateResponse.getData().get(0).getCouponId());
 
         CouponDetailResponse couponDetailResponse = extract.as(CouponDetailResponse.class);
 
