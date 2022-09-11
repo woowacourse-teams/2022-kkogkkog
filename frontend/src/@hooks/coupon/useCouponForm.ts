@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
+import { useCreateCoupon } from '@/@hooks/business/coupon';
 import { PATH } from '@/Router';
 import {
   COUPON_COLORS,
@@ -16,12 +16,10 @@ import {
 import { UserResponse } from '@/types/remote/response';
 import { isOverMaxLength } from '@/utils/validations';
 
-import { useCreateCouponMutation } from '../@queries/coupon';
-
 export const useCouponForm = () => {
-  const { displayMessage } = useToast();
-
   const navigate = useNavigate();
+
+  const { displayMessage } = useToast();
 
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
   const [type, setType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
@@ -32,7 +30,7 @@ export const useCouponForm = () => {
     (value: string) => isOverMaxLength(value, 50),
   ]);
 
-  const createCouponMutate = useCreateCouponMutation();
+  const { createCoupon } = useCreateCoupon();
 
   const onSelectType = (type: COUPON_ENG_TYPE) => {
     setType(type);
@@ -58,8 +56,12 @@ export const useCouponForm = () => {
     setReceiverList(prev => [...prev, user]);
   };
 
-  const onSubmitCreateForm: FormEventHandler<HTMLFormElement> = e => {
+  const onSubmitCreateForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
+
+    if (!window.confirm('쿠폰을 생성하시겠습니까?')) {
+      return;
+    }
 
     if (receiverList.length === 0) {
       displayMessage('받을 사람을 선택해주세요', true);
@@ -73,27 +75,23 @@ export const useCouponForm = () => {
       return;
     }
 
-    if (window.confirm('쿠폰을 생성하시겠습니까?')) {
-      createCouponMutate.mutate(
-        {
-          receiverIds: receiverList.map(({ id }) => id),
-          hashtag,
-          description,
-          couponType: type,
-        },
-        {
-          onSuccess({ data: { data: coupons } }) {
-            displayMessage('쿠폰을 생성했어요', false);
+    try {
+      const coupons = await createCoupon({
+        receiverList,
+        hashtag,
+        description,
+        type,
+      });
 
-            if (coupons.length === 1) {
-              navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
+      if (coupons.length === 1) {
+        navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
 
-              return;
-            }
-            navigate(PATH.LANDING);
-          },
-        }
-      );
+        return;
+      }
+
+      navigate(PATH.LANDING);
+    } catch (error) {
+      console.error(error);
     }
   };
 

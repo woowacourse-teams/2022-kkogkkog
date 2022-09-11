@@ -17,7 +17,7 @@ const CouponCreatePage = () => {
       onSelectColor,
       onChangeDescription,
     },
-    submitHandler: { create: onSubmitForm },
+    submitHandler: { create: onSubmitCouponCreateForm },
   } = useCouponForm();
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ const CouponCreatePage = () => {
             onSelectHashtag={onSelectHashtag}
             onSelectColor={onSelectColor}
             onChangeDescription={onChangeDescription}
-            onSubmitCreateForm={onSubmitForm}
+            onSubmitCreateForm={onSubmitCouponCreateForm}
           />
         </Styled.Inner>
       </Styled.Root>
