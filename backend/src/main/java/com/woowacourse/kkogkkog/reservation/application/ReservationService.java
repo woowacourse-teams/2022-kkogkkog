@@ -49,9 +49,11 @@ public class ReservationService {
 
         Reservation reservation = request.toEntity(findCoupon);
         reservation.changeCouponStatus(REQUEST, loginMember);
+        LocalDateTime meetingDate = request.getMeetingDate();
         MemberHistory memberHistory = saveMemberHistory(
-            findCoupon.getSender(), loginMember, findCoupon, REQUEST, request.getMeetingDate(),
+            findCoupon.getSender(), loginMember, findCoupon, REQUEST, meetingDate,
             request.getMessage());
+        findCoupon.updateMeetingDate(meetingDate);
 
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
 
@@ -81,6 +83,7 @@ public class ReservationService {
 
         if (validateCancelReservation(request)) {
             reservationRepository.delete(reservation);
+            coupon.updateMeetingDate(null);
         }
 
         publisher.publishEvent(PushAlarmEvent.of(memberHistory));
