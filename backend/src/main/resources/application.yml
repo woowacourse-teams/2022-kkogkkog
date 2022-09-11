@@ -8,12 +8,13 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+  flyway:
+    enabled: false
 
 logging:
   level:
