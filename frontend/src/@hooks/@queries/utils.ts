@@ -20,7 +20,7 @@ export const useQuery = <
 ) => {
   return useOriginQuery(queryKey, queryFn, {
     ...options,
-    useErrorBoundary: !options?.onError,
+    useErrorBoundary: options?.useErrorBoundary ?? !options?.onError,
   });
 };
 
@@ -35,6 +35,6 @@ export const useMutation = <
 ) => {
   return useOriginMutation(mutationFn, {
     ...options,
-    useErrorBoundary: !options?.onError,
+    useErrorBoundary: options?.useErrorBoundary ?? !options?.onError,
   });
 };
