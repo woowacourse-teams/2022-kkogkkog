@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import React, { Component, PropsWithChildren } from 'react';
+import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 
 import { PATH } from '@/Router';
 
@@ -37,36 +37,35 @@ class ErrorBoundary extends Component<
   };
 
   static getDerivedStateFromError(error: AxiosError): ErrorBoundaryState {
-    console.log('error', error);
     return { error };
   }
 
   static contextType = ToastContext;
+
+  componentDidCatch(error: AxiosError, errorInfo: ErrorInfo) {
+    const { navigate } = this.props;
+
+    const { displayMessage } = this.context as ToastContextType;
+
+    if (error.response?.status === 401) {
+      localStorage.removeItem('user-token');
+      displayMessage('다시 로그인해주세요', true);
+      navigate(PATH.LOGIN);
+    } else {
+      displayMessage((error.response?.data as any).message, true);
+    }
+  }
 
   render() {
     const { fallback: FallbackComponent, children, navigate } = this.props;
 
     const { error } = this.state;
 
-    const { displayMessage } = this.context as ToastContextType;
-
     if (error) {
-      /** unauthorized 에러 처리 */
-      if (error.response?.status === 401) {
-        localStorage.removeItem('user-token');
-        displayMessage('다시 로그인해주세요', true);
-        navigate(PATH.LOGIN);
-
-        return children;
-      }
-
       /** get 메소드일때만 fallback을 띄운다. */
       if (error.response?.config.method === 'get') {
         return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
       }
-
-      /** toast 에러 처리 */
-      displayMessage((error.response?.data as any).message, true);
     }
 
     return children;
