@@ -5,7 +5,7 @@ import { PATH } from '@/Router';
 
 import { ErrorFallbackProps } from './ErrorFallback';
 import { ToastContext, ToastContextType } from './ToastProvider';
-import { QueryErrorResetBoundary, useQueryClient, useQueryErrorResetBoundary } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ErrorBoundaryProps {
@@ -57,7 +57,7 @@ class ErrorBoundary extends Component<
   }
 
   render() {
-    const { fallback: FallbackComponent, children, navigate } = this.props;
+    const { fallback: FallbackComponent, children } = this.props;
 
     const { error } = this.state;
 
