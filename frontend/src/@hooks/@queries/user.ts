@@ -105,7 +105,6 @@ export const useSlackOAuthLoginMutation = () => {
     onSettled() {
       hideLoading();
     },
-    useErrorBoundary: false,
   });
 };
 

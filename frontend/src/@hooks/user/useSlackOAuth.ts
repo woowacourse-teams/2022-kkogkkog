@@ -1,15 +1,11 @@
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { useToast } from '@/@hooks/@common/useToast';
 import { useAddSlackAppMutation } from '@/@hooks/@queries/service';
 import { useSlackOAuthLoginMutation } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
 export const useSlackOAuthLogin = () => {
   const navigate = useNavigate();
-
-  const { displayMessage } = useToast();
 
   const loginMutate = useSlackOAuthLoginMutation();
 
