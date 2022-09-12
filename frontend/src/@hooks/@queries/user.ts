@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
@@ -31,6 +30,8 @@ export const useFetchMe = () => {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
+    /** get method 중, 에러 경계를 사용하고 싶지 않은 경우 onError를 추가해준다. */
+    onError() {},
   });
 
   return {
@@ -40,14 +41,8 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
-  const { displayMessage } = useToast();
   const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   return {
@@ -57,15 +52,9 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { displayMessage } = useToast();
   const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: 10000,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   return {
@@ -84,7 +73,6 @@ export const useEditMeMutation = () => {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
-    onError() {},
     onMutate() {
       showLoading();
     },
@@ -100,6 +88,7 @@ export const useSlackOAuthLoginMutation = () => {
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(OAuthLogin, {
+    useErrorBoundary: false,
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -137,8 +126,6 @@ export const useSignupMutation = () => {
 };
 
 export const useLoginMutation = () => {
-  const { displayMessage } = useToast();
-
   return useMutation(login, {
     onSuccess: data => {
       const {
@@ -148,11 +135,6 @@ export const useLoginMutation = () => {
       localStorage.setItem('user-token', accessToken);
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-    },
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
     },
   });
 };

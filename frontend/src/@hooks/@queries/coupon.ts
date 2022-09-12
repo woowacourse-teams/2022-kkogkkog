@@ -1,9 +1,7 @@
-import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
-import { useToast } from '@/@hooks/@common/useToast';
 import {
   changeCouponStatus,
   createCoupon,
@@ -26,17 +24,10 @@ const QUERY_KEY = {
 /** Query */
 
 export const useFetchCouponList = () => {
-  const { displayMessage } = useToast();
-
   /** suspense false만 isLoading을 사용할 수 있다. */
   const { data, ...rest } = useTokenQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     staleTime: 10000,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   const couponList = data?.data?.data;
