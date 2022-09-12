@@ -14,7 +14,7 @@ import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
 import { useTokenMutation } from '../@common/useTokenMutation';
-import { useTokenQuery } from '../@common/useTokenQuery';
+import { useQuery } from './utils';
 
 const QUERY_KEY = {
   couponList: 'couponList',
@@ -25,7 +25,7 @@ const QUERY_KEY = {
 
 export const useFetchCouponList = () => {
   /** suspense false만 isLoading을 사용할 수 있다. */
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.couponList], getCouponList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     staleTime: 10000,
   });
@@ -104,7 +104,7 @@ export const useFetchCouponList = () => {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
     coupon: data?.data,

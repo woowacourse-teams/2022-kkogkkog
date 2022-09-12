@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
-import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
   editMe,
@@ -17,6 +16,7 @@ import { UserHistoryResponse } from '@/types/remote/response';
 import { useToast } from '../@common/useToast';
 import { useTokenMutation } from '../@common/useTokenMutation';
 import { signUpToken } from './../../apis/user';
+import { useQuery } from './utils';
 
 const QUERY_KEY = {
   me: 'me',
@@ -41,7 +41,7 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
   });
 
@@ -52,7 +52,7 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: 10000,
   });
