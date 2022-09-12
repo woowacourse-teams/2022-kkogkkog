@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ScrollToTop from '@/@components/@shared/ScrollToTop';
 import Router from '@/Router';
 
-import ErrorBoundary from './@components/@shared/ErrorBoundary';
+import ErrorBoundaryWithHooks from './@components/@shared/ErrorBoundary';
 import ErrorFallback from './@components/@shared/ErrorFallback';
 
 function setScreenSize() {
@@ -29,10 +29,10 @@ const App = () => {
   return (
     /** ErrorBoundary에서 useNavigation을 사용하기 위해 BrowserRouter안에 넣는다. */
     <BrowserRouter>
-      <ErrorBoundary fallback={ErrorFallback}>
+      <ErrorBoundaryWithHooks fallback={ErrorFallback}>
         <ScrollToTop />
         <Router />
-      </ErrorBoundary>
+      </ErrorBoundaryWithHooks>
     </BrowserRouter>
   );
 };

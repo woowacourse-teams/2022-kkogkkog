@@ -3,9 +3,10 @@ import React, { Component, PropsWithChildren } from 'react';
 
 import { PATH } from '@/Router';
 
-import withNavigation, { NavigationProps } from '../helper/withNavigation';
 import { ErrorFallbackProps } from './ErrorFallback';
 import { ToastContext, ToastContextType } from './ToastProvider';
+import { QueryErrorResetBoundary, useQueryClient, useQueryErrorResetBoundary } from 'react-query';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ErrorBoundaryProps {
   fallback: React.ComponentType<ErrorFallbackProps>;
@@ -21,7 +22,9 @@ const initialState: ErrorBoundaryState = {
 };
 
 class ErrorBoundary extends Component<
-  PropsWithChildren<ErrorBoundaryProps> & NavigationProps,
+  PropsWithChildren<ErrorBoundaryProps> & {
+    navigate: NavigateFunction;
+  },
   ErrorBoundaryState
 > {
   state: ErrorBoundaryState = {
@@ -34,6 +37,7 @@ class ErrorBoundary extends Component<
   };
 
   static getDerivedStateFromError(error: AxiosError): ErrorBoundaryState {
+    console.log('error', error);
     return { error };
   }
 
@@ -69,4 +73,17 @@ class ErrorBoundary extends Component<
   }
 }
 
-export default withNavigation(ErrorBoundary);
+const ErrorBoundaryWithHooks = ({ ...props }: PropsWithChildren<ErrorBoundaryProps>) => {
+  /** useQueryErrorResetBoundary 의도한 대로 잘 동작하지 않는다. */
+  // const { reset } = useQueryErrorResetBoundary();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const resetError = () => {
+    queryClient.clear();
+  };
+
+  return <ErrorBoundary navigate={navigate} onReset={resetError} {...props} />;
+};
+
+export default ErrorBoundaryWithHooks;
