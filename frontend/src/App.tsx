@@ -15,6 +15,10 @@ function setScreenSize() {
 
 const App = () => {
   useEffect(() => {
+    setScreenSize();
+  }, []);
+
+  useEffect(() => {
     const onResize = () => {
       setScreenSize();
     };
