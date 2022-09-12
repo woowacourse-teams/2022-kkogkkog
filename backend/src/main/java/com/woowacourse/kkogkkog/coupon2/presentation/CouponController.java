@@ -7,7 +7,7 @@ import com.woowacourse.kkogkkog.coupon2.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponUpdateRequest;
 import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsCreateResponse;
-import com.woowacourse.kkogkkog.coupon2.presentation.dto.MyCouponsResponse;
+import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,18 +27,22 @@ public class CouponController {
         this.couponService = couponService;
     }
 
+    @GetMapping("/send")
+    public ResponseEntity<CouponsResponse> showSend(@LoginMemberId Long loginMemberId) {
+        List<CouponResponse> coupons = couponService.findAllBySender(loginMemberId);
+        return ResponseEntity.ok(new CouponsResponse(coupons));
+    }
+
+    @GetMapping("/received")
+    public ResponseEntity<CouponsResponse> showReceived(@LoginMemberId Long loginMemberId) {
+        List<CouponResponse> coupons = couponService.findAllByReceiver(loginMemberId);
+        return ResponseEntity.ok(new CouponsResponse(coupons));
+    }
+
     @GetMapping("/{couponId}")
     public ResponseEntity<CouponDetailResponse> show(@PathVariable Long couponId) {
         CouponDetailResponse couponDetailResponse = couponService.find(couponId);
         return ResponseEntity.ok(couponDetailResponse);
-    }
-
-    @GetMapping
-    public ResponseEntity<MyCouponsResponse> showAll(@LoginMemberId Long loginMemberId) {
-        MyCouponsResponse response = new MyCouponsResponse(
-            couponService.findAllByReceiver(loginMemberId),
-            couponService.findAllBySender(loginMemberId));
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping

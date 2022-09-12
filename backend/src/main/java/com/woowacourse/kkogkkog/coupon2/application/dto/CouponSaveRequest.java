@@ -12,19 +12,19 @@ public class CouponSaveRequest {
 
     private final Long senderId;
     private final List<Long> receiverIds;
-    private final String hashtag;
-    private final String description;
+    private final String couponTag;
+    private final String couponMessage;
     private final String couponType;
 
     public CouponSaveRequest(Long senderId,
                              List<Long> receiverIds,
-                             String hashtag,
-                             String description,
+                             String couponTag,
+                             String couponMessage,
                              String couponType) {
         this.senderId = senderId;
         this.receiverIds = receiverIds;
-        this.hashtag = hashtag;
-        this.description = description;
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
         this.couponType = couponType;
     }
 
@@ -35,6 +35,6 @@ public class CouponSaveRequest {
     }
 
     private Coupon getCoupon(Member sender, Member receiver) {
-        return new Coupon(sender, receiver, hashtag, description, CouponType.valueOf(couponType));
+        return new Coupon(sender, receiver, couponTag, couponMessage, CouponType.valueOf(couponType));
     }
 }
