@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
@@ -14,9 +14,8 @@ import {
 import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
-import { useTokenMutation } from '../@common/useTokenMutation';
 import { signUpToken } from './../../apis/user';
-import { useQuery } from './utils';
+import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
   me: 'me',
@@ -69,7 +68,7 @@ export const useEditMeMutation = () => {
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(editMe, {
+  return useMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
@@ -144,7 +143,7 @@ export const useReadAllHistoryMutation = () => {
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(readAllHistory, {
+  return useMutation(readAllHistory, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.me]);
       // QUERY_KEY.getUserHistoryList 은 재요청하지 않기위해 구식으로 만들지 않는다.
