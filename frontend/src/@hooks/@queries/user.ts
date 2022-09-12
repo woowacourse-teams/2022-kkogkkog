@@ -29,8 +29,7 @@ export const useFetchMe = () => {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
-    /** get method 중, 에러 경계를 사용하고 싶지 않은 경우 onError를 추가해준다. */
-    onError() {},
+    useErrorBoundary: false,
   });
 
   return {
@@ -87,7 +86,6 @@ export const useSlackOAuthLoginMutation = () => {
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(OAuthLogin, {
-    useErrorBoundary: false,
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -107,6 +105,7 @@ export const useSlackOAuthLoginMutation = () => {
     onSettled() {
       hideLoading();
     },
+    useErrorBoundary: false,
   });
 };
 
