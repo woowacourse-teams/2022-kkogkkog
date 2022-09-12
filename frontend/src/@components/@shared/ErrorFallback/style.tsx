@@ -8,6 +8,7 @@ export const Root = styled.div`
   gap: 20px;
 
   height: 100%;
+  cursor: pointer;
 
   color: ${({ theme }) => theme.colors.light_grey_200};
 `;
