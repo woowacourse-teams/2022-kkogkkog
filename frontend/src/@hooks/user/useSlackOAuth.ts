@@ -24,12 +24,8 @@ export const useSlackOAuthLogin = () => {
           navigate(PATH.LANDING, { replace: true });
         }
       },
-      onError(error) {
-        if (error instanceof AxiosError) {
-          displayMessage(error?.response?.data?.message, true);
-
-          navigate(PATH.LANDING, { replace: true });
-        }
+      onError() {
+        navigate(PATH.LANDING, { replace: true });
       },
     });
   };
