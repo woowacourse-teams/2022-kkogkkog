@@ -1,7 +1,10 @@
-import { useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
+import { useMemo } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
+import { AddSlackApp } from '@/apis/service';
 import {
   editMe,
   getMe,
@@ -52,11 +55,22 @@ export const useFetchUserList = () => {
 export const useFetchUserHistoryList = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
-    staleTime: 10000,
+    staleTime: Infinity,
+    onError(error) {
+      if (error instanceof AxiosError) {
+        displayMessage(error?.response?.data?.message, true);
+      }
+    },
   });
 
+  const isReadAll = useMemo(
+    () => (data?.data ?? []).every(history => history.isRead),
+    [data?.data]
+  );
+
   return {
-    historyList: data?.data,
+    historyList: data?.data ?? [],
+    isReadAll,
     ...rest,
   };
 };
@@ -108,7 +122,7 @@ export const useSlackOAuthLoginMutation = () => {
   });
 };
 
-export const useSignupMutation = () => {
+export const useSlackSignupMutation = () => {
   return useMutation(signUpToken, {
     onSuccess(response) {
       const { accessToken } = response.data;
@@ -120,6 +134,10 @@ export const useSignupMutation = () => {
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     },
   });
+};
+
+export const useAddSlackAppMutation = () => {
+  return useMutation(AddSlackApp);
 };
 
 export const useLoginMutation = () => {
@@ -155,6 +173,8 @@ export const useReadAllHistoryMutation = () => {
   });
 };
 
+/** Only Mutate Client Query */
+
 export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
@@ -178,5 +198,5 @@ export const useReadHistory = () => {
     );
   };
 
-  return readHistory;
+  return { readHistory };
 };

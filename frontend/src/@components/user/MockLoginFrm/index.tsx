@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import Input from '@/@components/@shared/Input';
-import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
+import { useAuthenticateForm } from '@/@hooks/ui/user/useAuthenticateForm';
 
 import * as Styled from './style';
 

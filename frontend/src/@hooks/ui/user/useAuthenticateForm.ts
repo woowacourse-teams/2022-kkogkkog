@@ -1,14 +1,11 @@
-import { AxiosError } from 'axios';
 import { FormEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
+import { useLogin, useSlackSignUp } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
-
-import { useLoginMutation } from '../@queries/user';
-import { useSignupMutation } from './../@queries/user';
 
 type UseAuthenticateFormProps = {
   defaultEmail?: string;
@@ -34,10 +31,10 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
   const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
 
-  const signupMutate = useSignupMutation();
-  const loginMutate = useLoginMutation();
+  const { slackSignup } = useSlackSignUp();
+  const { login } = useLogin();
 
-  const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = e => {
+  const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
     const slackSignupToken = localStorage.getItem('slack-signup-token');
@@ -52,33 +49,25 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       return;
     }
 
-    signupMutate.mutate(
-      {
-        nickname: name,
-        accessToken: slackSignupToken,
-      },
-      {
-        onSuccess() {
-          navigate(PATH.LANDING);
-        },
-      }
-    );
+    try {
+      await slackSignup({ name, slackSignupToken });
+
+      navigate(PATH.LANDING);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = e => {
+  const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
-    loginMutate.mutate(
-      {
-        email,
-        password,
-      },
-      {
-        onSuccess() {
-          navigate(PATH.LANDING);
-        },
-      }
-    );
+    try {
+      await login({ email, password });
+
+      navigate(PATH.LANDING);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {
