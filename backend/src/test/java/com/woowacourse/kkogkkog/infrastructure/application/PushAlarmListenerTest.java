@@ -37,19 +37,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class PushAlarmListenerTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
     @Autowired
-    CouponService couponService;
+    private CouponService couponService;
     @Autowired
-    ReservationService reservationService;
+    private ReservationService reservationService;
     @Autowired
-    WorkspaceRepository workspaceRepository;
+    private WorkspaceRepository workspaceRepository;
     @Autowired
-    CouponRepository couponRepository;
+    private CouponRepository couponRepository;
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
     @MockBean
-    SlackClient slackClient;
+    private SlackClient slackClient;
 
     @Nested
     @DisplayName("sendNotification 메서드는")

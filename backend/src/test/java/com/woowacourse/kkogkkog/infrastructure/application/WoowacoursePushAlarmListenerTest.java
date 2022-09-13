@@ -37,19 +37,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 public class WoowacoursePushAlarmListenerTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
     @Autowired
-    CouponService couponService;
+    private CouponService couponService;
     @Autowired
-    ReservationService reservationService;
+    private ReservationService reservationService;
     @Autowired
-    WorkspaceRepository workspaceRepository;
+    private WorkspaceRepository workspaceRepository;
     @Autowired
-    CouponRepository couponRepository;
+    private CouponRepository couponRepository;
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
     @MockBean
-    WoowacoursePushAlarmClient woowacoursePushAlarmClient;
+    private WoowacoursePushAlarmClient woowacoursePushAlarmClient;
 
     @Nested
     @DisplayName("sendNotification 메서드는")
