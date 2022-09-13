@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.coupon.domain;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -49,6 +50,9 @@ public class Coupon extends BaseEntity {
     @Column(nullable = false)
     private CouponStatus couponStatus;
 
+    @Column
+    private LocalDateTime meetingDate;
+
     public Coupon(Member sender, Member receiver, String hashtag, String description,
                   CouponType couponType, CouponStatus couponStatus) {
         this(null, sender, receiver, hashtag, description, couponType, couponStatus);
@@ -82,5 +86,9 @@ public class Coupon extends BaseEntity {
     public void changeStatus(CouponEvent couponEvent, Member member) {
         couponEvent.checkExecutable(sender.equals(member), receiver.equals(member));
         this.couponStatus = couponStatus.handle(couponEvent);
+    }
+
+    public void updateMeetingDate(LocalDateTime meetingDate) {
+        this.meetingDate = meetingDate;
     }
 }
