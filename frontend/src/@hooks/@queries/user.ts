@@ -1,8 +1,6 @@
-import { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
-import { useTokenQuery } from '@/@hooks/@common/useTokenQuery';
 import { client } from '@/apis';
 import {
   editMe,
@@ -16,8 +14,8 @@ import {
 import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
-import { useTokenMutation } from '../@common/useTokenMutation';
 import { signUpToken } from './../../apis/user';
+import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
   me: 'me',
@@ -31,6 +29,7 @@ export const useFetchMe = () => {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
+    useErrorBoundary: false,
   });
 
   return {
@@ -40,14 +39,8 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
-  const { displayMessage } = useToast();
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   return {
@@ -57,15 +50,9 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { displayMessage } = useToast();
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: 10000,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   return {
@@ -80,11 +67,10 @@ export const useEditMeMutation = () => {
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(editMe, {
+  return useMutation(editMe, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.me);
     },
-    onError() {},
     onMutate() {
       showLoading();
     },
@@ -137,8 +123,6 @@ export const useSignupMutation = () => {
 };
 
 export const useLoginMutation = () => {
-  const { displayMessage } = useToast();
-
   return useMutation(login, {
     onSuccess: data => {
       const {
@@ -149,11 +133,6 @@ export const useLoginMutation = () => {
 
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     },
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 };
 
@@ -162,7 +141,7 @@ export const useReadAllHistoryMutation = () => {
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(readAllHistory, {
+  return useMutation(readAllHistory, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.me]);
       // QUERY_KEY.getUserHistoryList 은 재요청하지 않기위해 구식으로 만들지 않는다.

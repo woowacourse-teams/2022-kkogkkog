@@ -22,8 +22,14 @@ export const ToastMessage = ({ isError, message, onClickToast }: any) => {
   );
 };
 
-export const ToastContext = createContext({
-  displayMessage: (message: string, isError: boolean) => {},
+type ToastDisplayMessage = (message: string, isError: boolean) => void;
+
+export type ToastContextType = {
+  displayMessage: ToastDisplayMessage;
+};
+
+export const ToastContext = createContext<ToastContextType>({
+  displayMessage: (message, isError) => {},
 });
 
 const ToastProvider = (props: React.PropsWithChildren) => {
