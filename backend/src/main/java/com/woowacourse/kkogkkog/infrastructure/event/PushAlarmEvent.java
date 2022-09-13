@@ -14,7 +14,7 @@ public class PushAlarmEvent extends SimplePushAlarmEvent{
     private final String message;
     private final CouponEvent couponEvent;
 
-    public PushAlarmEvent(String botAccessToken, String hostMemberId, String message,
+    private PushAlarmEvent(String botAccessToken, String hostMemberId, String message,
                           CouponEvent couponEvent) {
         this.botAccessToken = botAccessToken;
         this.hostMemberId = hostMemberId;
@@ -22,7 +22,7 @@ public class PushAlarmEvent extends SimplePushAlarmEvent{
         this.couponEvent = couponEvent;
     }
 
-    public static PushAlarmEvent of(MemberHistory memberHistory) {
+    protected static PushAlarmEvent of(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
         Workspace workspace = hostMember.getWorkspace();
         return new PushAlarmEvent(workspace.getAccessToken(), hostMember.getUserId(),

@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.infrastructure.event.SimplePushAlarmEvent;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -53,7 +54,7 @@ public class ReservationService {
             findCoupon.getSender(), loginMember, findCoupon, REQUEST, request.getMeetingDate(),
             request.getMessage());
 
-        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+        publisher.publishEvent(SimplePushAlarmEvent.handle(memberHistory));
 
         return reservationRepository.save(reservation).getId();
     }
@@ -83,7 +84,7 @@ public class ReservationService {
             reservationRepository.delete(reservation);
         }
 
-        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+        publisher.publishEvent(SimplePushAlarmEvent.handle(memberHistory));
     }
 
     private boolean validateCancelReservation(ReservationUpdateRequest request) {

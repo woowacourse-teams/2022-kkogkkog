@@ -12,13 +12,13 @@ public class WoowacoursePushAlarmEvent extends SimplePushAlarmEvent{
     private final String message;
     private final CouponEvent couponEvent;
 
-    public WoowacoursePushAlarmEvent(String hostMemberId, String message, CouponEvent couponEvent) {
+    private WoowacoursePushAlarmEvent(String hostMemberId, String message, CouponEvent couponEvent) {
         this.hostMemberId = hostMemberId;
         this.message = message;
         this.couponEvent = couponEvent;
     }
 
-    public static WoowacoursePushAlarmEvent of(MemberHistory memberHistory) {
+    protected static WoowacoursePushAlarmEvent of(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
         return new WoowacoursePushAlarmEvent(hostMember.getUserId(),
             memberHistory.toNoticeMessage(), memberHistory.getCouponEvent());
