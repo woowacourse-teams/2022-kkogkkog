@@ -36,6 +36,5 @@ security:
       bot-token: "https://abc.com/download/redirect"
     workspace:
       woowacourse:
-        team-id: "woowacourseId"
         request-url: "https://sample.woowacourse.com"
         token: "aaa.bbb.ccc"
