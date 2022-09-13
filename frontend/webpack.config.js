@@ -1,9 +1,10 @@
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+
+require('dotenv').config();
 
 module.exports = (env, args) => {
   const isDevelopment = args.mode === 'development';
@@ -64,8 +65,8 @@ module.exports = (env, args) => {
           },
         ],
       }),
-      new Dotenv(),
       new webpack.DefinePlugin({
+        'process.env': JSON.stringify(process.env),
         PRODUCT_ENV: JSON.stringify(process.env.NODE_ENV),
       }),
     ].filter(Boolean),
