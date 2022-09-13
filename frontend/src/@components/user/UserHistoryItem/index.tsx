@@ -8,7 +8,7 @@ import * as Styled from './style';
 
 interface UserHistoryItemProps {
   history: UserHistory;
-  onClick: MouseEventHandler<HTMLDivElement>;
+  onClick: MouseEventHandler<HTMLLIElement>;
 }
 
 const UserHistoryItem = (props: UserHistoryItemProps) => {
@@ -20,7 +20,7 @@ const UserHistoryItem = (props: UserHistoryItemProps) => {
   return (
     <Styled.Root isRead={isRead} onClick={onClick}>
       <Styled.ProfileImageContainer>
-        <img src={imageUrl} alt='프로필 이미지' />
+        <img src={imageUrl} alt='프로필' />
       </Styled.ProfileImageContainer>
       <Styled.InformationContainer>
         <Styled.Contents>

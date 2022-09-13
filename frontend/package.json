@@ -8,7 +8,7 @@
     "build": " cross-env NODE_ENV=production webpack --progress --mode=production",
     "build:local": " cross-env NODE_ENV=local webpack --progress --mode=development",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=development",
-    "test": "jest",
+    "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -57,7 +57,7 @@
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
-    "dotenv-webpack": "^8.0.0",
+    "dotenv": "^16.0.2",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
