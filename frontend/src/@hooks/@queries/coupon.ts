@@ -1,9 +1,7 @@
-import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
-import { useToast } from '@/@hooks/@common/useToast';
 import {
   changeCouponStatus,
   createCoupon,
@@ -15,8 +13,7 @@ import { COUPON_STATUS } from '@/types/client/coupon';
 import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
-import { useTokenMutation } from '../@common/useTokenMutation';
-import { useTokenQuery } from '../@common/useTokenQuery';
+import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
   couponList: 'couponList',
@@ -26,17 +23,10 @@ const QUERY_KEY = {
 /** Query */
 
 export const useFetchCouponList = () => {
-  const { displayMessage } = useToast();
-
   /** suspense false만 isLoading을 사용할 수 있다. */
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.couponList], getCouponList, {
+  const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
     suspense: true,
     staleTime: 10000,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   const couponList = data?.data?.data;
@@ -113,7 +103,7 @@ export const useFetchCouponList = () => {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useTokenQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
     coupon: data?.data,
@@ -127,7 +117,7 @@ export const useCreateCouponMutation = () => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(createCoupon, {
+  return useMutation(createCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },
@@ -144,7 +134,7 @@ export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation(changeCouponStatus, {
+  return useMutation(changeCouponStatus, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
@@ -162,7 +152,7 @@ export const useRequestCouponMutation = () => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 
-  return useTokenMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
+  return useMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
     onSuccess() {
       queryClient.invalidateQueries(QUERY_KEY.couponList);
     },

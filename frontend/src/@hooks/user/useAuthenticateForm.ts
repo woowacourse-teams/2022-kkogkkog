@@ -61,11 +61,6 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
         onSuccess() {
           navigate(PATH.LANDING);
         },
-        onError(error) {
-          if (error instanceof AxiosError) {
-            displayMessage(error?.response?.data?.message, true);
-          }
-        },
       }
     );
   };

@@ -2,6 +2,7 @@ import { Global, ThemeProvider } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import LoadingProvider from '@/@components/@shared/LoadingProvider';
 import ToastProvider from '@/@components/@shared/ToastProvider';
@@ -20,7 +21,10 @@ const queryClient = new QueryClient({
     queries: {
       suspense: true,
       retry: false,
-      useErrorBoundary: false,
+      useErrorBoundary: true,
+    },
+    mutations: {
+      useErrorBoundary: true,
     },
   },
 });
@@ -29,6 +33,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools initialIsOpen={false} />
     <ThemeProvider theme={theme}>
       <ToastProvider>
         <LoadingProvider>
