@@ -107,7 +107,7 @@ const CouponDetailPage = () => {
   };
 
   const onClickFinishButton = async () => {
-    if (window.confirm('쿠폰을 사용하셨나요?')) {
+    if (!window.confirm('쿠폰을 사용하셨나요?')) {
       return;
     }
 
