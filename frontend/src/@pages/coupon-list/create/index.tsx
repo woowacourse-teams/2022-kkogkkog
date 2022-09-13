@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import CouponCreateForm from '@/@components/coupon/CouponCreateForm';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
-import { useCouponForm } from '@/@hooks/coupon/useCouponForm';
+import { useCouponForm } from '@/@hooks/ui/coupon/useCouponForm';
 
 const CouponCreatePage = () => {
   const {
