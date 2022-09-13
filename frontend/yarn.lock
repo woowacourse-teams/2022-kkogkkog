@@ -8253,15 +8253,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-defaults@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "dotenv-defaults@npm:2.0.2"
-  dependencies:
-    dotenv: ^8.2.0
-  checksum: c005960bd048e2189c4799e729c41f362e415e6e0b54313d3f31e853a84b049bf770b25cb21c112c2805bb13a8376edc9de451fb514abf8546392d327c27f6e5
-  languageName: node
-  linkType: hard
-
 "dotenv-expand@npm:^5.1.0":
   version: 5.1.0
   resolution: "dotenv-expand@npm:5.1.0"
@@ -8269,18 +8260,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-webpack@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "dotenv-webpack@npm:8.0.0"
-  dependencies:
-    dotenv-defaults: ^2.0.2
-  peerDependencies:
-    webpack: ^4 || ^5
-  checksum: 1ca629608b818ba927b54044a0ff02f089733c1acc8e9fa10e037cc5157867f63a825850965a91377814879509544ae8e0742e67bd3ed9ea51bd2b8eed755201
+"dotenv@npm:^16.0.2":
+  version: 16.0.2
+  resolution: "dotenv@npm:16.0.2"
+  checksum: ca8f9ca2d67929c7771069f4c31b4e46b9932621009e658e5afd655dde2d69b77642bf36dbc9e72bc170523dfd908a9ee41c26f034c1fdc605ace3b1b4b10faf
   languageName: node
   linkType: hard
 
-"dotenv@npm:^8.0.0, dotenv@npm:^8.2.0":
+"dotenv@npm:^8.0.0":
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
   checksum: 38e902c80b0666ab59e9310a3d24ed237029a7ce34d976796349765ac96b8d769f6df19090f1f471b77a25ca391971efde8a1ea63bb83111bd8bec8e5cc9b2cd
@@ -12357,7 +12344,7 @@ __metadata:
     babel-loader: ^8.2.5
     copy-webpack-plugin: ^11.0.0
     cross-env: ^7.0.3
-    dotenv-webpack: ^8.0.0
+    dotenv: ^16.0.2
     eslint: ^8.19.0
     eslint-config-prettier: ^8.5.0
     eslint-config-react-app: ^7.0.1
