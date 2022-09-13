@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
@@ -10,7 +9,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.infrastructure.event.SimplePushAlarmEvent;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEventHandler;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -70,7 +69,7 @@ public class CouponService {
         for (Coupon savedCoupon : saveCoupons) {
             MemberHistory memberHistory = saveMemberHistory(savedCoupon);
 
-            publisher.publishEvent(SimplePushAlarmEvent.handle(memberHistory));
+            publisher.publishEvent(PushAlarmEventHandler.handle(memberHistory));
         }
 
         return saveCoupons.stream()

@@ -7,7 +7,7 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 import lombok.Getter;
 
 @Getter
-public class PushAlarmEvent extends SimplePushAlarmEvent{
+public class PushAlarmEvent extends PushAlarmEventHandler {
 
     private final String botAccessToken;
     private final String hostMemberId;

@@ -6,7 +6,7 @@ import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import lombok.Getter;
 
 @Getter
-public class WoowacoursePushAlarmEvent extends SimplePushAlarmEvent{
+public class WoowacoursePushAlarmEvent extends PushAlarmEventHandler {
 
     private final String hostMemberId;
     private final String message;
