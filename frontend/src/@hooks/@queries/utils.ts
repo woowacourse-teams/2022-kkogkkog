@@ -18,9 +18,11 @@ export const useQuery = <
   queryFn: QueryFunction<TQueryFnData, TQueryKey>,
   options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>
 ) => {
+  const useErrorBoundary = options?.useErrorBoundary ?? !options?.onError;
+
   return useOriginQuery(queryKey, queryFn, {
     ...options,
-    useErrorBoundary: options?.useErrorBoundary ?? !options?.onError,
+    useErrorBoundary,
   });
 };
 
@@ -33,8 +35,10 @@ export const useMutation = <
   mutationFn: MutationFunction<TData, TVariables>,
   options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>
 ) => {
+  const useErrorBoundary = options?.useErrorBoundary ?? !options?.onError;
+
   return useOriginMutation(mutationFn, {
     ...options,
-    useErrorBoundary: options?.useErrorBoundary ?? !options?.onError,
+    useErrorBoundary,
   });
 };
