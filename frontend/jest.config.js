@@ -29,6 +29,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   resetMocks: false,
+  setupFiles: ['dotenv/config'],
   // 서버를 실행하기 위한 세팅 추가
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect', './src/setupTests.ts'],
   // webpack에 의해 생성되는 전역 변수 개별 설정
