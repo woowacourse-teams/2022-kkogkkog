@@ -7,13 +7,13 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PushAlarmService {
+public class PushAlarmPublisher {
 
     private final static String WOOWACOURSE_ID = "TFELTJB7V";
 
     private final ApplicationEventPublisher publisher;
 
-    public PushAlarmService(ApplicationEventPublisher publisher) {
+    public PushAlarmPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }
 

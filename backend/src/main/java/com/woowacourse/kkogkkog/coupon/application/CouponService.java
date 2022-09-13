@@ -9,7 +9,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmService;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -28,18 +28,18 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final CouponQueryRepository couponQueryRepository;
     private final MemberHistoryRepository memberHistoryRepository;
-    private final PushAlarmService pushAlarmService;
+    private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponQueryRepository couponQueryRepository,
                          MemberHistoryRepository memberHistoryRepository,
-                         PushAlarmService pushAlarmService) {
+                         PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponQueryRepository = couponQueryRepository;
         this.memberHistoryRepository = memberHistoryRepository;
-        this.pushAlarmService = pushAlarmService;
+        this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +67,7 @@ public class CouponService {
         for (Coupon savedCoupon : saveCoupons) {
             MemberHistory memberHistory = saveMemberHistory(savedCoupon);
 
-            pushAlarmService.publishEvent(memberHistory);
+            pushAlarmPublisher.publishEvent(memberHistory);
         }
 
         return saveCoupons.stream()

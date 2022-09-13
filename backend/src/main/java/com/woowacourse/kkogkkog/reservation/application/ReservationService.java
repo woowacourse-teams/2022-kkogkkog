@@ -6,7 +6,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmService;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -29,17 +29,17 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
     private final MemberHistoryRepository memberHistoryRepository;
-    private final PushAlarmService pushAlarmService;
+    private final PushAlarmPublisher pushAlarmPublisher;
 
     public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
                               ReservationRepository reservationRepository,
                               MemberHistoryRepository memberHistoryRepository,
-                              PushAlarmService pushAlarmService) {
+                              PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.reservationRepository = reservationRepository;
         this.memberHistoryRepository = memberHistoryRepository;
-        this.pushAlarmService = pushAlarmService;
+        this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     public Long save(ReservationSaveRequest request) {
@@ -52,7 +52,7 @@ public class ReservationService {
             findCoupon.getSender(), loginMember, findCoupon, REQUEST, request.getMeetingDate(),
             request.getMessage());
 
-        pushAlarmService.publishEvent(memberHistory);
+        pushAlarmPublisher.publishEvent(memberHistory);
 
         return reservationRepository.save(reservation).getId();
     }
@@ -82,7 +82,7 @@ public class ReservationService {
             reservationRepository.delete(reservation);
         }
 
-        pushAlarmService.publishEvent(memberHistory);
+        pushAlarmPublisher.publishEvent(memberHistory);
     }
 
     private boolean validateCancelReservation(ReservationUpdateRequest request) {
