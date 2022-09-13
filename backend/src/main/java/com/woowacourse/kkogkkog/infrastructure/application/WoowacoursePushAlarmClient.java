@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
 import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.WoowacoursePostMessageRequestFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -56,14 +57,14 @@ public class WoowacoursePushAlarmClient {
         try {
             response.onStatus(HttpStatus::isError,
                 status -> throwPostMessageFailedException(userId, message, status));
-        } catch (PostMessageRequestFailedException e) {
+        } catch (WoowacoursePostMessageRequestFailedException e) {
             log.info("Exception has been thrown : ", e);
         }
     }
 
     private Mono<Throwable> throwPostMessageFailedException(String userId, String message,
                                                             ClientResponse status) {
-        return Mono.error(new PostMessageRequestFailedException(
+        return Mono.error(new WoowacoursePostMessageRequestFailedException(
             String.format(POST_MESSAGE_FAILED_CAUSE_FORMAT, status.statusCode(), userId, message)));
     }
 }
