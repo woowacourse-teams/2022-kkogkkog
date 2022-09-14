@@ -115,7 +115,7 @@ class CouponRepositoryTest {
             List<Coupon> extract = couponRepository.findAllByMemberAndMeetingDate(sender, nowDate);
 
             // then
-            assertThat(extract).hasSize(2);
+            assertThat(extract).hasSize(3);
         }
 
         @DisplayName("현재 시간 이전의 쿠폰들은 조회되지 않는다.")
