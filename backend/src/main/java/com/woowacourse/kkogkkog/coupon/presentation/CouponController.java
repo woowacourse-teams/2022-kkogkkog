@@ -47,17 +47,17 @@ public class CouponController {
 
     @PostMapping
     public ResponseEntity<CouponsResponse> save(@LoginMemberId Long loginMemberId,
-                                                      @RequestBody CouponCreateRequest request) {
+                                                @RequestBody CouponCreateRequest request) {
         List<CouponResponse> responses = couponService.save(
             request.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponsResponse(responses));
     }
 
-    @PostMapping("/{couponId}/event")
-    public ResponseEntity<CouponsCreateResponse> update(@LoginMemberId Long loginMemberId,
-                                                        @PathVariable Long couponId,
-                                                        @RequestBody CouponUpdateRequest request) {
-        couponService.update(request.toCouponEventRequest(loginMemberId, couponId));
-        return ResponseEntity.ok().build();
+    @PutMapping("/{couponId}/event")
+    public ResponseEntity<Void> update(@LoginMemberId Long loginMemberId,
+                                       @PathVariable Long couponId,
+                                       @RequestBody CouponEventRequest request) {
+        couponService.update(request.toCouponStatusRequest(loginMemberId, couponId));
+        return ResponseEntity.noContent().build();
     }
 }

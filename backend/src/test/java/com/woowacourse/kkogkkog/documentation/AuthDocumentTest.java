@@ -1,7 +1,7 @@
-package com.woowacourse.kkogkkog.auth.documentation;
+package com.woowacourse.kkogkkog.documentation;
 
-import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
-import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
+import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;

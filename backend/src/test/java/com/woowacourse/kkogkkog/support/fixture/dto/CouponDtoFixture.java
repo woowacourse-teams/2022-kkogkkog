@@ -2,9 +2,9 @@ package com.woowacourse.kkogkkog.support.fixture.dto;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
@@ -38,7 +38,8 @@ public class CouponDtoFixture {
         return new CouponResponse(
             couponId,
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
+            new CouponMemberResponse(receiver.getId(), receiver.getNickname(),
+                receiver.getImageUrl()),
             "고마워요",
             "쿠폰에 대한 메시지",
             "COFFEE",
@@ -48,11 +49,13 @@ public class CouponDtoFixture {
         );
     }
 
-    public static CouponDetailResponse 쿠폰_상세_응답(Long couponId, Member sender, Member receiver, CouponHistoryResponse couponHistoryResponse) {
+    public static CouponDetailResponse 쿠폰_상세_응답(Long couponId, Member sender, Member receiver,
+                                                CouponHistoryResponse couponHistoryResponse) {
         return new CouponDetailResponse(
             couponId,
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
+            new CouponMemberResponse(receiver.getId(), receiver.getNickname(),
+                receiver.getImageUrl()),
             "고마워요",
             "쿠폰에 대한 메시지",
             "COFFEE",
@@ -75,48 +78,21 @@ public class CouponDtoFixture {
         );
     }
 
-//    public static CouponReservationResponse 쿠폰과_예약정보_응답(Long couponId, Long reservationId, Long memberId) {
-//        return new CouponReservationResponse(
-//            couponId,
-//            reservationId,
-//            memberId,
-//            "멤버 닉네임",
-//            "https://",
-//            "고마워요",
-//            "쿠폰에 대한 설명을 작성했어요",
-//            CouponType.COFFEE,
-//            CouponStatus.REQUESTED,
-//            "예약 요청 메시지를 입력할 수 있어요",
-//            LocalDateTime.of(2022, 1, 1, 0, 0, 0),
-//            null
-//        );
-//    }
+    public static CouponEventRequest 쿠폰_이벤트_요청(String request,
+                                               LocalDateTime meetingDate,
+                                               String meetingMessage) {
+        if (meetingDate == null) {
+            return new CouponEventRequest(
+                request,
+                null,
+                meetingMessage
+            );
+        }
 
-//    public static CouponDetailResponse 쿠폰_생성_상세조회_응답(Long couponId, Long senderId, Long receiverId) {
-//        return new CouponDetailResponse(
-//            couponId,
-//            senderId,
-//            "보낸 사람 닉네임",
-//            "senderImageUrl",
-//            receiverId,
-//            "받은 사람 닉네임",
-//            "receiverImageUrl",
-//            "고마워요",
-//            "쿠폰에 대한 설명을 작성했어요",
-//            CouponType.COFFEE,
-//            CouponStatus.READY,
-//            null,
-//            1L,
-//            List.of(new CouponHistoryResponse(
-//                1L,
-//                "보낸 사람 닉네임",
-//                "프로필 이미지 경로",
-//                CouponType.COFFEE,
-//                CouponEventType.INIT,
-//                null,
-//                null,
-//                LocalDateTime.of(2022, 1, 1, 0, 0, 0)
-//            ))
-//        );
-//    }
+        return new CouponEventRequest(
+            request,
+            meetingDate.toLocalDate(),
+            meetingMessage
+        );
+    }
 }

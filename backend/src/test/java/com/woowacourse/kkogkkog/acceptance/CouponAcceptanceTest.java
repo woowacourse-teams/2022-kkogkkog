@@ -94,7 +94,124 @@ public class CouponAcceptanceTest extends AcceptanceTest {
                 CouponStatus.READY.name()),
             () -> assertThat(couponDetailResponse.getCouponHistories()).hasSize(1)
         );
+    }
 
+    @Test
+    void 쿠폰에_대해서_받은사람이_사용신청을_할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(
+            senderToken, COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+
+        ExtractableResponse<Response> extract = 쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId,
+            쿠폰_이벤트_요청(
+                "REQUEST",
+                createMeetingTime(2022, 1, 1),
+                "쿠폰 미팅을 위한 메시지"));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
+    @Test
+    void 쿠폰에_대해서_받은사람이_사용신청을_하고_보낸사람이_사용거절을_할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            createMeetingTime(2022, 1, 1),
+            "쿠폰 미팅을 위한 메시지"));
+
+        ExtractableResponse<Response> extract = 쿠폰_이벤트_요청을_한다(senderToken, couponId, 쿠폰_이벤트_요청(
+            "DECLINE",
+            null,
+            null));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
+    @Test
+    void 쿠폰에_대해서_받은사람이_사용신청을_하고_받은사람이_사용취소를_할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            createMeetingTime(2022, 1, 1),
+            "쿠폰 미팅을 위한 메시지"));
+
+        ExtractableResponse<Response> extract = 쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId,
+            쿠폰_이벤트_요청(
+                "CANCEL",
+                null,
+                null));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
+    @Test
+    void 쿠폰에_대해서_받은사람이_사용신청을_하고_보낸사람이_미팅수락을_할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            createMeetingTime(2022, 1, 1),
+            "쿠폰 미팅을 위한 메시지"));
+
+        ExtractableResponse<Response> extract = 쿠폰_이벤트_요청을_한다(senderToken, couponId,
+            쿠폰_이벤트_요청(
+                "ACCEPT",
+                null,
+                null));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
+    @Test
+    void 쿠폰에_대해서_받은사람이_사용신청을_하고_받은사람이_미팅취소_할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            createMeetingTime(2022, 1, 1),
+            "쿠폰 미팅을 위한 메시지"));
+        쿠폰_이벤트_요청을_한다(senderToken, couponId, 쿠폰_이벤트_요청(
+            "ACCEPT",
+            null,
+            null));
+
+        ExtractableResponse<Response> extract = 쿠폰_이벤트_요청을_한다(senderToken, couponId, 쿠폰_이벤트_요청(
+            "CANCEL",
+            null,
+            null));
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        );
     }
 
     static ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
@@ -113,7 +230,16 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         return invokeGet("/api/coupons/" + couponId);
     }
 
-    static void 쿠폰_생성을_요청하고(String token, Object data) {
-        invokePostWithToken("/api/coupons", token, data);
+    static ExtractableResponse<Response> 쿠폰_이벤트_요청을_한다(String token, Long couponId, Object data) {
+        return invokePutWithToken("/api/coupons/" + couponId + "/event", token, data);
+    }
+
+    static CouponsResponse 쿠폰_생성을_요청하고(String token, Object data) {
+        ExtractableResponse<Response> response = invokePostWithToken("/api/coupons", token, data);
+        return response.as(CouponsResponse.class);
+    }
+
+    private LocalDateTime createMeetingTime(int year, int month, int day) {
+        return LocalDateTime.of(year, month, day, 0, 0, 0);
     }
 }
