@@ -25,11 +25,12 @@ class SlackClientTest {
     private static final String USER_ID = "ABC123";
     private static final String TEAM_ID = "TEAM12";
     private static final String JWT_USER_ID_TOKEN = "aaaaaa.bbbbbb.cccccc";
+    private static final String USER_ACCESS_TOKEN = "xoxp-user-access-token";
     private static final String BOT_ACCESS_TOKEN = "xoxb-bot-access-token";
     private static final String MESSAGE = "MESSAGE_HERE";
     private static final Map<String, String> SLACK_TOKEN_RESPONSE = new HashMap<>() {{
         put("ok", "true");
-        put("access_token", "xoxp-user-access-token");
+        put("access_token", USER_ACCESS_TOKEN);
         put("token_type", "Bearer");
         put("id_token", JWT_USER_ID_TOKEN);
     }};
@@ -70,15 +71,28 @@ class SlackClientTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    @DisplayName("인증 서버로 코드를 보내 엑세스 토큰을 받아와 정보를 조회한다.")
-    void getUserInfoByCode() throws IOException {
+    @DisplayName("인증 서버로 코드를 보내 엑세스 토큰을 받아온다.")
+    void requestAccessToken() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_TOKEN_RESPONSE));
+        SlackClient slackClient = buildMockSlackClient(mockWebServer);
+
+        String accessToken = slackClient.requestAccessToken("code");
+
+        assertThat(accessToken).isEqualTo(USER_ACCESS_TOKEN);
+        mockWebServer.shutdown();
+    }
+
+    @Test
+    @DisplayName("슬랙 서버로 엑세스 토큰을 보내 유저 정보를 가져온다.")
+    void requestUserInfo() throws IOException {
+        MockWebServer mockWebServer = new MockWebServer();
+        mockWebServer.start();
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
-        SlackUserInfo slackUserInfo = slackClient.getUserInfoByCode("code");
+        SlackUserInfo slackUserInfo = slackClient.requestUserInfo(USER_ACCESS_TOKEN);
         String userId = slackUserInfo.getUserId();
 
         assertThat(userId).isEqualTo(USER_ID);
@@ -87,14 +101,14 @@ class SlackClientTest {
 
     @Test
     @DisplayName("요청 과정에서 오류가 발생하면 예외가 발생한다.")
-    void getTokenException() throws IOException {
+    void requestAccessTokenException() throws IOException {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(ERROR_RESPONSE));
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(SLACK_USER_INFO_RESPONSE));
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
-        assertThatThrownBy(() -> slackClient.getUserInfoByCode("invalid_code"))
+        assertThatThrownBy(() -> slackClient.requestAccessToken("invalid_code"))
             .isInstanceOf(AccessTokenRetrievalFailedException.class);
     }
 

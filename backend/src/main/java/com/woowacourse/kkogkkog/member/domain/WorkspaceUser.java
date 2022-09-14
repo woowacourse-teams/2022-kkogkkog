@@ -21,12 +21,12 @@ public class WorkspaceUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String userId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "master_member_id", nullable = false)
     private Member masterMember;
+
+    @Column(nullable = false, unique = true)
+    private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspace_id", nullable = false)
@@ -40,6 +40,12 @@ public class WorkspaceUser {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    public WorkspaceUser(Member masterMember, String userId, Workspace workspace,
+                         String displayName,
+                         String email, String imageUrl) {
+        this(null, masterMember, userId, workspace, displayName, email, imageUrl);
+    }
 
     public WorkspaceUser(Long id, Member masterMember, String userId, Workspace workspace,
                          String displayName, String email, String imageUrl) {

@@ -3,7 +3,8 @@
     "node": true,
     "browser": true,
     "es2021": true,
-    "commonjs": true
+    "commonjs": true,
+    "jest/globals": true
   },
   "parser": "@typescript-eslint/parser",
   "settings": {
@@ -19,7 +20,8 @@
     "import",
     "prettier",
     "simple-import-sort",
-    "jsx-a11y"
+    "jsx-a11y",
+    "jest"
   ],
   "extends": [
     "react-app",
@@ -29,7 +31,8 @@
     "prettier/prettier",
     "plugin:import/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:jest/recommended"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",

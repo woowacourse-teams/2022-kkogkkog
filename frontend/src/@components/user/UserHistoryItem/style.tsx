@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ isRead: boolean }>`
+export const Root = styled.li<{ isRead: boolean }>`
   display: flex;
 
   padding: 21px 19px;

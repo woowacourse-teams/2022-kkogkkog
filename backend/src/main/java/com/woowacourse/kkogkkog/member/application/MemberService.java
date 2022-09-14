@@ -2,13 +2,13 @@ package com.woowacourse.kkogkkog.member.application;
 
 import static java.util.stream.Collectors.toList;
 
-import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
+import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberUpdateRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Nickname;
@@ -29,30 +29,46 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
-    private final CouponHistoryRepository couponHistoryRepository;
+    private final CouponHistoryRepository memberHistoryRepository;
 
     public MemberService(MemberRepository memberRepository,
                          WorkspaceUserRepository workspaceUserRepository,
                          CouponHistoryRepository couponHistoryRepository) {
         this.memberRepository = memberRepository;
         this.workspaceUserRepository = workspaceUserRepository;
-        this.couponHistoryRepository = couponHistoryRepository;
+        this.memberHistoryRepository = couponHistoryRepository;
     }
 
-    public MemberCreateResponse saveOrUpdate(SlackUserInfo userInfo, Workspace workspace) {
+    public boolean existsMember(SlackUserInfo userInfo) {
+        String email = userInfo.getEmail();
+        return memberRepository.findByEmail(email)
+            .isPresent();
+    }
+
+    public Long save(SlackUserInfo userInfo, Workspace workspace, String nickname) {
+        String userId = userInfo.getUserId();
+        String email = userInfo.getEmail();
+        String imageUrl = userInfo.getPicture();
+
+        Member newMember = memberRepository.save(
+            new Member(userId, workspace, new Nickname(nickname), email, imageUrl));
+        workspaceUserRepository.save(
+            new WorkspaceUser(newMember, userId, workspace, nickname, email, imageUrl));
+        return newMember.getId();
+    }
+
+    public MemberUpdateResponse update(SlackUserInfo userInfo, Workspace workspace) {
         String userId = userInfo.getUserId();
         Optional<WorkspaceUser> workspaceUser = workspaceUserRepository.findByUserId(userId);
         if (workspaceUser.isPresent()) {
             return updateExistingMember(userInfo, workspaceUser.get(), workspace);
         }
-        Optional<Member> member = memberRepository.findByEmail(userInfo.getEmail());
-        if (member.isPresent()) {
-            return integrateNewWorkspaceUser(userInfo, member.get(), workspace);
-        }
-        return saveNewMember(userInfo, workspace);
+        Member member = memberRepository.findByEmail(userInfo.getEmail())
+            .orElseThrow(MemberNotFoundException::new);
+        return integrateNewWorkspaceUser(userInfo, member, workspace);
     }
 
-    private MemberCreateResponse updateExistingMember(SlackUserInfo userInfo,
+    private MemberUpdateResponse updateExistingMember(SlackUserInfo userInfo,
                                                       WorkspaceUser workspaceUser,
                                                       Workspace workspace) {
         workspaceUser.updateDisplayName(userInfo.getName());
@@ -62,10 +78,10 @@ public class MemberService {
         member.updateMainSlackUserId(userInfo.getUserId());
         member.updateImageURL(userInfo.getPicture());
         member.updateWorkspace(workspace);
-        return new MemberCreateResponse(member.getId(), false);
+        return new MemberUpdateResponse(member.getId(), false);
     }
 
-    private MemberCreateResponse integrateNewWorkspaceUser(SlackUserInfo userInfo,
+    private MemberUpdateResponse integrateNewWorkspaceUser(SlackUserInfo userInfo,
                                                            Member existingMember,
                                                            Workspace workspace) {
         existingMember.updateMainSlackUserId(userInfo.getUserId());
@@ -74,28 +90,15 @@ public class MemberService {
         workspaceUserRepository.save(
             new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
                 userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
-        return new MemberCreateResponse(existingMember.getId(), false);
-    }
-
-    private MemberCreateResponse saveNewMember(SlackUserInfo userInfo, Workspace workspace) {
-        String userId = userInfo.getUserId();
-        String nickname = userInfo.getName();
-        String email = userInfo.getEmail();
-        String imageUrl = userInfo.getPicture();
-
-        Member newMember = memberRepository.save(
-            new Member(null, userId, workspace, Nickname.ofRandom(), email, imageUrl));
-        workspaceUserRepository.save(
-            new WorkspaceUser(null, newMember, userId, workspace, nickname, email, imageUrl));
-        return new MemberCreateResponse(newMember.getId(), true);
+        return new MemberUpdateResponse(existingMember.getId(), false);
     }
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        long unreadHistoryCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(
-            findMember);
+        Long unreadHistoryCount = memberHistoryRepository
+            .countByHostMemberAndIsReadFalse(findMember);
 
         return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
@@ -107,35 +110,36 @@ public class MemberService {
             .collect(toList());
     }
 
-    public void update(MemberUpdateRequest memberUpdateRequest) {
-        Member member = memberRepository.findById(memberUpdateRequest.getMemberId())
+    public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
+        Member member = memberRepository.findById(memberNicknameUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
 
-        member.updateNickname(memberUpdateRequest.getNickname());
+        member.updateNickname(memberNicknameUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 
-        return couponHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember)
+        return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember)
             .stream()
             .map(MemberHistoryResponse::of)
             .collect(toList());
     }
 
-    public void updateIsReadMemberHistory(Long couponHistoryId) {
-        CouponHistory couponHistory = couponHistoryRepository.findById(couponHistoryId)
+    public void updateIsReadMemberHistory(Long memberHistoryId) {
+        CouponHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
             .orElseThrow(MemberHistoryNotFoundException::new);
 
-        couponHistory.updateIsRead();
+        memberHistory.updateIsRead();
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+        Member foundMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 
-        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByHostMember(member);
+        List<CouponHistory> couponHistories = memberHistoryRepository
+            .findAllByHostMemberOrderByCreatedTimeDesc(foundMember);
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }

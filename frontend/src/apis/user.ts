@@ -1,9 +1,9 @@
 import { client } from '@/apis';
 import {
   EditMeRequest,
-  JoinRequest,
   LoginRequest,
   ReadHistoryRequest,
+  SignupRequest,
 } from '@/types/remote/request';
 import {
   LoginResponse,
@@ -19,7 +19,7 @@ export const editMe = (body: EditMeRequest) => client.put('/members/me', body);
 
 export const getUserList = () => client.get<UserListResponse>('/members');
 
-export const join = (body: JoinRequest) => client.post('/members', body);
+export const signUpToken = (body: SignupRequest) => client.post('/signup/token', body);
 
 export const login = (body: LoginRequest) => client.post<LoginResponse>('/login', body);
 

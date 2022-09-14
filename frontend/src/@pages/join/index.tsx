@@ -10,8 +10,8 @@ import { PATH } from '@/Router';
 
 const JoinPage = () => {
   const {
-    state: { email, password, confirmPassword, name },
-    changeHandler: { onChangeEmail, onChangePassword, onChangeConfirmPassword, onChangeName },
+    state: { name },
+    changeHandler: { onChangeName },
     submitHandler: { join: onSubmitForm },
   } = useAuthenticateForm();
 
@@ -31,38 +31,14 @@ const JoinPage = () => {
         </Link>
         <Styled.FormRoot onSubmit={onSubmitForm}>
           <Input
-            id='email'
-            type='email'
-            label='이메일'
-            placeholder='이메일'
-            value={email}
-            onChange={onChangeEmail}
-          />
-          <Input
-            id='password'
-            type='password'
-            label='비밀번호'
-            description='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요'
-            placeholder='비밀번호'
-            value={password}
-            onChange={onChangePassword}
-          />
-          <Input
-            id='confirm-password'
-            type='password'
-            label='비밀번호 확인'
-            placeholder='비밀번호 확인'
-            value={confirmPassword}
-            onChange={onChangeConfirmPassword}
-          />
-          <Input
             id='name'
             type='text'
             label='닉네임'
-            description='2~8자 사이의 닉네임을 입력해주세요'
+            description='1~6자 사이의 닉네임을 입력해주세요'
             placeholder='닉네임'
             value={name}
             onChange={onChangeName}
+            maxLength={6}
           />
           <Button>회원가입</Button>
         </Styled.FormRoot>
@@ -80,12 +56,17 @@ const Styled = {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    gap: 20px;
   `,
   FormRoot: styled.form`
     display: flex;
     flex-direction: column;
 
     padding: 20px;
+    margin: 10px;
+
+    gap: 10px;
 
     & > div {
       margin-bottom: 15px;

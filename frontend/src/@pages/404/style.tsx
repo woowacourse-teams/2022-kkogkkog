@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const Root = styled.div`
   padding: 15px;
-  height: 80vh;
+  height: calc(var(--vh, 1vh) * 80);
 
   gap: 10px;
 

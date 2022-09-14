@@ -92,11 +92,6 @@ export const useCouponForm = () => {
             }
             navigate(PATH.LANDING);
           },
-          onError(error) {
-            if (error instanceof AxiosError) {
-              displayMessage(error?.response?.data?.message, true);
-            }
-          },
         }
       );
     }

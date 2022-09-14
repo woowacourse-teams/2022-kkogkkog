@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -26,7 +28,7 @@ import org.springframework.test.web.servlet.ResultActions;
 class AuthDocumentTest extends DocumentTest {
 
     @Test
-    void 회원가입_또는_로그인을_요청한다() throws Exception {
+    void 로그인을_요청한다() throws Exception {
         // given
         TokenResponse tokenResponse = new TokenResponse("accessToken", true);
         given(authService.login(any())).willReturn(tokenResponse);
@@ -51,6 +53,32 @@ class AuthDocumentTest extends DocumentTest {
                     fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰"),
                     fieldWithPath("isNew").type(JsonFieldType.BOOLEAN).description("회원가입 여부")
                 )
+            ));
+    }
+
+    @Test
+    void 회원가입을_요청한다() throws Exception {
+        // given
+        MemberCreateRequest memberCreateRequest = new MemberCreateRequest("slack-accessToken", "변경할닉네임");
+        MemberCreateResponse memberCreateResponse = new MemberCreateResponse("accessToken");
+        given(authService.loginByMemberId(any())).willReturn(memberCreateResponse);
+
+        // when
+        ResultActions perform = mockMvc.perform(post("/api/signup/token")
+            .content(objectMapper.writeValueAsString(memberCreateRequest))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        perform
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.accessToken").value("accessToken"));
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("auth-signUp",
+                getDocumentRequest(),
+                getDocumentResponse()
             ));
     }
 

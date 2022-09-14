@@ -73,12 +73,7 @@ public class SlackClient {
             .build();
     }
 
-    public SlackUserInfo getUserInfoByCode(final String code) {
-        String token = requestAccessToken(code);
-        return requestUserInfo(token);
-    }
-
-    private String requestAccessToken(String code) {
+    public String requestAccessToken(String code) {
         Map<String, Object> responseBody = oAuthLoginClient
             .post()
             .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, loginRedirectUrl))
@@ -95,7 +90,7 @@ public class SlackClient {
         return responseBody.get("access_token").toString();
     }
 
-    private SlackUserInfo requestUserInfo(String token) {
+    public SlackUserInfo requestUserInfo(String token) {
         try {
             return userClient
                 .get()
