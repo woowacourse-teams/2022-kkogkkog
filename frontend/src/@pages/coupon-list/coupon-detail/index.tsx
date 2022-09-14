@@ -51,7 +51,7 @@ const sentCouponMapper: Record<COUPON_STATUS, { buttons: buttonType[] }> = {
 };
 
 const CouponDetailPage = () => {
-  const { couponId } = useParams<string>();
+  const { couponId } = useParams();
   const navigate = useNavigate();
 
   const { coupon } = useFetchCoupon(Number(couponId));
