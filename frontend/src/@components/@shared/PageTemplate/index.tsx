@@ -1,6 +1,7 @@
 import { PropsWithChildren, useEffect } from 'react';
 
 import Header from '@/@components/@shared/Header';
+import PrevPathMemoization from '@/@components/@shared/PrevPathMemoization';
 
 import * as Styled from './style';
 
@@ -17,12 +18,14 @@ const PageTemplate = (props: PropsWithChildren<PageTemplateProps>) => {
   }, [title]);
 
   return (
-    <Styled.Root>
-      <Styled.Container>
-        {hasHeader && <Header title={title} />}
-        {children}
-      </Styled.Container>
-    </Styled.Root>
+    <PrevPathMemoization>
+      <Styled.Root>
+        <Styled.Container>
+          {hasHeader && <Header title={title} />}
+          {children}
+        </Styled.Container>
+      </Styled.Root>
+    </PrevPathMemoization>
   );
 };
 
@@ -36,12 +39,14 @@ PageTemplate.LandingPage = function LandingPageTemplate(
   }, []);
 
   return (
-    <Styled.Root>
-      <Styled.Container>
-        {hasHeader && <Header css={Styled.ExtendedHeader} />}
-        {children}
-      </Styled.Container>
-    </Styled.Root>
+    <PrevPathMemoization>
+      <Styled.Root>
+        <Styled.Container>
+          {hasHeader && <Header css={Styled.ExtendedHeader} />}
+          {children}
+        </Styled.Container>
+      </Styled.Root>
+    </PrevPathMemoization>
   );
 };
 

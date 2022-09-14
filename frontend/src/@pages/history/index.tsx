@@ -1,35 +1,48 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import { getPrevURL } from '@/@components/@shared/PrevPathMemoization';
 import UserHistoryList from '@/@components/user/UserHistoryList';
-import {
-  useFetchUserHistoryList,
-  useReadAllHistoryMutation,
-  useReadHistory,
-} from '@/@hooks/@queries/user';
+import { useFetchUserHistoryList, useReadHistory } from '@/@hooks/@queries/user';
+import { useReadAllHistory } from '@/@hooks/business/user';
 import { UserHistory } from '@/types/client/user';
+import { couponListDetailPageRegExp } from '@/utils/regularExpression';
 
 const UserHistoryPage = () => {
   const navigate = useNavigate();
-  const state = useLocation().state as { shouldRefetch: boolean } | null;
 
-  const { historyList, refetch } = useFetchUserHistoryList();
-  const { mutate: readAllHistory } = useReadAllHistoryMutation();
-  const readHistory = useReadHistory();
+  const { historyList, isReadAll, refetch } = useFetchUserHistoryList();
+  const { readAllHistory } = useReadAllHistory();
+  const { readHistory } = useReadHistory();
 
   useEffect(() => {
-    if (state?.shouldRefetch) {
-      refetch();
-      readAllHistory();
-      window.history.replaceState({}, document.title);
+    const prevURL = getPrevURL();
+
+    if (couponListDetailPageRegExp.test(prevURL)) {
+      return;
     }
-  }, [state, refetch, readAllHistory]);
+
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (isReadAll) {
+      return;
+    }
+
+    const readUserHisory = async () => {
+      await readAllHistory();
+    };
+
+    readUserHisory();
+  }, [isReadAll]);
 
   const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
     if (!isRead) {
       readHistory(id);
     }
+
     navigate(`/coupon-list/${couponId}`);
   };
 

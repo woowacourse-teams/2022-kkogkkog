@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import { useAuthenticateForm } from '@/@hooks/user/useAuthenticateForm';
+import { useAuthenticateForm } from '@/@hooks/ui/user/useAuthenticateForm';
 import { PATH } from '@/Router';
 
 const JoinPage = () => {
