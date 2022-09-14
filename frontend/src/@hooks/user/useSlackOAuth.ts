@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useAddSlackAppMutation } from '@/@hooks/@queries/service';
-import { useSlackOAuthLoginMutation } from '@/@hooks/@queries/user';
+import { useAddSlackAppMutation, useSlackOAuthLoginMutation } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
 export const useSlackOAuthLogin = () => {

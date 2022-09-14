@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
@@ -56,11 +56,6 @@ export const useFetchUserHistoryList = () => {
   const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: Infinity,
-    onError(error) {
-      if (error instanceof AxiosError) {
-        displayMessage(error?.response?.data?.message, true);
-      }
-    },
   });
 
   const isReadAll = useMemo(
