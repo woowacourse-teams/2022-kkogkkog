@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
-import { useAddSlackApp, useSlackOAuthLogin } from '@/@hooks/user/useSlackOAuth';
+import { useAddSlackApp, useSlackOAuthLogin } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 
 const Redirect = () => {
+  const navigate = useNavigate();
+
   const pathname = useLocation().pathname;
 
   const code = useGetSearchParam('code');
@@ -19,19 +21,41 @@ const Redirect = () => {
       return;
     }
 
+    const slackLoginRedirect = async () => {
+      try {
+        const response = await loginBySlackOAuth(code);
+
+        if (response.isNew) {
+          navigate(PATH.SIGNUP);
+        } else {
+          navigate(PATH.LANDING, { replace: true });
+        }
+      } catch (error) {
+        navigate(PATH.LANDING, { replace: true });
+
+        console.error(error);
+      }
+    };
+
+    const addSlackAppRedirect = async () => {
+      await addSlackApp(code);
+
+      navigate(PATH.LANDING, { replace: true });
+    };
+
     if (pathname === PATH.LOGIN_REDIRECT) {
-      loginBySlackOAuth(code);
+      slackLoginRedirect();
     }
 
     if (pathname === PATH.DOWNLOAD_REDIRECT) {
-      addSlackApp(code);
+      addSlackAppRedirect();
     }
 
     // mutate가 실행된 후 해당 컴포넌트가 리렌더링 되기 때문에 dependency에 loginMutate를 넣으면 무한 렌더링이 발생함.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Loading />;
+  return code ? <Loading /> : <Navigate to={PATH.LANDING} />;
 };
 
 export default Redirect;

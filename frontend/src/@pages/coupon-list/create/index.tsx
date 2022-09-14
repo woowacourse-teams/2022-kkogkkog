@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import CouponCreateForm from '@/@components/coupon/CouponCreateForm';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
-import { useCouponForm } from '@/@hooks/coupon/useCouponForm';
+import { useCouponForm } from '@/@hooks/ui/coupon/useCouponForm';
 
 const CouponCreatePage = () => {
   const {
@@ -17,7 +17,7 @@ const CouponCreatePage = () => {
       onSelectColor,
       onChangeDescription,
     },
-    submitHandler: { create: onSubmitForm },
+    submitHandler: { create: onSubmitCouponCreateForm },
   } = useCouponForm();
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ const CouponCreatePage = () => {
             onSelectHashtag={onSelectHashtag}
             onSelectColor={onSelectColor}
             onChangeDescription={onChangeDescription}
-            onSubmitCreateForm={onSubmitForm}
+            onSubmitCreateForm={onSubmitCouponCreateForm}
           />
         </Styled.Inner>
       </Styled.Root>

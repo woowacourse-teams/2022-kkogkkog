@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useEditMeMutation, useFetchMe } from '@/@hooks/@queries/user';
+import { useFetchMe } from '@/@hooks/@queries/user';
+import { useEditMe } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
@@ -15,7 +16,8 @@ const useEditProfileForm = () => {
   const [nickname, onChangeNickname, setNickname] = useInput('');
 
   const { me } = useFetchMe();
-  const editMeMutation = useEditMeMutation();
+
+  const { editMe } = useEditMe();
 
   useEffect(() => {
     if (me) {
@@ -23,7 +25,7 @@ const useEditProfileForm = () => {
     }
   }, [me, setNickname]);
 
-  const onSubmitEditedForm: FormEventHandler<HTMLFormElement> = e => {
+  const onSubmitEditedForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
     if (nickname === me?.nickname) {
@@ -36,16 +38,9 @@ const useEditProfileForm = () => {
       return;
     }
 
-    editMeMutation.mutate(
-      { nickname },
-      {
-        onSuccess() {
-          displayMessage('닉네임이 변경되었습니다', false);
+    await editMe({ nickname });
 
-          navigate(PATH.PROFILE, { replace: true });
-        },
-      }
-    );
+    navigate(PATH.PROFILE, { replace: true });
   };
 
   return {

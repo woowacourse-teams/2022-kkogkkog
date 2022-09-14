@@ -2,7 +2,7 @@ import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useEditProfileForm from '@/@hooks/user/useEditProfileForm';
+import useEditProfileForm from '@/@hooks/ui/user/useEditProfileForm';
 
 import * as Styled from './style';
 

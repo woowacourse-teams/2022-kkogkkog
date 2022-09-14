@@ -9,10 +9,9 @@ import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { getToday, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
@@ -53,29 +52,19 @@ const CouponRequestPage = () => {
 
   const isSent = me?.id === senderId;
 
-  const onClickRequestButton = () => {
+  const onClickRequestButton = async () => {
     if (!meetingDate) {
       displayMessage('날짜를 지정해주세요.', true);
 
       return;
     }
 
-    if (window.confirm('쿠폰 사용을 요청하시겠어요?')) {
-      requestCoupon(
-        { meetingDate, message },
-        {
-          onSuccessCallback() {
-            if (isSent) {
-              navigate(PATH.SENT_COUPON_LIST, { replace: true });
-            } else {
-              navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-            }
-          },
-        }
-      );
+    if (!window.confirm('쿠폰 사용을 요청하시겠어요?')) {
+      return;
     }
-  };
 
+    await requestCoupon({ meetingDate, message });
+  };
 
   return (
     <PageTemplate title='쿠폰' hasHeader={false}>

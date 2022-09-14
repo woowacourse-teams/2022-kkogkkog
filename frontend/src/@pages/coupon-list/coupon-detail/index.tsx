@@ -9,9 +9,8 @@ import CouponHistoryList from '@/@components/coupon/CouponHistoryList';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
@@ -87,18 +86,12 @@ const CouponDetailPage = () => {
     navigate(`/coupon-list/${couponId}/request`);
   };
 
-  const onClickCancelButton = () => {
-    if (window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
-      cancelCoupon({
-        onSuccessCallback() {
-          if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST, { replace: true });
-          } else {
-            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-          }
-        },
-      });
+  const onClickCancelButton = async () => {
+    if (!window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
+      return;
     }
+
+    await cancelCoupon();
   };
 
   const onClickAcceptButton = () => {
@@ -109,18 +102,12 @@ const CouponDetailPage = () => {
     navigate(`/coupon-list/${couponId}/decline`);
   };
 
-  const onClickFinishButton = () => {
-    if (window.confirm('쿠폰을 사용하셨나요?')) {
-      finishCoupon({
-        onSuccessCallback() {
-          if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST, { replace: true });
-          } else {
-            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-          }
-        },
-      });
+  const onClickFinishButton = async () => {
+    if (!window.confirm('쿠폰을 사용하셨나요?')) {
+      return;
     }
+
+    await finishCoupon();
   };
 
   return (
