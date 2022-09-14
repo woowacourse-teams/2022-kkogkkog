@@ -12,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -76,7 +76,7 @@ const AuthorizedLanding = () => {
   const sentOpenCouponList = useMemo(() => parseOpenCouponList('sent'), [couponList]);
 
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.couponId}`);
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
   };
 
   return (

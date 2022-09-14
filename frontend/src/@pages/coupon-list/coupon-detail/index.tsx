@@ -11,6 +11,7 @@ import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import { couponTypeTextMapper } from '@/constants/coupon';
+import { DYNAMIC_PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
@@ -50,7 +51,7 @@ const sentCouponMapper: Record<COUPON_STATUS, { buttons: buttonType[] }> = {
 };
 
 const CouponDetailPage = () => {
-  const { couponId } = useParams();
+  const { couponId } = useParams<string>();
   const navigate = useNavigate();
 
   const { coupon } = useFetchCoupon(Number(couponId));
@@ -83,7 +84,7 @@ const CouponDetailPage = () => {
   const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
   const onClickRequestButton = () => {
-    navigate(`/coupon-list/${couponId}/request`);
+    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)));
   };
 
   const onClickCancelButton = async () => {
@@ -95,11 +96,11 @@ const CouponDetailPage = () => {
   };
 
   const onClickAcceptButton = () => {
-    navigate(`/coupon-list/${couponId}/accept`);
+    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)));
   };
 
   const onClickDeclineButton = () => {
-    navigate(`/coupon-list/${couponId}/decline`);
+    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)));
   };
 
   const onClickFinishButton = async () => {
