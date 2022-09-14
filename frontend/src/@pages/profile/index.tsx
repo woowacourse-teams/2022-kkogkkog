@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import { client } from '@/apis';
 import { PATH } from '@/Router';
 
 import * as Styled from './style';
@@ -11,14 +10,10 @@ import * as Styled from './style';
 const ProfilePage = () => {
   const navigate = useNavigate();
 
-  const { me, remove } = useFetchMe();
+  const { me, logout } = useFetchMe();
 
   const onClickLogoutButton = () => {
-    client.defaults.headers['Authorization'] = '';
-
-    localStorage.removeItem('user-token');
-
-    remove();
+    logout();
 
     navigate(PATH.LANDING);
   };

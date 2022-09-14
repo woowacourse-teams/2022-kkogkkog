@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -67,8 +68,12 @@ const UnAuthorizedLanding = () => {
 
 const AuthorizedLanding = () => {
   const navigate = useNavigate();
-  const { reservationRecord, receivedOpenCouponList, sentOpenCouponList, isLoading } =
+  const { couponList, isLoading, parseOpenCouponList, generateReservationRecord } =
     useFetchCouponList();
+
+  const reservationRecord = useMemo(() => generateReservationRecord(), [couponList]);
+  const receivedOpenCouponList = useMemo(() => parseOpenCouponList('received'), [couponList]);
+  const sentOpenCouponList = useMemo(() => parseOpenCouponList('sent'), [couponList]);
 
   const onClickCouponItem = (coupon: CouponResponse) => {
     navigate(`/coupon-list/${coupon.couponId}`);

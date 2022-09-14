@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
@@ -28,45 +27,58 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
+  const { data, isLoading, remove } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
     useErrorBoundary: false,
   });
 
+  const logout = () => {
+    client.defaults.headers['Authorization'] = '';
+
+    localStorage.removeItem('user-token');
+
+    remove();
+  };
+
   return {
     me: data?.data,
-    ...rest,
+    isLoading,
+    logout,
   };
 };
 
 export const useFetchUserList = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
   });
 
   return {
     userList: data?.data?.data,
-    ...rest,
   };
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, refetch } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: Infinity,
   });
 
-  const isReadAll = useMemo(
-    () => (data?.data ?? []).every(history => history.isRead),
-    [data?.data]
-  );
+  const historyList = useMemo(() => data?.data ?? [], [data?.data]);
+
+  const checkIsReadAll = () => {
+    return historyList.every(history => history.isRead);
+  };
+
+  const synchronizeServerUserHistory = () => {
+    refetch();
+  };
 
   return {
     historyList: data?.data ?? [],
-    isReadAll,
-    ...rest,
+    synchronizeServerUserHistory,
+    checkIsReadAll,
   };
 };
 

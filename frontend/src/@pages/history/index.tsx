@@ -12,7 +12,7 @@ import { couponListDetailPageRegExp } from '@/utils/regularExpression';
 const UserHistoryPage = () => {
   const navigate = useNavigate();
 
-  const { historyList, isReadAll, refetch } = useFetchUserHistoryList();
+  const { historyList, synchronizeServerUserHistory } = useFetchUserHistoryList();
   const { readAllHistory } = useReadAllHistory();
   const { readHistory } = useReadHistory();
 
@@ -23,20 +23,16 @@ const UserHistoryPage = () => {
       return;
     }
 
-    refetch();
+    synchronizeServerUserHistory();
   }, []);
 
   useEffect(() => {
-    if (isReadAll) {
-      return;
-    }
-
     const readUserHisory = async () => {
       await readAllHistory();
     };
 
     readUserHisory();
-  }, [isReadAll]);
+  }, [historyList]);
 
   const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
     if (!isRead) {
