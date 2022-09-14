@@ -3,9 +3,11 @@ package com.woowacourse.kkogkkog.coupon.presentation;
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponEventRequest;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,12 @@ public class CouponController {
     public ResponseEntity<CouponDetailResponse> show(@PathVariable Long couponId) {
         CouponDetailResponse couponDetailResponse = couponService.find(couponId);
         return ResponseEntity.ok(couponDetailResponse);
+    }
+
+    @GetMapping("/accept")
+    public ResponseEntity<CouponMeetingsResponse> showMeetings(@LoginMemberId Long loginMemberId) {
+        List<CouponMeetingResponse> meetingsResponse = couponService.findMeeting(loginMemberId);
+        return ResponseEntity.ok(new CouponMeetingsResponse(meetingsResponse));
     }
 
     @PostMapping

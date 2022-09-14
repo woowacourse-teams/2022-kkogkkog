@@ -20,6 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import java.time.LocalDateTime;
@@ -149,6 +153,46 @@ class CouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("coupon-request-event",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 미팅이_확정된_쿠폰_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(couponService.findMeeting(any())).willReturn(List.of(CouponMeetingResponse.of(
+            LocalDateTime.of(2022, 12, 12, 0, 0, 0),
+            List.of(
+                new CouponMeetingData(
+                    1L,
+                    new CouponMemberResponse(1L, "ROOKIE", "https://"),
+                    new CouponMemberResponse(2L, "AUTHOR", "https://"),
+                    null,
+                    null))
+        )));
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/coupons/accept")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    new CouponMeetingsResponse(List.of(CouponMeetingResponse.of(
+                        LocalDateTime.of(2022, 12, 12, 0, 0, 0),
+                        List.of(
+                            new CouponMeetingData(
+                            1L,
+                            new CouponMemberResponse(1L, "ROOKIE", "https://"),
+                            new CouponMemberResponse(2L, "AUTHOR", "https://"),
+                            null,
+                            null))
+                    )))
+                )));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-show-accept",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
