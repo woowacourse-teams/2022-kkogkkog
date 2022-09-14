@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-
 import { useToast } from '@/@hooks/@common/useToast';
 import { COUPON_ENG_TYPE, COUPON_HASHTAGS } from '@/types/client/coupon';
 import { UserResponse } from '@/types/remote/response';
