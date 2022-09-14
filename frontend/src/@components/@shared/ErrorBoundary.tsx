@@ -1,12 +1,13 @@
 import { AxiosError } from 'axios';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
+import { useQueryClient } from 'react-query';
+import type { NavigateFunction } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { PATH } from '@/Router';
 
 import { ErrorFallbackProps } from './ErrorFallback';
 import { ToastContext, ToastContextType } from './ToastProvider';
-import { useQueryClient } from 'react-query';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 interface ErrorBoundaryProps {
   fallback: React.ComponentType<ErrorFallbackProps>;
