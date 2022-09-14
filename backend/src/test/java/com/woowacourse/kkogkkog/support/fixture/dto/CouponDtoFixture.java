@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
@@ -92,6 +93,30 @@ public class CouponDtoFixture {
         return new CouponEventRequest(
             request,
             meetingDate.toLocalDate(),
+            meetingMessage
+        );
+    }
+
+    public static CouponStatusRequest 쿠폰_상태_변경_요청(Long memberId,
+                                                  Long couponId,
+                                                  String eventType,
+                                                  LocalDateTime meetingDate,
+                                                  String meetingMessage) {
+        if (meetingDate == null) {
+            return new CouponStatusRequest(
+                memberId,
+                couponId,
+                CouponEventType.of(eventType),
+                null,
+                meetingMessage
+            );
+        }
+
+        return new CouponStatusRequest(
+            memberId,
+            couponId,
+            CouponEventType.of(eventType),
+            meetingDate,
             meetingMessage
         );
     }
