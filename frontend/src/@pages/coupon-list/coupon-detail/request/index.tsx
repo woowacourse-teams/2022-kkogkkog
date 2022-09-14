@@ -63,11 +63,7 @@ const CouponRequestPage = () => {
       return;
     }
 
-    try {
-      await requestCoupon({ meetingDate, message });
-    } catch (error) {
-      console.log(error);
-    }
+    await requestCoupon({ meetingDate, message });
   };
 
   return (

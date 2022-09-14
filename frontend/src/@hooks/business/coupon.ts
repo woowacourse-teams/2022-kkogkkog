@@ -113,13 +113,6 @@ export const useCreateCoupon = () => {
         onSuccess() {
           displayMessage('쿠폰을 생성했어요', false);
         },
-        onError(error) {
-          if (error instanceof AxiosError) {
-            const errorMessage = error?.response?.data?.message;
-
-            displayMessage(errorMessage, true);
-          }
-        },
       }
     );
 

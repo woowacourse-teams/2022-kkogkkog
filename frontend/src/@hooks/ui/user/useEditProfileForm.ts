@@ -38,13 +38,9 @@ const useEditProfileForm = () => {
       return;
     }
 
-    try {
-      await editMe({ nickname });
+    await editMe({ nickname });
 
-      navigate(PATH.PROFILE, { replace: true });
-    } catch (error) {
-      console.error(error);
-    }
+    navigate(PATH.PROFILE, { replace: true });
   };
 
   return {

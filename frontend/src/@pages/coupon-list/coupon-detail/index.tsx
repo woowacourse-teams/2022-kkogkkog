@@ -91,11 +91,7 @@ const CouponDetailPage = () => {
       return;
     }
 
-    try {
-      await cancelCoupon();
-    } catch (error) {
-      console.error(error);
-    }
+    await cancelCoupon();
   };
 
   const onClickAcceptButton = () => {
@@ -111,11 +107,7 @@ const CouponDetailPage = () => {
       return;
     }
 
-    try {
-      await finishCoupon();
-    } catch (error) {
-      console.error(error);
-    }
+    await finishCoupon();
   };
 
   return (

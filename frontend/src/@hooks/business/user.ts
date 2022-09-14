@@ -11,25 +11,13 @@ import {
 } from '@/@hooks/@queries/user';
 
 export const useSlackSignUp = () => {
-  const { displayMessage } = useToast();
-
   const slackSignupMutate = useSlackSignupMutation();
 
   const slackSignup = ({ name, slackSignupToken }: { name: string; slackSignupToken: string }) => {
-    return slackSignupMutate.mutateAsync(
-      {
-        nickname: name,
-        accessToken: slackSignupToken,
-      },
-      {
-        onSuccess() {},
-        onError(error) {
-          if (error instanceof AxiosError) {
-            displayMessage(error?.response?.data?.message, true);
-          }
-        },
-      }
-    );
+    return slackSignupMutate.mutateAsync({
+      nickname: name,
+      accessToken: slackSignupToken,
+    });
   };
 
   return {
@@ -41,15 +29,10 @@ export const useLogin = () => {
   const loginMutate = useLoginMutation();
 
   const login = ({ email, password }: { email: string; password: string }) => {
-    return loginMutate.mutateAsync(
-      {
-        email,
-        password,
-      },
-      {
-        onSuccess() {},
-      }
-    );
+    return loginMutate.mutateAsync({
+      email,
+      password,
+    });
   };
 
   return {
@@ -77,18 +60,10 @@ export const useEditMe = () => {
 };
 
 export const useSlackOAuthLogin = () => {
-  const { displayMessage } = useToast();
-
   const loginMutate = useSlackOAuthLoginMutation();
 
   const loginBySlackOAuth = async (slackOAuthCode: string) => {
-    const response = await loginMutate.mutateAsync(slackOAuthCode, {
-      onError(error) {
-        if (error instanceof AxiosError) {
-          displayMessage(error?.response?.data?.message, true);
-        }
-      },
-    });
+    const response = await loginMutate.mutateAsync(slackOAuthCode);
 
     return response?.data;
   };
@@ -99,18 +74,10 @@ export const useSlackOAuthLogin = () => {
 };
 
 export const useAddSlackApp = () => {
-  const { displayMessage } = useToast();
-
   const addSlackAppMutate = useAddSlackAppMutation();
 
   const addSlackApp = (code: string) => {
-    return addSlackAppMutate.mutateAsync(code, {
-      onError(error) {
-        if (error instanceof AxiosError) {
-          displayMessage(error?.response?.data?.message, true);
-        }
-      },
-    });
+    return addSlackAppMutate.mutateAsync(code);
   };
 
   return {

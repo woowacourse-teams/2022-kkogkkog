@@ -49,25 +49,17 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       return;
     }
 
-    try {
-      await slackSignup({ name, slackSignupToken });
+    await slackSignup({ name, slackSignupToken });
 
-      navigate(PATH.LANDING);
-    } catch (error) {
-      console.error(error);
-    }
+    navigate(PATH.LANDING);
   };
 
   const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
-    try {
-      await login({ email, password });
+    await login({ email, password });
 
-      navigate(PATH.LANDING);
-    } catch (error) {
-      console.error(error);
-    }
+    navigate(PATH.LANDING);
   };
 
   return {

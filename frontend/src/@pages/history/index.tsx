@@ -32,12 +32,7 @@ const UserHistoryPage = () => {
     }
 
     const readUserHisory = async () => {
-      try {
-        await readAllHistory();
-        window.history.replaceState({}, document.title);
-      } catch (error) {
-        console.error(error);
-      }
+      await readAllHistory();
     };
 
     readUserHisory();

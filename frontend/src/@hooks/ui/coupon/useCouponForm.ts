@@ -75,24 +75,20 @@ export const useCouponForm = () => {
       return;
     }
 
-    try {
-      const coupons = await createCoupon({
-        receiverList,
-        hashtag,
-        description,
-        type,
-      });
+    const coupons = await createCoupon({
+      receiverList,
+      hashtag,
+      description,
+      type,
+    });
 
-      if (coupons.length === 1) {
-        navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
+    if (coupons.length === 1) {
+      navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
 
-        return;
-      }
-
-      navigate(PATH.LANDING);
-    } catch (error) {
-      console.error(error);
+      return;
     }
+
+    navigate(PATH.LANDING);
   };
 
   return {

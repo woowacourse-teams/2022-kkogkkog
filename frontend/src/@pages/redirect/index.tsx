@@ -38,13 +38,9 @@ const Redirect = () => {
     };
 
     const addSlackAppRedirect = async () => {
-      try {
-        await addSlackApp(code);
+      await addSlackApp(code);
 
-        navigate(PATH.LANDING, { replace: true });
-      } catch (error) {
-        console.error(error);
-      }
+      navigate(PATH.LANDING, { replace: true });
     };
 
     if (pathname === PATH.LOGIN_REDIRECT) {
