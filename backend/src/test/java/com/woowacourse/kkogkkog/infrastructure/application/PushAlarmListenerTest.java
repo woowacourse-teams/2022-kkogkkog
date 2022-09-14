@@ -75,7 +75,7 @@ public class PushAlarmListenerTest {
             couponStatusRequest = 쿠폰_상태_변경_요청(
                 receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null);
 
-            couponService.update(couponStatusRequest);
+            couponService.updateStatus(couponStatusRequest);
 
             Mockito.verify(slackClient, Mockito.timeout(1000))
                 .requestPushAlarm(workspace.getAccessToken(), sender.getUserId(),

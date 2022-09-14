@@ -134,7 +134,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 쿠폰_이벤트_요청_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        doNothing().when(couponService).update(any());
+        doNothing().when(couponService).updateStatus(any());
 
         ResultActions perform = mockMvc.perform(
             put("/api/coupons/1/event")

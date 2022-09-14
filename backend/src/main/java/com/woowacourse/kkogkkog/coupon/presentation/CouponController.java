@@ -57,7 +57,7 @@ public class CouponController {
     public ResponseEntity<Void> update(@LoginMemberId Long loginMemberId,
                                        @PathVariable Long couponId,
                                        @RequestBody CouponEventRequest request) {
-        couponService.update(request.toCouponStatusRequest(loginMemberId, couponId));
+        couponService.updateStatus(request.toCouponStatusRequest(loginMemberId, couponId));
         return ResponseEntity.noContent().build();
     }
 }

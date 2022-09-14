@@ -74,7 +74,7 @@ public class CouponService {
             .collect(Collectors.toList());
     }
 
-    public void update(CouponStatusRequest request) {
+    public void updateStatus(CouponStatusRequest request) {
         CouponEvent event = request.getEvent();
         Member loginMember = findMember(request.getMemberId());
         Coupon coupon = findCoupon(request.getCouponId());
