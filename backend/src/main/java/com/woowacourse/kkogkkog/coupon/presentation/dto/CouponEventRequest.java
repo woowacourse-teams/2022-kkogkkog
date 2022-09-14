@@ -13,15 +13,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 public class CouponEventRequest {
 
-    private String event;
+    private String couponEvent;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate meetingDate;
     private String meetingMessage;
 
-    public CouponEventRequest(String event,
+    public CouponEventRequest(String couponEvent,
                               LocalDate meetingDate,
                               String meetingMessage) {
-        this.event = event;
+        this.couponEvent = couponEvent;
         this.meetingDate = meetingDate;
         this.meetingMessage = meetingMessage;
     }
@@ -30,7 +30,7 @@ public class CouponEventRequest {
         return new CouponStatusRequest(
             memberId,
             couponId,
-            CouponEventType.of(event),
+            CouponEventType.of(couponEvent),
             convertMeetingDate(),
             meetingMessage);
     }
