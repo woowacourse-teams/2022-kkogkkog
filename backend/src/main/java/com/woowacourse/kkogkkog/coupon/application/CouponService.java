@@ -1,9 +1,13 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static java.time.LocalDateTime.now;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
@@ -14,7 +18,9 @@ import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -80,6 +86,18 @@ public class CouponService {
         Coupon coupon = findCoupon(request.getCouponId());
         coupon.changeState(event, loginMember);
         saveCouponHistory(CouponHistory.of(loginMember, coupon, event, request.getMessage()));
+    }
+
+    public List<CouponMeetingResponse> findMeeting(Long memberId) {
+        Member member = findMember(memberId);
+        Map<LocalDateTime, List<CouponMeetingData>> collect = couponRepository
+            .findAllByMemberAndMeetingDate(member, now()).stream()
+            .map(CouponMeetingData::of)
+            .collect(Collectors.groupingBy(CouponMeetingData::getMeetingDate));
+
+        return collect.entrySet().stream()
+            .map(it -> CouponMeetingResponse.of(it.getKey(), it.getValue()))
+            .collect(Collectors.toList());
     }
 
     private Coupon findCoupon(Long couponId) {
