@@ -3,8 +3,8 @@ package com.woowacourse.kkogkkog.member.application;
 import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.kkogkkog.auth.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
-import com.woowacourse.kkogkkog.coupon2.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;

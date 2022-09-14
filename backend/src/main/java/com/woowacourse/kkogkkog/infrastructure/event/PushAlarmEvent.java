@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.infrastructure.event;
 
-import com.woowacourse.kkogkkog.coupon2.domain.CouponEventType;
-import com.woowacourse.kkogkkog.coupon2.domain.CouponHistory;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import lombok.Getter;

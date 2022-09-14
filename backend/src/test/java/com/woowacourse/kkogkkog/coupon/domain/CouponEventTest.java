@@ -1,145 +1,52 @@
-//package com.woowacourse.kkogkkog.coupon.domain;
-//
-//import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
-//import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
-//import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
-//import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
-//import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
-//import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.assertj.core.api.Assertions.assertThatNoException;
-//import static org.assertj.core.api.Assertions.assertThatThrownBy;
-//import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-//
-//import com.woowacourse.kkogkkog.member.domain.Member;
-//import com.woowacourse.kkogkkog.common.exception.ForbiddenException;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Nested;
-//import org.junit.jupiter.api.Test;
-//
-//@DisplayName("CouponEvent 클래스의")
-//class CouponEventTest {
-//
-//    @Nested
-//    @DisplayName("REQUEST 요청은")
-//    class request {
-//
-//        @Test
-//        @DisplayName("받은 사람이 요청할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void success() {
-//            boolean isSender = false;
-//            boolean isReceiver = true;
-//
-//            assertThatNoException()
-//                .isThrownBy(() -> REQUEST.checkExecutable(isSender, isReceiver));
-//        }
-//
-//        @Test
-//        @DisplayName("보낸 사람이 요청할 경우, 예외를 발생시킨다.")
-//        void fail_senderRequest() {
-//            boolean isSender = true;
-//            boolean isReceiver = false;
-//
-//            assertThatThrownBy(() -> REQUEST.checkExecutable(isSender, isReceiver))
-//                .isInstanceOf(ForbiddenException.class);
-//        }
-//    }
-//
-//    @Nested
-//    @DisplayName("CANCEL 요청은")
-//    class cancel {
-//
-//        @Test
-//        @DisplayName("받은 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void success() {
-//            boolean isSender = false;
-//            boolean isReceiver = true;
-//
-//            assertDoesNotThrow(() -> CANCEL.checkExecutable(isSender, isReceiver));
-//        }
-//
-//        @Test
-//        @DisplayName("보낸 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void fail_senderCancel() {
-//            boolean isSender = true;
-//            boolean isReceiver = false;
-//
-//            assertDoesNotThrow(() -> CANCEL.checkExecutable(isSender, isReceiver));
-//        }
-//    }
-//
-//    @Nested
-//    @DisplayName("DECLINE 요청은")
-//    class decline {
-//
-//        @Test
-//        @DisplayName("보낸 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void success() {
-//            boolean isSender = true;
-//            boolean isReceiver = true;
-//
-//            assertDoesNotThrow(() -> DECLINE.checkExecutable(isSender, isReceiver));
-//        }
-//
-//        @Test
-//        @DisplayName("받은 사람이 보내면, 예외를 발생시킨다.")
-//        void fail_canNotAccept() {
-//            boolean isSender = false;
-//            boolean isReceiver = true;
-//
-//            assertThatThrownBy(() -> DECLINE.checkExecutable(isSender, isReceiver))
-//                .isInstanceOf(ForbiddenException.class);
-//        }
-//    }
-//
-//    @Nested
-//    @DisplayName("FINISH 요청은")
-//    class finish {
-//
-//        @Test
-//        @DisplayName("보낸 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void success_sender() {
-//            boolean isSender = true;
-//            boolean isReceiver = false;
-//
-//            assertDoesNotThrow(() -> FINISH.checkExecutable(isSender, isReceiver));
-//        }
-//
-//        @Test
-//        @DisplayName("받은 사람이 요청을 할 경우, 성공적으로 요청을 보낼 수 있다.")
-//        void success_receiver() {
-//            boolean isSender = false;
-//            boolean isReceiver = true;
-//
-//            assertDoesNotThrow(() -> FINISH.checkExecutable(isSender, isReceiver));
-//        }
-//
-//        @Test
-//        @DisplayName("보낸 사람, 받은 사람이 아닐 경우, 예외를 발생시킨다.")
-//        void fail_otherMember() {
-//            boolean isSender = false;
-//            boolean isReceiver = false;
-//
-//            assertThatThrownBy(() -> FINISH.checkExecutable(isSender, isReceiver))
-//                .isInstanceOf(ForbiddenException.class);
-//        }
-//    }
-//
-//    @Nested
-//    @DisplayName("generateNoticeMessage 메서드는")
-//    class GenerateNoticeMessage {
-//
-//        @Test
-//        @DisplayName("회원과 쿠폰 종류를 받아 알림 메시지를 반환한다.")
-//        void formatString() {
-//            Member member = JEONG.getMember(KKOGKKOG.getWorkspace());
-//            CouponEvent couponEvent = CouponEvent.INIT;
-//            CouponType meal = CouponType.MEAL;
-//
-//            String actual = couponEvent.generateNoticeMessage(member, meal);
-//            String expected = "`진우` 님이 `식사` 쿠폰을 *보냈어요*👋";
-//
-//            assertThat(actual).isEqualTo(expected);
-//        }
-//    }
-//}
+package com.woowacourse.kkogkkog.coupon.domain;
+
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+
+@DisplayName("CouponEvent 클래스의")
+class CouponEventTest {
+
+    private static final LocalDateTime DATE_TIME = LocalDateTime.of(2022, 9, 7, 0, 0, 0);
+
+    @Nested
+    @DisplayName("생성자는")
+    class Constructor {
+
+        @Nested
+        @DisplayName("REQUEST 타입인 경우")
+        class Request {
+
+            @Test
+            @DisplayName("예약날짜가 있어야 한다.")
+            void success() {
+                CouponEvent requestEvent = new CouponEvent(REQUEST, DATE_TIME);
+
+                assertThat(requestEvent.getMeetingDate()).isEqualTo(DATE_TIME);
+            }
+
+            @Test
+            @DisplayName("예약날짜가 없는 경우 예외가 발생한다.")
+            void needsMeetingDate() {
+                assertThatThrownBy(() -> new CouponEvent(REQUEST, null))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @DisplayName("REQUEST 이외의 타입인 경우, 예약날짜가 null이 된다.")
+        @ParameterizedTest
+        @EnumSource(value = CouponEventType.class, names = {"INIT", "CANCEL", "DECLINE", "ACCEPT", "FINISH"})
+        void meetingDateAlwaysNull(CouponEventType eventType) {
+            CouponEvent requestEvent = new CouponEvent(eventType, DATE_TIME);
+
+            assertThat(requestEvent.getMeetingDate()).isNull();
+        }
+    }
+}

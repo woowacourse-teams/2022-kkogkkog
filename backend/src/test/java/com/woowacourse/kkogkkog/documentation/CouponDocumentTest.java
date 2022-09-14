@@ -1,22 +1,28 @@
 package com.woowacourse.kkogkkog.documentation;
 
-import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentRequest;
-import static com.woowacourse.kkogkkog.support.documenation.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
+import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_내역_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_이벤트_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsCreateResponse;
-import com.woowacourse.kkogkkog.coupon2.presentation.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.support.documenation.DocumentTest;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
+import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
@@ -29,23 +35,21 @@ class CouponDocumentTest extends DocumentTest {
     private final String BEARER_TOKEN = "Bearer {Access Token}";
 
     @Test
-    void 쿠폰_발급_API() throws Exception {
+    void 쿠폰_생성_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.save(any())).willReturn(List.of(
-           COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))
         ));
 
         ResultActions perform = mockMvc.perform(
             post("/api/coupons")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(new CouponsCreateResponse(
-                    List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))
-                )))
+                .content(objectMapper.writeValueAsString(COFFEE_쿠폰_생성_요청(List.of(1L, 2L))))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated())
             .andExpect(
-                content().string(objectMapper.writeValueAsString(new CouponsCreateResponse(
+                content().string(objectMapper.writeValueAsString(new CouponsResponse(
                     List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))))));
 
         perform
@@ -64,8 +68,7 @@ class CouponDocumentTest extends DocumentTest {
 
         ResultActions perform = mockMvc.perform(
             get("/api/coupons/send")
-                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .queryParam("type", "type"));
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
             .andExpect(
@@ -88,8 +91,7 @@ class CouponDocumentTest extends DocumentTest {
 
         ResultActions perform = mockMvc.perform(
             get("/api/coupons/received")
-                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .queryParam("type", "type"));
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
             .andExpect(
