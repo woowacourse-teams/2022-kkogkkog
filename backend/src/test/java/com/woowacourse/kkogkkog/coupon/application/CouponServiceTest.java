@@ -212,8 +212,8 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("회원 아이디를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
-        void success() {
+        @DisplayName("받은 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
+        void success_sender() {
             LocalDateTime meetingDate = LocalDateTime.now().plusDays(7);
             coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
                 sender, receiver, CouponType.COFFEE,
@@ -223,6 +223,22 @@ class CouponServiceTest {
                 new CouponState(CouponStatus.ACCEPTED, meetingDate)));
 
             List<CouponMeetingResponse> extract = couponService.findMeeting(sender.getId());
+
+            assertThat(extract).hasSize(1);
+        }
+
+        @Test
+        @DisplayName("보낸 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
+        void success_receiver() {
+            LocalDateTime meetingDate = LocalDateTime.now().plusDays(7);
+            coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
+                sender, receiver, CouponType.COFFEE,
+                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
+            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
+                sender, receiver, CouponType.COFFEE,
+                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
+
+            List<CouponMeetingResponse> extract = couponService.findMeeting(receiver.getId());
 
             assertThat(extract).hasSize(1);
         }
