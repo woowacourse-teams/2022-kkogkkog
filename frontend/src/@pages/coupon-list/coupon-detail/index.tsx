@@ -84,7 +84,7 @@ const CouponDetailPage = () => {
   const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
   const onClickRequestButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)));
+    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)), { replace: true });
   };
 
   const onClickCancelButton = async () => {
@@ -96,11 +96,11 @@ const CouponDetailPage = () => {
   };
 
   const onClickAcceptButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)));
+    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)), { replace: true });
   };
 
   const onClickDeclineButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)));
+    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)), { replace: true });
   };
 
   const onClickFinishButton = async () => {
