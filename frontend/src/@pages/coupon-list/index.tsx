@@ -12,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
@@ -40,7 +40,7 @@ const CouponListPage = () => {
   };
 
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.couponId}`);
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
   };
 
   const currentParsedCouponList =

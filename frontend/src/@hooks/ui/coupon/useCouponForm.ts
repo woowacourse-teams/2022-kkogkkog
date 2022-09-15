@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useCreateCoupon } from '@/@hooks/business/coupon';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import {
   COUPON_COLORS,
   COUPON_ENG_TYPE,
@@ -83,7 +83,7 @@ export const useCouponForm = () => {
     });
 
     if (coupons.length === 1) {
-      navigate(`/coupon-list/${coupons[0].id}`, { replace: true });
+      navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
 
       return;
     }

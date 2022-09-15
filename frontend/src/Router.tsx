@@ -42,6 +42,21 @@ export const PATH = {
   COUPON_DECLINE: '/coupon-list/:couponId/decline',
 };
 
+export const DYNAMIC_PATH = {
+  COUPON_DETAIL(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}`;
+  },
+  COUPON_REQUEST(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/request`;
+  },
+  COUPON_ACCEPT(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/accept`;
+  },
+  COUPON_DECLINE(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/decline`;
+  },
+};
+
 const Router = () => {
   return (
     <Routes>

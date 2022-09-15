@@ -6,6 +6,7 @@ import { getPrevURL } from '@/@components/@shared/PrevPathMemoization';
 import UserHistoryList from '@/@components/user/UserHistoryList';
 import { useFetchUserHistoryList, useReadHistory } from '@/@hooks/@queries/user';
 import { useReadAllHistory } from '@/@hooks/business/user';
+import { DYNAMIC_PATH } from '@/Router';
 import { UserHistory } from '@/types/client/user';
 import { couponListDetailPageRegExp } from '@/utils/regularExpression';
 
@@ -39,7 +40,7 @@ const UserHistoryPage = () => {
       readHistory(id);
     }
 
-    navigate(`/coupon-list/${couponId}`);
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(couponId));
   };
 
   return (
