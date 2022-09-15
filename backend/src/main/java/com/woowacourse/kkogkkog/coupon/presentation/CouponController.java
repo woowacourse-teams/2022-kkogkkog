@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,9 +36,23 @@ public class CouponController {
         return ResponseEntity.ok(new CouponsResponse(coupons));
     }
 
+    @GetMapping("/sent/status")
+    public ResponseEntity<CouponsResponse> showSent(@LoginMemberId Long loginMemberId,
+                                                    @RequestParam(name = "type") String status) {
+        List<CouponResponse> coupons = couponService.findAllBySender(loginMemberId, status);
+        return ResponseEntity.ok(new CouponsResponse(coupons));
+    }
+
     @GetMapping("/received")
     public ResponseEntity<CouponsResponse> showReceived(@LoginMemberId Long loginMemberId) {
         List<CouponResponse> coupons = couponService.findAllByReceiver(loginMemberId);
+        return ResponseEntity.ok(new CouponsResponse(coupons));
+    }
+
+    @GetMapping("/received/status")
+    public ResponseEntity<CouponsResponse> showReceived(@LoginMemberId Long loginMemberId,
+                                                    @RequestParam(name = "type") String status) {
+        List<CouponResponse> coupons = couponService.findAllByReceiver(loginMemberId, status);
         return ResponseEntity.ok(new CouponsResponse(coupons));
     }
 
