@@ -15,7 +15,6 @@ export const SelectedUserListContainer = styled.div`
   margin-bottom: 5px;
 
   border-radius: 4px;
-  cursor: pointer;
 
   ${({ theme }) => css`
     background-color: ${theme.colors.background_0};
