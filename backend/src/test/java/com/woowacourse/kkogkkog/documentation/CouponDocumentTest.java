@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
@@ -81,7 +82,32 @@ class CouponDocumentTest extends DocumentTest {
 
         perform
             .andDo(print())
-            .andDo(document("coupon-showAll-send",
+            .andDo(document("coupon-showAll-send-status",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 상태별_보낸_쿠폰_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(couponService.findAllBySender(any(), any())).willReturn(List.of(
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))
+        ));
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/coupons/sent/status")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .param("type", CouponStatus.READY.name())
+        );
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(new CouponsResponse(
+                    List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))))));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-showAll-send-status",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
@@ -105,6 +131,30 @@ class CouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("coupon-showAll-received",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 상태별_받은_쿠폰_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(couponService.findAllByReceiver(any(), any())).willReturn(List.of(
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))
+        ));
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/coupons/received/status")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .param("type", CouponStatus.READY.name()));
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(new CouponsResponse(
+                    List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))))));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-showAll-received-status",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
@@ -182,11 +232,11 @@ class CouponDocumentTest extends DocumentTest {
                         LocalDateTime.of(2022, 12, 12, 0, 0, 0),
                         List.of(
                             new CouponMeetingData(
-                            1L,
-                            new CouponMemberResponse(1L, "ROOKIE", "https://"),
-                            new CouponMemberResponse(2L, "AUTHOR", "https://"),
-                            null,
-                            null))
+                                1L,
+                                new CouponMemberResponse(1L, "ROOKIE", "https://"),
+                                new CouponMemberResponse(2L, "AUTHOR", "https://"),
+                                null,
+                                null))
                     )))
                 )));
 
