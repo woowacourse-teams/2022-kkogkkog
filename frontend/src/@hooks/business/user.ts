@@ -1,9 +1,8 @@
-import { AxiosError } from 'axios';
-
 import { useToast } from '@/@hooks/@common/useToast';
 import {
   useAddSlackAppMutation,
   useEditMeMutation,
+  useFetchUserHistoryList,
   useLoginMutation,
   useReadAllHistoryMutation,
   useSlackOAuthLoginMutation,
@@ -86,9 +85,17 @@ export const useAddSlackApp = () => {
 };
 
 export const useReadAllHistory = () => {
+  const { checkIsReadAll } = useFetchUserHistoryList();
+
   const readAllHistoryMutation = useReadAllHistoryMutation();
 
   const readAllHistory = () => {
+    const isReadAll = checkIsReadAll();
+
+    if (isReadAll) {
+      return;
+    }
+
     return readAllHistoryMutation.mutateAsync();
   };
 
