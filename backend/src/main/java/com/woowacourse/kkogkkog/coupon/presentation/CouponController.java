@@ -51,7 +51,7 @@ public class CouponController {
 
     @GetMapping("/received/status")
     public ResponseEntity<CouponsResponse> showReceived(@LoginMemberId Long loginMemberId,
-                                                    @RequestParam(name = "type") String status) {
+                                                        @RequestParam(name = "type") String status) {
         List<CouponResponse> coupons = couponService.findAllByReceiver(loginMemberId, status);
         return ResponseEntity.ok(new CouponsResponse(coupons));
     }

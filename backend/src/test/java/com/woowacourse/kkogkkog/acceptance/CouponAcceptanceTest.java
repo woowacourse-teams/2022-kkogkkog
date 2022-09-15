@@ -276,6 +276,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             "REQUEST",
             LocalDateTime.now().plusDays(1),
             "쿠폰 사용 요청 메시지"));
+
         ExtractableResponse<Response> extract = 보낸쿠폰의_상태별로_목록을_조회한다(senderToken,
             CouponStatus.REQUESTED);
 
@@ -296,6 +297,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             "REQUEST",
             LocalDateTime.now().plusDays(1),
             "쿠폰 사용 요청 메시지"));
+
         ExtractableResponse<Response> extract = 받은쿠폰의_상태별로_목록을_조회한다(secondReceiverToken,
             CouponStatus.REQUESTED);
 
