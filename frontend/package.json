@@ -5,9 +5,10 @@
   "scripts": {
     "start": "cross-env NODE_ENV=local webpack serve --mode=development",
     "start:dev": "cross-env NODE_ENV=development webpack serve  --mode=development",
+    "start:prod": "cross-env NODE_ENV=production webpack serve  --mode=production",
     "build": " cross-env NODE_ENV=production webpack --progress --mode=production",
     "build:local": " cross-env NODE_ENV=local webpack --progress --mode=development",
-    "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=development",
+    "build:dev": "cross-env NODE_ENV=development webpack --progress --mode=production",
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "storybook": "start-storybook -p 6006",

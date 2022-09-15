@@ -15,7 +15,7 @@ interface ErrorBoundaryProps {
 }
 
 interface ErrorBoundaryState {
-  error: AxiosError | null;
+  error: Error | null;
 }
 
 const initialState: ErrorBoundaryState = {
@@ -37,16 +37,20 @@ class ErrorBoundary extends Component<
     this.setState(initialState);
   };
 
-  static getDerivedStateFromError(error: AxiosError): ErrorBoundaryState {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { error };
   }
 
   static contextType = ToastContext;
 
-  componentDidCatch(error: AxiosError, errorInfo: ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const { navigate } = this.props;
 
     const { displayMessage } = this.context as ToastContextType;
+
+    if (!(error instanceof AxiosError)) {
+      return;
+    }
 
     if (error.response?.status === 401) {
       localStorage.removeItem('user-token');
@@ -62,7 +66,7 @@ class ErrorBoundary extends Component<
 
     const { error } = this.state;
 
-    if (error) {
+    if (error instanceof AxiosError) {
       /** get 메소드일때만 fallback을 띄운다. */
       if (error.response?.config.method === 'get') {
         return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
