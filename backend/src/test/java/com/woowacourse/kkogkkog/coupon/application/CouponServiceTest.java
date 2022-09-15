@@ -17,6 +17,8 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
@@ -110,7 +112,10 @@ class CouponServiceTest {
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
             couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
-            couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            coupon.changeState(
+                new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
+                receiver);
         }
 
         @Test
@@ -123,6 +128,21 @@ class CouponServiceTest {
                 .collect(Collectors.toList());
             assertAll(
                 () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actualIds).containsOnly(sender.getId())
+            );
+        }
+
+        @Test
+        @DisplayName("보낸 사람의 ID와 쿠폰의 상태를 통해, 해당 ID로 보낸 쿠폰 리스트 중 상태가 일치하는 리스트를 반환한다.")
+        void success_withStatus() {
+            List<CouponResponse> actual = couponService.findAllBySender(sender.getId(),
+                CouponStatus.REQUESTED.name());
+
+            List<Long> actualIds = actual.stream()
+                .map(it -> it.getSender().getId())
+                .collect(Collectors.toList());
+            assertAll(
+                () -> assertThat(actual).hasSize(1),
                 () -> assertThat(actualIds).containsOnly(sender.getId())
             );
         }
@@ -141,7 +161,10 @@ class CouponServiceTest {
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
             couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
-            couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            coupon.changeState(
+                new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
+                receiver);
         }
 
         @Test
@@ -155,6 +178,21 @@ class CouponServiceTest {
                 .collect(Collectors.toList());
             assertAll(
                 () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actualIds).containsOnly(receiver.getId())
+            );
+        }
+
+        @Test
+        @DisplayName("받은 사람의 ID와 쿠폰의 상태를 통해, 해당 ID로 보낸 쿠폰 리스트 중 상태가 일치하는 리스트를 반환한다.")
+        void success_withStatus() {
+            List<CouponResponse> actual = couponService.findAllByReceiver(receiver.getId(),
+                CouponStatus.REQUESTED.name());
+
+            List<Long> actualIds = actual.stream()
+                .map(it -> it.getReceiver().getId())
+                .collect(Collectors.toList());
+            assertAll(
+                () -> assertThat(actual).hasSize(1),
                 () -> assertThat(actualIds).containsOnly(receiver.getId())
             );
         }
