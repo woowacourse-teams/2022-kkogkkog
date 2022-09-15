@@ -20,12 +20,34 @@ export const SelectContainer = styled.ul`
   display: flex;
   align-items: center;
 
-  & > li + li {
+  x & > li + li {
     margin-left: 10px;
   }
 
   & > li {
     cursor: pointer;
+  }
+
+  & > li:hover {
+    opacity: 0.99;
+
+    transition: opacity 0.2s ease-in;
+  }
+`;
+
+export const SelectVerticalContainer = styled.ul`
+  padding: 10px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+
+  & > li {
+    cursor: pointer;
+
+    min-width: 80px;
+    text-align: center;
   }
 
   & > li:hover {
