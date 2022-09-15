@@ -47,7 +47,7 @@ public class WoowacoursePushAlarmClient {
     private ResponseSpec requestToPushAlarmServer(String userId, String message) {
         return messageClient
             .post()
-            .headers(httpHeaders -> httpHeaders.setBearerAuth(this.token))
+            .headers(httpHeaders -> httpHeaders.set(HttpHeaders.AUTHORIZATION, this.token))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(PushAlarmRequest.of(userId, message))
             .retrieve();
