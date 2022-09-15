@@ -13,11 +13,19 @@ import {
   UserListResponse,
 } from '@/types/remote/response';
 
-export const getMe = () => client.get<MeResponse>('/members/me');
+export const getMe = async () => {
+  const { data } = await client.get<MeResponse>('/members/me');
+
+  return data;
+};
 
 export const editMe = (body: EditMeRequest) => client.put('/members/me', body);
 
-export const getUserList = () => client.get<UserListResponse>('/members');
+export const getUserList = async () => {
+  const { data } = await client.get<UserListResponse>('/members');
+
+  return data;
+};
 
 export const signUpToken = (body: SignupRequest) => client.post('/signup/token', body);
 

@@ -29,10 +29,7 @@ export const useFetchCouponList = () => {
     staleTime: 10000,
   });
 
-  const couponList = useMemo(
-    () => data?.data?.data ?? { received: [], sent: [] },
-    [data?.data?.data]
-  );
+  const couponList = useMemo(() => data?.data ?? { received: [], sent: [] }, [data?.data]);
 
   const parseCouponList = (couponStatus: COUPON_LIST_TYPE) => {
     return couponList[couponStatus].reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
@@ -83,7 +80,7 @@ export const useFetchCoupon = (id: number) => {
   const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
-    coupon: data?.data,
+    coupon: data,
   };
 };
 

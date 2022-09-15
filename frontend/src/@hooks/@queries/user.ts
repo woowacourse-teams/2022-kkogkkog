@@ -43,7 +43,7 @@ export const useFetchMe = () => {
   };
 
   return {
-    me: data?.data,
+    me: data,
     isLoading,
     logout,
   };
@@ -55,7 +55,7 @@ export const useFetchUserList = () => {
   });
 
   return {
-    userList: data?.data?.data,
+    userList: data?.data,
   };
 };
 
