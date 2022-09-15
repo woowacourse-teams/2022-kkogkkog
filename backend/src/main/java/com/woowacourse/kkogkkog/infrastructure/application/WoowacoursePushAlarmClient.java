@@ -23,7 +23,6 @@ public class WoowacoursePushAlarmClient {
     private final String token;
     private final WebClient messageClient;
 
-
     public WoowacoursePushAlarmClient(
         @Value("security.slack.workspace.woowacourse.token") String token,
         @Value("security.slack.workspace.woowacourse.request-url") String requestUrl,
