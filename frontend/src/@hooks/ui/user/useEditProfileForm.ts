@@ -5,7 +5,6 @@ import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { useEditMe } from '@/@hooks/business/user';
-import { PATH } from '@/Router';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
 const useEditProfileForm = () => {
@@ -40,7 +39,7 @@ const useEditProfileForm = () => {
 
     await editMe({ nickname });
 
-    navigate(PATH.PROFILE, { replace: true });
+    navigate(-1);
   };
 
   return {
