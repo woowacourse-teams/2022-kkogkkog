@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.acceptance;
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithTokenAndQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePutWithToken;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
@@ -21,6 +22,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -262,6 +264,46 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    @Test
+    void 회원은_보낸_쿠폰을_상태에_따라_조회할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            LocalDateTime.now().plusDays(1),
+            "쿠폰 사용 요청 메시지"));
+        ExtractableResponse<Response> extract = 보낸쿠폰의_상태별로_목록을_조회한다(senderToken,
+            CouponStatus.REQUESTED);
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value())
+        );
+    }
+
+    @Test
+    void 회원은_받은_쿠폰을_상태에_따라_조회할_수_있다() {
+        String firstReceiverToken = 회원가입을_하고(LEO.getMember());
+        String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
+            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        Long couponId = couponsResponse.getData().get(1).getId();
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청(
+            "REQUEST",
+            LocalDateTime.now().plusDays(1),
+            "쿠폰 사용 요청 메시지"));
+        ExtractableResponse<Response> extract = 받은쿠폰의_상태별로_목록을_조회한다(secondReceiverToken,
+            CouponStatus.REQUESTED);
+
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value())
+        );
+    }
+
     static ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
         return invokePostWithToken("/api/coupons", token, data);
     }
@@ -284,6 +326,18 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
     private ExtractableResponse<Response> 미팅이_확정된_쿠폰_목록들을_조회한다(String token) {
         return invokeGetWithToken("/api/coupons/accept", token);
+    }
+
+    private ExtractableResponse<Response> 보낸쿠폰의_상태별로_목록을_조회한다(String senderToken,
+                                                              CouponStatus couponStatus) {
+        return invokeGetWithTokenAndQueryParams("/api/coupons/sent/status", senderToken,
+            Map.of("type", couponStatus.toString()));
+    }
+
+    private ExtractableResponse<Response> 받은쿠폰의_상태별로_목록을_조회한다(String receiverToken,
+                                                              CouponStatus couponStatus) {
+        return invokeGetWithTokenAndQueryParams("/api/coupons/received/status", receiverToken,
+            Map.of("type", couponStatus.toString()));
     }
 
     static CouponsResponse 쿠폰_생성을_요청하고(String token, Object data) {
