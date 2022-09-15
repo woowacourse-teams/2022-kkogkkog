@@ -3,8 +3,8 @@ import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
-import { AddSlackApp } from '@/apis/service';
 import {
+  AddSlackApp,
   editMe,
   getMe,
   getUserHistoryList,

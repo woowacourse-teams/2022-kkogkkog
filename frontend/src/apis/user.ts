@@ -34,6 +34,8 @@ export const login = (body: LoginRequest) => client.post<LoginResponse>('/login'
 export const OAuthLogin = (code: string) =>
   client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
 
+export const AddSlackApp = (code: string) => client.post('/install/bot', { code });
+
 export const getUserHistoryList = async () => {
   const { data } = await client.get<UserHistoryResponse>('/members/me/histories');
 
