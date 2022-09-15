@@ -9,7 +9,7 @@ import {
   getCouponList,
   reserveCoupon,
 } from '@/apis/coupon';
-import { COUPON_STATUS } from '@/types/client/coupon';
+import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/coupon';
 import { CouponReservationRequest } from '@/types/remote/request';
 import { CouponResponse } from '@/types/remote/response';
 
@@ -29,46 +29,35 @@ export const useFetchCouponList = () => {
     staleTime: 10000,
   });
 
-  const couponList = data?.data?.data;
-
-  const parsedSentCouponList = useMemo(
-    () =>
-      (couponList?.sent ?? [])?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
-        (prev, coupon) => {
-          const key = coupon.couponStatus;
-
-          return { ...prev, [key]: [...prev[key], coupon] };
-        },
-        {
-          REQUESTED: [],
-          READY: [],
-          ACCEPTED: [],
-          FINISHED: [],
-        }
-      ),
-    [couponList]
+  const couponList = useMemo(
+    () => data?.data?.data ?? { received: [], sent: [] },
+    [data?.data?.data]
   );
 
-  const parsedReceivedCouponList = useMemo(
-    () =>
-      (couponList?.received ?? [])?.reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
-        (prev, coupon) => {
-          const key = coupon.couponStatus;
+  const parseCouponList = (couponStatus: COUPON_LIST_TYPE) => {
+    return couponList[couponStatus].reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
+      (prev, coupon) => {
+        const key = coupon.couponStatus;
 
-          return { ...prev, [key]: [...prev[key], coupon] };
-        },
-        {
-          REQUESTED: [],
-          READY: [],
-          ACCEPTED: [],
-          FINISHED: [],
-        }
-      ),
-    [couponList]
-  );
+        return { ...prev, [key]: [...prev[key], coupon] };
+      },
+      {
+        REQUESTED: [],
+        READY: [],
+        ACCEPTED: [],
+        FINISHED: [],
+      }
+    );
+  };
 
-  const reservationRecord = useMemo(() => {
-    const combinedCouponList = [...(couponList?.received ?? []), ...(couponList?.sent ?? [])];
+  const parseOpenCouponList = (couponStatus: COUPON_LIST_TYPE) => {
+    const parsedCouponList = parseCouponList(couponStatus);
+
+    return [...parsedCouponList.REQUESTED, ...parsedCouponList.READY];
+  };
+
+  const generateReservationRecord = () => {
+    const combinedCouponList = [...couponList.received, ...couponList.sent];
 
     return combinedCouponList.reduce<Record<string, CouponResponse[]>>((prev, coupon) => {
       const { couponStatus, meetingDate } = coupon;
@@ -79,35 +68,22 @@ export const useFetchCouponList = () => {
 
       return prev;
     }, {});
-  }, [couponList]);
-
-  const receivedOpenCouponList = useMemo(
-    () => [...parsedReceivedCouponList.REQUESTED, ...parsedReceivedCouponList.READY],
-    [parsedReceivedCouponList.REQUESTED, parsedReceivedCouponList.READY]
-  );
-
-  const sentOpenCouponList = useMemo(
-    () => [...parsedSentCouponList.REQUESTED, ...parsedSentCouponList.READY],
-    [parsedSentCouponList.REQUESTED, parsedSentCouponList.READY]
-  );
+  };
 
   return {
     couponList,
-    parsedSentCouponList,
-    parsedReceivedCouponList,
-    reservationRecord,
-    receivedOpenCouponList,
-    sentOpenCouponList,
-    ...rest,
+    isLoading: rest.isLoading,
+    parseCouponList,
+    parseOpenCouponList,
+    generateReservationRecord,
   };
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data, ...rest } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
 
   return {
     coupon: data?.data,
-    ...rest,
   };
 };
 
