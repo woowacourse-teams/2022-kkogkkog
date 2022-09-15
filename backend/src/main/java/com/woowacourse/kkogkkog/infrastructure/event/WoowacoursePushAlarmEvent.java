@@ -18,7 +18,7 @@ public class WoowacoursePushAlarmEvent {
         this.couponEvent = couponEvent;
     }
 
-    protected static WoowacoursePushAlarmEvent of(MemberHistory memberHistory) {
+    public static WoowacoursePushAlarmEvent of(MemberHistory memberHistory) {
         Member hostMember = memberHistory.getHostMember();
         return new WoowacoursePushAlarmEvent(hostMember.getUserId(),
             memberHistory.toNoticeMessage(), memberHistory.getCouponEvent());
