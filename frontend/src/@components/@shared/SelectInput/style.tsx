@@ -20,7 +20,7 @@ export const SelectContainer = styled.ul`
   display: flex;
   align-items: center;
 
-  x & > li + li {
+  & > li + li {
     margin-left: 10px;
   }
 
