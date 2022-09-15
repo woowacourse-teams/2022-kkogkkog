@@ -89,7 +89,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         ))}
       </SelectInput>
 
-      <SelectInput label='당신의 마음을 선택해주세요 !'>
+      <SelectInput.VerticalView label='당신의 마음을 선택해주세요 !'>
         {couponHashtags.map(hashtag => (
           <Styled.FeelOption
             key={hashtag}
@@ -99,7 +99,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
             #{hashtag}
           </Styled.FeelOption>
         ))}
-      </SelectInput>
+      </SelectInput.VerticalView>
 
       <Styled.TextareaContainer>
         <label htmlFor='message-textarea'>메세지를 작성해보세요 (선택)</label>

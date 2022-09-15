@@ -65,7 +65,7 @@ const CouponRequestPage = () => {
 
     await requestCoupon({ meetingDate, message });
 
-    navigate(`/coupon-list/${couponId}`, { replace: true });
+    navigate(-1);
   };
 
   return (

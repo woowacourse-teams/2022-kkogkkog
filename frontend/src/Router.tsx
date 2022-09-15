@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
+import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
 import NotFoundPage from '@/@pages/404';
 import CouponListPage from '@/@pages/coupon-list';
 import CouponCreatePage from '@/@pages/coupon-list/create';
@@ -40,6 +41,7 @@ export const PATH = {
   COUPON_REQUEST: '/coupon-list/:couponId/request',
   COUPON_ACCEPT: '/coupon-list/:couponId/accept',
   COUPON_DECLINE: '/coupon-list/:couponId/decline',
+  ERROR: '/error',
 };
 
 export const DYNAMIC_PATH = {
@@ -103,7 +105,9 @@ const Router = () => {
           path={PATH.COUPON_DETAIL}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponDetailPage />
+              <OnlyNumberDynamicRouting>
+                <CouponDetailPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -111,7 +115,9 @@ const Router = () => {
           path={PATH.COUPON_REQUEST}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponRequestPage />
+              <OnlyNumberDynamicRouting>
+                <CouponRequestPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -119,7 +125,9 @@ const Router = () => {
           path={PATH.COUPON_ACCEPT}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponAcceptPage />
+              <OnlyNumberDynamicRouting>
+                <CouponAcceptPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -127,7 +135,9 @@ const Router = () => {
           path={PATH.COUPON_DECLINE}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponDeclinePage />
+              <OnlyNumberDynamicRouting>
+                <CouponDeclinePage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />

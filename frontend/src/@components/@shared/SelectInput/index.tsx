@@ -17,4 +17,15 @@ const SelectInput = (props: PropsWithChildren<SelectInputProps>) => {
   );
 };
 
+SelectInput.VerticalView = function VerticalView(props: PropsWithChildren<SelectInputProps>) {
+  const { label, children } = props;
+
+  return (
+    <Styled.Root>
+      <label>{label}</label>
+      <Styled.SelectVerticalContainer>{children}</Styled.SelectVerticalContainer>
+    </Styled.Root>
+  );
+};
+
 export default SelectInput;

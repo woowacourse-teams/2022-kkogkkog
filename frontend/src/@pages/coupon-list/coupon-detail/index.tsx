@@ -96,11 +96,11 @@ const CouponDetailPage = () => {
   };
 
   const onClickAcceptButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)));
+    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)), { replace: true });
   };
 
   const onClickDeclineButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)));
+    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)), { replace: true });
   };
 
   const onClickFinishButton = async () => {
