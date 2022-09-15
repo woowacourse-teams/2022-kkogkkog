@@ -22,7 +22,16 @@ export const couponColors = [
   theme.colors.primary_500,
 ] as const;
 
-export const couponHashtags = ['고마워요', '축하해요', '미안해요', '화이팅!'] as const;
+export const couponHashtags = [
+  '고마워요',
+  '축하해요',
+  '미안해요',
+  '화이팅!',
+  '함께 자라기',
+  '즐코!',
+  '사랑해요',
+  '잘했어요!',
+] as const;
 
 export const THUMBNAIL: { [x: string]: string } = {
   COFFEE: '/assets/images/coffee.png',

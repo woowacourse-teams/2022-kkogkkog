@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
@@ -28,4 +28,19 @@ export const Root = styled.div`
     font-size: 16px;
     font-weight: 600;
   `}
+`;
+
+export const LinkButton = (theme: Theme) => css`
+  margin-top: 20px;
+
+  width: 180px;
+
+  background-color: ${theme.colors.primary_400};
+  color: ${theme.colors.white_100};
+
+  padding: 10px 20px;
+
+  border-radius: 20px;
+
+  text-align: center;
 `;
