@@ -279,9 +279,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> extract = 보낸쿠폰의_상태별로_목록을_조회한다(senderToken,
             CouponStatus.REQUESTED);
-
+        CouponsResponse response = extract.as(CouponsResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value())
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(response.getData().size()).isEqualTo(1)
         );
     }
 
@@ -300,9 +301,11 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> extract = 받은쿠폰의_상태별로_목록을_조회한다(secondReceiverToken,
             CouponStatus.REQUESTED);
+        CouponsResponse response = extract.as(CouponsResponse.class);
 
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value())
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(response.getData().size()).isEqualTo(1)
         );
     }
 
