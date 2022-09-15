@@ -84,7 +84,7 @@ const CouponDetailPage = () => {
   const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
   const onClickRequestButton = () => {
-    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)), { replace: true });
+    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)));
   };
 
   const onClickCancelButton = async () => {
