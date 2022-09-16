@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/coupons")
+@RequestMapping("/api/v2/coupons")
 public class CouponController {
 
     private final CouponService couponService;

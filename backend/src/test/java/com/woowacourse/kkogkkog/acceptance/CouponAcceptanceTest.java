@@ -310,43 +310,43 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
-        return invokePostWithToken("/api/coupons", token, data);
+        return invokePostWithToken("/api/v2/coupons", token, data);
     }
 
     static ExtractableResponse<Response> 회원의_보낸쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/coupons/send", token);
+        return invokeGetWithToken("/api/v2/coupons/send", token);
     }
 
     static ExtractableResponse<Response> 회원의_받은쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/coupons/received", token);
+        return invokeGetWithToken("/api/v2/coupons/received", token);
     }
 
     static ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(Long couponId) {
-        return invokeGet("/api/coupons/" + couponId);
+        return invokeGet("/api/v2/coupons/" + couponId);
     }
 
     static ExtractableResponse<Response> 쿠폰_이벤트_요청을_한다(String token, Long couponId, Object data) {
-        return invokePutWithToken("/api/coupons/" + couponId + "/event", token, data);
+        return invokePutWithToken("/api/v2/coupons/" + couponId + "/event", token, data);
     }
 
     private ExtractableResponse<Response> 미팅이_확정된_쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/coupons/accept", token);
+        return invokeGetWithToken("/api/v2/coupons/accept", token);
     }
 
     private ExtractableResponse<Response> 보낸쿠폰의_상태별로_목록을_조회한다(String senderToken,
                                                               CouponStatus couponStatus) {
-        return invokeGetWithTokenAndQueryParams("/api/coupons/sent/status", senderToken,
+        return invokeGetWithTokenAndQueryParams("/api/v2/coupons/sent/status", senderToken,
             Map.of("type", couponStatus.toString()));
     }
 
     private ExtractableResponse<Response> 받은쿠폰의_상태별로_목록을_조회한다(String receiverToken,
                                                               CouponStatus couponStatus) {
-        return invokeGetWithTokenAndQueryParams("/api/coupons/received/status", receiverToken,
+        return invokeGetWithTokenAndQueryParams("/api/v2/coupons/received/status", receiverToken,
             Map.of("type", couponStatus.toString()));
     }
 
     static CouponsResponse 쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/coupons", token, data);
+        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token, data);
         return response.as(CouponsResponse.class);
     }
 }

@@ -47,7 +47,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            post("/api/coupons")
+            post("/api/v2/coupons")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .content(objectMapper.writeValueAsString(COFFEE_쿠폰_생성_요청(List.of(1L, 2L))))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -72,7 +72,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/send")
+            get("/api/v2/coupons/send")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -95,7 +95,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/sent/status")
+            get("/api/v2/coupons/sent/status")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .param("type", CouponStatus.READY.name())
         );
@@ -120,7 +120,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/received")
+            get("/api/v2/coupons/received")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -143,7 +143,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/received/status")
+            get("/api/v2/coupons/received/status")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .param("type", CouponStatus.READY.name()));
 
@@ -168,7 +168,7 @@ class CouponDocumentTest extends DocumentTest {
         );
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/1")
+            get("/api/v2/coupons/1")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -191,7 +191,7 @@ class CouponDocumentTest extends DocumentTest {
         doNothing().when(couponService).updateStatus(any());
 
         ResultActions perform = mockMvc.perform(
-            put("/api/coupons/1/event")
+            put("/api/v2/coupons/1/event")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .content(objectMapper.writeValueAsString(
                     쿠폰_이벤트_요청("REQUEST", LocalDateTime.now(), null)
@@ -222,7 +222,7 @@ class CouponDocumentTest extends DocumentTest {
         )));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/coupons/accept")
+            get("/api/v2/coupons/accept")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
