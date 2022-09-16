@@ -5,14 +5,11 @@ import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
-import { useFetchMe } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 
 import * as Styled from './style';
 
 const LandingPage = () => {
-  const { me } = useFetchMe();
-
   return (
     <PageTemplate title='꼭꼭' hasHeader={false}>
       <Styled.UnAuthorizedRoot>
@@ -37,7 +34,7 @@ const LandingPage = () => {
             padding: 30px;
           `}
         >
-          <Link to={me ? PATH.MAIN : PATH.LOGIN}>
+          <Link to={PATH.MAIN}>
             <Button
               css={css`
                 display: flex;
