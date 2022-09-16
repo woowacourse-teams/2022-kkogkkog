@@ -51,7 +51,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
     await slackSignup({ name, slackSignupToken });
 
-    navigate(PATH.LANDING);
+    navigate(PATH.MAIN);
   };
 
   const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
@@ -59,7 +59,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
 
     await login({ email, password });
 
-    navigate(PATH.LANDING);
+    navigate(PATH.MAIN);
   };
 
   return {

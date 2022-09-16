@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
@@ -38,6 +38,10 @@ const CouponAcceptPage = () => {
     return <NotFoundPage />;
   }
 
+  if (coupon.couponStatus !== 'REQUESTED') {
+    return <Navigate to={-1} />;
+  }
+
   const {
     senderId,
     senderNickname,
@@ -49,6 +53,10 @@ const CouponAcceptPage = () => {
   } = coupon;
 
   const isSent = me?.id === senderId;
+
+  if (!isSent) {
+    return <Navigate to={-1} />;
+  }
 
   const onClickAcceptButton = async () => {
     if (!window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {

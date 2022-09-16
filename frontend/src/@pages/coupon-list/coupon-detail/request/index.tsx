@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
@@ -12,6 +12,7 @@ import { useFetchMe } from '@/@hooks/@queries/user';
 import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { getToday, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
@@ -41,6 +42,10 @@ const CouponRequestPage = () => {
     return <NotFoundPage />;
   }
 
+  if (coupon.couponStatus !== 'READY') {
+    return <Navigate to={-1} />;
+  }
+
   const {
     senderId,
     senderNickname,
@@ -51,6 +56,10 @@ const CouponRequestPage = () => {
   } = coupon;
 
   const isSent = me?.id === senderId;
+
+  if (isSent) {
+    return <Navigate to={-1} />;
+  }
 
   const onClickRequestButton = async () => {
     if (!meetingDate) {

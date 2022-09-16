@@ -28,19 +28,19 @@ const Redirect = () => {
         if (response.isNew) {
           navigate(PATH.SIGNUP);
         } else {
-          navigate(PATH.LANDING, { replace: true });
+          navigate(PATH.MAIN, { replace: true });
         }
       } catch (error) {
-        navigate(PATH.LANDING, { replace: true });
+        navigate(PATH.MAIN, { replace: true });
 
-        console.error(error);
+        throw error;
       }
     };
 
     const addSlackAppRedirect = async () => {
       await addSlackApp(code);
 
-      navigate(PATH.LANDING, { replace: true });
+      navigate(PATH.MAIN, { replace: true });
     };
 
     if (pathname === PATH.LOGIN_REDIRECT) {
@@ -55,7 +55,7 @@ const Redirect = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return code ? <Loading /> : <Navigate to={PATH.LANDING} />;
+  return code ? <Loading /> : <Navigate to={PATH.MAIN} />;
 };
 
 export default Redirect;

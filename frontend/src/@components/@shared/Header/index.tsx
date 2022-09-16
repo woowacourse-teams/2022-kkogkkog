@@ -19,7 +19,7 @@ const Header = (props: HeaderProps) => {
 
   const navigate = useNavigate();
 
-  const isLandingPage = useLocation().pathname === PATH.LANDING;
+  const isMainPage = useLocation().pathname === PATH.MAIN;
 
   const { me } = useFetchMe();
 
@@ -30,7 +30,7 @@ const Header = (props: HeaderProps) => {
   return (
     <Styled.Root className={className}>
       <Styled.Logo>
-        {isLandingPage ? (
+        {isMainPage ? (
           <Link to={PATH.LANDING}>
             <img src='/assets/images/logo.png' alt='로고' width='36' />
           </Link>

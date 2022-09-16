@@ -10,6 +10,7 @@ import CouponCreatePage from '@/@pages/coupon-list/create';
 import UserHistoryPage from '@/@pages/history';
 import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
+import MainPage from '@/@pages/main';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
@@ -23,7 +24,8 @@ import ProfileEditPage from './@pages/profile/edit';
 import Redirect from './@pages/redirect';
 
 export const PATH = {
-  LANDING: '/',
+  MAIN: '/',
+  LANDING: '/landing',
   COUPON_LIST: '/coupon-list',
   SENT_COUPON_LIST: '/coupon-list/sent',
   RECEIVED_COUPON_LIST: '/coupon-list/received',
@@ -62,20 +64,23 @@ export const DYNAMIC_PATH = {
 const Router = () => {
   return (
     <Routes>
-      <Route
-        path={PATH.LANDING}
-        element={
-          <Suspense fallback={<Loading />}>
-            <LandingPage />
-          </Suspense>
-        }
-      />
-      <Route path={PATH.LOGIN} element={<LoginPage />} />
-      <Route path={PATH.SIGNUP} element={<JoinPage />} />
-      <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
-      <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
-      <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
+      <Route path={PATH.LANDING} element={<LandingPage />} />
+      <Route element={<PublicRoute />}>
+        <Route path={PATH.LOGIN} element={<LoginPage />} />
+        <Route path={PATH.SIGNUP} element={<JoinPage />} />
+        <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
+        <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
+        <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
+      </Route>
       <Route element={<PrivateRoute />}>
+        <Route
+          path={PATH.MAIN}
+          element={
+            <Suspense fallback={<Loading />}>
+              <MainPage />
+            </Suspense>
+          }
+        />
         <Route
           path={PATH.SENT_COUPON_LIST}
           element={
@@ -166,7 +171,19 @@ const PrivateRoute = () => {
     <Outlet />
   ) : (
     <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
-      <Navigate to='/' replace />
+      <Navigate to={PATH.LANDING} replace />
     </CustomSuspense>
+  );
+};
+
+const PublicRoute = () => {
+  const { me, isLoading } = useFetchMe();
+
+  return me ? (
+    <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
+      <Navigate to={PATH.MAIN} replace />
+    </CustomSuspense>
+  ) : (
+    <Outlet />
   );
 };
