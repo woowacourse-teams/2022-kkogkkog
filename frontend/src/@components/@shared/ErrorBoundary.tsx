@@ -17,9 +17,11 @@ interface ErrorBoundaryProps {
 type ErrorBoundaryState =
   | {
       error: null;
+      errorCase: null;
     }
   | {
       error: Error;
+      errorCase: null;
     }
   | {
       error: AxiosError;
@@ -28,6 +30,7 @@ type ErrorBoundaryState =
 
 const initialState: ErrorBoundaryState = {
   error: null,
+  errorCase: null,
 };
 
 class ErrorBoundary extends Component<
@@ -38,6 +41,7 @@ class ErrorBoundary extends Component<
 > {
   state: ErrorBoundaryState = {
     error: null,
+    errorCase: null,
   };
 
   resetErrorBoundary = () => {
@@ -47,7 +51,7 @@ class ErrorBoundary extends Component<
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     if (!(error instanceof AxiosError)) {
-      return { error };
+      return { error, errorCase: null };
     }
 
     /** 우선순위를 고려하여 배치한다. */
@@ -65,7 +69,7 @@ class ErrorBoundary extends Component<
       };
     }
 
-    return { error };
+    return { error, errorCase: null };
   }
 
   static contextType = ToastContext;
@@ -73,15 +77,15 @@ class ErrorBoundary extends Component<
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     const { displayMessage } = this.context as ToastContextType;
 
-    if (!('errorCase' in this.state)) {
+    const { error: errorState, errorCase } = this.state;
+
+    if (errorCase === null) {
       displayMessage('알 수 없는 에러가 발생했습니다.', true);
 
       return;
     }
 
     const { navigate } = this.props;
-
-    const { error: errorState, errorCase } = this.state;
 
     if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
@@ -95,11 +99,11 @@ class ErrorBoundary extends Component<
   render() {
     const { fallback: FallbackComponent, children } = this.props;
 
-    if (!('errorCase' in this.state)) {
+    const { error, errorCase } = this.state;
+
+    if (errorCase === null) {
       return children;
     }
-
-    const { error, errorCase } = this.state;
 
     if (errorCase === 'get') {
       return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
