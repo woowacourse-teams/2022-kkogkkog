@@ -54,7 +54,10 @@ public class WoowacoursePushAlarmClient {
     private void checkErrorStatusCode(ResponseSpec response, String userId, String message) {
         try {
             response.onStatus(HttpStatus::isError,
-                status -> throwPostMessageFailedException(userId, message, status));
+                status -> throwPostMessageFailedException(userId, message, status))
+                .toBodilessEntity()
+                .blockOptional()
+                .orElseThrow(WoowacoursePostMessageRequestFailedException::new);
         } catch (WoowacoursePostMessageRequestFailedException e) {
             log.info("Exception has been thrown : ", e);
         }
