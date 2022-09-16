@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const onClickLogoutButton = () => {
     logout();
 
-    navigate(PATH.LANDING);
+    navigate(PATH.MAIN);
   };
 
   return (

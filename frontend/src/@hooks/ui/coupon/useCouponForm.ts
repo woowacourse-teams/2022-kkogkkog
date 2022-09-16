@@ -88,7 +88,7 @@ export const useCouponForm = () => {
       return;
     }
 
-    navigate(PATH.LANDING);
+    navigate(PATH.MAIN);
   };
 
   return {
