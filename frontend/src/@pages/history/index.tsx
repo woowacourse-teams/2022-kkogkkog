@@ -18,7 +18,7 @@ const UserHistoryPage = () => {
   const { readHistory } = useReadHistory();
 
   useEffect(() => {
-    const prevURL = getPrevUrl();
+    const prevURL = getPrevUrl() || '';
 
     if (couponListDetailPageRegExp.test(prevURL)) {
       return;
