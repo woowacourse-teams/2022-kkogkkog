@@ -1,13 +1,7 @@
-import type { Theme } from '@emotion/react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
-  background-color: ${({ theme }) => theme.colors.white_100};
-  border-radius: 4px;
-`;
-
-export const UnAuthorizedRoot = styled.div`
   min-height: calc(var(--vh, 1vh) * 100);
   display: flex;
   justify-content: center;
@@ -20,7 +14,7 @@ export const UnAuthorizedRoot = styled.div`
   `}
 `;
 
-export const UnAuthorizedContainer = styled.div`
+export const Branding = styled.div`
   display: flex;
 
   flex-direction: column;
@@ -44,7 +38,7 @@ export const AdditionalExplanation = styled.div`
   margin-top: 10px;
 `;
 
-export const ButtonExtended = css`
+export const ExtendedButton = css`
   display: flex;
   padding: 15px;
   justify-content: center;
