@@ -6,9 +6,9 @@ export const Root = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 
-  padding: 10px 0;
+  padding: 20px 0;
 
   ${({ theme }) => css`
     color: ${theme.colors.drak_grey_200};
@@ -18,11 +18,10 @@ export const Root = styled.div`
 export const CouponInfoContainer = styled.div`
   display: flex;
 
-  gap: 10px;
+  gap: 16px;
 `;
 
 export const ProfileImageContainer = styled.div`
-  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,10 +34,9 @@ export const ProfileImageContainer = styled.div`
 `;
 
 export const InformationContainer = styled.div`
-  width: 75%;
-
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   justify-content: space-between;
 `;
@@ -59,6 +57,8 @@ export const Date = styled.div`
 
 export const Message = styled.p`
   font-size: 12px;
+  /* 이미지 사이즈 + gap */
+  padding-left: 66px;
 
   word-break: break-all;
 `;
