@@ -35,10 +35,10 @@ public class Coupon extends BaseEntity {
     @JoinColumn(name = "receiver_member_id", nullable = false)
     private Member receiver;
 
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false)
     private String couponMessage;
 
-    @Column(nullable = false)
+    @Column(name = "hash_tag", nullable = false)
     private String couponTag;
 
     @Enumerated(EnumType.STRING)
