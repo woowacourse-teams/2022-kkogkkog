@@ -13,6 +13,7 @@ import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
+import { getCouponListStatus, setCouponListStatus } from '@/storage/session';
 import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
@@ -33,10 +34,11 @@ const CouponListPage = () => {
   const parsedReceivedCouponList = useMemo(() => parseCouponList('received'), [couponList]);
 
   // 항상 전체가 기본값으로 들어가야 하는가?
-  const { status, changeStatus } = useStatus<FilterOption>('전체');
+  const { status, changeStatus } = useStatus<FilterOption>(getCouponListStatus() ?? '전체');
 
   const onClickFilterButton = (status: FilterOption) => {
     changeStatus(status);
+    setCouponListStatus(status);
   };
 
   const onClickCouponItem = (coupon: CouponResponse) => {
