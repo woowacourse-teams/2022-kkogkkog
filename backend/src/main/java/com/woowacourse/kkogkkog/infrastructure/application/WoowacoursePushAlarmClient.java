@@ -1,7 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
-import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.WoowacoursePostMessageRequestFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +23,8 @@ public class WoowacoursePushAlarmClient {
     private final WebClient messageClient;
 
     public WoowacoursePushAlarmClient(
-        @Value("security.slack.workspace.woowacourse.token") String token,
-        @Value("security.slack.workspace.woowacourse.request-url") String requestUrl,
+        @Value("${security.slack.workspace.woowacourse.token}") String token,
+        @Value("${security.slack.workspace.woowacourse.request-url}") String requestUrl,
         WebClient webClient) {
         this.token = token;
         this.messageClient = toWebClient(webClient, requestUrl);
