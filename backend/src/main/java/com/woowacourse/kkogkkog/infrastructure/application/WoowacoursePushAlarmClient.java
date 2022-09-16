@@ -1,13 +1,13 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
-import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.WoowacoursePostMessageRequestFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,8 +24,8 @@ public class WoowacoursePushAlarmClient {
     private final WebClient messageClient;
 
     public WoowacoursePushAlarmClient(
-        @Value("security.slack.workspace.woowacourse.token") String token,
-        @Value("security.slack.workspace.woowacourse.request-url") String requestUrl,
+        @Value("${security.slack.workspace.woowacourse.token}") String token,
+        @Value("${security.slack.workspace.woowacourse.request-url}") String requestUrl,
         WebClient webClient) {
         this.token = token;
         this.messageClient = toWebClient(webClient, requestUrl);
@@ -55,7 +55,9 @@ public class WoowacoursePushAlarmClient {
     private void checkErrorStatusCode(ResponseSpec response, String userId, String message) {
         try {
             response.onStatus(HttpStatus::isError,
-                status -> throwPostMessageFailedException(userId, message, status));
+                status -> throwPostMessageFailedException(userId, message, status))
+                .toBodilessEntity()
+                .blockOptional();
         } catch (WoowacoursePostMessageRequestFailedException e) {
             log.info("Exception has been thrown : ", e);
         }
