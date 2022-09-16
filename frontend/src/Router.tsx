@@ -24,8 +24,8 @@ import ProfileEditPage from './@pages/profile/edit';
 import Redirect from './@pages/redirect';
 
 export const PATH = {
-  LANDING: '/',
-  MAIN: '/main',
+  MAIN: '/',
+  LANDING: '/landing',
   COUPON_LIST: '/coupon-list',
   SENT_COUPON_LIST: '/coupon-list/sent',
   RECEIVED_COUPON_LIST: '/coupon-list/received',
