@@ -35,18 +35,7 @@ const LandingPage = () => {
           `}
         >
           <Link to={PATH.MAIN}>
-            <Button
-              css={css`
-                display: flex;
-                padding: 15px;
-                justify-content: center;
-                align-items: center;
-
-                font-size: 16px;
-
-                gap: 15px;
-              `}
-            >
+            <Button css={Styled.ButtonExtended}>
               꼭꼭 시작하기 <Icon iconName='airplane' />
             </Button>
           </Link>

@@ -43,3 +43,14 @@ export const AdditionalExplanation = styled.div`
 
   margin-top: 10px;
 `;
+
+export const ButtonExtended = css`
+  display: flex;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 16px;
+
+  gap: 15px;
+`;
