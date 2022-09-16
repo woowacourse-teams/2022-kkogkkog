@@ -13,11 +13,19 @@ import {
   UserListResponse,
 } from '@/types/remote/response';
 
-export const getMe = () => client.get<MeResponse>('/members/me');
+export const getMe = async () => {
+  const { data } = await client.get<MeResponse>('/members/me');
+
+  return data;
+};
 
 export const editMe = (body: EditMeRequest) => client.put('/members/me', body);
 
-export const getUserList = () => client.get<UserListResponse>('/members');
+export const getUserList = async () => {
+  const { data } = await client.get<UserListResponse>('/members');
+
+  return data;
+};
 
 export const signUpToken = (body: SignupRequest) => client.post('/signup/token', body);
 
@@ -25,6 +33,8 @@ export const login = (body: LoginRequest) => client.post<LoginResponse>('/login'
 
 export const OAuthLogin = (code: string) =>
   client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
+
+export const AddSlackApp = (code: string) => client.post('/install/bot', { code });
 
 export const getUserHistoryList = async () => {
   const { data } = await client.get<UserHistoryResponse>('/members/me/histories');
