@@ -14,9 +14,17 @@ interface ErrorBoundaryProps {
   onReset?: () => void;
 }
 
-interface ErrorBoundaryState {
-  error: Error | null;
-}
+type ErrorBoundaryState =
+  | {
+      error: null;
+    }
+  | {
+      error: Error;
+    }
+  | {
+      error: AxiosError;
+      errorCase: 'unauthorized' | 'get';
+    };
 
 const initialState: ErrorBoundaryState = {
   error: null,
@@ -38,39 +46,63 @@ class ErrorBoundary extends Component<
   };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    if (!(error instanceof AxiosError)) {
+      return { error };
+    }
+
+    /** 우선순위를 고려하여 배치한다. */
+    if (error.response?.status === 401) {
+      return {
+        error,
+        errorCase: 'unauthorized',
+      };
+    }
+
+    if (error.response?.config.method === 'get') {
+      return {
+        error,
+        errorCase: 'get',
+      };
+    }
+
     return { error };
   }
 
   static contextType = ToastContext;
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    const { navigate } = this.props;
-
     const { displayMessage } = this.context as ToastContextType;
 
-    if (!(error instanceof AxiosError)) {
+    if (!('errorCase' in this.state)) {
+      displayMessage('알 수 없는 에러가 발생했습니다.', true);
+
       return;
     }
 
-    if (error.response?.status === 401) {
+    const { navigate } = this.props;
+
+    const { error: errorState, errorCase } = this.state;
+
+    if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
       displayMessage('다시 로그인해주세요', true);
       navigate(PATH.LOGIN);
     } else {
-      displayMessage((error.response?.data as any).message, true);
+      displayMessage((errorState.response?.data as any).message, true);
     }
   }
 
   render() {
     const { fallback: FallbackComponent, children } = this.props;
 
-    const { error } = this.state;
+    if (!('errorCase' in this.state)) {
+      return children;
+    }
 
-    if (error instanceof AxiosError) {
-      /** get 메소드일때만 fallback을 띄운다. */
-      if (error.response?.config.method === 'get') {
-        return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
-      }
+    const { error, errorCase } = this.state;
+
+    if (errorCase === 'get') {
+      return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
     }
 
     return children;
