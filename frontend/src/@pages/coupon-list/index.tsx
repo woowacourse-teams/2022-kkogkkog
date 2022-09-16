@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -11,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_LIST_TYPE } from '@/types/client/coupon';
 import { CouponResponse } from '@/types/remote/response';
@@ -26,7 +27,10 @@ const CouponListPage = () => {
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_COUPON_LIST ? 'sent' : 'received';
 
-  const { parsedSentCouponList, parsedReceivedCouponList } = useFetchCouponList();
+  const { couponList, parseCouponList } = useFetchCouponList();
+
+  const parsedSentCouponList = useMemo(() => parseCouponList('sent'), [couponList]);
+  const parsedReceivedCouponList = useMemo(() => parseCouponList('received'), [couponList]);
 
   // 항상 전체가 기본값으로 들어가야 하는가?
   const { status, changeStatus } = useStatus<FilterOption>('전체');
@@ -36,7 +40,7 @@ const CouponListPage = () => {
   };
 
   const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(`/coupon-list/${coupon.couponId}`);
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
   };
 
   const currentParsedCouponList =

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
@@ -8,7 +8,7 @@ import useInput from '@/@hooks/@common/useInput';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
@@ -38,6 +38,10 @@ const CouponAcceptPage = () => {
     return <NotFoundPage />;
   }
 
+  if (coupon.couponStatus !== 'REQUESTED') {
+    return <Navigate to={-1} />;
+  }
+
   const {
     senderId,
     senderNickname,
@@ -50,20 +54,21 @@ const CouponAcceptPage = () => {
 
   const isSent = me?.id === senderId;
 
-  const onClickAcceptButton = () => {
-    if (window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {
-      acceptCoupon(
-        { message },
-        {
-          onSuccessCallback() {
-            if (isSent) {
-              navigate(PATH.SENT_COUPON_LIST, { replace: true });
-            } else {
-              navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-            }
-          },
-        }
-      );
+  if (!isSent) {
+    return <Navigate to={-1} />;
+  }
+
+  const onClickAcceptButton = async () => {
+    if (!window.confirm('쿠폰 사용 요청을 승인하시겠어요?')) {
+      return;
+    }
+
+    await acceptCoupon({ message });
+
+    if (isSent) {
+      navigate(PATH.SENT_COUPON_LIST, { replace: true });
+    } else {
+      navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
     }
   };
 

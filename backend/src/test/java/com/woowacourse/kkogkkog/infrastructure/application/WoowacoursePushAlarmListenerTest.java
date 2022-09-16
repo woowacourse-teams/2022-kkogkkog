@@ -26,8 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ApplicationTest
-@DisplayName("PushAlarmListenerTest 클래스의")
-public class PushAlarmListenerTest {
+@DisplayName("WoowacoursePushAlarmListenerTest 클래스의")
+public class WoowacoursePushAlarmListenerTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -38,46 +38,45 @@ public class PushAlarmListenerTest {
     @Autowired
     private CouponRepository couponRepository;
     @MockBean
-    private SlackClient slackClient;
+    private WoowacoursePushAlarmClient woowacoursePushAlarmClient;
 
     @Nested
     @DisplayName("sendNotification 메서드는")
     class SendNotification {
 
-        private Workspace workspace;
         private Member sender;
         private Member receiver;
 
         @BeforeEach
         void setUp() {
-            workspace = workspaceRepository.save(WorkspaceFixture.KKOGKKOG.getWorkspace(1L));
+            Workspace workspace = workspaceRepository.save(
+                WorkspaceFixture.WOOWACOURSE.getWorkspace(1L));
             sender = memberRepository.save(MemberFixture.SENDER.getMember(workspace));
             receiver = memberRepository.save(MemberFixture.RECEIVER.getMember(workspace));
         }
 
         @Test
-        @DisplayName("쿠폰을 생성할 때, 슬랙 푸시 알림을 보낸다.")
+        @DisplayName("쿠폰을 생성할 때, woowacourse 워크스페이스로 슬랙 푸시 알림을 보낸다.")
         void success_couponSave() {
             couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
-            Mockito.verify(slackClient, Mockito.timeout(1000))
-                .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
+            Mockito.verify(woowacoursePushAlarmClient, Mockito.timeout(1000))
+                .requestPushAlarm(receiver.getUserId(),
                     "`" + sender.getNickname() + "` 님이 `커피` 쿠폰을 *보냈어요*\uD83D\uDC4B");
         }
 
         @Test
-        @DisplayName("쿠폰 상태를 변경할 때, 슬랙 푸시 알림을 보낸다.")
+        @DisplayName("쿠폰 상태를 변경할 때, woowacourse 워크스페이스로 슬랙 푸시 알림을 보낸다.")
         void success_couponUpdate() {
             Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             CouponStatusRequest couponStatusRequest = 쿠폰_상태_변경_요청(
                 receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null);
 
             couponService.updateStatus(couponStatusRequest);
-
-            Mockito.verify(slackClient, Mockito.timeout(1000))
-                .requestPushAlarm(workspace.getAccessToken(), sender.getUserId(),
-                    "`" + receiver.getNickname() + "` 님이 `커피` 쿠폰 사용을 *요청했어요*\uD83D\uDE4F");
+            Mockito.verify(woowacoursePushAlarmClient, Mockito.timeout(1000))
+                .requestPushAlarm(sender.getUserId(),
+                    "`" + receiver.getNickname() + "` 님이 `커피` 쿠폰 사용을 *요청했어요*🙏");
         }
     }
 }

@@ -3,12 +3,14 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
+import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
 import NotFoundPage from '@/@pages/404';
 import CouponListPage from '@/@pages/coupon-list';
 import CouponCreatePage from '@/@pages/coupon-list/create';
 import UserHistoryPage from '@/@pages/history';
 import JoinPage from '@/@pages/join';
 import LandingPage from '@/@pages/landing';
+import MainPage from '@/@pages/main';
 import ProfilePage from '@/@pages/profile';
 
 import { useFetchMe } from './@hooks/@queries/user';
@@ -22,7 +24,8 @@ import ProfileEditPage from './@pages/profile/edit';
 import Redirect from './@pages/redirect';
 
 export const PATH = {
-  LANDING: '/',
+  MAIN: '/',
+  LANDING: '/landing',
   COUPON_LIST: '/coupon-list',
   SENT_COUPON_LIST: '/coupon-list/sent',
   RECEIVED_COUPON_LIST: '/coupon-list/received',
@@ -40,25 +43,44 @@ export const PATH = {
   COUPON_REQUEST: '/coupon-list/:couponId/request',
   COUPON_ACCEPT: '/coupon-list/:couponId/accept',
   COUPON_DECLINE: '/coupon-list/:couponId/decline',
+  ERROR: '/error',
+};
+
+export const DYNAMIC_PATH = {
+  COUPON_DETAIL(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}`;
+  },
+  COUPON_REQUEST(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/request`;
+  },
+  COUPON_ACCEPT(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/accept`;
+  },
+  COUPON_DECLINE(id: number | string): string {
+    return `${PATH.COUPON_LIST}/${id}/decline`;
+  },
 };
 
 const Router = () => {
   return (
     <Routes>
-      <Route
-        path={PATH.LANDING}
-        element={
-          <Suspense fallback={<Loading />}>
-            <LandingPage />
-          </Suspense>
-        }
-      />
-      <Route path={PATH.LOGIN} element={<LoginPage />} />
-      <Route path={PATH.SIGNUP} element={<JoinPage />} />
-      <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
-      <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
-      <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
+      <Route path={PATH.LANDING} element={<LandingPage />} />
+      <Route element={<PublicRoute />}>
+        <Route path={PATH.LOGIN} element={<LoginPage />} />
+        <Route path={PATH.SIGNUP} element={<JoinPage />} />
+        <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
+        <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
+        <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
+      </Route>
       <Route element={<PrivateRoute />}>
+        <Route
+          path={PATH.MAIN}
+          element={
+            <Suspense fallback={<Loading />}>
+              <MainPage />
+            </Suspense>
+          }
+        />
         <Route
           path={PATH.SENT_COUPON_LIST}
           element={
@@ -88,7 +110,9 @@ const Router = () => {
           path={PATH.COUPON_DETAIL}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponDetailPage />
+              <OnlyNumberDynamicRouting>
+                <CouponDetailPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -96,7 +120,9 @@ const Router = () => {
           path={PATH.COUPON_REQUEST}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponRequestPage />
+              <OnlyNumberDynamicRouting>
+                <CouponRequestPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -104,7 +130,9 @@ const Router = () => {
           path={PATH.COUPON_ACCEPT}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponAcceptPage />
+              <OnlyNumberDynamicRouting>
+                <CouponAcceptPage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -112,7 +140,9 @@ const Router = () => {
           path={PATH.COUPON_DECLINE}
           element={
             <Suspense fallback={<Loading />}>
-              <CouponDeclinePage />
+              <OnlyNumberDynamicRouting>
+                <CouponDeclinePage />
+              </OnlyNumberDynamicRouting>
             </Suspense>
           }
         />
@@ -141,7 +171,19 @@ const PrivateRoute = () => {
     <Outlet />
   ) : (
     <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
-      <Navigate to='/' replace />
+      <Navigate to={PATH.LANDING} replace />
     </CustomSuspense>
+  );
+};
+
+const PublicRoute = () => {
+  const { me, isLoading } = useFetchMe();
+
+  return me ? (
+    <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
+      <Navigate to={PATH.MAIN} replace />
+    </CustomSuspense>
+  ) : (
+    <Outlet />
   );
 };

@@ -9,9 +9,9 @@ import CouponHistoryList from '@/@components/coupon/CouponHistoryList';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/client/coupon';
 
@@ -84,43 +84,31 @@ const CouponDetailPage = () => {
   const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
   const onClickRequestButton = () => {
-    navigate(`/coupon-list/${couponId}/request`);
+    navigate(DYNAMIC_PATH.COUPON_REQUEST(String(couponId)));
   };
 
-  const onClickCancelButton = () => {
-    if (window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
-      cancelCoupon({
-        onSuccessCallback() {
-          if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST, { replace: true });
-          } else {
-            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-          }
-        },
-      });
+  const onClickCancelButton = async () => {
+    if (!window.confirm('쿠폰 사용 요청을 취소하시겠어요?')) {
+      return;
     }
+
+    await cancelCoupon();
   };
 
   const onClickAcceptButton = () => {
-    navigate(`/coupon-list/${couponId}/accept`);
+    navigate(DYNAMIC_PATH.COUPON_ACCEPT(String(couponId)), { replace: true });
   };
 
   const onClickDeclineButton = () => {
-    navigate(`/coupon-list/${couponId}/decline`);
+    navigate(DYNAMIC_PATH.COUPON_DECLINE(String(couponId)), { replace: true });
   };
 
-  const onClickFinishButton = () => {
-    if (window.confirm('쿠폰을 사용하셨나요?')) {
-      finishCoupon({
-        onSuccessCallback() {
-          if (isSent) {
-            navigate(PATH.SENT_COUPON_LIST, { replace: true });
-          } else {
-            navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-          }
-        },
-      });
+  const onClickFinishButton = async () => {
+    if (!window.confirm('쿠폰을 사용하셨나요?')) {
+      return;
     }
+
+    await finishCoupon();
   };
 
   return (

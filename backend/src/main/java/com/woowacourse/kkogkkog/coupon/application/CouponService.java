@@ -15,7 +15,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,17 +33,16 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
-
-    private final ApplicationEventPublisher publisher;
+    private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponHistoryRepository couponHistoryRepository,
-                         ApplicationEventPublisher applicationEventPublisher) {
+                         PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
-        this.publisher = applicationEventPublisher;
+        this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -130,7 +128,7 @@ public class CouponService {
 
     private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
-        publisher.publishEvent(PushAlarmEvent.of(couponHistory));
+        pushAlarmPublisher.publishEvent(couponHistory);
     }
 
     private Member findMember(Long memberId) {

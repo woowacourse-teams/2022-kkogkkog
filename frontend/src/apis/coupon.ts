@@ -10,9 +10,17 @@ import {
   CouponListResponse,
 } from '@/types/remote/response';
 
-export const getCoupon = (id: number) => client.get<CouponDetailResponse>(`/coupons/${id}`);
+export const getCoupon = async (id: number) => {
+  const { data } = await client.get<CouponDetailResponse>(`/coupons/${id}`);
 
-export const getCouponList = () => client.get<CouponListResponse>('/coupons');
+  return data;
+};
+
+export const getCouponList = async () => {
+  const { data } = await client.get<CouponListResponse>('/coupons');
+
+  return data;
+};
 
 export const createCoupon = (info: CreateCouponRequest) =>
   client.post<CouponCreateResponse>('/coupons', info);

@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
 import {
+  AddSlackApp,
   editMe,
   getMe,
   getUserHistoryList,
@@ -25,39 +27,58 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.me], getMe, {
+  const { data, isLoading, remove } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
     useErrorBoundary: false,
   });
 
+  const logout = () => {
+    client.defaults.headers['Authorization'] = '';
+
+    localStorage.removeItem('user-token');
+
+    remove();
+  };
+
   return {
-    me: data?.data,
-    ...rest,
+    me: data,
+    isLoading,
+    logout,
   };
 };
 
 export const useFetchUserList = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data } = useQuery([QUERY_KEY.getUserList], getUserList, {
     suspense: false,
   });
 
   return {
-    userList: data?.data?.data,
-    ...rest,
+    userList: data?.data,
   };
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, ...rest } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, refetch } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
     suspense: false,
-    staleTime: 10000,
+    staleTime: Infinity,
   });
 
+  const historyList = useMemo(() => data?.data ?? [], [data?.data]);
+
+  const checkIsReadAll = () => {
+    return historyList.every(history => history.isRead);
+  };
+
+  const synchronizeServerUserHistory = () => {
+    refetch();
+  };
+
   return {
-    historyList: data?.data,
-    ...rest,
+    historyList: data?.data ?? [],
+    synchronizeServerUserHistory,
+    checkIsReadAll,
   };
 };
 
@@ -108,7 +129,7 @@ export const useSlackOAuthLoginMutation = () => {
   });
 };
 
-export const useSignupMutation = () => {
+export const useSlackSignupMutation = () => {
   return useMutation(signUpToken, {
     onSuccess(response) {
       const { accessToken } = response.data;
@@ -120,6 +141,10 @@ export const useSignupMutation = () => {
       client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
     },
   });
+};
+
+export const useAddSlackAppMutation = () => {
+  return useMutation(AddSlackApp);
 };
 
 export const useLoginMutation = () => {
@@ -155,6 +180,8 @@ export const useReadAllHistoryMutation = () => {
   });
 };
 
+/** Only Mutate Client Query */
+
 export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
@@ -178,5 +205,5 @@ export const useReadHistory = () => {
     );
   };
 
-  return readHistory;
+  return { readHistory };
 };

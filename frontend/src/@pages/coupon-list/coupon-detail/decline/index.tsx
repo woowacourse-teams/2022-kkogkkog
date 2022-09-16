@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Icon from '@/@components/@shared/Icon';
@@ -8,10 +8,10 @@ import useInput from '@/@hooks/@common/useInput';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import useChangeCouponStatus from '@/@hooks/coupon/useChangeCouponStatus';
+import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { generateDateText } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
@@ -38,6 +38,10 @@ const CouponDeclinePage = () => {
     return <NotFoundPage />;
   }
 
+  if (coupon.couponStatus !== 'REQUESTED') {
+    return <Navigate to={-1} />;
+  }
+
   const {
     senderId,
     senderNickname,
@@ -50,20 +54,21 @@ const CouponDeclinePage = () => {
 
   const isSent = me?.id === senderId;
 
-  const onClickDeclineButton = () => {
-    if (window.confirm('쿠폰 사용 요청을 거절하시겠어요?')) {
-      declineCoupon(
-        { message },
-        {
-          onSuccessCallback() {
-            if (isSent) {
-              navigate(PATH.SENT_COUPON_LIST, { replace: true });
-            } else {
-              navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
-            }
-          },
-        }
-      );
+  if (!isSent) {
+    return <Navigate to={-1} />;
+  }
+
+  const onClickDeclineButton = async () => {
+    if (!window.confirm('쿠폰 사용 요청을 거절하시겠어요?')) {
+      return;
+    }
+
+    await declineCoupon({ message });
+
+    if (isSent) {
+      navigate(PATH.SENT_COUPON_LIST, { replace: true });
+    } else {
+      navigate(PATH.RECEIVED_COUPON_LIST, { replace: true });
     }
   };
 
