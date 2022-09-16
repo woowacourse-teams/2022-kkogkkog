@@ -2,11 +2,11 @@ package com.woowacourse.kkogkkog.reservation.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
 
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -18,7 +18,6 @@ import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import com.woowacourse.kkogkkog.reservation.domain.repository.ReservationRepository;
 import com.woowacourse.kkogkkog.reservation.exception.ReservationNotFoundException;
 import java.time.LocalDateTime;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,17 +29,17 @@ public class ReservationService {
     private final CouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
     private final MemberHistoryRepository memberHistoryRepository;
-    private final ApplicationEventPublisher publisher;
+    private final PushAlarmPublisher pushAlarmPublisher;
 
     public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
                               ReservationRepository reservationRepository,
                               MemberHistoryRepository memberHistoryRepository,
-                              ApplicationEventPublisher publisher) {
+                              PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.reservationRepository = reservationRepository;
         this.memberHistoryRepository = memberHistoryRepository;
-        this.publisher = publisher;
+        this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     public Long save(ReservationSaveRequest request) {
@@ -55,7 +54,7 @@ public class ReservationService {
             request.getMessage());
         findCoupon.updateMeetingDate(meetingDate);
 
-        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+        pushAlarmPublisher.publishEvent(memberHistory);
 
         return reservationRepository.save(reservation).getId();
     }
@@ -86,7 +85,7 @@ public class ReservationService {
             coupon.updateMeetingDate(null);
         }
 
-        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+        pushAlarmPublisher.publishEvent(memberHistory);
     }
 
     private boolean validateCancelReservation(ReservationUpdateRequest request) {

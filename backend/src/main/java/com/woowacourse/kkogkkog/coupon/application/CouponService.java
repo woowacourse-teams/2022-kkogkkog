@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmEvent;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
@@ -10,6 +9,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
 import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
@@ -17,7 +17,6 @@ import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,19 +28,18 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final CouponQueryRepository couponQueryRepository;
     private final MemberHistoryRepository memberHistoryRepository;
-
-    private final ApplicationEventPublisher publisher;
+    private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponQueryRepository couponQueryRepository,
                          MemberHistoryRepository memberHistoryRepository,
-                         ApplicationEventPublisher applicationEventPublisher) {
+                         PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponQueryRepository = couponQueryRepository;
         this.memberHistoryRepository = memberHistoryRepository;
-        this.publisher = applicationEventPublisher;
+        this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +67,7 @@ public class CouponService {
         for (Coupon savedCoupon : saveCoupons) {
             MemberHistory memberHistory = saveMemberHistory(savedCoupon);
 
-            publisher.publishEvent(PushAlarmEvent.of(memberHistory));
+            pushAlarmPublisher.publishEvent(memberHistory);
         }
 
         return saveCoupons.stream()
