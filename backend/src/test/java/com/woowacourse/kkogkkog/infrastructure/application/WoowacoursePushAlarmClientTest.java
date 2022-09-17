@@ -22,7 +22,7 @@ class WoowacoursePushAlarmClientTest {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, HttpStatus.OK);
-        WoowacoursePushAlarmClient pushAlarmClient = buildMockSlackClient(mockWebServer);
+        WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
 
         assertThatNoException().isThrownBy(() ->
             pushAlarmClient.requestPushAlarm(USER_ID, MESSAGE));
@@ -34,7 +34,7 @@ class WoowacoursePushAlarmClientTest {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, HttpStatus.NOT_FOUND);
-        WoowacoursePushAlarmClient pushAlarmClient = buildMockSlackClient(mockWebServer);
+        WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
 
         assertThatNoException().isThrownBy(() ->
             pushAlarmClient.requestPushAlarm(USER_ID, MESSAGE));
@@ -46,16 +46,16 @@ class WoowacoursePushAlarmClientTest {
         MockWebServer mockWebServer = new MockWebServer();
         mockWebServer.start();
         setUpResponse(mockWebServer, HttpStatus.INTERNAL_SERVER_ERROR);
-        WoowacoursePushAlarmClient pushAlarmClient = buildMockSlackClient(mockWebServer);
+        WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
 
         assertThatNoException().isThrownBy(() ->
             pushAlarmClient.requestPushAlarm(USER_ID, MESSAGE));
     }
 
-    private WoowacoursePushAlarmClient buildMockSlackClient(MockWebServer mockWebServer) {
+    private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
         String mockWebClientURI = String.format("http://%s:%s",
             mockWebServer.getHostName(), mockWebServer.getPort());
-        return new WoowacoursePushAlarmClient(mockWebClientURI, REQUEST_PUSH_ALARM_ACCESS_TOKEN,
+        return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI,
             WebClient.create());
     }
 
