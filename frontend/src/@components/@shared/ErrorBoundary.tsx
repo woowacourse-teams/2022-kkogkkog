@@ -101,10 +101,6 @@ class ErrorBoundary extends Component<
 
     const { error, errorCase } = this.state;
 
-    if (errorCase === null) {
-      return children;
-    }
-
     if (errorCase === 'get') {
       return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
     }
