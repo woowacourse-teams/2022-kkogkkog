@@ -171,7 +171,7 @@ const PrivateRoute = () => {
     <Outlet />
   ) : (
     <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
-      <Navigate to={PATH.LANDING} replace />
+      <Navigate to={PATH.LOGIN} replace />
     </CustomSuspense>
   );
 };

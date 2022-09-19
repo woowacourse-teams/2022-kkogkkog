@@ -15,8 +15,8 @@ const LandingPage = () => {
 
   return (
     <PageTemplate title='꼭꼭' hasHeader={false}>
-      <Styled.UnAuthorizedRoot>
-        <Styled.UnAuthorizedContainer>
+      <Styled.Root>
+        <Styled.Branding>
           <img src='/assets/images/landing_logo.png' alt='로고' width='86' />
 
           <div>
@@ -28,7 +28,7 @@ const LandingPage = () => {
           <Styled.AdditionalExplanation>
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
-        </Styled.UnAuthorizedContainer>
+        </Styled.Branding>
         <Position
           position='absolute'
           bottom='50px'
@@ -38,27 +38,14 @@ const LandingPage = () => {
           `}
         >
           <Link to={me ? PATH.MAIN : PATH.LOGIN}>
-            <Button
-              css={css`
-                display: flex;
-                padding: 15px;
-                justify-content: center;
-                align-items: center;
-
-                font-size: 16px;
-
-                gap: 15px;
-              `}
-            >
+            <Button css={Styled.ExtendedButton}>
               꼭꼭 시작하기 <Icon iconName='airplane' />
             </Button>
           </Link>
         </Position>
-      </Styled.UnAuthorizedRoot>
+      </Styled.Root>
     </PageTemplate>
   );
 };
-
-/** ListHeaderContainer는 어디에 있어야하는가? */
 
 export default LandingPage;
