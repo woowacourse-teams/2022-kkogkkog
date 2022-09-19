@@ -9,6 +9,8 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
@@ -19,6 +21,8 @@ import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.repository.RepositoryTest;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
 class CouponRepositoryTest {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -49,6 +56,8 @@ class CouponRepositoryTest {
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
             receiver2 = memberRepository.save(RECEIVER2.getMember(workspace));
+            entityManager.flush();
+            entityManager.clear();
         }
 
         // TODO: 정렬 검증도 추가하면 이상적일 듯?
@@ -58,10 +67,29 @@ class CouponRepositoryTest {
             couponRepository.save(COFFEE.getCoupon(sender, receiver));
             couponRepository.save(COFFEE.getCoupon(sender, receiver2));
             couponRepository.save(COFFEE.getCoupon(receiver, sender));
-            couponRepository.flush();
+            entityManager.flush();
+            entityManager.clear();
 
             List<Coupon> actual = couponRepository.findAllBySender(sender);
             assertThat(actual).hasSize(2);
+        }
+
+        @DisplayName("보낸 사람과 상태를 기준으로 쿠폰 목록을 조회할 수 있다.")
+        @Test
+        void success_senderWithStatus() {
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+            couponRepository.save(coupon);
+            coupon.changeState(
+                new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1L)),
+                receiver);
+            entityManager.flush();
+            entityManager.clear();
+
+            List<Coupon> actual = couponRepository.findAllBySender(sender,
+                CouponStatus.REQUESTED);
+            assertThat(actual).hasSize(1);
         }
 
         @DisplayName("받은 사람의 기준으로 쿠폰 목록을 조회할 수 있다.")
@@ -73,6 +101,24 @@ class CouponRepositoryTest {
             couponRepository.flush();
 
             List<Coupon> actual = couponRepository.findAllByReceiver(receiver);
+            assertThat(actual).hasSize(1);
+        }
+
+        @DisplayName("받은 사람과 상태를 기준으로 쿠폰 목록을 조회할 수 있다.")
+        @Test
+        void success_receiverWithStatus() {
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+            couponRepository.save(coupon);
+            coupon.changeState(
+                new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1L)),
+                receiver);
+            couponRepository.flush();
+            entityManager.clear();
+
+            List<Coupon> actual = couponRepository.findAllByReceiver(receiver,
+                CouponStatus.REQUESTED);
             assertThat(actual).hasSize(1);
         }
     }
