@@ -1,0 +1,45 @@
+spring:
+  config.activate.on-profile: default
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/index_test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://127.0.0.1:3306/index_test?serverTimezone=UTC&characterEncoding=UTF-8
+    user: root
+    password:
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  slack:
+    webhook-uri: https://aaa.com
+    config: classpath:logback-spring.xml
+
+security:
+  jwt:
+    token:
+      secret-key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      expire-length: 3600000
+  slack:
+    client-id: "1111111111111.1111111111111"
+    secret-id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    redirect:
+      login: "https://abc.com/login/redirect"
+      bot-token: "https://abc.com/download/redirect"
+    workspace:
+      woowacourse:
+        request-url: "https://sample.woowacourse.com"
+        token: "aaa.bbb.ccc"
