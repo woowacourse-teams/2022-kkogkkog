@@ -24,7 +24,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.sender "
         + "WHERE c.sender = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<CouponResponse> findAllBySender(@Param("member") Member member,
+    List<Coupon> findAllBySender(@Param("member") Member member,
                                          @Param("status") CouponStatus couponStatus);
 
     @Query("SELECT c "
@@ -39,7 +39,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.receiver "
         + "WHERE c.receiver = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<CouponResponse> findAllByReceiver(@Param("member") Member member,
+    List<Coupon> findAllByReceiver(@Param("member") Member member,
                                            @Param("status") CouponStatus couponStatus);
 
     @Query("SELECT c "
