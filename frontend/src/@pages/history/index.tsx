@@ -6,7 +6,7 @@ import UserHistoryList from '@/@components/user/UserHistoryList';
 import { useFetchUserHistoryList, useReadHistory } from '@/@hooks/@queries/user';
 import { useReadAllHistory } from '@/@hooks/business/user';
 import { DYNAMIC_PATH } from '@/Router';
-import { getPrevUrl } from '@/storage/session';
+import { prevUrlSessionStorage } from '@/storage/session';
 import { UserHistory } from '@/types/client/user';
 import { couponListDetailPageRegExp } from '@/utils/regularExpression';
 
@@ -18,7 +18,7 @@ const UserHistoryPage = () => {
   const { readHistory } = useReadHistory();
 
   useEffect(() => {
-    const prevURL = getPrevUrl() || '';
+    const prevURL = prevUrlSessionStorage.get() || '';
 
     if (couponListDetailPageRegExp.test(prevURL)) {
       return;

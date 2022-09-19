@@ -12,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
-import { setCouponListStatus } from '@/storage/session';
+import { filterOptionsSessionStorage } from '@/storage/session';
 import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -31,7 +31,7 @@ const MainPage = () => {
   };
 
   const onClickViewMoreCoupon = () => {
-    setCouponListStatus('전체');
+    filterOptionsSessionStorage.set('전체');
   };
 
   return (
