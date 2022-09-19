@@ -38,7 +38,7 @@ public class Coupon extends BaseEntity {
     @Column(name = "description", nullable = false)
     private String couponMessage;
 
-    @Column(name = "hash_tag", nullable = false)
+    @Column(name = "hashtag", nullable = false)
     private String couponTag;
 
     @Enumerated(EnumType.STRING)
