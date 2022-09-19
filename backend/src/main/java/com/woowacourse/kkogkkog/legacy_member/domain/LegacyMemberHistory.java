@@ -41,6 +41,7 @@ public class LegacyMemberHistory {
     @JoinColumn(name = "target_member_id")
     private Member targetMember;
 
+    @Column(name = "coupon_id")
     private Long couponId;
 
     @Enumerated(EnumType.STRING)
