@@ -42,7 +42,7 @@ public class LegacyCoupon extends BaseEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "hash_tag", nullable = false)
+    @Column(name = "hashtag", nullable = false)
     private String hashtag;
 
     @Enumerated(EnumType.STRING)
