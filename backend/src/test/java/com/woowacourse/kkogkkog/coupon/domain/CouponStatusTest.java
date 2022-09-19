@@ -1,10 +1,9 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.ACCEPT;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.CANCEL;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.DECLINE;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.FINISH;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.ACCEPT;
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.DECLINE;
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.ACCEPTED;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.FINISHED;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.READY;
@@ -22,14 +21,14 @@ class CouponStatusTest {
 
     @Nested
     @DisplayName("상태가 READY일 때")
-    class ready {
+    class Ready {
 
         @Test
         @DisplayName("REQUEST 이벤트를 받으면, REQUESTED를 반환한다.")
         void success_request() {
             CouponStatus status = READY;
 
-            CouponStatus actual = status.handle(REQUEST);
+            CouponStatus actual = status.handle(CouponEventType.REQUEST);
 
             assertThat(actual).isEqualTo(REQUESTED);
         }
@@ -74,7 +73,7 @@ class CouponStatusTest {
 
     @Nested
     @DisplayName("상태가 REQUESTED일 때")
-    class requested {
+    class Requested {
 
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, READY를 반환한다.")
@@ -121,14 +120,14 @@ class CouponStatusTest {
         void fail_request() {
             CouponStatus status = REQUESTED;
 
-            assertThatThrownBy(() -> status.handle(REQUEST))
+            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
 
     @Nested
     @DisplayName("상태가 ACCEPTED일 때")
-    class accepted {
+    class Accepted {
 
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, READY를 반환한다.")
@@ -155,7 +154,7 @@ class CouponStatusTest {
         void fail_request() {
             CouponStatus status = ACCEPTED;
 
-            assertThatThrownBy(() -> status.handle(REQUEST))
+            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
@@ -180,14 +179,14 @@ class CouponStatusTest {
 
     @Nested
     @DisplayName("상태가 FINISHED일 때")
-    class finished {
+    class Finished {
 
         @Test
         @DisplayName("REQUEST 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_request() {
             CouponStatus status = FINISHED;
 
-            assertThatThrownBy(() -> status.handle(REQUEST))
+            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
 

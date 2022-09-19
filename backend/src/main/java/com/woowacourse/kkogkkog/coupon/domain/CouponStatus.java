@@ -10,20 +10,20 @@ public enum CouponStatus {
     FINISHED,
     ;
 
-    public CouponStatus handle(CouponEvent event) {
-        if (event == CouponEvent.REQUEST) {
+    public CouponStatus handle(CouponEventType eventType) {
+        if (eventType == CouponEventType.REQUEST) {
             return handleRequest();
         }
-        if (event == CouponEvent.CANCEL) {
+        if (eventType == CouponEventType.CANCEL) {
             return handleCancel();
         }
-        if (event == CouponEvent.DECLINE) {
+        if (eventType == CouponEventType.DECLINE) {
             return handleDecline();
         }
-        if (event == CouponEvent.ACCEPT) {
+        if (eventType == CouponEventType.ACCEPT) {
             return handleAccept();
         }
-        if (event == CouponEvent.FINISH) {
+        if (eventType == CouponEventType.FINISH) {
             return handleFinish();
         }
         throw new InvalidRequestException("처리할 수 없는 요청입니다.");

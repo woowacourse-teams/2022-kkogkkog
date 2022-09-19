@@ -16,7 +16,8 @@ public class AcceptanceContext {
             .extract();
     }
 
-    public static ExtractableResponse<Response> invokeGetWithQueryParams(String path, Map<String, Object> params) {
+    public static ExtractableResponse<Response> invokeGetWithQueryParams(String path,
+                                                                         Map<String, Object> params) {
         return RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
@@ -56,7 +57,8 @@ public class AcceptanceContext {
             .extract();
     }
 
-    public static ExtractableResponse<Response> invokeGetWithToken(String path, String token, Object... params) {
+    public static ExtractableResponse<Response> invokeGetWithToken(String path, String token,
+                                                                   Object... params) {
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .when()
@@ -65,7 +67,20 @@ public class AcceptanceContext {
             .extract();
     }
 
-    public static ExtractableResponse<Response> invokePostWithToken(String path, String token, Object data) {
+    public static ExtractableResponse<Response> invokeGetWithTokenAndQueryParams(String path,
+                                                                                 String token,
+                                                                                 Map<String, Object> params) {
+        return RestAssured.given().log().all()
+            .auth().oauth2(token)
+            .queryParams(params)
+            .when()
+            .get(path)
+            .then().log().all()
+            .extract();
+    }
+
+    public static ExtractableResponse<Response> invokePostWithToken(String path, String token,
+                                                                    Object data) {
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(data)
@@ -76,7 +91,8 @@ public class AcceptanceContext {
             .extract();
     }
 
-    public static ExtractableResponse<Response> invokePutWithToken(String path, String token, Object data) {
+    public static ExtractableResponse<Response> invokePutWithToken(String path, String token,
+                                                                   Object data) {
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(data)
@@ -107,7 +123,8 @@ public class AcceptanceContext {
             .extract();
     }
 
-    public static ExtractableResponse<Response> invokeDeleteWithToken(String path, String token, Object data) {
+    public static ExtractableResponse<Response> invokeDeleteWithToken(String path, String token,
+                                                                      Object data) {
         return RestAssured.given().log().all()
             .auth().oauth2(token)
             .body(data)

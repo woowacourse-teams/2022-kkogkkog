@@ -1,8 +1,9 @@
 package com.woowacourse.kkogkkog.infrastructure.event;
 
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
+import com.woowacourse.kkogkkog.legacy_member.domain.LegacyMemberHistory;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,24 +15,34 @@ public class PushAlarmEvent {
     private final String botAccessToken;
     private final String hostMemberId;
     private final String message;
-    private final CouponEvent couponEvent;
+    private final CouponEventType couponEventType;
 
-    private PushAlarmEvent(String botAccessToken, String hostMemberId, String message,
-                          CouponEvent couponEvent) {
+    public PushAlarmEvent(final String botAccessToken,
+                          final String hostMemberId,
+                          final String message,
+                          final CouponEventType couponEventType) {
         this.botAccessToken = botAccessToken;
         this.hostMemberId = hostMemberId;
         this.message = message;
-        this.couponEvent = couponEvent;
+        this.couponEventType = couponEventType;
     }
 
-    public static PushAlarmEvent of(MemberHistory memberHistory) {
-        Member hostMember = memberHistory.getHostMember();
+    public static PushAlarmEvent of(CouponHistory couponHistory) {
+        Member hostMember = couponHistory.getHostMember();
         Workspace workspace = hostMember.getWorkspace();
         return new PushAlarmEvent(workspace.getAccessToken(), hostMember.getUserId(),
-            memberHistory.toNoticeMessage(), memberHistory.getCouponEvent());
+            couponHistory.toNoticeMessage(), couponHistory.getCouponEventType());
+    }
+
+    // TODO: should be deleted
+    public static PushAlarmEvent of(LegacyMemberHistory couponHistory) {
+        Member hostMember = couponHistory.getHostMember();
+        Workspace workspace = hostMember.getWorkspace();
+        return new PushAlarmEvent(workspace.getAccessToken(), hostMember.getUserId(),
+            couponHistory.toNoticeMessage(), couponHistory.getCouponEvent());
     }
 
     public boolean shouldNotSendPushAlarm() {
-        return botAccessToken == null || couponEvent == CouponEvent.FINISH;
+        return botAccessToken == null || couponEventType == CouponEventType.FINISH;
     }
 }

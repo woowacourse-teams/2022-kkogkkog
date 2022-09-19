@@ -1,11 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,64 +14,57 @@ import lombok.NoArgsConstructor;
 public class CouponDetailResponse {
 
     private Long id;
-    private Long senderId;
-    private String senderNickname;
-    private String senderImageUrl;
-    private Long receiverId;
-    private String receiverNickname;
-    private String receiverImageUrl;
-    private String hashtag;
-    private String description;
+    private CouponMemberResponse sender;
+    private CouponMemberResponse receiver;
+    private String couponTag;
+    private String couponMessage;
     private String couponType;
     private String couponStatus;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
-    private Long reservationId;
     private List<CouponHistoryResponse> couponHistories;
 
-    public CouponDetailResponse(Long id, Long senderId, String senderNickname,
-                                String senderImageUrl, Long receiverId, String receiverNickname,
-                                String receiverImageUrl, String hashtag, String description,
-                                CouponType couponType, CouponStatus couponStatus,
-                                LocalDateTime meetingDate, Long reservationId,
-                                List<CouponHistoryResponse> couponHistories) {
+    public CouponDetailResponse(final Long id,
+                          final CouponMemberResponse sender,
+                          final CouponMemberResponse receiver,
+                          final String couponTag,
+                          final String couponMessage,
+                          final String couponType,
+                          final String couponStatus,
+                          final LocalDateTime meetingDate,
+                          final List<CouponHistoryResponse> couponHistories) {
         this.id = id;
-        this.senderId = senderId;
-        this.senderNickname = senderNickname;
-        this.senderImageUrl = senderImageUrl;
-        this.receiverId = receiverId;
-        this.receiverNickname = receiverNickname;
-        this.receiverImageUrl = receiverImageUrl;
-        this.hashtag = hashtag;
-        this.description = description;
-        this.couponType = couponType.name();
-        this.couponStatus = couponStatus.name();
+        this.sender = sender;
+        this.receiver = receiver;
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
+        this.couponType = couponType;
+        this.couponStatus = couponStatus;
         this.meetingDate = meetingDate;
-        this.reservationId = reservationId;
         this.couponHistories = couponHistories;
     }
 
-    public static CouponDetailResponse of(CouponDetailData couponDetail,
-                                          List<MemberHistory> memberHistories) {
-        List<CouponHistoryResponse> couponHistoryResponses = memberHistories.stream()
-            .map(CouponHistoryResponse::of)
-            .collect(Collectors.toList());
-
+    public static CouponDetailResponse of(final Coupon coupon,
+                                          final List<CouponHistory> couponHistories) {
         return new CouponDetailResponse(
-            couponDetail.getId(),
-            couponDetail.getSenderId(),
-            couponDetail.getSenderNickname(),
-            couponDetail.getSenderImageUrl(),
-            couponDetail.getReceiverId(),
-            couponDetail.getReceiverNickname(),
-            couponDetail.getReceiverImageUrl(),
-            couponDetail.getHashtag(),
-            couponDetail.getDescription(),
-            couponDetail.getCouponType(),
-            couponDetail.getCouponStatus(),
-            couponDetail.getMeetingDate(),
-            couponDetail.getReservationId(),
-            couponHistoryResponses
+            coupon.getId(),
+            new CouponMemberResponse(
+                coupon.getSender().getId(),
+                coupon.getSender().getNickname(),
+                coupon.getSender().getImageUrl()
+            ),
+            new CouponMemberResponse(
+                coupon.getReceiver().getId(),
+                coupon.getReceiver().getNickname(),
+                coupon.getReceiver().getImageUrl()
+            ),
+            coupon.getCouponTag(),
+            coupon.getCouponMessage(),
+            coupon.getCouponType().name(),
+            coupon.getCouponState().getCouponStatus().name(),
+            coupon.getCouponState().getMeetingDate(),
+            couponHistories.stream()
+                .map(CouponHistoryResponse::of)
+                .collect(Collectors.toList())
         );
     }
 }

@@ -1,21 +1,27 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static java.time.LocalDateTime.now;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponReservationResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.query.CouponDetailData;
-import com.woowacourse.kkogkkog.coupon.domain.query.CouponQueryRepository;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
-import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,66 +32,90 @@ public class CouponService {
 
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
-    private final CouponQueryRepository couponQueryRepository;
-    private final MemberHistoryRepository memberHistoryRepository;
+    private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
-                         CouponQueryRepository couponQueryRepository,
-                         MemberHistoryRepository memberHistoryRepository,
+                         CouponHistoryRepository couponHistoryRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
-        this.couponQueryRepository = couponQueryRepository;
-        this.memberHistoryRepository = memberHistoryRepository;
+        this.couponHistoryRepository = couponHistoryRepository;
         this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
     @Transactional(readOnly = true)
-    public List<CouponReservationResponse> findAllBySender(Long memberId) {
+    public CouponDetailResponse find(Long couponId) {
+        Coupon coupon = findCoupon(couponId);
+        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
+            couponId);
+        return CouponDetailResponse.of(coupon, couponHistories);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllBySender(Long memberId) {
         Member member = findMember(memberId);
-        return couponQueryRepository.findAllBySender(member).stream()
-            .map(it -> CouponReservationResponse.of(it, "SENT"))
+        return couponRepository.findAllBySender(member).stream()
+            .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<CouponReservationResponse> findAllByReceiver(Long memberId) {
+    public List<CouponResponse> findAllBySender(Long memberId, String couponStatus) {
         Member member = findMember(memberId);
-        return couponQueryRepository.findAllByReceiver(member).stream()
-            .map(it -> CouponReservationResponse.of(it, "RECEIVED"))
+        return couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus));
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllByReceiver(Long memberId) {
+        Member member = findMember(memberId);
+        return couponRepository.findAllByReceiver(member).stream()
+            .map(CouponResponse::of)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CouponResponse> findAllByReceiver(Long memberId,
+                                                  String couponStatus) {
+        Member member = findMember(memberId);
+        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus));
+
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
         Member sender = findMember(request.getSenderId());
         List<Member> receivers = findReceivers(request.getReceiverIds());
         List<Coupon> coupons = request.toEntities(sender, receivers);
-
-        List<Coupon> saveCoupons = couponRepository.saveAll(coupons);
-        for (Coupon savedCoupon : saveCoupons) {
-            MemberHistory memberHistory = saveMemberHistory(savedCoupon);
-
-            pushAlarmPublisher.publishEvent(memberHistory);
-        }
-
-        return saveCoupons.stream()
+        return couponRepository.saveAll(coupons).stream()
+            .peek(it -> saveCouponHistory(CouponHistory.ofNew(it)))
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
 
-    private MemberHistory saveMemberHistory(Coupon savedCoupon) {
-        MemberHistory memberHistory = new MemberHistory(null, savedCoupon.getReceiver(),
-            savedCoupon.getSender(), savedCoupon.getId(), savedCoupon.getCouponType(),
-            CouponEvent.INIT, null, null);
-        memberHistoryRepository.save(memberHistory);
-        return memberHistory;
+    public void updateStatus(CouponStatusRequest request) {
+        CouponEvent event = request.getEvent();
+        Member loginMember = findMember(request.getMemberId());
+        Coupon coupon = findCoupon(request.getCouponId());
+        coupon.changeState(event, loginMember);
+        saveCouponHistory(CouponHistory.of(loginMember, coupon, event, request.getMessage()));
     }
 
-    private Member findMember(Long memberId) {
-        return memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+    public List<CouponMeetingResponse> findMeeting(Long memberId) {
+        Member member = findMember(memberId);
+        Map<LocalDateTime, List<CouponMeetingData>> collect = couponRepository
+            .findAllByMemberAndMeetingDate(member, now()).stream()
+            .map(CouponMeetingData::of)
+            .collect(Collectors.groupingBy(CouponMeetingData::getMeetingDate));
+
+        return collect.entrySet().stream()
+            .map(it -> CouponMeetingResponse.of(it.getKey(), it.getValue()))
+            .collect(Collectors.toList());
+    }
+
+    private Coupon findCoupon(Long couponId) {
+        return couponRepository.findById(couponId)
+            .orElseThrow(CouponNotFoundException::new);
     }
 
     private List<Member> findReceivers(List<Long> memberIds) {
@@ -93,14 +123,16 @@ public class CouponService {
         if (memberIds.size() != foundMembers.size()) {
             throw new MemberNotFoundException();
         }
-
         return foundMembers;
     }
 
-    @Transactional(readOnly = true)
-    public CouponDetailResponse find(Long couponId) {
-        CouponDetailData couponDetail = couponQueryRepository.findCouponWithMeetingDate(couponId);
-        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
-        return CouponDetailResponse.of(couponDetail, memberHistories);
+    private void saveCouponHistory(CouponHistory couponHistory) {
+        couponHistory = couponHistoryRepository.save(couponHistory);
+        pushAlarmPublisher.publishEvent(couponHistory);
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
     }
 }

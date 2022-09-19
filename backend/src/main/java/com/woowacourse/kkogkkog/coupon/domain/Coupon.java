@@ -1,10 +1,10 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
+import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +18,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -29,45 +28,49 @@ public class Coupon extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_member_id")
+    @JoinColumn(name = "sender_member_id", nullable = false)
     private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_member_id")
+    @JoinColumn(name = "receiver_member_id", nullable = false)
     private Member receiver;
 
-    @Column(nullable = false)
-    private String description;
+    @Column(name = "description", nullable = false)
+    private String couponMessage;
 
-    @Column(nullable = false)
-    private String hashtag;
+    @Column(name = "hashtag", nullable = false)
+    private String couponTag;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CouponType couponType;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private CouponStatus couponStatus;
+    @Embedded
+    private CouponState couponState;
 
-    @Column
-    private LocalDateTime meetingDate;
-
-    public Coupon(Member sender, Member receiver, String hashtag, String description,
-                  CouponType couponType, CouponStatus couponStatus) {
-        this(null, sender, receiver, hashtag, description, couponType, couponStatus);
-    }
-
-    public Coupon(Long id, Member sender, Member receiver, String hashtag, String description,
-                  CouponType couponType, CouponStatus couponStatus) {
+    public Coupon(Long id,
+                  Member sender,
+                  Member receiver,
+                  String couponTag,
+                  String couponMessage,
+                  CouponType couponType,
+                  CouponState couponState) {
         validateSameMember(sender, receiver);
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
-        this.hashtag = hashtag;
-        this.description = description;
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
         this.couponType = couponType;
-        this.couponStatus = couponStatus;
+        this.couponState = couponState;
+    }
+
+    public Coupon(Member sender,
+                  Member receiver,
+                  String couponTag,
+                  String couponMessage,
+                  CouponType couponType) {
+        this(null, sender, receiver, couponTag, couponMessage, couponType, CouponState.ofReady());
     }
 
     private void validateSameMember(Member sender, Member receiver) {
@@ -83,12 +86,8 @@ public class Coupon extends BaseEntity {
         return sender;
     }
 
-    public void changeStatus(CouponEvent couponEvent, Member member) {
+    public void changeState(CouponEvent couponEvent, Member member) {
         couponEvent.checkExecutable(sender.equals(member), receiver.equals(member));
-        this.couponStatus = couponStatus.handle(couponEvent);
-    }
-
-    public void updateMeetingDate(LocalDateTime meetingDate) {
-        this.meetingDate = meetingDate;
+        couponState.changeStatus(couponEvent);
     }
 }

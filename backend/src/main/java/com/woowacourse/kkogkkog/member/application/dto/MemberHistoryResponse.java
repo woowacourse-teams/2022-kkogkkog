@@ -2,7 +2,8 @@ package com.woowacourse.kkogkkog.member.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -44,17 +45,18 @@ public class MemberHistoryResponse {
         this.createdTime = createdTime;
     }
 
-    public static MemberHistoryResponse of(MemberHistory memberHistory) {
+    public static MemberHistoryResponse of(CouponHistory couponHistory) {
+        Coupon coupon = couponHistory.getCoupon();
         return new MemberHistoryResponse(
-            memberHistory.getId(),
-            memberHistory.getTargetMember().getNickname(),
-            memberHistory.getTargetMember().getImageUrl(),
-            memberHistory.getCouponId(),
-            memberHistory.getCouponType().name(),
-            memberHistory.getCouponEvent().name(),
-            memberHistory.getMeetingDate(),
-            memberHistory.getIsRead(),
-            memberHistory.getCreatedTime()
+            couponHistory.getId(),
+            couponHistory.getTargetMember().getNickname(),
+            couponHistory.getTargetMember().getImageUrl(),
+            coupon.getId(),
+            coupon.getCouponType().name(),
+            couponHistory.getCouponEventType().name(),
+            couponHistory.getMeetingDate(),
+            couponHistory.getIsRead(),
+            couponHistory.getCreatedTime()
         );
     }
 }

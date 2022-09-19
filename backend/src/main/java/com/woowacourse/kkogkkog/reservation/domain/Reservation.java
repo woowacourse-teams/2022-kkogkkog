@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.reservation.domain;
 
-import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.legacy_coupon.domain.LegacyCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ public class Reservation extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_id")
-    private Coupon coupon;
+    private LegacyCoupon coupon;
 
     @Column(nullable = false)
     private LocalDateTime meetingDate;
@@ -36,7 +36,7 @@ public class Reservation extends BaseEntity {
     private String message;
 
     public Reservation(Long id,
-                       Coupon coupon,
+                       LegacyCoupon coupon,
                        LocalDateTime meetingDate,
                        String message) {
         this.id = id;
@@ -45,7 +45,7 @@ public class Reservation extends BaseEntity {
         this.message = message;
     }
 
-    public void changeCouponStatus(CouponEvent couponEvent, Member member) {
+    public void changeCouponStatus(CouponEventType couponEvent, Member member) {
         coupon.changeStatus(couponEvent, member);
     }
 }

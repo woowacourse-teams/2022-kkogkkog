@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Table;
+import javax.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +24,17 @@ public class DatabaseCleaner implements InitializingBean {
     public void afterPropertiesSet() {
         tableNames = entityManager.getMetamodel().getEntities().stream()
             .filter(e -> e.getJavaType().getAnnotation(Entity.class) != null)
-            .map(e -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()))
+            .map(this::extractTableName)
+            .map(tableName -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, tableName))
             .collect(Collectors.toList());
+    }
+
+    private String extractTableName(EntityType<?> e) {
+        final var tableAnnotation = e.getJavaType().getAnnotation(Table.class);
+        if (tableAnnotation != null) {
+            return tableAnnotation.name();
+        }
+        return e.getName();
     }
 
     @Transactional

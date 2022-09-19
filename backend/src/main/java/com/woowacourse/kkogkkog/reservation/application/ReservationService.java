@@ -1,15 +1,15 @@
 package com.woowacourse.kkogkkog.reservation.application;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEvent.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
 
-import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.legacy_coupon.domain.LegacyCoupon;
+import com.woowacourse.kkogkkog.legacy_coupon.domain.repository.LegacyCouponRepository;
+import com.woowacourse.kkogkkog.legacy_member.domain.LegacyMemberHistory;
+import com.woowacourse.kkogkkog.legacy_member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
-import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import com.woowacourse.kkogkkog.reservation.application.dto.ReservationSaveRequest;
@@ -26,12 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReservationService {
 
     private final MemberRepository memberRepository;
-    private final CouponRepository couponRepository;
+    private final LegacyCouponRepository couponRepository;
     private final ReservationRepository reservationRepository;
     private final MemberHistoryRepository memberHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
-    public ReservationService(MemberRepository memberRepository, CouponRepository couponRepository,
+    public ReservationService(MemberRepository memberRepository, LegacyCouponRepository couponRepository,
                               ReservationRepository reservationRepository,
                               MemberHistoryRepository memberHistoryRepository,
                               PushAlarmPublisher pushAlarmPublisher) {
@@ -43,13 +43,13 @@ public class ReservationService {
     }
 
     public Long save(ReservationSaveRequest request) {
-        Coupon findCoupon = findCoupon(request.getCouponId());
+        LegacyCoupon findCoupon = findCoupon(request.getCouponId());
         Member loginMember = findMember(request.getMemberId());
 
         Reservation reservation = request.toEntity(findCoupon);
         reservation.changeCouponStatus(REQUEST, loginMember);
         LocalDateTime meetingDate = request.getMeetingDate();
-        MemberHistory memberHistory = saveMemberHistory(
+        LegacyMemberHistory memberHistory = saveMemberHistory(
             findCoupon.getSender(), loginMember, findCoupon, REQUEST, meetingDate,
             request.getMessage());
         findCoupon.updateMeetingDate(meetingDate);
@@ -59,7 +59,7 @@ public class ReservationService {
         return reservationRepository.save(reservation).getId();
     }
 
-    private Coupon findCoupon(Long couponId) {
+    private LegacyCoupon findCoupon(Long couponId) {
         return couponRepository.findById(couponId)
             .orElseThrow(CouponNotFoundException::new);
     }
@@ -73,11 +73,11 @@ public class ReservationService {
         Member loginMember = findMember(request.getMemberId());
 
         Reservation reservation = findReservation(request.getReservationId());
-        reservation.changeCouponStatus(CouponEvent.of(request.getEvent()), loginMember);
+        reservation.changeCouponStatus(CouponEventType.of(request.getEvent()), loginMember);
 
-        Coupon coupon = reservation.getCoupon();
-        MemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
-            loginMember, coupon, CouponEvent.of(request.getEvent()), reservation.getMeetingDate(),
+        LegacyCoupon coupon = reservation.getCoupon();
+        LegacyMemberHistory memberHistory = saveMemberHistory(coupon.getOppositeMember(loginMember),
+            loginMember, coupon, CouponEventType.of(request.getEvent()), reservation.getMeetingDate(),
             request.getMessage());
 
         if (validateCancelReservation(request)) {
@@ -92,10 +92,10 @@ public class ReservationService {
         return request.getEvent().equals("CANCEL") || request.getEvent().equals("DECLINE");
     }
 
-    private MemberHistory saveMemberHistory(Member member, Member loginMember,
-                                            Coupon coupon, CouponEvent request,
-                                            LocalDateTime dateTime, String message) {
-        MemberHistory memberHistory = new MemberHistory(null, member, loginMember,
+    private LegacyMemberHistory saveMemberHistory(Member member, Member loginMember,
+                                                  LegacyCoupon coupon, CouponEventType request,
+                                                  LocalDateTime dateTime, String message) {
+        LegacyMemberHistory memberHistory = new LegacyMemberHistory(null, member, loginMember,
             coupon.getId(), coupon.getCouponType(), request, dateTime, message);
         memberHistoryRepository.save(memberHistory);
         return memberHistory;

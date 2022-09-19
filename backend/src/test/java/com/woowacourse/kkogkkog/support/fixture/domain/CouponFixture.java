@@ -1,32 +1,43 @@
 package com.woowacourse.kkogkkog.support.fixture.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 
 public enum CouponFixture {
 
-    COFFEE("멋진", "https://imageUrl.com", "COFFEE")
-    ;
+    COFFEE("고마워요!", "커피쿠폰입니다.", CouponType.COFFEE),
 
-    private final String tag;
-    private final String imageUrl;
-    private final String couponType;
+    // State 에 대한 Coupon
+    ACCEPTED_COUPON("쿠폰 테그", "쿠폰 메시지");
 
-    CouponFixture(String tag, String imageUrl, String couponType) {
-        this.tag = tag;
-        this.imageUrl = imageUrl;
+    private String couponTag;
+    private String couponMessage;
+    private CouponType couponType;
+
+    CouponFixture(final String couponTag, final String couponMessage) {
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
+    }
+
+    CouponFixture(final String couponTag, final String couponMessage, final CouponType couponType) {
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
         this.couponType = couponType;
     }
 
     public Coupon getCoupon(Member sender, Member receiver) {
-        return new Coupon(
-            sender, receiver, tag, imageUrl, CouponType.valueOf(couponType), CouponStatus.READY);
+        return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
 
-    public Coupon getCoupon(Member sender, Member receiver, String status) {
+    public Coupon getCoupon(Member sender,
+                            Member receiver,
+                            CouponType couponType,
+                            CouponState couponState) {
+
         return new Coupon(
-            sender, receiver, tag, imageUrl, CouponType.valueOf(couponType), CouponStatus.valueOf(status));
+            null, sender, receiver, couponMessage,
+            couponTag, couponType, couponState);
     }
 }

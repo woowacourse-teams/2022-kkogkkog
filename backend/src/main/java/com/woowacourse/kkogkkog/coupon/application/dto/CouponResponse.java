@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,47 +12,48 @@ import lombok.NoArgsConstructor;
 public class CouponResponse {
 
     private Long id;
-    private Long senderId;
-    private String senderNickname;
-    private Long receiverId;
-    private String receiverNickname;
-    private String hashtag;
-    private String description;
+    private CouponMemberResponse sender;
+    private CouponMemberResponse receiver;
+    private String couponTag;
+    private String couponMessage;
     private String couponType;
     private String couponStatus;
+    private LocalDateTime meetingDate;
+    private LocalDateTime createdTime;
 
-    public CouponResponse(Long id,
-                          Long senderId,
-                          String senderNickname,
-                          Long receiverId,
-                          String receiverNickname,
-                          String hashtag,
-                          String description,
-                          String couponType,
-                          String couponStatus) {
+    public CouponResponse(final Long id,
+                          final CouponMemberResponse sender,
+                          final CouponMemberResponse receiver,
+                          final String couponTag,
+                          final String couponMessage,
+                          final String couponType,
+                          final String couponStatus,
+                          final LocalDateTime meetingDate,
+                          final LocalDateTime createdTime) {
         this.id = id;
-        this.senderId = senderId;
-        this.senderNickname = senderNickname;
-        this.receiverId = receiverId;
-        this.receiverNickname = receiverNickname;
-        this.hashtag = hashtag;
-        this.description = description;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.couponTag = couponTag;
+        this.couponMessage = couponMessage;
         this.couponType = couponType;
         this.couponStatus = couponStatus;
+        this.meetingDate = meetingDate;
+        this.createdTime = createdTime;
     }
 
-
+    // Todo. 디미터 법칙 위반
     public static CouponResponse of(Coupon coupon) {
+        Member sender = coupon.getSender();
+        Member receiver = coupon.getReceiver();
         return new CouponResponse(
             coupon.getId(),
-            coupon.getSender().getId(),
-            coupon.getSender().getNickname(),
-            coupon.getReceiver().getId(),
-            coupon.getReceiver().getNickname(),
-            coupon.getHashtag(),
-            coupon.getDescription(),
-            coupon.getCouponType().name(),
-            coupon.getCouponStatus().name()
-        );
+            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
+            new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
+            coupon.getCouponTag(),
+            coupon.getCouponMessage(),
+            coupon.getCouponType().getDisplayName(),
+            coupon.getCouponState().getCouponStatus().name(),
+            coupon.getCouponState().getMeetingDate(),
+            coupon.getCreatedTime());
     }
 }

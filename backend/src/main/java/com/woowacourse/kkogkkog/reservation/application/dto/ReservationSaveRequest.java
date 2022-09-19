@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.reservation.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.legacy_coupon.domain.LegacyCoupon;
 import com.woowacourse.kkogkkog.reservation.domain.Reservation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ public class ReservationSaveRequest {
         this.message = message;
     }
 
-    public Reservation toEntity(Coupon coupon) {
+    public Reservation toEntity(LegacyCoupon coupon) {
         return new Reservation(null, coupon, meetingDate, message);
     }
 }

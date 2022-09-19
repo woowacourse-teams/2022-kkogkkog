@@ -3,21 +3,21 @@ package com.woowacourse.kkogkkog.member.application;
 import static java.util.stream.Collectors.toList;
 
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
 import com.woowacourse.kkogkkog.member.domain.Nickname;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.WorkspaceUser;
-import com.woowacourse.kkogkkog.member.domain.repository.MemberHistoryRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
-import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -29,14 +29,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
-    private final MemberHistoryRepository memberHistoryRepository;
+    private final CouponHistoryRepository memberHistoryRepository;
 
     public MemberService(MemberRepository memberRepository,
                          WorkspaceUserRepository workspaceUserRepository,
-                         MemberHistoryRepository memberHistoryRepository) {
+                         CouponHistoryRepository couponHistoryRepository) {
         this.memberRepository = memberRepository;
         this.workspaceUserRepository = workspaceUserRepository;
-        this.memberHistoryRepository = memberHistoryRepository;
+        this.memberHistoryRepository = couponHistoryRepository;
     }
 
     public boolean existsMember(SlackUserInfo userInfo) {
@@ -50,8 +50,10 @@ public class MemberService {
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
 
-        Member newMember = memberRepository.save(new Member( userId, workspace, new Nickname(nickname), email, imageUrl));
-        workspaceUserRepository.save(new WorkspaceUser( newMember, userId, workspace, nickname, email, imageUrl));
+        Member newMember = memberRepository.save(
+            new Member(userId, workspace, new Nickname(nickname), email, imageUrl));
+        workspaceUserRepository.save(
+            new WorkspaceUser(newMember, userId, workspace, nickname, email, imageUrl));
         return newMember.getId();
     }
 
@@ -95,8 +97,8 @@ public class MemberService {
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(
-            findMember);
+        Long unreadHistoryCount = memberHistoryRepository
+            .countByHostMemberAndIsReadFalse(findMember);
 
         return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
@@ -126,7 +128,7 @@ public class MemberService {
     }
 
     public void updateIsReadMemberHistory(Long memberHistoryId) {
-        MemberHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
+        CouponHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
             .orElseThrow(MemberHistoryNotFoundException::new);
 
         memberHistory.updateIsRead();
@@ -136,10 +138,10 @@ public class MemberService {
         Member foundMember = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
 
-        List<MemberHistory> memberHistories = memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(
-            foundMember);
-        for (MemberHistory memberHistory : memberHistories) {
-            memberHistory.updateIsRead();
+        List<CouponHistory> couponHistories = memberHistoryRepository
+            .findAllByHostMemberOrderByCreatedTimeDesc(foundMember);
+        for (CouponHistory couponHistory : couponHistories) {
+            couponHistory.updateIsRead();
         }
     }
 }

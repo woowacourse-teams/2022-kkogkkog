@@ -2,9 +2,10 @@ package com.woowacourse.kkogkkog.coupon.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.member.domain.MemberHistory;
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,12 +22,17 @@ public class CouponHistoryResponse {
     private String couponEvent;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
-    private String message;
+    private String meetingMessage;
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
-    public CouponHistoryResponse(Long id, String nickname, String imageUrl, CouponType couponType,
-                                 CouponEvent couponEvent, LocalDateTime meetingDate, String message,
+    public CouponHistoryResponse(Long id,
+                                 String nickname,
+                                 String imageUrl,
+                                 CouponType couponType,
+                                 CouponEventType couponEvent,
+                                 LocalDateTime meetingDate,
+                                 String meetingMessage,
                                  LocalDateTime createdTime) {
         this.id = id;
         this.nickname = nickname;
@@ -34,20 +40,21 @@ public class CouponHistoryResponse {
         this.couponType = couponType.name();
         this.couponEvent = couponEvent.name();
         this.meetingDate = meetingDate;
-        this.message = message;
+        this.meetingMessage = meetingMessage;
         this.createdTime = createdTime;
     }
 
-    public static CouponHistoryResponse of(MemberHistory memberHistory) {
+    public static CouponHistoryResponse of(CouponHistory couponHistory) {
+        Coupon coupon = couponHistory.getCoupon();
         return new CouponHistoryResponse(
-            memberHistory.getId(),
-            memberHistory.getTargetMember().getNickname(),
-            memberHistory.getTargetMember().getImageUrl(),
-            memberHistory.getCouponType(),
-            memberHistory.getCouponEvent(),
-            memberHistory.getMeetingDate(),
-            memberHistory.getMessage(),
-            memberHistory.getCreatedTime()
+            couponHistory.getId(),
+            couponHistory.getTargetMember().getNickname(),
+            couponHistory.getTargetMember().getImageUrl(),
+            coupon.getCouponType(),
+            couponHistory.getCouponEventType(),
+            couponHistory.getMeetingDate(),
+            couponHistory.getMessage(),
+            couponHistory.getCreatedTime()
         );
     }
 }
