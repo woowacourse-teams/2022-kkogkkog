@@ -12,6 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
+import { filterOptionsSessionStorage } from '@/storage/session';
 import { CouponResponse } from '@/types/remote/response';
 
 import * as Styled from './style';
@@ -27,6 +28,10 @@ const MainPage = () => {
 
   const onClickCouponItem = (coupon: CouponResponse) => {
     navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
+  };
+
+  const onClickViewMoreCoupon = () => {
+    filterOptionsSessionStorage.set('전체');
   };
 
   return (
@@ -81,7 +86,11 @@ const MainPage = () => {
           <div>
             <Styled.ListTitle>
               <span>받은 쿠폰</span>
-              <Link to={PATH.RECEIVED_COUPON_LIST} css={Styled.ExtendedLink}>
+              <Link
+                to={PATH.RECEIVED_COUPON_LIST}
+                css={Styled.ExtendedLink}
+                onClick={onClickViewMoreCoupon}
+              >
                 더보기
               </Link>
             </Styled.ListTitle>
@@ -102,7 +111,11 @@ const MainPage = () => {
           <div>
             <Styled.ListTitle>
               <span>보낸 쿠폰</span>
-              <Link to={PATH.SENT_COUPON_LIST} css={Styled.ExtendedLink}>
+              <Link
+                to={PATH.SENT_COUPON_LIST}
+                css={Styled.ExtendedLink}
+                onClick={onClickViewMoreCoupon}
+              >
                 더보기
               </Link>
             </Styled.ListTitle>
