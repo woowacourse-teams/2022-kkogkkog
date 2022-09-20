@@ -62,4 +62,12 @@ public class CouponHistory2 {
         this.message = message;
         this.isRead = isRead;
     }
+
+    public String getCouponEventType() {
+        return couponEventType.name();
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return LocalDateTime.now();
+    }
 }

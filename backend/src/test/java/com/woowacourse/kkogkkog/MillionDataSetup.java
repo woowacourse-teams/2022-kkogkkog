@@ -6,8 +6,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory2;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.coupon.domain.repository.Coupon2Repository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistory2Repository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Nickname;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -17,10 +15,14 @@ import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,10 +41,7 @@ public class MillionDataSetup {
     private MemberRepository memberRepository;
 
     @Autowired
-    private Coupon2Repository couponRepository;
-
-    @Autowired
-    private CouponHistory2Repository couponHistoryRepository;
+    protected NamedParameterJdbcTemplate jdbcTemplate;
 
     @Test
     void contextLoads() {
@@ -51,13 +50,22 @@ public class MillionDataSetup {
     @Test
     @Transactional
     @Rollback(false)
-    void saveData() {
-        saveMillionUsers();
-        saveCoupons();
-        saveCouponHistories();
+    void saveCouponData() {
+        String sql =
+            "INSERT INTO coupon(sender_member_id, receiver_member_id, description, hashtag, coupon_type, coupon_status, meeting_date, created_time, updated_time) "
+                + "VALUES (:senderId, :receiverId, :couponMessage, :couponTag, :couponType, :couponStatus, :meetingDate, :createdTime, :updatedTime)";
+        jdbcTemplate.batchUpdate(sql, SqlParameterSourceUtils.createBatch(saveCoupons()));
+
+        String sql2 =
+            "INSERT INTO member_history(host_member_id, target_member_id, coupon_id, coupon_event, meeting_date, message, is_read, created_time) "
+                + "VALUES (:hostMemberId, :targetMemberId, :couponId, :couponEventType, :meetingDate, :message, :isRead, :createdTime)";
+        jdbcTemplate.batchUpdate(sql2, SqlParameterSourceUtils.createBatch(saveCouponHistories()));
     }
 
-    private void saveMillionUsers() {
+    @Test
+    @Transactional
+    @Rollback(false)
+    void saveMillionUsers() {
         for (int i = 0; i < MILLION; i++) {
             Workspace workspace = saveWorkspace(i);
             Member member = saveMember(workspace);
@@ -89,16 +97,18 @@ public class MillionDataSetup {
             workspace, member.getNickname(), member.getEmail(), member.getImageUrl()));
     }
 
-    private void saveCoupons() {
+    private List<Coupon2> saveCoupons() {
+        List<Coupon2> coupons = new ArrayList<>();
         for (int i = 0; i < MILLION; i++) {
             Long senderId = (Math.round(i / 10) * 10L) + 1;
             Long receiverId = i + 1L;
             String description = "쿠폰 설명입니다.";
             String hashTag = getHashTag(i);
             CouponType couponType = getCouponType(i);
-            couponRepository.save(new Coupon2(
-                senderId, receiverId, description, hashTag, couponType, getCouponState(i)));
+            coupons.add(new Coupon2(senderId, receiverId, description, hashTag, couponType,
+                getCouponState(i)));
         }
+        return coupons;
     }
 
     private String getHashTag(int i) {
@@ -139,14 +149,16 @@ public class MillionDataSetup {
         return new CouponState(CouponStatus.FINISHED, meetingDate);
     }
 
-    private void saveCouponHistories() {
+    private List<CouponHistory2> saveCouponHistories() {
+        List<CouponHistory2> couponHistories = new ArrayList<>();
         for (int i = 0; i < MILLION; i++) {
             Long hostId = (Math.round(i / 80) * 80L) + 1L;
             Long targetId = i + 1L;
             Long couponId = i + 1L;
-            couponHistoryRepository.save(new CouponHistory2(
+            couponHistories.add(new CouponHistory2(
                 hostId, targetId, couponId, getCouponEventType(i), null, "쿠폰 메시지", getIsRead(i)));
         }
+        return couponHistories;
     }
 
     private CouponEventType getCouponEventType(int i) {

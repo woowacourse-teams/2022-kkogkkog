@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -56,5 +57,25 @@ public class Coupon2 extends BaseEntity {
         this.couponMessage = couponMessage;
         this.couponType = couponType;
         this.couponState = couponState;
+    }
+
+    public String getCouponType() {
+        return couponType.name();
+    }
+
+    public String getCouponStatus() {
+        return couponState.getCouponStatus().name();
+    }
+
+    public LocalDateTime getMeetingDate() {
+        return couponState.getMeetingDate();
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return LocalDateTime.now();
+    }
+
+    public LocalDateTime getUpdatedTime() {
+        return LocalDateTime.now();
     }
 }
