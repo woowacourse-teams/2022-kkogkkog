@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 require('dotenv').config();
 
@@ -69,6 +70,7 @@ module.exports = (env, args) => {
         'process.env': JSON.stringify(process.env),
         PRODUCT_ENV: JSON.stringify(process.env.NODE_ENV),
       }),
+      new CompressionPlugin(),
     ].filter(Boolean),
   };
 };
