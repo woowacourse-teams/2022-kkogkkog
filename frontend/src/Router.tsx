@@ -1,27 +1,29 @@
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
-import NotFoundPage from '@/@pages/404';
-import CouponListPage from '@/@pages/coupon-list';
-import CouponCreatePage from '@/@pages/coupon-list/create';
-import UserHistoryPage from '@/@pages/history';
-import JoinPage from '@/@pages/join';
-import LandingPage from '@/@pages/landing';
-import MainPage from '@/@pages/main';
-import ProfilePage from '@/@pages/profile';
+import { CouponListPageFallback } from '@/@pages/coupon-list';
 
 import { useFetchMe } from './@hooks/@queries/user';
-import CouponDetailPage from './@pages/coupon-list/coupon-detail';
-import CouponAcceptPage from './@pages/coupon-list/coupon-detail/accept/index';
-import CouponDeclinePage from './@pages/coupon-list/coupon-detail/decline';
-import CouponRequestPage from './@pages/coupon-list/coupon-detail/request';
-import DownloadPage from './@pages/download';
-import LoginPage from './@pages/login';
-import ProfileEditPage from './@pages/profile/edit';
-import Redirect from './@pages/redirect';
+
+const NotFoundPage = lazy(() => import('@/@pages/404'));
+const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
+const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
+const UserHistoryPage = lazy(() => import('@/@pages/history'));
+const JoinPage = lazy(() => import('@/@pages/join'));
+const LandingPage = lazy(() => import('@/@pages/landing'));
+const MainPage = lazy(() => import('@/@pages/main'));
+const ProfilePage = lazy(() => import('@/@pages/profile'));
+const CouponDetailPage = lazy(() => import('@/@pages/coupon-list/coupon-detail'));
+const CouponAcceptPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/accept'));
+const CouponDeclinePage = lazy(() => import('@/@pages/coupon-list/coupon-detail/decline'));
+const CouponRequestPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/request'));
+const DownloadPage = lazy(() => import('@/@pages/download'));
+const LoginPage = lazy(() => import('@/@pages/login'));
+const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
+const Redirect = lazy(() => import('@/@pages/redirect'));
 
 export const PATH = {
   MAIN: '/',
@@ -84,7 +86,7 @@ const Router = () => {
         <Route
           path={PATH.SENT_COUPON_LIST}
           element={
-            <Suspense fallback={<CouponListPage.Skeleton />}>
+            <Suspense fallback={<CouponListPageFallback />}>
               <CouponListPage />
             </Suspense>
           }
@@ -92,7 +94,7 @@ const Router = () => {
         <Route
           path={PATH.RECEIVED_COUPON_LIST}
           element={
-            <Suspense fallback={<CouponListPage.Skeleton />}>
+            <Suspense fallback={<CouponListPageFallback />}>
               <CouponListPage />
             </Suspense>
           }
