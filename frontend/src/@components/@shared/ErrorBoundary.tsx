@@ -79,6 +79,14 @@ class ErrorBoundary extends Component<
 
     const { error: errorState, errorCase } = this.state;
 
+    if (errorCase === 'get') {
+      displayMessage((errorState.response?.data as any).message, true);
+
+      return;
+    }
+
+    this.resetErrorBoundary();
+
     if (errorCase === null) {
       displayMessage('알 수 없는 에러가 발생했습니다.', true);
 
@@ -91,6 +99,8 @@ class ErrorBoundary extends Component<
       localStorage.removeItem('user-token');
       displayMessage('다시 로그인해주세요', true);
       navigate(PATH.LOGIN);
+
+      this.resetErrorBoundary();
     } else {
       displayMessage((errorState.response?.data as any).message, true);
     }
