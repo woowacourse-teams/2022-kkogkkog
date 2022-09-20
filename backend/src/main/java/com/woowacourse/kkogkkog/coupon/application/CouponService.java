@@ -64,7 +64,9 @@ public class CouponService {
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllBySender(Long memberId, String couponStatus) {
         Member member = findMember(memberId);
-        return couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus));
+        return couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus)).stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -79,8 +81,9 @@ public class CouponService {
     public List<CouponResponse> findAllByReceiver(Long memberId,
                                                   String couponStatus) {
         Member member = findMember(memberId);
-        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus));
-
+        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus)).stream()
+            .map(CouponResponse::of)
+            .collect(Collectors.toList());
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {

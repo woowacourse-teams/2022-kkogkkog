@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.domain.repository;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -24,8 +23,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.sender "
         + "WHERE c.sender = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<CouponResponse> findAllBySender(@Param("member") Member member,
-                                         @Param("status") CouponStatus couponStatus);
+    List<Coupon> findAllBySender(@Param("member") Member member,
+                                 @Param("status") CouponStatus couponStatus);
 
     @Query("SELECT c "
         + "FROM Coupon c "
@@ -39,8 +38,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.receiver "
         + "WHERE c.receiver = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<CouponResponse> findAllByReceiver(@Param("member") Member member,
-                                           @Param("status") CouponStatus couponStatus);
+    List<Coupon> findAllByReceiver(@Param("member") Member member,
+                                   @Param("status") CouponStatus couponStatus);
 
     @Query("SELECT c "
         + "FROM Coupon c "
