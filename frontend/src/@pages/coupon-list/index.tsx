@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
+import { lazy, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -141,7 +141,7 @@ const CouponListPage = () => {
   );
 };
 
-CouponListPage.Skeleton = function Skeleton() {
+export const CouponListPageFallback = () => {
   return (
     <PageTemplate title='쿠폰 모아보기'>
       <Styled.Root>
