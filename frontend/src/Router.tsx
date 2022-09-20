@@ -65,102 +65,75 @@ export const DYNAMIC_PATH = {
 
 const Router = () => {
   return (
-    <Routes>
-      <Route path={PATH.LANDING} element={<LandingPage />} />
-      <Route element={<PublicRoute />}>
-        <Route path={PATH.LOGIN} element={<LoginPage />} />
-        <Route path={PATH.SIGNUP} element={<JoinPage />} />
-        <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
-        <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
-        <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
-      </Route>
-      <Route element={<PrivateRoute />}>
-        <Route
-          path={PATH.MAIN}
-          element={
-            <Suspense fallback={<Loading />}>
-              <MainPage />
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.SENT_COUPON_LIST}
-          element={
-            <Suspense fallback={<CouponListPageFallback />}>
-              <CouponListPage />
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.RECEIVED_COUPON_LIST}
-          element={
-            <Suspense fallback={<CouponListPageFallback />}>
-              <CouponListPage />
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.COUPON_CREATE}
-          element={
-            <Suspense fallback={<Loading />}>
-              <CouponCreatePage />
-            </Suspense>
-          }
-        />
-        {/* @TODO: Skeleton */}
-        <Route
-          path={PATH.COUPON_DETAIL}
-          element={
-            <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path={PATH.LANDING} element={<LandingPage />} />
+        <Route element={<PublicRoute />}>
+          <Route path={PATH.LOGIN} element={<LoginPage />} />
+          <Route path={PATH.SIGNUP} element={<JoinPage />} />
+          <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
+          <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
+          <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route path={PATH.MAIN} element={<MainPage />} />
+          <Route
+            path={PATH.SENT_COUPON_LIST}
+            element={
+              <Suspense fallback={<CouponListPageFallback />}>
+                <CouponListPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path={PATH.RECEIVED_COUPON_LIST}
+            element={
+              <Suspense fallback={<CouponListPageFallback />}>
+                <CouponListPage />
+              </Suspense>
+            }
+          />
+          <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
+          {/* @TODO: Skeleton */}
+          <Route
+            path={PATH.COUPON_DETAIL}
+            element={
               <OnlyNumberDynamicRouting>
                 <CouponDetailPage />
               </OnlyNumberDynamicRouting>
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.COUPON_REQUEST}
-          element={
-            <Suspense fallback={<Loading />}>
+            }
+          />
+          <Route
+            path={PATH.COUPON_REQUEST}
+            element={
               <OnlyNumberDynamicRouting>
                 <CouponRequestPage />
               </OnlyNumberDynamicRouting>
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.COUPON_ACCEPT}
-          element={
-            <Suspense fallback={<Loading />}>
+            }
+          />
+          <Route
+            path={PATH.COUPON_ACCEPT}
+            element={
               <OnlyNumberDynamicRouting>
                 <CouponAcceptPage />
               </OnlyNumberDynamicRouting>
-            </Suspense>
-          }
-        />
-        <Route
-          path={PATH.COUPON_DECLINE}
-          element={
-            <Suspense fallback={<Loading />}>
+            }
+          />
+          <Route
+            path={PATH.COUPON_DECLINE}
+            element={
               <OnlyNumberDynamicRouting>
                 <CouponDeclinePage />
               </OnlyNumberDynamicRouting>
-            </Suspense>
-          }
-        />
-        <Route path={PATH.PROFILE} element={<ProfilePage />} />
-        <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
-        <Route
-          path={PATH.USER_HISTORY}
-          element={
-            <Suspense fallback={<Loading />}>
-              <UserHistoryPage />
-            </Suspense>
-          }
-        />
-      </Route>
-      <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
-    </Routes>
+            }
+          />
+          <Route path={PATH.PROFILE} element={<ProfilePage />} />
+          <Route path={PATH.PROFILE_EDIT} element={<ProfileEditPage />} />
+          <Route path={PATH.USER_HISTORY} element={<UserHistoryPage />} />
+        </Route>
+        <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 };
 
