@@ -22,6 +22,8 @@ public class SlackUserInfo {
 
     private String name;
     private String email;
+
+    @JsonProperty(SLACK_URI + "/user_image_72")
     private String picture;
 
     public SlackUserInfo(String userId, String teamId, String teamName, String name, String email,
