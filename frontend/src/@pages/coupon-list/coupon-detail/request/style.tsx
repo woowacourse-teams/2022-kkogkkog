@@ -22,7 +22,6 @@ export const Top = styled.div`
 `;
 
 export const ProfileImage = styled.img`
-  width: 51px;
   border-radius: 50%;
   margin-bottom: 24px;
 `;

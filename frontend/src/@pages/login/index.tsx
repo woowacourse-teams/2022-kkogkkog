@@ -20,7 +20,7 @@ const LoginPage = () => {
             margin-bottom: 50px;
           `}
         >
-          <img src='/assets/images/logo.png' alt='로고' width='36' />
+          <img src='/assets/images/logo.png' alt='로고' width={36} height={36} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         {PRODUCT_ENV === 'local' && <MockLoginForm />}

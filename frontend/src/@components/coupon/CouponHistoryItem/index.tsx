@@ -23,7 +23,7 @@ const CouponHistoryItem = (props: CouponHistoryItemProps) => {
     <Styled.Root>
       <Styled.CouponInfoContainer>
         <Styled.ProfileImageContainer>
-          <img src={imageUrl} alt='프로필 이미지' />
+          <img src={imageUrl} alt='프로필' width={50} height={50} />
         </Styled.ProfileImageContainer>
         <Styled.InformationContainer>
           <Styled.Contents>

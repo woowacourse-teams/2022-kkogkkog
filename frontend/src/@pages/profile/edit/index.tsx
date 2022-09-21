@@ -15,7 +15,7 @@ const ProfileEditPage = () => {
     <PageTemplate title='프로필 수정'>
       <Styled.Root>
         <Styled.ImageInner>
-          <img src={me?.imageUrl} alt='프사' width='86px' />
+          <img src={me?.imageUrl} alt='프사' width={86} height={86} />
         </Styled.ImageInner>
         <Styled.Form onSubmit={onSubmitEditedForm}>
           <Input

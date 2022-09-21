@@ -32,7 +32,7 @@ const Header = (props: HeaderProps) => {
       <Styled.Logo>
         {isMainPage ? (
           <Link to={PATH.LANDING}>
-            <img src='/assets/images/logo.png' alt='로고' width='36' />
+            <img src='/assets/images/logo.png' alt='로고' width={36} height={36} />
           </Link>
         ) : (
           <Icon
@@ -74,7 +74,7 @@ const Header = (props: HeaderProps) => {
           `}
         >
           {me ? (
-            <Styled.ProfileImage src={me.imageUrl} alt='프사' width='30' />
+            <Styled.ProfileImage src={me.imageUrl} alt='프사' width={30} height={30} />
           ) : (
             <Icon iconName='profile' size='30' color={theme.colors.primary_400} />
           )}

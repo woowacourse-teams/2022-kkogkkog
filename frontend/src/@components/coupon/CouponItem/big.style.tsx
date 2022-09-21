@@ -136,7 +136,6 @@ export const ImageInner = styled.div`
 
   & > img {
     border-radius: 20px;
-    width: 44px;
   }
 `;
 
