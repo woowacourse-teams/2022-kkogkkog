@@ -5,9 +5,8 @@ module.exports = api => {
       ['@babel/preset-react', { runtime: 'automatic', importSource: '@emotion/react' }],
       '@babel/preset-typescript',
     ],
-    plugins: [
-      '@emotion/babel-plugin',
-      api.env('development') && require.resolve('react-refresh/babel'),
-    ].filter(Boolean),
+    plugins: ['@emotion', api.env('development') && require.resolve('react-refresh/babel')].filter(
+      Boolean
+    ),
   };
 };
