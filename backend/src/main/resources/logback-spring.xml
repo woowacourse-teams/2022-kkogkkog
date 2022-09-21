@@ -8,11 +8,9 @@
 
   <springProfile name="default">
     <include resource="console-appender.xml"/>
-    <include resource="slack-appender.xml"/>
 
     <root level="INFO">
       <appender-ref ref="CONSOLE"/>
-      <appender-ref ref="ASYNC_SLACK"/>
     </root>
   </springProfile>
 
@@ -20,11 +18,13 @@
     <include resource="file-info-appender.xml"/>
     <include resource="file-error-appender.xml"/>
     <include resource="file-all-appender.xml"/>
+    <include resource="slack-appender.xml"/>
 
     <root level="INFO">
       <appender-ref ref="FILE-INFO"/>
       <appender-ref ref="FILE-ERROR"/>
       <appender-ref ref="FILE-ALL"/>
+      <appender-ref ref="ASYNC_SLACK"/>
     </root>
   </springProfile>
 
