@@ -22,7 +22,7 @@ const ProfilePage = () => {
     <PageTemplate title='프로필'>
       <Styled.Root>
         <Styled.MeInfo>
-          <Styled.ProfileImage src={me?.imageUrl} width='51px' alt='프사' />
+          <Styled.ProfileImage src={me?.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.Nickname>{me?.nickname}</Styled.Nickname>
         </Styled.MeInfo>
         <Link to={PATH.PROFILE_EDIT}>

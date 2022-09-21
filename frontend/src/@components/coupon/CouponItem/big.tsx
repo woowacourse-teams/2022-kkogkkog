@@ -30,7 +30,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
         <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
         <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' />
+          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
         </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
@@ -64,7 +64,7 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
     <Styled.Root className={className} hasCursor={false}>
       <Styled.ImageContainer>
         <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' />
+          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
         </Styled.ImageInner>
       </Styled.ImageContainer>
       <Styled.TextContainer>

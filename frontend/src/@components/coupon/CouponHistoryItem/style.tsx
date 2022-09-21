@@ -27,8 +27,6 @@ export const ProfileImageContainer = styled.div`
   align-items: center;
 
   & > img {
-    width: 50px;
-
     border-radius: 50%;
   }
 `;

@@ -20,7 +20,7 @@ const ReservationItem = (props: ReservationItemProps) => {
       <Styled.Root>
         <Styled.Bar />
         <Styled.ImageContainer>
-          <img src={reservatedCoupon.imageUrl} alt='profile' />
+          <img src={reservatedCoupon.imageUrl} alt='프로필' width={40} height={40} />
         </Styled.ImageContainer>
         <Styled.TextContainer>{reservatedCoupon.nickname}님과의 약속</Styled.TextContainer>
 

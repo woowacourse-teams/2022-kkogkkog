@@ -96,11 +96,6 @@ export const FeelOption = styled.li<{ isSelected: boolean }>`
 `;
 
 export const TypeOption = styled.li<{ isSelected: boolean }>`
-  & > img {
-    width: 50px;
-    height: 50px;
-  }
-
   opacity: 0.3;
 
   ${({ isSelected }) =>

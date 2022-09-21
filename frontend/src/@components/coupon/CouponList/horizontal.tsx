@@ -19,7 +19,12 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
       <Styled.SlideRoot>
         <Styled.TextContainer>
           <div>
-            <img src='/assets/images/skeleton_coupon_small.png' alt='쿠폰' width={80} />
+            <img
+              src='/assets/images/skeleton_coupon_small.png'
+              alt='쿠폰'
+              width={80}
+              height={97.94}
+            />
           </div>
           <h2>아직 쿠폰이 존재하지 않아요.</h2>
           <h3>쿠폰을 생성해보세요!</h3>
