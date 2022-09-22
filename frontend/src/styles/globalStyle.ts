@@ -11,7 +11,7 @@ const globalStyle = css`
   }
 
   body {
-    font-family: 'Pretendard Variable';
+    font-family: 'Pretendard';
     letter-spacing: -0.03px;
   }
 
