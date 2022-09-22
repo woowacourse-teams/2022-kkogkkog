@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
-import { useQueryClient } from 'react-query';
+import { QueryClient, useQueryClient } from 'react-query';
 import type { NavigateFunction } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -83,6 +83,7 @@ class ErrorBoundary extends Component<
 
     if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
+
       displayMessage('다시 로그인해주세요', true);
       navigate(PATH.LOGIN);
 

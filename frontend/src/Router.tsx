@@ -154,9 +154,6 @@ const PrivateRoute = () => {
 const PublicRoute = () => {
   const { me, isLoading } = useFetchMe();
 
-  console.log('Login');
-  console.log(me);
-
   return me ? (
     <CustomSuspense isLoading={isLoading} fallback={<Loading />}>
       <Navigate to={PATH.MAIN} replace />
