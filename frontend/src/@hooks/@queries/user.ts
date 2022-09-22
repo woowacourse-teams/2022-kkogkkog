@@ -43,7 +43,7 @@ export const useFetchMe = () => {
   };
 
   return {
-    me: !isError && data,
+    me: isError ? undefined : data,
     isLoading,
     logout,
   };
