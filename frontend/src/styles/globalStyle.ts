@@ -32,45 +32,57 @@ const globalStyle = css`
   }
 
   @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: lighter;
-    src: url('/assets/font/Pretendard-Light.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
+    font-family: '';
+    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
+      url('Pretendard.woff') format('woff');
     font-weight: normal;
-    src: url('/assets/font/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: 'Pretendard';
+    font-family: '';
+    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
+      url('Pretendard.woff') format('woff');
+    font-weight: lighter;
     font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: '';
+    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
+      url('Pretendard.woff') format('woff');
     font-weight: 600;
-    src: url('/assets/font/Pretendard-SemiBold.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
+    font-family: '';
+    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
+      url('Pretendard.woff') format('woff');
     font-weight: bold;
-    src: url('/assets/font/Pretendard-Bold.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
+    font-family: '';
+    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
+      url('Pretendard.woff') format('woff');
     font-weight: 900;
-    src: url('/assets/font/Pretendard-ExtraBold.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: 'BMHANNAProOTF';
-    font-style: normal;
+    font-family: '';
+    src: local(''), local('BMHANNAProOTF'), url('BMHANNAProOTF.woff2') format('woff2'),
+      url('BMHANNAProOTF.woff') format('woff');
     font-weight: bold;
-    src: url('/assets/font/BMHANNAProOTF.otf') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @keyframes show-up {
