@@ -32,15 +32,23 @@ const queryClient = new QueryClient({
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <QueryClientProvider client={queryClient}>
-    <ReactQueryDevtools initialIsOpen={false} />
-    <ThemeProvider theme={theme}>
-      <ToastProvider>
-        <LoadingProvider>
-          <Global styles={globalStyle} />
-          <App />
-        </LoadingProvider>
-      </ToastProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <>
+    <link
+      rel='stylesheet'
+      as='style'
+      crossOrigin=''
+      href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard-dynamic-subset.css'
+    />
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <LoadingProvider>
+            <Global styles={globalStyle} />
+            <App />
+          </LoadingProvider>
+        </ToastProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </>
 );
