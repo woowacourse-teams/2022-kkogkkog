@@ -27,7 +27,7 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, isLoading, remove } = useQuery([QUERY_KEY.me], getMe, {
+  const { data, isLoading, remove, isError } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
@@ -43,7 +43,7 @@ export const useFetchMe = () => {
   };
 
   return {
-    me: data,
+    me: isError ? undefined : data,
     isLoading,
     logout,
   };

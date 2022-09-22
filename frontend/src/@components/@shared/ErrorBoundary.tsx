@@ -83,6 +83,7 @@ class ErrorBoundary extends Component<
 
     if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
+
       displayMessage('다시 로그인해주세요', true);
       navigate(PATH.LOGIN);
 
