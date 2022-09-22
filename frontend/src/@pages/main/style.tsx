@@ -25,7 +25,7 @@ export const CreateCouponContainer = styled.div`
 `;
 
 export const ExtraBold = styled.span`
-  font-weight: 800;
+  font-weight: 700;
 `;
 
 export const AdditionalExplanation = styled.div`

@@ -11,7 +11,7 @@ const globalStyle = css`
   }
 
   body {
-    font-family: 'Pretendard';
+    font-family: 'Pretendard Variable';
     letter-spacing: -0.03px;
   }
 
@@ -32,54 +32,9 @@ const globalStyle = css`
   }
 
   @font-face {
-    font-family: '';
-    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
-      url('Pretendard.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: '';
-    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
-      url('Pretendard.woff') format('woff');
-    font-weight: lighter;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: '';
-    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
-      url('Pretendard.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: '';
-    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
-      url('Pretendard.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: '';
-    src: local(''), local('Pretendard'), url('Pretendard.woff2') format('woff2'),
-      url('Pretendard.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: '';
-    src: local(''), local('BMHANNAProOTF'), url('BMHANNAProOTF.woff2') format('woff2'),
-      url('BMHANNAProOTF.woff') format('woff');
+    font-family: 'BMHANNAProOTF';
+    src: local('BMHANNAProOTF'), url('/assets/font/BMHANNAProOTF.woff2') format('woff2'),
+      url('/assets/font/BMHANNAProOTF.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
