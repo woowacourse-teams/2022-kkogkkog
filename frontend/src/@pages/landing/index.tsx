@@ -17,7 +17,7 @@ const LandingPage = () => {
     <PageTemplate title='꼭꼭' hasHeader={false}>
       <Styled.Root>
         <Styled.Branding>
-          <img src='/assets/images/landing_logo.png' alt='로고' width='86' />
+          <img src='/assets/images/landing_logo.png' alt='로고' width={86} height={86} />
 
           <div>
             <Styled.ExtraBold>꼭꼭</Styled.ExtraBold>으로

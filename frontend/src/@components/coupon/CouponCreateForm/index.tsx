@@ -84,7 +84,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
             isSelected={engType === currentType}
             onClick={() => onSelectType(engType)}
           >
-            <img src={THUMBNAIL[engType]} alt='hi' />
+            <img src={THUMBNAIL[engType]} alt='쿠폰 종류' width={50} height={50} />
           </Styled.TypeOption>
         ))}
       </SelectInput>

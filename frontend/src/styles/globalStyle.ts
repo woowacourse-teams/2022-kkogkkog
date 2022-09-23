@@ -32,45 +32,12 @@ const globalStyle = css`
   }
 
   @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: lighter;
-    src: url('/assets/font/Pretendard-Light.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: normal;
-    src: url('/assets/font/Pretendard-Regular.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    src: url('/assets/font/Pretendard-SemiBold.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: bold;
-    src: url('/assets/font/Pretendard-Bold.woff') format('woff');
-  }
-
-  @font-face {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 900;
-    src: url('/assets/font/Pretendard-ExtraBold.woff') format('woff');
-  }
-
-  @font-face {
     font-family: 'BMHANNAProOTF';
-    font-style: normal;
+    src: local('BMHANNAProOTF'), url('/assets/font/BMHANNAProOTF.woff2') format('woff2'),
+      url('/assets/font/BMHANNAProOTF.woff') format('woff');
     font-weight: bold;
-    src: url('/assets/font/BMHANNAProOTF.otf') format('woff');
+    font-style: normal;
+    font-display: swap;
   }
 
   @keyframes show-up {

@@ -84,7 +84,12 @@ const CouponAcceptPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage src={isSent ? receiverImageUrl : senderImageUrl} alt='' />
+          <Styled.ProfileImage
+            src={isSent ? receiverImageUrl : senderImageUrl}
+            alt='프로필'
+            width={51}
+            height={51}
+          />
           <Styled.SummaryMessage>
             <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
             &nbsp;

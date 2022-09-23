@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { lazy, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';

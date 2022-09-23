@@ -54,7 +54,7 @@ class ErrorBoundary extends Component<
       return { error, errorCase: null };
     }
 
-    /** 우선순위를 고려하여 배치한다. */
+    /** 401이라면 unauthorized에 get이어도 이 에러이다. */
     if (error.response?.status === 401) {
       return {
         error,
@@ -79,30 +79,25 @@ class ErrorBoundary extends Component<
 
     const { error: errorState, errorCase } = this.state;
 
+    const { navigate } = this.props;
+
+    if (errorCase === 'unauthorized') {
+      localStorage.removeItem('user-token');
+
+      displayMessage('다시 로그인해주세요', true);
+      navigate(PATH.LOGIN);
+
+      return;
+    }
+
     if (errorCase === 'get') {
       displayMessage((errorState.response?.data as any).message, true);
 
       return;
     }
 
-    this.resetErrorBoundary();
-
     if (errorCase === null) {
       displayMessage('알 수 없는 에러가 발생했습니다.', true);
-
-      return;
-    }
-
-    const { navigate } = this.props;
-
-    if (errorCase === 'unauthorized') {
-      localStorage.removeItem('user-token');
-      displayMessage('다시 로그인해주세요', true);
-      navigate(PATH.LOGIN);
-
-      this.resetErrorBoundary();
-    } else {
-      displayMessage((errorState.response?.data as any).message, true);
     }
   }
 

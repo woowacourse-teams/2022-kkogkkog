@@ -26,7 +26,7 @@ const JoinPage = () => {
             align-items: center;
           `}
         >
-          <img src='/assets/images/logo.png' alt='로고' width={40} />
+          <img src='/assets/images/logo.png' alt='로고' width={40} height={40} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         <Styled.FormRoot onSubmit={onSubmitForm}>
