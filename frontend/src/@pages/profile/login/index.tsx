@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import MockLoginForm from '@/@components/user/MockLoginFrm';
+import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
 
 const LoginPage = () => {
@@ -20,7 +21,7 @@ const LoginPage = () => {
             margin-bottom: 50px;
           `}
         >
-          <img src='/assets/images/logo.png' alt='로고' width={36} height={36} />
+          <img src={logoImage} alt='로고' width={36} height={36} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         {PRODUCT_ENV === 'local' && <MockLoginForm />}

@@ -1,3 +1,6 @@
+import beerImage from '@/assets/images/beer.png';
+import coffeeImage from '@/assets/images/coffee.png';
+import mealImage from '@/assets/images/meal.png';
 import { Member } from '@/types/user/client';
 import { YYYYMMDDhhmmss } from '@/types/utils';
 
@@ -24,9 +27,9 @@ export const couponHashtags = [
 ] as const;
 
 export const THUMBNAIL: { [x: string]: string } = {
-  COFFEE: '/assets/images/coffee.png',
-  DRINK: '/assets/images/beer.png',
-  MEAL: '/assets/images/meal.png',
+  COFFEE: coffeeImage,
+  DRINK: beerImage,
+  MEAL: mealImage,
 } as const;
 
 export type COUPON_ENG_TYPE = typeof couponTypeCollection[number]['engType'];
