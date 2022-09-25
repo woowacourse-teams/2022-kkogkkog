@@ -21,7 +21,8 @@
 더 많은 이야기를 보고싶다면?  
 [1차 데모 영상](https://youtu.be/AD5pNHNMyrA)  
 [2차 데모 영상](https://youtu.be/QVOQI4lYX6Y)  
-[3차 데모 영상](https://youtu.be/N5IB9lCsjbI)
+[3차 데모 영상](https://youtu.be/N5IB9lCsjbI)  
+[4차 데모 영상](https://youtu.be/6jtsyPbm8CM)
 
 ## 🧑🏻‍💻 팀원 소개
 
