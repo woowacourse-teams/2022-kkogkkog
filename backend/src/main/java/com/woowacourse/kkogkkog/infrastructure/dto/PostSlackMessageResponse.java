@@ -15,4 +15,8 @@ public class PostSlackMessageResponse {
         this.ok = ok;
         this.error = error;
     }
+
+    public boolean isError() {
+        return ok == null || !ok;
+    }
 }

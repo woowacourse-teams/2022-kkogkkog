@@ -137,7 +137,7 @@ public class SlackClient {
                 .bodyToMono(PostSlackMessageResponse.class)
                 .blockOptional()
                 .orElseThrow(PostMessageRequestFailedException::new);
-            if (!response.getOk()) {
+            if (response.isError()) {
                 throw new PostMessageRequestFailedException(response.getError());
             }
         } catch (PostMessageRequestFailedException e) {
