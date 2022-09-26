@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class PostSlackMessageResponse {
 
     private Boolean ok;
-    private String error;
+    private String error = "";
 
     public PostSlackMessageResponse(Boolean ok, String error) {
         this.ok = ok;

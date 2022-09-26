@@ -33,14 +33,4 @@ public class BotTokenResponse {
             this.name = name;
         }
     }
-
-    @Override
-    public String toString() {
-        return "BotTokenResponse{" +
-            "ok=" + ok +
-            ", accessToken='" + accessToken + '\'' +
-            ", team=" + team +
-            ", error='" + error + '\'' +
-            '}';
-    }
 }

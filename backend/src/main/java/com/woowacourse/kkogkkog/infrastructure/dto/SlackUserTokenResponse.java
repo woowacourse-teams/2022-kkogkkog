@@ -14,7 +14,7 @@ public class SlackUserTokenResponse {
     @JsonProperty(value = "access_token")
     private String accessToken;
 
-    private String error;
+    private String error = "";
 
     public SlackUserTokenResponse(Boolean ok, String accessToken, String error) {
         this.ok = ok;
