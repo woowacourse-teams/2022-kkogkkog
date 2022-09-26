@@ -1,21 +1,21 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.auth.exception.AccessTokenRequestFailedException;
-import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
-import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
-import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.BotTokenResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.PostSlackMessageResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserTokenResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.BotInstallationFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
+import com.woowacourse.kkogkkog.infrastructure.exception.PostMessageRequestFailedException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -35,8 +35,6 @@ public class SlackClient {
     private static final String CLIENT_ID_PARAMETER = "client_id";
     private static final String SECRET_ID_PARAMETER = "client_secret";
     private static final String REDIRECT_URI_PARAMETER = "redirect_uri";
-    private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_TYPE_REFERENCE = new ParameterizedTypeReference<>() {
-    };
 
     private final String clientId;
     private final String secretId;
@@ -74,20 +72,19 @@ public class SlackClient {
     }
 
     public String requestAccessToken(String code) {
-        Map<String, Object> responseBody = oAuthLoginClient
+        SlackUserTokenResponse slackAccessToken = oAuthLoginClient
             .post()
             .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, loginRedirectUrl))
-            .headers(this::setHeaders)
+            .headers(header -> header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8)))
             .retrieve()
-            .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
+            .bodyToMono(SlackUserTokenResponse.class)
             .blockOptional()
             .orElseThrow(AccessTokenRequestFailedException::new);
-
-        if (!responseBody.containsKey("access_token")) {
-            log.info("Error message From Slack : ", responseBody.get("error"));
+        if (slackAccessToken.isError()) {
+            log.error("Error message From Slack : " + slackAccessToken.getError());
             throw new AccessTokenRetrievalFailedException();
         }
-        return responseBody.get("access_token").toString();
+        return slackAccessToken.getAccessToken();
     }
 
     public SlackUserInfo requestUserInfo(String token) {
@@ -118,7 +115,7 @@ public class SlackClient {
         BotTokenResponse response = botTokenClient
             .post()
             .uri(uriBuilder -> toRequestTokenUri(uriBuilder, code, botTokenRedirectUrl))
-            .headers(this::setHeaders)
+            .headers(header -> header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8)))
             .retrieve()
             .bodyToMono(BotTokenResponse.class)
             .blockOptional()
@@ -131,20 +128,20 @@ public class SlackClient {
 
     public void requestPushAlarm(String token, String userId, String message) {
         try {
-            Map<String, Object> responseBody = messageClient
+            PostSlackMessageResponse response = messageClient
                 .post()
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(token))
                 .bodyValue(PushAlarmRequest.of(userId, message))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(PARAMETERIZED_TYPE_REFERENCE)
+                .bodyToMono(PostSlackMessageResponse.class)
                 .blockOptional()
                 .orElseThrow(PostMessageRequestFailedException::new);
-            if (responseBody.get("ok").equals("false")) {
-                throw new PostMessageRequestFailedException((String) responseBody.get("error"));
+            if (!response.getOk()) {
+                throw new PostMessageRequestFailedException(response.getError());
             }
         } catch (PostMessageRequestFailedException e) {
-            log.info("Exception has been thrown : ", e);
+            log.error("Exception has been thrown : ", e);
         }
     }
 
@@ -155,10 +152,5 @@ public class SlackClient {
             .queryParam(SECRET_ID_PARAMETER, secretId)
             .queryParam(REDIRECT_URI_PARAMETER, redirectUri)
             .build();
-    }
-
-    private void setHeaders(HttpHeaders header) {
-        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
     }
 }
