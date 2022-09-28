@@ -16,5 +16,5 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 
 export type YYYYMMDD = `${string}-${string}-${string}`;
 export type YYYYMMDD_KR = `${string}년 ${string}월 ${string}일`;
-export type YYYYMMDDhhmmss = `${YYYYMMDD} ${string}:${string}:${string}`;
+export type YYYYMMDDhhmmss = `${YYYYMMDD}T${string}:${string}:${string}`;
 export type MMDD_KR = `${string}월 ${string}일`;

@@ -44,5 +44,4 @@ export const getUserHistoryList = async () => {
 
 export const readAllHistory = () => client.put('members/me/histories');
 
-export const readHistory = ({ id }: ReadHistoryRequest) =>
-  client.put(`/members/me/histories/${id}`);
+export const readHistory = ({ id }: { id: number }) => client.put(`/members/me/histories/${id}`);
