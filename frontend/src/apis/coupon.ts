@@ -37,7 +37,7 @@ export const getReceivedCouponList = async () => {
   return data;
 };
 
-export const getSentCouponByStatusList = async ({ type }: SentCouponListByStatusRequest) => {
+export const getSentCouponListByStatus = async ({ type }: SentCouponListByStatusRequest) => {
   const { data } = await client.get<SentCouponListByStatusResponse>(
     `/coupons/sent/status?type=${type}`
   );
@@ -45,7 +45,7 @@ export const getSentCouponByStatusList = async ({ type }: SentCouponListByStatus
   return data;
 };
 
-export const getReceivedCouponByStatusList = async ({
+export const getReceivedCouponListByStatus = async ({
   type,
 }: ReceivedCouponListByStatusRequest) => {
   const { data } = await client.get<ReceivedCouponListByStatusResponse>(

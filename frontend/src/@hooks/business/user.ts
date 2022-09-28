@@ -3,7 +3,6 @@ import {
   useAddSlackAppMutation,
   useEditMeMutation,
   useFetchUserHistoryList,
-  useLoginMutation,
   useReadAllHistoryMutation,
   useSlackOAuthLoginMutation,
   useSlackSignupMutation,
@@ -21,21 +20,6 @@ export const useSlackSignUp = () => {
 
   return {
     slackSignup,
-  };
-};
-
-export const useLogin = () => {
-  const loginMutate = useLoginMutation();
-
-  const login = ({ email, password }: { email: string; password: string }) => {
-    return loginMutate.mutateAsync({
-      email,
-      password,
-    });
-  };
-
-  return {
-    login,
   };
 };
 
@@ -61,8 +45,8 @@ export const useEditMe = () => {
 export const useSlackOAuthLogin = () => {
   const loginMutate = useSlackOAuthLoginMutation();
 
-  const loginBySlackOAuth = async (slackOAuthCode: string) => {
-    const response = await loginMutate.mutateAsync(slackOAuthCode);
+  const loginBySlackOAuth = async (code: string) => {
+    const response = await loginMutate.mutateAsync({ code });
 
     return response?.data;
   };
@@ -76,7 +60,7 @@ export const useAddSlackApp = () => {
   const addSlackAppMutate = useAddSlackAppMutation();
 
   const addSlackApp = (code: string) => {
-    return addSlackAppMutate.mutateAsync(code);
+    return addSlackAppMutate.mutateAsync({ code });
   };
 
   return {

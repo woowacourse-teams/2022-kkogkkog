@@ -1,4 +1,4 @@
-import { YYYYMMDDhhmmss } from '@/types/utils';
+import { YYYYMMDD, YYYYMMDDhhmmss } from '@/types/utils';
 
 import { Coupon, COUPON_ENG_TYPE, COUPON_EVENT, COUPON_STATUS, CouponHistory } from './client';
 
@@ -14,7 +14,7 @@ export interface CreateCouponRequest {
 export interface ChangeCouponStatusRequest {
   couponEvent: COUPON_EVENT;
   meetingMessage?: string;
-  meetingDate?: YYYYMMDDhhmmss;
+  meetingDate?: YYYYMMDD;
 }
 
 export interface CouponListByStatusRequest {

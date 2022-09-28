@@ -4,16 +4,15 @@ import { useQueryClient } from 'react-query';
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
 import {
-  oAuthSlackAppDownload,
   editMe,
   getMe,
   getUserHistoryList,
   getUserList,
-  login,
   oAuthLogin,
+  oAuthSlackAppDownload,
   readAllHistory,
 } from '@/apis/user';
-import { UserHistoryResponse } from '@/types/remote/response';
+import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
 import { oAuthSignup } from './../../apis/user';
@@ -21,8 +20,8 @@ import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
   me: 'me',
-  getUserList: 'getUserList',
-  getUserHistoryList: 'getUserHistoryList',
+  userList: 'userList',
+  userHistoryList: 'userHistoryList',
 };
 
 /** Query */
@@ -50,7 +49,7 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
-  const { data } = useQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data } = useQuery([QUERY_KEY.userList], getUserList, {
     suspense: false,
   });
 
@@ -60,7 +59,7 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, refetch } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, refetch } = useQuery([QUERY_KEY.userHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: Infinity,
   });
@@ -147,20 +146,6 @@ export const useAddSlackAppMutation = () => {
   return useMutation(oAuthSlackAppDownload);
 };
 
-export const useLoginMutation = () => {
-  return useMutation(login, {
-    onSuccess: data => {
-      const {
-        data: { accessToken },
-      } = data;
-
-      localStorage.setItem('user-token', accessToken);
-
-      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-    },
-  });
-};
-
 export const useReadAllHistoryMutation = () => {
   const queryClient = useQueryClient();
 
@@ -186,8 +171,8 @@ export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
   const readHistory = (id: number) => {
-    queryClient.setQueryData<UserHistoryResponse | undefined>(
-      [QUERY_KEY.getUserHistoryList],
+    queryClient.setQueryData<UserHistoryListResponse | undefined>(
+      [QUERY_KEY.userHistoryList],
       oldData => {
         if (oldData === undefined) {
           return;
