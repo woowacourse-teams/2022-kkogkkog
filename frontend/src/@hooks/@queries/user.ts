@@ -4,19 +4,19 @@ import { useQueryClient } from 'react-query';
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
 import {
-  AddSlackApp,
+  oAuthSlackAppDownload,
   editMe,
   getMe,
   getUserHistoryList,
   getUserList,
   login,
-  OAuthLogin,
+  oAuthLogin,
   readAllHistory,
 } from '@/apis/user';
 import { UserHistoryResponse } from '@/types/remote/response';
 
 import { useToast } from '../@common/useToast';
-import { signUpToken } from './../../apis/user';
+import { oAuthSignup } from './../../apis/user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
@@ -106,7 +106,7 @@ export const useSlackOAuthLoginMutation = () => {
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(OAuthLogin, {
+  return useMutation(oAuthLogin, {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -130,7 +130,7 @@ export const useSlackOAuthLoginMutation = () => {
 };
 
 export const useSlackSignupMutation = () => {
-  return useMutation(signUpToken, {
+  return useMutation(oAuthSignup, {
     onSuccess(response) {
       const { accessToken } = response.data;
 
@@ -144,7 +144,7 @@ export const useSlackSignupMutation = () => {
 };
 
 export const useAddSlackAppMutation = () => {
-  return useMutation(AddSlackApp);
+  return useMutation(oAuthSlackAppDownload);
 };
 
 export const useLoginMutation = () => {

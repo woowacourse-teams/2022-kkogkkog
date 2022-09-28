@@ -1,16 +1,3 @@
-// export interface ReadHistoryRequest {
-//   id: number;
-// }
-
-// export interface LoginResponse {
-//   accessToken: string;
-// }
-
-// export interface LoginRequest {
-//   email: string;
-//   password: string;
-// }
-
 /** Request */
 
 import { UserCouponHistory } from './client';
@@ -24,7 +11,15 @@ export interface OAuthSlackAppDownloadRequest {
   code: string;
 }
 
+export interface OAuthLoginRequest {
+  code: string;
+}
+
 export type EditMeRequest = Pick<MeResponse, 'nickname'>;
+
+export interface SearchUserRequest {
+  nickname: string;
+}
 
 /** Response */
 

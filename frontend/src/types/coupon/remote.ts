@@ -1,6 +1,6 @@
 import { YYYYMMDDhhmmss } from '@/types/utils';
 
-import { Coupon, COUPON_ENG_TYPE, COUPON_EVENT, CouponHistory } from './client';
+import { Coupon, COUPON_ENG_TYPE, COUPON_EVENT, COUPON_STATUS, CouponHistory } from './client';
 
 /** Request */
 
@@ -17,17 +17,24 @@ export interface ChangeCouponStatusRequest {
   meetingDate?: YYYYMMDDhhmmss;
 }
 
+export interface CouponListByStatusRequest {
+  type: COUPON_STATUS;
+}
+
+export type SentCouponListByStatusRequest = CouponListByStatusRequest;
+export type ReceivedCouponListByStatusRequest = CouponListByStatusRequest;
+
 /** Response */
 
 export interface CouponListResponse {
   data: Coupon[];
 }
 
-export type CreateCouponResponse = CouponListResponse;
-export type SentCouponResponse = CouponListResponse;
-export type ReceivedCouponResponse = CouponListResponse;
-export type SentCouponByStatusResponse = CouponListResponse;
-export type ReceivedCouponByStatusResponse = CouponListResponse;
+export type CreateCouponListResponse = CouponListResponse;
+export type SentCouponListResponse = CouponListResponse;
+export type ReceivedCouponListResponse = CouponListResponse;
+export type SentCouponListByStatusResponse = CouponListResponse;
+export type ReceivedCouponListByStatusResponse = CouponListResponse;
 
 export interface CouponDetailResponse extends Coupon {
   couponHistories: CouponHistory[];
@@ -35,7 +42,7 @@ export interface CouponDetailResponse extends Coupon {
 
 export interface AcceptedCouponListResponse {
   data: {
-    meetingData: YYYYMMDDhhmmss;
-    couponse: Coupon[];
+    meetingDate: YYYYMMDDhhmmss;
+    coupons: Coupon[];
   };
 }
