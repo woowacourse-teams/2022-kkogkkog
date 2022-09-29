@@ -1,5 +1,5 @@
 import theme from '@/styles/theme';
-import { COUPON_STATUS } from '@/types/client/coupon';
+import { COUPON_STATUS } from '@/types/coupon/client';
 import { generateDateText } from '@/utils/time';
 
 import * as Styled from './style';

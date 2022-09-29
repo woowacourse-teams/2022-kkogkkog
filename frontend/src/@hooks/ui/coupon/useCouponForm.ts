@@ -76,7 +76,7 @@ export const useCouponForm = () => {
     }
 
     const coupons = await createCoupon({
-      receiverList,
+      receiverIds: receiverList.map(({ id }) => id),
       hashtag,
       description,
       type,

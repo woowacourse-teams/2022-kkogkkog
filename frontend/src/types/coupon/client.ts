@@ -40,8 +40,6 @@ export type COUPON_HASHTAGS = typeof couponHashtags[number];
 export type COUPON_EVENT = typeof couponEvent[number];
 export type COUPON_STATUS = typeof couponStatus[number];
 
-export type COUPON_MEMBER_TYPE = 'SENT' | 'RECEIVED';
-
 export interface Coupon {
   id: number;
   sender: Pick<UserResponse, 'id' | 'nickname' | 'imageUrl'>;
@@ -63,4 +61,9 @@ export interface CouponHistory {
   meetingMessage: string;
   meetingDate: YYYYMMDDhhmmss;
   createdTime: YYYYMMDDhhmmss;
+}
+
+export interface Reservation {
+  meetingDate: YYYYMMDDhhmmss;
+  coupons: Coupon[];
 }

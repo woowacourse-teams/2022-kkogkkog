@@ -2,20 +2,16 @@ import { ChangeEventHandler, Dispatch, SetStateAction, useState } from 'react';
 
 type Validation = (value: string) => boolean;
 
-const useInput = (
-  defaultValue: string,
+const useInput = <T extends string>(
+  defaultValue: T,
   validations?: Validation[]
-): [
-  string,
-  ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
-  Dispatch<SetStateAction<string>>
-] => {
+): [T, ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>, Dispatch<SetStateAction<T>>] => {
   const [value, setValue] = useState(defaultValue);
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = e => {
-    const {
-      target: { value },
-    } = e;
+    const { target } = e;
+
+    const value = target.value as T;
 
     // @TODO: validation에 에러 메시지 추가
     if (validations?.some(validation => validation(value))) {

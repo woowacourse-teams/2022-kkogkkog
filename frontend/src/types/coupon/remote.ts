@@ -1,6 +1,13 @@
-import { YYYYMMDD, YYYYMMDDhhmmss } from '@/types/utils';
+import { YYYYMMDD } from '@/types/utils';
 
-import { Coupon, COUPON_ENG_TYPE, COUPON_EVENT, COUPON_STATUS, CouponHistory } from './client';
+import {
+  Coupon,
+  COUPON_ENG_TYPE,
+  COUPON_EVENT,
+  COUPON_STATUS,
+  CouponHistory,
+  Reservation,
+} from './client';
 
 /** Request */
 
@@ -40,9 +47,6 @@ export interface CouponDetailResponse extends Coupon {
   couponHistories: CouponHistory[];
 }
 
-export interface AcceptedCouponListResponse {
-  data: {
-    meetingDate: YYYYMMDDhhmmss;
-    coupons: Coupon[];
-  };
+export interface ReservationListResponse {
+  data: Reservation[];
 }

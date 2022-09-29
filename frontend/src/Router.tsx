@@ -21,7 +21,7 @@ const CouponAcceptPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/a
 const CouponDeclinePage = lazy(() => import('@/@pages/coupon-list/coupon-detail/decline'));
 const CouponRequestPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/request'));
 const DownloadPage = lazy(() => import('@/@pages/download'));
-const LoginPage = lazy(() => import('@/@pages/login'));
+const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
 const Redirect = lazy(() => import('@/@pages/redirect'));
 

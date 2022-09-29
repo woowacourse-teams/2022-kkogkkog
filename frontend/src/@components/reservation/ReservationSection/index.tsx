@@ -1,28 +1,21 @@
-import { useMemo } from 'react';
-
 import Icon from '@/@components/@shared/Icon';
 import Placeholder from '@/@components/@shared/Placeholder';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
-import { CouponResponse } from '@/types/remote/response';
-import { computeDay, generateDateText, generateDDay, sortByTime } from '@/utils/time';
+import { Reservation } from '@/types/coupon/client';
+import { computeDay, generateDateText, generateDDay } from '@/utils/time';
 
 import * as Styled from './style';
 
-interface AcceptedCouponListProps {
-  reservationRecord: Record<string, CouponResponse[]>;
+interface ReservationSectionProps {
+  reservationList: Reservation[];
 }
 
-const ReservationSection = (props: AcceptedCouponListProps) => {
-  const { reservationRecord } = props;
+const ReservationSection = (props: ReservationSectionProps) => {
+  const { reservationList } = props;
 
-  const sortedKey = useMemo(
-    () => Object.keys(reservationRecord).sort(sortByTime),
-    [reservationRecord]
-  );
-
-  if (Object.keys(reservationRecord).length === 0) {
+  if (reservationList.length === 0) {
     return (
       <Styled.NoneContentsContainer>
         <Icon iconName='hand' hasCursor={false} size='36' color={theme.colors.primary_400} />
@@ -34,20 +27,22 @@ const ReservationSection = (props: AcceptedCouponListProps) => {
 
   return (
     <Styled.Root>
-      {sortedKey.map(date => {
-        const dateText = generateDateText(date);
-        const day = computeDay(date);
-        const dDay = generateDDay(date);
+      {reservationList.map(reservation => {
+        const { meetingDate, coupons: reservatedCouponList } = reservation;
+
+        const dateText = generateDateText(meetingDate);
+        const day = computeDay(meetingDate);
+        const dDay = generateDDay(meetingDate);
 
         return (
-          <Styled.DateContainer key={date}>
+          <Styled.DateContainer key={meetingDate}>
             <Styled.DateTitle>
               <div>
                 {dateText}({day})
               </div>
               <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
             </Styled.DateTitle>
-            <ReservationList reservatedCouponList={reservationRecord[date]} />
+            <ReservationList reservatedCouponList={reservatedCouponList} />
             {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
           </Styled.DateContainer>
         );
@@ -55,6 +50,25 @@ const ReservationSection = (props: AcceptedCouponListProps) => {
     </Styled.Root>
   );
 };
+
+// {sortedKey.map(date => {
+//   const dateText = generateDateText(date);
+//   const day = computeDay(date);
+//   const dDay = generateDDay(date);
+
+//   return (
+//     <Styled.DateContainer key={date}>
+//       <Styled.DateTitle>
+//         <div>
+//           {dateText}({day})
+//         </div>
+//         <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
+//       </Styled.DateTitle>
+//       <ReservationList reservatedCouponList={reservationRecord[date]} />
+//       {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
+//     </Styled.DateContainer>
+//   );
+// })}
 
 export default ReservationSection;
 

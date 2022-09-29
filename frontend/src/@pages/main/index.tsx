@@ -10,24 +10,27 @@ import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
-import { useFetchCouponList } from '@/@hooks/@queries/coupon';
+import {
+  useFetchReceivedCouponList,
+  useFetchReservationList,
+  useFetchSentCouponList,
+} from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import { filterOptionsSessionStorage } from '@/storage/session';
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const { couponList, isLoading, parseOpenCouponList, generateReservationRecord } =
-    useFetchCouponList();
 
-  const reservationRecord = useMemo(() => generateReservationRecord(), [couponList]);
-  const receivedOpenCouponList = useMemo(() => parseOpenCouponList('received'), [couponList]);
-  const sentOpenCouponList = useMemo(() => parseOpenCouponList('sent'), [couponList]);
+  const { reservationList, isLoading: isAcceptedCounponListLoading } = useFetchReservationList();
+  const { receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
+    useFetchReceivedCouponList();
+  const { sentOpenCouponList, isLoading: isSentCouponListLoading } = useFetchSentCouponList();
 
-  const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
+  const onClickCouponItem = (coupon: Coupon) => {
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.id));
   };
 
   const onClickViewMoreCoupon = () => {
@@ -77,8 +80,11 @@ const MainPage = () => {
             <span>예정된 약속</span>
           </Styled.FullListTitle>
 
-          <CustomSuspense fallback={<ReservationSection.Skeleton />} isLoading={isLoading}>
-            <ReservationSection reservationRecord={reservationRecord} />
+          <CustomSuspense
+            fallback={<ReservationSection.Skeleton />}
+            isLoading={isAcceptedCounponListLoading}
+          >
+            <ReservationSection reservationList={reservationList} />
           </CustomSuspense>
         </Styled.FullListContainer>
 
@@ -98,7 +104,7 @@ const MainPage = () => {
               fallback={
                 <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
               }
-              isLoading={isLoading}
+              isLoading={isReceivedCouponListLoading}
             >
               <HorizontalCouponList
                 couponList={receivedOpenCouponList}
@@ -123,7 +129,7 @@ const MainPage = () => {
               fallback={
                 <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
               }
-              isLoading={isLoading}
+              isLoading={isSentCouponListLoading}
             >
               <HorizontalCouponList
                 couponList={sentOpenCouponList}

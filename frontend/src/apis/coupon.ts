@@ -1,6 +1,5 @@
 import { client } from '@/apis';
 import {
-  AcceptedCouponListResponse,
   ChangeCouponStatusRequest,
   CouponDetailResponse,
   CreateCouponListResponse,
@@ -8,6 +7,7 @@ import {
   ReceivedCouponListByStatusRequest,
   ReceivedCouponListByStatusResponse,
   ReceivedCouponListResponse,
+  ReservationListResponse,
   SentCouponListByStatusRequest,
   SentCouponListByStatusResponse,
   SentCouponListResponse,
@@ -19,8 +19,8 @@ export const getCoupon = async (id: number) => {
   return data;
 };
 
-export const getAcceptedCouponList = async () => {
-  const { data } = await client.get<AcceptedCouponListResponse>('/coupons/accept');
+export const getReservationList = async () => {
+  const { data } = await client.get<ReservationListResponse>('/coupons/accept');
 
   return data;
 };

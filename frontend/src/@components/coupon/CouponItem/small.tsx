@@ -2,12 +2,12 @@ import { MouseEventHandler } from 'react';
 
 import Placeholder from '@/@components/@shared/Placeholder';
 import CouponStatus from '@/@components/coupon/CouponStatus';
-import { THUMBNAIL } from '@/types/client/coupon';
-import { CouponResponse } from '@/types/remote/response';
+import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
+import { Coupon, THUMBNAIL } from '@/types/coupon/client';
 
 import * as Styled from './small.style';
 
-export interface SmallCouponItemProps extends CouponResponse {
+export interface SmallCouponItemProps extends Coupon {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
@@ -15,12 +15,12 @@ export interface SmallCouponItemProps extends CouponResponse {
 const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
 
-  const { memberType, nickname, thumbnail, couponStatus, meetingDate } = {
+  const { thumbnail, couponStatus, meetingDate } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
 
-  const isSent = memberType === 'SENT';
+  const { isSent, member } = useCouponPartner(coupon);
 
   return (
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>
@@ -30,7 +30,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
       <Styled.TextContainer>
         <Styled.Preposition>{isSent ? 'To.' : 'From.'} </Styled.Preposition>
-        {nickname}
+        {member.nickname}
       </Styled.TextContainer>
     </Styled.Root>
   );
