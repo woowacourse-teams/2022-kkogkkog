@@ -82,7 +82,7 @@ class CouponDocumentTest extends DocumentTest {
 
         perform
             .andDo(print())
-            .andDo(document("coupon-showAll-send-status",
+            .andDo(document("coupon-showAll-send",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }

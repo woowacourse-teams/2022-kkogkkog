@@ -232,7 +232,7 @@ public class MemberDocumentTest extends DocumentTest {
         // docs
         perform
             .andDo(print())
-            .andDo(document("member-updateNickname",
+            .andDo(document("member-update",
                 getDocumentRequest(),
                 getDocumentResponse(),
                 requestHeaders(
