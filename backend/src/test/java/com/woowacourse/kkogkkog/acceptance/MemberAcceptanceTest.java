@@ -1,17 +1,16 @@
 package com.woowacourse.kkogkkog.acceptance;
 
+import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
+import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePatchWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePutWithToken;
-import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입_및_닉네임을_수정하고;
-import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
-import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
-import static com.woowacourse.kkogkkog.acceptance.CouponAcceptanceTest.쿠폰_생성을_요청하고;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -117,11 +116,11 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     private ExtractableResponse<Response> 본인_정보_조회를_요청한다(String accessToken) {
-        return invokeGetWithToken("/api/members/me", accessToken);
+        return invokeGetWithToken("/api/v2/members/me", accessToken);
     }
 
     private ExtractableResponse<Response> 전체_사용자_조회를_요청한다() {
-        return invokeGet("/api/members");
+        return invokeGet("/api/v2/members");
     }
 
     private void 프로필_수정을_성공하고(String nickname, String accessToken) {
@@ -129,18 +128,18 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     }
 
     public static void 프로필_수정을_성공한다(String accessToken, MemberUpdateMeRequest body) {
-        invokePutWithToken("/api/members/me", accessToken, body);
+        invokePutWithToken("/api/v2/members/me", accessToken, body);
     }
 
     private ExtractableResponse<Response> 알림함을_확인한다(String arthurAccessToken) {
-        return invokeGetWithToken("/api/members/me/histories", arthurAccessToken);
+        return invokeGetWithToken("/api/v2/members/me/histories", arthurAccessToken);
     }
 
     private ExtractableResponse<Response> 알림을_체크한다(Long historyId, String arthurAccessToken) {
-        return invokePatchWithToken("/api/members/me/histories/" + historyId, arthurAccessToken);
+        return invokePatchWithToken("/api/v2/members/me/histories/" + historyId, arthurAccessToken);
     }
 
     private ExtractableResponse<Response> 나의_알림을_체크한다(String accessToken) {
-        return invokePutWithToken("/api/members/me/histories/", accessToken);
+        return invokePutWithToken("/api/v2/members/me/histories/", accessToken);
     }
 }

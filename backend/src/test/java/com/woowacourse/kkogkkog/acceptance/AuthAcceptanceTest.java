@@ -93,7 +93,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("code", AUTHORIZATION_CODE);
-        ExtractableResponse<Response> extract = invokeGetWithQueryParams("/api/login/token",
+        ExtractableResponse<Response> extract = invokeGetWithQueryParams("/api/v2/login/token",
             queryParams);
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -104,10 +104,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
             .willReturn(WorkspaceResponse.of(KKOGKKOG.getWorkspace()));
 
-        return invokePost("/api/install/bot", new InstallSlackAppRequest(AUTHORIZATION_CODE));
+        return invokePost("/api/v2/install/bot", new InstallSlackAppRequest(AUTHORIZATION_CODE));
     }
 
     static ExtractableResponse<Response> 회원가입을_요청한다(Object data) {
-        return invokePost("/api/signup/token", data);
+        return invokePost("/api/v2/signup/token", data);
     }
 }
