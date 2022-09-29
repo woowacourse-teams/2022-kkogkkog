@@ -22,38 +22,42 @@ public class NoticeCacheRepository {
     }
 
     public Long get(Member member) {
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        Long unreadCountCache = valueOperations.get(toCacheKey(member));
+        Long unreadCountCache = getCache(member);
         if (unreadCountCache != null) {
             return unreadCountCache;
         }
         Long unreadCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(member);
-        valueOperations.set(toCacheKey(member), unreadCount, CACHE_VALIDITY, TimeUnit.SECONDS);
+        setCache(member, unreadCount);
         return unreadCount;
     }
 
     public void increment(Member member) {
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        Long unreadCount = valueOperations.get(toCacheKey(member));
+        Long unreadCount = getCache(member);
         if (unreadCount != null) {
-            valueOperations.set(toCacheKey(member), unreadCount + 1);
+            setCache(member, unreadCount + 1);
         }
     }
 
     public void decrement(Member member) {
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        Long unreadCount = valueOperations.get(toCacheKey(member));
+        Long unreadCount = getCache(member);
         if (unreadCount != null && unreadCount > 0) {
-            valueOperations.set(toCacheKey(member), unreadCount - 1);
+            setCache(member, unreadCount - 1);
         }
     }
 
     public void reset(Member member) {
-        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(toCacheKey(member), 0L);
+        setCache(member, 0L);
     }
 
-    private String toCacheKey(Member member) {
-        return String.format(keyFormat, member.getId());
+    private Long getCache(Member member) {
+        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
+        String cacheKey = String.format(keyFormat, member.getId());
+        return valueOperations.get(cacheKey);
+    }
+
+    private void setCache(Member member, Long unreadCount) {
+        ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
+        String cacheKey = String.format(keyFormat, member.getId());
+        valueOperations.set(cacheKey, unreadCount, CACHE_VALIDITY, TimeUnit.SECONDS);
     }
 }
