@@ -135,8 +135,8 @@ public class MemberService {
             .orElseThrow(MemberHistoryNotFoundException::new);
 
         if (!memberHistory.getIsRead()) {
-            memberHistory.updateIsRead();
             noticeCacheRepository.decrement(memberHistory.getHostMember());
+            memberHistory.updateIsRead();
         }
     }
 

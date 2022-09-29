@@ -134,8 +134,8 @@ public class CouponService {
     }
 
     private void saveCouponHistory(CouponHistory couponHistory) {
-        couponHistory = couponHistoryRepository.save(couponHistory);
         noticeCacheRepository.increment(couponHistory.getHostMember());
+        couponHistory = couponHistoryRepository.save(couponHistory);
         pushAlarmPublisher.publishEvent(couponHistory);
     }
 
