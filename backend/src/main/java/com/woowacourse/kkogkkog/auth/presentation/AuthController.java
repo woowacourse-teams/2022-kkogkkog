@@ -44,4 +44,26 @@ public class AuthController {
 
         return ResponseEntity.created(null).body(memberCreateResponse);
     }
+
+    @GetMapping("/v2/login/token")
+    public ResponseEntity<TokenResponse> loginV2(@RequestParam String code) {
+        TokenResponse tokenResponse = authService.login(code);
+
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @PostMapping("/v2/install/bot")
+    public ResponseEntity<Void> installSlackAppV2(@RequestBody InstallSlackAppRequest installSlackAppRequest) {
+        authService.installSlackApp(installSlackAppRequest.getCode());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/v2/signup/token")
+    public ResponseEntity<MemberCreateResponse> saveV2(@RequestBody MemberCreateRequest memberCreateRequest) {
+        Long id = authService.signUp(memberCreateRequest);
+        MemberCreateResponse memberCreateResponse = authService.loginByMemberId(id);
+
+        return ResponseEntity.created(null).body(memberCreateResponse);
+    }
 }
