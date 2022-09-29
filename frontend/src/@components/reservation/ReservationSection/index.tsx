@@ -43,32 +43,12 @@ const ReservationSection = (props: ReservationSectionProps) => {
               <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
             </Styled.DateTitle>
             <ReservationList reservatedCouponList={reservatedCouponList} />
-            {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
           </Styled.DateContainer>
         );
       })}
     </Styled.Root>
   );
 };
-
-// {sortedKey.map(date => {
-//   const dateText = generateDateText(date);
-//   const day = computeDay(date);
-//   const dDay = generateDDay(date);
-
-//   return (
-//     <Styled.DateContainer key={date}>
-//       <Styled.DateTitle>
-//         <div>
-//           {dateText}({day})
-//         </div>
-//         <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
-//       </Styled.DateTitle>
-//       <ReservationList reservatedCouponList={reservationRecord[date]} />
-//       {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
-//     </Styled.DateContainer>
-//   );
-// })}
 
 export default ReservationSection;
 
