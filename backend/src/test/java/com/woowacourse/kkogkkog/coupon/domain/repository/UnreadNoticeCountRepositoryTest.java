@@ -80,4 +80,49 @@ class UnreadNoticeCountRepositoryTest {
             assertThat(actual).isEqualTo(expected);
         }
     }
+
+    @Nested
+    @DisplayName("increment 메서드는")
+    class Increment {
+
+        @Test
+        @DisplayName("캐쉬 데이터의 값을 1만큼 증가시킨다.")
+        void readAndUpdate() {
+            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+
+            unreadNoticeCountCacheRepository.increment(receiver);
+            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(previousCount + 1);
+        }
+    }
+
+    @Nested
+    @DisplayName("reset 메서드는")
+    class Reset {
+
+        @Test
+        @DisplayName("캐쉬 데이터의 값을 0으로 초기화한다.")
+        void resetToZero() {
+            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            couponHistoryRepository.save(INIT.getCouponHistory(sender, coupon));
+            couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
+            couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
+            unreadNoticeCountCacheRepository.get(receiver);
+
+            unreadNoticeCountCacheRepository.reset(receiver);
+            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(0);
+        }
+
+        @Test
+        @DisplayName("캐쉬 데이터가 없는 경우 0으로 초기화한다.")
+        void initWithZero() {
+            unreadNoticeCountCacheRepository.reset(receiver);
+            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(0);
+        }
+    }
 }

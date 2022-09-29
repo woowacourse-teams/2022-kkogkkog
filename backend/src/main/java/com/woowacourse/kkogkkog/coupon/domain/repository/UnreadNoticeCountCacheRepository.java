@@ -26,4 +26,12 @@ public class UnreadNoticeCountCacheRepository {
         Long validUnreadCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(member);
         unreadCountCache.put(member.getId(), validUnreadCount);
     }
+
+    public void increment(Member member) {
+        unreadCountCache.put(member.getId(), get(member) + 1);
+    }
+
+    public void reset(Member member) {
+        unreadCountCache.put(member.getId(), 0L);
+    }
 }
