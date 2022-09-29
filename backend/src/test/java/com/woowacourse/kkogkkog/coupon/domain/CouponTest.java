@@ -3,12 +3,14 @@ package com.woowacourse.kkogkkog.coupon.domain;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -62,6 +64,23 @@ class CouponTest {
 
             Member actual = coffee.getOppositeMember(sender);
             assertThat(actual).isEqualTo(receiver);
+        }
+    }
+
+    @Nested
+    @DisplayName("validateAccessibleMember 메서드는")
+    class ValidateAccessibleMember {
+
+        @Test
+        @DisplayName("보낸 사람과 받는 사람이 아니면, 예외를 발생시킨다.")
+        void success() {
+            Member sender = SENDER.getMember();
+            Member receiver = RECEIVER.getMember();
+            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+
+            Member receiver2 = RECEIVER2.getMember();
+            assertThatThrownBy(() -> coupon.validateAccessibleMember(receiver2))
+                .isInstanceOf(CouponNotAccessibleException.class);
         }
     }
 }

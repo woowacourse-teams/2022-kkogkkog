@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import javax.persistence.Column;
@@ -89,5 +90,11 @@ public class Coupon extends BaseEntity {
     public void changeState(CouponEvent couponEvent, Member member) {
         couponEvent.checkExecutable(sender.equals(member), receiver.equals(member));
         couponState.changeStatus(couponEvent);
+    }
+
+    public void validateAccessibleMember(Member member) {
+        if (!(sender.equals(member) || receiver.equals(member))) {
+            throw new CouponNotAccessibleException();
+        }
     }
 }
