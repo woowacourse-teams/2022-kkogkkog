@@ -243,8 +243,9 @@ class CouponServiceTest {
             List<CouponResponse> response = couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
             Long couponId = response.get(0).getId();
+            Long anotherMemberId = receiver2.getId();
 
-            assertThatThrownBy(() -> couponService.find(receiver2.getId(), couponId))
+            assertThatThrownBy(() -> couponService.find(anotherMemberId, couponId))
                 .isInstanceOf(CouponNotAccessibleException.class);
         }
 
