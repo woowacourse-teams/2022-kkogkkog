@@ -9,7 +9,6 @@ import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
 import com.woowacourse.kkogkkog.legacy_coupon.application.LegacyCouponService;
 import com.woowacourse.kkogkkog.member.application.MemberService;
-import com.woowacourse.kkogkkog.reservation.application.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +52,6 @@ public abstract class DocumentTest {
     // TODO: should be deleted
     @MockBean
     protected LegacyCouponService legacyCouponService;
-
-    // TODO: should be deleted
-    @MockBean
-    protected ReservationService reservationService;
 
     @BeforeEach
     public void setUp(WebApplicationContext ctx,
