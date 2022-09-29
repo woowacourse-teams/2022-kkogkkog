@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.support.fixture.domain;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.coupon.domain.GuestCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 
 public enum CouponFixture {
@@ -39,5 +40,9 @@ public enum CouponFixture {
         return new Coupon(
             null, sender, receiver, couponMessage,
             couponTag, couponType, couponState);
+    }
+
+    public GuestCoupon getGuestCoupon(Member sender) {
+        return GuestCoupon.of(sender, couponTag, couponMessage, couponType);
     }
 }
