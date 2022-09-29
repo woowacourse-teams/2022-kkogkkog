@@ -31,6 +31,13 @@ public class UnreadNoticeCountCacheRepository {
         unreadCountCache.put(member.getId(), get(member) + 1);
     }
 
+    public void decrement(Member member) {
+        Long currentUpdateCount = get(member);
+        if (currentUpdateCount > 0) {
+            unreadCountCache.put(member.getId(), currentUpdateCount - 1);
+        }
+    }
+
     public void reset(Member member) {
         unreadCountCache.put(member.getId(), 0L);
     }

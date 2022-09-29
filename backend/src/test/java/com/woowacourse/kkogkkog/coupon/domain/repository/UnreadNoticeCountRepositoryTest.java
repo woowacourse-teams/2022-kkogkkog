@@ -98,6 +98,37 @@ class UnreadNoticeCountRepositoryTest {
     }
 
     @Nested
+    @DisplayName("decrement 메서드는")
+    class Decrement {
+
+        @Test
+        @DisplayName("캐쉬 데이터의 값을 1만큼 감소시킨다.")
+        void readAndUpdate() {
+            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            couponHistoryRepository.save(INIT.getCouponHistory(sender, coupon));
+            couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
+            couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
+            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+
+            unreadNoticeCountCacheRepository.decrement(receiver);
+            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(previousCount - 1);
+        }
+
+        @Test
+        @DisplayName("캐쉬 데이터의 값이 0인 경우 감소시키지 않는다.")
+        void minValueZero() {
+            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+
+            unreadNoticeCountCacheRepository.decrement(receiver);
+            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(previousCount);
+        }
+    }
+
+    @Nested
     @DisplayName("reset 메서드는")
     class Reset {
 
