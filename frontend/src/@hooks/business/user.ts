@@ -4,7 +4,7 @@ import {
   useEditMeMutation,
   useFetchUserHistoryList,
   useReadAllHistoryMutation,
-  useSlackOAuthLoginMutation,
+  useSlackLoginMutation,
   useSlackSignupMutation,
 } from '@/@hooks/@queries/user';
 
@@ -43,7 +43,7 @@ export const useEditMe = () => {
 };
 
 export const useSlackOAuthLogin = () => {
-  const loginMutate = useSlackOAuthLoginMutation();
+  const loginMutate = useSlackLoginMutation();
 
   const loginBySlackOAuth = async (code: string) => {
     const response = await loginMutate.mutateAsync({ code });

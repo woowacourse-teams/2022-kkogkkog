@@ -2,16 +2,16 @@
 
 import { UserCouponHistory } from './client';
 
-export interface OAuthSignupRequest {
+export interface SlackSignupRequest {
   nickname: string;
   accessToken: string;
 }
 
-export interface OAuthSlackAppDownloadRequest {
+export interface SlackAppDownloadRequest {
   code: string;
 }
 
-export interface OAuthLoginRequest {
+export interface SlackLoginRequest {
   code: string;
 }
 
@@ -23,12 +23,12 @@ export interface SearchUserRequest {
 
 /** Response */
 
-export interface OAuthLoginResponse {
+export interface SlackLoginResponse {
   accessToken: string;
   isNew: boolean;
 }
 
-export interface OAuthSignupResponse {
+export interface SlackSignupResponse {
   accessToken: string;
 }
 

@@ -8,14 +8,14 @@ import {
   getMe,
   getUserHistoryList,
   getUserList,
-  oAuthLogin,
-  oAuthSlackAppDownload,
   readAllHistory,
+  slackAppDownload,
+  slackLogin,
 } from '@/apis/user';
 import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
-import { oAuthSignup } from './../../apis/user';
+import { slackSignup } from './../../apis/user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
@@ -100,12 +100,12 @@ export const useEditMeMutation = () => {
   });
 };
 
-export const useSlackOAuthLoginMutation = () => {
+export const useSlackLoginMutation = () => {
   const { displayMessage } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(oAuthLogin, {
+  return useMutation(slackLogin, {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -129,7 +129,7 @@ export const useSlackOAuthLoginMutation = () => {
 };
 
 export const useSlackSignupMutation = () => {
-  return useMutation(oAuthSignup, {
+  return useMutation(slackSignup, {
     onSuccess(response) {
       const { accessToken } = response.data;
 
@@ -143,7 +143,7 @@ export const useSlackSignupMutation = () => {
 };
 
 export const useAddSlackAppMutation = () => {
-  return useMutation(oAuthSlackAppDownload);
+  return useMutation(slackAppDownload);
 };
 
 export const useReadAllHistoryMutation = () => {

@@ -2,12 +2,12 @@ import { client } from '@/apis';
 import {
   EditMeRequest,
   MeResponse,
-  OAuthLoginRequest,
-  OAuthLoginResponse,
-  OAuthSignupRequest,
-  OAuthSignupResponse,
-  OAuthSlackAppDownloadRequest,
   SearchUserRequest,
+  SlackAppDownloadRequest,
+  SlackLoginRequest,
+  SlackLoginResponse,
+  SlackSignupRequest,
+  SlackSignupResponse,
   UserHistoryListResponse,
   UserListResponse,
 } from '@/types/user/remote';
@@ -26,13 +26,13 @@ export const getUserList = async () => {
   return data;
 };
 
-export const oAuthSignup = (body: OAuthSignupRequest) =>
-  client.post<OAuthSignupResponse>('/signup/token', body);
+export const slackSignup = (body: SlackSignupRequest) =>
+  client.post<SlackSignupResponse>('/signup/token', body);
 
-export const oAuthLogin = ({ code }: OAuthLoginRequest) =>
-  client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
+export const slackLogin = ({ code }: SlackLoginRequest) =>
+  client.get<SlackLoginResponse>(`/login/token?code=${code}`);
 
-export const oAuthSlackAppDownload = ({ code }: OAuthSlackAppDownloadRequest) =>
+export const slackAppDownload = ({ code }: SlackAppDownloadRequest) =>
   client.post('/install/bot', { code });
 
 export const getUserHistoryList = async () => {
