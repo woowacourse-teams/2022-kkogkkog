@@ -68,19 +68,20 @@ class CouponTest {
     }
 
     @Nested
-    @DisplayName("validateAccessibleMember 메서드는")
-    class ValidateAccessibleMember {
+    @DisplayName("isSenderOrReceiver 메서드는")
+    class IsSenderOrReceiver {
 
         @Test
-        @DisplayName("보낸 사람과 받는 사람이 아니면, 예외를 발생시킨다.")
+        @DisplayName("보낸 사람 또는 받는 사람이 아니면, true 를 반환한다.")
         void success() {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
+            Member receiver2 = RECEIVER2.getMember();
             Coupon coupon = COFFEE.getCoupon(sender, receiver);
 
-            Member receiver2 = RECEIVER2.getMember();
-            assertThatThrownBy(() -> coupon.validateAccessibleMember(receiver2))
-                .isInstanceOf(CouponNotAccessibleException.class);
+            Boolean actual = coupon.isSenderOrReceiver(receiver2);
+
+            assertThat(actual).isTrue();
         }
     }
 }

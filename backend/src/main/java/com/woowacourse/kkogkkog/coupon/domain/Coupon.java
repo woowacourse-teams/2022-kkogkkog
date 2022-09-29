@@ -92,9 +92,7 @@ public class Coupon extends BaseEntity {
         couponState.changeStatus(couponEvent);
     }
 
-    public void validateAccessibleMember(Member member) {
-        if (!(sender.equals(member) || receiver.equals(member))) {
-            throw new CouponNotAccessibleException();
-        }
+    public boolean isSenderOrReceiver(Member member) {
+        return !(sender.equals(member) || receiver.equals(member));
     }
 }
