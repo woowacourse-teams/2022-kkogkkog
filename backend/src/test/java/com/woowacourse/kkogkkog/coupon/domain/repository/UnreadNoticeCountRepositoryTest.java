@@ -13,30 +13,30 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
+import com.woowacourse.kkogkkog.support.application.ApplicationTest;
+import com.woowacourse.kkogkkog.support.common.RedisStorageCleaner;
 import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
-import com.woowacourse.kkogkkog.support.repository.RepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@RepositoryTest
+@ApplicationTest
 class UnreadNoticeCountRepositoryTest {
 
     @Autowired
     private CouponHistoryRepository couponHistoryRepository;
-
     @Autowired
     private MemberRepository memberRepository;
-
     @Autowired
     private WorkspaceRepository workspaceRepository;
-
     @Autowired
     private CouponRepository couponRepository;
-
-    private UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository;
+    @Autowired
+    private UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository;
+    @Autowired
+    private RedisStorageCleaner redisStorageCleaner;
 
     private Member sender;
     private Member receiver;
@@ -46,8 +46,7 @@ class UnreadNoticeCountRepositoryTest {
         Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
         sender = memberRepository.save(SENDER.getMember(workspace));
         receiver = memberRepository.save(RECEIVER.getMember(workspace));
-        unreadNoticeCountCacheRepository =
-            new UnreadNoticeCountCacheRepository(couponHistoryRepository);
+        redisStorageCleaner.execute();
     }
 
     @Nested
