@@ -47,7 +47,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(memberService.findAll()).willReturn(membersResponse);
 
         // when
-        ResultActions perform = mockMvc.perform(get("/api/members"));
+        ResultActions perform = mockMvc.perform(get("/api/v2/members"));
 
         // then
         perform.andExpect(status().isOk());
@@ -79,7 +79,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(memberService.findById(any())).willReturn(memberResponse);
 
         // when
-        ResultActions perform = mockMvc.perform(get("/api/members/me")
+        ResultActions perform = mockMvc.perform(get("/api/v2/members/me")
             .header("Authorization", "Bearer AccessToken"));
 
         // then
@@ -128,7 +128,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
 
         // when
-        ResultActions perform = mockMvc.perform(get("/api/members/me/histories")
+        ResultActions perform = mockMvc.perform(get("/api/v2/members/me/histories")
             .header("Authorization", "Bearer AccessToken"));
 
         // then
@@ -174,7 +174,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when
-        ResultActions perform = mockMvc.perform(put("/api/members/me/histories")
+        ResultActions perform = mockMvc.perform(put("/api/v2/members/me/histories")
             .header("Authorization", "Bearer AccessToken"));
 
         // then
@@ -199,7 +199,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when
-        ResultActions perform = mockMvc.perform(patch("/api/members/me/histories/{historyId}", 1L));
+        ResultActions perform = mockMvc.perform(patch("/api/v2/members/me/histories/{historyId}", 1L));
 
         // then
         perform.andExpect(status().isNoContent());
@@ -221,7 +221,7 @@ public class MemberDocumentTest extends DocumentTest {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when
-        ResultActions perform = mockMvc.perform(put("/api/members/me")
+        ResultActions perform = mockMvc.perform(put("/api/v2/members/me")
             .header("Authorization", "Bearer accessToken")
             .content(objectMapper.writeValueAsString(memberUpdateMeRequest))
             .contentType(MediaType.APPLICATION_JSON));
