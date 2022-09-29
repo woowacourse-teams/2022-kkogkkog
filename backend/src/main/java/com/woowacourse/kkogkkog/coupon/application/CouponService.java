@@ -46,8 +46,10 @@ public class CouponService {
     }
 
     @Transactional(readOnly = true)
-    public CouponDetailResponse find(Long couponId) {
+    public CouponDetailResponse find(Long memberId, Long couponId) {
+        Member member = findMember(memberId);
         Coupon coupon = findCoupon(couponId);
+        coupon.validateAccessibleMember(member);
         List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
             couponId);
         return CouponDetailResponse.of(coupon, couponHistories);

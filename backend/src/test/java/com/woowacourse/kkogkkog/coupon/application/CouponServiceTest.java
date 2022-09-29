@@ -213,13 +213,14 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("쿠폰 아이디를 받으면, 쿠폰 상세 정보를 반환한다.")
+        @DisplayName("유저 아이디와 쿠폰 아이디를 받고 유저 아이디가 보낸 사람 또는 받은 사람이면, 쿠폰 상세 정보를 반환한다.")
         void success() {
             List<CouponResponse> response = couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
             Long couponId = response.get(0).getId();
+            Long senderId = sender.getId();
 
-            CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+            CouponDetailResponse couponDetailResponse = couponService.find(senderId, couponId);
             String couponStatus = couponDetailResponse.getCouponStatus();
             LocalDateTime meetingDate = couponDetailResponse.getMeetingDate();
             List<CouponHistoryResponse> couponHistories = couponDetailResponse.getCouponHistories();
