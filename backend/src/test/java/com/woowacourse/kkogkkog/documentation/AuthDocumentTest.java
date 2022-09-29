@@ -34,7 +34,7 @@ class AuthDocumentTest extends DocumentTest {
         given(authService.login(any())).willReturn(tokenResponse);
 
         // when
-        ResultActions perform = mockMvc.perform(get("/api/login/token")
+        ResultActions perform = mockMvc.perform(get("/api/v2/login/token")
             .param("code", "code_here"));
 
         // then
@@ -64,7 +64,7 @@ class AuthDocumentTest extends DocumentTest {
         given(authService.loginByMemberId(any())).willReturn(memberCreateResponse);
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/signup/token")
+        ResultActions perform = mockMvc.perform(post("/api/v2/signup/token")
             .content(objectMapper.writeValueAsString(memberCreateRequest))
             .contentType(MediaType.APPLICATION_JSON));
 
@@ -88,7 +88,7 @@ class AuthDocumentTest extends DocumentTest {
         InstallSlackAppRequest installSlackAppRequest = new InstallSlackAppRequest("code");
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/install/bot")
+        ResultActions perform = mockMvc.perform(post("/api/v2/install/bot")
             .content(objectMapper.writeValueAsString(installSlackAppRequest))
             .contentType(MediaType.APPLICATION_JSON));
 
