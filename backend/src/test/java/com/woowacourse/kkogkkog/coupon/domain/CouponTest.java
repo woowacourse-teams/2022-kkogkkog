@@ -72,14 +72,13 @@ class CouponTest {
     class IsSenderOrReceiver {
 
         @Test
-        @DisplayName("보낸 사람 또는 받는 사람이 아니면, true 를 반환한다.")
+        @DisplayName("보낸 사람 또는 받는 사람이면, true 를 반환한다.")
         void success() {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
-            Member receiver2 = RECEIVER2.getMember();
             Coupon coupon = COFFEE.getCoupon(sender, receiver);
 
-            Boolean actual = coupon.isSenderOrReceiver(receiver2);
+            Boolean actual = coupon.isSenderOrReceiver(receiver);
 
             assertThat(actual).isTrue();
         }

@@ -93,6 +93,6 @@ public class Coupon extends BaseEntity {
     }
 
     public boolean isSenderOrReceiver(Member member) {
-        return !(sender.equals(member) || receiver.equals(member));
+        return sender.equals(member) || receiver.equals(member);
     }
 }

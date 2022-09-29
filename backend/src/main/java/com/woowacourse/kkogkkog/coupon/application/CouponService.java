@@ -50,7 +50,7 @@ public class CouponService {
     public CouponDetailResponse find(Long memberId, Long couponId) {
         Member member = findMember(memberId);
         Coupon coupon = findCoupon(couponId);
-        if (coupon.isSenderOrReceiver(member)) {
+        if (!coupon.isSenderOrReceiver(member)) {
             throw new CouponNotAccessibleException();
         }
         List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
