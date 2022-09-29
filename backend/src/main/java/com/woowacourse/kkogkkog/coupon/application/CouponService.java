@@ -14,7 +14,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository2;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -34,13 +34,13 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
-    private final UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository;
+    private final UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponHistoryRepository couponHistoryRepository,
-                         UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository,
+                         UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;

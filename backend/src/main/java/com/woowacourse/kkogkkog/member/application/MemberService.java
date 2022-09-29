@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository2;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
@@ -31,12 +31,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
     private final CouponHistoryRepository memberHistoryRepository;
-    private final UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository;
+    private final UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository;
 
     public MemberService(MemberRepository memberRepository,
                          WorkspaceUserRepository workspaceUserRepository,
                          CouponHistoryRepository couponHistoryRepository,
-                         UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository) {
+                         UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository) {
         this.memberRepository = memberRepository;
         this.workspaceUserRepository = workspaceUserRepository;
         this.memberHistoryRepository = couponHistoryRepository;
