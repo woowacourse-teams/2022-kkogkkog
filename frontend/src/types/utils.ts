@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 export const hasKey = <T>(state: unknown, key: string): state is { [key: string]: T } => {
   if (typeof state !== 'object') {
     return false;
@@ -18,3 +20,5 @@ export type YYYYMMDD = `${string}-${string}-${string}`;
 export type YYYYMMDD_KR = `${string}년 ${string}월 ${string}일`;
 export type YYYYMMDDhhmmss = `${YYYYMMDD}T${string}:${string}:${string}`;
 export type MMDD_KR = `${string}월 ${string}일`;
+
+export class CustomAxiosError extends AxiosError<{ message: string }> {}
