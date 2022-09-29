@@ -172,10 +172,6 @@ export const useReadHistory = () => {
 
   const readHistory = (id: number) => {
     queryClient.setQueryData<UserHistoryListResponse>([QUERY_KEY.userHistoryList], oldData => {
-      if (oldData === undefined) {
-        return;
-      }
-
       const newData = {
         ...oldData,
         data: oldData?.data?.map(history =>
