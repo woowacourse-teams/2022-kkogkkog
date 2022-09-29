@@ -44,7 +44,8 @@ const BigCouponItem = (props: BigCouponItemProps) => {
   );
 };
 
-interface BigCouponItemPreviewProps extends Coupon {
+interface BigCouponItemPreviewProps
+  extends Pick<Coupon, 'receiver' | 'couponTag' | 'couponMessage' | 'couponType'> {
   className?: string;
 }
 

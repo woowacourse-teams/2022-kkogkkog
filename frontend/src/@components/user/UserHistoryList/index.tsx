@@ -1,11 +1,11 @@
 import UserHistoryItem from '@/@components/user/UserHistoryItem';
-import { UserHistory } from '@/types/client/user';
+import { UserCouponHistory } from '@/types/user/client';
 
 import * as Styled from './style';
 
 interface UserHistoryListProps {
-  historyList: UserHistory[];
-  onClickHistoryItem: (userHistory: UserHistory) => void;
+  historyList: UserCouponHistory[];
+  onClickHistoryItem: (userHistory: UserCouponHistory) => void;
 }
 
 const UserHistoryList = (props: UserHistoryListProps) => {

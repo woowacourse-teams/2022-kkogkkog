@@ -1,4 +1,4 @@
-import { CouponHistory } from '@/types/client/coupon';
+import { CouponHistory } from '@/types/coupon/client';
 
 import CouponHistoryItem from '../CouponHistoryItem';
 import * as Styled from './style';

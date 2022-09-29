@@ -1,6 +1,5 @@
+import { Member } from '@/types/user/client';
 import { YYYYMMDDhhmmss } from '@/types/utils';
-
-import { UserResponse } from '../user/remote';
 
 export const couponTypeCollection = [
   { koreanType: '커피', engType: 'COFFEE' } as const,
@@ -42,8 +41,8 @@ export type COUPON_STATUS = typeof couponStatus[number];
 
 export interface Coupon {
   id: number;
-  sender: Pick<UserResponse, 'id' | 'nickname' | 'imageUrl'>;
-  receiver: Pick<UserResponse, 'id' | 'nickname' | 'imageUrl'>;
+  sender: Member;
+  receiver: Member;
   couponTag: string;
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;

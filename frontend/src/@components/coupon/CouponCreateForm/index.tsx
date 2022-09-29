@@ -6,41 +6,38 @@ import UserSearchModal from '@/@components/user/UserSearchModal';
 import { useModal } from '@/@hooks/@common/useModal';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import {
-  COUPON_COLORS,
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
   couponHashtags,
   couponTypeCollection,
   THUMBNAIL,
-} from '@/types/client/coupon';
-import { UserResponse } from '@/types/remote/response';
+} from '@/types/coupon/client';
+import { UserResponse } from '@/types/user/remote';
 
 import * as Styled from './style';
 
 interface CouponCreateFormProps {
   currentReceiverList: UserResponse[];
-  currentType: COUPON_ENG_TYPE;
-  currentHashtag: COUPON_HASHTAGS;
-  currentColor: COUPON_COLORS;
-  currentDescription: string;
+  currentCouponType: COUPON_ENG_TYPE;
+  currentCouponTag: COUPON_HASHTAGS;
+  currentCouponMessage: string;
   onSelectReceiver: (user: UserResponse) => void;
-  onSelectType: (type: COUPON_ENG_TYPE) => void;
-  onSelectHashtag: (hashtag: COUPON_HASHTAGS) => void;
-  onSelectColor: (color: COUPON_COLORS) => void;
-  onChangeDescription: ChangeEventHandler<HTMLTextAreaElement>;
+  onSelectCouponType: (type: COUPON_ENG_TYPE) => void;
+  onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => void;
+  onChangeCouponMessage: ChangeEventHandler<HTMLTextAreaElement>;
   onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
 const CouponCreateForm = (props: CouponCreateFormProps) => {
   const {
     currentReceiverList,
-    currentType,
-    currentHashtag,
-    currentDescription,
+    currentCouponType,
+    currentCouponTag,
+    currentCouponMessage,
     onSelectReceiver,
-    onSelectType,
-    onSelectHashtag,
-    onChangeDescription,
+    onSelectCouponType,
+    onSelectCouponTag,
+    onChangeCouponMessage,
     onSubmitCreateForm,
   } = props;
 
@@ -81,8 +78,8 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         {couponTypeCollection.map(({ engType }) => (
           <Styled.TypeOption
             key={engType}
-            isSelected={engType === currentType}
-            onClick={() => onSelectType(engType)}
+            isSelected={engType === currentCouponType}
+            onClick={() => onSelectCouponType(engType)}
           >
             <img src={THUMBNAIL[engType]} alt='쿠폰 종류' width={50} height={50} />
           </Styled.TypeOption>
@@ -93,8 +90,8 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
         {couponHashtags.map(hashtag => (
           <Styled.FeelOption
             key={hashtag}
-            isSelected={hashtag === currentHashtag}
-            onClick={() => onSelectHashtag(hashtag)}
+            isSelected={hashtag === currentCouponTag}
+            onClick={() => onSelectCouponTag(hashtag)}
           >
             #{hashtag}
           </Styled.FeelOption>
@@ -107,10 +104,10 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
           <Styled.MessageTextarea
             id='message-textarea'
             placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
-            value={currentDescription}
-            onChange={onChangeDescription}
+            value={currentCouponMessage}
+            onChange={onChangeCouponMessage}
           />
-          <Styled.MessageLength>{currentDescription.length} / 50</Styled.MessageLength>
+          <Styled.MessageLength>{currentCouponMessage.length} / 50</Styled.MessageLength>
         </Styled.MessageTextareaContainer>
       </Styled.TextareaContainer>
 

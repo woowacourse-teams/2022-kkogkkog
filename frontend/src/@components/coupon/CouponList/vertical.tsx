@@ -1,14 +1,14 @@
 import { FunctionComponent } from 'react';
 
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon } from '@/types/coupon/client';
 
 import { BigCouponItemProps } from '../CouponItem/big';
 import * as Styled from './vertical.style';
 
 interface VerticalCouponListProps {
-  couponList?: CouponResponse[];
+  couponList?: Coupon[];
   CouponItem: FunctionComponent<BigCouponItemProps>;
-  onClickCouponItem?: (coupon: CouponResponse) => void;
+  onClickCouponItem?: (coupon: Coupon) => void;
 }
 
 const VerticalCouponList = (props: VerticalCouponListProps) => {
@@ -36,7 +36,7 @@ const VerticalCouponList = (props: VerticalCouponListProps) => {
   return (
     <Styled.Root>
       {couponList?.map(coupon => (
-        <CouponItem key={coupon.couponId} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
+        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.Root>
   );

@@ -1,6 +1,6 @@
 /** Request */
 
-import { UserCouponHistory } from './client';
+import { Member, UserCouponHistory } from './client';
 
 export interface SlackSignupRequest {
   nickname: string;
@@ -55,5 +55,5 @@ export interface UserListResponse {
 }
 
 export interface SearchUserResponse {
-  data: Pick<UserResponse, 'id' | 'nickname' | 'imageUrl'>[];
+  data: Member[];
 }

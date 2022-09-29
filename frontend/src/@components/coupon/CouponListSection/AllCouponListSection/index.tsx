@@ -1,9 +1,8 @@
+import SmallCouponItem from '@/@components/coupon/CouponItem/small';
+import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import { useFetchCouponListByStatus } from '@/@hooks/@queries/coupon';
 import { Styled } from '@/@pages/coupon-list';
 import { Coupon, COUPON_LIST_TYPE } from '@/types/coupon/client';
-
-import SmallCouponItem from '../CouponItem/small';
-import HorizontalCouponList from '../CouponList/horizontal';
 
 interface AllCouponListSectionProps {
   couponListType: COUPON_LIST_TYPE;

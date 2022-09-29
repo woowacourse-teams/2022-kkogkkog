@@ -1,5 +1,6 @@
 /** Typing은 어려워 */
-import { COUPON_ENG_TYPE, COUPON_EVENT, COUPON_KOREAN_TYPE } from '@/types/client/coupon';
+
+import { COUPON_ENG_TYPE, COUPON_EVENT, COUPON_KOREAN_TYPE } from '@/types/coupon/client';
 
 export const couponTypeTextMapper: Record<COUPON_ENG_TYPE, COUPON_KOREAN_TYPE> = {
   COFFEE: '커피',
