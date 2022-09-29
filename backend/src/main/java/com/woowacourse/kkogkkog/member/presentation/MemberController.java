@@ -64,43 +64,4 @@ public class MemberController {
 
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/v2")
-    public ResponseEntity<MembersResponse> showAllV2() {
-        return ResponseEntity.ok(new MembersResponse(memberService.findAll()));
-    }
-
-    @GetMapping("/v2/me")
-    public ResponseEntity<MyProfileResponse> showMeV2(@LoginMemberId Long id) {
-        MyProfileResponse memberResponse = memberService.findById(id);
-
-        return ResponseEntity.ok(memberResponse);
-    }
-
-    @PutMapping("/v2/me")
-    public ResponseEntity<Void> updateMeV2(@LoginMemberId Long id,
-                                         @Valid @RequestBody MemberUpdateMeRequest memberUpdateMeRequest) {
-        memberService.updateNickname(memberUpdateMeRequest.toMemberUpdateRequest(id));
-
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/v2/me/histories")
-    public ResponseEntity<MemberHistoriesResponse> showHistoryV2(@LoginMemberId Long id) {
-        return ResponseEntity.ok(new MemberHistoriesResponse(memberService.findHistoryById(id)));
-    }
-
-    @PutMapping("/v2/me/histories")
-    public ResponseEntity<Void> updateAllMemberHistoriesV2(@LoginMemberId Long id) {
-        memberService.updateAllIsReadMemberHistories(id);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/v2/me/histories/{historyId}")
-    public ResponseEntity<Void> updateMemberHistoryV2(@PathVariable Long historyId) {
-        memberService.updateIsReadMemberHistory(historyId);
-
-        return ResponseEntity.noContent().build();
-    }
 }
