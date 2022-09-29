@@ -1,5 +1,8 @@
 import { css } from '@emotion/react';
 
+import BMHANNAProWoff from '@/assets/font/BMHANNAProOTF.woff';
+import BMHANNAProWoff2 from '@/assets/font/BMHANNAProOTF.woff2';
+
 const globalStyle = css`
   * {
     margin: 0;
@@ -33,8 +36,8 @@ const globalStyle = css`
 
   @font-face {
     font-family: 'BMHANNAProOTF';
-    src: local('BMHANNAProOTF'), url('/assets/font/BMHANNAProOTF.woff2') format('woff2'),
-      url('/assets/font/BMHANNAProOTF.woff') format('woff');
+    src: local('BMHANNAProOTF'), url(${BMHANNAProWoff2}) format('woff2'),
+      url(${BMHANNAProWoff}) format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
