@@ -11,17 +11,22 @@ import {
   getSentCouponList,
   getSentCouponListByStatus,
 } from '@/apis/coupon';
+import { COUPON_LIST_TYPE } from '@/types/coupon/client';
 import { CouponListByStatusRequest } from '@/types/coupon/remote';
 
 import { useFetchMe } from './user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
+  /** MAIN KEY */
   coupon: 'coupon',
   reservationList: 'reservationList',
-  sentCouponList: 'sentCouponList',
-  receivedCouponList: 'receivedCouponList',
+  couponList: 'couponList',
   couponListByStatus: 'couponListByStatus',
+
+  /** SUB KEY */
+  sent: 'sent',
+  received: 'received',
 };
 
 export const useFetchCoupon = (id: number) => {
@@ -45,38 +50,20 @@ export const useFetchReservationList = () => {
   };
 };
 
-export const useFetchSentCouponList = () => {
-  const { data, isLoading } = useQuery([QUERY_KEY.sentCouponList], () => getSentCouponList(), {
+export const useFetchCouponList = ({ couponListType }: { couponListType: COUPON_LIST_TYPE }) => {
+  const fetcher = couponListType === QUERY_KEY.sent ? getSentCouponList : getReceivedCouponList;
+
+  const { data, isLoading } = useQuery([QUERY_KEY.couponList, couponListType], () => fetcher(), {
     staleTime: 10000,
   });
 
-  const sentOpenCouponList = (data?.data ?? []).filter(
+  const openCouponList = (data?.data ?? []).filter(
     coupon => coupon.couponStatus === 'READY' || coupon.couponStatus === 'REQUESTED'
   );
 
   return {
-    sentCouponList: data?.data ?? [],
-    sentOpenCouponList,
-    isLoading,
-  };
-};
-
-export const useFetchReceivedCouponList = () => {
-  const { data, isLoading } = useQuery(
-    [QUERY_KEY.receivedCouponList],
-    () => getReceivedCouponList(),
-    {
-      staleTime: 10000,
-    }
-  );
-
-  const receivedOpenCouponList = (data?.data ?? []).filter(
-    coupon => coupon.couponStatus === 'READY' || coupon.couponStatus === 'REQUESTED'
-  );
-
-  return {
-    receivedCouponList: data?.data ?? [],
-    receivedOpenCouponList,
+    couponList: data?.data ?? [],
+    openCouponList,
     isLoading,
   };
 };
@@ -85,11 +72,11 @@ export const useFetchCouponListByStatus = ({
   couponListType,
   body,
 }: {
-  couponListType: 'sent' | 'received';
+  couponListType: COUPON_LIST_TYPE;
   body: CouponListByStatusRequest;
 }) => {
   const fetcher =
-    couponListType === 'sent' ? getSentCouponListByStatus : getReceivedCouponListByStatus;
+    couponListType === QUERY_KEY.sent ? getSentCouponListByStatus : getReceivedCouponListByStatus;
 
   const { data, isLoading } = useQuery(
     [QUERY_KEY.couponListByStatus, couponListType, body.type],
@@ -113,7 +100,7 @@ export const useCreateCouponMutation = () => {
 
   return useMutation(createCoupon, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.sentCouponList);
+      queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
     },
     onMutate() {
       showLoading();
@@ -138,15 +125,15 @@ export const useChangeCouponStatusMutation = (id: number) => {
 
       if (isSent) {
         queryClient.invalidateQueries([QUERY_KEY.reservationList]);
-        queryClient.invalidateQueries([QUERY_KEY.sentCouponList]);
-        queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, 'sent']);
+        queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
+        queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.sent]);
 
         return;
       }
 
       queryClient.invalidateQueries([QUERY_KEY.reservationList]);
-      queryClient.invalidateQueries([QUERY_KEY.receivedCouponList]);
-      queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, 'received']);
+      queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.received]);
+      queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.received]);
     },
     onMutate() {
       showLoading();

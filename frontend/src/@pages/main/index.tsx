@@ -9,11 +9,7 @@ import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
-import {
-  useFetchReceivedCouponList,
-  useFetchReservationList,
-  useFetchSentCouponList,
-} from '@/@hooks/@queries/coupon';
+import { useFetchCouponList, useFetchReservationList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import { filterOptionsSessionStorage } from '@/storage/session';
 import { Coupon } from '@/types/coupon/client';
@@ -24,9 +20,14 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const { reservationList, isLoading: isAcceptedCounponListLoading } = useFetchReservationList();
-  const { receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
-    useFetchReceivedCouponList();
-  const { sentOpenCouponList, isLoading: isSentCouponListLoading } = useFetchSentCouponList();
+  const { openCouponList: sentOpenCouponList, isLoading: isReceivedCouponListLoading } =
+    useFetchCouponList({
+      couponListType: 'received',
+    });
+  const { openCouponList: receivedOpenCouponList, isLoading: isSentCouponListLoading } =
+    useFetchCouponList({
+      couponListType: 'sent',
+    });
 
   const onClickCouponItem = (coupon: Coupon) => {
     navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.id));
