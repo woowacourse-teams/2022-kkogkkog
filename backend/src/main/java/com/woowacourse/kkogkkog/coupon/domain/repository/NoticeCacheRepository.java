@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain.repository;
 
 import com.woowacourse.kkogkkog.member.domain.Member;
+import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public class NoticeCacheRepository {
 
     private static final String keyFormat = "unreadNoticeCount:%d";
+    private static final int CACHE_VALIDITY = 600;
 
     private final RedisTemplate<String, Long> redisTemplate;
     private final CouponHistoryRepository couponHistoryRepository;
@@ -26,26 +28,24 @@ public class NoticeCacheRepository {
             return unreadCountCache;
         }
         Long unreadCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(member);
-        valueOperations.set(toCacheKey(member), unreadCount);
+        valueOperations.set(toCacheKey(member), unreadCount, CACHE_VALIDITY, TimeUnit.SECONDS);
         return unreadCount;
     }
 
     public void increment(Member member) {
         ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
         Long unreadCount = valueOperations.get(toCacheKey(member));
-        if (unreadCount == null) {
-            unreadCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(member);
+        if (unreadCount != null) {
+            valueOperations.set(toCacheKey(member), unreadCount + 1);
         }
-        valueOperations.set(toCacheKey(member), unreadCount + 1);
     }
 
     public void decrement(Member member) {
         ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
         Long unreadCount = valueOperations.get(toCacheKey(member));
-        if (unreadCount == null) {
-            unreadCount = couponHistoryRepository.countByHostMemberAndIsReadFalse(member);
+        if (unreadCount != null && unreadCount > 0) {
+            valueOperations.set(toCacheKey(member), unreadCount - 1);
         }
-        valueOperations.set(toCacheKey(member), Math.max(unreadCount - 1, 0));
     }
 
     public void reset(Member member) {

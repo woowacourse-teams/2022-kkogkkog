@@ -94,6 +94,17 @@ class UnreadNoticeCountRepositoryTest {
 
             assertThat(actual).isEqualTo(previousCount + 1);
         }
+
+        @Test
+        @DisplayName("캐쉬 데이터가 존재하지 않는 경우 굳이 생성 및 반영하지 않는다.")
+        void noUpdateOnNoCache() {
+            noticeCacheRepository.increment(receiver);
+            noticeCacheRepository.increment(receiver);
+            noticeCacheRepository.increment(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(0);
+        }
     }
 
     @Nested
@@ -124,6 +135,21 @@ class UnreadNoticeCountRepositoryTest {
             Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(previousCount);
+        }
+
+        @Test
+        @DisplayName("캐쉬 데이터가 존재하지 않는 경우 굳이 생성 및 반영하지 않는다.")
+        void noUpdateOnNoCache() {
+            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            couponHistoryRepository.save(INIT.getCouponHistory(sender, coupon));
+            couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
+            couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
+
+            noticeCacheRepository.decrement(receiver);
+            noticeCacheRepository.decrement(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
+
+            assertThat(actual).isEqualTo(2);
         }
     }
 
