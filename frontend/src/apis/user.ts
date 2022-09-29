@@ -1,17 +1,16 @@
 import { client } from '@/apis';
 import {
   EditMeRequest,
-  LoginRequest,
-  ReadHistoryRequest,
-  SignupRequest,
-} from '@/types/remote/request';
-import {
-  LoginResponse,
   MeResponse,
-  OAuthLoginResponse,
-  UserHistoryResponse,
+  SearchUserRequest,
+  SlackAppDownloadRequest,
+  SlackLoginRequest,
+  SlackLoginResponse,
+  SlackSignupRequest,
+  SlackSignupResponse,
+  UserHistoryListResponse,
   UserListResponse,
-} from '@/types/remote/response';
+} from '@/types/user/remote';
 
 export const getMe = async () => {
   const { data } = await client.get<MeResponse>('/members/me');
@@ -27,22 +26,27 @@ export const getUserList = async () => {
   return data;
 };
 
-export const signUpToken = (body: SignupRequest) => client.post('/signup/token', body);
+export const slackSignup = (body: SlackSignupRequest) =>
+  client.post<SlackSignupResponse>('/signup/token', body);
 
-export const login = (body: LoginRequest) => client.post<LoginResponse>('/login', body);
+export const slackLogin = ({ code }: SlackLoginRequest) =>
+  client.get<SlackLoginResponse>(`/login/token?code=${code}`);
 
-export const OAuthLogin = (code: string) =>
-  client.get<OAuthLoginResponse>(`/login/token?code=${code}`);
-
-export const AddSlackApp = (code: string) => client.post('/install/bot', { code });
+export const slackAppDownload = ({ code }: SlackAppDownloadRequest) =>
+  client.post('/install/bot', { code });
 
 export const getUserHistoryList = async () => {
-  const { data } = await client.get<UserHistoryResponse>('/members/me/histories');
+  const { data } = await client.get<UserHistoryListResponse>('/members/me/histories');
 
   return data;
 };
 
-export const readAllHistory = () => client.put('members/me/histories');
+export const readAllHistory = () => client.put('/members/me/histories');
 
-export const readHistory = ({ id }: ReadHistoryRequest) =>
-  client.put(`/members/me/histories/${id}`);
+export const readHistory = ({ id }: { id: number }) => client.put(`/members/me/histories/${id}`);
+
+export const searchUser = async ({ nickname }: SearchUserRequest) => {
+  const { data } = await client.get(`/members?nickname=${nickname}`);
+
+  return data;
+};

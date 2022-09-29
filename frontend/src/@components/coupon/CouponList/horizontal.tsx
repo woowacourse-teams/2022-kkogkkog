@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { SmallCouponItemProps } from '@/@components/coupon/CouponItem/small';
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './horizontal.style';
 
 interface HorizontalCouponListProps {
-  couponList?: CouponResponse[];
+  couponList?: Coupon[];
   CouponItem: React.FunctionComponent<SmallCouponItemProps>;
-  onClickCouponItem?: (coupon: CouponResponse) => void;
+  onClickCouponItem?: (coupon: Coupon) => void;
 }
 
 const HorizontalCouponList = (props: HorizontalCouponListProps) => {
@@ -36,7 +36,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
   return (
     <Styled.SlideRoot>
       {couponList?.map(coupon => (
-        <CouponItem key={coupon.couponId} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
+        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.SlideRoot>
   );
