@@ -20,11 +20,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor(jwtTokenProvider))
             .addPathPatterns("/api/members/me")
             .addPathPatterns("/api/members/me/*")
-            .addPathPatterns("/api/coupons")
-            .addPathPatterns("/api/coupons/accept")
-            .addPathPatterns("/api/coupons/send")
-            .addPathPatterns("/api/coupons/received")
-            .addPathPatterns("/api/coupons/me")
             .addPathPatterns("/api/v2/coupons")
             .addPathPatterns("/api/v2/coupons/accept")
             .addPathPatterns("/api/v2/coupons/send")
@@ -32,9 +27,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
             .addPathPatterns("/api/v2/coupons/me")
             .addPathPatterns("/api/v2/coupons/*/event")
             .addPathPatterns("/api/v2/coupons/*/event/*")
-            .addPathPatterns("/api/v2/coupons/*/status")
-            .addPathPatterns("/api/coupons/*/event")
-            .addPathPatterns("/api/coupons/*/event/*")
-            .addPathPatterns("/api/coupons/*/status");
+            .addPathPatterns("/api/v2/coupons/*/status");
     }
 }
