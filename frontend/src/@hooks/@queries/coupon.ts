@@ -16,6 +16,7 @@ import {
   SentCouponListByStatusRequest,
 } from '@/types/coupon/remote';
 
+import { useFetchMe } from './user';
 import { useMutation, useQuery } from './utils';
 
 /** Query */
@@ -84,7 +85,9 @@ const QUERY_KEY = {
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id), {
+    staleTime: 10000,
+  });
 
   return {
     coupon: data,
@@ -92,8 +95,12 @@ export const useFetchCoupon = (id: number) => {
 };
 
 export const useFetchAcceptedCouponList = () => {
-  const { data, isLoading } = useQuery([QUERY_KEY.acceptedCouponList], () =>
-    getAcceptedCouponList()
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.acceptedCouponList],
+    () => getAcceptedCouponList(),
+    {
+      staleTime: 10000,
+    }
   );
 
   return {
@@ -103,7 +110,13 @@ export const useFetchAcceptedCouponList = () => {
 };
 
 export const useFetchSentCouponList = () => {
-  const { data, isLoading } = useQuery([QUERY_KEY.sentCouponList], () => getSentCouponList());
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.sentCouponList, 'sent'],
+    () => getSentCouponList(),
+    {
+      staleTime: 10000,
+    }
+  );
 
   return {
     sentCouponList: data,
@@ -112,8 +125,12 @@ export const useFetchSentCouponList = () => {
 };
 
 export const useFetchReceivedCouponList = () => {
-  const { data, isLoading } = useQuery([QUERY_KEY.receivedCouponList], () =>
-    getReceivedCouponList()
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.receivedCouponList],
+    () => getReceivedCouponList(),
+    {
+      staleTime: 10000,
+    }
   );
 
   return {
@@ -123,8 +140,12 @@ export const useFetchReceivedCouponList = () => {
 };
 
 export const useFetchSentCouponListByStatus = (body: SentCouponListByStatusRequest) => {
-  const { data, isLoading } = useQuery([QUERY_KEY.sentCouponListByStatus], () =>
-    getSentCouponListByStatus(body)
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.sentCouponListByStatus, 'sent'],
+    () => getSentCouponListByStatus(body),
+    {
+      staleTime: 10000,
+    }
   );
 
   return {
@@ -134,8 +155,12 @@ export const useFetchSentCouponListByStatus = (body: SentCouponListByStatusReque
 };
 
 export const useFetchReceivedCouponListByStatus = (body: ReceivedCouponListByStatusRequest) => {
-  const { data, isLoading } = useQuery([QUERY_KEY.receivedCouponListByStatus], () =>
-    getReceivedCouponListByStatus(body)
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.receivedCouponListByStatus],
+    () => getReceivedCouponListByStatus(body),
+    {
+      staleTime: 10000,
+    }
   );
 
   return {
@@ -165,13 +190,27 @@ export const useCreateCouponMutation = () => {
 
 export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
+  const { coupon } = useFetchCoupon(id);
+  const { me } = useFetchMe();
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(changeCouponStatus, {
     onSuccess() {
-      // queryClient.invalidateQueries(QUERY_KEY.couponList);
-      // invalidate 해주기 애매하다. 쿠폰은 staleTime을 0으로 두고 항상 refetch하도록 두자.
+      const isSent = coupon?.sender.id === me?.id;
+
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
+
+      if (isSent) {
+        queryClient.invalidateQueries([QUERY_KEY.acceptedCouponList]);
+        queryClient.invalidateQueries([QUERY_KEY.sentCouponList]);
+        queryClient.invalidateQueries([QUERY_KEY.sentCouponListByStatus]);
+
+        return;
+      }
+
+      queryClient.invalidateQueries([QUERY_KEY.acceptedCouponList]);
+      queryClient.invalidateQueries([QUERY_KEY.receivedCouponList]);
+      queryClient.invalidateQueries([QUERY_KEY.receivedCouponListByStatus]);
     },
     onMutate() {
       showLoading();
