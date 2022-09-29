@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 import { useQueryClient } from 'react-query';
-import type { NavigateFunction } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@/Router';
 
@@ -33,12 +32,7 @@ const initialState: ErrorBoundaryState = {
   errorCase: null,
 };
 
-class ErrorBoundary extends Component<
-  PropsWithChildren<ErrorBoundaryProps> & {
-    navigate: NavigateFunction;
-  },
-  ErrorBoundaryState
-> {
+class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
     error: null,
     errorCase: null,
@@ -54,7 +48,6 @@ class ErrorBoundary extends Component<
       return { error, errorCase: null };
     }
 
-    /** 401이라면 unauthorized에 get이어도 이 에러이다. */
     if (error.response?.status === 401) {
       return {
         error,
@@ -79,13 +72,10 @@ class ErrorBoundary extends Component<
 
     const { error: errorState, errorCase } = this.state;
 
-    const { navigate } = this.props;
-
     if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
 
       displayMessage('다시 로그인해주세요', true);
-      navigate(PATH.LOGIN);
 
       return;
     }
@@ -106,6 +96,10 @@ class ErrorBoundary extends Component<
 
     const { error, errorCase } = this.state;
 
+    if (errorCase === 'unauthorized') {
+      return <Navigate to={PATH.LOGIN} />;
+    }
+
     if (errorCase === 'get') {
       return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
     }
@@ -115,16 +109,13 @@ class ErrorBoundary extends Component<
 }
 
 const ErrorBoundaryWithHooks = ({ ...props }: PropsWithChildren<ErrorBoundaryProps>) => {
-  /** useQueryErrorResetBoundary 의도한 대로 잘 동작하지 않는다. */
-  // const { reset } = useQueryErrorResetBoundary();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const resetError = () => {
     queryClient.clear();
   };
 
-  return <ErrorBoundary navigate={navigate} onReset={resetError} {...props} />;
+  return <ErrorBoundary onReset={resetError} {...props} />;
 };
 
 export default ErrorBoundaryWithHooks;
