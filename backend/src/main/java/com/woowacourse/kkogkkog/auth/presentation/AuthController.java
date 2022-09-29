@@ -30,6 +30,14 @@ public class AuthController {
         return ResponseEntity.ok(tokenResponse);
     }
 
+    @GetMapping("/login/google")
+    public ResponseEntity<TokenResponse> googleLogin(@RequestParam String code) {
+        TokenResponse tokenResponse = authService.loginGoogle(code);
+
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+
     @PostMapping("/install/bot")
     public ResponseEntity<Void> installSlackApp(@RequestBody InstallSlackAppRequest installSlackAppRequest) {
         authService.installSlackApp(installSlackAppRequest.getCode());

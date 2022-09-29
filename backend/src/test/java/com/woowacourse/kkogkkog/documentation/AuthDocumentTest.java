@@ -57,6 +57,35 @@ class AuthDocumentTest extends DocumentTest {
     }
 
     @Test
+    void 구글_로그인을_요청한다() throws Exception {
+        // given
+        TokenResponse tokenResponse = new TokenResponse("accessToken", true);
+        given(authService.loginGoogle(any())).willReturn(tokenResponse);
+
+        // when
+        ResultActions perform = mockMvc.perform(get("/api/login/google")
+            .param("code", "code_here"));
+
+        // then
+        perform
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.accessToken").value("accessToken"))
+            .andExpect(jsonPath("$.isNew").value("true"));
+
+        // docs
+        perform
+            .andDo(print())
+            .andDo(document("auth-google-login",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                responseFields(
+                    fieldWithPath("accessToken").type(JsonFieldType.STRING).description("토큰"),
+                    fieldWithPath("isNew").type(JsonFieldType.BOOLEAN).description("회원가입 여부")
+                )
+            ));
+    }
+
+    @Test
     void 회원가입을_요청한다() throws Exception {
         // given
         MemberCreateRequest memberCreateRequest = new MemberCreateRequest("slack-accessToken", "변경할닉네임");
