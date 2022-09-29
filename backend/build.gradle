@@ -50,7 +50,7 @@ dependencies {
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'it.ozimov.embedded-redis:0.7.2'
+    implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
