@@ -14,7 +14,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository2;
+import com.woowacourse.kkogkkog.coupon.domain.repository.NoticeCacheRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -34,18 +34,18 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
-    private final UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository;
+    private final NoticeCacheRepository noticeCacheRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          CouponHistoryRepository couponHistoryRepository,
-                         UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository,
+                         NoticeCacheRepository noticeCacheRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
-        this.unreadNoticeCountCacheRepository = unreadNoticeCountCacheRepository;
+        this.noticeCacheRepository = noticeCacheRepository;
         this.pushAlarmPublisher = pushAlarmPublisher;
     }
 
@@ -135,7 +135,7 @@ public class CouponService {
 
     private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
-        unreadNoticeCountCacheRepository.increment(couponHistory.getHostMember()); // TODO: 복수 쿠폰 생성시 한번만 Redis 접근하도록 수정
+        noticeCacheRepository.increment(couponHistory.getHostMember());
         pushAlarmPublisher.publishEvent(couponHistory);
     }
 

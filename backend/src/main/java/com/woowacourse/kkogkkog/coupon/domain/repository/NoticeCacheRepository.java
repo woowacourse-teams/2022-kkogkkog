@@ -6,15 +6,15 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UnreadNoticeCountCacheRepository2 {
+public class NoticeCacheRepository {
 
-    private static final String keyFormat = "unreadNotice:%d";
+    private static final String keyFormat = "unreadNoticeCount:%d";
 
     private final RedisTemplate<String, Long> redisTemplate;
     private final CouponHistoryRepository couponHistoryRepository;
 
-    public UnreadNoticeCountCacheRepository2(RedisTemplate<String, Long> redisTemplate,
-                                             CouponHistoryRepository couponHistoryRepository) {
+    public NoticeCacheRepository(RedisTemplate<String, Long> redisTemplate,
+                                 CouponHistoryRepository couponHistoryRepository) {
         this.redisTemplate = redisTemplate;
         this.couponHistoryRepository = couponHistoryRepository;
     }

@@ -34,7 +34,7 @@ class UnreadNoticeCountRepositoryTest {
     @Autowired
     private CouponRepository couponRepository;
     @Autowired
-    private UnreadNoticeCountCacheRepository2 unreadNoticeCountCacheRepository;
+    private NoticeCacheRepository noticeCacheRepository;
     @Autowired
     private RedisStorageCleaner redisStorageCleaner;
 
@@ -61,7 +61,7 @@ class UnreadNoticeCountRepositoryTest {
             couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
             couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
 
-            Long unreadCount = unreadNoticeCountCacheRepository.get(receiver);
+            Long unreadCount = noticeCacheRepository.get(receiver);
             assertThat(unreadCount).isEqualTo(2);
         }
 
@@ -73,8 +73,8 @@ class UnreadNoticeCountRepositoryTest {
             couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
             couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
 
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
-            Long expected = unreadNoticeCountCacheRepository.get(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
+            Long expected = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -87,10 +87,10 @@ class UnreadNoticeCountRepositoryTest {
         @Test
         @DisplayName("캐쉬 데이터의 값을 1만큼 증가시킨다.")
         void readAndUpdate() {
-            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+            Long previousCount = noticeCacheRepository.get(receiver);
 
-            unreadNoticeCountCacheRepository.increment(receiver);
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.increment(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(previousCount + 1);
         }
@@ -107,10 +107,10 @@ class UnreadNoticeCountRepositoryTest {
             couponHistoryRepository.save(INIT.getCouponHistory(sender, coupon));
             couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
             couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
-            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+            Long previousCount = noticeCacheRepository.get(receiver);
 
-            unreadNoticeCountCacheRepository.decrement(receiver);
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.decrement(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(previousCount - 1);
         }
@@ -118,10 +118,10 @@ class UnreadNoticeCountRepositoryTest {
         @Test
         @DisplayName("캐쉬 데이터의 값이 0인 경우 감소시키지 않는다.")
         void minValueZero() {
-            Long previousCount = unreadNoticeCountCacheRepository.get(receiver);
+            Long previousCount = noticeCacheRepository.get(receiver);
 
-            unreadNoticeCountCacheRepository.decrement(receiver);
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.decrement(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(previousCount);
         }
@@ -138,10 +138,10 @@ class UnreadNoticeCountRepositoryTest {
             couponHistoryRepository.save(INIT.getCouponHistory(sender, coupon));
             couponHistoryRepository.save(REQUEST.getCouponHistory(receiver, coupon));
             couponHistoryRepository.save(DECLINE.getCouponHistory(sender, coupon));
-            unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.get(receiver);
 
-            unreadNoticeCountCacheRepository.reset(receiver);
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.reset(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(0);
         }
@@ -149,8 +149,8 @@ class UnreadNoticeCountRepositoryTest {
         @Test
         @DisplayName("캐쉬 데이터가 없는 경우 0으로 초기화한다.")
         void initWithZero() {
-            unreadNoticeCountCacheRepository.reset(receiver);
-            Long actual = unreadNoticeCountCacheRepository.get(receiver);
+            noticeCacheRepository.reset(receiver);
+            Long actual = noticeCacheRepository.get(receiver);
 
             assertThat(actual).isEqualTo(0);
         }
