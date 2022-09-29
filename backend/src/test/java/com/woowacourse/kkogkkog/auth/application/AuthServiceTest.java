@@ -7,12 +7,12 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.woowacourse.kkogkkog.support.application.ServiceTest;
-import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
+import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
+import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -66,6 +66,39 @@ class AuthServiceTest extends ServiceTest {
 
             assertThatThrownBy(
                 () -> authService.login("invalid_code")
+            ).isInstanceOf(AccessTokenRetrievalFailedException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("loginGoogle 메서드는")
+    class LoginGoogle {
+
+        @Test
+        @DisplayName("임시 코드를 입력받으면, 토큰과 초기 사용자 여부를 반환한다.")
+        void success() {
+            MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
+            given(googleClient.requestAccessToken(AUTHORIZATION_CODE))
+                .willReturn(USER_ACCESS_TOKEN);
+            given(googleClient.requestUserInfo(USER_ACCESS_TOKEN))
+                .willReturn(
+                    new GoogleUserInfo(
+                        memberResponse.getNickname(),
+                        memberResponse.getEmail(),
+                        memberResponse.getImageUrl()));
+            TokenResponse tokenResponse = authService.loginGoogle(AUTHORIZATION_CODE);
+
+            assertThat(tokenResponse).isNotNull();
+        }
+
+        @Test
+        @DisplayName("올바르지 않은 임시 코드를 입력하면, 예외를 던진다")
+        void fail_invalidCode() {
+            given(googleClient.requestAccessToken("invalid_code"))
+                .willThrow(new AccessTokenRetrievalFailedException());
+
+            assertThatThrownBy(
+                () -> authService.loginGoogle("invalid_code")
             ).isInstanceOf(AccessTokenRetrievalFailedException.class);
         }
     }

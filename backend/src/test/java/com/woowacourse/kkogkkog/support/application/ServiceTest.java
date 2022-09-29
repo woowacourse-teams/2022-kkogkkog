@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.support.application;
 
+import com.woowacourse.kkogkkog.auth.application.GoogleClient;
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.common.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,9 @@ public class ServiceTest {
 
     @MockBean
     protected SlackClient slackClient;
+
+    @MockBean
+    protected GoogleClient googleClient;
 
     @BeforeEach
     void setUp() {
