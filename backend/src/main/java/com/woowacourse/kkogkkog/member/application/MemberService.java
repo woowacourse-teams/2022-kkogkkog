@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnreadNoticeCountCacheRepository;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
@@ -30,13 +31,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
     private final CouponHistoryRepository memberHistoryRepository;
+    private final UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository;
 
     public MemberService(MemberRepository memberRepository,
                          WorkspaceUserRepository workspaceUserRepository,
-                         CouponHistoryRepository couponHistoryRepository) {
+                         CouponHistoryRepository couponHistoryRepository,
+                         UnreadNoticeCountCacheRepository unreadNoticeCountCacheRepository) {
         this.memberRepository = memberRepository;
         this.workspaceUserRepository = workspaceUserRepository;
         this.memberHistoryRepository = couponHistoryRepository;
+        this.unreadNoticeCountCacheRepository = unreadNoticeCountCacheRepository;
     }
 
     public boolean existsMember(SlackUserInfo userInfo) {
@@ -95,12 +99,11 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
-        Long unreadHistoryCount = memberHistoryRepository
-            .countByHostMemberAndIsReadFalse(findMember);
+        Long unreadCount = unreadNoticeCountCacheRepository.get(member);
 
-        return MyProfileResponse.of(findMember, unreadHistoryCount);
+        return MyProfileResponse.of(member, unreadCount);
     }
 
     @Transactional(readOnly = true)
@@ -131,7 +134,10 @@ public class MemberService {
         CouponHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
             .orElseThrow(MemberHistoryNotFoundException::new);
 
-        memberHistory.updateIsRead();
+        if (!memberHistory.getIsRead()) {
+            memberHistory.updateIsRead();
+            unreadNoticeCountCacheRepository.decrement(memberHistory.getHostMember());
+        }
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
@@ -143,5 +149,6 @@ public class MemberService {
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }
+        unreadNoticeCountCacheRepository.reset(foundMember);
     }
 }
