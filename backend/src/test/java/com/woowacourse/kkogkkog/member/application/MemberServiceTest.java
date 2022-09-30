@@ -239,9 +239,9 @@ class MemberServiceTest extends ServiceTest {
             Member member = ROOKIE.getMember(workspace);
             Long memberId = memberRepository.save(member).getId();
 
-            MembersResponse actual = memberService.findByNickname(member.getNickname());
+            List<MemberResponse> actual = memberService.findByNickname(member.getNickname());
 
-            assertThat(actual.getData()).hasSize(1);
+            assertThat(actual).hasSize(1);
         }
     }
 }

@@ -113,12 +113,12 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MembersResponse findByNickname(String searchName) {
+    public List<MemberResponse> findByNickname(String searchName) {
         List<Member> members = memberRepository.findByNickname(searchName);
 
-        return new MembersResponse(members.stream()
+        return members.stream()
             .map(MemberResponse::of)
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList());
     }
 
     public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
