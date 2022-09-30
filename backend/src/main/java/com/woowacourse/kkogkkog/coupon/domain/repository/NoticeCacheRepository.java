@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class NoticeCacheRepository {
 
-    private static final String keyFormat = "unreadNoticeCount:%d";
+    private static final String KEY_FORMAT = "unreadNoticeCount:%d";
     private static final int CACHE_VALIDITY = 600;
 
     private final RedisTemplate<String, Long> redisTemplate;
@@ -51,13 +51,13 @@ public class NoticeCacheRepository {
 
     private Long getCache(Member member) {
         ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        String cacheKey = String.format(keyFormat, member.getId());
+        String cacheKey = String.format(KEY_FORMAT, member.getId());
         return valueOperations.get(cacheKey);
     }
 
     private void setCache(Member member, Long unreadCount) {
         ValueOperations<String, Long> valueOperations = redisTemplate.opsForValue();
-        String cacheKey = String.format(keyFormat, member.getId());
+        String cacheKey = String.format(KEY_FORMAT, member.getId());
         valueOperations.set(cacheKey, unreadCount, CACHE_VALIDITY, TimeUnit.SECONDS);
     }
 }

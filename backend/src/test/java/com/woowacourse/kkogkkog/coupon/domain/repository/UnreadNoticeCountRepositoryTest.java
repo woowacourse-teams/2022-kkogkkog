@@ -103,7 +103,7 @@ class UnreadNoticeCountRepositoryTest {
             noticeCacheRepository.increment(receiver);
             Long actual = noticeCacheRepository.get(receiver);
 
-            assertThat(actual).isEqualTo(0);
+            assertThat(actual).isZero();
         }
     }
 
@@ -169,7 +169,7 @@ class UnreadNoticeCountRepositoryTest {
             noticeCacheRepository.reset(receiver);
             Long actual = noticeCacheRepository.get(receiver);
 
-            assertThat(actual).isEqualTo(0);
+            assertThat(actual).isZero();
         }
 
         @Test
@@ -178,7 +178,7 @@ class UnreadNoticeCountRepositoryTest {
             noticeCacheRepository.reset(receiver);
             Long actual = noticeCacheRepository.get(receiver);
 
-            assertThat(actual).isEqualTo(0);
+            assertThat(actual).isZero();
         }
     }
 }

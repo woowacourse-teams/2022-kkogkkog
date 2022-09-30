@@ -134,7 +134,7 @@ public class MemberService {
         CouponHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
             .orElseThrow(MemberHistoryNotFoundException::new);
 
-        if (!memberHistory.getIsRead()) {
+        if (!memberHistory.isRead()) {
             memberHistory.updateIsRead();
             noticeCacheRepository.decrement(memberHistory.getHostMember());
         }
