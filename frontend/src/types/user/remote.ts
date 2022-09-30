@@ -2,18 +2,24 @@
 
 import { Member, UserCouponHistory } from './client';
 
-export interface SlackSignupRequest {
+interface SignupRequest {
   nickname: string;
   accessToken: string;
 }
+
+export type SlackSignupRequest = SignupRequest;
+export type GoogleSignupRequest = SignupRequest;
 
 export interface SlackAppDownloadRequest {
   code: string;
 }
 
-export interface SlackLoginRequest {
+interface LoginRequest {
   code: string;
 }
+
+export type SlackLoginRequest = LoginRequest;
+export type GoogleLoginRequest = LoginRequest;
 
 export type EditMeRequest = Pick<MeResponse, 'nickname'>;
 
@@ -23,14 +29,20 @@ export interface SearchUserRequest {
 
 /** Response */
 
-export interface SlackLoginResponse {
+interface LoginResponse {
   accessToken: string;
   isNew: boolean;
 }
 
-export interface SlackSignupResponse {
+export type SlackLoginResponse = LoginResponse;
+export type GoogleLoginResponse = LoginResponse;
+
+export interface SignupResponse {
   accessToken: string;
 }
+
+export type SlackSignupResponse = SignupResponse;
+export type GoogleSignupResponse = SignupResponse;
 
 export interface UserResponse {
   id: number;
