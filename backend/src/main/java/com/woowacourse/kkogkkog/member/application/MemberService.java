@@ -18,8 +18,10 @@ import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
+import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -143,5 +145,13 @@ public class MemberService {
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }
+    }
+
+    public MembersResponse findByNickname(String searchName) {
+        List<Member> members = memberRepository.findByNickname(searchName);
+
+        return new MembersResponse(members.stream()
+            .map(MemberResponse::of)
+            .collect(Collectors.toList()));
     }
 }

@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
@@ -225,6 +226,22 @@ class MemberServiceTest extends ServiceTest {
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("findByNickname 메서드는")
+    class FindByNickname {
+
+        @Test
+        @DisplayName("사용자의 닉네임을 기준으로 회원 검색을 한다.")
+        void success() {
+            Member member = ROOKIE.getMember(workspace);
+            Long memberId = memberRepository.save(member).getId();
+
+            MembersResponse actual = memberService.findByNickname(member.getNickname());
+
+            assertThat(actual.getData()).hasSize(1);
         }
     }
 }
