@@ -1,5 +1,7 @@
-package com.woowacourse.kkogkkog.auth.application;
+package com.woowacourse.kkogkkog.infrastructure.application;
 
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleAccessTokenResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
 import lombok.extern.slf4j.Slf4j;

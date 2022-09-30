@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;

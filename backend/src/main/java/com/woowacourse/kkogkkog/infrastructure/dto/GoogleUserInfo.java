@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.auth.application;
+package com.woowacourse.kkogkkog.infrastructure.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

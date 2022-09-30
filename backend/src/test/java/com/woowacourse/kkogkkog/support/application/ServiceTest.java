@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.support.application;
 
-import com.woowacourse.kkogkkog.auth.application.GoogleClient;
+import com.woowacourse.kkogkkog.infrastructure.application.GoogleClient;
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.common.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
