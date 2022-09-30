@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class NoticeCacheRepository {
@@ -21,6 +22,7 @@ public class NoticeCacheRepository {
         this.couponHistoryRepository = couponHistoryRepository;
     }
 
+    @Transactional(readOnly = true)
     public Long get(Member member) {
         Long unreadCountCache = getCache(member);
         if (unreadCountCache != null) {
