@@ -3,23 +3,41 @@ import {
   useAddSlackAppMutation,
   useEditMeMutation,
   useFetchUserHistoryList,
+  useGoogleLoginMutation,
+  useGoogleSignupMutation,
   useReadAllHistoryMutation,
   useSlackLoginMutation,
   useSlackSignupMutation,
 } from '@/@hooks/@queries/user';
+import { GoogleSignupRequest, SlackSignupRequest } from '@/types/user/remote';
 
 export const useSlackSignUp = () => {
   const slackSignupMutate = useSlackSignupMutation();
 
-  const slackSignup = ({ name, slackSignupToken }: { name: string; slackSignupToken: string }) => {
+  const slackSignup = ({ nickname, accessToken }: SlackSignupRequest) => {
     return slackSignupMutate.mutateAsync({
-      nickname: name,
-      accessToken: slackSignupToken,
+      nickname,
+      accessToken,
     });
   };
 
   return {
     slackSignup,
+  };
+};
+
+export const useGoogleSignUp = () => {
+  const googleSignupMutate = useGoogleSignupMutation();
+
+  const googleSignup = ({ nickname, accessToken }: GoogleSignupRequest) => {
+    return googleSignupMutate.mutateAsync({
+      nickname,
+      accessToken,
+    });
+  };
+
+  return {
+    googleSignup,
   };
 };
 
@@ -53,6 +71,20 @@ export const useSlackOAuthLogin = () => {
 
   return {
     loginBySlackOAuth,
+  };
+};
+
+export const useGoogleOAuthLogin = () => {
+  const loginMutate = useGoogleLoginMutation();
+
+  const loginByGoogleOAuth = async (code: string) => {
+    const response = await loginMutate.mutateAsync({ code });
+
+    return response?.data;
+  };
+
+  return {
+    loginByGoogleOAuth,
   };
 };
 
