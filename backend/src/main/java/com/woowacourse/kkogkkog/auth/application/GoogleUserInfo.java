@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.auth.application;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GoogleUserInfo {
 
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("email")
     private String email;
-    @JsonProperty("picture")
     private String picture;
 
     public GoogleUserInfo(String name, String email, String picture) {
