@@ -32,7 +32,6 @@ class MemberRepositoryTest {
         Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
         memberRepository.save(ROOKIE.getMember(workspace));
         memberRepository.save(LEO.getMember(workspace));
-
         entityManager.clear();
 
         List<Member> members = memberRepository.findByNickname("루");

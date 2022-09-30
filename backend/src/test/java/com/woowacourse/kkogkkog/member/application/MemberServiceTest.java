@@ -244,7 +244,7 @@ class MemberServiceTest extends ServiceTest {
             memberRepository.save(author);
             memberRepository.save(leo);
 
-            List<MemberResponse> actual = memberService.findByNickname(rookie.getNickname());
+            List<MemberResponse> actual = memberService.findByNickname("루");
 
             assertThat(actual).hasSize(1);
         }
