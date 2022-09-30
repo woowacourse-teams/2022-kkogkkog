@@ -1,9 +1,8 @@
+import BigCouponItem from '@/@components/coupon/CouponItem/big';
+import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useFetchCouponListByStatus } from '@/@hooks/@queries/coupon';
 import { Styled } from '@/@pages/coupon-list';
 import { Coupon, COUPON_LIST_TYPE } from '@/types/coupon/client';
-
-import BigCouponItem from '../CouponItem/big';
-import VerticalCouponList from '../CouponList/vertical';
 
 interface FinishedCouponListSectionProps {
   couponListType: COUPON_LIST_TYPE;

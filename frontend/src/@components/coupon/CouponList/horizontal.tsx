@@ -1,4 +1,4 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 
 import { SmallCouponItemProps } from '@/@components/coupon/CouponItem/small';
 import { Coupon } from '@/types/coupon/client';
@@ -7,7 +7,7 @@ import * as Styled from './horizontal.style';
 
 interface HorizontalCouponListProps {
   couponList?: Coupon[];
-  CouponItem: React.FunctionComponent<SmallCouponItemProps>;
+  CouponItem: FunctionComponent<SmallCouponItemProps>;
   onClickCouponItem?: (coupon: Coupon) => void;
 }
 

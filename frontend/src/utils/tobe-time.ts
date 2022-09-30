@@ -1,4 +1,5 @@
-import { MMDD_KR, YYYYMMDD, YYYYMMDD_KR, YYYYMMDDhhmmss } from './../types/utils';
+import { MMDD_KR, YYYYMMDD, YYYYMMDD_KR, YYYYMMDDhhmmss } from '@/types/utils';
+
 import { addZero } from './time';
 
 const week = ['일', '월', '화', '수', '목', '금', '토'] as const;

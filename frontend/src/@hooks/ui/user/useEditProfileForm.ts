@@ -12,7 +12,7 @@ const useEditProfileForm = () => {
 
   const { displayMessage } = useToast();
 
-  const [nickname, onChangeNickname, setNickname] = useInput('');
+  const [nickname, onChangeNickname, setNickname] = useInput<string>('');
 
   const { me } = useFetchMe();
 

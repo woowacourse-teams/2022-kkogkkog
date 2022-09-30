@@ -1,8 +1,7 @@
 import { useToast } from '@/@hooks/@common/useToast';
+import { useChangeCouponStatusMutation, useCreateCouponMutation } from '@/@hooks/@queries/coupon';
 import { CreateCouponRequest } from '@/types/coupon/remote';
 import { YYYYMMDD } from '@/types/utils';
-
-import { useChangeCouponStatusMutation, useCreateCouponMutation } from '../@queries/coupon';
 
 export const useChangeCouponStatus = ({ couponId }: { couponId: number }) => {
   const { displayMessage } = useToast();
