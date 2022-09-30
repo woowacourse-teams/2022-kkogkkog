@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.member.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
@@ -236,10 +237,14 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("사용자의 닉네임을 기준으로 회원 검색을 한다.")
         void success() {
-            Member member = ROOKIE.getMember(workspace);
-            Long memberId = memberRepository.save(member).getId();
+            Member rookie = ROOKIE.getMember(workspace);
+            Member author = AUTHOR.getMember(workspace);
+            Member leo = LEO.getMember(workspace);
+            memberRepository.save(rookie);
+            memberRepository.save(author);
+            memberRepository.save(leo);
 
-            List<MemberResponse> actual = memberService.findByNickname(member.getNickname());
+            List<MemberResponse> actual = memberService.findByNickname(rookie.getNickname());
 
             assertThat(actual).hasSize(1);
         }
