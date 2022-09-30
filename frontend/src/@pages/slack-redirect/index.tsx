@@ -23,7 +23,7 @@ const SlackDirect = () => {
         const response = await loginBySlackOAuth(code);
 
         if (response.isNew) {
-          navigate(PATH.SIGNUP);
+          navigate(PATH.SIGNUP, { state: 'slack' });
         } else {
           navigate(PATH.MAIN, { replace: true });
         }
