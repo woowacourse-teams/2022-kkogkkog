@@ -8,6 +8,8 @@ import {
   getMe,
   getUserHistoryList,
   getUserList,
+  googleLogin,
+  googleSignup,
   readAllHistory,
   slackAppDownload,
   slackLogin,
@@ -110,7 +112,7 @@ export const useSlackLoginMutation = () => {
       const { isNew, accessToken } = response.data;
 
       if (isNew) {
-        localStorage.setItem('slack-signup-token', accessToken);
+        localStorage.setItem('signup-token', accessToken);
       } else {
         localStorage.setItem('user-token', accessToken);
 
@@ -128,12 +130,55 @@ export const useSlackLoginMutation = () => {
   });
 };
 
+export const useGoogleLoginMutation = () => {
+  const { displayMessage } = useToast();
+
+  const { showLoading, hideLoading } = useLoading();
+
+  return useMutation(googleLogin, {
+    onSuccess(response) {
+      const { isNew, accessToken } = response.data;
+
+      if (isNew) {
+        localStorage.setItem('signup-token', accessToken);
+      } else {
+        localStorage.setItem('user-token', accessToken);
+
+        client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+        displayMessage('로그인에 성공하였습니다.', false);
+      }
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
+    },
+  });
+};
+
+// @TODO: OAuth 별 추상화
 export const useSlackSignupMutation = () => {
   return useMutation(slackSignup, {
     onSuccess(response) {
       const { accessToken } = response.data;
 
-      localStorage.removeItem('slack-signup-token');
+      localStorage.removeItem('signup-token');
+
+      localStorage.setItem('user-token', accessToken);
+
+      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+    },
+  });
+};
+
+export const useGoogleSignupMutation = () => {
+  return useMutation(googleSignup, {
+    onSuccess(response) {
+      const { accessToken } = response.data;
+
+      localStorage.removeItem('signup-token');
 
       localStorage.setItem('user-token', accessToken);
 
