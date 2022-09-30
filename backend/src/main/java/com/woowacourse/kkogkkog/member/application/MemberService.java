@@ -112,6 +112,15 @@ public class MemberService {
             .collect(toList());
     }
 
+    @Transactional(readOnly = true)
+    public MembersResponse findByNickname(String searchName) {
+        List<Member> members = memberRepository.findByNickname(searchName);
+
+        return new MembersResponse(members.stream()
+            .map(MemberResponse::of)
+            .collect(Collectors.toList()));
+    }
+
     public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
         Member member = memberRepository.findById(memberNicknameUpdateRequest.getMemberId())
             .orElseThrow(MemberNotFoundException::new);
@@ -145,13 +154,5 @@ public class MemberService {
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }
-    }
-
-    public MembersResponse findByNickname(String searchName) {
-        List<Member> members = memberRepository.findByNickname(searchName);
-
-        return new MembersResponse(members.stream()
-            .map(MemberResponse::of)
-            .collect(Collectors.toList()));
     }
 }
