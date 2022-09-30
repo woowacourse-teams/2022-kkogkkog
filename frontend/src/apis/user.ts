@@ -1,6 +1,10 @@
 import { client } from '@/apis';
 import {
   EditMeRequest,
+  GoogleLoginRequest,
+  GoogleLoginResponse,
+  GoogleSignupRequest,
+  GoogleSignupResponse,
   MeResponse,
   SearchUserRequest,
   SlackAppDownloadRequest,
@@ -29,8 +33,14 @@ export const getUserList = async () => {
 export const slackSignup = (body: SlackSignupRequest) =>
   client.post<SlackSignupResponse>('/signup/token', body);
 
+export const googleSignup = (body: GoogleSignupRequest) =>
+  client.post<GoogleSignupResponse>('/signup/token', body);
+
 export const slackLogin = ({ code }: SlackLoginRequest) =>
   client.get<SlackLoginResponse>(`/login/token?code=${code}`);
+
+export const googleLogin = ({ code }: GoogleLoginRequest) =>
+  client.get<GoogleLoginResponse>(`/login/google?code=${code}`);
 
 export const slackAppDownload = ({ code }: SlackAppDownloadRequest) =>
   client.post('/install/bot', { code });
