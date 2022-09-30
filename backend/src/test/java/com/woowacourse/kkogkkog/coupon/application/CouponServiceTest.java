@@ -248,7 +248,6 @@ class CouponServiceTest {
             assertThatThrownBy(() -> couponService.find(anotherMemberId, couponId))
                 .isInstanceOf(CouponNotAccessibleException.class);
         }
-
     }
 
     @Nested
