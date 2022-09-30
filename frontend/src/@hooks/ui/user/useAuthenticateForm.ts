@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useLogin, useSlackSignUp } from '@/@hooks/business/user';
+import { useSlackSignUp } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
@@ -32,7 +32,6 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
 
   const { slackSignup } = useSlackSignUp();
-  const { login } = useLogin();
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
@@ -54,13 +53,13 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     navigate(PATH.MAIN);
   };
 
-  const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
-    e.preventDefault();
+  // const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
+  //   e.preventDefault();
 
-    await login({ email, password });
+  //   await login({ email, password });
 
-    navigate(PATH.MAIN);
-  };
+  //   navigate(PATH.MAIN);
+  // };
 
   return {
     state: {
@@ -77,7 +76,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     },
     submitHandler: {
       join: onSubmitJoinForm,
-      login: onSubmitLoginForm,
+      // login: onSubmitLoginForm,
     },
   };
 };

@@ -11,11 +11,11 @@ import {
   readAllHistory,
   slackAppDownload,
   slackLogin,
+  slackSignup,
 } from '@/apis/user';
 import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
-import { slackSignup } from './../../apis/user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {

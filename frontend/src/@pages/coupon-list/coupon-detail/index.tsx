@@ -10,12 +10,12 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
 import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
+import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { DYNAMIC_PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/coupon/client';
 
-import NotFoundPage from '../../404';
 import * as Styled from './style';
 
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';

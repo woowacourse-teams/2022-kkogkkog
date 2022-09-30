@@ -1,7 +1,6 @@
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { Coupon } from '@/types/coupon/client';
 import { Member } from '@/types/user/client';
-
-import { useFetchMe } from '../../@queries/user';
 
 interface useCouponPartnerProps {
   sender: Member;
