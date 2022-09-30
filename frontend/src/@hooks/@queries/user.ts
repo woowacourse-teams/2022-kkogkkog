@@ -171,23 +171,20 @@ export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
   const readHistory = (id: number) => {
-    queryClient.setQueryData<UserHistoryListResponse | undefined>(
-      [QUERY_KEY.userHistoryList],
-      oldData => {
-        if (oldData === undefined) {
-          return;
-        }
-
-        const newData = {
-          ...oldData,
-          data: oldData?.data?.map(history =>
-            history.id === id ? { ...history, isRead: true } : { ...history }
-          ),
-        };
-
-        return newData;
+    queryClient.setQueryData<UserHistoryListResponse>([QUERY_KEY.userHistoryList], oldData => {
+      if (oldData === undefined) {
+        return;
       }
-    );
+
+      const newData = {
+        ...oldData,
+        data: oldData?.data?.map(history =>
+          history.id === id ? { ...history, isRead: true } : { ...history }
+        ),
+      };
+
+      return newData;
+    });
   };
 
   return { readHistory };
