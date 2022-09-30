@@ -8,6 +8,8 @@ import Profile from '@/@components/@shared/Icon/Icons/Profile';
 import Reload from '@/@components/@shared/Icon/Icons/Reload';
 import Slack from '@/@components/@shared/Icon/Icons/Slack';
 
+import Google from './Google';
+
 const iconName = {
   profile: Profile,
   close: Close,
@@ -18,6 +20,7 @@ const iconName = {
   notification: Notification,
   hand: Hand,
   reload: Reload,
+  google: Google,
 };
 
 export type IconNames = keyof typeof iconName;
