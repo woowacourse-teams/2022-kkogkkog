@@ -1,5 +1,4 @@
 import { useFetchMe } from '@/@hooks/@queries/user';
-import { Coupon } from '@/types/coupon/client';
 import { Member } from '@/types/user/client';
 
 interface useCouponPartnerProps {
@@ -11,11 +10,14 @@ function useCouponPartner(coupon: useCouponPartnerProps): {
   isSent: boolean;
   member: Member;
 };
-function useCouponPartner(coupon: Coupon | undefined): {
+function useCouponPartner(coupon: useCouponPartnerProps | undefined): {
   isSent: boolean;
   member: Member | undefined;
 };
-function useCouponPartner(coupon: any) {
+function useCouponPartner(coupon: useCouponPartnerProps | undefined): {
+  isSent: boolean;
+  member: Member | undefined;
+} {
   const { me } = useFetchMe();
 
   const isSent = coupon?.sender.id === me?.id;
