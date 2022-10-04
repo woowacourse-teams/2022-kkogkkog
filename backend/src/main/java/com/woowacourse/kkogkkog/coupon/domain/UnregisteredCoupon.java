@@ -70,4 +70,8 @@ public class UnregisteredCoupon extends BaseEntity {
         UUID uuid = UUID.randomUUID();
         return new UnregisteredCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType);
     }
+
+    public Coupon toCoupon(Member receiver) {
+        return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
+    }
 }

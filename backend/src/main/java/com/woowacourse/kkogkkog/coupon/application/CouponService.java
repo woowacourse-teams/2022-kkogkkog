@@ -12,9 +12,12 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -22,6 +25,7 @@ import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +36,18 @@ public class CouponService {
 
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
+    private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
+                         UnregisteredCouponRepository unregisteredCouponRepository,
                          CouponHistoryRepository couponHistoryRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
+        this.unregisteredCouponRepository = unregisteredCouponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.pushAlarmPublisher = pushAlarmPublisher;
     }
@@ -81,7 +88,8 @@ public class CouponService {
     public List<CouponResponse> findAllByReceiver(Long memberId,
                                                   String couponStatus) {
         Member member = findMember(memberId);
-        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus)).stream()
+        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus))
+            .stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -94,6 +102,14 @@ public class CouponService {
             .peek(it -> saveCouponHistory(CouponHistory.ofNew(it)))
             .map(CouponResponse::of)
             .collect(Collectors.toList());
+    }
+
+    public CouponResponse saveByCouponCode(Long memberId, String couponCode) {
+        Member receiver = findMember(memberId);
+        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
+        Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
+        unregisteredCouponRepository.delete(unregisteredCoupon);
+        return CouponResponse.of(coupon);
     }
 
     public void updateStatus(CouponStatusRequest request) {
@@ -137,5 +153,10 @@ public class CouponService {
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
+    }
+
+    private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {
+        return unregisteredCouponRepository.findByCouponCode(couponCode)
+            .orElseThrow(UnregisteredCouponNotFoundException::new);
     }
 }

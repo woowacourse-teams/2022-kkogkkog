@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
@@ -23,8 +24,10 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -55,6 +58,9 @@ class CouponServiceTest {
     private CouponHistoryRepository couponHistoryRepository;
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
+    @Autowired
+    private UnregisteredCouponRepository unregisteredCouponRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -96,6 +102,35 @@ class CouponServiceTest {
             List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 couponId);
             assertThat(memberHistories).hasSize(1);
+        }
+    }
+
+    @Nested
+    @DisplayName("saveByCouponCode 메서드는")
+    class SaveByCouponCode {
+
+        private Member sender;
+        private Member receiver;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+            receiver = memberRepository.save(RECEIVER.getMember(workspace));
+        }
+
+        @Test
+        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 무기명 쿠폰을 삭제한다.")
+        void success() {
+            UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(
+                CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            String couponCode = unregisteredCoupon.getCouponCode();
+
+            couponService.saveByCouponCode(receiver.getId(), couponCode);
+
+            Boolean isPresent = unregisteredCouponRepository.findById(unregisteredCoupon.getId())
+                .isPresent();
+            assertThat(isPresent).isFalse();
         }
     }
 
