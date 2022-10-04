@@ -22,7 +22,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE unregistered_coupon SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE unregistered_coupon c SET c.deleted = true WHERE c.id=?")
 @Getter
 public class UnregisteredCoupon extends BaseEntity {
 

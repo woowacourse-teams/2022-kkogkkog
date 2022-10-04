@@ -66,6 +66,11 @@ public class UnregisteredCouponService {
         return MINIMUM_QUANTITY < quantity && quantity <= MAXIMUM_QUANTITY;
     }
 
+    public void deleteByCouponCode(String couponCode) {
+        unregisteredCouponRepository.findByCouponCode(couponCode)
+            .ifPresent(unregisteredCouponRepository::delete);
+    }
+
     private UnregisteredCoupon findUnregisteredCoupon(Long unregisteredCouponId) {
         return unregisteredCouponRepository.findById(unregisteredCouponId)
             .orElseThrow(UnregisteredCouponNotFoundException::new);

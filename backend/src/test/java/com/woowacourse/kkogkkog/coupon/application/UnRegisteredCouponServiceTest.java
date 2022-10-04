@@ -92,7 +92,8 @@ public class UnRegisteredCouponServiceTest {
         @Test
         @DisplayName("보낸 사람의 ID를 통해, 해당 ID로 발급한 무기명 쿠폰 리스트를 반환한다.")
         void success() {
-            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(sender.getId());
+            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(
+                sender.getId());
 
             List<Long> actualIds = actual.stream()
                 .map(it -> it.getSender().getId())
@@ -145,7 +146,7 @@ public class UnRegisteredCouponServiceTest {
         }
 
         @Test
-        @DisplayName("무기명 쿠폰코드를 받으면, 상세 정보를 반환한다.")
+        @DisplayName("쿠폰코드를 받으면, 무기명 쿠폰의 상세 정보를 반환한다.")
         void success() {
             List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
                 무기명_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
@@ -154,6 +155,33 @@ public class UnRegisteredCouponServiceTest {
             var actual = unregisteredCouponService.findByCouponCode(couponCode);
 
             assertThat(actual.getCouponCode()).isEqualTo(couponCode);
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteByCouponCode 메서드는")
+    class DeleteByCouponCode {
+
+        private Member sender;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+        }
+
+        @Test
+        @DisplayName("쿠폰코드를 받으면, 무기명 쿠폰을 논리적 삭제한다.")
+        void success() {
+            List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
+                무기명_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+            String couponCode = response.get(0).getCouponCode();
+
+            unregisteredCouponService.deleteByCouponCode(couponCode);
+
+            Boolean isPresent = unregisteredCouponRepository.findByCouponCode(couponCode)
+                .isPresent();
+            assertThat(isPresent).isFalse();
         }
     }
 }
