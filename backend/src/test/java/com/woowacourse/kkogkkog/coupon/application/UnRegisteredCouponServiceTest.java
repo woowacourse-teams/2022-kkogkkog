@@ -68,8 +68,8 @@ public class UnRegisteredCouponServiceTest {
     }
 
     @Nested
-    @DisplayName("find 메서드는")
-    class Find {
+    @DisplayName("findById 메서드는")
+    class FindById {
 
         private Member sender;
 
@@ -86,12 +86,37 @@ public class UnRegisteredCouponServiceTest {
                 무기명_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
             Long unregisteredCouponId = response.get(0).getId();
 
-            var actual = unregisteredCouponService.find(unregisteredCouponId);
+            var actual = unregisteredCouponService.findById(unregisteredCouponId);
 
             Long id = actual.getSender().getId();
             assertAll(
                 () -> assertThat(id).isEqualTo(sender.getId()),
                 () -> assertThat(actual.getDeleted()).isFalse());
+        }
+    }
+
+    @Nested
+    @DisplayName("findByCouponCode 메서드는")
+    class FindByCouponCode {
+
+        private Member sender;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+        }
+
+        @Test
+        @DisplayName("무기명 쿠폰코드를 받으면, 상세 정보를 반환한다.")
+        void success() {
+            List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
+                무기명_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+            String couponCode = response.get(0).getCouponCode();
+
+            var actual = unregisteredCouponService.findByCouponCode(couponCode);
+
+            assertThat(actual.getCouponCode()).isEqualTo(couponCode);
         }
     }
 }

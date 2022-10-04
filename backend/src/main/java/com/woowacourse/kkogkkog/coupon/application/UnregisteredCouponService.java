@@ -32,8 +32,14 @@ public class UnregisteredCouponService {
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse find(Long unregisteredCouponId) {
+    public UnregisteredCouponDetailResponse findById(Long unregisteredCouponId) {
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
+        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+    }
+
+    @Transactional(readOnly = true)
+    public UnregisteredCouponDetailResponse findByCouponCode(String couponCode) {
+        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
         return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
     }
 
@@ -55,6 +61,11 @@ public class UnregisteredCouponService {
 
     private UnregisteredCoupon findUnregisteredCoupon(Long unregisteredCouponId) {
         return unregisteredCouponRepository.findById(unregisteredCouponId)
+            .orElseThrow(UnregisteredCouponNotFoundException::new);
+    }
+
+    private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {
+        return unregisteredCouponRepository.findByCouponCode(couponCode)
             .orElseThrow(UnregisteredCouponNotFoundException::new);
     }
 
