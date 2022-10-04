@@ -77,7 +77,7 @@ public class UnRegisteredCouponServiceTest {
 
     @Nested
     @DisplayName("findAllBySender 메서드는")
-    class findAllBySender {
+    class FindAllBySender {
 
         private Member sender;
 
