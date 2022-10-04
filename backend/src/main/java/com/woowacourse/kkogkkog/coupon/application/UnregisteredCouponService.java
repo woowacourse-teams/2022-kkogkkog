@@ -1,9 +1,11 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -29,6 +31,12 @@ public class UnregisteredCouponService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional(readOnly = true)
+    public UnregisteredCouponDetailResponse find(Long unregisteredCouponId) {
+        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
+        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+    }
+
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {
         Integer quantity = request.getQuantity();
         if (!canSave(quantity)) {
@@ -43,6 +51,11 @@ public class UnregisteredCouponService {
 
     private boolean canSave(int quantity) {
         return MINIMUM_QUANTITY < quantity && quantity <= MAXIMUM_QUANTITY;
+    }
+
+    private UnregisteredCoupon findUnregisteredCoupon(Long unregisteredCouponId) {
+        return unregisteredCouponRepository.findById(unregisteredCouponId)
+            .orElseThrow(UnregisteredCouponNotFoundException::new);
     }
 
     private Member findMember(Long memberId) {

@@ -5,6 +5,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.무기명_COFFEE_쿠폰_발급_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
@@ -36,7 +37,7 @@ public class UnRegisteredCouponServiceTest {
 
     @Nested
     @DisplayName("save 메서드는")
-    class save {
+    class Save {
 
         private Member sender;
 
@@ -63,6 +64,34 @@ public class UnRegisteredCouponServiceTest {
 
             assertThatThrownBy(() -> unregisteredCouponService.save(request))
                 .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("find 메서드는")
+    class Find {
+
+        private Member sender;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+        }
+
+        @Test
+        @DisplayName("무기명 쿠폰 아이디를 받으면, 상세 정보를 반환한다.")
+        void success() {
+            List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
+                무기명_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+            Long unregisteredCouponId = response.get(0).getId();
+
+            var actual = unregisteredCouponService.find(unregisteredCouponId);
+
+            Long id = actual.getSender().getId();
+            assertAll(
+                () -> assertThat(id).isEqualTo(sender.getId()),
+                () -> assertThat(actual.getDeleted()).isFalse());
         }
     }
 }
