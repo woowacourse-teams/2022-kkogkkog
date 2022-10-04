@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.무기명_COFFEE_쿠폰_발급_요청;
@@ -7,15 +8,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.application.ApplicationTest;
+import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -34,6 +39,9 @@ public class UnRegisteredCouponServiceTest {
 
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
+    @Autowired
+    private UnregisteredCouponRepository unregisteredCouponRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -64,6 +72,35 @@ public class UnRegisteredCouponServiceTest {
 
             assertThatThrownBy(() -> unregisteredCouponService.save(request))
                 .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("findAllBySender 메서드는")
+    class findAllBySender {
+
+        private Member sender;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(JEONG.getMember(workspace));
+            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+        }
+
+        @Test
+        @DisplayName("보낸 사람의 ID를 통해, 해당 ID로 발급한 무기명 쿠폰 리스트를 반환한다.")
+        void success() {
+            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(sender.getId());
+
+            List<Long> actualIds = actual.stream()
+                .map(it -> it.getSender().getId())
+                .collect(Collectors.toList());
+            assertAll(
+                () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actualIds).containsOnly(sender.getId())
+            );
         }
     }
 

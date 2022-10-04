@@ -31,6 +31,13 @@ public class UnregisteredCouponService {
         this.memberRepository = memberRepository;
     }
 
+    public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
+        Member sender = findMember(memberId);
+        return unregisteredCouponRepository.findAllBySender(sender).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public UnregisteredCouponDetailResponse findById(Long unregisteredCouponId) {
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
@@ -44,7 +51,7 @@ public class UnregisteredCouponService {
     }
 
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {
-        Integer quantity = request.getQuantity();
+        int quantity = request.getQuantity();
         if (!canSave(quantity)) {
             throw new UnregisteredCouponQuantityExcessException();
         }
