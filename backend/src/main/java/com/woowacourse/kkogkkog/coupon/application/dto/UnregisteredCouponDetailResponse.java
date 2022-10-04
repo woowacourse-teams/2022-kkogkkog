@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class UnregisteredCouponDetailResponse {
 
     private Long id;
+    private String couponCode;
     private CouponMemberResponse sender;
     private String couponTag;
     private String couponMessage;
@@ -18,10 +19,11 @@ public class UnregisteredCouponDetailResponse {
     private Boolean deleted;
     private LocalDateTime createdTime;
 
-    public UnregisteredCouponDetailResponse(Long id, CouponMemberResponse sender, String couponTag,
+    public UnregisteredCouponDetailResponse(Long id, String couponCode, CouponMemberResponse sender, String couponTag,
                                             String couponMessage, String couponType,
                                             Boolean deleted, LocalDateTime createdTime) {
         this.id = id;
+        this.couponCode = couponCode;
         this.sender = sender;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
@@ -33,6 +35,7 @@ public class UnregisteredCouponDetailResponse {
     public static UnregisteredCouponDetailResponse of(final UnregisteredCoupon coupon) {
         return new UnregisteredCouponDetailResponse(
             coupon.getId(),
+            coupon.getCouponCode(),
             new CouponMemberResponse(
                 coupon.getSender().getId(),
                 coupon.getSender().getNickname(),
