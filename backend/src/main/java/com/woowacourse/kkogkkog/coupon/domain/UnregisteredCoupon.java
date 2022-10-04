@@ -17,9 +17,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE unregistered_coupon SET deleted = true WHERE id=?")
 @Getter
 public class UnregisteredCoupon extends BaseEntity {
