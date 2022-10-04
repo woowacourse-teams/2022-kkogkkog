@@ -2,10 +2,14 @@ package com.woowacourse.kkogkkog.coupon.domain.repository;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import javax.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -50,4 +54,12 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "ORDER BY c.couponState.meetingDate DESC")
     List<Coupon> findAllByMemberAndMeetingDate(@Param("member") Member member,
                                                @Param("nowDate") LocalDateTime nowDate);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT c FROM Coupon c where c.id = :id")
+    Optional<Coupon> findByIdWithExclusiveLock(@Param("id") Long id);
+
+    default Coupon findByIdWithLock(Long id) {
+        return findByIdWithExclusiveLock(id).orElseThrow(CouponNotFoundException::new);
+    }
 }
