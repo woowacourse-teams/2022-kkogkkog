@@ -11,6 +11,7 @@ module.exports = {
     path: path.join(__dirname, '..', 'build'),
     publicPath: '/',
     filename: 'bundle.[hash].js',
+    assetModuleFilename: 'static/[hash][ext][query]',
     clean: true,
   },
   devServer: {
@@ -44,10 +45,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif|webp|webm|mp4)$/i,
-        loader: 'file-loader',
-        options: {
-          name: 'static/[contenthash].[ext]',
-        },
+        type: 'asset/resource',
       },
     ],
   },
