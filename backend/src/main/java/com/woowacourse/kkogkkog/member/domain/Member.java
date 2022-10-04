@@ -37,6 +37,10 @@ public class Member {
     @Column(nullable = false)
     private String imageUrl;
 
+    public Member(Nickname nickname, String email, String imageUrl) {
+        this(null, null, null, nickname, email, imageUrl);
+    }
+
     public Member(String userId, Workspace workspace, Nickname nickname, String email,
                   String imageUrl) {
         this(null, userId, workspace, nickname, email, imageUrl);

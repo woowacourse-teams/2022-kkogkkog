@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
@@ -18,7 +19,6 @@ import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
 import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
-import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,6 +57,15 @@ public class MemberService {
         workspaceUserRepository.save(
             new WorkspaceUser(newMember, userId, workspace, nickname, email, imageUrl));
         return newMember.getId();
+    }
+
+    public Long save(GoogleUserInfo userInfo, String nickname) {
+        String email = userInfo.getEmail();
+        String imageUrl = userInfo.getPicture();
+        Member savedMember = memberRepository.save(
+            new Member(new Nickname(nickname), email, imageUrl)
+        );
+        return savedMember.getId();
     }
 
     public MemberUpdateResponse update(SlackUserInfo userInfo, Workspace workspace) {
@@ -103,6 +112,11 @@ public class MemberService {
             .countByHostMemberAndIsReadFalse(findMember);
 
         return MyProfileResponse.of(findMember, unreadHistoryCount);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 
     @Transactional(readOnly = true)

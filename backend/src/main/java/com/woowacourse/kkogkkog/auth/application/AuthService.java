@@ -10,6 +10,7 @@ import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
@@ -45,6 +46,13 @@ public class AuthService {
         return memberService.save(userInfo, workspace, nickname);
     }
 
+    public Long signUpGoogle(MemberCreateRequest memberCreateRequest) {
+        String accessToken = memberCreateRequest.getAccessToken();
+        GoogleUserInfo userInfo = googleClient.requestUserInfo(accessToken);
+        String nickname = memberCreateRequest.getNickname();
+        return memberService.save(userInfo, nickname);
+    }
+
     public TokenResponse login(String code) {
         String accessToken = slackClient.requestAccessToken(code);
         SlackUserInfo userInfo = slackClient.requestUserInfo(accessToken);
@@ -61,9 +69,11 @@ public class AuthService {
         String accessToken = googleClient.requestAccessToken(code);
         GoogleUserInfo userInfo = googleClient.requestUserInfo(accessToken);
 
-        //TODO 기존 SlackMember와 신규 GoogleMember 통합이후 회원가입 관련 로직 추가 필요
-        String test = jwtTokenProvider.createToken("임시");
-        return new TokenResponse(test, true);
+        Optional<Member> member = memberService.findByEmail(userInfo.getEmail());
+        return member.map(it -> new TokenResponse(
+                jwtTokenProvider.createToken(it.getId().toString()),
+                false))
+            .orElseGet(() -> new TokenResponse(accessToken, true));
     }
 
     public MemberCreateResponse loginByMemberId(Long id) {
