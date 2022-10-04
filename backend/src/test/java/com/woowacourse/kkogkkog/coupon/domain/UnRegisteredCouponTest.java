@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class GuestCouponTest {
+public class UnRegisteredCouponTest {
 
     @Nested
     @DisplayName("정적 팩토리 메서드는")
@@ -20,9 +20,9 @@ public class GuestCouponTest {
         void success() {
             Member sender = SENDER.getMember();
 
-            GuestCoupon guestCoupon = COFFEE.getGuestCoupon(sender);
+            UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
 
-            assertThat(guestCoupon.getCouponCode()).isNotNull();
+            assertThat(unregisteredCoupon.getCouponCode()).isNotNull();
         }
     }
 }

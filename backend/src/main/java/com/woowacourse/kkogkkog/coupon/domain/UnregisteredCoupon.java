@@ -20,9 +20,9 @@ import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE guest_coupon SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE unregistered_coupon SET deleted = true WHERE id=?")
 @Getter
-public class GuestCoupon extends BaseEntity {
+public class UnregisteredCoupon extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +48,8 @@ public class GuestCoupon extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted;
 
-    public GuestCoupon(Long id, String couponCode, Member sender, String couponTag,
-                       String couponMessage, CouponType couponType) {
+    public UnregisteredCoupon(Long id, String couponCode, Member sender, String couponTag,
+                              String couponMessage, CouponType couponType) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
@@ -58,14 +58,14 @@ public class GuestCoupon extends BaseEntity {
         this.couponType = couponType;
     }
 
-    public GuestCoupon(String couponCode, Member sender, String couponTag,
-                       String couponMessage, CouponType couponType) {
+    public UnregisteredCoupon(String couponCode, Member sender, String couponTag,
+                              String couponMessage, CouponType couponType) {
         this(null, couponCode, sender, couponTag, couponMessage, couponType);
     }
 
-    public static GuestCoupon of(Member sender, String couponTag,
-                                 String couponMessage, CouponType couponType) {
+    public static UnregisteredCoupon of(Member sender, String couponTag,
+                                        String couponMessage, CouponType couponType) {
         UUID uuid = UUID.randomUUID();
-        return new GuestCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType);
+        return new UnregisteredCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType);
     }
 }
