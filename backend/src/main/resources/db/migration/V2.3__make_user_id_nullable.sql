@@ -1,0 +1,2 @@
+ALTER TABLE `member`
+    MODIFY COLUMN `user_id` VARCHAR(255);
