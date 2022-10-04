@@ -16,9 +16,11 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE guest_coupon SET deleted = true WHERE id=?")
 @Getter
 public class GuestCoupon extends BaseEntity {
 
@@ -42,6 +44,9 @@ public class GuestCoupon extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CouponType couponType;
+
+    @Column(nullable = false)
+    private boolean deleted;
 
     public GuestCoupon(Long id, String couponCode, Member sender, String couponTag,
                        String couponMessage, CouponType couponType) {
