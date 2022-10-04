@@ -2,8 +2,10 @@ package com.woowacourse.kkogkkog.support.fixture.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import java.time.LocalDateTime;
 
 public enum CouponFixture {
 
@@ -29,6 +31,11 @@ public enum CouponFixture {
 
     public Coupon getCoupon(Member sender, Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
+    }
+
+    public Coupon getRequestedCoupon(Member sender, Member receiver) {
+        return new Coupon(null, sender, receiver, couponTag, couponMessage, couponType,
+            new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(7)));
     }
 
     public Coupon getCoupon(Member sender,
