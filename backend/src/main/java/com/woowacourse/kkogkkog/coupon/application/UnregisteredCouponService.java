@@ -1,0 +1,52 @@
+package com.woowacourse.kkogkkog.coupon.application;
+
+import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
+import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+@Service
+public class UnregisteredCouponService {
+
+    private static final int MINIMUM_QUANTITY = 0;
+    private static final int MAXIMUM_QUANTITY = 5;
+
+    private final UnregisteredCouponRepository unregisteredCouponRepository;
+    private final MemberRepository memberRepository;
+
+    public UnregisteredCouponService(UnregisteredCouponRepository unregisteredCouponRepository,
+                                     MemberRepository memberRepository) {
+        this.unregisteredCouponRepository = unregisteredCouponRepository;
+        this.memberRepository = memberRepository;
+    }
+
+    public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {
+        Integer quantity = request.getQuantity();
+        if (!canSave(quantity)) {
+            throw new UnregisteredCouponQuantityExcessException();
+        }
+        Member sender = findMember(request.getSenderId());
+        List<UnregisteredCoupon> unregisteredCoupons = request.toEntities(sender);
+        return unregisteredCouponRepository.saveAll(unregisteredCoupons).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    private boolean canSave(int quantity) {
+        return MINIMUM_QUANTITY < quantity && quantity <= MAXIMUM_QUANTITY;
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+    }
+}
