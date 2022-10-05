@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
+import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeDeleteWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
@@ -80,6 +81,18 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
         );
     }
 
+    @Test
+    void 회원은_미등록_쿠폰을_삭제할_수_있다() {
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        UnregisteredCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
+            미등록_COFFEE_쿠폰_생성_요청(1));
+        Long unregisteredCouponId = response.getData().get(0).getId();
+
+        var extract = 회원의_미등록_쿠폰을_삭제한다(senderToken, unregisteredCouponId);
+
+        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     static ExtractableResponse<Response> 미등록_쿠폰_생성을_요청한다(String token, Object data) {
         return invokePostWithToken("/api/v2/coupons/unregistered", token, data);
     }
@@ -102,5 +115,9 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
     static ExtractableResponse<Response> 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(String couponCode) {
         return invokeGetWithQueryParams("/api/v2/coupons/unregistered/couponCode",
             Map.of("couponCode", couponCode));
+    }
+
+    static ExtractableResponse<Response> 회원의_미등록_쿠폰을_삭제한다(String token, Long unRegisteredCouponId) {
+        return invokeDeleteWithToken("/api/v2/coupons/unregistered/" + unRegisteredCouponId, token);
     }
 }

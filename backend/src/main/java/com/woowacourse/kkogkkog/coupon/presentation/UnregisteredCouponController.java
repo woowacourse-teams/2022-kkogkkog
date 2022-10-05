@@ -8,6 +8,7 @@ import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreate
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,4 +56,12 @@ public class UnregisteredCouponController {
             request.toUnregisteredCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new UnregisteredCouponsResponse(responses));
     }
+
+    @DeleteMapping("/{unregisteredCouponId}")
+    public ResponseEntity<Void> delete(@LoginMemberId Long loginMemberId,
+                                       @PathVariable Long unregisteredCouponId) {
+        unregisteredCouponService.delete(loginMemberId, unregisteredCouponId);
+        return ResponseEntity.ok().build();
+    }
+
 }
