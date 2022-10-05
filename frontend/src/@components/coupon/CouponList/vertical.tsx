@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 
+import skeletonCouponBigImage from '@/assets/images/skeleton_coupon_big.png';
 import { Coupon } from '@/types/coupon/client';
 
 import { BigCouponItemProps } from '../CouponItem/big';
@@ -19,12 +20,7 @@ const VerticalCouponList = (props: VerticalCouponListProps) => {
       <Styled.Root>
         <Styled.TextContainer>
           <div>
-            <img
-              src='/assets/images/skeleton_coupon_big.png'
-              alt='쿠폰'
-              width={130}
-              height={80.47}
-            />
+            <img src={skeletonCouponBigImage} alt='쿠폰' width={130} height={80.47} />
           </div>
           <h2>아직 쿠폰이 존재하지 않아요.</h2>
           <h3>쿠폰을 생성해보세요!</h3>
