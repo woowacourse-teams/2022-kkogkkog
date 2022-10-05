@@ -107,7 +107,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
 
         CouponsResponse couponsResponse = extractableResponse.as(CouponsResponse.class);
-        ExtractableResponse<Response> extract = 회원의_단일쿠폰_상세정보를_조회한다(
+        ExtractableResponse<Response> extract = 회원의_단일쿠폰_상세정보를_조회한다(senderToken,
             couponsResponse.getData().get(0).getId());
 
         CouponDetailResponse couponDetailResponse = extract.as(CouponDetailResponse.class);
@@ -346,8 +346,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         return invokeGetWithToken("/api/v2/coupons/received", token);
     }
 
-    static ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(Long couponId) {
-        return invokeGet("/api/v2/coupons/" + couponId);
+    static ExtractableResponse<Response> 회원의_단일쿠폰_상세정보를_조회한다(String token, Long couponId) {
+        return invokeGetWithToken("/api/v2/coupons/" + couponId, token);
     }
 
     static ExtractableResponse<Response> 쿠폰_이벤트_요청을_한다(String token, Long couponId, Object data) {
@@ -371,7 +371,8 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     static CouponsResponse 쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token, data);
+        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token,
+            data);
         return response.as(CouponsResponse.class);
     }
 }

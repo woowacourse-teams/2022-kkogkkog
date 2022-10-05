@@ -16,6 +16,7 @@ import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
@@ -25,7 +26,6 @@ import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,8 +53,12 @@ public class CouponService {
     }
 
     @Transactional(readOnly = true)
-    public CouponDetailResponse find(Long couponId) {
+    public CouponDetailResponse find(Long memberId, Long couponId) {
+        Member member = findMember(memberId);
         Coupon coupon = findCoupon(couponId);
+        if (!coupon.isSenderOrReceiver(member)) {
+            throw new CouponNotAccessibleException();
+        }
         List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
             couponId);
         return CouponDetailResponse.of(coupon, couponHistories);

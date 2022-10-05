@@ -6,6 +6,7 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import { useFetchMe } from '@/@hooks/@queries/user';
+import landingLogoImage from '@/assets/images/landing_logo.png';
 import { PATH } from '@/Router';
 
 import * as Styled from './style';
@@ -17,7 +18,7 @@ const LandingPage = () => {
     <PageTemplate title='꼭꼭' hasHeader={false}>
       <Styled.Root>
         <Styled.Branding>
-          <img src='/assets/images/landing_logo.png' alt='로고' width={86} height={86} />
+          <img src={landingLogoImage} alt='로고' width={86} height={86} />
 
           <div>
             <Styled.ExtraBold>꼭꼭</Styled.ExtraBold>으로

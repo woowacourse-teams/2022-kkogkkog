@@ -2,7 +2,7 @@ import { ChangeEventHandler } from 'react';
 
 import Input from '@/@components/@shared/Input';
 import { useSearchUser } from '@/@hooks/ui/user/useSearchUser';
-import { UserResponse } from '@/types/remote/response';
+import { UserResponse } from '@/types/user/remote';
 
 import * as Styled from './style';
 

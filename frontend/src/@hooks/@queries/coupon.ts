@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 import { useLoading } from '@/@hooks/@common/useLoading';
@@ -6,81 +5,90 @@ import {
   changeCouponStatus,
   createCoupon,
   getCoupon,
-  getCouponList,
-  reserveCoupon,
+  getReceivedCouponList,
+  getReceivedCouponListByStatus,
+  getReservationList,
+  getSentCouponList,
+  getSentCouponListByStatus,
 } from '@/apis/coupon';
-import { COUPON_LIST_TYPE, COUPON_STATUS } from '@/types/client/coupon';
-import { CouponReservationRequest } from '@/types/remote/request';
-import { CouponResponse } from '@/types/remote/response';
+import { COUPON_LIST_TYPE } from '@/types/coupon/client';
+import { CouponListByStatusRequest } from '@/types/coupon/remote';
 
+import { useFetchMe } from './user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
-  couponList: 'couponList',
+  /** MAIN KEY */
   coupon: 'coupon',
-};
+  reservationList: 'reservationList',
+  couponList: 'couponList',
+  couponListByStatus: 'couponListByStatus',
 
-/** Query */
-
-export const useFetchCouponList = () => {
-  /** suspense false만 isLoading을 사용할 수 있다. */
-  const { data, ...rest } = useQuery([QUERY_KEY.couponList], getCouponList, {
-    suspense: true,
-    staleTime: 10000,
-  });
-
-  const couponList = useMemo(() => data?.data ?? { received: [], sent: [] }, [data?.data]);
-
-  const parseCouponList = (couponStatus: COUPON_LIST_TYPE) => {
-    return couponList[couponStatus].reduceRight<Record<COUPON_STATUS, CouponResponse[]>>(
-      (prev, coupon) => {
-        const key = coupon.couponStatus;
-
-        return { ...prev, [key]: [...prev[key], coupon] };
-      },
-      {
-        REQUESTED: [],
-        READY: [],
-        ACCEPTED: [],
-        FINISHED: [],
-      }
-    );
-  };
-
-  const parseOpenCouponList = (couponStatus: COUPON_LIST_TYPE) => {
-    const parsedCouponList = parseCouponList(couponStatus);
-
-    return [...parsedCouponList.REQUESTED, ...parsedCouponList.READY];
-  };
-
-  const generateReservationRecord = () => {
-    const combinedCouponList = [...couponList.received, ...couponList.sent];
-
-    return combinedCouponList.reduce<Record<string, CouponResponse[]>>((prev, coupon) => {
-      const { couponStatus, meetingDate } = coupon;
-
-      if (couponStatus === 'ACCEPTED' && meetingDate) {
-        return { ...prev, [meetingDate]: [...(prev[meetingDate] ?? []), coupon] };
-      }
-
-      return prev;
-    }, {});
-  };
-
-  return {
-    couponList,
-    isLoading: rest.isLoading,
-    parseCouponList,
-    parseOpenCouponList,
-    generateReservationRecord,
-  };
+  /** SUB KEY */
+  sent: 'sent',
+  received: 'received',
 };
 
 export const useFetchCoupon = (id: number) => {
-  const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id));
+  const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id), {
+    staleTime: 10000,
+  });
 
   return {
     coupon: data,
+  };
+};
+
+export const useFetchReservationList = () => {
+  const { data, isLoading } = useQuery([QUERY_KEY.reservationList], () => getReservationList(), {
+    staleTime: 10000,
+  });
+
+  return {
+    reservationList: data?.data ?? [],
+    isLoading,
+  };
+};
+
+export const useFetchCouponList = ({ couponListType }: { couponListType: COUPON_LIST_TYPE }) => {
+  const fetcher = couponListType === QUERY_KEY.sent ? getSentCouponList : getReceivedCouponList;
+
+  const { data, isLoading } = useQuery([QUERY_KEY.couponList, couponListType], () => fetcher(), {
+    staleTime: 10000,
+  });
+
+  const openCouponList = (data?.data ?? []).filter(
+    coupon => coupon.couponStatus === 'READY' || coupon.couponStatus === 'REQUESTED'
+  );
+
+  return {
+    couponList: data?.data ?? [],
+    openCouponList,
+    isLoading,
+  };
+};
+
+export const useFetchCouponListByStatus = ({
+  couponListType,
+  body,
+}: {
+  couponListType: COUPON_LIST_TYPE;
+  body: CouponListByStatusRequest;
+}) => {
+  const fetcher =
+    couponListType === QUERY_KEY.sent ? getSentCouponListByStatus : getReceivedCouponListByStatus;
+
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.couponListByStatus, couponListType, body.type],
+    () => fetcher(body),
+    {
+      staleTime: 10000,
+    }
+  );
+
+  return {
+    couponListByStatus: data?.data ?? [],
+    isLoading,
   };
 };
 
@@ -92,7 +100,7 @@ export const useCreateCouponMutation = () => {
 
   return useMutation(createCoupon, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
+      queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
     },
     onMutate() {
       showLoading();
@@ -105,29 +113,27 @@ export const useCreateCouponMutation = () => {
 
 export const useChangeCouponStatusMutation = (id: number) => {
   const queryClient = useQueryClient();
+  const { coupon } = useFetchCoupon(id);
+  const { me } = useFetchMe();
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(changeCouponStatus, {
     onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
+      const isSent = coupon?.sender.id === me?.id;
+
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
-    },
-    onMutate() {
-      showLoading();
-    },
-    onSettled() {
-      hideLoading();
-    },
-  });
-};
 
-export const useRequestCouponMutation = () => {
-  const queryClient = useQueryClient();
-  const { showLoading, hideLoading } = useLoading();
+      if (isSent) {
+        queryClient.invalidateQueries([QUERY_KEY.reservationList]);
+        queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
+        queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.sent]);
 
-  return useMutation<unknown, unknown, { body: CouponReservationRequest }>(reserveCoupon, {
-    onSuccess() {
-      queryClient.invalidateQueries(QUERY_KEY.couponList);
+        return;
+      }
+
+      queryClient.invalidateQueries([QUERY_KEY.reservationList]);
+      queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.received]);
+      queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.received]);
     },
     onMutate() {
       showLoading();

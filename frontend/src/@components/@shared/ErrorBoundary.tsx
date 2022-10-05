@@ -1,10 +1,9 @@
-import { AxiosError } from 'axios';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 import { useQueryClient } from 'react-query';
-import type { NavigateFunction } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { PATH } from '@/Router';
+import { CustomAxiosError } from '@/types/utils';
 
 import { ErrorFallbackProps } from './ErrorFallback';
 import { ToastContext, ToastContextType } from './ToastProvider';
@@ -24,7 +23,7 @@ type ErrorBoundaryState =
       errorCase: null;
     }
   | {
-      error: AxiosError;
+      error: CustomAxiosError;
       errorCase: 'unauthorized' | 'get';
     };
 
@@ -33,12 +32,7 @@ const initialState: ErrorBoundaryState = {
   errorCase: null,
 };
 
-class ErrorBoundary extends Component<
-  PropsWithChildren<ErrorBoundaryProps> & {
-    navigate: NavigateFunction;
-  },
-  ErrorBoundaryState
-> {
+class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
     error: null,
     errorCase: null,
@@ -50,11 +44,10 @@ class ErrorBoundary extends Component<
   };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    if (!(error instanceof AxiosError)) {
+    if (!(error instanceof CustomAxiosError)) {
       return { error, errorCase: null };
     }
 
-    /** 401이라면 unauthorized에 get이어도 이 에러이다. */
     if (error.response?.status === 401) {
       return {
         error,
@@ -79,19 +72,16 @@ class ErrorBoundary extends Component<
 
     const { error: errorState, errorCase } = this.state;
 
-    const { navigate } = this.props;
-
     if (errorCase === 'unauthorized') {
       localStorage.removeItem('user-token');
 
       displayMessage('다시 로그인해주세요', true);
-      navigate(PATH.LOGIN);
 
       return;
     }
 
     if (errorCase === 'get') {
-      displayMessage((errorState.response?.data as any).message, true);
+      displayMessage(errorState.response?.data.message || '알 수 없는 에러가 발생했습니다.', true);
 
       return;
     }
@@ -106,6 +96,10 @@ class ErrorBoundary extends Component<
 
     const { error, errorCase } = this.state;
 
+    if (errorCase === 'unauthorized') {
+      return <Navigate to={PATH.LOGIN} />;
+    }
+
     if (errorCase === 'get') {
       return <FallbackComponent error={error} resetErrorBoundary={this.resetErrorBoundary} />;
     }
@@ -115,16 +109,13 @@ class ErrorBoundary extends Component<
 }
 
 const ErrorBoundaryWithHooks = ({ ...props }: PropsWithChildren<ErrorBoundaryProps>) => {
-  /** useQueryErrorResetBoundary 의도한 대로 잘 동작하지 않는다. */
-  // const { reset } = useQueryErrorResetBoundary();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const resetError = () => {
     queryClient.clear();
   };
 
-  return <ErrorBoundary navigate={navigate} onReset={resetError} {...props} />;
+  return <ErrorBoundary onReset={resetError} {...props} />;
 };
 
 export default ErrorBoundaryWithHooks;

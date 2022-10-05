@@ -19,7 +19,7 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
     return '-';
   }
 
-  const [year, month, day] = date.split(/[- ]/);
+  const [year, month, day] = date.split(/[-T]/);
 
   const propDateInstance = new Date(Number(year), Number(month) - 1, Number(day));
 
@@ -46,7 +46,7 @@ export const isBeforeToday = (date: string) => {
   const todayMonth = today.getMonth() + 1;
   const todayDay = today.getDate();
 
-  const [year, month, day] = date.split(/[- ]/);
+  const [year, month, day] = date.split(/[-T]/);
   const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
 
   const propYear = dateObj.getFullYear();
@@ -69,7 +69,7 @@ export const generateDDay = (date: string) => {
     return 999;
   }
 
-  const [year, month, day] = date.split(/[- ]/);
+  const [year, month, day] = date.split(/[-T]/);
 
   const propDateInstance = new Date(Number(year), Number(month) - 1, Number(day));
 
@@ -87,7 +87,7 @@ export const computeDay = (date: string) => {
     return '-';
   }
 
-  const [year, month, day] = date.split(/[- ]/);
+  const [year, month, day] = date.split(/[-T]/);
 
   const propDate = new Date(Number(year), Number(month) - 1, Number(day));
 
@@ -95,8 +95,8 @@ export const computeDay = (date: string) => {
 };
 
 export const sortByTime = (targetDateA: string, targetDateB: string) => {
-  const [yearA, monthA, dayA] = targetDateA.split(/[- ]/);
-  const [yearB, monthB, dayB] = targetDateB.split(/[- ]/);
+  const [yearA, monthA, dayA] = targetDateA.split(/[-T]/);
+  const [yearB, monthB, dayB] = targetDateB.split(/[-T]/);
 
   return Number(`${yearA}${monthA}${dayA}`) - Number(`${yearB}${monthB}${dayB}`);
 };

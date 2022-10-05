@@ -9,6 +9,9 @@
 === 로그인
 operation::auth-login[snippets='http-request,http-response']
 
+=== 구글 로그인
+operation::auth-google-login[snippets='http-request,http-response']
+
 === 회원가입
 operation::auth-signUp[snippets='http-request,http-response']
 

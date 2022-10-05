@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from '@/@components/@shared/Icon';
 import Position from '@/@components/@shared/Position';
 import { useFetchMe } from '@/@hooks/@queries/user';
+import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 
@@ -32,7 +33,7 @@ const Header = (props: HeaderProps) => {
       <Styled.Logo>
         {isMainPage ? (
           <Link to={PATH.LANDING}>
-            <img src='/assets/images/logo.png' alt='로고' width={36} height={36} />
+            <img src={logoImage} alt='로고' width={36} height={36} />
           </Link>
         ) : (
           <Icon

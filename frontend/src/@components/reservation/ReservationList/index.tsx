@@ -1,10 +1,10 @@
 import ReservationItem from '@/@components/reservation/ReservationItem';
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
 
 interface ReservationListProps {
-  reservatedCouponList: CouponResponse[];
+  reservatedCouponList: Coupon[];
 }
 
 const ReservationList = (props: ReservationListProps) => {
@@ -13,7 +13,7 @@ const ReservationList = (props: ReservationListProps) => {
   return (
     <Styled.Root>
       {reservatedCouponList.map(coupon => (
-        <ReservationItem key={coupon.couponId} reservatedCoupon={coupon} />
+        <ReservationItem key={coupon.id} reservatedCoupon={coupon} />
       ))}
     </Styled.Root>
   );

@@ -6,6 +6,7 @@ import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useAuthenticateForm } from '@/@hooks/ui/user/useAuthenticateForm';
+import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
 
 const JoinPage = () => {
@@ -26,7 +27,7 @@ const JoinPage = () => {
             align-items: center;
           `}
         >
-          <img src='/assets/images/logo.png' alt='로고' width={40} height={40} />
+          <img src={logoImage} alt='로고' width={40} height={40} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
         <Styled.FormRoot onSubmit={onSubmitForm}>
