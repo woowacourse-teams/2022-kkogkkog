@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useToast } from '@/@hooks/@common/useToast';
 import {
   useAddSlackAppMutation,
@@ -9,7 +7,6 @@ import {
   useOAuthSignupMutation,
   useReadAllHistoryMutation,
 } from '@/@hooks/@queries/user';
-import { PATH } from '@/Router';
 import { OAuthType } from '@/types/user/client';
 import { SignupRequest } from '@/types/user/remote';
 
@@ -49,7 +46,6 @@ export const useEditMe = () => {
 
 export function useOAuthLogin(oAuthType: OAuthType) {
   const loginMutate = useOAuthLoginMutation(oAuthType);
-  const navigate = useNavigate();
 
   const loginByOAuth = async (code: string) => {
     const response = await loginMutate.mutateAsync({ code });
@@ -57,43 +53,20 @@ export function useOAuthLogin(oAuthType: OAuthType) {
     return response?.data;
   };
 
-  const loginRedirect = async (code: string) => {
-    try {
-      const response = await loginByOAuth(code);
-
-      if (response.isNew) {
-        navigate(PATH.SIGNUP, { state: oAuthType });
-      } else {
-        navigate(PATH.MAIN, { replace: true });
-      }
-    } catch (error) {
-      navigate(PATH.MAIN, { replace: true });
-
-      throw error;
-    }
-  };
-
   return {
-    loginRedirect,
+    loginByOAuth,
   };
 }
 
 export const useAddSlackApp = () => {
-  const navigate = useNavigate();
   const addSlackAppMutate = useAddSlackAppMutation();
 
   const addSlackApp = (code: string) => {
     return addSlackAppMutate.mutateAsync({ code });
   };
 
-  const addSlackAppRedirect = async (code: string) => {
-    await addSlackApp(code);
-
-    navigate(PATH.MAIN, { replace: true });
-  };
-
   return {
-    addSlackAppRedirect,
+    addSlackApp,
   };
 };
 
