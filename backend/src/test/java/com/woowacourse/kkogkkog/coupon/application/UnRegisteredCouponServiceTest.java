@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
