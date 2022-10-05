@@ -43,7 +43,7 @@ public class UnregisteredCouponService {
     public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
         Member member = findMember(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
-        if (!unregisteredCoupon.isSender(member)) {
+        if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
         return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
@@ -74,7 +74,7 @@ public class UnregisteredCouponService {
     public void delete(Long memberId, Long unregisteredCouponId) {
         Member member = findMember(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
-        if (!unregisteredCoupon.isSender(member)) {
+        if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
         unregisteredCouponRepository.delete(unregisteredCoupon);
