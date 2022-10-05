@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import { useToast } from '@/@hooks/@common/useToast';
 import {
@@ -9,18 +10,15 @@ import {
   useOAuthSignupMutation,
   useReadAllHistoryMutation,
 } from '@/@hooks/@queries/user';
-import {
-  LoginResponse,
-  SignupRequest,
-  SignupResponse,
-  SlackSignupRequest,
-} from '@/types/user/remote';
+import { PATH } from '@/Router';
+import { OAuthType } from '@/types/user/client';
+import { SignupRequest, SignupResponse, SlackSignupRequest } from '@/types/user/remote';
 
 type SignupFunc = (body: SignupRequest) => Promise<AxiosResponse<SignupResponse>>;
 
 export function useOAuthSignup(oAuthType: 'slack'): { slackSignup: SignupFunc };
 export function useOAuthSignup(oAuthType: 'google'): { googleSignup: SignupFunc };
-export function useOAuthSignup(oAuthType: 'slack' | 'google') {
+export function useOAuthSignup(oAuthType: OAuthType) {
   const slackSignupMutate = useOAuthSignupMutation(oAuthType);
 
   const signupByOAuth = ({ nickname, accessToken }: SlackSignupRequest) => {
@@ -54,12 +52,13 @@ export const useEditMe = () => {
   return { editMe };
 };
 
-type LoginFunc = (code: string) => Promise<LoginResponse>;
+type LoginRedirectFunc = (code: string) => Promise<void>;
 
-export function useOAuthLogin(oAuthType: 'slack'): { slackLogin: LoginFunc };
-export function useOAuthLogin(oAuthType: 'google'): { googleLogin: LoginFunc };
-export function useOAuthLogin(oAuthType: 'slack' | 'google') {
+export function useOAuthLogin(oAuthType: 'slack'): { slackLoginRedirect: LoginRedirectFunc };
+export function useOAuthLogin(oAuthType: 'google'): { googleLoginRedirect: LoginRedirectFunc };
+export function useOAuthLogin(oAuthType: OAuthType) {
   const loginMutate = useOAuthLoginMutation(oAuthType);
+  const navigate = useNavigate();
 
   const loginByOAuth = async (code: string) => {
     const response = await loginMutate.mutateAsync({ code });
@@ -67,8 +66,24 @@ export function useOAuthLogin(oAuthType: 'slack' | 'google') {
     return response?.data;
   };
 
+  const loginRedirect = async (code: string) => {
+    try {
+      const response = await loginByOAuth(code);
+
+      if (response.isNew) {
+        navigate(PATH.SIGNUP, { state: oAuthType });
+      } else {
+        navigate(PATH.MAIN, { replace: true });
+      }
+    } catch (error) {
+      navigate(PATH.MAIN, { replace: true });
+
+      throw error;
+    }
+  };
+
   return {
-    [`${oAuthType}Login`]: loginByOAuth,
+    [`${oAuthType}LoginRedirect`]: loginRedirect,
   };
 }
 
