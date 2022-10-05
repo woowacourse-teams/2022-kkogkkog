@@ -158,8 +158,8 @@ public class UnRegisteredCouponServiceTest {
     }
 
     @Nested
-    @DisplayName("deleteByCouponCode 메서드는")
-    class DeleteByCouponCode {
+    @DisplayName("delete 메서드는")
+    class Delete {
 
         private Member sender;
 
@@ -174,11 +174,11 @@ public class UnRegisteredCouponServiceTest {
         void success() {
             List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
                 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
-            String couponCode = response.get(0).getCouponCode();
+            Long unregisteredCouponId = response.get(0).getId();
 
-            unregisteredCouponService.deleteByCouponCode(couponCode);
+            unregisteredCouponService.delete(sender.getId(), unregisteredCouponId);
 
-            Boolean isPresent = unregisteredCouponRepository.findByCouponCode(couponCode)
+            Boolean isPresent = unregisteredCouponRepository.findById(unregisteredCouponId)
                 .isPresent();
             assertThat(isPresent).isFalse();
         }
