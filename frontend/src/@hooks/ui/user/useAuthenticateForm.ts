@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useGoogleSignUp, useSlackSignUp } from '@/@hooks/business/user';
-import { OAuthType } from '@/@pages/join';
+import { useOAuthSignup } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
+import { OAuthType } from '@/types/user/client';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
 type UseAuthenticateFormProps = {
@@ -36,8 +36,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     (value: string) => value.length > 6,
   ]);
 
-  const { slackSignup } = useSlackSignUp();
-  const { googleSignup } = useGoogleSignUp();
+  const { slackSignup } = useOAuthSignup('slack');
+  const { googleSignup } = useOAuthSignup('google');
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();

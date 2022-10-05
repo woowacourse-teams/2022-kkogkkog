@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
-import { useSlackOAuthLogin } from '@/@hooks/business/user';
+import { useOAuthLogin } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 
 const SlackDirect = () => {
@@ -11,7 +11,7 @@ const SlackDirect = () => {
 
   const code = useGetSearchParam('code');
 
-  const { loginBySlackOAuth } = useSlackOAuthLogin();
+  const { slackLogin } = useOAuthLogin('slack');
 
   useEffect(() => {
     if (!code) {
@@ -20,7 +20,7 @@ const SlackDirect = () => {
 
     const slackLoginRedirect = async () => {
       try {
-        const response = await loginBySlackOAuth(code);
+        const response = await slackLogin(code);
 
         if (response.isNew) {
           navigate(PATH.SIGNUP, { state: 'slack' });

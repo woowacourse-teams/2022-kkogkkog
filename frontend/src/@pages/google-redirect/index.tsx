@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
-import { useGoogleOAuthLogin } from '@/@hooks/business/user';
+import { useOAuthLogin } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
 
 const GoogleDirect = () => {
@@ -11,7 +11,7 @@ const GoogleDirect = () => {
 
   const code = useGetSearchParam('code');
 
-  const { loginByGoogleOAuth } = useGoogleOAuthLogin();
+  const { googleLogin } = useOAuthLogin('google');
 
   useEffect(() => {
     if (!code) {
@@ -20,7 +20,7 @@ const GoogleDirect = () => {
 
     const googleLoginRedirect = async () => {
       try {
-        const response = await loginByGoogleOAuth(code);
+        const response = await googleLogin(code);
 
         if (response.isNew) {
           navigate(PATH.SIGNUP, { state: 'google' });

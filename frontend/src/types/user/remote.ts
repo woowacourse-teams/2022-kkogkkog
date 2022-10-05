@@ -2,7 +2,7 @@
 
 import { Member, UserCouponHistory } from './client';
 
-interface SignupRequest {
+export interface SignupRequest {
   nickname: string;
   accessToken: string;
 }
@@ -29,7 +29,7 @@ export interface SearchUserRequest {
 
 /** Response */
 
-interface LoginResponse {
+export interface LoginResponse {
   accessToken: string;
   isNew: boolean;
 }
