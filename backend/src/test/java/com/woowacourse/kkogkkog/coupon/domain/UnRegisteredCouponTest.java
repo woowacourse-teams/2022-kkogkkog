@@ -16,7 +16,7 @@ public class UnRegisteredCouponTest {
     class Constructor {
 
         @Test
-        @DisplayName("UUID4로 생성된 쿠폰코드를 가진 무기명 쿠폰을 생성한다.")
+        @DisplayName("UUID4로 생성된 쿠폰코드를 가진 미등록 쿠폰을 생성한다.")
         void success() {
             Member sender = SENDER.getMember();
 

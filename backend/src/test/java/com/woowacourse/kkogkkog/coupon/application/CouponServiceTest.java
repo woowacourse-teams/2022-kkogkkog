@@ -120,7 +120,7 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 무기명 쿠폰을 삭제한다.")
+        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 미등록 쿠폰을 삭제한다.")
         void success() {
             UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(
                 CouponFixture.COFFEE.getUnregisteredCoupon(sender));

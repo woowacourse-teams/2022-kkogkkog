@@ -4,7 +4,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveReq
 
 public class UnregisteredCouponDtoFixture {
 
-    public static UnregisteredCouponSaveRequest 무기명_COFFEE_쿠폰_발급_요청(Long senderId, int quantity) {
+    public static UnregisteredCouponSaveRequest 미등록_COFFEE_쿠폰_발급_요청(Long senderId, int quantity) {
         return new UnregisteredCouponSaveRequest(
             senderId,
             quantity,
