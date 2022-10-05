@@ -8,8 +8,7 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useAuthenticateForm } from '@/@hooks/ui/user/useAuthenticateForm';
 import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
-
-export type OAuthType = 'slack' | 'google';
+import { OAuthType } from '@/types/user/client';
 
 const JoinPage = () => {
   const oAuthType = useLocation().state as OAuthType;

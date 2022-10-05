@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
@@ -16,6 +15,7 @@ import {
   slackLogin,
   slackSignup,
 } from '@/apis/user';
+import { OAuthType } from '@/types/user/client';
 import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
@@ -113,8 +113,6 @@ const OAUTH_FETCHER_MAPPER = {
     signup: slackSignup,
   },
 };
-
-type OAuthType = keyof typeof OAUTH_FETCHER_MAPPER;
 
 export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
   const { displayMessage } = useToast();
