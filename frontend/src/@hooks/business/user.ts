@@ -11,12 +11,12 @@ import {
 } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import { OAuthType } from '@/types/user/client';
-import { SlackSignupRequest } from '@/types/user/remote';
+import { SignupRequest } from '@/types/user/remote';
 
 export function useOAuthSignup(oAuthType: OAuthType) {
   const slackSignupMutate = useOAuthSignupMutation(oAuthType);
 
-  const signupByOAuth = ({ nickname, accessToken }: SlackSignupRequest) => {
+  const signupByOAuth = ({ nickname, accessToken }: SignupRequest) => {
     return slackSignupMutate.mutateAsync({
       nickname,
       accessToken,
