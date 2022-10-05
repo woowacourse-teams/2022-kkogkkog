@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
@@ -102,12 +103,25 @@ export const useEditMeMutation = () => {
   });
 };
 
-export const useSlackLoginMutation = () => {
+const OAUTH_FETCHER_MAPPER = {
+  google: {
+    login: googleLogin,
+    signup: googleSignup,
+  },
+  slack: {
+    login: slackLogin,
+    signup: slackSignup,
+  },
+};
+
+type OAuthType = keyof typeof OAUTH_FETCHER_MAPPER;
+
+export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
   const { displayMessage } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(slackLogin, {
+  return useMutation(OAUTH_FETCHER_MAPPER[oAuthType].login, {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -130,51 +144,8 @@ export const useSlackLoginMutation = () => {
   });
 };
 
-export const useGoogleLoginMutation = () => {
-  const { displayMessage } = useToast();
-
-  const { showLoading, hideLoading } = useLoading();
-
-  return useMutation(googleLogin, {
-    onSuccess(response) {
-      const { isNew, accessToken } = response.data;
-
-      if (isNew) {
-        localStorage.setItem('signup-token', accessToken);
-      } else {
-        localStorage.setItem('user-token', accessToken);
-
-        client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-        displayMessage('로그인에 성공하였습니다.', false);
-      }
-    },
-    onMutate() {
-      showLoading();
-    },
-    onSettled() {
-      hideLoading();
-    },
-  });
-};
-
-// @TODO: OAuth 별 추상화
-export const useSlackSignupMutation = () => {
-  return useMutation(slackSignup, {
-    onSuccess(response) {
-      const { accessToken } = response.data;
-
-      localStorage.removeItem('signup-token');
-
-      localStorage.setItem('user-token', accessToken);
-
-      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-    },
-  });
-};
-
-export const useGoogleSignupMutation = () => {
-  return useMutation(googleSignup, {
+export const useOAuthSignupMutation = (oAuthType: OAuthType) => {
+  return useMutation(OAUTH_FETCHER_MAPPER[oAuthType].signup, {
     onSuccess(response) {
       const { accessToken } = response.data;
 
