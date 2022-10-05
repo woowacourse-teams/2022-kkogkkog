@@ -4,7 +4,6 @@ import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.coupon.application.UnregisteredCouponService;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,11 +34,18 @@ public class UnregisteredCouponController {
     }
 
     @GetMapping("/{unregisteredCouponId}")
-    public ResponseEntity<UnregisteredCouponDetailResponse> show(@LoginMemberId Long loginMemberId,
+    public ResponseEntity<UnregisteredCouponDetailResponse> showById(@LoginMemberId Long loginMemberId,
                                                                  @PathVariable Long unregisteredCouponId) {
-        UnregisteredCouponDetailResponse couponDetailResponse = unregisteredCouponService.findById(
+        UnregisteredCouponDetailResponse response = unregisteredCouponService.findById(
             loginMemberId, unregisteredCouponId);
-        return ResponseEntity.ok(couponDetailResponse);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/couponCode")
+    public ResponseEntity<UnregisteredCouponDetailResponse> showByCouponCode(@RequestParam String couponCode) {
+        UnregisteredCouponDetailResponse response = unregisteredCouponService.findByCouponCode(
+            couponCode);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
