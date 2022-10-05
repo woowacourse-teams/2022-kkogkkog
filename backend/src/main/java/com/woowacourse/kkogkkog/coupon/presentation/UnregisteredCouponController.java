@@ -42,7 +42,7 @@ public class UnregisteredCouponController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/couponCode")
+    @GetMapping("/code")
     public ResponseEntity<UnregisteredCouponDetailResponse> showByCouponCode(@RequestParam String couponCode) {
         UnregisteredCouponDetailResponse response = unregisteredCouponService.findByCouponCode(
             couponCode);

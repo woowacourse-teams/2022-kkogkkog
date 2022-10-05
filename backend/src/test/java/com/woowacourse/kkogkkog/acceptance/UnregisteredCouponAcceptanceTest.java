@@ -113,7 +113,7 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(String couponCode) {
-        return invokeGetWithQueryParams("/api/v2/coupons/unregistered/couponCode",
+        return invokeGetWithQueryParams("/api/v2/coupons/unregistered/code",
             Map.of("couponCode", couponCode));
     }
 
