@@ -3,7 +3,7 @@ package com.woowacourse.kkogkkog.coupon.application;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
-import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_발급_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -57,7 +57,7 @@ public class UnRegisteredCouponServiceTest {
         @Test
         @DisplayName("미등록 쿠폰들을 최대 5개 생성하고, 생성된 쿠폰들을 반환한다.")
         void success_saveAll() {
-            UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_발급_요청(sender.getId(), 5);
+            UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 5);
 
             List<UnregisteredCouponResponse> actual = unregisteredCouponService.save(request);
 
@@ -67,7 +67,7 @@ public class UnRegisteredCouponServiceTest {
         @Test
         @DisplayName("수량이 0개 이하 또는 5개 초과이면, 예외를 던진다.")
         void fail_quantity_excess() {
-            UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_발급_요청(sender.getId(), 6);
+            UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 6);
 
             assertThatThrownBy(() -> unregisteredCouponService.save(request))
                 .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
@@ -120,7 +120,7 @@ public class UnRegisteredCouponServiceTest {
         @DisplayName("미등록 쿠폰 아이디를 받으면, 상세 정보를 반환한다.")
         void success() {
             List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
-                미등록_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             Long unregisteredCouponId = response.get(0).getId();
 
             var actual = unregisteredCouponService.findById(unregisteredCouponId);
@@ -148,7 +148,7 @@ public class UnRegisteredCouponServiceTest {
         @DisplayName("쿠폰코드를 받으면, 미등록 쿠폰의 상세 정보를 반환한다.")
         void success() {
             List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
-                미등록_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             String couponCode = response.get(0).getCouponCode();
 
             var actual = unregisteredCouponService.findByCouponCode(couponCode);
@@ -173,7 +173,7 @@ public class UnRegisteredCouponServiceTest {
         @DisplayName("쿠폰코드를 받으면, 미등록 쿠폰을 논리적 삭제한다.")
         void success() {
             List<UnregisteredCouponResponse> response = unregisteredCouponService.save(
-                미등록_COFFEE_쿠폰_발급_요청(sender.getId(), 1));
+                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             String couponCode = response.get(0).getCouponCode();
 
             unregisteredCouponService.deleteByCouponCode(couponCode);
