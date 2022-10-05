@@ -90,4 +90,8 @@ public class Coupon extends BaseEntity {
         couponEvent.checkExecutable(sender.equals(member), receiver.equals(member));
         couponState.changeStatus(couponEvent);
     }
+
+    public boolean isSenderOrReceiver(Member member) {
+        return sender.equals(member) || receiver.equals(member);
+    }
 }

@@ -162,7 +162,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 상세_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.find(any())).willReturn(
+        given(couponService.find(any(), any())).willReturn(
             쿠폰_상세_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L),
                 쿠폰_상세_내역_응답(1L, ROOKIE.getMember(1L)))
         );
