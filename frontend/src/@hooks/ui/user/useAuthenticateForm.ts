@@ -3,23 +3,26 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useSlackSignUp } from '@/@hooks/business/user';
+import { useOAuthSignup } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
+import { OAuthType } from '@/types/user/client';
 import { nicknameRegularExpression } from '@/utils/regularExpression';
 
 type UseAuthenticateFormProps = {
+  oAuthType?: OAuthType;
   defaultEmail?: string;
   defaultPassword?: string;
   defaultConfirmPassword?: string;
-  defaultName?: string;
+  defaultNickname?: string;
 };
 
 export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const {
+    oAuthType,
     defaultEmail = '',
     defaultPassword = '',
     defaultConfirmPassword = '',
-    defaultName = '',
+    defaultNickname = '',
   } = props;
 
   const navigate = useNavigate();
@@ -29,26 +32,35 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
   const [email, onChangeEmail] = useInput(defaultEmail);
   const [password, onChangePassword] = useInput(defaultPassword);
   const [confirmPassword, onChangeConfirmPassword] = useInput(defaultConfirmPassword);
-  const [name, onChangeName] = useInput(defaultName, [(value: string) => value.length > 6]);
+  const [nickname, onChangeNickname] = useInput(defaultNickname, [
+    (value: string) => value.length > 6,
+  ]);
 
-  const { slackSignup } = useSlackSignUp();
+  const { signupByOAuth: slackSignup } = useOAuthSignup('slack');
+  const { signupByOAuth: googleSignup } = useOAuthSignup('google');
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
-    const slackSignupToken = localStorage.getItem('slack-signup-token');
+    const signupToken = localStorage.getItem('signup-token');
 
-    if (!slackSignupToken) {
+    if (!signupToken) {
       return;
     }
 
-    if (!name.match(nicknameRegularExpression)) {
+    if (!nickname.match(nicknameRegularExpression)) {
       displayMessage('잘못된 닉네임 형식입니다. (한글, 숫자, 영문자로 구성된 1~6글자)', true);
 
       return;
     }
 
-    await slackSignup({ name, slackSignupToken });
+    if (oAuthType === 'slack') {
+      await slackSignup({ nickname, accessToken: signupToken });
+    }
+
+    if (oAuthType === 'google') {
+      await googleSignup({ nickname, accessToken: signupToken });
+    }
 
     navigate(PATH.MAIN);
   };
@@ -66,13 +78,13 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       email,
       password,
       confirmPassword,
-      name,
+      nickname,
     },
     changeHandler: {
       onChangeEmail,
       onChangePassword,
       onChangeConfirmPassword,
-      onChangeName,
+      onChangeNickname,
     },
     submitHandler: {
       join: onSubmitJoinForm,

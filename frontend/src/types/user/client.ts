@@ -16,3 +16,5 @@ export interface UserCouponHistory {
   createdTime: YYYYMMDDhhmmss;
   isRead: boolean;
 }
+
+export type OAuthType = 'slack' | 'google';

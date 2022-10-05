@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
@@ -8,13 +8,15 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import { useAuthenticateForm } from '@/@hooks/ui/user/useAuthenticateForm';
 import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
+import { OAuthType } from '@/types/user/client';
 
 const JoinPage = () => {
+  const oAuthType = useLocation().state as OAuthType;
   const {
-    state: { name },
-    changeHandler: { onChangeName },
+    state: { nickname },
+    changeHandler: { onChangeNickname },
     submitHandler: { join: onSubmitForm },
-  } = useAuthenticateForm();
+  } = useAuthenticateForm({ oAuthType });
 
   return (
     <PageTemplate title='회원가입' hasHeader={false}>
@@ -37,8 +39,8 @@ const JoinPage = () => {
             label='닉네임'
             description='1~6자 사이의 닉네임을 입력해주세요'
             placeholder='닉네임'
-            value={name}
-            onChange={onChangeName}
+            value={nickname}
+            onChange={onChangeNickname}
             maxLength={6}
           />
           <Button>회원가입</Button>
