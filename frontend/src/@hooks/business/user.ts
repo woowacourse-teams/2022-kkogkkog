@@ -79,14 +79,21 @@ export function useOAuthLogin(oAuthType: OAuthType) {
 }
 
 export const useAddSlackApp = () => {
+  const navigate = useNavigate();
   const addSlackAppMutate = useAddSlackAppMutation();
 
   const addSlackApp = (code: string) => {
     return addSlackAppMutate.mutateAsync({ code });
   };
 
+  const addSlackAppRedirect = async (code: string) => {
+    await addSlackApp(code);
+
+    navigate(PATH.MAIN, { replace: true });
+  };
+
   return {
-    addSlackApp,
+    addSlackAppRedirect,
   };
 };
 
