@@ -27,7 +27,9 @@ const LoginPage = () => {
           <Icon iconName='slack' size='20' />
           슬랙으로 로그인
         </Styled.SlackLink>
-        <Styled.GoogleLink href='https://accounts.google.com/o/oauth2/auth?client_id=722307223606-9hllknij10hdojacsmk53s1dcehd22uk.apps.googleusercontent.com&redirect_uri=http://localhost:8080&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&access_type=offline'>
+        <Styled.GoogleLink
+          href={`https://accounts.google.com/o/oauth2/auth?client_id=722307223606-9hllknij10hdojacsmk53s1dcehd22uk.apps.googleusercontent.com&redirect_uri=${window.location.origin}/login/google/redirect&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&access_type=offline`}
+        >
           <Icon iconName='google' size='20' />
           구글로 로그인
         </Styled.GoogleLink>
