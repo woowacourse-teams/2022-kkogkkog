@@ -5,21 +5,27 @@ import Loading from '@/@components/@shared/Loading';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useOAuthLogin } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
+import { OAuthType } from '@/types/user/client';
 
-const GoogleDirect = () => {
+interface OAuthRedirectProps {
+  oAuthType: OAuthType;
+}
+
+const OAuthRedirect = (props: OAuthRedirectProps) => {
+  const { oAuthType } = props;
   const code = useGetSearchParam('code');
 
-  const { googleLoginRedirect } = useOAuthLogin('google');
+  const { loginRedirect } = useOAuthLogin(oAuthType);
 
   useEffect(() => {
     if (!code) {
       return;
     }
 
-    googleLoginRedirect(code);
+    loginRedirect(code);
   });
 
   return code ? <Loading /> : <Navigate to={PATH.MAIN} />;
 };
 
-export default GoogleDirect;
+export default OAuthRedirect;

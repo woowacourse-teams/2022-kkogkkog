@@ -23,7 +23,7 @@ const CouponRequestPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/
 const DownloadPage = lazy(() => import('@/@pages/download'));
 const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
-const SlackDirect = lazy(() => import('@/@pages/slack-redirect'));
+const OAuthRedirect = lazy(() => import('@/@pages/oauth-redirect'));
 const SlackDownloadRedirect = lazy(() => import('@/@pages/slack-download-redirect'));
 
 export const PATH = {
@@ -35,12 +35,13 @@ export const PATH = {
   COUPON_CREATE: '/coupon-list/create',
   LOGIN: '/login',
   SLACK_LOGIN_REDIRECT: '/login/redirect',
+  GOOGLE_LOGIN_REDIRECT: '/login/google/redirect',
+  SLACK_DOWNLOAD_REDIRECT: '/download/redirect',
   SIGNUP: '/signup',
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
   USER_HISTORY: '/history',
-  SLACK_DOWNLOAD_REDIRECT: '/download/redirect',
   DOWNLOAD: '/download',
   COUPON_DETAIL: '/coupon-list/:couponId',
   COUPON_REQUEST: '/coupon-list/:couponId/request',
@@ -72,9 +73,10 @@ const Router = () => {
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
-          <Route path={PATH.SLACK_LOGIN_REDIRECT} element={<SlackDirect />} />
-          <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
+          <Route path={PATH.SLACK_LOGIN_REDIRECT} element={<OAuthRedirect oAuthType='slack' />} />
+          <Route path={PATH.GOOGLE_LOGIN_REDIRECT} element={<OAuthRedirect oAuthType='google' />} />
           <Route path={PATH.SLACK_DOWNLOAD_REDIRECT} element={<SlackDownloadRedirect />} />
+          <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path={PATH.MAIN} element={<MainPage />} />
