@@ -97,7 +97,7 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
         return invokePostWithToken("/api/v2/coupons/unregistered", token, data);
     }
 
-    static UnregisteredCouponsResponse 미등록_쿠폰_생성을_요청하고(String token, Object data) {
+    public static UnregisteredCouponsResponse 미등록_쿠폰_생성을_요청하고(String token, Object data) {
         ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons/unregistered",
             token, data);
         return response.as(UnregisteredCouponsResponse.class);
