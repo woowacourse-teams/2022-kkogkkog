@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
-import Loading from '@/@components/@shared/Loading';
+import Redirect from '@/@components/@shared/Redirect';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useOAuthLogin } from '@/@hooks/business/user';
-import { PATH } from '@/Router';
 import { OAuthType } from '@/types/user/client';
 
 interface OAuthRedirectProps {
@@ -25,7 +23,7 @@ const OAuthRedirect = (props: OAuthRedirectProps) => {
     loginRedirect(code);
   });
 
-  return code ? <Loading /> : <Navigate to={PATH.MAIN} />;
+  return <Redirect code={code} />;
 };
 
 export default OAuthRedirect;

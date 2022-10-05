@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import Loading from '@/@components/@shared/Loading';
+import Redirect from '@/@components/@shared/Redirect';
 import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useAddSlackApp } from '@/@hooks/business/user';
 import { PATH } from '@/Router';
@@ -30,7 +30,7 @@ const SlackDownloadRedirect = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return code ? <Loading /> : <Navigate to={PATH.MAIN} />;
+  return <Redirect code={code} />;
 };
 
 export default SlackDownloadRedirect;
