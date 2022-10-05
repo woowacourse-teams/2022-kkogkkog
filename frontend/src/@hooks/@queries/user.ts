@@ -8,12 +8,10 @@ import {
   getMe,
   getUserHistoryList,
   getUserList,
-  googleLogin,
-  googleSignup,
+  oAuthLogin,
+  oAuthSignup,
   readAllHistory,
   slackAppDownload,
-  slackLogin,
-  slackSignup,
 } from '@/apis/user';
 import { OAuthType } from '@/types/user/client';
 import { UserHistoryListResponse } from '@/types/user/remote';
@@ -103,23 +101,12 @@ export const useEditMeMutation = () => {
   });
 };
 
-const OAUTH_FETCHER_MAPPER = {
-  google: {
-    login: googleLogin,
-    signup: googleSignup,
-  },
-  slack: {
-    login: slackLogin,
-    signup: slackSignup,
-  },
-};
-
 export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
   const { displayMessage } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(OAUTH_FETCHER_MAPPER[oAuthType].login, {
+  return useMutation(oAuthLogin(oAuthType), {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
@@ -143,7 +130,7 @@ export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
 };
 
 export const useOAuthSignupMutation = (oAuthType: OAuthType) => {
-  return useMutation(OAUTH_FETCHER_MAPPER[oAuthType].signup, {
+  return useMutation(oAuthSignup(oAuthType), {
     onSuccess(response) {
       const { accessToken } = response.data;
 

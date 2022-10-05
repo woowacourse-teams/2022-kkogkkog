@@ -7,19 +7,13 @@ export interface SignupRequest {
   accessToken: string;
 }
 
-export type SlackSignupRequest = SignupRequest;
-export type GoogleSignupRequest = SignupRequest;
-
 export interface SlackAppDownloadRequest {
   code: string;
 }
 
-interface LoginRequest {
+export interface LoginRequest {
   code: string;
 }
-
-export type SlackLoginRequest = LoginRequest;
-export type GoogleLoginRequest = LoginRequest;
 
 export type EditMeRequest = Pick<MeResponse, 'nickname'>;
 
@@ -34,15 +28,9 @@ export interface LoginResponse {
   isNew: boolean;
 }
 
-export type SlackLoginResponse = LoginResponse;
-export type GoogleLoginResponse = LoginResponse;
-
 export interface SignupResponse {
   accessToken: string;
 }
-
-export type SlackSignupResponse = SignupResponse;
-export type GoogleSignupResponse = SignupResponse;
 
 export interface UserResponse {
   id: number;

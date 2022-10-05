@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import { useToast } from '@/@hooks/@common/useToast';
@@ -12,12 +11,8 @@ import {
 } from '@/@hooks/@queries/user';
 import { PATH } from '@/Router';
 import { OAuthType } from '@/types/user/client';
-import { SignupRequest, SignupResponse, SlackSignupRequest } from '@/types/user/remote';
+import { SlackSignupRequest } from '@/types/user/remote';
 
-type SignupFunc = (body: SignupRequest) => Promise<AxiosResponse<SignupResponse>>;
-
-export function useOAuthSignup(oAuthType: 'slack'): { slackSignup: SignupFunc };
-export function useOAuthSignup(oAuthType: 'google'): { googleSignup: SignupFunc };
 export function useOAuthSignup(oAuthType: OAuthType) {
   const slackSignupMutate = useOAuthSignupMutation(oAuthType);
 
@@ -29,7 +24,7 @@ export function useOAuthSignup(oAuthType: OAuthType) {
   };
 
   return {
-    [`${oAuthType}Signup`]: signupByOAuth,
+    signupByOAuth,
   };
 }
 
@@ -52,10 +47,6 @@ export const useEditMe = () => {
   return { editMe };
 };
 
-type LoginRedirectFunc = (code: string) => Promise<void>;
-
-export function useOAuthLogin(oAuthType: 'slack'): { slackLoginRedirect: LoginRedirectFunc };
-export function useOAuthLogin(oAuthType: 'google'): { googleLoginRedirect: LoginRedirectFunc };
 export function useOAuthLogin(oAuthType: OAuthType) {
   const loginMutate = useOAuthLoginMutation(oAuthType);
   const navigate = useNavigate();
@@ -83,7 +74,7 @@ export function useOAuthLogin(oAuthType: OAuthType) {
   };
 
   return {
-    [`${oAuthType}LoginRedirect`]: loginRedirect,
+    loginRedirect,
   };
 }
 

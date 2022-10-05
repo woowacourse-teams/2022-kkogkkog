@@ -36,8 +36,8 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
     (value: string) => value.length > 6,
   ]);
 
-  const { slackSignup } = useOAuthSignup('slack');
-  const { googleSignup } = useOAuthSignup('google');
+  const { signupByOAuth: slackSignup } = useOAuthSignup('slack');
+  const { signupByOAuth: googleSignup } = useOAuthSignup('google');
 
   const onSubmitJoinForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
