@@ -47,28 +47,44 @@ public class UnregisteredCoupon extends BaseEntity {
     @Column(nullable = false)
     private CouponType couponType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UnregisteredCouponStatus unregisteredCouponType;
+
     @Column(nullable = false)
     private boolean deleted;
 
-    public UnregisteredCoupon(Long id, String couponCode, Member sender, String couponTag,
-                              String couponMessage, CouponType couponType) {
+    public UnregisteredCoupon(Long id,
+                              String couponCode,
+                              Member sender,
+                              String couponTag,
+                              String couponMessage,
+                              CouponType couponType,
+                              UnregisteredCouponStatus unregisteredCouponType) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
+        this.unregisteredCouponType = unregisteredCouponType;
     }
 
-    public UnregisteredCoupon(String couponCode, Member sender, String couponTag,
-                              String couponMessage, CouponType couponType) {
-        this(null, couponCode, sender, couponTag, couponMessage, couponType);
+    public UnregisteredCoupon(String couponCode,
+                              Member sender,
+                              String couponTag,
+                              String couponMessage,
+                              CouponType couponType,
+                              UnregisteredCouponStatus unregisteredCouponType) {
+        this(null, couponCode, sender, couponTag, couponMessage, couponType,
+            unregisteredCouponType);
     }
 
-    public static UnregisteredCoupon of(Member sender, String couponTag,
-                                        String couponMessage, CouponType couponType) {
+    public static UnregisteredCoupon of(Member sender, String couponTag, String couponMessage,
+                                        CouponType couponType) {
         UUID uuid = UUID.randomUUID();
-        return new UnregisteredCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType);
+        return new UnregisteredCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType,
+            UnregisteredCouponStatus.ISSUED);
     }
 
     public Coupon toCoupon(Member receiver) {
