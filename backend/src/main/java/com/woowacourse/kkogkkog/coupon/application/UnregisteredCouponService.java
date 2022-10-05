@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponRespons
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -39,8 +40,12 @@ public class UnregisteredCouponService {
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse findById(Long unregisteredCouponId) {
+    public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
+        Member member = findMember(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
+        if (!unregisteredCoupon.isSender(member)) {
+            throw new UnregisteredCouponNotAccessibleException();
+        }
         return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
     }
 

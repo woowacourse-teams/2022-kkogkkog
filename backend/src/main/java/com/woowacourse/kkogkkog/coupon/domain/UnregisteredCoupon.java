@@ -74,4 +74,8 @@ public class UnregisteredCoupon extends BaseEntity {
     public Coupon toCoupon(Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
+
+    public boolean isSender(Member member) {
+        return sender == member;
+    }
 }

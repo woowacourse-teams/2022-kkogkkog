@@ -123,7 +123,7 @@ public class UnRegisteredCouponServiceTest {
                 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             Long unregisteredCouponId = response.get(0).getId();
 
-            var actual = unregisteredCouponService.findById(unregisteredCouponId);
+            var actual = unregisteredCouponService.findById(sender.getId(), unregisteredCouponId);
 
             Long id = actual.getSender().getId();
             assertAll(
