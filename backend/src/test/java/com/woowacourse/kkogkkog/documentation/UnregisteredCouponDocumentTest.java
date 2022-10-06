@@ -10,6 +10,7 @@ import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDto
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -123,6 +124,23 @@ public class UnregisteredCouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("unregistered-coupon-show-code",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 나의_미등록_쿠폰_삭제_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+
+        ResultActions perform = mockMvc.perform(
+            delete("/api/v2/coupons/unregistered/1")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
+
+        perform.andExpect(status().isOk());
+
+        perform
+            .andDo(print())
+            .andDo(document("unregistered-coupon-delete",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }

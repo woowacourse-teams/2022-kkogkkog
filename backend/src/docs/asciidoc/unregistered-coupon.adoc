@@ -16,3 +16,6 @@ operation::unregistered-coupon-show-id[snippets='http-request,http-response']
 
 === 미등록 쿠폰 코드 단일 조회
 operation::unregistered-coupon-show-code[snippets='http-request,http-response']
+
+=== 미등록 쿠폰 삭제
+operation::unregistered-coupon-delete[snippets='http-request,http-response']
