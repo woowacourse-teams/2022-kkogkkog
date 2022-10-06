@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,20 +33,17 @@ public class UnregisteredCouponDetailResponse {
         this.createdTime = createdTime;
     }
 
-    public static UnregisteredCouponDetailResponse of(final UnregisteredCoupon coupon) {
+    public static UnregisteredCouponDetailResponse of(UnregisteredCoupon unregisteredCoupon) {
+        Member sender = unregisteredCoupon.getSender();
         return new UnregisteredCouponDetailResponse(
-            coupon.getId(),
-            coupon.getCouponCode(),
-            new CouponMemberResponse(
-                coupon.getSender().getId(),
-                coupon.getSender().getNickname(),
-                coupon.getSender().getImageUrl()
-            ),
-            coupon.getCouponTag(),
-            coupon.getCouponMessage(),
-            coupon.getCouponType().name(),
-            coupon.getUnregisteredCouponStatus().name(),
-            coupon.getCreatedTime()
+            unregisteredCoupon.getId(),
+            unregisteredCoupon.getCouponCode(),
+            CouponMemberResponse.of(sender),
+            unregisteredCoupon.getCouponTag(),
+            unregisteredCoupon.getCouponMessage(),
+            unregisteredCoupon.getCouponType().name(),
+            unregisteredCoupon.getUnregisteredCouponStatus().name(),
+            unregisteredCoupon.getCreatedTime()
         );
     }
 }
