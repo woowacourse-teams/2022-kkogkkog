@@ -2,12 +2,8 @@ package com.woowacourse.kkogkkog.documentation;
 
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
-import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
-import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
-import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_내역_응답;
-import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_응답;
@@ -20,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -34,6 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
 public class UnregisteredCouponDocumentTest extends DocumentTest {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
+    private static final String COUPON_CODE = "쿠폰코드";
 
     @Test
     void 미등록_쿠폰_생성_API() throws Exception {
@@ -103,6 +99,30 @@ public class UnregisteredCouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("unregistered-coupon-show-id",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 미등록_쿠폰_쿠폰코드_단일_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(unregisteredCouponService.findByCouponCode(any())).willReturn(
+            미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L), COUPON_CODE)
+        );
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/v2/coupons/unregistered/code")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .param("couponCode", COUPON_CODE));
+
+            perform.andExpect(status().isOk())
+                .andExpect(
+                    content().string(objectMapper.writeValueAsString(
+                        미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L), COUPON_CODE))));
+
+        perform
+            .andDo(print())
+            .andDo(document("unregistered-coupon-show-code",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }

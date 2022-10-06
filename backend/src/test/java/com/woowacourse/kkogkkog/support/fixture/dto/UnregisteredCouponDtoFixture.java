@@ -32,7 +32,7 @@ public class UnregisteredCouponDtoFixture {
                                                               Member sender) {
         return new UnregisteredCouponResponse(
             unregisteredCouponId,
-            "쿠폰-코드",
+            "쿠폰코드",
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
             "고마워요",
             "쿠폰에 대한 메시지",
@@ -45,7 +45,21 @@ public class UnregisteredCouponDtoFixture {
                                                                        Member sender) {
         return new UnregisteredCouponDetailResponse(
             unregisteredCouponId,
-            "쿠폰-코드",
+            "쿠폰코드",
+            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
+            "고마워요",
+            "쿠폰에 대한 메시지",
+            "COFFEE",
+            "ISSUED",
+            null);
+    }
+
+    public static UnregisteredCouponDetailResponse 미등록_COFFEE_쿠폰_상세_응답(Long unregisteredCouponId,
+                                                                       Member sender,
+                                                                       String couponCode) {
+        return new UnregisteredCouponDetailResponse(
+            unregisteredCouponId,
+            couponCode,
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
             "고마워요",
             "쿠폰에 대한 메시지",
