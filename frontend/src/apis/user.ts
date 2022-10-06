@@ -1,13 +1,14 @@
 import { client } from '@/apis';
+import { OAuthType } from '@/types/user/client';
 import {
   EditMeRequest,
+  LoginRequest,
+  LoginResponse,
   MeResponse,
   SearchUserRequest,
+  SignupRequest,
+  SignupResponse,
   SlackAppDownloadRequest,
-  SlackLoginRequest,
-  SlackLoginResponse,
-  SlackSignupRequest,
-  SlackSignupResponse,
   UserHistoryListResponse,
   UserListResponse,
 } from '@/types/user/remote';
@@ -26,11 +27,19 @@ export const getUserList = async () => {
   return data;
 };
 
-export const slackSignup = (body: SlackSignupRequest) =>
-  client.post<SlackSignupResponse>('/signup/token', body);
+export const oAuthSignup = (oAuthType: OAuthType) => (body: SignupRequest) => {
+  const endpoint = `signup/${oAuthType === 'slack' ? 'token' : 'google'}`;
 
-export const slackLogin = ({ code }: SlackLoginRequest) =>
-  client.get<SlackLoginResponse>(`/login/token?code=${code}`);
+  return client.post<SignupResponse>(endpoint, body);
+};
+
+export const oAuthLogin =
+  (oAuthType: OAuthType) =>
+  ({ code }: LoginRequest) => {
+    const endpoint = `login/${oAuthType === 'slack' ? 'token' : 'google'}`;
+
+    return client.get<LoginResponse>(`${endpoint}?code=${code}`);
+  };
 
 export const slackAppDownload = ({ code }: SlackAppDownloadRequest) =>
   client.post('/install/bot', { code });

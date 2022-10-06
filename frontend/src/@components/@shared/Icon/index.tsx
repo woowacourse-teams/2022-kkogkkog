@@ -30,10 +30,6 @@ export default Icon;
 
 const Styled = {
   Wrapper: styled.div<Pick<IconProps, 'size' | 'color' | 'hasCursor'>>`
-    & * {
-      fill: currentColor;
-    }
-
     ${({ size, color, hasCursor }) => css`
       color: ${color};
       width: ${size}px;

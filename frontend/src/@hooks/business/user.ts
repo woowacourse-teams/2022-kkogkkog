@@ -3,25 +3,27 @@ import {
   useAddSlackAppMutation,
   useEditMeMutation,
   useFetchUserHistoryList,
+  useOAuthLoginMutation,
+  useOAuthSignupMutation,
   useReadAllHistoryMutation,
-  useSlackLoginMutation,
-  useSlackSignupMutation,
 } from '@/@hooks/@queries/user';
+import { OAuthType } from '@/types/user/client';
+import { SignupRequest } from '@/types/user/remote';
 
-export const useSlackSignUp = () => {
-  const slackSignupMutate = useSlackSignupMutation();
+export function useOAuthSignup(oAuthType: OAuthType) {
+  const slackSignupMutate = useOAuthSignupMutation(oAuthType);
 
-  const slackSignup = ({ name, slackSignupToken }: { name: string; slackSignupToken: string }) => {
+  const signupByOAuth = ({ nickname, accessToken }: SignupRequest) => {
     return slackSignupMutate.mutateAsync({
-      nickname: name,
-      accessToken: slackSignupToken,
+      nickname,
+      accessToken,
     });
   };
 
   return {
-    slackSignup,
+    signupByOAuth,
   };
-};
+}
 
 export const useEditMe = () => {
   const { displayMessage } = useToast();
@@ -42,19 +44,19 @@ export const useEditMe = () => {
   return { editMe };
 };
 
-export const useSlackOAuthLogin = () => {
-  const loginMutate = useSlackLoginMutation();
+export function useOAuthLogin(oAuthType: OAuthType) {
+  const loginMutate = useOAuthLoginMutation(oAuthType);
 
-  const loginBySlackOAuth = async (code: string) => {
+  const loginByOAuth = async (code: string) => {
     const response = await loginMutate.mutateAsync({ code });
 
     return response?.data;
   };
 
   return {
-    loginBySlackOAuth,
+    loginByOAuth,
   };
-};
+}
 
 export const useAddSlackApp = () => {
   const addSlackAppMutate = useAddSlackAppMutation();

@@ -2,7 +2,7 @@
 
 import { Member, UserCouponHistory } from './client';
 
-export interface SlackSignupRequest {
+export interface SignupRequest {
   nickname: string;
   accessToken: string;
 }
@@ -11,7 +11,7 @@ export interface SlackAppDownloadRequest {
   code: string;
 }
 
-export interface SlackLoginRequest {
+export interface LoginRequest {
   code: string;
 }
 
@@ -23,12 +23,12 @@ export interface SearchUserRequest {
 
 /** Response */
 
-export interface SlackLoginResponse {
+export interface LoginResponse {
   accessToken: string;
   isNew: boolean;
 }
 
-export interface SlackSignupResponse {
+export interface SignupResponse {
   accessToken: string;
 }
 

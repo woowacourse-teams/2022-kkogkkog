@@ -8,11 +8,12 @@ import {
   getMe,
   getUserHistoryList,
   getUserList,
+  oAuthLogin,
+  oAuthSignup,
   readAllHistory,
   slackAppDownload,
-  slackLogin,
-  slackSignup,
 } from '@/apis/user';
+import { OAuthType } from '@/types/user/client';
 import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
@@ -100,17 +101,17 @@ export const useEditMeMutation = () => {
   });
 };
 
-export const useSlackLoginMutation = () => {
+export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
   const { displayMessage } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(slackLogin, {
+  return useMutation(oAuthLogin(oAuthType), {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
       if (isNew) {
-        localStorage.setItem('slack-signup-token', accessToken);
+        localStorage.setItem('signup-token', accessToken);
       } else {
         localStorage.setItem('user-token', accessToken);
 
@@ -128,12 +129,12 @@ export const useSlackLoginMutation = () => {
   });
 };
 
-export const useSlackSignupMutation = () => {
-  return useMutation(slackSignup, {
+export const useOAuthSignupMutation = (oAuthType: OAuthType) => {
+  return useMutation(oAuthSignup(oAuthType), {
     onSuccess(response) {
       const { accessToken } = response.data;
 
-      localStorage.removeItem('slack-signup-token');
+      localStorage.removeItem('signup-token');
 
       localStorage.setItem('user-token', accessToken);
 
