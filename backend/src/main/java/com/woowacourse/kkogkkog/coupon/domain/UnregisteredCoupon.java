@@ -94,4 +94,8 @@ public class UnregisteredCoupon extends BaseEntity {
     public boolean isNotSender(Member member) {
         return sender != member;
     }
+
+    public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
+        unregisteredCouponStatus.handle(unregisteredCouponEventType);
+    }
 }
