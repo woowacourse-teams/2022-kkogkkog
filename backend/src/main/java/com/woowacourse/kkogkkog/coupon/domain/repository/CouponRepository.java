@@ -50,6 +50,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.sender "
         + "JOIN FETCH c.receiver  "
         + "WHERE c.receiver = :member OR c.sender = :member "
+        + "AND c.couponState.meetingDate IS NOT NULL "
         + "AND c.couponState.meetingDate >= :nowDate "
         + "ORDER BY c.couponState.meetingDate DESC")
     List<Coupon> findAllByMemberAndMeetingDate(@Param("member") Member member,
