@@ -277,6 +277,9 @@ class CouponServiceTest {
             coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
                 sender, receiver, CouponType.COFFEE,
                 new CouponState(CouponStatus.ACCEPTED, meetingDate)));
+            couponRepository.save(ACCEPTED_COUPON.getCoupon(
+                sender, receiver, CouponType.COFFEE,
+                new CouponState(CouponStatus.READY, null)));
 
             List<CouponMeetingResponse> extract = couponService.findMeeting(sender.getId());
 
