@@ -49,7 +49,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "FROM Coupon c "
         + "JOIN FETCH c.sender "
         + "JOIN FETCH c.receiver  "
-        + "WHERE c.receiver = :member OR c.sender = :member "
+        + "WHERE (c.receiver = :member OR c.sender = :member) "
         + "AND c.couponState.meetingDate IS NOT NULL "
         + "AND c.couponState.meetingDate >= :nowDate "
         + "ORDER BY c.couponState.meetingDate DESC")
