@@ -7,6 +7,9 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import logoImage from '@/assets/images/logo.png';
 import { PATH } from '@/Router';
 
+const REDIRECT_URL =
+  PRODUCT_ENV === 'production' ? 'https%3A%2F%2Fkkogkkog.com' : 'https%3A%2F%2Fdev.kkogkkog.com';
+
 const LoginPage = () => {
   return (
     <PageTemplate title='로그인' hasHeader={false}>
@@ -23,12 +26,19 @@ const LoginPage = () => {
           <img src={logoImage} alt='로고' width={36} height={36} />
           <Styled.BrandName>꼭꼭</Styled.BrandName>
         </Link>
-        <Styled.SlackLink href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3863202543751'>
-          <Icon iconName='slack' size='20' />
-          슬랙으로 로그인
-        </Styled.SlackLink>
+        {PRODUCT_ENV === 'production' ? (
+          <Styled.SlackLink href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fkkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3863202543751'>
+            <Icon iconName='slack' size='20' />
+            슬랙으로 로그인
+          </Styled.SlackLink>
+        ) : (
+          <Styled.SlackLink href='https://slack.com/openid/connect/authorize?scope=openid%20email%20profile&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fdev.kkogkkog.com%2Flogin%2Fredirect&amp;client_id=3711114175136.3863202543751'>
+            <Icon iconName='slack' size='20' />
+            슬랙으로 로그인
+          </Styled.SlackLink>
+        )}
         <Styled.GoogleLink
-          href={`https://accounts.google.com/o/oauth2/auth?client_id=722307223606-9hllknij10hdojacsmk53s1dcehd22uk.apps.googleusercontent.com&redirect_uri=${window.location.origin}/login/google/redirect&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&access_type=offline`}
+          href={`https://accounts.google.com/o/oauth2/auth?client_id=722307223606-9hllknij10hdojacsmk53s1dcehd22uk.apps.googleusercontent.com&redirect_uri=${REDIRECT_URL}/login/google/redirect&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&access_type=offline`}
         >
           <Icon iconName='google' size='20' />
           구글로 로그인
