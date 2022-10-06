@@ -314,7 +314,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 회원의_보낸쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/v2/coupons/send", token);
+        return invokeGetWithToken("/api/v2/coupons/sent", token);
     }
 
     static ExtractableResponse<Response> 회원의_받은쿠폰_목록들을_조회한다(String token) {
