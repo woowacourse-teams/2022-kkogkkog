@@ -49,7 +49,7 @@ public class UnregisteredCoupon extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UnregisteredCouponStatus unregisteredCouponType;
+    private UnregisteredCouponStatus unregisteredCouponStatus;
 
     @Column(nullable = false)
     private boolean deleted;
@@ -60,14 +60,14 @@ public class UnregisteredCoupon extends BaseEntity {
                               String couponTag,
                               String couponMessage,
                               CouponType couponType,
-                              UnregisteredCouponStatus unregisteredCouponType) {
+                              UnregisteredCouponStatus unregisteredCouponStatus) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
-        this.unregisteredCouponType = unregisteredCouponType;
+        this.unregisteredCouponStatus = unregisteredCouponStatus;
     }
 
     public UnregisteredCoupon(String couponCode,
@@ -75,9 +75,9 @@ public class UnregisteredCoupon extends BaseEntity {
                               String couponTag,
                               String couponMessage,
                               CouponType couponType,
-                              UnregisteredCouponStatus unregisteredCouponType) {
+                              UnregisteredCouponStatus unregisteredCouponStatus) {
         this(null, couponCode, sender, couponTag, couponMessage, couponType,
-            unregisteredCouponType);
+            unregisteredCouponStatus);
     }
 
     public static UnregisteredCoupon of(Member sender, String couponTag, String couponMessage,
