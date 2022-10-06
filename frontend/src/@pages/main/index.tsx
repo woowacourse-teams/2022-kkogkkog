@@ -51,7 +51,7 @@ const MainPage = () => {
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
           <Link
-            to={PATH.COUPON_CREATE}
+            to={PATH.COUPON_CREATE_SELECT}
             css={css`
               margin-top: 30px;
             `}
