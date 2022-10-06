@@ -37,10 +37,10 @@ public class UnregisteredCoupon extends BaseEntity {
     @JoinColumn(name = "sender_member_id", nullable = false)
     private Member sender;
 
-    @Column(name = "hashtag", nullable = false)
+    @Column(nullable = false)
     private String couponTag;
 
-    @Column(name = "description", nullable = false)
+    @Column(nullable = false)
     private String couponMessage;
 
     @Enumerated(EnumType.STRING)

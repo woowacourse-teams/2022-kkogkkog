@@ -2,8 +2,8 @@ CREATE TABLE IF NOT EXISTS `unregistered_coupon` (
     `id` BIGINT NOT NULL AUTO_INCREMENT
     ,`sender_member_id` BIGINT NOT NULL
     ,`coupon_code` VARCHAR(255) NOT NULL
-    ,`description` VARCHAR(255) NOT NULL
-    ,`hashtag` VARCHAR(255) NOT NULL
+    ,`coupon_message` VARCHAR(255) NOT NULL
+    ,`coupon_tag` VARCHAR(255) NOT NULL
     ,`coupon_type` VARCHAR(255) NOT NULL
     ,`unregistered_coupon_status` VARCHAR(255) NOT NULL
     ,`deleted` BOOLEAN NOT NULL
