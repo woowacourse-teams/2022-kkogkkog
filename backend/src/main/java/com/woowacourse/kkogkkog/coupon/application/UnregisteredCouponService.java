@@ -29,6 +29,7 @@ public class UnregisteredCouponService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
         Member sender = findMember(memberId);
         return unregisteredCouponRepository.findAllBySender(sender).stream()
