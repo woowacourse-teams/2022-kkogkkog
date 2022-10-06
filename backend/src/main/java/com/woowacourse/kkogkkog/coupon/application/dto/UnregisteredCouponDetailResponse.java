@@ -16,19 +16,19 @@ public class UnregisteredCouponDetailResponse {
     private String couponTag;
     private String couponMessage;
     private String couponType;
-    private Boolean deleted;
+    private String unregisteredCouponStatus;
     private LocalDateTime createdTime;
 
     public UnregisteredCouponDetailResponse(Long id, String couponCode, CouponMemberResponse sender, String couponTag,
                                             String couponMessage, String couponType,
-                                            Boolean deleted, LocalDateTime createdTime) {
+                                            String unregisteredCouponStatus, LocalDateTime createdTime) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
-        this.deleted = deleted;
+        this.unregisteredCouponStatus = unregisteredCouponStatus;
         this.createdTime = createdTime;
     }
 
@@ -44,7 +44,7 @@ public class UnregisteredCouponDetailResponse {
             coupon.getCouponTag(),
             coupon.getCouponMessage(),
             coupon.getCouponType().name(),
-            coupon.isDeleted(),
+            coupon.getUnregisteredCouponStatus().name(),
             coupon.getCreatedTime()
         );
     }

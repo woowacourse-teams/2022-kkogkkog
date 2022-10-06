@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -126,9 +127,10 @@ public class UnRegisteredCouponServiceTest {
             var actual = unregisteredCouponService.findById(sender.getId(), unregisteredCouponId);
 
             Long id = actual.getSender().getId();
+            String unregisteredCouponStatus = actual.getUnregisteredCouponStatus();
             assertAll(
                 () -> assertThat(id).isEqualTo(sender.getId()),
-                () -> assertThat(actual.getDeleted()).isFalse());
+                () -> assertThat(unregisteredCouponStatus).isEqualTo(UnregisteredCouponStatus.ISSUED.name()));
         }
     }
 
