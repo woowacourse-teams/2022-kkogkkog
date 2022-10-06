@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UnregisteredCouponCreateRequest {
 
-    private int quantity;
+    private Integer quantity;
 
     private String couponTag;
 
@@ -21,7 +21,7 @@ public class UnregisteredCouponCreateRequest {
     @NotBlank(message = "쿠폰 타입을 입력해주세요")
     private String couponType;
 
-    public UnregisteredCouponCreateRequest(int quantity, String couponTag, String couponMessage,
+    public UnregisteredCouponCreateRequest(Integer quantity, String couponTag, String couponMessage,
                                            String couponType) {
         this.quantity = quantity;
         this.couponTag = couponTag;
