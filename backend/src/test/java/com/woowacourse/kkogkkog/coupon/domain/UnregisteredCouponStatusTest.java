@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.CONSUME;
+import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.REGISTER;
 import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.EXPIRE;
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.CONSUMED;
+import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.REGISTERED;
 import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.EXPIRED;
 import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.ISSUED;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,16 +18,16 @@ class UnregisteredCouponStatusTest {
 
     @Nested
     @DisplayName("상태가 ISSUED일 때")
-    class ISSUED {
+    class Issued {
 
         @Test
-        @DisplayName("CONSUME 이벤트를 받으면, CONSUMED를 반환한다.")
-        void success_consume() {
+        @DisplayName("REGISTER 이벤트를 받으면, REGISTERED 반환한다.")
+        void success_register() {
             UnregisteredCouponStatus status = ISSUED;
 
-            UnregisteredCouponStatus actual = status.handle(CONSUME);
+            UnregisteredCouponStatus actual = status.handle(REGISTER);
 
-            assertThat(actual).isEqualTo(CONSUMED);
+            assertThat(actual).isEqualTo(REGISTERED);
         }
 
         @Test
@@ -42,22 +42,22 @@ class UnregisteredCouponStatusTest {
     }
 
     @Nested
-    @DisplayName("상태가 CONSUMED일 때")
-    class CONSUMED {
+    @DisplayName("상태가 REGISTERED일 때")
+    class Registered {
 
         @Test
-        @DisplayName("CONSUME 이벤트를 받으면, 예외를 발생시킨다.")
-        void fail_consume() {
-            UnregisteredCouponStatus status = CONSUMED;
+        @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
+        void fail_register() {
+            UnregisteredCouponStatus status = REGISTERED;
 
-            assertThatThrownBy(() -> status.handle(CONSUME))
+            assertThatThrownBy(() -> status.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_expire() {
-            UnregisteredCouponStatus status = CONSUMED;
+            UnregisteredCouponStatus status = REGISTERED;
 
             assertThatThrownBy(() -> status.handle(EXPIRE))
                 .isInstanceOf(InvalidRequestException.class);
@@ -65,15 +65,15 @@ class UnregisteredCouponStatusTest {
     }
 
     @Nested
-    @DisplayName("상태가 EXPIRED일 때")
-    class EXPIRED {
+    @DisplayName("상태가 REGISTERED일 때")
+    class Expired {
 
         @Test
-        @DisplayName("CONSUME 이벤트를 받으면, 예외를 발생시킨다.")
-        void fail_consume() {
+        @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
+        void fail_register() {
             UnregisteredCouponStatus status = EXPIRED;
 
-            assertThatThrownBy(() -> status.handle(CONSUME))
+            assertThatThrownBy(() -> status.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
         }
 

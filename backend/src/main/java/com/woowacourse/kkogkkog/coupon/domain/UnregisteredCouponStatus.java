@@ -5,13 +5,13 @@ import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 public enum UnregisteredCouponStatus {
 
     ISSUED,
-    CONSUMED,
+    REGISTERED,
     EXPIRED,
     ;
 
     public UnregisteredCouponStatus handle(UnregisteredCouponEventType eventType) {
-        if (eventType == UnregisteredCouponEventType.CONSUME) {
-            return handleConsume();
+        if (eventType == UnregisteredCouponEventType.REGISTER) {
+            return handleRegister();
         }
         if (eventType == UnregisteredCouponEventType.EXPIRE) {
             return handleExpire();
@@ -19,11 +19,11 @@ public enum UnregisteredCouponStatus {
         throw new InvalidRequestException("처리할 수 없는 요청입니다.");
     }
 
-    private UnregisteredCouponStatus handleConsume() {
+    private UnregisteredCouponStatus handleRegister() {
         if (this != ISSUED) {
             throw new InvalidRequestException("사용 할 수 없는 상태의 미등록 쿠폰입니다.");
         }
-        return CONSUMED;
+        return REGISTERED;
     }
 
     private UnregisteredCouponStatus handleExpire() {
