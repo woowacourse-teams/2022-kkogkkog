@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.support.fixture.dto;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
@@ -27,8 +28,22 @@ public class UnregisteredCouponDtoFixture {
         );
     }
 
-    public static UnregisteredCouponResponse 미등록_COFFEE_쿠폰_응답(Long unregisteredCouponId, Member sender) {
+    public static UnregisteredCouponResponse 미등록_COFFEE_쿠폰_응답(Long unregisteredCouponId,
+                                                              Member sender) {
         return new UnregisteredCouponResponse(
+            unregisteredCouponId,
+            "쿠폰-코드",
+            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
+            "고마워요",
+            "쿠폰에 대한 메시지",
+            "COFFEE",
+            "ISSUED",
+            null);
+    }
+
+    public static UnregisteredCouponDetailResponse 미등록_COFFEE_쿠폰_상세_응답(Long unregisteredCouponId,
+                                                                       Member sender) {
+        return new UnregisteredCouponDetailResponse(
             unregisteredCouponId,
             "쿠폰-코드",
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),

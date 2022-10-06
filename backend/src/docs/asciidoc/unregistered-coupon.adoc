@@ -11,3 +11,5 @@ operation::unregistered-coupon-create[snippets='http-request,http-response']
 === 나의 미등록 쿠폰 조회
 operation::unregistered-coupon-showAll[snippets='http-request,http-response']
 
+=== 미등록_쿠폰_아이디_단일_조회
+operation::unregistered-coupon-show-id[snippets='http-request,http-response']

@@ -6,6 +6,9 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTH
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_내역_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_응답;
 import static org.mockito.ArgumentMatchers.any;
@@ -77,6 +80,29 @@ public class UnregisteredCouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("unregistered-coupon-showAll",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 미등록_쿠폰_아이디_단일_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(unregisteredCouponService.findById(any(), any())).willReturn(
+            미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L))
+        );
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/v2/coupons/unregistered/1")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L)))));
+
+        perform
+            .andDo(print())
+            .andDo(document("unregistered-coupon-show-id",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
