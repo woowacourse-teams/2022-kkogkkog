@@ -96,6 +96,10 @@ public class UnregisteredCoupon extends BaseEntity {
     }
 
     public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
-        unregisteredCouponStatus.handle(unregisteredCouponEventType);
+        updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
+    }
+
+    private void updateUnregisteredCouponStatus(UnregisteredCouponStatus unregisteredCouponStatus) {
+        this.unregisteredCouponStatus = unregisteredCouponStatus;
     }
 }

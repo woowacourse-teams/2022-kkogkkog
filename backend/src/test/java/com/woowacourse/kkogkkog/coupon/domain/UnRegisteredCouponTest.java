@@ -25,4 +25,21 @@ public class UnRegisteredCouponTest {
             assertThat(unregisteredCoupon.getCouponCode()).isNotNull();
         }
     }
+
+    @Nested
+    @DisplayName("changeStatus 매서드는")
+    class ChangeStatus {
+
+        @Test
+        @DisplayName("UnregisteredCouponEventType을 통해서 UnregisteredCouponStatus를 변경한다.")
+        void success() {
+            Member sender = SENDER.getMember();
+            UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
+
+            unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
+
+            UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
+            assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
+        }
+    }
 }

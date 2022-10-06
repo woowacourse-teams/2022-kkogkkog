@@ -26,6 +26,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
@@ -122,7 +123,7 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 미등록 쿠폰을 삭제한다.")
+        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 미등록 쿠폰을 REGISTERED 상태로 변경한다.")
         void success() {
             UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(
                 CouponFixture.COFFEE.getUnregisteredCoupon(sender));
@@ -130,9 +131,8 @@ class CouponServiceTest {
 
             couponService.saveByCouponCode(receiver.getId(), couponCode);
 
-            Boolean isPresent = unregisteredCouponRepository.findById(unregisteredCoupon.getId())
-                .isPresent();
-            assertThat(isPresent).isFalse();
+            UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
+            assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
         }
     }
 
