@@ -28,8 +28,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationTest
-@DisplayName("UnRegisteredCouponService의")
-public class UnRegisteredCouponServiceTest {
+@DisplayName("UnregisteredCouponService의")
+public class UnregisteredCouponServiceTest {
 
     @Autowired
     private UnregisteredCouponService unregisteredCouponService;
@@ -56,7 +56,7 @@ public class UnRegisteredCouponServiceTest {
         }
 
         @Test
-        @DisplayName("미등록 쿠폰들을 최대 5개 생성하고, 생성된 쿠폰들을 반환한다.")
+        @DisplayName("미등록 쿠폰들을 생성하고, 생성된 쿠폰들을 반환한다.")
         void success_saveAll() {
             UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 5);
 
@@ -66,7 +66,7 @@ public class UnRegisteredCouponServiceTest {
         }
 
         @Test
-        @DisplayName("수량이 0개 이하 또는 5개 초과이면, 예외를 던진다.")
+        @DisplayName("발급하려는 수량이 최댓값보다 크면, 예외를 던진다.")
         void fail_quantity_excess() {
             UnregisteredCouponSaveRequest request = 미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 6);
 
