@@ -72,7 +72,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/send")
+            get("/api/v2/coupons/sent")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -82,7 +82,7 @@ class CouponDocumentTest extends DocumentTest {
 
         perform
             .andDo(print())
-            .andDo(document("coupon-showAll-send",
+            .andDo(document("coupon-showAll-sent",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
