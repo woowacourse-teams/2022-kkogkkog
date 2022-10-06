@@ -10,6 +10,7 @@ export interface UnregisteredCoupon {
   id: number;
   couponCode: string;
   sender: Member;
+  receiver: Member | null;
   couponTag: COUPON_HASHTAGS;
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
