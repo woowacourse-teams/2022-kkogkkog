@@ -20,9 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UnregisteredCouponService {
 
-    private static final int MINIMUM_QUANTITY = 0;
-    private static final int MAXIMUM_QUANTITY = 5;
-
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final MemberRepository memberRepository;
 
@@ -57,18 +54,12 @@ public class UnregisteredCouponService {
 
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {
         int quantity = request.getQuantity();
-        if (!canSave(quantity)) {
-            throw new UnregisteredCouponQuantityExcessException();
-        }
+        UnregisteredCoupon.validateQuantity(quantity);
         Member sender = findMember(request.getSenderId());
         List<UnregisteredCoupon> unregisteredCoupons = request.toEntities(sender);
         return unregisteredCouponRepository.saveAll(unregisteredCoupons).stream()
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
-    }
-
-    private boolean canSave(int quantity) {
-        return MINIMUM_QUANTITY < quantity && quantity <= MAXIMUM_QUANTITY;
     }
 
     public void delete(Long memberId, Long unregisteredCouponId) {

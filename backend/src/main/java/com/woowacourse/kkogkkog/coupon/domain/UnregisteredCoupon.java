@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -25,6 +26,9 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql = "UPDATE unregistered_coupon c SET c.deleted = true WHERE c.id=?")
 @Getter
 public class UnregisteredCoupon extends BaseEntity {
+
+    private static final int MINIMUM_QUANTITY = 0;
+    private static final int MAXIMUM_QUANTITY = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,6 +91,12 @@ public class UnregisteredCoupon extends BaseEntity {
             UnregisteredCouponStatus.ISSUED);
     }
 
+    public static void validateQuantity(int quantity) {
+        if (quantity <= MINIMUM_QUANTITY || quantity > MAXIMUM_QUANTITY) {
+            throw new UnregisteredCouponQuantityExcessException();
+        }
+    }
+
     public Coupon toCoupon(Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
@@ -96,7 +106,8 @@ public class UnregisteredCoupon extends BaseEntity {
     }
 
     public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
-        updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
+        updateUnregisteredCouponStatus(
+            unregisteredCouponStatus.handle(unregisteredCouponEventType));
     }
 
     private void updateUnregisteredCouponStatus(UnregisteredCouponStatus unregisteredCouponStatus) {

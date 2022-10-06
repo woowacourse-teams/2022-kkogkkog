@@ -3,7 +3,9 @@ package com.woowacourse.kkogkkog.coupon.domain;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,6 +25,18 @@ public class UnRegisteredCouponTest {
             UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
 
             assertThat(unregisteredCoupon.getCouponCode()).isNotNull();
+        }
+    }
+
+    @Nested
+    @DisplayName("validateQuantity 정적 메서드는")
+    class ValidateQuantity {
+
+        @Test
+        @DisplayName("수량이 5를 초과하면 예외를 던진다.")
+        void fail_exceed() {
+            assertThatThrownBy(() -> UnregisteredCoupon.validateQuantity(6))
+                .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
         }
     }
 
