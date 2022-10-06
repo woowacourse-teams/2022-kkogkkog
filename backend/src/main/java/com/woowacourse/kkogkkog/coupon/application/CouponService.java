@@ -104,7 +104,7 @@ public class CouponService {
     public void updateStatus(CouponStatusRequest request) {
         CouponEvent event = request.getEvent();
         Member loginMember = findMember(request.getMemberId());
-        Coupon coupon = findCoupon(request.getCouponId());
+        Coupon coupon = couponRepository.findByIdWithLock(request.getCouponId());
         coupon.changeState(event, loginMember);
         saveCouponHistory(CouponHistory.of(loginMember, coupon, event, request.getMessage()));
     }
