@@ -5,6 +5,7 @@ import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
 import { CouponListPageFallback } from '@/@pages/coupon-list';
+import UnregisteredCouponCreate from '@/@pages/unregistered-coupon-list/create';
 
 import { useFetchMe } from './@hooks/@queries/user';
 
@@ -25,6 +26,7 @@ const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
 const OAuthRedirect = lazy(() => import('@/@pages/oauth-redirect'));
 const SlackDownloadRedirect = lazy(() => import('@/@pages/slack-download-redirect'));
+const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
 
 export const PATH = {
   MAIN: '/',
@@ -33,6 +35,8 @@ export const PATH = {
   SENT_COUPON_LIST: '/coupon-list/sent',
   RECEIVED_COUPON_LIST: '/coupon-list/received',
   COUPON_CREATE: '/coupon-list/create',
+  UNREGISTERED_COUPON_CREATE: '/unregistered-coupon-list/create',
+  COUPON_CREATE_SELECT: '/coupon-create-select',
   LOGIN: '/login',
   SLACK_LOGIN_REDIRECT: '/login/redirect',
   GOOGLE_LOGIN_REDIRECT: '/login/google/redirect',
@@ -96,7 +100,9 @@ const Router = () => {
               </Suspense>
             }
           />
+          <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
+          <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}
