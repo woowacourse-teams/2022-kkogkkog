@@ -69,6 +69,18 @@ export const ListTitle = styled.div`
   }
 `;
 
+export const UnRegisteredCouponSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const UnRegisteredCouponSectionInner = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const ExtendedLink = (theme: Theme) => css`
   font-size: 12px;
   color: ${theme.colors.white_100};
@@ -88,4 +100,16 @@ export const ExtendedButton = css`
 
   font-size: 16px;
   padding: 13px 45px 13px 20px;
+`;
+
+export const ExtendedUnRegisteredCouponMoreButton = css`
+  width: 200px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  font-size: 16px;
+  padding: 13px 0;
 `;

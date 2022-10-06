@@ -12,6 +12,7 @@ import { useFetchMe } from './@hooks/@queries/user';
 const NotFoundPage = lazy(() => import('@/@pages/404'));
 const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
+const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
@@ -36,6 +37,7 @@ export const PATH = {
   RECEIVED_COUPON_LIST: '/coupon-list/received',
   COUPON_CREATE: '/coupon-list/create',
   UNREGISTERED_COUPON_CREATE: '/unregistered-coupon-list/create',
+  UNREGISTERED_COUPON: '/unregistered-coupon-list',
   COUPON_CREATE_SELECT: '/coupon-create-select',
   LOGIN: '/login',
   SLACK_LOGIN_REDIRECT: '/login/redirect',
@@ -103,6 +105,14 @@ const Router = () => {
           <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
+          <Route
+            path={PATH.UNREGISTERED_COUPON}
+            element={
+              <Suspense fallback={<CouponListPageFallback />}>
+                <UnRegisteredCouponList />
+              </Suspense>
+            }
+          />
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}
