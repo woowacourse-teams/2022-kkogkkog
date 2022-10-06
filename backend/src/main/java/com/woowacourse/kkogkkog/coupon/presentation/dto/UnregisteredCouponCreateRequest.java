@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class UnregisteredCouponCreateRequest {
 
     private Integer quantity;
-
     private String couponTag;
 
     @Size(max = 50)

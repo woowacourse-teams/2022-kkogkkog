@@ -21,7 +21,7 @@ public enum UnregisteredCouponStatus {
 
     private UnregisteredCouponStatus handleRegister() {
         if (this != ISSUED) {
-            throw new InvalidRequestException("사용 할 수 없는 상태의 미등록 쿠폰입니다.");
+            throw new InvalidRequestException("등록 할 수 없는 상태의 미등록 쿠폰입니다.");
         }
         return REGISTERED;
     }
