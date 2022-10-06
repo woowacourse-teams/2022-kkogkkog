@@ -36,10 +36,8 @@ public enum CouponFixture {
                             Member receiver,
                             CouponType couponType,
                             CouponState couponState) {
-
-        return new Coupon(
-            null, sender, receiver, couponMessage,
-            couponTag, couponType, couponState);
+        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType,
+            couponState);
     }
 
     public UnregisteredCoupon getUnregisteredCoupon(Member sender) {
