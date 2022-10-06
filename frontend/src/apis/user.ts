@@ -38,7 +38,7 @@ export const oAuthLogin =
   ({ code }: LoginRequest) => {
     const endpoint = `login/${oAuthType === 'slack' ? 'token' : 'google'}`;
 
-    return client.post<LoginResponse>(`${endpoint}?code=${code}}`);
+    return client.get<LoginResponse>(`${endpoint}?code=${code}`);
   };
 
 export const slackAppDownload = ({ code }: SlackAppDownloadRequest) =>
