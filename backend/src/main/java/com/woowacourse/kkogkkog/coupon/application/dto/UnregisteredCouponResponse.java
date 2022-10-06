@@ -17,33 +17,33 @@ public class UnregisteredCouponResponse {
     private String couponTag;
     private String couponMessage;
     private String couponType;
-    private Boolean deleted;
+    private String unregisteredCouponStatus;
     private LocalDateTime createdTime;
 
     public UnregisteredCouponResponse(Long id, String couponCode, CouponMemberResponse sender,
                                       String couponTag, String couponMessage, String couponType,
-                                      Boolean deleted, LocalDateTime createdTime) {
+                                      String unregisteredCouponStatus, LocalDateTime createdTime) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
-        this.deleted = deleted;
+        this.unregisteredCouponStatus = unregisteredCouponStatus;
         this.createdTime = createdTime;
     }
 
     // todo: CouponResponse 동일하게 구현. getter 불편하여 리팩터링 필요!
-    public static UnregisteredCouponResponse of(UnregisteredCoupon coupon) {
-        Member sender = coupon.getSender();
+    public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
+        Member sender = unregisteredCoupon.getSender();
         return new UnregisteredCouponResponse(
-            coupon.getId(),
-            coupon.getCouponCode(),
-            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            coupon.getCouponTag(),
-            coupon.getCouponMessage(),
-            coupon.getCouponType().name(),
-            coupon.isDeleted(),
-            coupon.getCreatedTime());
+            unregisteredCoupon.getId(),
+            unregisteredCoupon.getCouponCode(),
+            CouponMemberResponse.of(sender),
+            unregisteredCoupon.getCouponTag(),
+            unregisteredCoupon.getCouponMessage(),
+            unregisteredCoupon.getCouponType().name(),
+            unregisteredCoupon.getUnregisteredCouponStatus().name(),
+            unregisteredCoupon.getCreatedTime());
     }
 }
