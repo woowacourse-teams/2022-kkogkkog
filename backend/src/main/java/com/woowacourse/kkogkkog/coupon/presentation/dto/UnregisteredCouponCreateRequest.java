@@ -13,7 +13,6 @@ public class UnregisteredCouponCreateRequest {
 
     private int quantity;
 
-    // TODO: add validation
     private String couponTag;
 
     @Size(max = 50)

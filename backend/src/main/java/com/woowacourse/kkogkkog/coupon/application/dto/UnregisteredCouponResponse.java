@@ -33,7 +33,6 @@ public class UnregisteredCouponResponse {
         this.createdTime = createdTime;
     }
 
-    // todo: CouponResponse 동일하게 구현. getter 불편하여 리팩터링 필요!
     public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
         Member sender = unregisteredCoupon.getSender();
         return new UnregisteredCouponResponse(
