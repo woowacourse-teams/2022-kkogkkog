@@ -7,3 +7,7 @@
 == UnregisteredCoupon
 === 미등록 쿠폰 생성
 operation::unregistered-coupon-create[snippets='http-request,http-response']
+
+=== 나의 미등록 쿠폰 조회
+operation::unregistered-coupon-showAll[snippets='http-request,http-response']
+
