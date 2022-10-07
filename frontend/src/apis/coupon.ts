@@ -64,4 +64,4 @@ export const changeCouponStatus = ({
 }: {
   couponId: number;
   body: ChangeCouponStatusRequest;
-}) => client.put(`/coupon/${couponId}/event`, body);
+}) => client.put(`/coupons/${couponId}/event`, body);
