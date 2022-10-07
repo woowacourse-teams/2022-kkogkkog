@@ -13,16 +13,11 @@ export const Root = styled.div<{ backgroundColor: string }>`
   `}
 `;
 
-export const HiddenRoot = styled.div<{ backgroundColor: string }>`
+export const HiddenRoot = styled.div`
   padding: 3px 5px;
   border-radius: 20px;
 
   font-size: 12px;
-
-  ${({ theme, backgroundColor }) => css`
-    color: ${theme.colors.white_100};
-    background-color: ${backgroundColor};
-  `}
 
   visibility: hidden;
 `;

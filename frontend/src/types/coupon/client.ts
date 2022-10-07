@@ -13,6 +13,7 @@ export const couponTypeCollection = [
 export const couponListType = ['received', 'sent'] as const;
 
 export const couponEvent = ['INIT', 'REQUEST', 'CANCEL', 'DECLINE', 'ACCEPT', 'FINISH'] as const;
+
 export const couponStatus = ['REQUESTED', 'READY', 'ACCEPTED', 'FINISHED'] as const;
 
 export const couponHashtags = [
@@ -40,7 +41,10 @@ export type COUPON_LIST_TYPE = typeof couponListType[number];
 export type COUPON_HASHTAGS = typeof couponHashtags[number];
 
 export type COUPON_EVENT = typeof couponEvent[number];
+
 export type COUPON_STATUS = typeof couponStatus[number];
+
+export type COUPON_MEETING_DATE = YYYYMMDDhhmmss;
 
 export interface Coupon {
   id: number;
@@ -50,7 +54,7 @@ export interface Coupon {
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
-  meetingDate: YYYYMMDDhhmmss;
+  meetingDate: COUPON_MEETING_DATE;
   createdTime: YYYYMMDDhhmmss;
 }
 
@@ -61,11 +65,11 @@ export interface CouponHistory {
   couponType: COUPON_ENG_TYPE;
   couponEvent: COUPON_EVENT;
   meetingMessage: string;
-  meetingDate: YYYYMMDDhhmmss;
+  meetingDate: COUPON_MEETING_DATE;
   createdTime: YYYYMMDDhhmmss;
 }
 
 export interface Reservation {
-  meetingDate: YYYYMMDDhhmmss;
+  meetingDate: COUPON_MEETING_DATE;
   coupons: Coupon[];
 }

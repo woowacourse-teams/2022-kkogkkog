@@ -1,6 +1,14 @@
-const week = ['일', '월', '화', '수', '목', '금', '토'];
+import { MMDD_KR, YYYYMMDD, YYYYMMDD_KR, YYYYMMDDhhmmss } from '@/types/utils';
 
-export const getToday = () => {
+const week = ['일', '월', '화', '수', '목', '금', '토'] as const;
+
+type Week = typeof week[number];
+
+export const addZero = (num: number): string => {
+  return Math.floor(num / 10) === 0 ? `0${num}` : String(num);
+};
+
+export const getTodayDate = (): YYYYMMDD => {
   const now = new Date();
 
   const year = now.getFullYear();
@@ -10,13 +18,12 @@ export const getToday = () => {
   return `${year}-${month}-${date}`;
 };
 
-export const addZero = (num: number): string => {
-  return Math.floor(num / 10) === 0 ? `0${num}` : String(num);
-};
-
-export const generateDateText = (date: string | undefined, includeYear = false) => {
+export const generateDateKR = (
+  date: YYYYMMDDhhmmss,
+  includeYear = false
+): YYYYMMDD_KR | MMDD_KR | '' => {
   if (!date) {
-    return '-';
+    return '';
   }
 
   const [year, month, day] = date.split(/[-T]/);
@@ -27,44 +34,19 @@ export const generateDateText = (date: string | undefined, includeYear = false) 
   const propMonth = propDateInstance.getMonth() + 1;
   const propDay = propDateInstance.getDate();
 
-  const dateText = includeYear
-    ? propYear &&
-      propMonth &&
-      propDay &&
-      `${propYear}년 ${Number(propMonth)}월 ${Number(propDay)}일`
-    : propMonth && propDay && `${Number(propMonth)}월 ${Number(propDay)}일`;
-
-  return dateText;
+  return includeYear ? `${propYear}년 ${propMonth}월 ${propDay}일` : `${propMonth}월 ${propDay}일`;
 };
 
-// 2022-08-15 형식의 텍스트가 들어옴.
-// @TODO: string 타입 구체적으로 좁히기
-export const isBeforeToday = (date: string) => {
-  const today = new Date();
-
-  const todayYear = today.getFullYear();
-  const todayMonth = today.getMonth() + 1;
-  const todayDay = today.getDate();
+export const isBeforeToday = (date: YYYYMMDD | YYYYMMDDhhmmss): boolean => {
+  const todayDate = new Date();
 
   const [year, month, day] = date.split(/[-T]/);
-  const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+  const propDate = new Date(Number(year), Number(month) - 1, Number(day));
 
-  const propYear = dateObj.getFullYear();
-  const propMonth = dateObj.getMonth() + 1;
-  const propDay = dateObj.getDate();
-
-  if (todayYear > propYear) {
-    return true;
-  } else if (todayMonth > propMonth) {
-    return true;
-  } else if (todayDay > propDay) {
-    return true;
-  }
-
-  return false;
+  return todayDate.getTime() > propDate.getTime();
 };
 
-export const generateDDay = (date: string) => {
+export const generateDday = (date: YYYYMMDDhhmmss): number => {
   if (!date) {
     return 999;
   }
@@ -82,9 +64,9 @@ export const generateDDay = (date: string) => {
   return dDay > 999 ? 999 : dDay;
 };
 
-export const computeDay = (date: string) => {
+export const computeDay = (date: YYYYMMDD | YYYYMMDDhhmmss): Week | '' => {
   if (!date) {
-    return '-';
+    return '';
   }
 
   const [year, month, day] = date.split(/[-T]/);
@@ -94,7 +76,7 @@ export const computeDay = (date: string) => {
   return week[propDate.getDay()];
 };
 
-export const sortByTime = (targetDateA: string, targetDateB: string) => {
+export const sortByTime = (targetDateA: string, targetDateB: string): number => {
   const [yearA, monthA, dayA] = targetDateA.split(/[-T]/);
   const [yearB, monthB, dayB] = targetDateB.split(/[-T]/);
 
