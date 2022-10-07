@@ -35,12 +35,16 @@ const UnregisteredCouponList = () => {
     navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode));
   };
 
-  const onClickRegisteredCouponItem = () => {
-    // 쿠폰 상세 페이지로 라우팅
+  const onClickRegisteredCouponItem = ({ couponId }: UnregisteredCoupon) => {
+    if (couponId === null) {
+      return;
+    }
+
+    navigate(DYNAMIC_PATH.COUPON_DECLINE(couponId));
   };
 
   const onClickExpiredCouponItem = () => {
-    // 반응하지 않음.
+    // @TODO: 만료 쿠폰은 어떤 동작을 해야할까
   };
 
   return (
