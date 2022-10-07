@@ -1,9 +1,11 @@
 import { ChangeEventHandler, FormEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
+import { PATH } from '@/Router';
 import {
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
@@ -43,11 +45,16 @@ const UnregisteredCouponCreateForm = (props: UnregisteredCouponCreateFormProps) 
 
   return (
     <Styled.FormRoot onSubmit={onSubmitCreateForm}>
-      <Input.Counter
-        label='몇 명에게 주고 싶나요?'
-        value={currentCouponCount}
-        onChangeCouponCount={onChangeCouponCount}
-      />
+      <Styled.CountContainer>
+        <Input.Counter
+          label='몇 명에게 주고 싶나요?'
+          value={currentCouponCount}
+          onChangeCouponCount={onChangeCouponCount}
+        />
+        <Link to={PATH.COUPON_CREATE} css={Styled.NormalCouponLink} replace>
+          일반 쿠폰 보내러가기
+        </Link>
+      </Styled.CountContainer>
 
       <SelectInput label='어떤 쿠폰인가요 ?'>
         {couponTypeCollection.map(({ engType }) => (

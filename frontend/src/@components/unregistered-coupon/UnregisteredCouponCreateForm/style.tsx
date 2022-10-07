@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const FormRoot = styled.form`
@@ -12,10 +12,20 @@ export const FormRoot = styled.form`
 `;
 
 export const CountContainer = styled.div`
-  ${({ theme }) => css`
-    background-color: ${theme.colors.primary_400};
-    color: ${theme.colors.white_100};
-  `}
+  position: relative;
+`;
+
+export const NormalCouponLink = (theme: Theme) => css`
+  font-size: 12px;
+  font-weight: bold;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  color: ${theme.colors.primary_400};
+
+  cursor: pointer;
 `;
 
 export const FeelOption = styled.li<{ isSelected: boolean }>`

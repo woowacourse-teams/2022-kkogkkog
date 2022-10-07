@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const FormRoot = styled.form`
@@ -12,12 +12,27 @@ export const FormRoot = styled.form`
 `;
 
 export const FindUserContainer = styled.div`
+  position: relative;
+
   & > div:first-of-type {
     font-size: 14px;
     font-weight: 600;
 
     margin-bottom: 8px;
   }
+`;
+
+export const NormalCouponLink = (theme: Theme) => css`
+  font-size: 12px;
+  font-weight: bold;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  color: ${theme.colors.primary_400};
+
+  cursor: pointer;
 `;
 
 export const FindUserInput = styled.div`

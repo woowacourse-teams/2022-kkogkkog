@@ -1,10 +1,12 @@
 import { ChangeEventHandler, FormEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
 import SelectInput from '@/@components/@shared/SelectInput';
 import UserSearchModal from '@/@components/user/UserSearchModal';
 import { useModal } from '@/@hooks/@common/useModal';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
+import { PATH } from '@/Router';
 import {
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
@@ -64,6 +66,9 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
 
           <span>🔍</span>
         </Styled.FindUserInput>
+        <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.NormalCouponLink} replace>
+          미등록 쿠폰 생성하기
+        </Link>
       </Styled.FindUserContainer>
 
       {isShowModal && (
