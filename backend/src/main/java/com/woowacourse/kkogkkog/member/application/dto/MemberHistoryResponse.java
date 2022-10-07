@@ -1,7 +1,5 @@
 package com.woowacourse.kkogkkog.member.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
@@ -19,10 +17,8 @@ public class MemberHistoryResponse {
     private Long couponId;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
     private Boolean isRead;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     public MemberHistoryResponse(Long id,
