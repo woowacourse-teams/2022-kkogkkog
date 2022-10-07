@@ -12,7 +12,7 @@ interface RegisteredCouponListSectionProps {
 const RegisteredCouponListSection = (props: RegisteredCouponListSectionProps) => {
   const { onClickCouponItem } = props;
 
-  const { couponListByStatus: issuedCouponList } = useFetchUnregisteredCouponListByStatus({
+  const { couponListByStatus: registeredCoupon } = useFetchUnregisteredCouponListByStatus({
     type: 'REGISTERED',
   });
 
@@ -20,7 +20,7 @@ const RegisteredCouponListSection = (props: RegisteredCouponListSectionProps) =>
     // @TODO: VerticalListContainer 스타일 공유하는 것 전체적으로 수정
     <Styled.VerticalListContainer>
       <VerticalCouponList
-        couponList={...issuedCouponList}
+        couponList={registeredCoupon}
         CouponItem={UnregisteredCouponItem}
         onClickCouponItem={onClickCouponItem}
       />

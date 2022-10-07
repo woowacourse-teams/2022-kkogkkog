@@ -20,7 +20,7 @@ const UnregisteredCouponListSection = (props: UnregisteredCouponListSectionProps
     // @TODO: VerticalListContainer 스타일 공유하는 것 전체적으로 수정
     <Styled.VerticalListContainer>
       <VerticalCouponList
-        couponList={...issuedCouponList}
+        couponList={issuedCouponList}
         CouponItem={UnregisteredCouponItem}
         onClickCouponItem={onClickCouponItem}
       />
