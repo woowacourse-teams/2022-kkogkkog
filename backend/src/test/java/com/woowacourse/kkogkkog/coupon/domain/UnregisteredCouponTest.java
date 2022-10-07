@@ -24,9 +24,10 @@ public class UnregisteredCouponTest {
         void success() {
             Member sender = SENDER.getMember();
 
-            UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
+            UnregisteredCoupon unregisteredCoupon = UnregisteredCoupon.of(sender, "고마워요!",
+                "커피쿠폰입니다.", CouponType.COFFEE);
 
-            assertThat(unregisteredCoupon.getCouponCode()).isNotNull();
+            assertThat(unregisteredCoupon.getCouponCode()).isNotEmpty();
         }
     }
 
