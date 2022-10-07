@@ -46,3 +46,54 @@ export const Description = styled.div`
   color: ${({ theme }) => theme.colors.grey_200};
   margin-bottom: 8px;
 `;
+
+export const CounterInputContainer = styled.div`
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${({ theme }) => css`
+    border-radius: 10px;
+    border: 1px solid ${theme.colors.primary_200};
+
+    &::-webkit-input-placeholder {
+      color: ${theme.colors.light_grey_200};
+    }
+    &::-ms-input-placeholder {
+      color: ${theme.colors.light_grey_200};
+    }
+  `}
+
+  & > input[type='number'] {
+    width: 100px;
+    border: none;
+    text-align: center;
+  }
+`;
+
+export const CounterButton = styled.div`
+  text-align: center;
+  width: 30px;
+
+  position: absolute;
+  padding: 5px 0;
+
+  cursor: pointer;
+
+  border-radius: 10px;
+
+  ${({ theme }) => css`
+    background-color: ${theme.colors.primary_400};
+    color: white;
+  `}
+`;
+
+export const PlusCounterButton = styled(CounterButton)`
+  right: 20px;
+`;
+
+export const MinusCounterButton = styled(CounterButton)`
+  left: 20px;
+`;
