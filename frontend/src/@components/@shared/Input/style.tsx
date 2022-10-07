@@ -68,32 +68,39 @@ export const CounterInputContainer = styled.div`
 
   & > input[type='number'] {
     width: 100px;
+
     border: none;
+
     text-align: center;
+
+    ${({ theme }) => css`
+      color: ${theme.colors.grey_400};
+    `}
   }
 `;
 
 export const CounterButton = styled.div`
-  text-align: center;
+  position: absolute;
+
   width: 30px;
 
-  position: absolute;
   padding: 5px 0;
-
-  cursor: pointer;
 
   border-radius: 10px;
 
+  font-size: 20px;
+  text-align: center;
+
+  cursor: pointer;
   ${({ theme }) => css`
-    background-color: ${theme.colors.primary_400};
-    color: white;
+    color: ${theme.colors.primary_300};
   `}
 `;
 
 export const PlusCounterButton = styled(CounterButton)`
-  right: 20px;
+  right: 10px;
 `;
 
 export const MinusCounterButton = styled(CounterButton)`
-  left: 20px;
+  left: 10px;
 `;
