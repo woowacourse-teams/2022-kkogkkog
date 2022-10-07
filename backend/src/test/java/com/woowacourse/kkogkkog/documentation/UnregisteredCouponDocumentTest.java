@@ -27,7 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @SuppressWarnings("NonAsciiCharacters")
-public class UnregisteredCouponDocumentTest extends DocumentTest {
+class UnregisteredCouponDocumentTest extends DocumentTest {
 
     private final String BEARER_TOKEN = "Bearer {Access Token}";
     private static final String COUPON_CODE = "쿠폰코드";
