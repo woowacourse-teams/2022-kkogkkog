@@ -105,14 +105,7 @@ const Router = () => {
           <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
-          <Route
-            path={PATH.UNREGISTERED_COUPON}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <UnRegisteredCouponList />
-              </Suspense>
-            }
-          />
+          <Route path={PATH.UNREGISTERED_COUPON} element={<UnRegisteredCouponList />} />
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}
