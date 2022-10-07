@@ -34,40 +34,16 @@ export const generateDateKR = (
   const propMonth = propDateInstance.getMonth() + 1;
   const propDay = propDateInstance.getDate();
 
-  if (includeYear) {
-    const includeYearDateKR: YYYYMMDD_KR = `${propYear}년 ${propMonth}월 ${propDay}일`;
-
-    return includeYearDateKR;
-  }
-
-  const excludeYearDateKR: MMDD_KR = `${propMonth}월 ${propDay}일`;
-
-  return excludeYearDateKR;
+  return includeYear ? `${propYear}년 ${propMonth}월 ${propDay}일` : `${propMonth}월 ${propDay}일`;
 };
 
 export const isBeforeToday = (date: YYYYMMDD | YYYYMMDDhhmmss): boolean => {
-  const today = new Date();
-
-  const todayYear = today.getFullYear();
-  const todayMonth = today.getMonth() + 1;
-  const todayDay = today.getDate();
+  const todayDate = new Date();
 
   const [year, month, day] = date.split(/[-T]/);
-  const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+  const propDate = new Date(Number(year), Number(month) - 1, Number(day));
 
-  const propYear = dateObj.getFullYear();
-  const propMonth = dateObj.getMonth() + 1;
-  const propDay = dateObj.getDate();
-
-  if (todayYear > propYear) {
-    return true;
-  } else if (todayMonth > propMonth) {
-    return true;
-  } else if (todayDay > propDay) {
-    return true;
-  }
-
-  return false;
+  return todayDate.getTime() > propDate.getTime() ? true : false;
 };
 
 export const generateDday = (date: YYYYMMDDhhmmss): number => {
@@ -85,7 +61,7 @@ export const generateDday = (date: YYYYMMDDhhmmss): number => {
     (propDateInstance.getTime() - todayDateInstance.getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  return dDay > 999 ? 999 : dDay;
+  return dDay > 99 ? 99 : dDay;
 };
 
 export const computeDay = (date: YYYYMMDD | YYYYMMDDhhmmss): Week | '' => {
