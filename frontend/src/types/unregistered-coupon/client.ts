@@ -9,6 +9,7 @@ export type UNREGISTERED_COUPON_STATUS = Valueof<typeof unregisteredCouponStatus
 export interface UnregisteredCoupon {
   id: number;
   couponCode: string;
+  couponId: number | null;
   sender: Member;
   receiver: Member | null;
   couponTag: COUPON_HASHTAGS;
