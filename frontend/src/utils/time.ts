@@ -43,7 +43,7 @@ export const isBeforeToday = (date: YYYYMMDD | YYYYMMDDhhmmss): boolean => {
   const [year, month, day] = date.split(/[-T]/);
   const propDate = new Date(Number(year), Number(month) - 1, Number(day));
 
-  return todayDate.getTime() > propDate.getTime() ? true : false;
+  return todayDate.getTime() > propDate.getTime();
 };
 
 export const generateDday = (date: YYYYMMDDhhmmss): number => {
@@ -61,7 +61,7 @@ export const generateDday = (date: YYYYMMDDhhmmss): number => {
     (propDateInstance.getTime() - todayDateInstance.getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  return dDay > 99 ? 99 : dDay;
+  return dDay > 999 ? 999 : dDay;
 };
 
 export const computeDay = (date: YYYYMMDD | YYYYMMDDhhmmss): Week | '' => {
