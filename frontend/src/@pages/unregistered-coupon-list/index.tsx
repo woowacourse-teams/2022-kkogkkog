@@ -9,7 +9,9 @@ import RegisteredCouponListSection from '@/@components/unregistered-coupon/Regis
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import UnregisteredCouponListSection from '@/@components/unregistered-coupon/UnregisteredCouponListSection';
 import { useStatus } from '@/@hooks/@common/useStatus';
+import { DYNAMIC_PATH } from '@/Router';
 import { unregisteredFilterOptionsSessionStorage } from '@/storage/session';
+import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
 import * as Styled from './style';
 
@@ -29,8 +31,8 @@ const UnregisteredCouponList = () => {
     unregisteredFilterOptionsSessionStorage.set(status);
   };
 
-  const onClickUnregisteredCouponItem = () => {
-    // 미등록 쿠폰 으로 라우팅
+  const onClickUnregisteredCouponItem = ({ couponCode }: UnregisteredCoupon) => {
+    navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode));
   };
 
   const onClickRegisteredCouponItem = () => {
