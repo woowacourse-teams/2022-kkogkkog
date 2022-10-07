@@ -4,7 +4,7 @@ import UnregisteredCouponStatus from '@/@components/unregistered-coupon/Unregist
 import { THUMBNAIL } from '@/types/coupon/client';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
-import * as Styled from '../../coupon/CouponItem/big.style';
+import * as Styled from './style';
 
 export interface UnregisteredCouponItemProps extends UnregisteredCoupon {
   className?: string;
