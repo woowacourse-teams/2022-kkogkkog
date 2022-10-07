@@ -4,6 +4,7 @@ import Icon from '@/@components/@shared/Icon';
 import Placeholder from '@/@components/@shared/Placeholder';
 import UnregisteredCouponStatus from '@/@components/unregistered-coupon/UnregisteredCouponStatus';
 import { useToast } from '@/@hooks/@common/useToast';
+import { DYNAMIC_PATH } from '@/Router';
 import { THUMBNAIL } from '@/types/coupon/client';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 import clipboardCopy from '@/utils/clipboardCopy';
@@ -28,7 +29,9 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
     e.stopPropagation();
 
     try {
-      clipboardCopy(`${window.location.origin}/${couponCode}`);
+      clipboardCopy(
+        `${window.location.origin}${DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode)}`
+      );
       displayMessage('링크가 복사되었어요!', false);
     } catch (e) {
       displayMessage('링크 복사에 실패했어요', true);
