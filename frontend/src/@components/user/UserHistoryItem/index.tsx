@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 
 import { couponEventTextMapper, couponTypeTextMapper } from '@/constants/coupon';
 import { UserCouponHistory } from '@/types/user/client';
-import { generateDateKR } from '@/utils/tobe-time';
+import { generateDateKR } from '@/utils/time';
 
 import * as Styled from './style';
 

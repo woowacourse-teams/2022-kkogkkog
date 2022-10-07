@@ -13,7 +13,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { generateDateKR } from '@/utils/tobe-time';
+import { generateDateKR } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from '../request/style';

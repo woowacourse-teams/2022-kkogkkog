@@ -1,6 +1,6 @@
 import theme from '@/styles/theme';
 import { COUPON_MEETING_DATE, COUPON_STATUS } from '@/types/coupon/client';
-import { generateDateKR } from '@/utils/tobe-time';
+import { generateDateKR } from '@/utils/time';
 
 import * as Styled from './style';
 

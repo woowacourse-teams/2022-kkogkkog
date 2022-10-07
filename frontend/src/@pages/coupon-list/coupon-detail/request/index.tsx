@@ -14,8 +14,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import theme from '@/styles/theme';
 import { YYYYMMDD } from '@/types/utils';
-import { getToday, isBeforeToday } from '@/utils/time';
-import { getTodayDate } from '@/utils/tobe-time';
+import { getTodayDate, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
@@ -26,7 +25,9 @@ const CouponRequestPage = () => {
   const navigate = useNavigate();
   const { couponId } = useParams();
 
-  const [meetingDate, onChangeMeetingDate] = useInput<YYYYMMDD>(getTodayDate(), [isBeforeToday]);
+  const todayDate = getTodayDate();
+
+  const [meetingDate, onChangeMeetingDate] = useInput<YYYYMMDD>(todayDate, [isBeforeToday]);
   const [meetingMessage, onChangeMeetingMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 200),
   ]);
@@ -98,7 +99,7 @@ const CouponRequestPage = () => {
           <Styled.DateInput
             type='date'
             value={meetingDate}
-            min={getToday()}
+            min={todayDate}
             data-placeholder='날짜 선택'
             onChange={onChangeMeetingDate}
             required

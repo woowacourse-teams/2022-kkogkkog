@@ -1,6 +1,6 @@
 import { couponEventTextMapper, couponTypeTextMapper } from '@/constants/coupon';
 import { CouponHistory } from '@/types/coupon/client';
-import { generateDateKR } from '@/utils/tobe-time';
+import { generateDateKR } from '@/utils/time';
 
 import * as Styled from './style';
 

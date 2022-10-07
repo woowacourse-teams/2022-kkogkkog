@@ -4,7 +4,7 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { Reservation } from '@/types/coupon/client';
-import { computeDay, generateDateKR, generateDday } from '@/utils/tobe-time';
+import { computeDay, generateDateKR, generateDday } from '@/utils/time';
 
 import * as Styled from './style';
 
