@@ -1,10 +1,12 @@
 import { MMDD_KR, YYYYMMDD, YYYYMMDD_KR, YYYYMMDDhhmmss } from '@/types/utils';
 
-import { addZero } from './time';
-
 const week = ['일', '월', '화', '수', '목', '금', '토'] as const;
 
 type Week = typeof week[number];
+
+export const addZero = (num: number): string => {
+  return Math.floor(num / 10) === 0 ? `0${num}` : String(num);
+};
 
 export const getTodayDate = (): YYYYMMDD => {
   const now = new Date();
