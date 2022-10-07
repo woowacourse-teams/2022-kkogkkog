@@ -4,7 +4,7 @@ import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
 import { Reservation } from '@/types/coupon/client';
-import { computeDay, generateDateText, generateDDay } from '@/utils/time';
+import { computeDay, generateDateKR, generateDday } from '@/utils/tobe-time';
 
 import * as Styled from './style';
 
@@ -30,9 +30,9 @@ const ReservationSection = (props: ReservationSectionProps) => {
       {reservationList.map(reservation => {
         const { meetingDate, coupons: reservatedCouponList } = reservation;
 
-        const dateText = generateDateText(meetingDate);
+        const dateText = generateDateKR(meetingDate);
         const day = computeDay(meetingDate);
-        const dDay = generateDDay(meetingDate);
+        const dDay = generateDday(meetingDate);
 
         return (
           <Styled.DateContainer key={meetingDate}>
@@ -63,34 +63,3 @@ ReservationSection.Skeleton = function Skeleton() {
     </Styled.Root>
   );
 };
-
-// const scrollContainer = useRef<HTMLDivElement>(null);
-
-// const onClickRightArrow = () => {
-//   const { current: element } = scrollContainer;
-
-//   if (element) {
-//     const { clientWidth, scrollWidth, offsetWidth, scrollLeft, clientLeft } = element;
-
-//     element?.scroll({
-//       left: scrollLeft + offsetWidth,
-//       behavior: 'smooth',
-//     });
-//   }
-// };
-
-// const onClickLeftArrow = () => {
-//   const { current: element } = scrollContainer;
-
-//   if (element) {
-//     const { clientWidth, scrollWidth, offsetWidth, scrollLeft } = element;
-
-//     element?.scroll({ left: scrollLeft - offsetWidth, behavior: 'smooth' });
-//   }
-// };
-/* <Styled.LeftArrow onClick={onClickLeftArrow}>
-          <Icon iconName='arrow' color={theme.colors.primary_400} size='36' />
-        </Styled.LeftArrow>
-        <Styled.RightArrow onClick={onClickRightArrow}>
-          <Icon iconName='arrow' color={theme.colors.primary_400} size='36' />
-        </Styled.RightArrow> */

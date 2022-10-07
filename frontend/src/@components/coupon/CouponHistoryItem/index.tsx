@@ -1,6 +1,6 @@
 import { couponEventTextMapper, couponTypeTextMapper } from '@/constants/coupon';
 import { CouponHistory } from '@/types/coupon/client';
-import { generateDateText } from '@/utils/time';
+import { generateDateKR } from '@/utils/tobe-time';
 
 import * as Styled from './style';
 
@@ -13,9 +13,9 @@ const CouponHistoryItem = (props: CouponHistoryItemProps) => {
   const { imageUrl, createdTime, nickname, couponEvent, couponType, meetingMessage, meetingDate } =
     history;
 
-  const createdTimeText = generateDateText(createdTime, true);
+  const createdTimeText = generateDateKR(createdTime, true);
 
-  const meetingDateText = generateDateText(meetingDate, true);
+  const meetingDateText = generateDateKR(meetingDate, true);
 
   const hasMeetingDateText = couponEvent === 'REQUEST';
 

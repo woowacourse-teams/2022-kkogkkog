@@ -1,6 +1,6 @@
 import theme from '@/styles/theme';
-import { COUPON_STATUS } from '@/types/coupon/client';
-import { generateDateText } from '@/utils/time';
+import { COUPON_MEETING_DATE, COUPON_STATUS } from '@/types/coupon/client';
+import { generateDateKR } from '@/utils/tobe-time';
 
 import * as Styled from './style';
 
@@ -23,22 +23,21 @@ const couponStatusMapper = (
 
 interface CouponStatusProps {
   status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
-  meetingDate?: string;
+  meetingDate?: COUPON_MEETING_DATE;
   isSent: boolean;
 }
 
 const CouponStatus = (props: CouponStatusProps) => {
   const { status, isSent, meetingDate } = props;
 
-  const meetingDateText = generateDateText(meetingDate);
-
   const { backgroundColor } = couponStatusMapper(isSent)[status];
 
-  if (status === 'READY') {
-    return <Styled.HiddenRoot backgroundColor={backgroundColor}>대기중</Styled.HiddenRoot>;
+  if (!meetingDate) {
+    /** meetingDate가 없다면 대기중 */
+    return <Styled.HiddenRoot />;
   }
 
-  return <Styled.Root backgroundColor={backgroundColor}>{meetingDateText}</Styled.Root>;
+  return <Styled.Root backgroundColor={backgroundColor}>{generateDateKR(meetingDate)}</Styled.Root>;
 };
 
 export default CouponStatus;
