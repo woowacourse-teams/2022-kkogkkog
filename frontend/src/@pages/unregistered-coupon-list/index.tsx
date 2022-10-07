@@ -1,9 +1,12 @@
+import { Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import ExpiredCouponListSection from '@/@components/unregistered-coupon/ExpiredCouponListSection';
 import RegisteredCouponListSection from '@/@components/unregistered-coupon/RegisteredCouponListSection';
+import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import UnregisteredCouponListSection from '@/@components/unregistered-coupon/UnregisteredCouponListSection';
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { unregisteredFilterOptionsSessionStorage } from '@/storage/session';
@@ -48,20 +51,30 @@ const UnregisteredCouponList = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        <Styled.Container>
-          {status === '미등록' && (
-            <UnregisteredCouponListSection onClickCouponItem={onClickUnregisteredCouponItem} />
-          )}
-          {status === '등록됨' && (
-            <RegisteredCouponListSection onClickCouponItem={onClickRegisteredCouponItem} />
-          )}
-          {status === '만료' && (
-            <ExpiredCouponListSection onClickCouponItem={onClickExpiredCouponItem} />
-          )}
-        </Styled.Container>
+        <Suspense fallback={<CouponListPageFallback />}>
+          <Styled.Container>
+            {status === '미등록' && (
+              <UnregisteredCouponListSection onClickCouponItem={onClickUnregisteredCouponItem} />
+            )}
+            {status === '등록됨' && (
+              <RegisteredCouponListSection onClickCouponItem={onClickRegisteredCouponItem} />
+            )}
+            {status === '만료' && (
+              <ExpiredCouponListSection onClickCouponItem={onClickExpiredCouponItem} />
+            )}
+          </Styled.Container>
+        </Suspense>
       </Styled.Root>
     </PageTemplate>
   );
 };
 
 export default UnregisteredCouponList;
+
+export const CouponListPageFallback = () => {
+  return (
+    <Styled.Root>
+      <VerticalCouponList.Skeleton CouponItemSkeleton={UnregisteredCouponItem.Skeleton} />
+    </Styled.Root>
+  );
+};

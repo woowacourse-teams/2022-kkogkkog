@@ -1,5 +1,6 @@
 import { MouseEventHandler } from 'react';
 
+import Placeholder from '@/@components/@shared/Placeholder';
 import UnregisteredCouponStatus from '@/@components/unregistered-coupon/UnregisteredCouponStatus';
 import { THUMBNAIL } from '@/types/coupon/client';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
@@ -42,3 +43,7 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
 };
 
 export default UnregisteredCouponItem;
+
+UnregisteredCouponItem.Skeleton = function Skeleton() {
+  return <Placeholder aspectRatio='3/1' />;
+};

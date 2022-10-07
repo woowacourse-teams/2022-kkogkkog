@@ -86,22 +86,8 @@ const Router = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path={PATH.MAIN} element={<MainPage />} />
-          <Route
-            path={PATH.SENT_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path={PATH.RECEIVED_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
+          <Route path={PATH.SENT_COUPON_LIST} element={<CouponListPage />} />
+          <Route path={PATH.RECEIVED_COUPON_LIST} element={<CouponListPage />} />
           <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
