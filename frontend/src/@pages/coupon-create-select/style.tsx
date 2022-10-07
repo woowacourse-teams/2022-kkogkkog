@@ -23,7 +23,7 @@ export const Container = styled.div`
 
 export const LinkButton = (theme: Theme) => css`
   width: 100%;
-  height: 120px;
+  height: 100px;
 
   padding: 10px;
 
@@ -34,6 +34,4 @@ export const LinkButton = (theme: Theme) => css`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  font-weight: bold;
 `;
