@@ -6,13 +6,9 @@ import { addZero } from './../../utils/time';
 const realDate = global.Date;
 
 beforeAll(() => {
-  global.Date = jest.fn((...prop) => {
-    if (prop.length === 0) {
-      return new realDate(2022, 0, 1);
-    }
-
-    return new realDate(prop[0], prop[1], prop[2]);
-  });
+  global.Date = jest.fn((...prop) =>
+    prop.length === 0 ? new realDate(2022, 0, 1) : new realDate(prop[0], prop[1], prop[2])
+  );
 });
 
 afterAll(() => {
