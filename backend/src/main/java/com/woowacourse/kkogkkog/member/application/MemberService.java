@@ -63,7 +63,7 @@ public class MemberService {
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
         Member savedMember = memberRepository.save(
-            new Member(new Nickname(nickname), email, imageUrl)
+            new Member(nickname, email, imageUrl)
         );
         return savedMember.getId();
     }
