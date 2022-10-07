@@ -1,6 +1,5 @@
 import { MouseEventHandler } from 'react';
 
-import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
 import { couponEventTextMapper, couponTypeTextMapper } from '@/constants/coupon';
 import { UserCouponHistory } from '@/types/user/client';
 import { generateDateText } from '@/utils/time';
@@ -14,10 +13,7 @@ interface UserHistoryItemProps {
 
 const UserHistoryItem = (props: UserHistoryItemProps) => {
   const { history, onClick } = props;
-  const { createdTime, couponEvent, couponType, isRead } = history;
-
-  const { member } = useCouponPartner(history);
-  const { imageUrl, nickname } = member;
+  const { createdTime, couponEvent, couponType, isRead, imageUrl, nickname } = history;
 
   const createdTimeText = generateDateText(createdTime, true);
 
