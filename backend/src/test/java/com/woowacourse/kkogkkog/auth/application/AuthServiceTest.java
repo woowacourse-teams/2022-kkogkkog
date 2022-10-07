@@ -144,7 +144,6 @@ class AuthServiceTest extends ServiceTest {
 
             assertThat(id).isNotNull();
         }
-
     }
 
     @Nested
