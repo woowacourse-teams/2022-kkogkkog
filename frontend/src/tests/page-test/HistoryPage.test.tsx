@@ -1,11 +1,10 @@
 import { screen } from '@testing-library/react';
 
 import UserHistoryPage from '@/@pages/history';
+import { testUser } from '@/setupTests';
 import theme from '@/styles/theme';
+import { render } from '@/tests/utils';
 import { rgb2hex } from '@/utils/rgba';
-
-import { testUser } from '../setupTests';
-import { render } from './test-utils';
 
 describe('<UserHistoryPage />', () => {
   it('알림이 온 개수만큼 알림 히스토리를 확인할 수 있다.', async () => {

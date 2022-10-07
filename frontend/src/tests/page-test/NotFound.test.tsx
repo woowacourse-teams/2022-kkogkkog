@@ -1,5 +1,5 @@
-import NotFoundPage from '../@pages/404/index';
-import { render } from './test-utils';
+import NotFoundPage from '@/@pages/404';
+import { render } from '@/tests/utils';
 
 describe('<NotFOundPage />', () => {
   it('이미지가 렌더링 된다.', () => {
