@@ -9,7 +9,7 @@ export const Root = styled.li<{ isRead: boolean }>`
   gap: 18px;
 
   ${({ theme, isRead }) => css`
-    background-color: ${isRead ? theme.colors.background_3 : `${theme.colors.primary_100}20`};
+    background-color: ${isRead ? theme.colors.background_4 : `${theme.colors.primary_100}20`};
     cursor: pointer;
   `}
 `;
