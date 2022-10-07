@@ -79,7 +79,7 @@ public class CouponController {
 
     @PostMapping("/code")
     public ResponseEntity<CouponResponse> saveByCouponCode(@LoginMemberId Long loginMemberId,
-                                                @RequestBody String couponCode) {
+                                                           @RequestBody String couponCode) {
         CouponResponse couponResponse = couponService.saveByCouponCode(loginMemberId, couponCode);
         return ResponseEntity.created(null).body(couponResponse);
     }
