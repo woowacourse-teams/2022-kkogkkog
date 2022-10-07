@@ -17,7 +17,7 @@ export const useUnregisteredForm = () => {
 
   const { displayMessage } = useToast();
 
-  const [couponCount, setCouponCount] = useState(0);
+  const [couponCount, setCouponCount] = useState(1);
 
   const [couponType, setCouponType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [couponTag, setCouponTag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
