@@ -5,6 +5,9 @@ import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import lombok.Getter;
 
 @Getter
@@ -26,15 +29,9 @@ public class UnregisteredCouponSaveRequest {
     }
 
     public List<UnregisteredCoupon> toEntities(Member sender) {
-        List<UnregisteredCoupon> unregisteredCoupons = new ArrayList<>();
-        for (int i = 0; i < quantity; i++) {
-            unregisteredCoupons.add(getUnregisteredCoupon(sender));
-        }
-        return unregisteredCoupons;
-    }
-
-    private UnregisteredCoupon getUnregisteredCoupon(Member sender) {
-        return UnregisteredCoupon.of(sender, couponTag, couponMessage,
-            CouponType.valueOf(couponType));
+        return IntStream.range(0, quantity)
+            .mapToObj(it -> UnregisteredCoupon.of(sender, couponTag, couponMessage,
+                CouponType.valueOf(couponType)))
+            .collect(Collectors.toList());
     }
 }
