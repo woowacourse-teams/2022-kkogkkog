@@ -13,7 +13,7 @@ import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { generateDateText } from '@/utils/time';
+import { generateDateKR } from '@/utils/tobe-time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from '../request/style';
@@ -87,7 +87,7 @@ const CouponDeclinePage = () => {
         </Styled.Top>
         <Styled.Main>
           <Styled.SectionTitle>
-            {generateDateText(meetingDate)}에 만남이 어려우신가요?
+            {generateDateKR(meetingDate)}에 만남이 어려우신가요?
           </Styled.SectionTitle>
           <Styled.Description>메시지를 작성해보세요. (선택)</Styled.Description>
 
