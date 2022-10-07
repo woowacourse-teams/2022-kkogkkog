@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GoogleUserInfo {
+public class GoogleUserDto {
 
     private String name;
     private String email;
     private String picture;
 
-    public GoogleUserInfo(String name, String email, String picture) {
+    public GoogleUserDto(String name, String email, String picture) {
         this.name = name;
         this.email = email;
         this.picture = picture;

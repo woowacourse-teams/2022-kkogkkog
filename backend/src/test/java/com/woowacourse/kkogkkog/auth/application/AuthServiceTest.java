@@ -9,7 +9,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
@@ -89,7 +89,7 @@ class AuthServiceTest extends ServiceTest {
                 .willReturn(USER_ACCESS_TOKEN);
             given(googleClient.requestUserInfo(USER_ACCESS_TOKEN))
                 .willReturn(
-                    new GoogleUserInfo(
+                    new GoogleUserDto(
                         memberResponse.getNickname(),
                         memberResponse.getEmail(),
                         memberResponse.getImageUrl()));
@@ -102,7 +102,7 @@ class AuthServiceTest extends ServiceTest {
         @DisplayName("기존 회원이 가입을 하면, 토큰과 isNew를 false로 반환한다.")
         void success_registeredMember() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
-            GoogleUserInfo userInfo = new GoogleUserInfo(
+            GoogleUserDto userInfo = new GoogleUserDto(
                 memberResponse.getNickname(),
                 memberResponse.getEmail(),
                 memberResponse.getImageUrl());
@@ -137,7 +137,7 @@ class AuthServiceTest extends ServiceTest {
         @DisplayName("acceesToken,닉네임을 받으면 회원가입을 완료한다.")
         void success() {
             MemberCreateRequest memberCreateRequest = new MemberCreateRequest("accessToken", "닉네임");
-            GoogleUserInfo userInfo = new GoogleUserInfo("testName", "test@email.com", "testimage");
+            GoogleUserDto userInfo = new GoogleUserDto("testName", "test@email.com", "testimage");
             given(googleClient.requestUserInfo(anyString())).willReturn(userInfo);
 
             Long id = authService.signUpGoogle(memberCreateRequest);

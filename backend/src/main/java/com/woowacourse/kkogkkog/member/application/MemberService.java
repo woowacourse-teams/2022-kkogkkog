@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
-import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
@@ -59,9 +59,9 @@ public class MemberService {
         return newMember.getId();
     }
 
-    public Long save(GoogleUserInfo userInfo, String nickname) {
-        String email = userInfo.getEmail();
-        String imageUrl = userInfo.getPicture();
+    public Long save(GoogleUserDto userDto, String nickname) {
+        String email = userDto.getEmail();
+        String imageUrl = userDto.getPicture();
         Member savedMember = memberRepository.save(
             new Member(nickname, email, imageUrl)
         );

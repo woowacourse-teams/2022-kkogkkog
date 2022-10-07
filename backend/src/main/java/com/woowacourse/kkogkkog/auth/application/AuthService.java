@@ -5,7 +5,7 @@ import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.infrastructure.application.GoogleClient;
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
-import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
 import com.woowacourse.kkogkkog.member.application.MemberService;
@@ -48,9 +48,9 @@ public class AuthService {
 
     public Long signUpGoogle(MemberCreateRequest memberCreateRequest) {
         String accessToken = memberCreateRequest.getAccessToken();
-        GoogleUserInfo userInfo = googleClient.requestUserInfo(accessToken);
+        GoogleUserDto userDto = googleClient.requestUserInfo(accessToken);
         String nickname = memberCreateRequest.getNickname();
-        return memberService.save(userInfo, nickname);
+        return memberService.save(userDto, nickname);
     }
 
     public TokenResponse login(String code) {
@@ -67,9 +67,9 @@ public class AuthService {
 
     public TokenResponse loginGoogle(String code) {
         String accessToken = googleClient.requestAccessToken(code);
-        GoogleUserInfo userInfo = googleClient.requestUserInfo(accessToken);
+        GoogleUserDto userDto = googleClient.requestUserInfo(accessToken);
 
-        Optional<Member> member = memberService.findByEmail(userInfo.getEmail());
+        Optional<Member> member = memberService.findByEmail(userDto.getEmail());
         return member.map(it -> new TokenResponse(
                 jwtTokenProvider.createToken(it.getId().toString()),
                 false))
