@@ -25,7 +25,7 @@ const UnregisteredCouponCreatePage = () => {
   }, [couponCount]);
 
   return (
-    <PageTemplate title='쿠폰 보내기'>
+    <PageTemplate title='미등록 쿠폰 보내기'>
       <Styled.Root>
         <Styled.PreviewContainer ref={elementRef}>
           {/* {receiverList.length === 0 ? (
