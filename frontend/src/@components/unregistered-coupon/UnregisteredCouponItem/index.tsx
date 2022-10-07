@@ -1,9 +1,12 @@
-import { MouseEventHandler } from 'react';
+import { MouseEvent, MouseEventHandler } from 'react';
 
+import Icon from '@/@components/@shared/Icon';
 import Placeholder from '@/@components/@shared/Placeholder';
 import UnregisteredCouponStatus from '@/@components/unregistered-coupon/UnregisteredCouponStatus';
+import { useToast } from '@/@hooks/@common/useToast';
 import { THUMBNAIL } from '@/types/coupon/client';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
+import clipboardCopy from '@/utils/clipboardCopy';
 
 import * as Styled from './style';
 
@@ -14,10 +17,22 @@ export interface UnregisteredCouponItemProps extends UnregisteredCoupon {
 
 const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
+  const { displayMessage } = useToast();
 
-  const { receiver, couponTag, unregisteredCouponStatus, couponMessage, thumbnail } = {
+  const { receiver, couponTag, unregisteredCouponStatus, couponMessage, thumbnail, couponCode } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
+  };
+
+  const copyUrl = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    try {
+      clipboardCopy(`${window.location.origin}/${couponCode}`);
+      displayMessage('링크가 복사되었어요!', false);
+    } catch (e) {
+      displayMessage('링크 복사에 실패했어요', true);
+    }
   };
 
   return (
@@ -34,6 +49,11 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
           <Styled.Member>
             <Styled.English>To</Styled.English> {receiver?.nickname ?? '?'}
           </Styled.Member>
+          {unregisteredCouponStatus === 'ISSUED' && (
+            <button onClick={copyUrl}>
+              <Icon iconName='copy' />
+            </button>
+          )}
         </Styled.Top>
         <Styled.Message>{couponMessage}</Styled.Message>
         <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
