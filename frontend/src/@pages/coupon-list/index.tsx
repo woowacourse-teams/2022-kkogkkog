@@ -102,10 +102,7 @@ export default CouponListPage;
 export const Styled = {
   Root: styled.div`
     border-radius: 4px;
-
-    & > div {
-      margin-top: 20px;
-    }
+    padding: 20px 0;
   `,
   ListFilterContainer: styled.div`
     padding: 0 20px;
@@ -128,11 +125,11 @@ export const Styled = {
     }
   `,
   VerticalListContainer: styled.div`
-    padding: 0 10px 20px 10px;
+    padding: 20px 10px;
   `,
   HorizonListContainer: styled.div`
     & > section {
-      padding: 10px 20px;
+      padding: 30px 20px 10px;
     }
 
     & > section:nth-of-type(2n) {

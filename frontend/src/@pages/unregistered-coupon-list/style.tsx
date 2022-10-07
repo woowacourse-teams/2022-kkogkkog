@@ -3,9 +3,7 @@ import styled from '@emotion/styled';
 export const Root = styled.div`
   border-radius: 4px;
 
-  & > div {
-    margin-top: 20px;
-  }
+  padding: 20px 0;
 `;
 
 export const ListFilterContainer = styled.div`
