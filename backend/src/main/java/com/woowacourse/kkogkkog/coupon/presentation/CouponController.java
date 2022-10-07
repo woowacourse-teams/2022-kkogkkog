@@ -30,7 +30,7 @@ public class CouponController {
         this.couponService = couponService;
     }
 
-    @GetMapping("/send")
+    @GetMapping("/sent")
     public ResponseEntity<CouponsResponse> showSend(@LoginMemberId Long loginMemberId) {
         List<CouponResponse> coupons = couponService.findAllBySender(loginMemberId);
         return ResponseEntity.ok(new CouponsResponse(coupons));
