@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { COUPON_STATUS } from '@/types/coupon/client';
-
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 100%;
 
@@ -41,30 +39,6 @@ export const Message = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
-
-export const MeetingDate = styled.span<{ couponStatus: COUPON_STATUS }>`
-  font-size: 14px;
-
-  ${({ theme, couponStatus }) => {
-    if (couponStatus === 'REQUESTED') {
-      return css`
-        color: ${theme.colors.primary_500};
-      `;
-    }
-
-    if (couponStatus === 'ACCEPTED') {
-      return css`
-        color: ${theme.colors.green_500};
-      `;
-    }
-
-    if (couponStatus === 'FINISHED') {
-      return css`
-        color: ${theme.colors.light_grey_100};
-      `;
-    }
-  }}
 `;
 
 export const Member = styled.p`
@@ -118,10 +92,6 @@ export const CouponPropertyContainer = styled.div`
   `}
 `;
 
-export const ImageContainer = styled(CouponPropertyContainer)`
-  justify-content: center;
-`;
-
 export const ImageInner = styled.div`
   height: 58px;
   width: 58px;
@@ -153,15 +123,4 @@ export const Hashtag = styled.div`
     background-color: ${theme.colors.primary_400};
     color: ${theme.colors.white_100};
   `}
-`;
-
-export const LinkButtonContainer = styled.div`
-  font-size: 32px;
-
-  text-align: center;
-  width: 100%;
-`;
-
-export const LinkButtonText = styled.div`
-  font-size: 14px;
 `;
