@@ -20,11 +20,11 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const { reservationList, isLoading: isAcceptedCouponListLoading } = useFetchReservationList();
-  const { openCouponList: sentOpenCouponList, isLoading: isReceivedCouponListLoading } =
+  const { openCouponList: receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
     useFetchCouponList({
       couponListType: 'received',
     });
-  const { openCouponList: receivedOpenCouponList, isLoading: isSentCouponListLoading } =
+  const { openCouponList: sentOpenCouponList, isLoading: isSentCouponListLoading } =
     useFetchCouponList({
       couponListType: 'sent',
     });
