@@ -72,7 +72,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/send")
+            get("/api/v2/coupons/sent")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -82,7 +82,7 @@ class CouponDocumentTest extends DocumentTest {
 
         perform
             .andDo(print())
-            .andDo(document("coupon-showAll-send",
+            .andDo(document("coupon-showAll-sent",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
@@ -162,7 +162,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 상세_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.find(any())).willReturn(
+        given(couponService.find(any(), any())).willReturn(
             쿠폰_상세_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L),
                 쿠폰_상세_내역_응답(1L, ROOKIE.getMember(1L)))
         );

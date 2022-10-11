@@ -9,15 +9,14 @@ import { useCouponForm } from '@/@hooks/ui/coupon/useCouponForm';
 
 const CouponCreatePage = () => {
   const {
-    state: { receiverList, couponType, hashtag, color, description },
-    changeHandler: {
+    state: { receiverList, couponType, couponTag, couponMessage },
+    handler: {
       onSelectReceiver,
-      onSelectType,
-      onSelectHashtag,
-      onSelectColor,
-      onChangeDescription,
+      onSelectCouponType,
+      onSelectCouponTag,
+      onChangeCouponMessage,
+      onSubmitCouponCreateForm,
     },
-    submitHandler: { create: onSubmitCouponCreateForm },
   } = useCouponForm();
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -36,9 +35,9 @@ const CouponCreatePage = () => {
             receiverList.map(receiver => (
               <BigCouponItem.Preview
                 key={receiver.id}
-                nickname={receiver.nickname}
-                description={description}
-                hashtag={hashtag}
+                receiver={receiver}
+                couponMessage={couponMessage}
+                couponTag={couponTag}
                 couponType={couponType}
               />
             ))
@@ -47,16 +46,14 @@ const CouponCreatePage = () => {
         <Styled.Inner>
           <CouponCreateForm
             currentReceiverList={receiverList}
-            currentType={couponType}
-            currentHashtag={hashtag}
-            currentColor={color}
-            currentDescription={description}
+            currentCouponType={couponType}
+            currentCouponTag={couponTag}
+            currentCouponMessage={couponMessage}
             onSelectReceiver={onSelectReceiver}
-            onSelectType={onSelectType}
-            onSelectHashtag={onSelectHashtag}
-            onSelectColor={onSelectColor}
-            onChangeDescription={onChangeDescription}
-            onSubmitCreateForm={onSubmitCouponCreateForm}
+            onSelectCouponType={onSelectCouponType}
+            onSelectCouponTag={onSelectCouponTag}
+            onChangeCouponMessage={onChangeCouponMessage}
+            onSubmitCouponCreateForm={onSubmitCouponCreateForm}
           />
         </Styled.Inner>
       </Styled.Root>

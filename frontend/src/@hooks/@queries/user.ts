@@ -4,25 +4,25 @@ import { useQueryClient } from 'react-query';
 import { useLoading } from '@/@hooks/@common/useLoading';
 import { client } from '@/apis';
 import {
-  AddSlackApp,
   editMe,
   getMe,
   getUserHistoryList,
   getUserList,
-  login,
-  OAuthLogin,
+  oAuthLogin,
+  oAuthSignup,
   readAllHistory,
+  slackAppDownload,
 } from '@/apis/user';
-import { UserHistoryResponse } from '@/types/remote/response';
+import { OAuthType } from '@/types/user/client';
+import { UserHistoryListResponse } from '@/types/user/remote';
 
 import { useToast } from '../@common/useToast';
-import { signUpToken } from './../../apis/user';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
   me: 'me',
-  getUserList: 'getUserList',
-  getUserHistoryList: 'getUserHistoryList',
+  userList: 'userList',
+  userHistoryList: 'userHistoryList',
 };
 
 /** Query */
@@ -50,7 +50,7 @@ export const useFetchMe = () => {
 };
 
 export const useFetchUserList = () => {
-  const { data } = useQuery([QUERY_KEY.getUserList], getUserList, {
+  const { data } = useQuery([QUERY_KEY.userList], getUserList, {
     suspense: false,
   });
 
@@ -60,7 +60,7 @@ export const useFetchUserList = () => {
 };
 
 export const useFetchUserHistoryList = () => {
-  const { data, refetch } = useQuery([QUERY_KEY.getUserHistoryList], getUserHistoryList, {
+  const { data, refetch } = useQuery([QUERY_KEY.userHistoryList], getUserHistoryList, {
     suspense: false,
     staleTime: Infinity,
   });
@@ -101,17 +101,17 @@ export const useEditMeMutation = () => {
   });
 };
 
-export const useSlackOAuthLoginMutation = () => {
+export const useOAuthLoginMutation = (oAuthType: OAuthType) => {
   const { displayMessage } = useToast();
 
   const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(OAuthLogin, {
+  return useMutation(oAuthLogin(oAuthType), {
     onSuccess(response) {
       const { isNew, accessToken } = response.data;
 
       if (isNew) {
-        localStorage.setItem('slack-signup-token', accessToken);
+        localStorage.setItem('signup-token', accessToken);
       } else {
         localStorage.setItem('user-token', accessToken);
 
@@ -129,12 +129,12 @@ export const useSlackOAuthLoginMutation = () => {
   });
 };
 
-export const useSlackSignupMutation = () => {
-  return useMutation(signUpToken, {
+export const useOAuthSignupMutation = (oAuthType: OAuthType) => {
+  return useMutation(oAuthSignup(oAuthType), {
     onSuccess(response) {
       const { accessToken } = response.data;
 
-      localStorage.removeItem('slack-signup-token');
+      localStorage.removeItem('signup-token');
 
       localStorage.setItem('user-token', accessToken);
 
@@ -144,21 +144,7 @@ export const useSlackSignupMutation = () => {
 };
 
 export const useAddSlackAppMutation = () => {
-  return useMutation(AddSlackApp);
-};
-
-export const useLoginMutation = () => {
-  return useMutation(login, {
-    onSuccess: data => {
-      const {
-        data: { accessToken },
-      } = data;
-
-      localStorage.setItem('user-token', accessToken);
-
-      client.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-    },
-  });
+  return useMutation(slackAppDownload);
 };
 
 export const useReadAllHistoryMutation = () => {
@@ -186,23 +172,20 @@ export const useReadHistory = () => {
   const queryClient = useQueryClient();
 
   const readHistory = (id: number) => {
-    queryClient.setQueryData<UserHistoryResponse | undefined>(
-      [QUERY_KEY.getUserHistoryList],
-      oldData => {
-        if (oldData === undefined) {
-          return;
-        }
-
-        const newData = {
-          ...oldData,
-          data: oldData?.data?.map(history =>
-            history.id === id ? { ...history, isRead: true } : { ...history }
-          ),
-        };
-
-        return newData;
+    queryClient.setQueryData<UserHistoryListResponse>([QUERY_KEY.userHistoryList], oldData => {
+      if (oldData === undefined) {
+        return;
       }
-    );
+
+      const newData = {
+        ...oldData,
+        data: oldData?.data?.map(history =>
+          history.id === id ? { ...history, isRead: true } : { ...history }
+        ),
+      };
+
+      return newData;
+    });
   };
 
   return { readHistory };

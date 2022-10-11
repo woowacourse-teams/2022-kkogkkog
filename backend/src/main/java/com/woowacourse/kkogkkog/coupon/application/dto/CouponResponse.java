@@ -51,7 +51,7 @@ public class CouponResponse {
             new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
             coupon.getCouponTag(),
             coupon.getCouponMessage(),
-            coupon.getCouponType().getDisplayName(),
+            coupon.getCouponType().name(),
             coupon.getCouponState().getCouponStatus().name(),
             coupon.getCouponState().getMeetingDate(),
             coupon.getCreatedTime());

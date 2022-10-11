@@ -1,28 +1,21 @@
-import { useMemo } from 'react';
-
 import Icon from '@/@components/@shared/Icon';
 import Placeholder from '@/@components/@shared/Placeholder';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import ReservationList from '@/@components/reservation/ReservationList';
 import theme from '@/styles/theme';
-import { CouponResponse } from '@/types/remote/response';
-import { computeDay, generateDateText, generateDDay, sortByTime } from '@/utils/time';
+import { Reservation } from '@/types/coupon/client';
+import { computeDay, generateDateKR, generateDday } from '@/utils/time';
 
 import * as Styled from './style';
 
-interface AcceptedCouponListProps {
-  reservationRecord: Record<string, CouponResponse[]>;
+interface ReservationSectionProps {
+  reservationList: Reservation[];
 }
 
-const ReservationSection = (props: AcceptedCouponListProps) => {
-  const { reservationRecord } = props;
+const ReservationSection = (props: ReservationSectionProps) => {
+  const { reservationList } = props;
 
-  const sortedKey = useMemo(
-    () => Object.keys(reservationRecord).sort(sortByTime),
-    [reservationRecord]
-  );
-
-  if (Object.keys(reservationRecord).length === 0) {
+  if (reservationList.length === 0) {
     return (
       <Styled.NoneContentsContainer>
         <Icon iconName='hand' hasCursor={false} size='36' color={theme.colors.primary_400} />
@@ -34,21 +27,22 @@ const ReservationSection = (props: AcceptedCouponListProps) => {
 
   return (
     <Styled.Root>
-      {sortedKey.map(date => {
-        const dateText = generateDateText(date);
-        const day = computeDay(date);
-        const dDay = generateDDay(date);
+      {reservationList.map(reservation => {
+        const { meetingDate, coupons: reservatedCouponList } = reservation;
+
+        const dateText = generateDateKR(meetingDate);
+        const day = computeDay(meetingDate);
+        const dDay = generateDday(meetingDate);
 
         return (
-          <Styled.DateContainer key={date}>
+          <Styled.DateContainer key={meetingDate}>
             <Styled.DateTitle>
               <div>
                 {dateText}({day})
               </div>
               <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
             </Styled.DateTitle>
-            <ReservationList reservatedCouponList={reservationRecord[date]} />
-            {/* <VerticalCouponList CouponItem={BigCouponItem} /> */}
+            <ReservationList reservatedCouponList={reservatedCouponList} />
           </Styled.DateContainer>
         );
       })}
@@ -69,34 +63,3 @@ ReservationSection.Skeleton = function Skeleton() {
     </Styled.Root>
   );
 };
-
-// const scrollContainer = useRef<HTMLDivElement>(null);
-
-// const onClickRightArrow = () => {
-//   const { current: element } = scrollContainer;
-
-//   if (element) {
-//     const { clientWidth, scrollWidth, offsetWidth, scrollLeft, clientLeft } = element;
-
-//     element?.scroll({
-//       left: scrollLeft + offsetWidth,
-//       behavior: 'smooth',
-//     });
-//   }
-// };
-
-// const onClickLeftArrow = () => {
-//   const { current: element } = scrollContainer;
-
-//   if (element) {
-//     const { clientWidth, scrollWidth, offsetWidth, scrollLeft } = element;
-
-//     element?.scroll({ left: scrollLeft - offsetWidth, behavior: 'smooth' });
-//   }
-// };
-/* <Styled.LeftArrow onClick={onClickLeftArrow}>
-          <Icon iconName='arrow' color={theme.colors.primary_400} size='36' />
-        </Styled.LeftArrow>
-        <Styled.RightArrow onClick={onClickRightArrow}>
-          <Icon iconName='arrow' color={theme.colors.primary_400} size='36' />
-        </Styled.RightArrow> */

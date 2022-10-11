@@ -1,14 +1,15 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 
 import { SmallCouponItemProps } from '@/@components/coupon/CouponItem/small';
-import { CouponResponse } from '@/types/remote/response';
+import skeletonCouponSmallImage from '@/assets/images/skeleton_coupon_small.png';
+import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './horizontal.style';
 
 interface HorizontalCouponListProps {
-  couponList?: CouponResponse[];
-  CouponItem: React.FunctionComponent<SmallCouponItemProps>;
-  onClickCouponItem?: (coupon: CouponResponse) => void;
+  couponList?: Coupon[];
+  CouponItem: FunctionComponent<SmallCouponItemProps>;
+  onClickCouponItem?: (coupon: Coupon) => void;
 }
 
 const HorizontalCouponList = (props: HorizontalCouponListProps) => {
@@ -19,12 +20,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
       <Styled.SlideRoot>
         <Styled.TextContainer>
           <div>
-            <img
-              src='/assets/images/skeleton_coupon_small.png'
-              alt='쿠폰'
-              width={80}
-              height={97.94}
-            />
+            <img src={skeletonCouponSmallImage} alt='쿠폰' width={80} height={97.94} />
           </div>
           <h2>아직 쿠폰이 존재하지 않아요.</h2>
           <h3>쿠폰을 생성해보세요!</h3>
@@ -36,7 +32,7 @@ const HorizontalCouponList = (props: HorizontalCouponListProps) => {
   return (
     <Styled.SlideRoot>
       {couponList?.map(coupon => (
-        <CouponItem key={coupon.couponId} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
+        <CouponItem key={coupon.id} onClick={() => onClickCouponItem?.(coupon)} {...coupon} />
       ))}
     </Styled.SlideRoot>
   );

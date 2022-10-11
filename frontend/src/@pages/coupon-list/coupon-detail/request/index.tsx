@@ -8,13 +8,13 @@ import useInput from '@/@hooks/@common/useInput';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
-import { useFetchMe } from '@/@hooks/@queries/user';
 import { useChangeCouponStatus } from '@/@hooks/business/coupon';
+import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import { DYNAMIC_PATH, PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { getToday, isBeforeToday } from '@/utils/time';
+import { YYYYMMDD } from '@/types/utils';
+import { getTodayDate, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
 
 import * as Styled from './style';
@@ -25,20 +25,24 @@ const CouponRequestPage = () => {
   const navigate = useNavigate();
   const { couponId } = useParams();
 
-  const [meetingDate, onChangeMeetingDate] = useInput('', [isBeforeToday]);
-  const [message, onChangeMessage] = useInput('', [(value: string) => isOverMaxLength(value, 200)]);
+  const todayDate = getTodayDate();
 
-  const { me } = useFetchMe();
+  const [meetingDate, onChangeMeetingDate] = useInput<YYYYMMDD>(todayDate, [isBeforeToday]);
+  const [meetingMessage, onChangeMeetingMessage] = useInput('', [
+    (value: string) => isOverMaxLength(value, 200),
+  ]);
+
   const { coupon } = useFetchCoupon(Number(couponId));
 
   const { requestCoupon } = useChangeCouponStatus({
-    id: Number(couponId),
-    reservationId: coupon?.reservationId ?? null,
+    couponId: Number(couponId),
   });
 
   const { displayMessage } = useToast();
 
-  if (!coupon) {
+  const { isSent, member } = useCouponPartner(coupon);
+
+  if (!coupon || !member) {
     return <NotFoundPage />;
   }
 
@@ -46,20 +50,11 @@ const CouponRequestPage = () => {
     return <Navigate to={-1} />;
   }
 
-  const {
-    senderId,
-    senderNickname,
-    senderImageUrl,
-    receiverNickname,
-    receiverImageUrl,
-    couponType,
-  } = coupon;
-
-  const isSent = me?.id === senderId;
-
   if (isSent) {
     return <Navigate to={-1} />;
   }
+
+  const { couponType } = coupon;
 
   const onClickRequestButton = async () => {
     if (!meetingDate) {
@@ -72,7 +67,7 @@ const CouponRequestPage = () => {
       return;
     }
 
-    await requestCoupon({ meetingDate, message });
+    await requestCoupon({ meetingMessage, meetingDate });
 
     navigate(-1);
   };
@@ -89,14 +84,11 @@ const CouponRequestPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage
-            src={isSent ? receiverImageUrl : senderImageUrl}
-            alt='프로필'
-            width={51}
-            height={51}
-          />
+          <Styled.ProfileImage src={member.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
-            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
+            <strong>
+              {member.nickname} {isSent ? '님에게' : '님이'} 보낸
+            </strong>
             &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
@@ -107,7 +99,7 @@ const CouponRequestPage = () => {
           <Styled.DateInput
             type='date'
             value={meetingDate}
-            min={getToday()}
+            min={todayDate}
             data-placeholder='날짜 선택'
             onChange={onChangeMeetingDate}
             required
@@ -119,10 +111,10 @@ const CouponRequestPage = () => {
               <Styled.MessageTextarea
                 id='message-textarea'
                 placeholder='시간, 장소 등 원하는 메시지를 보내보세요!'
-                value={message}
-                onChange={onChangeMessage}
+                value={meetingMessage}
+                onChange={onChangeMeetingMessage}
               />
-              <Styled.MessageLength>{message.length} / 200</Styled.MessageLength>
+              <Styled.MessageLength>{meetingMessage.length} / 200</Styled.MessageLength>
             </Styled.MessageTextareaContainer>
           </Styled.TextareaContainer>
 

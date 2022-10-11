@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.ACCEPTED_COUPON;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
@@ -9,6 +10,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SEND
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
@@ -25,6 +27,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -203,23 +206,26 @@ class CouponServiceTest {
     class Find {
 
         private Member sender;
-        private Member receiver;
+        private Member receiver1;
+        private Member receiver2;
 
         @BeforeEach
         void setUp() {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
-            receiver = memberRepository.save(LEO.getMember(workspace));
+            receiver1 = memberRepository.save(LEO.getMember(workspace));
+            receiver2 = memberRepository.save(AUTHOR.getMember(workspace));
         }
 
         @Test
-        @DisplayName("쿠폰 아이디를 받으면, 쿠폰 상세 정보를 반환한다.")
+        @DisplayName("유저 아이디와 쿠폰 아이디를 받으면, 쿠폰 상세 정보를 반환한다.")
         void success() {
             List<CouponResponse> response = couponService.save(
-                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
             Long couponId = response.get(0).getId();
+            Long senderId = sender.getId();
 
-            CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+            CouponDetailResponse couponDetailResponse = couponService.find(senderId, couponId);
             String couponStatus = couponDetailResponse.getCouponStatus();
             LocalDateTime meetingDate = couponDetailResponse.getMeetingDate();
             List<CouponHistoryResponse> couponHistories = couponDetailResponse.getCouponHistories();
@@ -229,6 +235,18 @@ class CouponServiceTest {
                 () -> assertThat(meetingDate).isNull(),
                 () -> assertThat(couponHistories).hasSize(1)
             );
+        }
+
+        @Test
+        @DisplayName("유저 아이디가 보낸 사람 또는 받은 사람이 아니면, 예외를 던진다.")
+        void fail_cannot_access() {
+            List<CouponResponse> response = couponService.save(
+                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
+            Long couponId = response.get(0).getId();
+            Long anotherMemberId = receiver2.getId();
+
+            assertThatThrownBy(() -> couponService.find(anotherMemberId, couponId))
+                .isInstanceOf(CouponNotAccessibleException.class);
         }
     }
 
@@ -259,6 +277,9 @@ class CouponServiceTest {
             coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
                 sender, receiver, CouponType.COFFEE,
                 new CouponState(CouponStatus.ACCEPTED, meetingDate)));
+            couponRepository.save(ACCEPTED_COUPON.getCoupon(
+                sender, receiver, CouponType.COFFEE,
+                new CouponState(CouponStatus.READY, null)));
 
             List<CouponMeetingResponse> extract = couponService.findMeeting(sender.getId());
 

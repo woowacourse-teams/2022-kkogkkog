@@ -1,7 +1,9 @@
 import { FilterOption } from '@/@pages/coupon-list';
+import { UnregisteredFilterOption } from '@/@pages/unregistered-coupon-list';
 
 const SESSION_KEY = {
   filterOptions: 'filterOptions',
+  unregisteredFilterOptions: 'unregisteredFilterOptions',
   prevUrl: 'prevUrl',
 };
 
@@ -20,6 +22,10 @@ class SessionStorage<T extends string> {
 }
 
 export const filterOptionsSessionStorage = new SessionStorage<FilterOption>(
+  SESSION_KEY.filterOptions
+);
+
+export const unregisteredFilterOptionsSessionStorage = new SessionStorage<UnregisteredFilterOption>(
   SESSION_KEY.filterOptions
 );
 

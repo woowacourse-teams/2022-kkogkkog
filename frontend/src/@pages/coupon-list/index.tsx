@@ -1,22 +1,22 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
+import { Suspense } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
-import SmallCouponItem from '@/@components/coupon/CouponItem/small';
-import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
+import AcceptedCouponListSection from '@/@components/coupon/CouponListSection/AcceptedCouponListSection';
+import AllCouponListSection from '@/@components/coupon/CouponListSection/AllCouponListSection';
+import FinishedCouponListSection from '@/@components/coupon/CouponListSection/FinishedCouponListSection';
+import WaitingCouponListSection from '@/@components/coupon/CouponListSection/WaitingCouponListSection';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { useFetchCouponList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import { filterOptionsSessionStorage } from '@/storage/session';
 import theme from '@/styles/theme';
-import { COUPON_LIST_TYPE } from '@/types/client/coupon';
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon, COUPON_LIST_TYPE } from '@/types/coupon/client';
 
 const filterOption = ['전체', '대기', '확정', '완료'] as const;
 
@@ -28,11 +28,6 @@ const CouponListPage = () => {
   const couponListType: COUPON_LIST_TYPE =
     useLocation().pathname === PATH.SENT_COUPON_LIST ? 'sent' : 'received';
 
-  const { couponList, parseCouponList } = useFetchCouponList();
-
-  const parsedSentCouponList = useMemo(() => parseCouponList('sent'), [couponList]);
-  const parsedReceivedCouponList = useMemo(() => parseCouponList('received'), [couponList]);
-
   // 항상 전체가 기본값으로 들어가야 하는가?
   const { status, changeStatus } = useStatus<FilterOption>(
     filterOptionsSessionStorage.get() ?? '전체'
@@ -43,12 +38,9 @@ const CouponListPage = () => {
     filterOptionsSessionStorage.set(status);
   };
 
-  const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
+  const onClickCouponItem = (coupon: Coupon) => {
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.id));
   };
-
-  const currentParsedCouponList =
-    couponListType === 'sent' ? parsedSentCouponList : parsedReceivedCouponList;
 
   return (
     <PageTemplate title={couponListType === 'sent' ? '보낸 쿠폰' : '받은 쿠폰'}>
@@ -60,77 +52,34 @@ const CouponListPage = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        <Styled.Container>
-          {
-            <>
-              {status === '전체' && (
-                <Styled.HorizonListContainer>
-                  <section>
-                    <h2>기다리고 있어요!</h2>
-                    <HorizontalCouponList
-                      couponList={[
-                        ...currentParsedCouponList['REQUESTED'],
-                        ...currentParsedCouponList['READY'],
-                      ]}
-                      CouponItem={SmallCouponItem}
-                      onClickCouponItem={onClickCouponItem}
-                    />
-                  </section>
-                  <section>
-                    <h2>잡은 약속</h2>
-                    <HorizontalCouponList
-                      couponList={currentParsedCouponList['ACCEPTED']}
-                      CouponItem={SmallCouponItem}
-                      onClickCouponItem={onClickCouponItem}
-                    />
-                  </section>
-                  <section>
-                    <h2>지난 약속</h2>
-                    <HorizontalCouponList
-                      couponList={currentParsedCouponList['FINISHED']}
-                      CouponItem={SmallCouponItem}
-                      onClickCouponItem={onClickCouponItem}
-                    />
-                  </section>
-                </Styled.HorizonListContainer>
-              )}
-
-              {status === '대기' && (
-                <Styled.VerticalListContainer>
-                  <VerticalCouponList
-                    couponList={[
-                      ...currentParsedCouponList['REQUESTED'],
-                      ...currentParsedCouponList['READY'],
-                    ]}
-                    CouponItem={BigCouponItem}
-                    onClickCouponItem={onClickCouponItem}
-                  />
-                </Styled.VerticalListContainer>
-              )}
-
-              {status === '확정' && (
-                <Styled.VerticalListContainer>
-                  <VerticalCouponList
-                    couponList={currentParsedCouponList['ACCEPTED']}
-                    CouponItem={BigCouponItem}
-                    onClickCouponItem={onClickCouponItem}
-                  />
-                </Styled.VerticalListContainer>
-              )}
-
-              {status === '완료' && (
-                <Styled.VerticalListContainer>
-                  <VerticalCouponList
-                    couponList={currentParsedCouponList['FINISHED']}
-                    CouponItem={BigCouponItem}
-                    onClickCouponItem={onClickCouponItem}
-                  />
-                </Styled.VerticalListContainer>
-              )}
-            </>
-          }
-        </Styled.Container>
-
+        <Suspense fallback={<CouponListPageFallback />}>
+          <Styled.Container>
+            {status === '전체' && (
+              <AllCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '대기' && (
+              <WaitingCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '확정' && (
+              <AcceptedCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '완료' && (
+              <FinishedCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+          </Styled.Container>
+        </Suspense>
         <Styled.LinkInner>
           <Link to={PATH.COUPON_CREATE}>
             <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
@@ -143,11 +92,9 @@ const CouponListPage = () => {
 
 export const CouponListPageFallback = () => {
   return (
-    <PageTemplate title='쿠폰 모아보기'>
-      <Styled.Root>
-        <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
-      </Styled.Root>
-    </PageTemplate>
+    <Styled.Root>
+      <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
+    </Styled.Root>
   );
 };
 
@@ -156,10 +103,7 @@ export default CouponListPage;
 export const Styled = {
   Root: styled.div`
     border-radius: 4px;
-
-    & > div {
-      margin-top: 20px;
-    }
+    padding: 20px 0;
   `,
   ListFilterContainer: styled.div`
     padding: 0 20px;
@@ -182,11 +126,11 @@ export const Styled = {
     }
   `,
   VerticalListContainer: styled.div`
-    padding: 0 10px 20px 10px;
+    padding: 20px 10px;
   `,
   HorizonListContainer: styled.div`
     & > section {
-      padding: 10px 20px;
+      padding: 30px 20px 10px;
     }
 
     & > section:nth-of-type(2n) {

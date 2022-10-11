@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -10,24 +9,28 @@ import Position from '@/@components/@shared/Position';
 import SmallCouponItem from '@/@components/coupon/CouponItem/small';
 import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
-import { useFetchCouponList } from '@/@hooks/@queries/coupon';
+import { useFetchCouponList, useFetchReservationList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import { filterOptionsSessionStorage } from '@/storage/session';
-import { CouponResponse } from '@/types/remote/response';
+import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
 
 const MainPage = () => {
   const navigate = useNavigate();
-  const { couponList, isLoading, parseOpenCouponList, generateReservationRecord } =
-    useFetchCouponList();
 
-  const reservationRecord = useMemo(() => generateReservationRecord(), [couponList]);
-  const receivedOpenCouponList = useMemo(() => parseOpenCouponList('received'), [couponList]);
-  const sentOpenCouponList = useMemo(() => parseOpenCouponList('sent'), [couponList]);
+  const { reservationList, isLoading: isAcceptedCouponListLoading } = useFetchReservationList();
+  const { openCouponList: receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
+    useFetchCouponList({
+      couponListType: 'received',
+    });
+  const { openCouponList: sentOpenCouponList, isLoading: isSentCouponListLoading } =
+    useFetchCouponList({
+      couponListType: 'sent',
+    });
 
-  const onClickCouponItem = (coupon: CouponResponse) => {
-    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.couponId));
+  const onClickCouponItem = (coupon: Coupon) => {
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(coupon.id));
   };
 
   const onClickViewMoreCoupon = () => {
@@ -48,7 +51,7 @@ const MainPage = () => {
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
           <Link
-            to={PATH.COUPON_CREATE}
+            to={PATH.COUPON_CREATE_SELECT}
             css={css`
               margin-top: 30px;
             `}
@@ -77,8 +80,11 @@ const MainPage = () => {
             <span>예정된 약속</span>
           </Styled.FullListTitle>
 
-          <CustomSuspense fallback={<ReservationSection.Skeleton />} isLoading={isLoading}>
-            <ReservationSection reservationRecord={reservationRecord} />
+          <CustomSuspense
+            fallback={<ReservationSection.Skeleton />}
+            isLoading={isAcceptedCouponListLoading}
+          >
+            <ReservationSection reservationList={reservationList} />
           </CustomSuspense>
         </Styled.FullListContainer>
 
@@ -98,7 +104,7 @@ const MainPage = () => {
               fallback={
                 <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
               }
-              isLoading={isLoading}
+              isLoading={isReceivedCouponListLoading}
             >
               <HorizontalCouponList
                 couponList={receivedOpenCouponList}
@@ -123,7 +129,7 @@ const MainPage = () => {
               fallback={
                 <HorizontalCouponList.Skeleton CouponItemSkeleton={SmallCouponItem.Skeleton} />
               }
-              isLoading={isLoading}
+              isLoading={isSentCouponListLoading}
             >
               <HorizontalCouponList
                 couponList={sentOpenCouponList}
@@ -132,6 +138,19 @@ const MainPage = () => {
               />
             </CustomSuspense>
           </div>
+
+          <Styled.UnRegisteredCouponSection>
+            <Styled.ListTitle>
+              <span>미등록 쿠폰</span>
+            </Styled.ListTitle>
+            <Styled.UnRegisteredCouponSectionInner>
+              <Link to={PATH.UNREGISTERED_COUPON_LIST}>
+                <Button css={Styled.ExtendedUnRegisteredCouponMoreButton}>
+                  미등록 쿠폰 조회하기
+                </Button>
+              </Link>
+            </Styled.UnRegisteredCouponSectionInner>
+          </Styled.UnRegisteredCouponSection>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>

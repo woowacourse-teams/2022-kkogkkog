@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useFetchMe, useFetchUserList } from '@/@hooks/@queries/user';
-import { UserResponse } from '@/types/remote/response';
+import { UserResponse } from '@/types/user/remote';
 
 export const useSearchUser = () => {
   const { me } = useFetchMe();

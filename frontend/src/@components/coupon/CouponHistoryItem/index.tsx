@@ -1,6 +1,6 @@
 import { couponEventTextMapper, couponTypeTextMapper } from '@/constants/coupon';
-import { CouponHistory } from '@/types/client/coupon';
-import { generateDateText } from '@/utils/time';
+import { CouponHistory } from '@/types/coupon/client';
+import { generateDateKR } from '@/utils/time';
 
 import * as Styled from './style';
 
@@ -10,12 +10,12 @@ interface CouponHistoryItemProps {
 
 const CouponHistoryItem = (props: CouponHistoryItemProps) => {
   const { history } = props;
-  const { imageUrl, createdTime, nickname, couponEvent, couponType, message, meetingDate } =
+  const { imageUrl, createdTime, nickname, couponEvent, couponType, meetingMessage, meetingDate } =
     history;
 
-  const createdTimeText = generateDateText(createdTime, true);
+  const createdTimeText = generateDateKR(createdTime, true);
 
-  const meetingDateText = generateDateText(meetingDate, true);
+  const meetingDateText = generateDateKR(meetingDate, true);
 
   const hasMeetingDateText = couponEvent === 'REQUEST';
 
@@ -34,7 +34,7 @@ const CouponHistoryItem = (props: CouponHistoryItemProps) => {
           <Styled.Date>{createdTimeText}</Styled.Date>
         </Styled.InformationContainer>
       </Styled.CouponInfoContainer>
-      {message && <Styled.Message>{message}</Styled.Message>}
+      {meetingMessage && <Styled.Message>{meetingMessage}</Styled.Message>}
     </Styled.Root>
   );
 };

@@ -20,10 +20,8 @@ public class CouponHistoryResponse {
     private String imageUrl;
     private String couponType;
     private String couponEvent;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime meetingDate;
     private String meetingMessage;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     public CouponHistoryResponse(Long id,

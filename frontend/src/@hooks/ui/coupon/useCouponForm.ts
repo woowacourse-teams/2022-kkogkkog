@@ -6,14 +6,12 @@ import { useToast } from '@/@hooks/@common/useToast';
 import { useCreateCoupon } from '@/@hooks/business/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import {
-  COUPON_COLORS,
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
-  couponColors,
   couponHashtags,
   couponTypeCollection,
-} from '@/types/client/coupon';
-import { UserResponse } from '@/types/remote/response';
+} from '@/types/coupon/client';
+import { UserResponse } from '@/types/user/remote';
 import { isOverMaxLength } from '@/utils/validations';
 
 export const useCouponForm = () => {
@@ -22,29 +20,23 @@ export const useCouponForm = () => {
   const { displayMessage } = useToast();
 
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
-  const [type, setType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
-  const [hashtag, setHashtag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
-  const [color, setColor] = useState<COUPON_COLORS>(couponColors[0]);
-
-  const [description, onChangeDescription] = useInput('', [
+  const [couponType, setCouponType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
+  const [couponTag, setCouponTag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
+  const [couponMessage, onChangeCouponMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 50),
   ]);
 
   const { createCoupon } = useCreateCoupon();
 
-  const onSelectType = (type: COUPON_ENG_TYPE) => {
-    setType(type);
+  const onSelectCouponType = (type: COUPON_ENG_TYPE) => () => {
+    setCouponType(type);
   };
 
-  const onSelectHashtag = (hashtag: COUPON_HASHTAGS) => {
-    setHashtag(hashtag);
+  const onSelectCouponTag = (couponTag: COUPON_HASHTAGS) => () => {
+    setCouponTag(couponTag);
   };
 
-  const onSelectColor = (color: COUPON_COLORS) => {
-    setColor(color);
-  };
-
-  const onSelectReceiver = (user: UserResponse) => {
+  const onSelectReceiver = (user: UserResponse) => () => {
     const isSelected = receiverList.some(receiver => receiver.id === user.id);
 
     if (isSelected) {
@@ -56,7 +48,7 @@ export const useCouponForm = () => {
     setReceiverList(prev => [...prev, user]);
   };
 
-  const onSubmitCreateForm: FormEventHandler<HTMLFormElement> = async e => {
+  const onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
     if (!window.confirm('쿠폰을 생성하시겠습니까?')) {
@@ -69,17 +61,17 @@ export const useCouponForm = () => {
       return;
     }
 
-    if (description.length > 50) {
+    if (couponMessage.length > 50) {
       displayMessage('50자 이내로 작성해주세요', true);
 
       return;
     }
 
     const coupons = await createCoupon({
-      receiverList,
-      hashtag,
-      description,
-      type,
+      receiverIds: receiverList.map(({ id }) => id),
+      couponTag,
+      couponMessage,
+      couponType,
     });
 
     if (coupons.length === 1) {
@@ -94,20 +86,16 @@ export const useCouponForm = () => {
   return {
     state: {
       receiverList,
-      couponType: type,
-      hashtag,
-      color,
-      description,
+      couponType,
+      couponTag,
+      couponMessage,
     },
-    changeHandler: {
+    handler: {
       onSelectReceiver,
-      onSelectType,
-      onSelectHashtag,
-      onSelectColor,
-      onChangeDescription,
-    },
-    submitHandler: {
-      create: onSubmitCreateForm,
+      onSelectCouponType,
+      onSelectCouponTag,
+      onChangeCouponMessage,
+      onSubmitCouponCreateForm,
     },
   };
 };
