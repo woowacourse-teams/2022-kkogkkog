@@ -22,7 +22,7 @@ export const FindUserContainer = styled.div`
   }
 `;
 
-export const NormalCouponLink = (theme: Theme) => css`
+export const AnotherCouponCreatePageLink = (theme: Theme) => css`
   font-size: 12px;
   font-weight: bold;
 

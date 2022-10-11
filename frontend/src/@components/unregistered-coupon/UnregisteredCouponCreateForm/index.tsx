@@ -52,7 +52,7 @@ const UnregisteredCouponCreateForm = (props: UnregisteredCouponCreateFormProps) 
           onClickPlusButton={onClickCouponCountUpdateButton(currentCouponCount + 1)}
           onClickMinusButton={onClickCouponCountUpdateButton(currentCouponCount - 1)}
         />
-        <Link to={PATH.COUPON_CREATE} css={Styled.NormalCouponLink} replace>
+        <Link to={PATH.COUPON_CREATE} css={Styled.AnotherCouponCreatePageLink} replace>
           일반 쿠폰 보내러가기
         </Link>
       </Styled.CountContainer>
