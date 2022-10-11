@@ -17,6 +17,7 @@ public class UnregisteredCouponResponse {
     private String couponCode;
     private CouponMemberResponse sender;
     private CouponMemberResponse receiver;
+    private Long couponId;
     private String couponTag;
     private String couponMessage;
     private String couponType;
@@ -24,12 +25,13 @@ public class UnregisteredCouponResponse {
     private LocalDateTime createdTime;
 
     public UnregisteredCouponResponse(Long id, String couponCode, CouponMemberResponse sender, CouponMemberResponse receiver,
-                                      String couponTag, String couponMessage, String couponType,
+                                      Long couponId, String couponTag, String couponMessage, String couponType,
                                       String unregisteredCouponStatus, LocalDateTime createdTime) {
         this.id = id;
         this.couponCode = couponCode;
         this.sender = sender;
         this.receiver = receiver;
+        this.couponId = couponId;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
@@ -43,6 +45,7 @@ public class UnregisteredCouponResponse {
             unregisteredCoupon.getId(),
             unregisteredCoupon.getCouponCode(),
             CouponMemberResponse.of(sender),
+            null,
             null,
             unregisteredCoupon.getCouponTag(),
             unregisteredCoupon.getCouponMessage(),
@@ -61,6 +64,7 @@ public class UnregisteredCouponResponse {
             unregisteredCoupon.getCouponCode(),
             CouponMemberResponse.of(sender),
             CouponMemberResponse.of(receiver),
+            coupon.getId(),
             unregisteredCoupon.getCouponTag(),
             unregisteredCoupon.getCouponMessage(),
             unregisteredCoupon.getCouponType().name(),

@@ -35,6 +35,7 @@ public class UnregisteredCouponDtoFixture {
             "쿠폰코드",
             new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
             null,
+            null,
             "고마워요",
             "쿠폰에 대한 메시지",
             "COFFEE",
