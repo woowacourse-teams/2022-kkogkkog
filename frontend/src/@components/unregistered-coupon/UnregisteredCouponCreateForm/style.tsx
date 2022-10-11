@@ -11,15 +11,8 @@ export const FormRoot = styled.form`
   }
 `;
 
-export const FindUserContainer = styled.div`
+export const CountContainer = styled.div`
   position: relative;
-
-  & > div:first-of-type {
-    font-size: 14px;
-    font-weight: 600;
-
-    margin-bottom: 8px;
-  }
 `;
 
 export const AnotherCouponCreatePageLink = (theme: Theme) => css`
@@ -33,59 +26,6 @@ export const AnotherCouponCreatePageLink = (theme: Theme) => css`
   color: ${theme.colors.primary_400};
 
   cursor: pointer;
-`;
-
-export const FindUserInput = styled.div`
-  width: 100%;
-  min-height: 50px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 10px;
-
-  border-radius: 10px;
-
-  padding: 10px;
-
-  font-size: 16px;
-
-  cursor: pointer;
-
-  ${({ theme }) => css`
-    background-color: ${theme.colors.background_3};
-    color: ${theme.colors.light_grey_200};
-  `}
-`;
-
-export const SelectedUserListContainer = styled.div`
-  flex: 1;
-
-  display: flex;
-
-  overflow-x: scroll;
-  overflow-y: hidden;
-
-  ${({ theme }) => css`
-    background-color: transparent;
-    color: ${theme.colors.light_grey_200};
-  `}
-`;
-
-export const SelectedUserContainer = styled.div`
-  margin-right: 10px;
-
-  padding: 6px 9px;
-
-  border-radius: 20px;
-
-  font-size: 12px;
-
-  ${({ theme }) => css`
-    background-color: ${theme.colors.primary_400};
-    color: ${theme.colors.white_100};
-  `}
 `;
 
 export const FeelOption = styled.li<{ isSelected: boolean }>`

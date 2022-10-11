@@ -2,9 +2,8 @@ import { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
+import Input from '@/@components/@shared/Input';
 import SelectInput from '@/@components/@shared/SelectInput';
-import UserSearchModal from '@/@components/user/UserSearchModal';
-import { useModal } from '@/@hooks/@common/useModal';
 import { usePreventReload } from '@/@hooks/@common/usePreventReload';
 import { PATH } from '@/Router';
 import {
@@ -14,70 +13,49 @@ import {
   couponTypeCollection,
   THUMBNAIL,
 } from '@/types/coupon/client';
-import { UserResponse } from '@/types/user/remote';
 
 import * as Styled from './style';
 
-interface CouponCreateFormProps {
-  currentReceiverList: UserResponse[];
+interface UnregisteredCouponCreateFormProps {
+  currentCouponCount: number;
   currentCouponType: COUPON_ENG_TYPE;
   currentCouponTag: COUPON_HASHTAGS;
   currentCouponMessage: string;
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onClickCouponCountUpdateButton: (count: number) => MouseEventHandler<HTMLButtonElement>;
   onSelectCouponType: (type: COUPON_ENG_TYPE) => MouseEventHandler<HTMLLIElement>;
   onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => MouseEventHandler<HTMLLIElement>;
   onChangeCouponMessage: ChangeEventHandler<HTMLTextAreaElement>;
-  onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement>;
+  onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
-const CouponCreateForm = (props: CouponCreateFormProps) => {
+const UnregisteredCouponCreateForm = (props: UnregisteredCouponCreateFormProps) => {
   const {
-    currentReceiverList,
+    currentCouponCount,
     currentCouponType,
     currentCouponTag,
     currentCouponMessage,
-    onSelectReceiver,
+    onClickCouponCountUpdateButton,
     onSelectCouponType,
     onSelectCouponTag,
     onChangeCouponMessage,
-    onSubmitCouponCreateForm,
+    onSubmitCreateForm,
   } = props;
 
   usePreventReload();
 
-  const { isShowModal, openModal, closeModal } = useModal();
-
   return (
-    <Styled.FormRoot onSubmit={onSubmitCouponCreateForm}>
-      <Styled.FindUserContainer>
-        <div>누구에게 보내시나요 ?</div>
-        <Styled.FindUserInput onClick={openModal}>
-          {currentReceiverList.length === 0 && <span>유저를 찾아보세요</span>}
-
-          {currentReceiverList.length !== 0 && (
-            <Styled.SelectedUserListContainer>
-              {currentReceiverList.map(receiver => (
-                <Styled.SelectedUserContainer key={receiver.id}>
-                  <span>{receiver.nickname}</span>
-                </Styled.SelectedUserContainer>
-              ))}
-            </Styled.SelectedUserListContainer>
-          )}
-
-          <span>🔍</span>
-        </Styled.FindUserInput>
-        <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.AnotherCouponCreatePageLink} replace>
-          미등록 쿠폰 생성하기
-        </Link>
-      </Styled.FindUserContainer>
-
-      {isShowModal && (
-        <UserSearchModal
-          currentReceiverList={currentReceiverList}
-          onSelectReceiver={onSelectReceiver}
-          closeModal={closeModal}
+    <Styled.FormRoot onSubmit={onSubmitCreateForm}>
+      <Styled.CountContainer>
+        <Input.Counter
+          label='몇 명에게 주고 싶나요?'
+          value={currentCouponCount}
+          onClickPlusButton={onClickCouponCountUpdateButton(currentCouponCount + 1)}
+          onClickMinusButton={onClickCouponCountUpdateButton(currentCouponCount - 1)}
         />
-      )}
+        <Link to={PATH.COUPON_CREATE} css={Styled.AnotherCouponCreatePageLink} replace>
+          일반 쿠폰 보내러가기
+        </Link>
+      </Styled.CountContainer>
 
       <SelectInput label='어떤 쿠폰인가요 ?'>
         {couponTypeCollection.map(({ engType }) => (
@@ -125,4 +103,4 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
   );
 };
 
-export default CouponCreateForm;
+export default UnregisteredCouponCreateForm;

@@ -78,6 +78,16 @@ const globalStyle = css`
   div::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export default globalStyle;

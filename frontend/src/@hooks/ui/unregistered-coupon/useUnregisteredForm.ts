@@ -3,30 +3,38 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useCreateCoupon } from '@/@hooks/business/coupon';
-import { DYNAMIC_PATH, PATH } from '@/Router';
+import { PATH } from '@/Router';
 import {
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
   couponHashtags,
   couponTypeCollection,
 } from '@/types/coupon/client';
-import { UserResponse } from '@/types/user/remote';
 import { isOverMaxLength } from '@/utils/validations';
 
-export const useCouponForm = () => {
+export const useUnregisteredForm = () => {
   const navigate = useNavigate();
 
   const { displayMessage } = useToast();
 
-  const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
+  const [couponCount, setCouponCount] = useState(1);
   const [couponType, setCouponType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [couponTag, setCouponTag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
   const [couponMessage, onChangeCouponMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 50),
   ]);
 
-  const { createCoupon } = useCreateCoupon();
+  const onClickCouponCountUpdateButton = (count: number) => () => {
+    if (isNaN(count)) {
+      return;
+    }
+
+    if (count < 1 || count > 5) {
+      return;
+    }
+
+    setCouponCount(count);
+  };
 
   const onSelectCouponType = (type: COUPON_ENG_TYPE) => () => {
     setCouponType(type);
@@ -36,28 +44,10 @@ export const useCouponForm = () => {
     setCouponTag(couponTag);
   };
 
-  const onSelectReceiver = (user: UserResponse) => () => {
-    const isSelected = receiverList.some(receiver => receiver.id === user.id);
-
-    if (isSelected) {
-      setReceiverList(prev => prev.filter(({ id: receiverId }) => receiverId !== user.id));
-
-      return;
-    }
-
-    setReceiverList(prev => [...prev, user]);
-  };
-
-  const onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement> = async e => {
+  const onSubmitUnregisteredCouponCreateForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
     if (!window.confirm('쿠폰을 생성하시겠습니까?')) {
-      return;
-    }
-
-    if (receiverList.length === 0) {
-      displayMessage('받을 사람을 선택해주세요', true);
-
       return;
     }
 
@@ -67,15 +57,18 @@ export const useCouponForm = () => {
       return;
     }
 
-    const coupons = await createCoupon({
-      receiverIds: receiverList.map(({ id }) => id),
-      couponTag,
-      couponMessage,
-      couponType,
-    });
+    // submitAction
+    // const coupons = await createCoupon({
+    //   receiverIds: receiverList.map(({ id }) => id),
+    //   couponTag,
+    //   couponMessage,
+    //   couponType,
+    // });
 
-    if (coupons.length === 1) {
-      navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
+    if (couponCount === 1) {
+      // 미등록 쿠폰 조회 페이지로
+      // navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
+      navigate(PATH.MAIN);
 
       return;
     }
@@ -85,17 +78,17 @@ export const useCouponForm = () => {
 
   return {
     state: {
-      receiverList,
+      couponCount,
       couponType,
       couponTag,
       couponMessage,
     },
     handler: {
-      onSelectReceiver,
+      onClickCouponCountUpdateButton,
       onSelectCouponType,
       onSelectCouponTag,
       onChangeCouponMessage,
-      onSubmitCouponCreateForm,
+      onSubmitUnregisteredCouponCreateForm,
     },
   };
 };
