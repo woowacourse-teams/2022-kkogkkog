@@ -22,22 +22,21 @@ export const useCouponForm = () => {
   const [receiverList, setReceiverList] = useState<UserResponse[]>([]);
   const [couponType, setCouponType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [couponTag, setCouponTag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
-
   const [couponMessage, onChangeCouponMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 50),
   ]);
 
   const { createCoupon } = useCreateCoupon();
 
-  const onSelectCouponType = (type: COUPON_ENG_TYPE) => {
+  const onSelectCouponType = (type: COUPON_ENG_TYPE) => () => {
     setCouponType(type);
   };
 
-  const onSelectCouponTag = (couponTag: COUPON_HASHTAGS) => {
+  const onSelectCouponTag = (couponTag: COUPON_HASHTAGS) => () => {
     setCouponTag(couponTag);
   };
 
-  const onSelectReceiver = (user: UserResponse) => {
+  const onSelectReceiver = (user: UserResponse) => () => {
     const isSelected = receiverList.some(receiver => receiver.id === user.id);
 
     if (isSelected) {
@@ -49,7 +48,7 @@ export const useCouponForm = () => {
     setReceiverList(prev => [...prev, user]);
   };
 
-  const onSubmitCreateForm: FormEventHandler<HTMLFormElement> = async e => {
+  const onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
 
     if (!window.confirm('쿠폰을 생성하시겠습니까?')) {
@@ -91,14 +90,12 @@ export const useCouponForm = () => {
       couponTag,
       couponMessage,
     },
-    changeHandler: {
+    handler: {
       onSelectReceiver,
       onSelectCouponType,
       onSelectCouponTag,
       onChangeCouponMessage,
-    },
-    submitHandler: {
-      create: onSubmitCreateForm,
+      onSubmitCouponCreateForm,
     },
   };
 };

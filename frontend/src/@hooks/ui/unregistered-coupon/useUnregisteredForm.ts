@@ -18,15 +18,13 @@ export const useUnregisteredForm = () => {
   const { displayMessage } = useToast();
 
   const [couponCount, setCouponCount] = useState(1);
-
   const [couponType, setCouponType] = useState<COUPON_ENG_TYPE>(couponTypeCollection[0].engType);
   const [couponTag, setCouponTag] = useState<COUPON_HASHTAGS>(couponHashtags[0]);
-
   const [couponMessage, onChangeCouponMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 50),
   ]);
 
-  const onChangeCouponCount = (count: number) => {
+  const onClickCouponCountUpdateButton = (count: number) => () => {
     if (isNaN(count)) {
       return;
     }
@@ -38,11 +36,11 @@ export const useUnregisteredForm = () => {
     setCouponCount(count);
   };
 
-  const onSelectCouponType = (type: COUPON_ENG_TYPE) => {
+  const onSelectCouponType = (type: COUPON_ENG_TYPE) => () => {
     setCouponType(type);
   };
 
-  const onSelectCouponTag = (couponTag: COUPON_HASHTAGS) => {
+  const onSelectCouponTag = (couponTag: COUPON_HASHTAGS) => () => {
     setCouponTag(couponTag);
   };
 
@@ -85,14 +83,12 @@ export const useUnregisteredForm = () => {
       couponTag,
       couponMessage,
     },
-    changeHandler: {
-      onChangeCouponCount,
+    handler: {
+      onClickCouponCountUpdateButton,
       onSelectCouponType,
       onSelectCouponTag,
       onChangeCouponMessage,
-    },
-    submitHandler: {
-      create: onSubmitUnregisteredCouponCreateForm,
+      onSubmitUnregisteredCouponCreateForm,
     },
   };
 };
