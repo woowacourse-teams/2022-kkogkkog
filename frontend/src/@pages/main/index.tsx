@@ -138,6 +138,19 @@ const MainPage = () => {
               />
             </CustomSuspense>
           </div>
+
+          <Styled.UnRegisteredCouponSection>
+            <Styled.ListTitle>
+              <span>미등록 쿠폰</span>
+            </Styled.ListTitle>
+            <Styled.UnRegisteredCouponSectionInner>
+              <Link to={PATH.UNREGISTERED_COUPON_LIST}>
+                <Button css={Styled.ExtendedUnRegisteredCouponMoreButton}>
+                  미등록 쿠폰 조회하기
+                </Button>
+              </Link>
+            </Styled.UnRegisteredCouponSectionInner>
+          </Styled.UnRegisteredCouponSection>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>

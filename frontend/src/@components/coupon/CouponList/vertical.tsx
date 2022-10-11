@@ -1,18 +1,16 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, MouseEventHandler } from 'react';
 
 import skeletonCouponBigImage from '@/assets/images/skeleton_coupon_big.png';
-import { Coupon } from '@/types/coupon/client';
 
-import { BigCouponItemProps } from '../CouponItem/big';
 import * as Styled from './vertical.style';
 
-interface VerticalCouponListProps {
-  couponList?: Coupon[];
-  CouponItem: FunctionComponent<BigCouponItemProps>;
-  onClickCouponItem?: (coupon: Coupon) => void;
+interface VerticalCouponListProps<T extends Record<string, unknown>> {
+  couponList?: T[];
+  CouponItem: FunctionComponent<T & { onClick: MouseEventHandler }>;
+  onClickCouponItem?: (coupon: T) => void;
 }
 
-const VerticalCouponList = (props: VerticalCouponListProps) => {
+const VerticalCouponList = <T extends { id: number }>(props: VerticalCouponListProps<T>) => {
   const { couponList, onClickCouponItem, CouponItem } = props;
 
   if (couponList?.length === 0) {
