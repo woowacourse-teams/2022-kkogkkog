@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { BASE_URL } from '@/apis';
 import coupons from '@/mocks/fixtures/coupon';
 import users from '@/mocks/fixtures/users';
-import { ChangeCouponStatusRequest, CreateCouponRequest } from '@/types/remote/request';
+import { ChangeCouponStatusRequest, CreateCouponRequest } from '@/types/coupon/remote';
 
 export const couponHandler = [
   rest.get(`${BASE_URL}/coupons`, (req, res, ctx) => {
