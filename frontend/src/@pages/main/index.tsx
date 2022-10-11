@@ -19,12 +19,12 @@ import * as Styled from './style';
 const MainPage = () => {
   const navigate = useNavigate();
 
-  const { reservationList, isLoading: isAcceptedCounponListLoading } = useFetchReservationList();
-  const { openCouponList: sentOpenCouponList, isLoading: isReceivedCouponListLoading } =
+  const { reservationList, isLoading: isAcceptedCouponListLoading } = useFetchReservationList();
+  const { openCouponList: receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
     useFetchCouponList({
       couponListType: 'received',
     });
-  const { openCouponList: receivedOpenCouponList, isLoading: isSentCouponListLoading } =
+  const { openCouponList: sentOpenCouponList, isLoading: isSentCouponListLoading } =
     useFetchCouponList({
       couponListType: 'sent',
     });
@@ -82,7 +82,7 @@ const MainPage = () => {
 
           <CustomSuspense
             fallback={<ReservationSection.Skeleton />}
-            isLoading={isAcceptedCounponListLoading}
+            isLoading={isAcceptedCouponListLoading}
           >
             <ReservationSection reservationList={reservationList} />
           </CustomSuspense>
