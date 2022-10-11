@@ -3,4 +3,4 @@ import { userHandler } from '@/mocks/handlers/user';
 
 import { unregisteredCouponHandler } from './unregistered-coupon';
 
-export const handlers = [...unregisteredCouponHandler];
+export const handlers = [...userHandler, ...couponHandler, ...unregisteredCouponHandler];
