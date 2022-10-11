@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, MouseEventHandler } from 'react';
 
 import * as Styled from './style';
 
@@ -19,31 +19,25 @@ const Input = (props: InputProps) => {
   );
 };
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CounterInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: number;
   label: string;
   description?: string;
-  onChangeCouponCount: any;
+  onClickPlusButton: MouseEventHandler<HTMLButtonElement>;
+  onClickMinusButton: MouseEventHandler<HTMLButtonElement>;
 }
 
-Input.Counter = function CounterInput(props: InputProps) {
-  const { label, id, value, onChangeCouponCount, ...rest } = props;
-
-  const onClickMinus = () => {
-    onChangeCouponCount(value - 1);
-  };
-
-  const onClickPlus = () => {
-    onChangeCouponCount(value + 1);
-  };
+Input.Counter = function CounterInput(props: CounterInputProps) {
+  const { label, id, description, value, onClickMinusButton, onClickPlusButton, ...rest } = props;
 
   return (
     <Styled.Root>
       <label htmlFor={id}>{label}</label>
+      {description && <Styled.Description>{description}</Styled.Description>}
       <Styled.CounterInputContainer>
-        <Styled.MinusCounterButton onClick={onClickMinus}>-</Styled.MinusCounterButton>
-        <Styled.Input id={id} type='number' value={value} {...rest} disabled />
-        <Styled.PlusCounterButton onClick={onClickPlus}>+</Styled.PlusCounterButton>
+        <Styled.MinusCounterButton onClick={onClickMinusButton}>-</Styled.MinusCounterButton>
+        <Styled.Input id={id} type='number' value={value} disabled {...rest} />
+        <Styled.PlusCounterButton onClick={onClickPlusButton}>+</Styled.PlusCounterButton>
       </Styled.CounterInputContainer>
     </Styled.Root>
   );

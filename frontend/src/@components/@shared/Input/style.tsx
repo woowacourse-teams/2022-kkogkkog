@@ -79,7 +79,7 @@ export const CounterInputContainer = styled.div`
   }
 `;
 
-export const CounterButton = styled.div`
+export const CounterButton = styled.button`
   position: absolute;
 
   width: 30px;
