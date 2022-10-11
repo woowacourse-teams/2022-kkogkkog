@@ -1,17 +1,35 @@
-import { getUnregisteredCouponListByStatus } from '@/apis/unregistered-coupon';
+import {
+  getUnregisteredCoupon,
+  getUnregisteredCouponListByStatus,
+} from '@/apis/unregistered-coupon';
 import { UnregisteredCouponListByStatusRequest } from '@/types/unregistered-coupon/remote';
 
 import { useQuery } from './utils';
 
 const QUERY_KEY = {
-  couponListByStatus: 'couponListByStatus',
+  unregisteredCoupon: 'unregisteredCoupon',
+  unregisteredCouponListByStatus: 'unregisteredCouponListByStatus',
 };
 
+export const useFetchUnregisteredCoupon = (id: number) => {
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY.unregisteredCoupon, id],
+    () => getUnregisteredCoupon(id),
+    {
+      staleTime: 10000,
+    }
+  );
+
+  return {
+    unregisteredCoupon: data,
+    isLoading,
+  };
+};
 export const useFetchUnregisteredCouponListByStatus = (
   body: UnregisteredCouponListByStatusRequest
 ) => {
   const { data, isLoading } = useQuery(
-    [QUERY_KEY.couponListByStatus, body.type],
+    [QUERY_KEY.unregisteredCouponListByStatus, body.type],
     () => getUnregisteredCouponListByStatus(body),
     {
       staleTime: 10000,
@@ -19,7 +37,7 @@ export const useFetchUnregisteredCouponListByStatus = (
   );
 
   return {
-    couponListByStatus: data?.data ?? [],
+    unregisteredCouponListByStatus: data?.data ?? [],
     isLoading,
   };
 };
