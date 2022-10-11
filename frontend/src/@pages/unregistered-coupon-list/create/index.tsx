@@ -11,13 +11,13 @@ const UnregisteredCouponCreatePage = () => {
 
   const {
     state: { couponCount, couponMessage, couponTag, couponType },
-    changeHandler: {
-      onChangeCouponCount,
+    handler: {
+      onClickCouponCountUpdateButton,
       onChangeCouponMessage,
       onSelectCouponTag,
       onSelectCouponType,
+      onSubmitUnregisteredCouponCreateForm,
     },
-    submitHandler: { create: onSubmitUnregisteredCouponCreateForm },
   } = useUnregisteredForm();
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const UnregisteredCouponCreatePage = () => {
             currentCouponType={couponType}
             currentCouponTag={couponTag}
             currentCouponMessage={couponMessage}
-            onChangeCouponCount={onChangeCouponCount}
+            onClickCouponCountUpdateButton={onClickCouponCountUpdateButton}
             onSelectCouponType={onSelectCouponType}
             onSelectCouponTag={onSelectCouponTag}
             onChangeCouponMessage={onChangeCouponMessage}
