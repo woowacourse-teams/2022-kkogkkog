@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.ACCEPTED_COUPON;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
@@ -13,9 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
@@ -24,7 +24,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
@@ -33,7 +32,6 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.application.ApplicationTest;
-import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -114,8 +112,8 @@ class CouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
-            couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
-            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
@@ -163,8 +161,8 @@ class CouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
-            couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
-            Coupon coupon = couponRepository.save(CouponFixture.COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
@@ -251,8 +249,8 @@ class CouponServiceTest {
     }
 
     @Nested
-    @DisplayName("findMeeting 메서드는")
-    class FindMeeting {
+    @DisplayName("findAcceptedCoupons 메서드는")
+    class FindAcceptedCoupons {
 
         private Member sender;
         private Member receiver;
@@ -270,36 +268,50 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
         void success_sender() {
-            LocalDateTime meetingDate = LocalDateTime.now().plusDays(7);
-            coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
-            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
-            couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
                 new CouponState(CouponStatus.READY, null)));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(2))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(1))));
 
-            List<CouponMeetingResponse> extract = couponService.findMeeting(sender.getId());
+            List<AcceptedCouponResponse> extract = couponService.findAcceptedCoupons(sender.getId());
 
-            assertThat(extract).hasSize(1);
+            assertThat(extract).hasSize(2);
+        }
+
+        @Test
+        @DisplayName("받은 사람의 ID를 받으면, 당일 잡힌 약속 목록을 조회할 수 있다.")
+        void success_todayMeeting() {
+            couponRepository.save(
+                COFFEE.getCoupon(sender, receiver, new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
+
+            List<AcceptedCouponResponse> actual = couponService.findAcceptedCoupons(sender.getId());
+
+            assertThat(actual).hasSize(1);
         }
 
         @Test
         @DisplayName("보낸 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
         void success_receiver() {
-            LocalDateTime meetingDate = LocalDateTime.now().plusDays(7);
-            coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
-            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, meetingDate)));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.READY, null)));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(2))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(1))));
 
-            List<CouponMeetingResponse> extract = couponService.findMeeting(receiver.getId());
+            List<AcceptedCouponResponse> extract = couponService.findAcceptedCoupons(receiver.getId());
 
-            assertThat(extract).hasSize(1);
+            assertThat(extract).hasSize(2);
         }
     }
 }
