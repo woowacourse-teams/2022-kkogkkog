@@ -10,13 +10,13 @@ import { useCouponForm } from '@/@hooks/ui/coupon/useCouponForm';
 const CouponCreatePage = () => {
   const {
     state: { receiverList, couponType, couponTag, couponMessage },
-    changeHandler: {
+    handler: {
       onSelectReceiver,
       onSelectCouponType,
       onSelectCouponTag,
       onChangeCouponMessage,
+      onSubmitCouponCreateForm,
     },
-    submitHandler: { create: onSubmitCouponCreateForm },
   } = useCouponForm();
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,7 @@ const CouponCreatePage = () => {
             onSelectCouponType={onSelectCouponType}
             onSelectCouponTag={onSelectCouponTag}
             onChangeCouponMessage={onChangeCouponMessage}
-            onSubmitCreateForm={onSubmitCouponCreateForm}
+            onSubmitCouponCreateForm={onSubmitCouponCreateForm}
           />
         </Styled.Inner>
       </Styled.Root>

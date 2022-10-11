@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FormEventHandler } from 'react';
+import { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -23,11 +23,11 @@ interface CouponCreateFormProps {
   currentCouponType: COUPON_ENG_TYPE;
   currentCouponTag: COUPON_HASHTAGS;
   currentCouponMessage: string;
-  onSelectReceiver: (user: UserResponse) => void;
-  onSelectCouponType: (type: COUPON_ENG_TYPE) => void;
-  onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => void;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectCouponType: (type: COUPON_ENG_TYPE) => MouseEventHandler<HTMLLIElement>;
+  onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => MouseEventHandler<HTMLLIElement>;
   onChangeCouponMessage: ChangeEventHandler<HTMLTextAreaElement>;
-  onSubmitCreateForm: FormEventHandler<HTMLFormElement>;
+  onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement>;
 }
 
 const CouponCreateForm = (props: CouponCreateFormProps) => {
@@ -40,7 +40,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
     onSelectCouponType,
     onSelectCouponTag,
     onChangeCouponMessage,
-    onSubmitCreateForm,
+    onSubmitCouponCreateForm,
   } = props;
 
   usePreventReload();
@@ -48,7 +48,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
   const { isShowModal, openModal, closeModal } = useModal();
 
   return (
-    <Styled.FormRoot onSubmit={onSubmitCreateForm}>
+    <Styled.FormRoot onSubmit={onSubmitCouponCreateForm}>
       <Styled.FindUserContainer>
         <div>누구에게 보내시나요 ?</div>
         <Styled.FindUserInput onClick={openModal}>
@@ -84,7 +84,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
           <Styled.TypeOption
             key={engType}
             isSelected={engType === currentCouponType}
-            onClick={() => onSelectCouponType(engType)}
+            onClick={onSelectCouponType(engType)}
           >
             <img src={THUMBNAIL[engType]} alt='쿠폰 종류' width={50} height={50} />
           </Styled.TypeOption>
@@ -96,7 +96,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
           <Styled.FeelOption
             key={hashtag}
             isSelected={hashtag === currentCouponTag}
-            onClick={() => onSelectCouponTag(hashtag)}
+            onClick={onSelectCouponTag(hashtag)}
           >
             #{hashtag}
           </Styled.FeelOption>
