@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.domain.repository;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.ACCEPTED_COUPON;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
@@ -13,12 +12,12 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.repository.RepositoryTest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RepositoryTest
+@DisplayName("CouponRepository의")
 class CouponRepositoryTest {
 
     @PersistenceContext
@@ -124,14 +124,12 @@ class CouponRepositoryTest {
     }
 
     @Nested
-    @DisplayName("미팅이 확정된 쿠폰 중 ")
-    class findAllByMemberAndMeetingDate {
+    @DisplayName("findAllByMemberAndCouponStatusOrderByMeetingDate 메서드는")
+    class findAllByMemberAndCouponStatusOrderByMeetingDate {
 
         private Member sender;
         private Member receiver;
         private Member receiver2;
-        private Coupon coupon1;
-        private Coupon coupon2;
 
         @BeforeEach
         void setUp() {
@@ -141,47 +139,45 @@ class CouponRepositoryTest {
             receiver2 = memberRepository.save(RECEIVER2.getMember(workspace));
         }
 
-        @DisplayName("현재 시간 이후의 쿠폰들을 조회한다.")
+        @DisplayName("현재 시간 이후의 같은 상태의 쿠폰들을 조회한다.")
         @Test
-        void couponsAfterTheCurrentTime() {
+        void acceptedCouponsAfterCurrentTime() {
             // given
-            coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
-            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
-            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
-                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(8))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver2,
+                new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
 
-            LocalDateTime nowDate = LocalDateTime.now();
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(2))));
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+                new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(2))));
 
             // when
-            List<Coupon> extract = couponRepository.findAllByMemberAndMeetingDate(sender, nowDate);
+            LocalDateTime now = LocalDate.now().atStartOfDay();
+            List<Coupon> actual = couponRepository.
+                findAllByMemberAndCouponStatusOrderByMeetingDate(sender, now, CouponStatus.ACCEPTED);
 
             // then
-            assertThat(extract).hasSize(3);
+            assertThat(actual).hasSize(2);
         }
 
         @DisplayName("현재 시간 이전의 쿠폰들은 조회되지 않는다.")
         @Test
         void couponsBeforeTheCurrentTime() {
             // given
-            coupon1 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().minusDays(1))));
-            coupon2 = couponRepository.save(ACCEPTED_COUPON.getCoupon(
-                sender, receiver, CouponType.COFFEE,
+            couponRepository.save(COFFEE.getCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().minusDays(2))));
 
-            LocalDateTime nowDate = LocalDateTime.now();
-
             // when
-            List<Coupon> extract = couponRepository.findAllByMemberAndMeetingDate(sender, nowDate);
+            LocalDateTime now = LocalDate.now().atStartOfDay();
+            List<Coupon> actual = couponRepository.
+                findAllByMemberAndCouponStatusOrderByMeetingDate(sender, now, CouponStatus.ACCEPTED);
 
             // then
-            assertThat(extract).hasSize(0);
+            assertThat(actual).hasSize(0);
         }
     }
 }

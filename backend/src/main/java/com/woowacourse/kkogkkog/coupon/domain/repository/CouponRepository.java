@@ -52,9 +52,11 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "WHERE (c.receiver = :member OR c.sender = :member) "
         + "AND c.couponState.meetingDate IS NOT NULL "
         + "AND c.couponState.meetingDate >= :nowDate "
+        + "AND c.couponState.couponStatus = :couponStatus "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<Coupon> findAllByMemberAndMeetingDate(@Param("member") Member member,
-                                               @Param("nowDate") LocalDateTime nowDate);
+    List<Coupon> findAllByMemberAndCouponStatusOrderByMeetingDate(@Param("member") Member member,
+                                                                  @Param("nowDate") LocalDateTime nowDate,
+                                                                  @Param("couponStatus") CouponStatus couponStatus);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Coupon c where c.id = :id")
