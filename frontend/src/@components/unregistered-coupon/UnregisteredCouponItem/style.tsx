@@ -1,13 +1,21 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ hasCursor?: boolean }>`
-  width: 100%;
+export const Root = styled.div`
+  position: relative;
 
+  width: 100%;
   max-width: 340px;
   min-width: 280px;
 
   height: 120px;
+
+  border-radius: 20px;
+`;
+
+export const Coupon = styled.div<{ hasCursor?: boolean }>`
+  width: 100%;
+  height: 100%;
 
   display: flex;
   justify-content: space-between;
@@ -123,4 +131,10 @@ export const Hashtag = styled.div`
     background-color: ${theme.colors.primary_400};
     color: ${theme.colors.white_100};
   `}
+`;
+
+export const CopyButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
 `;

@@ -26,8 +26,6 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
   };
 
   const copyUrl = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
     try {
       clipboardCopy(
         `${window.location.origin}${DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode)}`
@@ -39,28 +37,30 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
   };
 
   return (
-    <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
-      <Styled.CouponPropertyContainer>
-        <UnregisteredCouponStatus status={unregisteredCouponStatus} />
+    <Styled.Root>
+      <Styled.Coupon className={className} hasCursor={!!onClick} onClick={onClick}>
+        <Styled.CouponPropertyContainer>
+          <UnregisteredCouponStatus status={unregisteredCouponStatus} />
+          <Styled.ImageInner>
+            <img src={thumbnail} alt='쿠폰' width={44} height={44} />
+          </Styled.ImageInner>
+        </Styled.CouponPropertyContainer>
+        <Styled.TextContainer>
+          <Styled.Top>
+            <Styled.Member>
+              <Styled.English>To</Styled.English> {receiver?.nickname ?? '?'}
+            </Styled.Member>
+          </Styled.Top>
+          <Styled.Message>{couponMessage}</Styled.Message>
+          <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
+        </Styled.TextContainer>
+      </Styled.Coupon>
 
-        <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
-        </Styled.ImageInner>
-      </Styled.CouponPropertyContainer>
-      <Styled.TextContainer>
-        <Styled.Top>
-          <Styled.Member>
-            <Styled.English>To</Styled.English> {receiver?.nickname ?? '?'}
-          </Styled.Member>
-          {unregisteredCouponStatus === 'ISSUED' && (
-            <button onClick={copyUrl}>
-              <Icon iconName='copy' />
-            </button>
-          )}
-        </Styled.Top>
-        <Styled.Message>{couponMessage}</Styled.Message>
-        <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
-      </Styled.TextContainer>
+      {unregisteredCouponStatus === 'ISSUED' && (
+        <Styled.CopyButton type='button' onClick={copyUrl}>
+          <Icon iconName='copy' />
+        </Styled.CopyButton>
+      )}
     </Styled.Root>
   );
 };
