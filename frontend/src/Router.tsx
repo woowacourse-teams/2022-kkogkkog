@@ -11,8 +11,8 @@ import { useFetchMe } from './@hooks/@queries/user';
 const NotFoundPage = lazy(() => import('@/@pages/404'));
 const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
-const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
-const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
+// const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
+// const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
@@ -27,7 +27,7 @@ const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
 const OAuthRedirect = lazy(() => import('@/@pages/oauth-redirect'));
 const SlackDownloadRedirect = lazy(() => import('@/@pages/slack-download-redirect'));
-const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
+// const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
 
 export const PATH = {
   MAIN: '/',
@@ -80,7 +80,7 @@ const Router = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path={PATH.LANDING} element={<LandingPage />} />
-        <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} />
+        {/* <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} /> */}
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
@@ -93,10 +93,10 @@ const Router = () => {
           <Route path={PATH.MAIN} element={<MainPage />} />
           <Route path={PATH.SENT_COUPON_LIST} element={<CouponListPage />} />
           <Route path={PATH.RECEIVED_COUPON_LIST} element={<CouponListPage />} />
-          <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
+          {/* <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} /> */}
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
-          <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} />
+          {/* <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} /> */}
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}
