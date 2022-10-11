@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
 import com.woowacourse.kkogkkog.infrastructure.dto.GoogleAccessTokenResponse;
-import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import com.woowacourse.kkogkkog.infrastructure.exception.OAuthUserInfoRequestFailedException;
 import lombok.extern.slf4j.Slf4j;
@@ -79,13 +79,13 @@ public class GoogleClient {
         return formData;
     }
 
-    public GoogleUserInfo requestUserInfo(String accessToken) {
+    public GoogleUserDto requestUserInfo(String accessToken) {
         try {
             return userInfoClient
                 .get()
                 .headers(header -> header.setBearerAuth(accessToken))
                 .retrieve()
-                .bodyToMono(GoogleUserInfo.class)
+                .bodyToMono(GoogleUserDto.class)
                 .blockOptional()
                 .orElseThrow(OAuthUserInfoRequestFailedException::new);
         } catch (WebClientException e) {

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserInfo;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.exception.AccessTokenRetrievalFailedException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -67,8 +67,8 @@ class GoogleClientTest {
         setUpResponse(mockWebServer, objectMapper.writeValueAsString(GOOGLE_USER_INFO_RESPONSE));
         GoogleClient googleClient = buildMockGoogleClient(mockWebServer);
 
-        GoogleUserInfo googleUserInfo = googleClient.requestUserInfo(ACCESS_TOKEN);
-        String userName = googleUserInfo.getName();
+        GoogleUserDto googleUserDto = googleClient.requestUserInfo(ACCESS_TOKEN);
+        String userName = googleUserDto.getName();
 
         assertThat(userName).isEqualTo(USER_NAME);
         mockWebServer.shutdown();
