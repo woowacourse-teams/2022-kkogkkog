@@ -12,9 +12,10 @@ interface ExpiredCouponListSectionProps {
 const ExpiredCouponListSection = (props: ExpiredCouponListSectionProps) => {
   const { onClickCouponItem } = props;
 
-  const { couponListByStatus: expiredCouponList } = useFetchUnregisteredCouponListByStatus({
-    type: 'EXPIRED',
-  });
+  const { unregisteredCouponListByStatus: expiredCouponList } =
+    useFetchUnregisteredCouponListByStatus({
+      type: 'EXPIRED',
+    });
 
   return (
     // @TODO: VerticalListContainer 스타일 공유하는 것 전체적으로 수정
