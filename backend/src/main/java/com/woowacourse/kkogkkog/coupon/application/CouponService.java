@@ -112,13 +112,19 @@ public class CouponService {
     public List<CouponMeetingResponse> findMeeting(Long memberId) {
         Member member = findMember(memberId);
         Map<LocalDateTime, List<CouponMeetingData>> collect = couponRepository
-            .findAllByMemberAndMeetingDate(member, now()).stream()
+            .findAllByMemberAndMeetingDate(member, getNowDateTime())
+            .stream()
             .map(CouponMeetingData::of)
             .collect(Collectors.groupingBy(CouponMeetingData::getMeetingDate));
 
         return collect.entrySet().stream()
             .map(it -> CouponMeetingResponse.of(it.getKey(), it.getValue()))
             .collect(Collectors.toList());
+    }
+
+    private LocalDateTime getNowDateTime() {
+        return LocalDateTime.now()
+            .withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
 
     private Coupon findCoupon(Long couponId) {
