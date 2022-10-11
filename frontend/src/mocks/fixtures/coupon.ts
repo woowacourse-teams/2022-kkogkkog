@@ -1,5 +1,5 @@
-import { COUPON_EVENT, COUPON_STATUS } from '@/types/client/coupon';
-import { UserResponse } from '@/types/remote/response';
+import { COUPON_EVENT, COUPON_STATUS } from '@/types/coupon/client';
+import { UserResponse } from '@/types/user/remote';
 
 export default {
   current: [

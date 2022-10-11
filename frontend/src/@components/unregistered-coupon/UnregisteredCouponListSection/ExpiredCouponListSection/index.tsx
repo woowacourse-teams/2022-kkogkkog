@@ -3,24 +3,25 @@ import { useFetchUnregisteredCouponListByStatus } from '@/@hooks/@queries/unregi
 import { Styled } from '@/@pages/coupon-list';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
-import UnregisteredCouponItem from '../UnregisteredCouponItem';
+import UnregisteredCouponItem from '../../UnregisteredCouponItem';
 
-interface RegisteredCouponListSectionProps {
+interface ExpiredCouponListSectionProps {
   onClickCouponItem: (coupon: UnregisteredCoupon) => void;
 }
 
-const RegisteredCouponListSection = (props: RegisteredCouponListSectionProps) => {
+const ExpiredCouponListSection = (props: ExpiredCouponListSectionProps) => {
   const { onClickCouponItem } = props;
 
-  const { couponListByStatus: registeredCoupon } = useFetchUnregisteredCouponListByStatus({
-    type: 'REGISTERED',
-  });
+  const { unregisteredCouponListByStatus: expiredCouponList } =
+    useFetchUnregisteredCouponListByStatus({
+      type: 'EXPIRED',
+    });
 
   return (
     // @TODO: VerticalListContainer 스타일 공유하는 것 전체적으로 수정
     <Styled.VerticalListContainer>
       <VerticalCouponList
-        couponList={registeredCoupon}
+        couponList={expiredCouponList}
         CouponItem={UnregisteredCouponItem}
         onClickCouponItem={onClickCouponItem}
       />
@@ -28,4 +29,4 @@ const RegisteredCouponListSection = (props: RegisteredCouponListSectionProps) =>
   );
 };
 
-export default RegisteredCouponListSection;
+export default ExpiredCouponListSection;

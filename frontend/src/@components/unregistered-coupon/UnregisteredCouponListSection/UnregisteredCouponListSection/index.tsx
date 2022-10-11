@@ -3,7 +3,7 @@ import { useFetchUnregisteredCouponListByStatus } from '@/@hooks/@queries/unregi
 import { Styled } from '@/@pages/coupon-list';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
-import UnregisteredCouponItem from '../UnregisteredCouponItem';
+import UnregisteredCouponItem from '../../UnregisteredCouponItem';
 
 interface UnregisteredCouponListSectionProps {
   onClickCouponItem: (coupon: UnregisteredCoupon) => void;
@@ -12,9 +12,10 @@ interface UnregisteredCouponListSectionProps {
 const UnregisteredCouponListSection = (props: UnregisteredCouponListSectionProps) => {
   const { onClickCouponItem } = props;
 
-  const { couponListByStatus: issuedCouponList } = useFetchUnregisteredCouponListByStatus({
-    type: 'ISSUED',
-  });
+  const { unregisteredCouponListByStatus: issuedCouponList } =
+    useFetchUnregisteredCouponListByStatus({
+      type: 'ISSUED',
+    });
 
   return (
     // @TODO: VerticalListContainer 스타일 공유하는 것 전체적으로 수정
