@@ -9,6 +9,7 @@ import { useFetchMe } from '@/@hooks/@queries/user';
 import { useRegisteredUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
+import { unregisteredCouponCodeStorage } from '@/storage/session';
 import theme from '@/styles/theme';
 import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
@@ -37,6 +38,7 @@ const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
 
     if (window.confirm('쿠폰을 등록하려면 로그인이 필요합니다. 로그인하시겠아요?')) {
       navigate(PATH.LOGIN);
+      unregisteredCouponCodeStorage.set(couponCode);
     }
   };
 

@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -11,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList, useFetchReservationList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
-import { filterOptionsSessionStorage } from '@/storage/session';
+import { filterOptionsSessionStorage, unregisteredCouponCodeStorage } from '@/storage/session';
 import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
@@ -36,6 +37,18 @@ const MainPage = () => {
   const onClickViewMoreCoupon = () => {
     filterOptionsSessionStorage.set('전체');
   };
+
+  useEffect(() => {
+    const couponCode = unregisteredCouponCodeStorage.get();
+
+    if (couponCode) {
+      if (window.confirm('쿠폰을 받으러 갈까요?')) {
+        navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_REGISTER(couponCode));
+      }
+
+      unregisteredCouponCodeStorage.set('');
+    }
+  }, [navigate]);
 
   return (
     <PageTemplate.LandingPage title='꼭꼭'>

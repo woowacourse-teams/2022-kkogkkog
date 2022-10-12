@@ -78,6 +78,9 @@ export const DYNAMIC_PATH = {
   UNREGISTERED_COUPON_DETAIL(couponCode: string): string {
     return `${PATH.UNREGISTERED_COUPON_LIST}/${couponCode}`;
   },
+  UNREGISTERED_COUPON_REGISTER(couponCode: string): string {
+    return `${PATH.UNREGISTERED_COUPON_REGISTER}?couponCode=${couponCode}`;
+  },
 };
 
 const Router = () => {
