@@ -17,7 +17,6 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.WorkspaceUser;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
-import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -148,9 +147,7 @@ public class MemberService {
     }
 
     public void updateIsReadMemberHistory(Long memberHistoryId) {
-        CouponHistory memberHistory = memberHistoryRepository.findById(memberHistoryId)
-            .orElseThrow(MemberHistoryNotFoundException::new);
-
+        CouponHistory memberHistory = memberHistoryRepository.findCouponHistory(memberHistoryId);
         memberHistory.updateIsRead();
     }
 

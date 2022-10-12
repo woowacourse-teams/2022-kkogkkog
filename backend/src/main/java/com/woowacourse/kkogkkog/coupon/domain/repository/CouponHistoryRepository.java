@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CouponHistoryRepository extends JpaRepository<CouponHistory, Long> {
 
-    List<CouponHistory> findAllByHostMember(Member member);
+    default CouponHistory findCouponHistory(Long id) {
+        return findById(id).orElseThrow(MemberHistoryNotFoundException::new);
+    }
 
     List<CouponHistory> findAllByHostMemberOrderByCreatedTimeDesc(Member member);
 
