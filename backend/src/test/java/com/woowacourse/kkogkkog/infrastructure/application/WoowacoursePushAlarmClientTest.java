@@ -1,13 +1,16 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
+import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUsersResponse;
 import java.io.IOException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 class WoowacoursePushAlarmClientTest {
@@ -52,11 +55,52 @@ class WoowacoursePushAlarmClientTest {
             pushAlarmClient.requestPushAlarm(USER_ID, MESSAGE));
     }
 
+    @Test
+    @DisplayName("우아한테크코스 통합 알림봇에서 전체 사용자 목록을 조회한다")
+    void requestUsers() throws IOException {
+        MockWebServer mockWebServer = new MockWebServer();
+        mockWebServer.start();
+        setUpResponseWithUser(mockWebServer, HttpStatus.OK);
+        WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
+
+        WoowacourseUsersResponse woowacourseUsersResponse = pushAlarmClient.requestUsers();
+        assertThat(woowacourseUsersResponse.getMembers().size()).isEqualTo(3);
+    }
+
     private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
         String mockWebClientURI = String.format("http://%s:%s",
             mockWebServer.getHostName(), mockWebServer.getPort());
         return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI,
             WebClient.create());
+    }
+
+    private void setUpResponseWithUser(MockWebServer mockWebServer, HttpStatus statusCode) {
+        mockWebServer.enqueue(new MockResponse()
+            .setResponseCode(statusCode.value())
+            .setHeader("Content-type", MediaType.APPLICATION_JSON)
+            .setBody("{\n"
+                + "  \"members\": [\n"
+                + "    {\n"
+                + "      \"id\": \"USLACKBOT\",\n"
+                + "      \"profile\": {\n"
+                + "        \"email\": null\n"
+                + "      }\n"
+                + "    },\n"
+                + "    {\n"
+                + "      \"id\": \"U03U987DB0W\",\n"
+                + "      \"profile\": {\n"
+                + "        \"email\": \"heonga2@gmail.com\"\n"
+                + "      }\n"
+                + "    },\n"
+                + "    {\n"
+                + "      \"id\": \"U03V5H72L1W\",\n"
+                + "      \"profile\": {\n"
+                + "        \"email\": \"jinyoungchoi95@gmail.com\"\n"
+                + "      }\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}")
+        );
     }
 
     private void setUpResponse(MockWebServer mockWebServer, HttpStatus statusCode) {
