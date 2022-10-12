@@ -62,6 +62,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("SELECT c FROM Coupon c where c.id = :id")
     Optional<Coupon> findByIdWithExclusiveLock(@Param("id") Long id);
 
+    default Coupon findCoupon(Long id) {
+        return findById(id).orElseThrow(CouponNotFoundException::new);
+    }
+
     default Coupon findByIdWithLock(Long id) {
         return findByIdWithExclusiveLock(id).orElseThrow(CouponNotFoundException::new);
     }

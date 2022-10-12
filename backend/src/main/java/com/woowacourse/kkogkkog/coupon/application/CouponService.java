@@ -16,7 +16,6 @@ import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
-import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -55,7 +54,7 @@ public class CouponService {
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long memberId, Long couponId) {
         Member member = memberRepository.findMember(memberId);
-        Coupon coupon = findCoupon(couponId);
+        Coupon coupon = couponRepository.findCoupon(couponId);
         if (!coupon.isSenderOrReceiver(member)) {
             throw new CouponNotAccessibleException();
         }
@@ -136,11 +135,6 @@ public class CouponService {
         return collect.entrySet().stream()
             .map(it -> AcceptedCouponResponse.of(it.getKey(), it.getValue()))
             .collect(Collectors.toList());
-    }
-
-    private Coupon findCoupon(Long couponId) {
-        return couponRepository.findById(couponId)
-            .orElseThrow(CouponNotFoundException::new);
     }
 
     private List<Member> findReceivers(List<Long> memberIds) {
