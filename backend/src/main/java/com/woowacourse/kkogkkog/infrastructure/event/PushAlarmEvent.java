@@ -5,11 +5,13 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.legacy_member.domain.LegacyMemberHistory;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Transactional
+@EqualsAndHashCode
 public class PushAlarmEvent {
 
     private final String botAccessToken;
