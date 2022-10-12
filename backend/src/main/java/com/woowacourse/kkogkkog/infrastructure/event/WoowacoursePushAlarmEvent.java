@@ -2,8 +2,6 @@ package com.woowacourse.kkogkkog.infrastructure.event;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
-import com.woowacourse.kkogkkog.legacy_member.domain.LegacyMemberHistory;
-import com.woowacourse.kkogkkog.member.domain.Member;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -19,12 +17,6 @@ public class WoowacoursePushAlarmEvent {
         this.hostMemberUserId = hostMemberUserId;
         this.message = message;
         this.couponEvent = couponEvent;
-    }
-
-    public static WoowacoursePushAlarmEvent of(LegacyMemberHistory memberHistory) {
-        Member hostMember = memberHistory.getHostMember();
-        return new WoowacoursePushAlarmEvent(hostMember.getUserId(),
-            memberHistory.toNoticeMessage(), memberHistory.getCouponEvent());
     }
 
     public static WoowacoursePushAlarmEvent of(String userId, CouponHistory couponHistory) {
