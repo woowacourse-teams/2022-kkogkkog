@@ -66,7 +66,7 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
         UnregisteredCouponsResponse response = extract.as(UnregisteredCouponsResponse.class);
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(response.getData().size()).isEqualTo(1)
+            () -> assertThat(response.getData()).hasSize(1)
         );
     }
 
