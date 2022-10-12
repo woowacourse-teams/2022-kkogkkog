@@ -34,6 +34,7 @@ const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
   const onClickRegisterButton = () => {
     if (me) {
       registerUnregisteredCoupon({ couponCode });
+      navigate(PATH.MAIN);
     }
 
     if (window.confirm('쿠폰을 등록하려면 로그인이 필요합니다. 로그인하시겠아요?')) {
