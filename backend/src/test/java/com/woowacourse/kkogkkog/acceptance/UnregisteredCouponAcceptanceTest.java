@@ -49,6 +49,23 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void 회원은_미등록_쿠폰을_상태에_따라_조회할_수_있다() {
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        String receiverToken = 회원가입을_하고(LEO.getMember());
+        UnregisteredCouponsResponse unregisteredCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(4));
+        String couponCode = unregisteredCouponsResponse.getData().get(0).getCouponCode();
+        쿠폰코드로_쿠폰_생성을_요청하고(receiverToken, couponCode);
+
+        final var extract = 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(senderToken, REGISTERED);
+
+        UnregisteredCouponsResponse response = extract.as(UnregisteredCouponsResponse.class);
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(response.getData().size()).isEqualTo(1)
+        );
+    }
+
+    @Test
     void 단일_미등록_쿠폰을_아이디로_상세_조회할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
         UnregisteredCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
@@ -105,6 +122,11 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
 
     static ExtractableResponse<Response> 회원의_미동록_쿠폰_목록들을_조회한다(String token) {
         return invokeGetWithToken("/api/v2/coupons/unregistered", token);
+    }
+
+    static ExtractableResponse<Response> 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(String token, UnregisteredCouponStatus status) {
+        return invokeGetWithTokenAndQueryParams("/api/v2/coupons/unregistered/status", token,
+            Map.of("type", status.toString()));
     }
 
     static ExtractableResponse<Response> 아이디로_회원의_단일_미등록_쿠폰_상세정보를_조회한다(String token,

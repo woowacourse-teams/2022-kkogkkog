@@ -32,6 +32,12 @@ public class UnregisteredCouponController {
         return ResponseEntity.ok(new UnregisteredCouponsResponse(unregisteredCoupons));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<UnregisteredCouponsResponse> showAll(@LoginMemberId Long loginMemberId, @RequestParam("type") String status) {
+        List<UnregisteredCouponResponse> unregisteredCoupons = unregisteredCouponService.findAllBySender(loginMemberId, status);
+        return ResponseEntity.ok(new UnregisteredCouponsResponse(unregisteredCoupons));
+    }
+
     @GetMapping("/{unregisteredCouponId}")
     public ResponseEntity<UnregisteredCouponDetailResponse> showById(@LoginMemberId Long loginMemberId,
                                                                  @PathVariable Long unregisteredCouponId) {
