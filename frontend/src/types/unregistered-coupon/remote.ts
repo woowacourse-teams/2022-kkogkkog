@@ -15,7 +15,9 @@ export interface UnregisteredCouponListResponse {
 export interface UnregisteredCouponResponse {
   id: number;
   couponCode: string;
+  couponId: number | null;
   sender: Member;
+  receiver: Member | null;
   couponTag: COUPON_HASHTAGS;
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
