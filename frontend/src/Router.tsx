@@ -86,6 +86,15 @@ const Router = () => {
       <Routes>
         <Route path={PATH.LANDING} element={<LandingPage />} />
         <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} />
+        <Route
+          path={PATH.UNREGISTERED_COUPON_REGISTER}
+          element={
+            // get 실패 이후에, reset 기능이 필요없는 fallback 에러가 필요함.
+            <ErrorBoundaryWithHooks fallback={NotFoundPage}>
+              <UnregisteredCouponCodePage />
+            </ErrorBoundaryWithHooks>
+          }
+        />
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
