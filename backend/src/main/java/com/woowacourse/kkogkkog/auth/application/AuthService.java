@@ -15,9 +15,11 @@ import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class AuthService {
@@ -27,16 +29,6 @@ public class AuthService {
     private final WorkspaceRepository workspaceRepository;
     private final SlackClient slackClient;
     private final GoogleClient googleClient;
-
-    public AuthService(JwtTokenProvider jwtTokenProvider, MemberService memberService,
-                       WorkspaceRepository workspaceRepository, SlackClient slackClient,
-                       GoogleClient googleClient) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.memberService = memberService;
-        this.workspaceRepository = workspaceRepository;
-        this.slackClient = slackClient;
-        this.googleClient = googleClient;
-    }
 
     public Long signUp(MemberCreateRequest memberCreateRequest) {
         String accessToken = memberCreateRequest.getAccessToken();

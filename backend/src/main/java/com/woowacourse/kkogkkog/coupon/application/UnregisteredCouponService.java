@@ -11,21 +11,17 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class UnregisteredCouponService {
 
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final MemberRepository memberRepository;
-
-    public UnregisteredCouponService(UnregisteredCouponRepository unregisteredCouponRepository,
-                                     MemberRepository memberRepository) {
-        this.unregisteredCouponRepository = unregisteredCouponRepository;
-        this.memberRepository = memberRepository;
-    }
 
     @Transactional(readOnly = true)
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {

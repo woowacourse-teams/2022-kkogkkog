@@ -21,9 +21,11 @@ import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class MemberService {
@@ -31,14 +33,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
     private final CouponHistoryRepository memberHistoryRepository;
-
-    public MemberService(MemberRepository memberRepository,
-                         WorkspaceUserRepository workspaceUserRepository,
-                         CouponHistoryRepository couponHistoryRepository) {
-        this.memberRepository = memberRepository;
-        this.workspaceUserRepository = workspaceUserRepository;
-        this.memberHistoryRepository = couponHistoryRepository;
-    }
 
     public boolean existsMember(SlackUserInfo userInfo) {
         String email = userInfo.getEmail();
