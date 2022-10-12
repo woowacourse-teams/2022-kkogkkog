@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
+import static com.woowacourse.kkogkkog.acceptance.UnregisteredCouponAcceptanceTest.미등록_쿠폰_생성을_요청하고;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithTokenAndQueryParams;
@@ -11,13 +12,16 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEON
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_이벤트_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDateTime;
@@ -42,6 +46,23 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
             () -> assertThat(actual.getData()).hasSize(2)
+        );
+    }
+
+    @Test
+    void 미등록_쿠폰으로_쿠폰_생성을_할_수_있다() {
+        String senderToken = 회원가입을_하고(JEONG.getMember());
+        String receiverToken = 회원가입을_하고(AUTHOR.getMember());
+        UnregisteredCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
+            미등록_COFFEE_쿠폰_생성_요청(1));
+        String couponCode = response.getData().get(0).getCouponCode();
+
+        var extract = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, couponCode);
+
+        CouponResponse actual = extract.as(CouponResponse.class);
+        assertAll(
+            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
+            () -> assertThat(actual.getId()).isNotNull()
         );
     }
 
@@ -311,6 +332,10 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
     static ExtractableResponse<Response> 쿠폰_생성을_요청한다(String token, Object data) {
         return invokePostWithToken("/api/v2/coupons", token, data);
+    }
+
+    static ExtractableResponse<Response> 쿠폰코드로_쿠폰_생성을_요청한다(String token, Object data) {
+        return invokePostWithToken("/api/v2/coupons/code", token, data);
     }
 
     static ExtractableResponse<Response> 회원의_보낸쿠폰_목록들을_조회한다(String token) {
