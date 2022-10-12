@@ -1,5 +1,5 @@
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import Time from '@/@components/@shared/Time';
+import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import { useFetchUnregisteredCoupon } from '@/@hooks/@queries/unregistered-coupon';
 import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
@@ -14,15 +14,15 @@ const UnregisteredCouponDetail = () => {
     return <div>hi</div>;
   }
 
-  const { couponType, couponMessage, couponCode, createdTime } = unregisteredCoupon;
+  // const { couponType, couponMessage, couponCode, createdTime } = unregisteredCoupon;
 
-  const expiredTimeSeconds = computeExpiredTime(createdTime, EXPIRATION_PERIOD);
+  // const expiredTimeSeconds = computeExpiredTime(createdTime, EXPIRATION_PERIOD);
 
   return (
-    <PageTemplate title='미등록 쿠폰 조회' extendedHeader>
-      <Styled.Root>
+    <PageTemplate title='미등록 쿠폰 조회'>
+      {/* <Styled.Root>
         <Styled.Top>
-          <Time expiredTimeSeconds={expiredTimeSeconds} />
+          <UnregisteredCouponExpiredTime createdTime={createdTime} />
         </Styled.Top>
         <Styled.Main>
           <Styled.CouponInner>
@@ -37,7 +37,7 @@ const UnregisteredCouponDetail = () => {
             <Styled.DescriptionContainer>{couponMessage}</Styled.DescriptionContainer>
           </Styled.SubSection>
         </Styled.Main>
-      </Styled.Root>
+      </Styled.Root> */}
     </PageTemplate>
   );
 };
