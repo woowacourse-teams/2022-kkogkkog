@@ -64,7 +64,7 @@ const CouponAcceptPage = () => {
   };
 
   return (
-    <PageTemplate title='쿠폰' hasHeader={false}>
+    <PageTemplate.ExtendedStyleHeader title='쿠폰 확정하기'>
       <Styled.Root>
         <Styled.Top>
           <Position position='absolute' top='20px' left='20px'>
@@ -110,7 +110,7 @@ const CouponAcceptPage = () => {
           </Position>
         </Styled.Main>
       </Styled.Root>
-    </PageTemplate>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 

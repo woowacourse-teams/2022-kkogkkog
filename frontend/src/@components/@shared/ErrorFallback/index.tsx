@@ -14,7 +14,7 @@ export interface ErrorFallbackProps {
 
 const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
   return (
-    <PageTemplate title='꼭꼭' hasHeader={false}>
+    <PageTemplate.ExtendedStyleHeader title='문제가 발생했어요'>
       <Styled.Root>
         <img src={landingLogoImage} alt='로고' width='86' />
         <Styled.ResetSection onClick={resetErrorBoundary}>
@@ -22,7 +22,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
           <button>다시 불러오기</button>
         </Styled.ResetSection>
       </Styled.Root>
-    </PageTemplate>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 

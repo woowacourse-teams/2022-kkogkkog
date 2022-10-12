@@ -2,7 +2,6 @@ import { Fragment } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
-import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import CouponHistoryList from '@/@components/coupon/CouponHistoryList';
@@ -13,7 +12,6 @@ import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { DYNAMIC_PATH } from '@/Router';
-import theme from '@/styles/theme';
 import { COUPON_STATUS } from '@/types/coupon/client';
 
 import * as Styled from './style';
@@ -100,17 +98,9 @@ const CouponDetailPage = () => {
   };
 
   return (
-    <PageTemplate title='쿠폰' hasHeader={false}>
+    <PageTemplate.ExtendedStyleHeader title='쿠폰 자세히 보기'>
       <Styled.Root>
         <Styled.Top>
-          <Position position='absolute' top='20px' left='20px'>
-            <Icon
-              iconName='arrow'
-              size='20'
-              color={theme.colors.primary_400}
-              onClick={() => navigate(-1)}
-            />
-          </Position>
           <Styled.ProfileImage src={member.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
             <strong>
@@ -171,7 +161,7 @@ const CouponDetailPage = () => {
           </Position>
         </Styled.Main>
       </Styled.Root>
-    </PageTemplate>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 
