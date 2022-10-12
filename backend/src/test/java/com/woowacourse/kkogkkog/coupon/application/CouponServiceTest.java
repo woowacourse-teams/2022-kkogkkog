@@ -25,7 +25,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
@@ -100,7 +99,7 @@ class CouponServiceTest {
             List<CouponResponse> response = couponService.save(
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
 
-            Long couponId = response.get(0).getSender().getId();
+            Long couponId = response.get(0).getId();
             List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 couponId);
             assertThat(memberHistories).hasSize(1);
@@ -113,25 +112,37 @@ class CouponServiceTest {
 
         private Member sender;
         private Member receiver;
+        private UnregisteredCoupon unregisteredCoupon;
 
         @BeforeEach
         void setUp() {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
+            unregisteredCoupon = unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
         }
 
         @Test
         @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 생성된 쿠폰을 반환한다.")
         void success() {
-            UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(
-                CouponFixture.COFFEE.getUnregisteredCoupon(sender));
             String couponCode = unregisteredCoupon.getCouponCode();
 
             CouponResponse couponResponse = couponService.saveByCouponCode(receiver.getId(), couponCode);
 
             Coupon coupon = unregisteredCoupon.getCoupon();
             assertThat(couponResponse.getId()).isEqualTo(coupon.getId());
+        }
+
+        @Test
+        @DisplayName("쿠폰을 생성할 때, 쿠폰 사용 내역을 기록한다.")
+        void success_couponSave() {
+            String couponCode = unregisteredCoupon.getCouponCode();
+
+            CouponResponse response = couponService.saveByCouponCode(receiver.getId(), couponCode);
+
+            Long couponId = response.getId();
+            List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
+            assertThat(memberHistories).hasSize(1);
         }
     }
 

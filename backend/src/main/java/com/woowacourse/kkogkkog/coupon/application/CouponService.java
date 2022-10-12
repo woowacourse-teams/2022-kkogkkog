@@ -100,6 +100,7 @@ public class CouponService {
         Member receiver = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
         Coupon coupon = couponRepository.save(unregisteredCoupon.registerCoupon(receiver));
+        saveCouponHistory(CouponHistory.ofNewByCouponCode(coupon));
         return CouponResponse.of(coupon);
     }
 
