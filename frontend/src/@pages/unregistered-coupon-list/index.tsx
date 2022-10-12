@@ -11,7 +11,7 @@ import UnregisteredCouponListSection from '@/@components/unregistered-coupon/Unr
 import { useStatus } from '@/@hooks/@common/useStatus';
 import { DYNAMIC_PATH } from '@/Router';
 import { unregisteredFilterOptionsSessionStorage } from '@/storage/session';
-import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
+import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
 import * as Styled from './style';
 
@@ -31,11 +31,11 @@ const UnregisteredCouponList = () => {
     unregisteredFilterOptionsSessionStorage.set(status);
   };
 
-  const onClickUnregisteredCouponItem = ({ couponCode }: UnregisteredCoupon) => {
+  const onClickUnregisteredCouponItem = ({ couponCode }: UnregisteredCouponResponse) => {
     navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode));
   };
 
-  const onClickRegisteredCouponItem = ({ couponId }: UnregisteredCoupon) => {
+  const onClickRegisteredCouponItem = ({ couponId }: UnregisteredCouponResponse) => {
     if (couponId === null) {
       return;
     }

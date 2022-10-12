@@ -6,12 +6,12 @@ import UnregisteredCouponStatus from '@/@components/unregistered-coupon/Unregist
 import { useToast } from '@/@hooks/@common/useToast';
 import { DYNAMIC_PATH } from '@/Router';
 import { THUMBNAIL } from '@/types/coupon/client';
-import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
+import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 import clipboardCopy from '@/utils/clipboardCopy';
 
 import * as Styled from './style';
 
-export interface UnregisteredCouponItemProps extends UnregisteredCoupon {
+export interface UnregisteredCouponItemProps extends UnregisteredCouponResponse {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
@@ -69,4 +69,36 @@ export default UnregisteredCouponItem;
 
 UnregisteredCouponItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
+};
+
+UnregisteredCouponItem.Preview = function UnregisteredCouponItem(
+  props: UnregisteredCouponItemProps
+) {
+  const { ...coupon } = props;
+
+  const { receiver, couponTag, couponMessage, thumbnail } = {
+    ...coupon,
+    thumbnail: THUMBNAIL[coupon.couponType],
+  };
+
+  return (
+    <Styled.Root>
+      <Styled.Coupon hasCursor={false}>
+        <Styled.CouponPropertyContainer>
+          <Styled.ImageInner>
+            <img src={thumbnail} alt='쿠폰' width={44} height={44} />
+          </Styled.ImageInner>
+        </Styled.CouponPropertyContainer>
+        <Styled.TextContainer>
+          <Styled.Top>
+            <Styled.Member>
+              <Styled.English>To</Styled.English> {receiver?.nickname ?? '?'}
+            </Styled.Member>
+          </Styled.Top>
+          <Styled.Message>{couponMessage}</Styled.Message>
+          <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
+        </Styled.TextContainer>
+      </Styled.Coupon>
+    </Styled.Root>
+  );
 };
