@@ -105,10 +105,9 @@ public class UnregisteredCoupon extends BaseEntity {
     }
 
     public Coupon registerCoupon(Member receiver) {
-        Coupon coupon = toCoupon(receiver);
         changeStatus(REGISTER);
-        updateCoupon(coupon);
-        return coupon;
+        updateCoupon(toCoupon(receiver));
+        return this.coupon;
     }
 
     private Coupon toCoupon(Member receiver) {
