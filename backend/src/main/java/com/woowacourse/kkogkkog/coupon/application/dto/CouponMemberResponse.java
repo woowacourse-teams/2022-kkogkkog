@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import com.woowacourse.kkogkkog.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,9 @@ public class CouponMemberResponse {
         this.id = id;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
+    }
+
+    public static CouponMemberResponse of(Member member) {
+        return new CouponMemberResponse(member.getId(), member.getNickname(), member.getImageUrl());
     }
 }

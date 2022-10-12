@@ -10,10 +10,14 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
+import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -32,15 +36,18 @@ public class CouponService {
 
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
+    private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
+                         UnregisteredCouponRepository unregisteredCouponRepository,
                          CouponHistoryRepository couponHistoryRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
+        this.unregisteredCouponRepository = unregisteredCouponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.pushAlarmPublisher = pushAlarmPublisher;
     }
@@ -101,6 +108,14 @@ public class CouponService {
             .collect(Collectors.toList());
     }
 
+    public CouponResponse saveByCouponCode(Long memberId, String couponCode) {
+        Member receiver = findMember(memberId);
+        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
+        Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
+        unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
+        return CouponResponse.of(coupon);
+    }
+
     public void updateStatus(CouponStatusRequest request) {
         CouponEvent event = request.getEvent();
         Member loginMember = findMember(request.getMemberId());
@@ -144,5 +159,10 @@ public class CouponService {
     private Member findMember(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(MemberNotFoundException::new);
+    }
+
+    private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {
+        return unregisteredCouponRepository.findByCouponCode(couponCode)
+            .orElseThrow(UnregisteredCouponNotFoundException::new);
     }
 }

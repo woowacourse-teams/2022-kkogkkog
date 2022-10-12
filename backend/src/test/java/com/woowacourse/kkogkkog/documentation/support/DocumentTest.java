@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.auth.application.AuthService;
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.application.UnregisteredCouponService;
 import com.woowacourse.kkogkkog.legacy_coupon.application.LegacyCouponService;
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.reservation.application.ReservationService;
@@ -37,6 +38,9 @@ public abstract class DocumentTest {
 
     @MockBean
     protected CouponService couponService;
+
+    @MockBean
+    protected UnregisteredCouponService unregisteredCouponService;
 
     @MockBean
     protected MemberService memberService;
