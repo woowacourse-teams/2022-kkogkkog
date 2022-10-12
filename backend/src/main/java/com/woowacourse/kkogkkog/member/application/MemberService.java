@@ -105,7 +105,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
-        Member findMember = memberRepository.findMember(memberId);
+        Member findMember = memberRepository.get(memberId);
         Long unreadHistoryCount = memberHistoryRepository
             .countByHostMemberAndIsReadFalse(findMember);
 
@@ -134,12 +134,12 @@ public class MemberService {
     }
 
     public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
-        Member member = memberRepository.findMember(memberNicknameUpdateRequest.getMemberId());
+        Member member = memberRepository.get(memberNicknameUpdateRequest.getMemberId());
         member.updateNickname(memberNicknameUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
-        Member findMember = memberRepository.findMember(memberId);
+        Member findMember = memberRepository.get(memberId);
         return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember)
             .stream()
             .map(MemberHistoryResponse::of)
@@ -152,7 +152,7 @@ public class MemberService {
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
-        Member foundMember = memberRepository.findMember(memberId);
+        Member foundMember = memberRepository.get(memberId);
         List<CouponHistory> couponHistories = memberHistoryRepository
             .findAllByHostMemberOrderByCreatedTimeDesc(foundMember);
         for (CouponHistory couponHistory : couponHistories) {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    default Member findMember(Long id) {
+    default Member get(Long id) {
         return findById(id).orElseThrow(MemberNotFoundException::new);
     }
 

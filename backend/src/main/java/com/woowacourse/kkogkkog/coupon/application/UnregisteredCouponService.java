@@ -29,7 +29,7 @@ public class UnregisteredCouponService {
 
     @Transactional(readOnly = true)
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
-        Member sender = memberRepository.findMember(memberId);
+        Member sender = memberRepository.get(memberId);
         return unregisteredCouponRepository.findAllBySender(sender).stream()
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class UnregisteredCouponService {
 
     @Transactional(readOnly = true)
     public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
-        Member member = memberRepository.findMember(memberId);
+        Member member = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
@@ -54,7 +54,7 @@ public class UnregisteredCouponService {
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {
         int quantity = request.getQuantity();
         UnregisteredCoupon.validateQuantity(quantity);
-        Member sender = memberRepository.findMember(request.getSenderId());
+        Member sender = memberRepository.get(request.getSenderId());
         List<UnregisteredCoupon> unregisteredCoupons = request.toEntities(sender);
         return unregisteredCouponRepository.saveAll(unregisteredCoupons).stream()
             .map(UnregisteredCouponResponse::of)
@@ -62,7 +62,7 @@ public class UnregisteredCouponService {
     }
 
     public void delete(Long memberId, Long unregisteredCouponId) {
-        Member member = memberRepository.findMember(memberId);
+        Member member = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(
             unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
