@@ -20,8 +20,8 @@ public class WoowacoursePushAlarmListener {
         if (pushAlarmEvent.shouldNotSendPushAlarm()) {
             return;
         }
-        String hostMemberId = pushAlarmEvent.getHostMemberId();
+        String hostMemberUserId = pushAlarmEvent.getHostMemberUserId();
         String message = pushAlarmEvent.getMessage();
-        woowacoursePushAlarmClient.requestPushAlarm(hostMemberId, message);
+        woowacoursePushAlarmClient.requestPushAlarm(hostMemberUserId, message);
     }
 }
