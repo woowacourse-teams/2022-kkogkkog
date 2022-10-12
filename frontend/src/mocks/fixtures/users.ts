@@ -4,7 +4,8 @@ export default {
       id: 0,
       email: 'wnsgur8397@naver.com',
       userId: 'aaa123',
-      imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      imageUrl:
+        'https://avatars.slack-edge.com/2022-06-18/3684887341301_d2148dd98666590092cd_512.png',
       nickname: '준찌',
       workspaceId: 'fduashdf',
       workspaceName: 'woowacourse',
