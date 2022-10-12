@@ -16,6 +16,8 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
   [P in K]?: T[P];
 };
 
+export type Valueof<T extends readonly unknown[]> = T[number];
+
 export type YYYYMMDD = `${string}-${string}-${string}`;
 export type YYYYMMDD_KR = `${string}년 ${string}월 ${string}일`;
 export type YYYYMMDDhhmmss = `${YYYYMMDD}T${string}:${string}:${string}`;

@@ -19,12 +19,12 @@ import * as Styled from './style';
 const MainPage = () => {
   const navigate = useNavigate();
 
-  const { reservationList, isLoading: isAcceptedCounponListLoading } = useFetchReservationList();
-  const { openCouponList: sentOpenCouponList, isLoading: isReceivedCouponListLoading } =
+  const { reservationList, isLoading: isAcceptedCouponListLoading } = useFetchReservationList();
+  const { openCouponList: receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
     useFetchCouponList({
       couponListType: 'received',
     });
-  const { openCouponList: receivedOpenCouponList, isLoading: isSentCouponListLoading } =
+  const { openCouponList: sentOpenCouponList, isLoading: isSentCouponListLoading } =
     useFetchCouponList({
       couponListType: 'sent',
     });
@@ -82,7 +82,7 @@ const MainPage = () => {
 
           <CustomSuspense
             fallback={<ReservationSection.Skeleton />}
-            isLoading={isAcceptedCounponListLoading}
+            isLoading={isAcceptedCouponListLoading}
           >
             <ReservationSection reservationList={reservationList} />
           </CustomSuspense>
@@ -138,6 +138,19 @@ const MainPage = () => {
               />
             </CustomSuspense>
           </div>
+
+          <Styled.UnRegisteredCouponSection>
+            <Styled.ListTitle>
+              <span>미등록 쿠폰</span>
+            </Styled.ListTitle>
+            <Styled.UnRegisteredCouponSectionInner>
+              <Link to={PATH.UNREGISTERED_COUPON_LIST}>
+                <Button css={Styled.ExtendedUnRegisteredCouponMoreButton}>
+                  미등록 쿠폰 조회하기
+                </Button>
+              </Link>
+            </Styled.UnRegisteredCouponSectionInner>
+          </Styled.UnRegisteredCouponSection>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>

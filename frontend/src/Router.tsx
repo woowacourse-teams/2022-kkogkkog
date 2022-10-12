@@ -4,7 +4,6 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
-import { CouponListPageFallback } from '@/@pages/coupon-list';
 import UnregisteredCouponCreate from '@/@pages/unregistered-coupon-list/create';
 
 import { useFetchMe } from './@hooks/@queries/user';
@@ -12,6 +11,8 @@ import { useFetchMe } from './@hooks/@queries/user';
 const NotFoundPage = lazy(() => import('@/@pages/404'));
 const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
+const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
+const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
@@ -36,6 +37,9 @@ export const PATH = {
   RECEIVED_COUPON_LIST: '/coupon-list/received',
   COUPON_CREATE: '/coupon-list/create',
   UNREGISTERED_COUPON_CREATE: '/unregistered-coupon-list/create',
+  UNREGISTERED_COUPON_LIST: '/unregistered-coupon-list',
+  UNREGISTERED_COUPON_DETAIL: '/unregistered-coupon-list/:unregisteredCouponId',
+  UNREGISTERED_COUPON_REGISTER: '/unregistered-coupon-list/register/:couponCode',
   COUPON_CREATE_SELECT: '/coupon-create-select',
   LOGIN: '/login',
   SLACK_LOGIN_REDIRECT: '/login/redirect',
@@ -67,6 +71,9 @@ export const DYNAMIC_PATH = {
   COUPON_DECLINE(id: number | string): string {
     return `${PATH.COUPON_LIST}/${id}/decline`;
   },
+  UNREGISTERED_COUPON_DETAIL(couponCode: string): string {
+    return `${PATH.UNREGISTERED_COUPON_LIST}/${couponCode}`;
+  },
 };
 
 const Router = () => {
@@ -74,6 +81,7 @@ const Router = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path={PATH.LANDING} element={<LandingPage />} />
+        <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} />
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
@@ -84,25 +92,12 @@ const Router = () => {
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path={PATH.MAIN} element={<MainPage />} />
-          <Route
-            path={PATH.SENT_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path={PATH.RECEIVED_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
+          <Route path={PATH.SENT_COUPON_LIST} element={<CouponListPage />} />
+          <Route path={PATH.RECEIVED_COUPON_LIST} element={<CouponListPage />} />
           <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
+          <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} />
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}

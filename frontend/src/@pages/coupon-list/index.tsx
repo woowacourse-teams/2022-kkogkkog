@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Suspense } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -51,32 +52,34 @@ const CouponListPage = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        <Styled.Container>
-          {status === '전체' && (
-            <AllCouponListSection
-              couponListType={couponListType}
-              onClickCouponItem={onClickCouponItem}
-            />
-          )}
-          {status === '대기' && (
-            <WaitingCouponListSection
-              couponListType={couponListType}
-              onClickCouponItem={onClickCouponItem}
-            />
-          )}
-          {status === '확정' && (
-            <AcceptedCouponListSection
-              couponListType={couponListType}
-              onClickCouponItem={onClickCouponItem}
-            />
-          )}
-          {status === '완료' && (
-            <FinishedCouponListSection
-              couponListType={couponListType}
-              onClickCouponItem={onClickCouponItem}
-            />
-          )}
-        </Styled.Container>
+        <Suspense fallback={<CouponListPageFallback />}>
+          <Styled.Container>
+            {status === '전체' && (
+              <AllCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '대기' && (
+              <WaitingCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '확정' && (
+              <AcceptedCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+            {status === '완료' && (
+              <FinishedCouponListSection
+                couponListType={couponListType}
+                onClickCouponItem={onClickCouponItem}
+              />
+            )}
+          </Styled.Container>
+        </Suspense>
         <Styled.LinkInner>
           <Link to={PATH.COUPON_CREATE}>
             <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
@@ -89,11 +92,9 @@ const CouponListPage = () => {
 
 export const CouponListPageFallback = () => {
   return (
-    <PageTemplate title='쿠폰 모아보기'>
-      <Styled.Root>
-        <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
-      </Styled.Root>
-    </PageTemplate>
+    <Styled.Root>
+      <VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />
+    </Styled.Root>
   );
 };
 
@@ -102,10 +103,7 @@ export default CouponListPage;
 export const Styled = {
   Root: styled.div`
     border-radius: 4px;
-
-    & > div {
-      margin-top: 20px;
-    }
+    padding: 20px 0;
   `,
   ListFilterContainer: styled.div`
     padding: 0 20px;
@@ -128,11 +126,11 @@ export const Styled = {
     }
   `,
   VerticalListContainer: styled.div`
-    padding: 0 10px 20px 10px;
+    padding: 20px 10px;
   `,
   HorizonListContainer: styled.div`
     & > section {
-      padding: 10px 20px;
+      padding: 30px 20px 10px;
     }
 
     & > section:nth-of-type(2n) {

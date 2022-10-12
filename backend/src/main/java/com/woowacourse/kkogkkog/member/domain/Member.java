@@ -22,7 +22,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +36,10 @@ public class Member {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    public Member(String nickname, String email, String imageUrl) {
+        this(null, null, null, new Nickname(nickname), email, imageUrl);
+    }
 
     public Member(String userId, Workspace workspace, Nickname nickname, String email,
                   String imageUrl) {

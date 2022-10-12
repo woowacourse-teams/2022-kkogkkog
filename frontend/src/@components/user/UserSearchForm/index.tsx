@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, MouseEventHandler } from 'react';
 
 import Input from '@/@components/@shared/Input';
 import { useSearchUser } from '@/@hooks/ui/user/useSearchUser';
@@ -8,7 +8,7 @@ import * as Styled from './style';
 
 interface UserSearchFormProps {
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => void;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
 }
 
 const UserSearchForm = (props: UserSearchFormProps) => {
@@ -56,7 +56,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 interface UserSearchResultProps {
   searchedUserList: UserResponse[] | undefined;
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => void;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
 }
 
 const UserSearchResult = (props: UserSearchResultProps) => {
@@ -76,7 +76,7 @@ const UserSearchResult = (props: UserSearchResultProps) => {
         <Styled.SearchedUser
           key={user.id}
           isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
-          onClick={() => onSelectReceiver(user)}
+          onClick={onSelectReceiver(user)}
         >
           <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
           <span>{user.nickname}&nbsp;</span>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import PageTemplate from '@/@components/@shared/PageTemplate';
@@ -11,10 +10,10 @@ const CouponCreateSelectPage = () => {
     <PageTemplate title='쿠폰 선택'>
       <Styled.Root>
         <Styled.Container>
-          <Link to={PATH.COUPON_CREATE} css={Styled.LinkButton} replace>
+          <Link to={PATH.COUPON_CREATE} css={Styled.LinkButton}>
             쿠폰 보내러가기
           </Link>
-          <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.LinkButton} replace>
+          <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.LinkButton}>
             미등록 쿠폰 보내러가기
           </Link>
         </Styled.Container>

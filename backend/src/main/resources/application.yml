@@ -42,5 +42,5 @@ security:
     client-id: "11111111111.apps.googleusercontent.com"
     client-secret: "111111-111111111-11111111"
     redirect:
-      login: "http://localhost:8080/login/google/redirect"
+      login: "http://localhost:3000/login/google/redirect"
 
