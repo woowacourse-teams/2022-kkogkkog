@@ -106,8 +106,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+        Member findMember = memberRepository.findMember(memberId);
         Long unreadHistoryCount = memberHistoryRepository
             .countByHostMemberAndIsReadFalse(findMember);
 
@@ -136,16 +135,12 @@ public class MemberService {
     }
 
     public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {
-        Member member = memberRepository.findById(memberNicknameUpdateRequest.getMemberId())
-            .orElseThrow(MemberNotFoundException::new);
-
+        Member member = memberRepository.findMember(memberNicknameUpdateRequest.getMemberId());
         member.updateNickname(memberNicknameUpdateRequest.getNickname());
     }
 
     public List<MemberHistoryResponse> findHistoryById(Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
-
+        Member findMember = memberRepository.findMember(memberId);
         return memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(findMember)
             .stream()
             .map(MemberHistoryResponse::of)
@@ -160,9 +155,7 @@ public class MemberService {
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
-        Member foundMember = memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
-
+        Member foundMember = memberRepository.findMember(memberId);
         List<CouponHistory> couponHistories = memberHistoryRepository
             .findAllByHostMemberOrderByCreatedTimeDesc(foundMember);
         for (CouponHistory couponHistory : couponHistories) {
