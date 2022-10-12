@@ -20,7 +20,7 @@ export default {
     },
     {
       id: 2,
-      couponCode: 'asdfghjkqwertyui',
+      couponCode: 'rkfkfjgmdoemdldk',
       couponId: 1,
       sender: {
         id: 1,
@@ -40,7 +40,7 @@ export default {
     },
     {
       id: 3,
-      couponCode: 'asdfghjkqwertyui',
+      couponCode: 'dlfoekermldodeoe',
       couponId: null,
       sender: {
         id: 1,
@@ -65,6 +65,16 @@ export default {
 
   findUnregisteredCoupon(unregisteredCouponId: number) {
     const coupon = this.current.find(({ id }) => id === unregisteredCouponId);
+
+    if (!coupon) {
+      throw new Error('쿠폰이 없습니다.');
+    }
+
+    return coupon;
+  },
+
+  findUnregisteredCouponByCode(couponCode: string) {
+    const coupon = this.current.find(coupon => coupon.couponCode === couponCode);
 
     if (!coupon) {
       throw new Error('쿠폰이 없습니다.');
