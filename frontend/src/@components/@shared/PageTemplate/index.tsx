@@ -29,20 +29,20 @@ const PageTemplate = (props: PropsWithChildren<PageTemplateProps>) => {
   );
 };
 
-PageTemplate.LandingPage = function LandingPageTemplate(
+PageTemplate.ExtendedStyleHeader = function LandingPageTemplate(
   props: PropsWithChildren<PageTemplateProps>
 ) {
-  const { hasHeader = true, children } = props;
+  const { title, hasHeader = true, children } = props;
 
   useEffect(() => {
-    document.title = '꼭꼭 | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게';
-  }, []);
+    document.title = `${title || '꼭꼭'} | 쿠폰으로 전하는 약속, 꼭꼭으로 간편하게`;
+  }, [title]);
 
   return (
     <PrevPathMemoization>
       <Styled.Root>
         <Styled.Container>
-          {hasHeader && <Header css={Styled.ExtendedHeader} />}
+          {hasHeader && <Header title={title} css={Styled.ExtendedHeader} />}
           {children}
         </Styled.Container>
       </Styled.Root>
