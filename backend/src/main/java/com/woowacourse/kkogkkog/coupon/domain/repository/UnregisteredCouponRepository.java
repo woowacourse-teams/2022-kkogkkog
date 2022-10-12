@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain.repository;
 
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.List;
@@ -22,4 +23,11 @@ public interface UnregisteredCouponRepository extends JpaRepository<Unregistered
         + "JOIN FETCH c.sender "
         + "WHERE c.sender = :member")
     List<UnregisteredCoupon> findAllBySender(@Param("member") Member member);
+
+    @Query("SELECT c "
+        + "FROM UnregisteredCoupon c "
+        + "JOIN FETCH c.sender "
+        + "WHERE c.sender = :member AND c.unregisteredCouponStatus = :status")
+    List<UnregisteredCoupon> findAllBySender(@Param("member") Member member,
+                                             @Param("status") UnregisteredCouponStatus status);
 }

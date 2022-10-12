@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailR
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
@@ -27,6 +28,15 @@ public class UnregisteredCouponService {
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
         Member sender = memberRepository.get(memberId);
         return unregisteredCouponRepository.findAllBySender(sender).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UnregisteredCouponResponse> findAllBySender(Long memberId, String unregisteredCouponStatus) {
+        Member sender = memberRepository.get(memberId);
+        UnregisteredCouponStatus status = UnregisteredCouponStatus.valueOf(unregisteredCouponStatus);
+        return unregisteredCouponRepository.findAllBySender(sender, status).stream()
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
     }

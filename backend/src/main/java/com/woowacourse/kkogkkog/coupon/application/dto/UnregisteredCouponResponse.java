@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
+import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.REGISTERED;
+
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -40,15 +42,21 @@ public class UnregisteredCouponResponse {
 
     public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
         Coupon coupon = unregisteredCoupon.getCoupon();
-        Member sender = unregisteredCoupon.getSender();
-//        Member receiver = coupon.getReceiver();
+        if (REGISTERED.equals(unregisteredCoupon.getUnregisteredCouponStatus())) {
+            Member receiver = coupon.getReceiver();
+            return toResponse(unregisteredCoupon, CouponMemberResponse.of(receiver), coupon.getId());
+        }
+        return toResponse(unregisteredCoupon, null, null);
+    }
 
+    private static UnregisteredCouponResponse toResponse(UnregisteredCoupon unregisteredCoupon, CouponMemberResponse receiver, Long couponId) {
+        Member sender = unregisteredCoupon.getSender();
         return new UnregisteredCouponResponse(
             unregisteredCoupon.getId(),
             unregisteredCoupon.getCouponCode(),
             CouponMemberResponse.of(sender),
-            null,
-            null,
+            receiver,
+            couponId,
             unregisteredCoupon.getCouponTag(),
             unregisteredCoupon.getCouponMessage(),
             unregisteredCoupon.getCouponType().name(),

@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
@@ -8,9 +10,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -39,6 +46,9 @@ public class UnregisteredCouponServiceTest {
 
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
+    @Autowired
+    private CouponRepository couponRepository;
 
     @Autowired
     private UnregisteredCouponRepository unregisteredCouponRepository;
@@ -80,13 +90,15 @@ public class UnregisteredCouponServiceTest {
     class FindAllBySender {
 
         private Member sender;
+        private Member receiver;
 
         @BeforeEach
         void setUp() {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
-            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
-            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            receiver = memberRepository.save(AUTHOR.getMember(workspace));
+            unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
+            unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
         }
 
         @Test
@@ -101,6 +113,37 @@ public class UnregisteredCouponServiceTest {
             assertAll(
                 () -> assertThat(actual).hasSize(2),
                 () -> assertThat(actualIds).containsOnly(sender.getId())
+            );
+        }
+
+        @Test
+        @DisplayName("보낸 사람의 ID와 미등록 쿠폰의 상태를 통해, 보낸 사람의 해당 상태 미등록 쿠폰들을 반환한다.")
+        void success_where_status() {
+            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(sender.getId(),
+                UnregisteredCouponStatus.ISSUED.name());
+
+            List<Long> actualIds = actual.stream()
+                .map(it -> it.getSender().getId())
+                .collect(Collectors.toList());
+            assertAll(
+                () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actualIds).containsOnly(sender.getId())
+            );
+        }
+
+        @Test
+        @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
+        void success_where_registered() {
+            UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
+            Coupon coupon = couponRepository.save(unregisteredCoupon.registerCoupon(receiver));
+
+            List<UnregisteredCouponResponse> responses = unregisteredCouponService.findAllBySender(sender.getId(),
+                UnregisteredCouponStatus.REGISTERED.name());
+
+            UnregisteredCouponResponse actual = responses.get(0);
+            assertAll(
+                () -> assertThat(actual.getCouponId()).isEqualTo(coupon.getId()),
+                () -> assertThat(actual.getReceiver().getId()).isEqualTo(receiver.getId())
             );
         }
     }
