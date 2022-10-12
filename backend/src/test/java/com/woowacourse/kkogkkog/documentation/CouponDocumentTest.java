@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import java.time.LocalDateTime;
@@ -235,7 +235,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 미팅이_확정된_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.findMeeting(any())).willReturn(List.of(CouponMeetingResponse.of(
+        given(couponService.findAcceptedCoupons(any())).willReturn(List.of(AcceptedCouponResponse.of(
             LocalDateTime.of(2022, 12, 12, 0, 0, 0),
             List.of(
                 new CouponMeetingData(
@@ -253,7 +253,7 @@ class CouponDocumentTest extends DocumentTest {
         perform.andExpect(status().isOk())
             .andExpect(
                 content().string(objectMapper.writeValueAsString(
-                    new CouponMeetingsResponse(List.of(CouponMeetingResponse.of(
+                    new AcceptedCouponsResponse(List.of(AcceptedCouponResponse.of(
                         LocalDateTime.of(2022, 12, 12, 0, 0, 0),
                         List.of(
                             new CouponMeetingData(

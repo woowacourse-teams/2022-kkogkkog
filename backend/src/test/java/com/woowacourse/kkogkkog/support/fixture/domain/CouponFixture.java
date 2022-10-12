@@ -50,4 +50,8 @@ public enum CouponFixture {
     public UnregisteredCoupon getUnregisteredCoupon(Member sender) {
         return UnregisteredCoupon.of(sender, couponTag, couponMessage, couponType);
     }
+
+    public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {
+        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType, couponState);
+    }
 }
