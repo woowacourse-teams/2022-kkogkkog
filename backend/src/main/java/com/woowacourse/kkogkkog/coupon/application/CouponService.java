@@ -11,7 +11,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
@@ -100,8 +99,7 @@ public class CouponService {
     public CouponResponse saveByCouponCode(Long memberId, String couponCode) {
         Member receiver = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
-        Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
-        unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
+        Coupon coupon = couponRepository.save(unregisteredCoupon.registerCoupon(receiver));
         return CouponResponse.of(coupon);
     }
 

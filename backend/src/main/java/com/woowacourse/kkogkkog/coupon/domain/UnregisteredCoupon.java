@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
+import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.REGISTER;
+
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -14,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +43,10 @@ public class UnregisteredCoupon extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_member_id", nullable = false)
     private Member sender;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id")
+    private Coupon coupon;
 
     @Column(nullable = false)
     private String couponTag;
@@ -97,6 +104,13 @@ public class UnregisteredCoupon extends BaseEntity {
         }
     }
 
+    public Coupon registerCoupon(Member receiver) {
+        Coupon coupon = toCoupon(receiver);
+        changeStatus(REGISTER);
+        updateCoupon(coupon);
+        return coupon;
+    }
+
     public Coupon toCoupon(Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
@@ -106,8 +120,11 @@ public class UnregisteredCoupon extends BaseEntity {
     }
 
     public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
-        updateUnregisteredCouponStatus(
-            unregisteredCouponStatus.handle(unregisteredCouponEventType));
+        updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
+    }
+
+    private void updateCoupon(Coupon coupon) {
+        this.coupon = coupon;
     }
 
     private void updateUnregisteredCouponStatus(UnregisteredCouponStatus unregisteredCouponStatus) {
