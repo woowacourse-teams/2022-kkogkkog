@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { Component, ErrorInfo, PropsWithChildren } from 'react';
 import { useQueryClient } from 'react-query';
 import { Navigate } from 'react-router-dom';
@@ -23,7 +24,7 @@ type ErrorBoundaryState =
       errorCase: null;
     }
   | {
-      error: CustomAxiosError;
+      error: AxiosError;
       errorCase: 'unauthorized' | 'get';
     };
 
@@ -44,7 +45,7 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Err
   };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    if (!(error instanceof CustomAxiosError)) {
+    if (!(error instanceof AxiosError)) {
       return { error, errorCase: null };
     }
 
@@ -81,7 +82,16 @@ class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, Err
     }
 
     if (errorCase === 'get') {
-      displayMessage(errorState.response?.data.message || '알 수 없는 에러가 발생했습니다.', true);
+      if (errorState instanceof CustomAxiosError) {
+        displayMessage(
+          errorState.response?.data.message || '알 수 없는 에러가 발생했습니다.',
+          true
+        );
+
+        return;
+      }
+
+      displayMessage('알 수 없는 에러가 발생했습니다.', true);
 
       return;
     }
