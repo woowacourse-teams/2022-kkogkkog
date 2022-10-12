@@ -38,7 +38,7 @@ public class UnregisteredCouponService {
     @Transactional(readOnly = true)
     public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
         Member member = memberRepository.findMember(memberId);
-        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
+        UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
@@ -63,16 +63,12 @@ public class UnregisteredCouponService {
 
     public void delete(Long memberId, Long unregisteredCouponId) {
         Member member = memberRepository.findMember(memberId);
-        UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(unregisteredCouponId);
+        UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(
+            unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
         unregisteredCouponRepository.delete(unregisteredCoupon);
-    }
-
-    private UnregisteredCoupon findUnregisteredCoupon(Long unregisteredCouponId) {
-        return unregisteredCouponRepository.findById(unregisteredCouponId)
-            .orElseThrow(UnregisteredCouponNotFoundException::new);
     }
 
     private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {
