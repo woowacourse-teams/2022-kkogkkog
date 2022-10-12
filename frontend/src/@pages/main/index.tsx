@@ -51,7 +51,7 @@ const MainPage = () => {
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
           <Link
-            to={PATH.COUPON_CREATE_SELECT}
+            to={PATH.COUPON_CREATE}
             css={css`
               margin-top: 30px;
             `}
@@ -139,7 +139,7 @@ const MainPage = () => {
             </CustomSuspense>
           </div>
 
-          <Styled.UnRegisteredCouponSection>
+          {/* <Styled.UnRegisteredCouponSection>
             <Styled.ListTitle>
               <span>미등록 쿠폰</span>
             </Styled.ListTitle>
@@ -150,7 +150,7 @@ const MainPage = () => {
                 </Button>
               </Link>
             </Styled.UnRegisteredCouponSectionInner>
-          </Styled.UnRegisteredCouponSection>
+          </Styled.UnRegisteredCouponSection> */}
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>
