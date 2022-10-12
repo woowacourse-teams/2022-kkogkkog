@@ -5,8 +5,10 @@ import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
+import { useFetchMe } from '@/@hooks/@queries/user';
 import { useRegisteredUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
 import { couponTypeTextMapper } from '@/constants/coupon';
+import { PATH } from '@/Router';
 import theme from '@/styles/theme';
 import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
@@ -24,10 +26,18 @@ const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
 
   const navigate = useNavigate();
 
+  const { me } = useFetchMe();
+
   const { registerUnregisteredCoupon } = useRegisteredUnregisteredCoupon({ couponCode });
 
   const onClickRegisterButton = () => {
-    registerUnregisteredCoupon({ couponCode });
+    if (me) {
+      registerUnregisteredCoupon({ couponCode });
+    }
+
+    if (window.confirm('쿠폰을 등록하려면 로그인이 필요합니다. 로그인하시겠아요?')) {
+      navigate(PATH.LOGIN);
+    }
   };
 
   return (
