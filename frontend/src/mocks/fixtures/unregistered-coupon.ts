@@ -16,7 +16,7 @@ export default {
       couponMessage: '하하하',
       couponType: 'COFFEE',
       unregisteredCouponStatus: 'ISSUED',
-      createdTime: '2022-10-07T14:32:22',
+      createdTime: '2022-10-12T14:32:22',
     },
     {
       id: 2,
@@ -36,7 +36,7 @@ export default {
       couponMessage: '하하하',
       couponType: 'COFFEE',
       unregisteredCouponStatus: 'REGISTERED',
-      createdTime: '2022-10-07T14:32:22',
+      createdTime: '2022-10-12T14:32:22',
     },
     {
       id: 3,
@@ -52,7 +52,7 @@ export default {
       couponMessage: '하하하',
       couponType: 'COFFEE',
       unregisteredCouponStatus: 'EXPIRED',
-      createdTime: '2022-10-07T14:32:22',
+      createdTime: '2022-10-12T14:32:22',
     },
   ],
   findUnregisteredCouponListByStatus(status: UNREGISTERED_COUPON_STATUS) {
@@ -62,7 +62,6 @@ export default {
 
     return unregisteredCouponList;
   },
-
   findUnregisteredCoupon(unregisteredCouponId: number) {
     const coupon = this.current.find(({ id }) => id === unregisteredCouponId);
 
