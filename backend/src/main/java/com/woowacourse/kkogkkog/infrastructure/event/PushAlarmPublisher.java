@@ -1,7 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.event;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
-import com.woowacourse.kkogkkog.legacy_member.domain.LegacyMemberHistory;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,15 +25,5 @@ public class PushAlarmPublisher {
             return;
         }
         publisher.publishEvent(PushAlarmEvent.of(couponHistory));
-    }
-
-    public void publishEvent(LegacyMemberHistory memberHistory) {
-        Member hostMember = memberHistory.getHostMember();
-        Workspace workspace = hostMember.getWorkspace();
-        if (workspace.getWorkspaceId().equals(WOOWACOURSE_ID)) {
-            publisher.publishEvent(WoowacoursePushAlarmEvent.of(memberHistory));
-            return;
-        }
-        publisher.publishEvent(PushAlarmEvent.of(memberHistory));
     }
 }
