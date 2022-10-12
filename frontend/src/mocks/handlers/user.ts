@@ -2,64 +2,61 @@ import { rest } from 'msw';
 
 import { BASE_URL } from '@/apis';
 import users from '@/mocks/fixtures/users';
-import { EditMeRequest } from '@/types/remote/request';
+import { EditMeRequest } from '@/types/user/remote';
 
 export const userHandler = [
-  rest.get<any>(`${BASE_URL}/members/me`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/members/me`, (req, res, ctx) => {
     const { headers } = req;
+    const token = headers.get('authorization');
 
     try {
-      const user = users.findLoggedUser(headers.get('authorization'));
+      const user = users.findLoggedUser(token);
 
       return res(ctx.status(200, 'authorized'), ctx.json(user));
     } catch ({ message }) {
-      return res(ctx.status(400, 'unauthorized'), ctx.json({ message }));
+      return res(ctx.status(401, 'unauthorized'), ctx.json({ message }));
     }
   }),
 
   rest.put<EditMeRequest>(`${BASE_URL}/members/me`, (req, res, ctx) => {
     const { body, headers } = req;
+    const token = headers.get('authorization');
 
-    const loggedUser = users.findLoggedUser(headers.get('authorization'));
+    try {
+      const loggedUser = users.findLoggedUser(token);
 
-    users.current = users.current.map(user =>
-      user.id === loggedUser.id ? { ...user, ...body } : user
-    );
+      users.current = users.current.map(user =>
+        user.id === loggedUser.id ? { ...user, ...body } : user
+      );
 
-    return res(ctx.status(200));
+      return res(ctx.status(200, '정보 수정에 성공하였습니다.'));
+    } catch ({ message }) {
+      return res(ctx.status(401, 'unauthorized'), ctx.json({ message }));
+    }
   }),
 
   rest.get<any>(`${BASE_URL}/members`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ data: users.current }));
-  }),
+    const allUser = users.current.map(user => {
+      const { id, userId, nickname, email, imageUrl } = user;
 
-  rest.post<any>(`${BASE_URL}/members`, (req, res, ctx) => {
-    const { body: info } = req;
+      return {
+        id,
+        userId,
+        nickname,
+        email,
+        imageUrl,
+      };
+    });
 
-    const user = { id: users.current.length + 1, ...info };
-
-    users.current.push(user);
-
-    return res(ctx.status(201));
-  }),
-
-  rest.post<any>(`${BASE_URL}/login`, (req, res, ctx) => {
-    const { password, email } = req.body;
-
-    if (
-      users.current.some(customer => customer.email === email && customer.password === password)
-    ) {
-      return res(ctx.status(200, 'ok'), ctx.json({ accessToken: email }));
-    }
-
-    return res(ctx.status(400, 'unauthorized'), ctx.json({ message: 'login failed' }));
+    return res(ctx.status(200), ctx.json({ data: allUser }));
   }),
 
   rest.get<any>(`${BASE_URL}/members/me/histories`, (req, res, ctx) => {
     const { headers } = req;
+    const token = headers.get('authorization');
 
     try {
-      const { histories } = users.findLoggedUser(headers.get('authorization'));
+      const { histories } = users.findLoggedUser(token);
 
       return res(ctx.status(200, 'authorized'), ctx.json({ data: histories }));
     } catch ({ message }) {
@@ -69,9 +66,10 @@ export const userHandler = [
 
   rest.put(`${BASE_URL}/members/me/histories`, (req, res, ctx) => {
     const { headers } = req;
+    const token = headers.get('authorization');
 
     try {
-      const user = users.findLoggedUser(headers.get('authorization'));
+      const user = users.findLoggedUser(token);
 
       user.histories = user.histories.map(history => ({
         ...history,
@@ -91,9 +89,10 @@ export const userHandler = [
       headers,
       params: { historyId },
     } = req;
+    const token = headers.get('authorization');
 
     try {
-      const user = users.findLoggedUser(headers.get('authorization'));
+      const user = users.findLoggedUser(token);
 
       user.histories = user.histories.map(history => {
         if (history.id === Number(historyId)) {
