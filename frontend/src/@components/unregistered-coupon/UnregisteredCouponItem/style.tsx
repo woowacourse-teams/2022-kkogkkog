@@ -90,7 +90,8 @@ export const CouponPropertyContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
   align-items: center;
   border-radius: 20px 0 0 20px;
   padding: 16px 0;
