@@ -35,9 +35,13 @@ Input.Counter = function CounterInput(props: CounterInputProps) {
       <label htmlFor={id}>{label}</label>
       {description && <Styled.Description>{description}</Styled.Description>}
       <Styled.CounterInputContainer>
-        <Styled.MinusCounterButton onClick={onClickMinusButton}>-</Styled.MinusCounterButton>
+        <Styled.MinusCounterButton type='button' onClick={onClickMinusButton}>
+          -
+        </Styled.MinusCounterButton>
         <Styled.Input id={id} type='number' value={value} disabled {...rest} />
-        <Styled.PlusCounterButton onClick={onClickPlusButton}>+</Styled.PlusCounterButton>
+        <Styled.PlusCounterButton type='button' onClick={onClickPlusButton}>
+          +
+        </Styled.PlusCounterButton>
       </Styled.CounterInputContainer>
     </Styled.Root>
   );
