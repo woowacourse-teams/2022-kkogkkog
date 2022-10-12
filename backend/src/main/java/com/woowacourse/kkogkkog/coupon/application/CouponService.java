@@ -16,7 +16,6 @@ import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
-import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -54,8 +53,8 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long memberId, Long couponId) {
-        Member member = findMember(memberId);
-        Coupon coupon = findCoupon(couponId);
+        Member member = memberRepository.get(memberId);
+        Coupon coupon = couponRepository.get(couponId);
         if (!coupon.isSenderOrReceiver(member)) {
             throw new CouponNotAccessibleException();
         }
@@ -66,7 +65,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllBySender(Long memberId) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.get(memberId);
         return couponRepository.findAllBySender(member).stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
@@ -74,7 +73,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllBySender(Long memberId, String couponStatus) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.get(memberId);
         return couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus)).stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
@@ -82,7 +81,7 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllByReceiver(Long memberId) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.get(memberId);
         return couponRepository.findAllByReceiver(member).stream()
             .map(CouponResponse::of)
             .collect(Collectors.toList());
@@ -91,7 +90,7 @@ public class CouponService {
     @Transactional(readOnly = true)
     public List<CouponResponse> findAllByReceiver(Long memberId,
                                                   String couponStatus) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.get(memberId);
         return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus))
             .stream()
             .map(CouponResponse::of)
@@ -99,7 +98,7 @@ public class CouponService {
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
-        Member sender = findMember(request.getSenderId());
+        Member sender = memberRepository.get(request.getSenderId());
         List<Member> receivers = findReceivers(request.getReceiverIds());
         List<Coupon> coupons = request.toEntities(sender, receivers);
         return couponRepository.saveAll(coupons).stream()
@@ -109,7 +108,7 @@ public class CouponService {
     }
 
     public CouponResponse saveByCouponCode(Long memberId, String couponCode) {
-        Member receiver = findMember(memberId);
+        Member receiver = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
         Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
         unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
@@ -118,15 +117,15 @@ public class CouponService {
 
     public void updateStatus(CouponStatusRequest request) {
         CouponEvent event = request.getEvent();
-        Member loginMember = findMember(request.getMemberId());
-        Coupon coupon = couponRepository.findByIdWithLock(request.getCouponId());
+        Member loginMember = memberRepository.get(request.getMemberId());
+        Coupon coupon = couponRepository.getWithLock(request.getCouponId());
         coupon.changeState(event, loginMember);
         saveCouponHistory(CouponHistory.of(loginMember, coupon, event, request.getMessage()));
     }
 
     @Transactional(readOnly = true)
     public List<AcceptedCouponResponse> findAcceptedCoupons(Long memberId) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.get(memberId);
         Map<LocalDateTime, List<CouponMeetingData>> collect = couponRepository
             .findAllByMemberAndCouponStatusOrderByMeetingDate(member, LocalDate.now().atStartOfDay(), CouponStatus.ACCEPTED)
             .stream()
@@ -136,11 +135,6 @@ public class CouponService {
         return collect.entrySet().stream()
             .map(it -> AcceptedCouponResponse.of(it.getKey(), it.getValue()))
             .collect(Collectors.toList());
-    }
-
-    private Coupon findCoupon(Long couponId) {
-        return couponRepository.findById(couponId)
-            .orElseThrow(CouponNotFoundException::new);
     }
 
     private List<Member> findReceivers(List<Long> memberIds) {
@@ -154,11 +148,6 @@ public class CouponService {
     private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
         pushAlarmPublisher.publishEvent(couponHistory);
-    }
-
-    private Member findMember(Long memberId) {
-        return memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
     }
 
     private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {

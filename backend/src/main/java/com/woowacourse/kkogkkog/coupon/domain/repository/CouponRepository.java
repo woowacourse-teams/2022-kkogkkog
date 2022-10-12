@@ -15,6 +15,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
+    default Coupon get(Long id) {
+        return findById(id).orElseThrow(CouponNotFoundException::new);
+    }
+
+    default Coupon getWithLock(Long id) {
+        return findByIdWithExclusiveLock(id).orElseThrow(CouponNotFoundException::new);
+    }
+
     @Query("SELECT c "
         + "FROM Coupon c "
         + "JOIN FETCH c.sender "
@@ -61,8 +69,4 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT c FROM Coupon c where c.id = :id")
     Optional<Coupon> findByIdWithExclusiveLock(@Param("id") Long id);
-
-    default Coupon findByIdWithLock(Long id) {
-        return findByIdWithExclusiveLock(id).orElseThrow(CouponNotFoundException::new);
-    }
 }
