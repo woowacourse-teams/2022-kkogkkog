@@ -1,6 +1,5 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
@@ -42,19 +41,19 @@ public class UnregisteredCouponService {
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
+    public UnregisteredCouponResponse findById(Long memberId, Long unregisteredCouponId) {
         Member member = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
-        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+        return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse findByCouponCode(String couponCode) {
+    public UnregisteredCouponResponse findByCouponCode(String couponCode) {
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
-        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+        return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {

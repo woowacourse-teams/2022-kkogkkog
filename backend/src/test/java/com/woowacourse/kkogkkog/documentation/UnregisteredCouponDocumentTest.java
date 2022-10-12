@@ -5,7 +5,6 @@ import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.ge
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
-import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.수령한_미등록_COFFEE_쿠폰_응답;
@@ -114,7 +113,7 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
     void 미등록_쿠폰_아이디_단일_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(unregisteredCouponService.findById(any(), any())).willReturn(
-            미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L))
+            미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L))
         );
 
         ResultActions perform = mockMvc.perform(
@@ -124,7 +123,7 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
         perform.andExpect(status().isOk())
             .andExpect(
                 content().string(objectMapper.writeValueAsString(
-                    미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L)))));
+                    미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L)))));
 
         perform
             .andDo(print())
@@ -137,7 +136,7 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
     void 미등록_쿠폰_쿠폰코드_단일_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(unregisteredCouponService.findByCouponCode(any())).willReturn(
-            미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L), COUPON_CODE)
+            미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), COUPON_CODE)
         );
 
         ResultActions perform = mockMvc.perform(
@@ -148,7 +147,7 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
             perform.andExpect(status().isOk())
                 .andExpect(
                     content().string(objectMapper.writeValueAsString(
-                        미등록_COFFEE_쿠폰_상세_응답(1L, ROOKIE.getMember(1L), COUPON_CODE))));
+                        미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), COUPON_CODE))));
 
         perform
             .andDo(print())

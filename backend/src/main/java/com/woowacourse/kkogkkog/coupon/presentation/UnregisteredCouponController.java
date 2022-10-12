@@ -2,7 +2,6 @@ package com.woowacourse.kkogkkog.coupon.presentation;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.coupon.application.UnregisteredCouponService;
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
@@ -39,16 +38,16 @@ public class UnregisteredCouponController {
     }
 
     @GetMapping("/{unregisteredCouponId}")
-    public ResponseEntity<UnregisteredCouponDetailResponse> showById(@LoginMemberId Long loginMemberId,
+    public ResponseEntity<UnregisteredCouponResponse> showById(@LoginMemberId Long loginMemberId,
                                                                  @PathVariable Long unregisteredCouponId) {
-        UnregisteredCouponDetailResponse response = unregisteredCouponService.findById(
+        UnregisteredCouponResponse response = unregisteredCouponService.findById(
             loginMemberId, unregisteredCouponId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/code")
-    public ResponseEntity<UnregisteredCouponDetailResponse> showByCouponCode(@RequestParam String couponCode) {
-        UnregisteredCouponDetailResponse response = unregisteredCouponService.findByCouponCode(
+    public ResponseEntity<UnregisteredCouponResponse> showByCouponCode(@RequestParam String couponCode) {
+        UnregisteredCouponResponse response = unregisteredCouponService.findByCouponCode(
             couponCode);
         return ResponseEntity.ok(response);
     }

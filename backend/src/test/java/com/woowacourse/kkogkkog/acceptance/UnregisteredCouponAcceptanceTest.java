@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import io.restassured.response.ExtractableResponse;
@@ -79,7 +79,7 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
 
         final var extract = 아이디로_회원의_단일_미등록_쿠폰_상세정보를_조회한다(senderToken, unregisteredCouponId);
 
-        UnregisteredCouponDetailResponse actual = extract.as(UnregisteredCouponDetailResponse.class);
+        UnregisteredCouponResponse actual = extract.as(UnregisteredCouponResponse.class);
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(actual.getId()).isEqualTo(unregisteredCouponId)
@@ -95,8 +95,8 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
 
         final var extract = 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(couponCode);
 
-        UnregisteredCouponDetailResponse actual = extract.as(
-            UnregisteredCouponDetailResponse.class);
+        UnregisteredCouponResponse actual = extract.as(
+            UnregisteredCouponResponse.class);
         assertAll(
             () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(actual.getCouponCode()).isEqualTo(couponCode)
