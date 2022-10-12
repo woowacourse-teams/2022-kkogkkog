@@ -43,6 +43,21 @@ public class UnregisteredCouponDtoFixture {
             null);
     }
 
+    public static UnregisteredCouponResponse 수령한_미등록_COFFEE_쿠폰_응답(Long unregisteredCouponId, Long couponId,
+                                                              Member sender, Member receiver) {
+        return new UnregisteredCouponResponse(
+            unregisteredCouponId,
+            "쿠폰코드",
+            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
+            new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
+            couponId,
+            "고마워요",
+            "쿠폰에 대한 메시지",
+            "COFFEE",
+            "REGISTERED",
+            null);
+    }
+
     public static UnregisteredCouponDetailResponse 미등록_COFFEE_쿠폰_상세_응답(Long unregisteredCouponId,
                                                                        Member sender) {
         return new UnregisteredCouponDetailResponse(

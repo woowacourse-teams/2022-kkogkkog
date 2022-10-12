@@ -2,11 +2,13 @@ package com.woowacourse.kkogkkog.documentation;
 
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.수령한_미등록_COFFEE_쿠폰_응답;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -77,6 +79,33 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("unregistered-coupon-showAll",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
+    void 나의_미등록_쿠폰_상태별_조회_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        Member sender = SENDER.getMember(1L);
+        Member receiver = RECEIVER.getMember(2L);
+        given(unregisteredCouponService.findAllBySender(any(), any())).willReturn(
+            List.of(수령한_미등록_COFFEE_쿠폰_응답(1L, 1L, sender, receiver),
+                수령한_미등록_COFFEE_쿠폰_응답(2L, 2L, sender, receiver)));
+
+        ResultActions perform = mockMvc.perform(
+            get("/api/v2/coupons/unregistered/status")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .param("type", "REGISTERED"));
+
+        perform.andExpect(status().isOk())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(new UnregisteredCouponsResponse(
+                    List.of(수령한_미등록_COFFEE_쿠폰_응답(1L, 1L, sender, receiver),
+                        수령한_미등록_COFFEE_쿠폰_응답(2L, 2L, sender, receiver))))));
+
+        perform
+            .andDo(print())
+            .andDo(document("unregistered-coupon-show-status",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
