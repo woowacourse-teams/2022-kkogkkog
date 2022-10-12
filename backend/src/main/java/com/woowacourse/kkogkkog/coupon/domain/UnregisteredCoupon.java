@@ -111,16 +111,16 @@ public class UnregisteredCoupon extends BaseEntity {
         return coupon;
     }
 
-    public Coupon toCoupon(Member receiver) {
+    private Coupon toCoupon(Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
+    }
+
+    private void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
+        updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
     }
 
     public boolean isNotSender(Member member) {
         return sender != member;
-    }
-
-    public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
-        updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
     }
 
     private void updateCoupon(Coupon coupon) {

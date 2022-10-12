@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -8,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -58,16 +58,17 @@ public class UnregisteredCouponTest {
     }
 
     @Nested
-    @DisplayName("changeStatus 매서드는")
-    class ChangeStatus {
+    @DisplayName("registerCoupon 매서드는")
+    class RegisterCoupon {
 
         @Test
-        @DisplayName("UnregisteredCouponEventType을 통해서 UnregisteredCouponStatus를 변경한다.")
+        @DisplayName("받는 사람을 받으면 등록 처리 후 쿠폰을 연결한다.")
         void success() {
             Member sender = SENDER.getMember();
+            Member receiver = RECEIVER.getMember();
             UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
 
-            unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
+            unregisteredCoupon.registerCoupon(receiver);
 
             UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
             assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
