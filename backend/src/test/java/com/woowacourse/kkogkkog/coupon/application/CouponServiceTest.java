@@ -122,16 +122,16 @@ class CouponServiceTest {
         }
 
         @Test
-        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 미등록 쿠폰을 REGISTERED 상태로 변경한다.")
+        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 생성된 쿠폰을 반환한다.")
         void success() {
             UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(
                 CouponFixture.COFFEE.getUnregisteredCoupon(sender));
             String couponCode = unregisteredCoupon.getCouponCode();
 
-            couponService.saveByCouponCode(receiver.getId(), couponCode);
+            CouponResponse couponResponse = couponService.saveByCouponCode(receiver.getId(), couponCode);
 
-            UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
-            assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
+            Coupon coupon = unregisteredCoupon.getCoupon();
+            assertThat(couponResponse.getId()).isEqualTo(coupon.getId());
         }
     }
 
