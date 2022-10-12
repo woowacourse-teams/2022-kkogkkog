@@ -26,9 +26,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class CouponService {
@@ -38,18 +40,6 @@ public class CouponService {
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
-
-    public CouponService(MemberRepository memberRepository,
-                         CouponRepository couponRepository,
-                         UnregisteredCouponRepository unregisteredCouponRepository,
-                         CouponHistoryRepository couponHistoryRepository,
-                         PushAlarmPublisher pushAlarmPublisher) {
-        this.memberRepository = memberRepository;
-        this.couponRepository = couponRepository;
-        this.unregisteredCouponRepository = unregisteredCouponRepository;
-        this.couponHistoryRepository = couponHistoryRepository;
-        this.pushAlarmPublisher = pushAlarmPublisher;
-    }
 
     @Transactional(readOnly = true)
     public CouponDetailResponse find(Long memberId, Long couponId) {

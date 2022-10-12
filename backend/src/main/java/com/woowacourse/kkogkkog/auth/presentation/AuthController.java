@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
 import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,15 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2")
 public class AuthController {
 
     private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @GetMapping("/login/token")
     public ResponseEntity<TokenResponse> login(@RequestParam String code) {
