@@ -47,4 +47,8 @@ public enum CouponFixture {
             null, sender, receiver, couponMessage,
             couponTag, couponType, couponState);
     }
+
+    public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {
+        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType, couponState);
+    }
 }

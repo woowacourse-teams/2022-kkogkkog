@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.presentation.dto;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CouponMeetingsResponse {
+public class AcceptedCouponsResponse {
 
-    private List<CouponMeetingResponse> data;
+    private List<AcceptedCouponResponse> data;
 
-    public CouponMeetingsResponse(final List<CouponMeetingResponse> data) {
+    public AcceptedCouponsResponse(final List<AcceptedCouponResponse> data) {
         this.data = data;
     }
 }

@@ -8,19 +8,19 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CouponMeetingResponse {
+public class AcceptedCouponResponse {
 
     private LocalDateTime meetingDate;
     private List<CouponMeetingData> coupons;
 
-    public CouponMeetingResponse(final LocalDateTime meetingDate,
-                                 final List<CouponMeetingData> couponMeetingData) {
+    public AcceptedCouponResponse(final LocalDateTime meetingDate,
+                                  final List<CouponMeetingData> couponMeetingData) {
         this.meetingDate = meetingDate;
         this.coupons = couponMeetingData;
     }
 
-    public static CouponMeetingResponse of(final LocalDateTime meetingDate,
-                                           final List<CouponMeetingData> value) {
-        return new CouponMeetingResponse(meetingDate, value);
+    public static AcceptedCouponResponse of(final LocalDateTime meetingDate,
+                                            final List<CouponMeetingData> value) {
+        return new AcceptedCouponResponse(meetingDate, value);
     }
 }
