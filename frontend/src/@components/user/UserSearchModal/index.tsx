@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
 import Modal from '@/@components/@shared/Modal';
 import { ANIMATION_DURATION } from '@/constants/animation';
-import { UserResponse } from '@/types/remote/response';
+import { UserResponse } from '@/types/user/remote';
 
 import UserSearchForm from '../UserSearchForm';
 
 interface UserSearchModalProps {
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => void;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
   closeModal: () => void;
 }
 

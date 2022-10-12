@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import java.time.LocalDateTime;
@@ -65,6 +65,31 @@ class CouponDocumentTest extends DocumentTest {
     }
 
     @Test
+    void 코드_쿠폰_생성_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(couponService.saveByCouponCode(any(), any())).willReturn(
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)));
+
+        String couponCode = "쿠폰코드";
+        ResultActions perform = mockMvc.perform(
+            post("/api/v2/coupons/code")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .content(objectMapper.writeValueAsString(couponCode))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        perform.andExpect(status().isCreated())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-create-code",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+    @Test
     void 보낸_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.findAllBySender(any())).willReturn(List.of(
@@ -72,7 +97,7 @@ class CouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/send")
+            get("/api/v2/coupons/sent")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -82,7 +107,7 @@ class CouponDocumentTest extends DocumentTest {
 
         perform
             .andDo(print())
-            .andDo(document("coupon-showAll-send",
+            .andDo(document("coupon-showAll-sent",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }
@@ -162,7 +187,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 상세_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.find(any())).willReturn(
+        given(couponService.find(any(), any())).willReturn(
             쿠폰_상세_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L),
                 쿠폰_상세_내역_응답(1L, ROOKIE.getMember(1L)))
         );
@@ -210,7 +235,7 @@ class CouponDocumentTest extends DocumentTest {
     @Test
     void 미팅이_확정된_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.findMeeting(any())).willReturn(List.of(CouponMeetingResponse.of(
+        given(couponService.findAcceptedCoupons(any())).willReturn(List.of(AcceptedCouponResponse.of(
             LocalDateTime.of(2022, 12, 12, 0, 0, 0),
             List.of(
                 new CouponMeetingData(
@@ -228,7 +253,7 @@ class CouponDocumentTest extends DocumentTest {
         perform.andExpect(status().isOk())
             .andExpect(
                 content().string(objectMapper.writeValueAsString(
-                    new CouponMeetingsResponse(List.of(CouponMeetingResponse.of(
+                    new AcceptedCouponsResponse(List.of(AcceptedCouponResponse.of(
                         LocalDateTime.of(2022, 12, 12, 0, 0, 0),
                         List.of(
                             new CouponMeetingData(

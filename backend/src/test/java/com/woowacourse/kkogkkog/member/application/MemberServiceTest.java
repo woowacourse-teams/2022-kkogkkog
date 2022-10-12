@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.member.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
@@ -9,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
 import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
@@ -225,6 +227,26 @@ class MemberServiceTest extends ServiceTest {
             String actual = memberService.findById(memberId).getNickname();
 
             assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("findByNickname 메서드는")
+    class FindByNickname {
+
+        @Test
+        @DisplayName("사용자의 닉네임을 기준으로 회원 검색을 한다.")
+        void success() {
+            Member rookie = ROOKIE.getMember(workspace);
+            Member author = AUTHOR.getMember(workspace);
+            Member leo = LEO.getMember(workspace);
+            memberRepository.save(rookie);
+            memberRepository.save(author);
+            memberRepository.save(leo);
+
+            List<MemberResponse> actual = memberService.findByNickname("루");
+
+            assertThat(actual).hasSize(1);
         }
     }
 }

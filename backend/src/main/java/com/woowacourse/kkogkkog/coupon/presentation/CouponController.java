@@ -2,12 +2,12 @@ package com.woowacourse.kkogkkog.coupon.presentation;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
+import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponEventRequest;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponMeetingsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class CouponController {
         this.couponService = couponService;
     }
 
-    @GetMapping("/send")
+    @GetMapping("/sent")
     public ResponseEntity<CouponsResponse> showSend(@LoginMemberId Long loginMemberId) {
         List<CouponResponse> coupons = couponService.findAllBySender(loginMemberId);
         return ResponseEntity.ok(new CouponsResponse(coupons));
@@ -57,15 +57,16 @@ public class CouponController {
     }
 
     @GetMapping("/{couponId}")
-    public ResponseEntity<CouponDetailResponse> show(@PathVariable Long couponId) {
-        CouponDetailResponse couponDetailResponse = couponService.find(couponId);
+    public ResponseEntity<CouponDetailResponse> show(@LoginMemberId Long loginMemberId,
+                                                     @PathVariable Long couponId) {
+        CouponDetailResponse couponDetailResponse = couponService.find(loginMemberId, couponId);
         return ResponseEntity.ok(couponDetailResponse);
     }
 
     @GetMapping("/accept")
-    public ResponseEntity<CouponMeetingsResponse> showMeetings(@LoginMemberId Long loginMemberId) {
-        List<CouponMeetingResponse> meetingsResponse = couponService.findMeeting(loginMemberId);
-        return ResponseEntity.ok(new CouponMeetingsResponse(meetingsResponse));
+    public ResponseEntity<AcceptedCouponsResponse> showAcceptedCoupons(@LoginMemberId Long loginMemberId) {
+        List<AcceptedCouponResponse> acceptedCouponResponses = couponService.findAcceptedCoupons(loginMemberId);
+        return ResponseEntity.ok(new AcceptedCouponsResponse(acceptedCouponResponses));
     }
 
     @PostMapping
@@ -74,6 +75,13 @@ public class CouponController {
         List<CouponResponse> responses = couponService.save(
             request.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponsResponse(responses));
+    }
+
+    @PostMapping("/code")
+    public ResponseEntity<CouponResponse> registerCouponCode(@LoginMemberId Long loginMemberId,
+                                                           @RequestBody String couponCode) {
+        CouponResponse couponResponse = couponService.saveByCouponCode(loginMemberId, couponCode);
+        return ResponseEntity.created(null).body(couponResponse);
     }
 
     @PutMapping("/{couponId}/event")

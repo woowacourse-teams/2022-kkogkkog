@@ -1,28 +1,16 @@
 import { useToast } from '@/@hooks/@common/useToast';
-import { COUPON_ENG_TYPE, COUPON_HASHTAGS } from '@/types/client/coupon';
-import { UserResponse } from '@/types/remote/response';
+import { useChangeCouponStatusMutation, useCreateCouponMutation } from '@/@hooks/@queries/coupon';
+import { CreateCouponRequest } from '@/types/coupon/remote';
+import { YYYYMMDD } from '@/types/utils';
 
-import {
-  useChangeCouponStatusMutation,
-  useCreateCouponMutation,
-  useRequestCouponMutation,
-} from '../@queries/coupon';
-
-export const useChangeCouponStatus = ({
-  id,
-  reservationId,
-}: {
-  id: number;
-  reservationId: number | null;
-}) => {
+export const useChangeCouponStatus = ({ couponId }: { couponId: number }) => {
   const { displayMessage } = useToast();
 
-  const changeStatusMutate = useChangeCouponStatusMutation(id);
-  const requestCouponMutate = useRequestCouponMutation();
+  const changeStatusMutate = useChangeCouponStatusMutation(couponId);
 
   const cancelCoupon = () => {
     return changeStatusMutate.mutateAsync(
-      { reservationId, body: { event: 'CANCEL' } },
+      { couponId, body: { couponEvent: 'CANCEL' } },
       {
         onSuccess() {
           displayMessage('쿠폰 사용을 취소했어요', false);
@@ -31,9 +19,15 @@ export const useChangeCouponStatus = ({
     );
   };
 
-  const requestCoupon = ({ meetingDate, message }: { meetingDate: string; message: string }) => {
-    return requestCouponMutate.mutateAsync(
-      { body: { couponId: id, meetingDate, message } },
+  const requestCoupon = ({
+    meetingDate,
+    meetingMessage,
+  }: {
+    meetingDate: YYYYMMDD;
+    meetingMessage: string;
+  }) => {
+    return changeStatusMutate.mutateAsync(
+      { couponId, body: { couponEvent: 'REQUEST', meetingDate, meetingMessage } },
       {
         onSuccess() {
           displayMessage('쿠폰 사용을 요청했어요', false);
@@ -44,7 +38,7 @@ export const useChangeCouponStatus = ({
 
   const finishCoupon = () => {
     return changeStatusMutate.mutateAsync(
-      { reservationId, body: { event: 'FINISH' } },
+      { couponId, body: { couponEvent: 'FINISH' } },
       {
         onSuccess() {
           displayMessage('쿠폰 사용을 완료했어요', false);
@@ -53,9 +47,9 @@ export const useChangeCouponStatus = ({
     );
   };
 
-  const acceptCoupon = ({ message }: { message: string }) => {
+  const acceptCoupon = ({ meetingMessage }: { meetingMessage: string }) => {
     return changeStatusMutate.mutateAsync(
-      { reservationId, body: { event: 'ACCEPT', message } },
+      { couponId, body: { couponEvent: 'ACCEPT', meetingMessage } },
       {
         onSuccess() {
           displayMessage('쿠폰 사용을 승인했어요', false);
@@ -64,9 +58,9 @@ export const useChangeCouponStatus = ({
     );
   };
 
-  const declineCoupon = ({ message }: { message: string }) => {
+  const declineCoupon = ({ meetingMessage }: { meetingMessage: string }) => {
     return changeStatusMutate.mutateAsync(
-      { reservationId, body: { event: 'DECLINE', message } },
+      { couponId, body: { couponEvent: 'DECLINE', meetingMessage } },
       {
         onSuccess() {
           displayMessage('쿠폰 사용을 거절했어요', false);
@@ -89,32 +83,14 @@ export const useCreateCoupon = () => {
 
   const createCouponMutate = useCreateCouponMutation();
 
-  const createCoupon = async ({
-    receiverList,
-    hashtag,
-    description,
-    type,
-  }: {
-    receiverList: UserResponse[];
-    hashtag: COUPON_HASHTAGS;
-    description: string;
-    type: COUPON_ENG_TYPE;
-  }) => {
-    const result = await createCouponMutate.mutateAsync(
-      {
-        receiverIds: receiverList.map(({ id }) => id),
-        hashtag,
-        description,
-        couponType: type,
+  const createCoupon = async (body: CreateCouponRequest) => {
+    const { data } = await createCouponMutate.mutateAsync(body, {
+      onSuccess() {
+        displayMessage('쿠폰을 생성했어요', false);
       },
-      {
-        onSuccess() {
-          displayMessage('쿠폰을 생성했어요', false);
-        },
-      }
-    );
+    });
 
-    return result?.data?.data;
+    return data.data;
   };
 
   return { createCoupon };

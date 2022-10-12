@@ -1,14 +1,17 @@
 import { client } from '@/apis';
 import {
   ChangeCouponStatusRequest,
-  CouponReservationRequest,
-  CreateCouponRequest,
-} from '@/types/remote/request';
-import {
-  CouponCreateResponse,
   CouponDetailResponse,
-  CouponListResponse,
-} from '@/types/remote/response';
+  CreateCouponListResponse,
+  CreateCouponRequest,
+  ReceivedCouponListByStatusRequest,
+  ReceivedCouponListByStatusResponse,
+  ReceivedCouponListResponse,
+  ReservationListResponse,
+  SentCouponListByStatusRequest,
+  SentCouponListByStatusResponse,
+  SentCouponListResponse,
+} from '@/types/coupon/remote';
 
 export const getCoupon = async (id: number) => {
   const { data } = await client.get<CouponDetailResponse>(`/coupons/${id}`);
@@ -16,23 +19,49 @@ export const getCoupon = async (id: number) => {
   return data;
 };
 
-export const getCouponList = async () => {
-  const { data } = await client.get<CouponListResponse>('/coupons');
+export const getReservationList = async () => {
+  const { data } = await client.get<ReservationListResponse>('/coupons/accept');
 
   return data;
 };
 
-export const createCoupon = (info: CreateCouponRequest) =>
-  client.post<CouponCreateResponse>('/coupons', info);
+export const getSentCouponList = async () => {
+  const { data } = await client.get<SentCouponListResponse>('/coupons/sent');
+
+  return data;
+};
+
+export const getReceivedCouponList = async () => {
+  const { data } = await client.get<ReceivedCouponListResponse>('/coupons/received');
+
+  return data;
+};
+
+export const getSentCouponListByStatus = async ({ type }: SentCouponListByStatusRequest) => {
+  const { data } = await client.get<SentCouponListByStatusResponse>(
+    `/coupons/sent/status?type=${type}`
+  );
+
+  return data;
+};
+
+export const getReceivedCouponListByStatus = async ({
+  type,
+}: ReceivedCouponListByStatusRequest) => {
+  const { data } = await client.get<ReceivedCouponListByStatusResponse>(
+    `/coupons/received/status?type=${type}`
+  );
+
+  return data;
+};
+
+export const createCoupon = (body: CreateCouponRequest) =>
+  client.post<CreateCouponListResponse>('/coupons', body);
 
 export const changeCouponStatus = ({
-  reservationId,
+  couponId,
   body,
 }: {
-  reservationId: number | null;
+  couponId: number;
   body: ChangeCouponStatusRequest;
-}) => client.put(`/reservations/${reservationId}`, body);
-
-// 고차 함수로 만들어서 body만 따로 받는 것은 어떨까?
-export const reserveCoupon = ({ body }: { body: CouponReservationRequest }) =>
-  client.post('/reservations', body);
+}) => client.put(`/coupons/${couponId}/event`, body);

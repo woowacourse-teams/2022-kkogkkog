@@ -4,13 +4,15 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import Loading from '@/@components/@shared/Loading';
 import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
-import { CouponListPageFallback } from '@/@pages/coupon-list';
+import UnregisteredCouponCreate from '@/@pages/unregistered-coupon-list/create';
 
 import { useFetchMe } from './@hooks/@queries/user';
 
 const NotFoundPage = lazy(() => import('@/@pages/404'));
 const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
+// const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
+// const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
@@ -21,9 +23,11 @@ const CouponAcceptPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/a
 const CouponDeclinePage = lazy(() => import('@/@pages/coupon-list/coupon-detail/decline'));
 const CouponRequestPage = lazy(() => import('@/@pages/coupon-list/coupon-detail/request'));
 const DownloadPage = lazy(() => import('@/@pages/download'));
-const LoginPage = lazy(() => import('@/@pages/login'));
+const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
-const Redirect = lazy(() => import('@/@pages/redirect'));
+const OAuthRedirect = lazy(() => import('@/@pages/oauth-redirect'));
+const SlackDownloadRedirect = lazy(() => import('@/@pages/slack-download-redirect'));
+// const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
 
 export const PATH = {
   MAIN: '/',
@@ -32,14 +36,20 @@ export const PATH = {
   SENT_COUPON_LIST: '/coupon-list/sent',
   RECEIVED_COUPON_LIST: '/coupon-list/received',
   COUPON_CREATE: '/coupon-list/create',
+  UNREGISTERED_COUPON_CREATE: '/unregistered-coupon-list/create',
+  UNREGISTERED_COUPON_LIST: '/unregistered-coupon-list',
+  UNREGISTERED_COUPON_DETAIL: '/unregistered-coupon-list/:unregisteredCouponId',
+  UNREGISTERED_COUPON_REGISTER: '/unregistered-coupon-list/register/:couponCode',
+  COUPON_CREATE_SELECT: '/coupon-create-select',
   LOGIN: '/login',
-  LOGIN_REDIRECT: '/login/redirect',
+  SLACK_LOGIN_REDIRECT: '/login/redirect',
+  GOOGLE_LOGIN_REDIRECT: '/login/google/redirect',
+  SLACK_DOWNLOAD_REDIRECT: '/download/redirect',
   SIGNUP: '/signup',
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',
   NOT_FOUND: '/*',
   USER_HISTORY: '/history',
-  DOWNLOAD_REDIRECT: '/download/redirect',
   DOWNLOAD: '/download',
   COUPON_DETAIL: '/coupon-list/:couponId',
   COUPON_REQUEST: '/coupon-list/:couponId/request',
@@ -61,6 +71,9 @@ export const DYNAMIC_PATH = {
   COUPON_DECLINE(id: number | string): string {
     return `${PATH.COUPON_LIST}/${id}/decline`;
   },
+  UNREGISTERED_COUPON_DETAIL(couponCode: string): string {
+    return `${PATH.UNREGISTERED_COUPON_LIST}/${couponCode}`;
+  },
 };
 
 const Router = () => {
@@ -68,32 +81,23 @@ const Router = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path={PATH.LANDING} element={<LandingPage />} />
+        {/* <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} /> */}
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
-          <Route path={PATH.LOGIN_REDIRECT} element={<Redirect />} />
+          <Route path={PATH.SLACK_LOGIN_REDIRECT} element={<OAuthRedirect oAuthType='slack' />} />
+          <Route path={PATH.GOOGLE_LOGIN_REDIRECT} element={<OAuthRedirect oAuthType='google' />} />
+          <Route path={PATH.SLACK_DOWNLOAD_REDIRECT} element={<SlackDownloadRedirect />} />
           <Route path={PATH.DOWNLOAD} element={<DownloadPage />} />
-          <Route path={PATH.DOWNLOAD_REDIRECT} element={<Redirect />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route path={PATH.MAIN} element={<MainPage />} />
-          <Route
-            path={PATH.SENT_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path={PATH.RECEIVED_COUPON_LIST}
-            element={
-              <Suspense fallback={<CouponListPageFallback />}>
-                <CouponListPage />
-              </Suspense>
-            }
-          />
+          <Route path={PATH.SENT_COUPON_LIST} element={<CouponListPage />} />
+          <Route path={PATH.RECEIVED_COUPON_LIST} element={<CouponListPage />} />
+          {/* <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} /> */}
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
+          <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
+          {/* <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} /> */}
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}

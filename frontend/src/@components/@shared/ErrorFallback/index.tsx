@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 
+import landingLogoImage from '@/assets/images/landing_logo.png';
 import theme from '@/styles/theme';
 
 import Icon from '../Icon';
@@ -15,7 +16,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: ErrorFallbackProps) => {
   return (
     <PageTemplate title='꼭꼭' hasHeader={false}>
       <Styled.Root>
-        <img src='/assets/images/landing_logo.png' alt='로고' width='86' />
+        <img src={landingLogoImage} alt='로고' width='86' />
         <Styled.ResetSection onClick={resetErrorBoundary}>
           <Icon iconName='reload' color={theme.colors.light_grey_200} />
           <button>다시 불러오기</button>

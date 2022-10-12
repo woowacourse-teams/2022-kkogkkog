@@ -7,7 +7,7 @@ import { useFetchUserHistoryList, useReadHistory } from '@/@hooks/@queries/user'
 import { useReadAllHistory } from '@/@hooks/business/user';
 import { DYNAMIC_PATH } from '@/Router';
 import { prevUrlSessionStorage } from '@/storage/session';
-import { UserHistory } from '@/types/client/user';
+import { UserCouponHistory } from '@/types/user/client';
 import { couponListDetailPageRegExp } from '@/utils/regularExpression';
 
 const UserHistoryPage = () => {
@@ -35,7 +35,7 @@ const UserHistoryPage = () => {
     readUserHisory();
   }, [historyList]);
 
-  const onClickHistoryItem = ({ id, couponId, isRead }: UserHistory) => {
+  const onClickHistoryItem = ({ id, couponId, isRead }: UserCouponHistory) => {
     if (!isRead) {
       readHistory(id);
     }

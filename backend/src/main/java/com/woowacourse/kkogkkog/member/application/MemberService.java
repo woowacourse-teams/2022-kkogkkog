@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
@@ -20,6 +21,7 @@ import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +57,15 @@ public class MemberService {
         workspaceUserRepository.save(
             new WorkspaceUser(newMember, userId, workspace, nickname, email, imageUrl));
         return newMember.getId();
+    }
+
+    public Long save(GoogleUserDto userDto, String nickname) {
+        String email = userDto.getEmail();
+        String imageUrl = userDto.getPicture();
+        Member savedMember = memberRepository.save(
+            new Member(nickname, email, imageUrl)
+        );
+        return savedMember.getId();
     }
 
     public MemberUpdateResponse update(SlackUserInfo userInfo, Workspace workspace) {
@@ -104,10 +115,24 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
     public List<MemberResponse> findAll() {
         return memberRepository.findAll().stream()
             .map(MemberResponse::of)
             .collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemberResponse> findByNickname(String searchName) {
+        List<Member> members = memberRepository.findByNickname(searchName);
+
+        return members.stream()
+            .map(MemberResponse::of)
+            .collect(Collectors.toList());
     }
 
     public void updateNickname(MemberNicknameUpdateRequest memberNicknameUpdateRequest) {

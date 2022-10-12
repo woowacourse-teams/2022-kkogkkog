@@ -3,12 +3,14 @@ package com.woowacourse.kkogkkog.coupon.domain;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -62,6 +64,36 @@ class CouponTest {
 
             Member actual = coffee.getOppositeMember(sender);
             assertThat(actual).isEqualTo(receiver);
+        }
+    }
+
+    @Nested
+    @DisplayName("isSenderOrReceiver 메서드는")
+    class IsSenderOrReceiver {
+
+        @Test
+        @DisplayName("보낸 사람 또는 받는 사람이면, true 를 반환한다.")
+        void success_true() {
+            Member sender = SENDER.getMember();
+            Member receiver = RECEIVER.getMember();
+            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+
+            Boolean actual = coupon.isSenderOrReceiver(receiver);
+
+            assertThat(actual).isTrue();
+        }
+
+        @Test
+        @DisplayName("보낸 사람이 아니고 받는 사람도 아니면, false 를 반환한다.")
+        void success_false() {
+            Member sender = SENDER.getMember();
+            Member receiver = RECEIVER.getMember();
+            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+
+            Member receiver2 = RECEIVER2.getMember();
+            Boolean actual = coupon.isSenderOrReceiver(receiver2);
+
+            assertThat(actual).isFalse();
         }
     }
 }

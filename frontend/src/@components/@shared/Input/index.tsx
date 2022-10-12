@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, MouseEventHandler } from 'react';
 
 import * as Styled from './style';
 
@@ -15,6 +15,30 @@ const Input = (props: InputProps) => {
       <label htmlFor={id}>{label}</label>
       {description && <Styled.Description>{description}</Styled.Description>}
       <Styled.Input id={id} type={type} {...rest} />
+    </Styled.Root>
+  );
+};
+
+interface CounterInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  value: number;
+  label: string;
+  description?: string;
+  onClickPlusButton: MouseEventHandler<HTMLButtonElement>;
+  onClickMinusButton: MouseEventHandler<HTMLButtonElement>;
+}
+
+Input.Counter = function CounterInput(props: CounterInputProps) {
+  const { label, id, description, value, onClickMinusButton, onClickPlusButton, ...rest } = props;
+
+  return (
+    <Styled.Root>
+      <label htmlFor={id}>{label}</label>
+      {description && <Styled.Description>{description}</Styled.Description>}
+      <Styled.CounterInputContainer>
+        <Styled.MinusCounterButton onClick={onClickMinusButton}>-</Styled.MinusCounterButton>
+        <Styled.Input id={id} type='number' value={value} disabled {...rest} />
+        <Styled.PlusCounterButton onClick={onClickPlusButton}>+</Styled.PlusCounterButton>
+      </Styled.CounterInputContainer>
     </Styled.Root>
   );
 };

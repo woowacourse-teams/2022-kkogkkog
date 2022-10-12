@@ -8,14 +8,14 @@ import Position from '@/@components/@shared/Position';
 import CouponHistoryList from '@/@components/coupon/CouponHistoryList';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import { useFetchCoupon } from '@/@hooks/@queries/coupon';
-import { useFetchMe } from '@/@hooks/@queries/user';
 import { useChangeCouponStatus } from '@/@hooks/business/coupon';
+import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
+import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { DYNAMIC_PATH } from '@/Router';
 import theme from '@/styles/theme';
-import { COUPON_STATUS } from '@/types/client/coupon';
+import { COUPON_STATUS } from '@/types/coupon/client';
 
-import NotFoundPage from '../../404';
 import * as Styled from './style';
 
 type buttonType = '취소' | '완료' | '요청' | '승인' | '거절';
@@ -55,31 +55,19 @@ const CouponDetailPage = () => {
   const navigate = useNavigate();
 
   const { coupon } = useFetchCoupon(Number(couponId));
-  const { me } = useFetchMe();
-  // @TODO reservation null type check
+
   const { cancelCoupon, finishCoupon } = useChangeCouponStatus({
-    id: Number(couponId),
-    reservationId: coupon?.reservationId ?? null,
+    couponId: Number(couponId),
   });
 
-  if (!coupon) {
+  const { isSent, member } = useCouponPartner(coupon);
+
+  // @TODO: coupon 만 타입 가드하면 member도 가드 되는 방법
+  if (!coupon || !member) {
     return <NotFoundPage />;
   }
 
-  const {
-    senderId,
-    senderNickname,
-    senderImageUrl,
-    receiverId,
-    receiverNickname,
-    receiverImageUrl,
-    couponType,
-    couponStatus,
-    couponHistories,
-    description,
-  } = coupon;
-
-  const isSent = me?.id === senderId;
+  const { couponType, couponStatus, couponHistories, couponMessage } = coupon;
 
   const { buttons } = isSent ? sentCouponMapper[couponStatus] : receivedCouponMapper[couponStatus];
 
@@ -123,33 +111,22 @@ const CouponDetailPage = () => {
               onClick={() => navigate(-1)}
             />
           </Position>
-          <Styled.ProfileImage
-            src={isSent ? receiverImageUrl : senderImageUrl}
-            alt='프로필'
-            width={51}
-            height={51}
-          />
+          <Styled.ProfileImage src={member.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
-            <strong>{isSent ? `${receiverNickname}님에게 ` : `${senderNickname}님이 `}보낸</strong>
+            <strong>
+              {member.nickname} {isSent ? '님에게' : '님이'} 보낸
+            </strong>
             &nbsp;
             {couponTypeTextMapper[couponType]} 쿠폰
           </Styled.SummaryMessage>
         </Styled.Top>
         <Styled.Main>
           <Styled.CouponInner>
-            {/* couponId, reservation, message 는 필요 없다. */}
-            <BigCouponItem
-              {...{
-                ...coupon,
-                memberId: isSent ? receiverId : senderId,
-                nickname: isSent ? receiverNickname : senderNickname,
-                memberType: isSent ? 'SENT' : 'RECEIVED',
-              }}
-            />
+            <BigCouponItem {...coupon} />
           </Styled.CouponInner>
           <Styled.SubSection>
             <Styled.SubSectionTitle>쿠폰 메시지</Styled.SubSectionTitle>
-            <Styled.DescriptionContainer>{description}</Styled.DescriptionContainer>
+            <Styled.DescriptionContainer>{couponMessage}</Styled.DescriptionContainer>
           </Styled.SubSection>
 
           <Styled.SubSection>
@@ -157,9 +134,9 @@ const CouponDetailPage = () => {
             <CouponHistoryList historyList={couponHistories} />
           </Styled.SubSection>
           <Styled.FinishButtonInner>
-            {/* {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
+            {(couponStatus === 'READY' || couponStatus === 'REQUESTED') && (
               <button onClick={onClickFinishButton}>혹시 쿠폰을 사용하셨나요?</button>
-            )} */}
+            )}
           </Styled.FinishButtonInner>
           <Position position='fixed' bottom='0' css={Styled.ExtendedPosition}>
             {buttons.map(buttonType => (
