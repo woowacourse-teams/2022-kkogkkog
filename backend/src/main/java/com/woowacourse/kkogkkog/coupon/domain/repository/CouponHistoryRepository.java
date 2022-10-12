@@ -2,12 +2,15 @@ package com.woowacourse.kkogkkog.coupon.domain.repository;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.member.exception.MemberHistoryNotFoundException;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CouponHistoryRepository extends JpaRepository<CouponHistory, Long> {
 
-    List<CouponHistory> findAllByHostMember(Member member);
+    default CouponHistory findCouponHistory(Long id) {
+        return findById(id).orElseThrow(MemberHistoryNotFoundException::new);
+    }
 
     List<CouponHistory> findAllByHostMemberOrderByCreatedTimeDesc(Member member);
 

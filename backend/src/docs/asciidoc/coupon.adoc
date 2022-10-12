@@ -9,6 +9,9 @@
 === 쿠폰 생성
 operation::coupon-create[snippets='http-request,http-response']
 
+=== 미등록 쿠폰 수령
+operation::coupon-create-code[snippets='http-request,http-response']
+
 === 보낸 쿠폰 조회
 operation::coupon-showAll-send[snippets='http-request,http-response']
 

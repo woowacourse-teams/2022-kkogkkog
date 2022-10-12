@@ -123,6 +123,16 @@ public class AcceptanceContext {
             .extract();
     }
 
+    public static ExtractableResponse<Response> invokeDeleteWithToken(String path, String token) {
+        return RestAssured.given().log().all()
+            .auth().oauth2(token)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .delete(path)
+            .then().log().all()
+            .extract();
+    }
+
     public static ExtractableResponse<Response> invokeDeleteWithToken(String path, String token,
                                                                       Object data) {
         return RestAssured.given().log().all()
