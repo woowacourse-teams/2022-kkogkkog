@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.member.presentation;
 
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
-import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberHistoriesResponse;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/v2/members")
 public class MemberController {
 
     private final MemberService memberService;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v2")
 public class AuthController {
 
     private final AuthService authService;
@@ -42,6 +42,22 @@ public class AuthController {
     public ResponseEntity<MemberCreateResponse> save(
         @RequestBody MemberCreateRequest memberCreateRequest) {
         Long id = authService.signUp(memberCreateRequest);
+        MemberCreateResponse memberCreateResponse = authService.loginByMemberId(id);
+
+        return ResponseEntity.created(null).body(memberCreateResponse);
+    }
+
+    @GetMapping("/login/google")
+    public ResponseEntity<TokenResponse> googleLogin(@RequestParam String code) {
+        TokenResponse tokenResponse = authService.loginGoogle(code);
+
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @PostMapping("/signup/google")
+    public ResponseEntity<MemberCreateResponse> saveGoogle(
+        @RequestBody MemberCreateRequest memberCreateRequest) {
+        Long id = authService.signUpGoogle(memberCreateRequest);
         MemberCreateResponse memberCreateResponse = authService.loginByMemberId(id);
 
         return ResponseEntity.created(null).body(memberCreateResponse);
