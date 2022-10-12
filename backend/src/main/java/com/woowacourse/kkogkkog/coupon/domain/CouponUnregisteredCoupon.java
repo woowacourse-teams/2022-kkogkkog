@@ -16,6 +16,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CouponUnregisteredCoupon {
 
+    public CouponUnregisteredCoupon(Long id, Coupon coupon, UnregisteredCoupon unregisteredCoupon) {
+        this.id = id;
+        this.coupon = coupon;
+        this.unregisteredCoupon = unregisteredCoupon;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

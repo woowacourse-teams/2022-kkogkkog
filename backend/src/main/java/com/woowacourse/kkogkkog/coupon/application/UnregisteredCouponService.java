@@ -1,9 +1,14 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.REGISTERED;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponUnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
@@ -20,11 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UnregisteredCouponService {
 
     private final UnregisteredCouponRepository unregisteredCouponRepository;
+    private final CouponUnregisteredCouponRepository couponUnregisteredCouponRepository;
     private final MemberRepository memberRepository;
 
     public UnregisteredCouponService(UnregisteredCouponRepository unregisteredCouponRepository,
+                                     CouponUnregisteredCouponRepository couponUnregisteredCouponRepository,
                                      MemberRepository memberRepository) {
         this.unregisteredCouponRepository = unregisteredCouponRepository;
+        this.couponUnregisteredCouponRepository = couponUnregisteredCouponRepository;
         this.memberRepository = memberRepository;
     }
 
@@ -32,6 +40,31 @@ public class UnregisteredCouponService {
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
         Member sender = findMember(memberId);
         return unregisteredCouponRepository.findAllBySender(sender).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UnregisteredCouponResponse> findAllBySender(Long memberId, String couponStatus) {
+        Member member = findMember(memberId);
+        UnregisteredCouponStatus status = UnregisteredCouponStatus.valueOf(couponStatus);
+        List<UnregisteredCoupon> unregisteredCoupons = unregisteredCouponRepository.findAllBySender(member, status);
+        if (REGISTERED.equals(status)) {
+            return findAllBySenderWhereRegistered(unregisteredCoupons);
+        }
+        return unregisteredCoupons.stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<UnregisteredCouponResponse> findAllBySenderWhereRegistered(List<UnregisteredCoupon> unregisteredCoupons) {
+        List<CouponUnregisteredCoupon> couponUnregisteredCoupons = couponUnregisteredCouponRepository.findAllByUnregisteredCoupons(
+            unregisteredCoupons);
+        return toUnregisteredCouponResponse(couponUnregisteredCoupons);
+    }
+
+    private List<UnregisteredCouponResponse> toUnregisteredCouponResponse(List<CouponUnregisteredCoupon> couponUnregisteredCoupons) {
+        return couponUnregisteredCoupons.stream()
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
     }

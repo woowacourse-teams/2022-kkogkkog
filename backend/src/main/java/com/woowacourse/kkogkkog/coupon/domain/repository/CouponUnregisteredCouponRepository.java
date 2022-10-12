@@ -10,4 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CouponUnregisteredCouponRepository extends JpaRepository<CouponUnregisteredCoupon, Long> {
+
+    @Query("SELECT cu "
+        + "FROM CouponUnregisteredCoupon cu "
+        + "WHERE cu.unregisteredCoupon IN (:unregisteredCoupons)")
+    List<CouponUnregisteredCoupon> findAllByUnregisteredCoupons(
+        @Param("unregisteredCoupons") List<UnregisteredCoupon> unregisteredCoupons);
 }

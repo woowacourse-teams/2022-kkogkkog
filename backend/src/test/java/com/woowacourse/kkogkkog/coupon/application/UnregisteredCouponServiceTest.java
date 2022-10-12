@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
@@ -10,7 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.domain.CouponUnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponUnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -33,6 +38,9 @@ public class UnregisteredCouponServiceTest {
 
     @Autowired
     private UnregisteredCouponService unregisteredCouponService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -80,13 +88,19 @@ public class UnregisteredCouponServiceTest {
     class FindAllBySender {
 
         private Member sender;
+        private Member receiver;
+        private UnregisteredCoupon unregisteredCoupon1;
+        private UnregisteredCoupon unregisteredCoupon2;
 
         @BeforeEach
         void setUp() {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
-            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
-            unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            receiver = memberRepository.save(AUTHOR.getMember(workspace));
+            unregisteredCoupon1 = unregisteredCouponRepository.save(
+                CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            unregisteredCoupon2 = unregisteredCouponRepository.save(
+                CouponFixture.COFFEE.getUnregisteredCoupon(sender));
         }
 
         @Test
@@ -94,6 +108,24 @@ public class UnregisteredCouponServiceTest {
         void success() {
             List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(
                 sender.getId());
+
+            List<Long> actualIds = actual.stream()
+                .map(it -> it.getSender().getId())
+                .collect(Collectors.toList());
+            assertAll(
+                () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actualIds).containsOnly(sender.getId())
+            );
+        }
+
+        @Test
+        @DisplayName("보낸 사람의 ID를 통해, 해당 ID로 발급한 미등록 쿠폰 리스트를 반환한다.")
+        void success_2() {
+            couponService.saveByCouponCode(receiver.getId(), unregisteredCoupon1.getCouponCode());
+            couponService.saveByCouponCode(receiver.getId(), unregisteredCoupon2.getCouponCode());
+
+            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(
+                sender.getId(), UnregisteredCouponStatus.REGISTERED.name());
 
             List<Long> actualIds = actual.stream()
                 .map(it -> it.getSender().getId())

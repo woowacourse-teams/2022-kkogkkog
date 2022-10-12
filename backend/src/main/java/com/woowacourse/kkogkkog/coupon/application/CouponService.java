@@ -10,10 +10,12 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponUnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
@@ -37,17 +39,19 @@ public class CouponService {
     private final MemberRepository memberRepository;
     private final CouponRepository couponRepository;
     private final UnregisteredCouponRepository unregisteredCouponRepository;
+    private final CouponUnregisteredCouponRepository couponUnregisteredCouponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     public CouponService(MemberRepository memberRepository,
                          CouponRepository couponRepository,
                          UnregisteredCouponRepository unregisteredCouponRepository,
-                         CouponHistoryRepository couponHistoryRepository,
+                         CouponUnregisteredCouponRepository couponUnregisteredCouponRepository, CouponHistoryRepository couponHistoryRepository,
                          PushAlarmPublisher pushAlarmPublisher) {
         this.memberRepository = memberRepository;
         this.couponRepository = couponRepository;
         this.unregisteredCouponRepository = unregisteredCouponRepository;
+        this.couponUnregisteredCouponRepository = couponUnregisteredCouponRepository;
         this.couponHistoryRepository = couponHistoryRepository;
         this.pushAlarmPublisher = pushAlarmPublisher;
     }
@@ -112,6 +116,7 @@ public class CouponService {
         Member receiver = findMember(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
         Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
+        couponUnregisteredCouponRepository.save(new CouponUnregisteredCoupon(null, coupon, unregisteredCoupon));
         unregisteredCoupon.changeStatus(UnregisteredCouponEventType.REGISTER);
         return CouponResponse.of(coupon);
     }
