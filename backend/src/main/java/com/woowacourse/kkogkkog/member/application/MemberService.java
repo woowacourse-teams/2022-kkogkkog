@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.NoticeCacheRepository;
 import com.woowacourse.kkogkkog.infrastructure.dto.GoogleUserDto;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
@@ -33,6 +34,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final WorkspaceUserRepository workspaceUserRepository;
     private final CouponHistoryRepository memberHistoryRepository;
+    private final NoticeCacheRepository noticeCacheRepository;
 
     public boolean existsMember(SlackUserInfo userInfo) {
         String email = userInfo.getEmail();
@@ -99,11 +101,10 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
-        Member findMember = memberRepository.get(memberId);
-        Long unreadHistoryCount = memberHistoryRepository
-            .countByHostMemberAndIsReadFalse(findMember);
+        Member member = memberRepository.get(memberId);
+        Long unreadCount = noticeCacheRepository.get(member);
 
-        return MyProfileResponse.of(findMember, unreadHistoryCount);
+        return MyProfileResponse.of(member, unreadCount);
     }
 
     @Transactional(readOnly = true)
@@ -142,7 +143,10 @@ public class MemberService {
 
     public void updateIsReadMemberHistory(Long memberHistoryId) {
         CouponHistory memberHistory = memberHistoryRepository.findCouponHistory(memberHistoryId);
-        memberHistory.updateIsRead();
+        if (!memberHistory.isRead()) {
+            memberHistory.updateIsRead();
+            noticeCacheRepository.decrement(memberHistory.getHostMember());
+        }
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
@@ -152,5 +156,6 @@ public class MemberService {
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }
+        noticeCacheRepository.reset(foundMember);
     }
 }

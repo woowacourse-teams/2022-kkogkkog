@@ -14,6 +14,7 @@ import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.repository.NoticeCacheRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
@@ -39,6 +40,7 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponHistoryRepository couponHistoryRepository;
+    private final NoticeCacheRepository noticeCacheRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
 
     @Transactional(readOnly = true)
@@ -137,6 +139,7 @@ public class CouponService {
 
     private void saveCouponHistory(CouponHistory couponHistory) {
         couponHistory = couponHistoryRepository.save(couponHistory);
+        noticeCacheRepository.increment(couponHistory.getHostMember());
         pushAlarmPublisher.publishEvent(couponHistory);
     }
 

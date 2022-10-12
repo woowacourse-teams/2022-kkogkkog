@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.acceptance.support;
 
 import com.woowacourse.kkogkkog.infrastructure.application.SlackClient;
 import com.woowacourse.kkogkkog.support.common.DatabaseCleaner;
+import com.woowacourse.kkogkkog.support.common.RedisStorageCleaner;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class AcceptanceTest {
     @Autowired
     private DatabaseCleaner databaseCleaner;
 
+    @Autowired
+    private RedisStorageCleaner redisStorageCleaner;
+
     @MockBean
     protected static SlackClient slackClient;
 
@@ -26,5 +30,6 @@ public class AcceptanceTest {
     void setUp() {
         RestAssured.port = port;
         databaseCleaner.execute();
+        redisStorageCleaner.execute();
     }
 }
