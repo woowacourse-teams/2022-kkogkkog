@@ -12,7 +12,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: reservationList }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 
@@ -22,7 +22,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: sentCoupons }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 
@@ -32,7 +32,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: receivedCoupons }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 
@@ -46,7 +46,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json(coupon));
     } catch ({ message }) {
-      return res(ctx.status(400), ctx.json({ error: message }));
+      return res(ctx.status(400), ctx.json({ message }));
     }
   }),
 
@@ -60,7 +60,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: sentCoupons }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 
@@ -74,7 +74,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: receivedCoupons }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 
@@ -112,7 +112,7 @@ export const couponHandler = [
 
       return res(ctx.status(200), ctx.json({ data: newCouponList }));
     } catch ({ message }) {
-      return res(ctx.status(401), ctx.json({ error: message }));
+      return res(ctx.status(401), ctx.json({ message }));
     }
   }),
 

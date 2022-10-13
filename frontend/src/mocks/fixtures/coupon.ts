@@ -3,7 +3,7 @@ import { YYYYMMDDhhmmss } from '@/types/utils';
 
 export type FixtureCouponType = Coupon & { couponHistories: CouponHistory[] };
 
-type FixtureType = {
+interface FixtureType {
   current: FixtureCouponType[];
   findAcceptedCouponList: () => Coupon[];
   findReceivedCouponList: () => Coupon[];
@@ -14,7 +14,7 @@ type FixtureType = {
   getStatusAfterEvent: (couponEvent: COUPON_EVENT) => COUPON_STATUS;
   updateFixture: (newFixtureCurrent: FixtureCouponType[]) => void;
   generateReservationList: () => { meetingDate: YYYYMMDDhhmmss; coupons: Coupon[] }[];
-};
+}
 
 const fixture: FixtureType = {
   current: [
