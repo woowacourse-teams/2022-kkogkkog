@@ -1,7 +1,7 @@
 export default {
   current: [
     {
-      id: 0,
+      id: 1,
       email: 'wnsgur8397@naver.com',
       userId: 'aaa123',
       imageUrl:

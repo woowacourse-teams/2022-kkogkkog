@@ -54,7 +54,7 @@ export interface Coupon {
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
   couponStatus: COUPON_STATUS;
-  meetingDate: COUPON_MEETING_DATE;
+  meetingDate: COUPON_MEETING_DATE | null;
   createdTime: YYYYMMDDhhmmss;
 }
 
