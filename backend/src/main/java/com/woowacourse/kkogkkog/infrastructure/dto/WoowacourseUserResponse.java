@@ -1,18 +1,17 @@
 package com.woowacourse.kkogkkog.infrastructure.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class WoowacourseUserResponse {
 
     private String id;
     private WoowacourseProfileResponse profile;
 
-    public void setId(String id) {
+    public WoowacourseUserResponse(String id, WoowacourseProfileResponse profile) {
         this.id = id;
-    }
-
-    public void setProfile(WoowacourseProfileResponse profile) {
         this.profile = profile;
     }
 }
