@@ -56,7 +56,7 @@ export const unregisteredCouponHandler = [
       const coupon = unregisteredCouponMock.findUnregisteredCouponByCode(couponCode);
 
       if (coupon.unregisteredCouponStatus !== 'ISSUED') {
-        throw new Error('유효하지 않은 쿠폰입니다.');
+        return res(ctx.status(400), ctx.json({ message: '유효하지 않은 쿠폰입니다.' }));
       }
 
       unregisteredCouponMock.current = unregisteredCouponMock.current.map(coupon =>
@@ -67,7 +67,7 @@ export const unregisteredCouponHandler = [
 
       return res(ctx.status(200), ctx.json(coupon));
     } catch ({ message }) {
-      return res(ctx.status(400), ctx.json({ error: message }));
+      return res(ctx.status(400), ctx.json({ message }));
     }
   }),
 ];
