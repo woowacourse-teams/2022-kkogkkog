@@ -3,8 +3,13 @@ package com.woowacourse.kkogkkog.infrastructure.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseProfileResponse;
+import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUserResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUsersResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.DisplayName;
@@ -64,7 +69,7 @@ class WoowacoursePushAlarmClientTest {
         WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
 
         WoowacourseUsersResponse woowacourseUsersResponse = pushAlarmClient.requestUsers();
-        assertThat(woowacourseUsersResponse.getMembers().size()).isEqualTo(3);
+        assertThat(woowacourseUsersResponse.getMembers().size()).isEqualTo(2);
     }
 
     private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
@@ -74,32 +79,19 @@ class WoowacoursePushAlarmClientTest {
             WebClient.create());
     }
 
-    private void setUpResponseWithUser(MockWebServer mockWebServer, HttpStatus statusCode) {
+    private void setUpResponseWithUser(MockWebServer mockWebServer, HttpStatus statusCode)
+        throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        var profileResponse = new WoowacourseProfileResponse("email1");
+        var userResponse1 = new WoowacourseUserResponse("id1", profileResponse);
+        var userResponse2 = new WoowacourseUserResponse("id2", profileResponse);
+        var usersResponse = new WoowacourseUsersResponse(List.of(userResponse1, userResponse2));
+
+        String body = objectMapper.writeValueAsString(usersResponse);
         mockWebServer.enqueue(new MockResponse()
             .setResponseCode(statusCode.value())
             .setHeader("Content-type", MediaType.APPLICATION_JSON)
-            .setBody("{\n"
-                + "  \"members\": [\n"
-                + "    {\n"
-                + "      \"id\": \"USLACKBOT\",\n"
-                + "      \"profile\": {\n"
-                + "        \"email\": null\n"
-                + "      }\n"
-                + "    },\n"
-                + "    {\n"
-                + "      \"id\": \"U03U987DB0W\",\n"
-                + "      \"profile\": {\n"
-                + "        \"email\": \"heonga2@gmail.com\"\n"
-                + "      }\n"
-                + "    },\n"
-                + "    {\n"
-                + "      \"id\": \"U03V5H72L1W\",\n"
-                + "      \"profile\": {\n"
-                + "        \"email\": \"jinyoungchoi95@gmail.com\"\n"
-                + "      }\n"
-                + "    }\n"
-                + "  ]\n"
-                + "}")
+            .setBody(body)
         );
     }
 
