@@ -1,9 +1,9 @@
 import { rest } from 'msw';
 
 import { BASE_URL } from '@/apis';
-import coupons, { FixtureCouponType } from '@/mocks/fixtures/coupon';
+import coupons,  from '@/mocks/fixtures/coupon';
 import { COUPON_STATUS } from '@/types/coupon/client';
-import { ChangeCouponStatusRequest, CreateCouponRequest } from '@/types/coupon/remote';
+import { ChangeCouponStatusRequest, CouponDetailResponse, CreateCouponRequest } from '@/types/coupon/remote';
 
 export const couponHandler = [
   rest.get(`${BASE_URL}/coupons/accept`, (req, res, ctx) => {
@@ -84,8 +84,8 @@ export const couponHandler = [
     } = req;
 
     try {
-      const newCouponList: FixtureCouponType[] = receiverIds.map(() => {
-        const newCoupon: FixtureCouponType = {
+      const newCouponList: CouponDetailResponse[] = receiverIds.map(() => {
+        const newCoupon: CouponDetailResponse = {
           id: coupons.current.length + 1,
           sender: {
             id: 1,
@@ -122,7 +122,7 @@ export const couponHandler = [
       params: { couponId },
     } = req;
 
-    const newCouponList: FixtureCouponType[] = coupons.current.map(coupon => {
+    const newCouponList: CouponDetailResponse[] = coupons.current.map(coupon => {
       if (coupon.id !== Number(couponId)) {
         return coupon;
       }

@@ -1,10 +1,9 @@
 import { Coupon, COUPON_EVENT, COUPON_STATUS, CouponHistory } from '@/types/coupon/client';
+import { CouponDetailResponse } from '@/types/coupon/remote';
 import { YYYYMMDDhhmmss } from '@/types/utils';
 
-export type FixtureCouponType = Coupon & { couponHistories: CouponHistory[] };
-
 interface FixtureType {
-  current: FixtureCouponType[];
+  current: CouponDetailResponse[];
   findAcceptedCouponList: () => Coupon[];
   findReceivedCouponList: () => Coupon[];
   findSentCouponList: () => Coupon[];
@@ -12,7 +11,7 @@ interface FixtureType {
   findReceivedCouponListByStatus: (status: COUPON_STATUS) => Coupon[];
   findCoupon: (couponId: string) => Coupon;
   getStatusAfterEvent: (couponEvent: COUPON_EVENT) => COUPON_STATUS;
-  updateFixture: (newFixtureCurrent: FixtureCouponType[]) => void;
+  updateFixture: (newFixtureCurrent: CouponDetailResponse[]) => void;
   generateReservationList: () => { meetingDate: YYYYMMDDhhmmss; coupons: Coupon[] }[];
 }
 
