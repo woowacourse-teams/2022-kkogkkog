@@ -69,7 +69,7 @@ class WoowacoursePushAlarmClientTest {
         WoowacoursePushAlarmClient pushAlarmClient = buildMockClient(mockWebServer);
 
         WoowacourseUsersResponse woowacourseUsersResponse = pushAlarmClient.requestUsers();
-        assertThat(woowacourseUsersResponse.getMembers().size()).isEqualTo(2);
+        assertThat(woowacourseUsersResponse.getMembers()).hasSize(2);
     }
 
     private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
