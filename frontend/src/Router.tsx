@@ -14,8 +14,8 @@ const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
 const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
 const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
-const UnregisteredCouponCodePage = lazy(
-  () => import('@/@pages/unregistered-coupon-register/CouponCodePage')
+const UnregisteredCouponCodeProxyPage = lazy(
+  () => import('@/@pages/unregistered-coupon-register/UnregisteredCouponCodeProxyPage')
 );
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
@@ -94,7 +94,7 @@ const Router = () => {
           element={
             // get 실패 이후에, reset 기능이 필요없는 fallback 에러가 필요함.
             <ErrorBoundaryWithHooks fallback={NotFoundPage}>
-              <UnregisteredCouponCodePage />
+              <UnregisteredCouponCodeProxyPage />
             </ErrorBoundaryWithHooks>
           }
         />

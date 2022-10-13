@@ -2,11 +2,11 @@ import useGetSearchParam from '@/@hooks/@common/useGetSearchParams';
 import { useFetchUnregisteredCouponByCode } from '@/@hooks/@queries/unregistered-coupon';
 
 import NotFoundPage from '../404';
-import ExpiredRegisteredCouponPage from './ExpiredRegisteredCouponPage';
-import IssuedRegisteredCouponPage from './IssuedRegisteredCouponPage';
+import ExpiredUnregisteredCouponPage from './ExpiredRegisteredCouponPage';
+import IssuedUnregisteredCouponPage from './IssuedRegisteredCouponPage';
 import RegisteredCouponPage from './RegisteredRegisteredCouponPage';
 
-const UnregisteredCouponCodePage = () => {
+const UnregisteredCouponCodeProxyPage = () => {
   const couponCode = useGetSearchParam('couponCode');
 
   // @TODO: null 처리
@@ -20,21 +20,26 @@ const UnregisteredCouponCodePage = () => {
     return <NotFoundPage />;
   }
 
-  if (unregisteredCoupon.unregisteredCouponStatus === 'ISSUED') {
+  const { unregisteredCouponStatus } = unregisteredCoupon;
+
+  if (unregisteredCouponStatus === 'ISSUED') {
     return (
-      <IssuedRegisteredCouponPage unregisteredCoupon={unregisteredCoupon} couponCode={couponCode} />
+      <IssuedUnregisteredCouponPage
+        unregisteredCoupon={unregisteredCoupon}
+        couponCode={couponCode}
+      />
     );
   }
 
-  if (unregisteredCoupon.unregisteredCouponStatus === 'REGISTERED') {
+  if (unregisteredCouponStatus === 'REGISTERED') {
     return <RegisteredCouponPage />;
   }
 
-  if (unregisteredCoupon.unregisteredCouponStatus === 'EXPIRED') {
-    return <ExpiredRegisteredCouponPage />;
+  if (unregisteredCouponStatus === 'EXPIRED') {
+    return <ExpiredUnregisteredCouponPage />;
   }
 
   return <NotFoundPage />;
 };
 
-export default UnregisteredCouponCodePage;
+export default UnregisteredCouponCodeProxyPage;

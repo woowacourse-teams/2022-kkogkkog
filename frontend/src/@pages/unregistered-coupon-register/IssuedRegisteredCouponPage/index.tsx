@@ -15,12 +15,12 @@ import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
 import * as Styled from './style';
 
-interface IssuedRegisteredCouponPageProps {
+interface IssuedUnregisteredCouponPageProps {
   unregisteredCoupon: UnregisteredCouponResponse;
   couponCode: string;
 }
 
-const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
+const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) => {
   const { unregisteredCoupon, couponCode } = props;
 
   const { sender, couponMessage, couponType } = unregisteredCoupon;
@@ -47,14 +47,6 @@ const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
     <PageTemplate title='쿠폰' hasHeader={false}>
       <Styled.Root>
         <Styled.Top>
-          <Position position='absolute' top='20px' left='20px'>
-            <Icon
-              iconName='arrow'
-              size='20'
-              color={theme.colors.primary_400}
-              onClick={() => navigate(-1)}
-            />
-          </Position>
           <Styled.ProfileImage src={sender.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
             <strong>
@@ -85,4 +77,4 @@ const IssuedRegisteredCouponPage = (props: IssuedRegisteredCouponPageProps) => {
   );
 };
 
-export default IssuedRegisteredCouponPage;
+export default IssuedUnregisteredCouponPage;
