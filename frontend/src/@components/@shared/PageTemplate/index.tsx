@@ -29,7 +29,7 @@ const PageTemplate = (props: PropsWithChildren<PageTemplateProps>) => {
   );
 };
 
-PageTemplate.ExtendedStyleHeader = function LandingPageTemplate(
+PageTemplate.ExtendedStyleHeader = function ExtendedPageTemplate(
   props: PropsWithChildren<PageTemplateProps>
 ) {
   const { title, hasHeader = true, children } = props;
