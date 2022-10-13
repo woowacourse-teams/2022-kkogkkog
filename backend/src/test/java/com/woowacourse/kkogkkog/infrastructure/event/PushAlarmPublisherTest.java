@@ -54,7 +54,7 @@ class PushAlarmPublisherTest {
 
             String userId = "userId";
             given(woowacourseUserRepository.contains(anyString())).willReturn(true);
-            given(woowacourseUserRepository.get(anyString())).willReturn(userId);
+            given(woowacourseUserRepository.getUserId(anyString())).willReturn(userId);
 
             //when
             pushAlarmPublisher.publishEvent(couponHistory);
