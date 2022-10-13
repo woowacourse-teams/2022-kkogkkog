@@ -46,7 +46,7 @@ const MainPage = () => {
         navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_REGISTER(couponCode));
       }
 
-      unregisteredCouponCodeStorage.set('');
+      unregisteredCouponCodeStorage.remove();
     }
   }, [navigate]);
 

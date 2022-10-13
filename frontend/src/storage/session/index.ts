@@ -20,6 +20,10 @@ class SessionStorage<T extends string> {
   set(value: T) {
     sessionStorage.setItem(this.key, value);
   }
+
+  remove() {
+    sessionStorage.removeItem(this.key);
+  }
 }
 
 export const filterOptionsSessionStorage = new SessionStorage<FilterOption>(
