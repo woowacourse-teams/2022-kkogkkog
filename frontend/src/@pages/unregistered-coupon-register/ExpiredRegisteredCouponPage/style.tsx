@@ -20,6 +20,6 @@ export const Description = styled.p`
   font-size: 20px;
 `;
 
-export const ButtonInner = styled.div`
+export const ExtendedLink = css`
   width: 50%;
 `;
