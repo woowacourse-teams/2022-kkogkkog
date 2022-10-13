@@ -7,7 +7,7 @@ import { PATH } from '@/Router';
 
 import * as Styled from './style';
 
-const RegisteredRegisteredCouponPage = () => {
+const RegisteredCouponPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -23,4 +23,4 @@ const RegisteredRegisteredCouponPage = () => {
   );
 };
 
-export default RegisteredRegisteredCouponPage;
+export default RegisteredCouponPage;

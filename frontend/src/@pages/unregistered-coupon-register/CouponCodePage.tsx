@@ -4,7 +4,7 @@ import { useFetchUnregisteredCouponByCode } from '@/@hooks/@queries/unregistered
 import NotFoundPage from '../404';
 import ExpiredRegisteredCouponPage from './ExpiredRegisteredCouponPage';
 import IssuedRegisteredCouponPage from './IssuedRegisteredCouponPage';
-import RegisteredRegisteredCouponPage from './RegisteredRegisteredCouponPage';
+import RegisteredCouponPage from './RegisteredRegisteredCouponPage';
 
 const UnregisteredCouponCodePage = () => {
   const couponCode = useGetSearchParam('couponCode');
@@ -27,7 +27,7 @@ const UnregisteredCouponCodePage = () => {
   }
 
   if (unregisteredCoupon.unregisteredCouponStatus === 'REGISTERED') {
-    return <RegisteredRegisteredCouponPage />;
+    return <RegisteredCouponPage />;
   }
 
   if (unregisteredCoupon.unregisteredCouponStatus === 'EXPIRED') {
