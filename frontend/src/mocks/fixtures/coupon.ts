@@ -1,4 +1,5 @@
 import { Coupon, COUPON_EVENT, COUPON_STATUS, CouponHistory } from '@/types/coupon/client';
+import { YYYYMMDDhhmmss } from '@/types/utils';
 
 export type FixtureCouponType = Coupon & { couponHistories: CouponHistory[] };
 
@@ -12,6 +13,7 @@ type FixtureType = {
   findCoupon: (couponId: string) => Coupon;
   getStatusAfterEvent: (couponEvent: COUPON_EVENT) => COUPON_STATUS;
   updateFixture: (newFixtureCurrent: FixtureCouponType[]) => void;
+  generateReservationList: () => { meetingDate: YYYYMMDDhhmmss; coupons: Coupon[] }[];
 };
 
 const fixture: FixtureType = {
@@ -147,19 +149,19 @@ const fixture: FixtureType = {
     return this.current.filter(({ sender }) => sender.id === 1);
   },
 
-  findSentCouponListByStatus(status: COUPON_STATUS) {
+  findSentCouponListByStatus(status) {
     const sentCouponList = this.findSentCouponList();
 
     return sentCouponList.filter(({ couponStatus }) => couponStatus === status);
   },
 
-  findReceivedCouponListByStatus(status: COUPON_STATUS) {
+  findReceivedCouponListByStatus(status) {
     const receivedCouponList = this.findReceivedCouponList();
 
     return receivedCouponList.filter(({ couponStatus }) => couponStatus === status);
   },
 
-  findCoupon(couponId: string) {
+  findCoupon(couponId) {
     const coupon = this.current.find(({ id }) => Number(couponId) === id);
 
     if (!coupon) {
@@ -169,7 +171,7 @@ const fixture: FixtureType = {
     return coupon;
   },
 
-  getStatusAfterEvent(couponEvent: COUPON_EVENT): COUPON_STATUS {
+  getStatusAfterEvent(couponEvent) {
     const mapper: Record<COUPON_EVENT, COUPON_STATUS> = {
       INIT: 'READY',
       REQUEST: 'REQUESTED',
@@ -184,6 +186,27 @@ const fixture: FixtureType = {
 
   updateFixture(newCouponList) {
     this.current = newCouponList;
+  },
+
+  generateReservationList() {
+    const acceptedCoupons = this.findAcceptedCouponList();
+
+    const reservationMap = acceptedCoupons.reduce((prev, current) => {
+      if (!current.meetingDate) {
+        return prev;
+      }
+
+      const prevACceptedCoupons = prev[current.meetingDate] ?? [];
+
+      return { ...prev, [current.meetingDate]: [...prevACceptedCoupons, current] };
+    }, {} as Record<string, any[]>);
+
+    const reservationList = Object.entries(reservationMap).map(([key, value]) => ({
+      meetingDate: key as YYYYMMDDhhmmss,
+      coupons: value as Coupon[],
+    }));
+
+    return reservationList;
   },
 };
 

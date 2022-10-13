@@ -8,22 +8,7 @@ import { ChangeCouponStatusRequest, CreateCouponRequest } from '@/types/coupon/r
 export const couponHandler = [
   rest.get(`${BASE_URL}/coupons/accept`, (req, res, ctx) => {
     try {
-      const acceptedCoupons = coupons.findAcceptedCouponList();
-
-      const reservationObject = acceptedCoupons.reduce((prev, current) => {
-        if (!current.meetingDate) {
-          return prev;
-        }
-
-        const prevACceptedCoupons = prev[current.meetingDate] ?? [];
-
-        return { ...prev, [current.meetingDate]: [...prevACceptedCoupons, current] };
-      }, {} as Record<string, any[]>);
-
-      const reservationList = Object.entries(reservationObject).map(([key, value]) => ({
-        meetingDate: key,
-        coupons: value,
-      }));
+      const reservationList = coupons.generateReservationList();
 
       return res(ctx.status(200), ctx.json({ data: reservationList }));
     } catch ({ message }) {
