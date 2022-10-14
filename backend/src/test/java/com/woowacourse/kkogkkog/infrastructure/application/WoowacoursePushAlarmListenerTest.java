@@ -78,7 +78,7 @@ public class WoowacoursePushAlarmListenerTest {
                 .requestPushAlarm(anyString(), anyString());
         }
 
-        @RepeatedTest(1000)
+        @Test
         @DisplayName("쿠폰 상태를 변경할 때, woowacourse 워크스페이스로 슬랙 푸시 알림을 보낸다.")
         void success_couponUpdate() {
             //given
