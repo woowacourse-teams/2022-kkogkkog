@@ -85,6 +85,7 @@ export const useFetchCouponListByStatus = ({
     () => fetcher(body),
     {
       staleTime: 10000,
+      suspense: false,
     }
   );
 

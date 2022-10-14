@@ -52,34 +52,34 @@ const CouponListPage = () => {
             onClickFilterButton={onClickFilterButton}
           />
         </Styled.ListFilterContainer>
-        <Suspense fallback={<CouponListPageFallback />}>
-          <Styled.Container>
-            {status === '전체' && (
-              <AllCouponListSection
-                couponListType={couponListType}
-                onClickCouponItem={onClickCouponItem}
-              />
-            )}
-            {status === '대기' && (
-              <WaitingCouponListSection
-                couponListType={couponListType}
-                onClickCouponItem={onClickCouponItem}
-              />
-            )}
-            {status === '확정' && (
-              <AcceptedCouponListSection
-                couponListType={couponListType}
-                onClickCouponItem={onClickCouponItem}
-              />
-            )}
-            {status === '완료' && (
-              <FinishedCouponListSection
-                couponListType={couponListType}
-                onClickCouponItem={onClickCouponItem}
-              />
-            )}
-          </Styled.Container>
-        </Suspense>
+
+        <Styled.Container>
+          {status === '전체' && (
+            <AllCouponListSection
+              couponListType={couponListType}
+              onClickCouponItem={onClickCouponItem}
+            />
+          )}
+          {status === '대기' && (
+            <WaitingCouponListSection
+              couponListType={couponListType}
+              onClickCouponItem={onClickCouponItem}
+            />
+          )}
+          {status === '확정' && (
+            <AcceptedCouponListSection
+              couponListType={couponListType}
+              onClickCouponItem={onClickCouponItem}
+            />
+          )}
+          {status === '완료' && (
+            <FinishedCouponListSection
+              couponListType={couponListType}
+              onClickCouponItem={onClickCouponItem}
+            />
+          )}
+        </Styled.Container>
+
         <Styled.LinkInner>
           <Link to={PATH.COUPON_CREATE}>
             <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
