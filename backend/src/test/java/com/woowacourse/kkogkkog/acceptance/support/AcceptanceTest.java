@@ -12,7 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@Import(AcceptanceTestConfig.class)
+@Import(TestConfig.class)
 public class AcceptanceTest {
 
     @LocalServerPort
