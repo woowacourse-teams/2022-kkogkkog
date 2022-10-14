@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CSSProperties } from 'react';
 
-type PlaceholderProps = Pick<CSSProperties, 'width' | 'height' | 'aspectRatio'>;
+type PlaceholderProps = Pick<CSSProperties, 'width' | 'height' | 'aspectRatio' | 'maxWidth'>;
 
 const Placeholder = styled.div<PlaceholderProps>`
   border-radius: 20px;
@@ -19,8 +19,9 @@ const Placeholder = styled.div<PlaceholderProps>`
     }
   }
 
-  ${({ width = '100%', height = '100%', aspectRatio }) => css`
+  ${({ width = '100%', height = '100%', aspectRatio, maxWidth }) => css`
     width: ${width};
+    max-width: ${maxWidth};
     height: ${height};
 
     aspect-ratio: ${aspectRatio};
