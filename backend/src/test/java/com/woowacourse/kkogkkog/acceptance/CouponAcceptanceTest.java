@@ -13,6 +13,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_이벤트_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -57,7 +58,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             미등록_COFFEE_쿠폰_생성_요청(1));
         String couponCode = response.getData().get(0).getCouponCode();
 
-        var extract = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, couponCode);
+        var extract = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
 
         CouponResponse actual = extract.as(CouponResponse.class);
         assertAll(

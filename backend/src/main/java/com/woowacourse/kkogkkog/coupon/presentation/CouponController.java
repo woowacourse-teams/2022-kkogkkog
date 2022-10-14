@@ -9,6 +9,7 @@ import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -77,8 +78,8 @@ public class CouponController {
 
     @PostMapping("/code")
     public ResponseEntity<CouponResponse> registerCouponCode(@LoginMemberId Long loginMemberId,
-                                                           @RequestBody String couponCode) {
-        CouponResponse couponResponse = couponService.saveByCouponCode(loginMemberId, couponCode);
+                                                           @RequestBody RegisterCouponCodeRequest request) {
+        CouponResponse couponResponse = couponService.saveByCouponCode(loginMemberId, request);
         return ResponseEntity.created(null).body(couponResponse);
     }
 

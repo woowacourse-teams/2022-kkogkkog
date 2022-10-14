@@ -3,6 +3,7 @@ package com.woowacourse.kkogkkog.support.fixture.dto;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
 import com.woowacourse.kkogkkog.member.domain.Member;
 
@@ -70,5 +71,9 @@ public class UnregisteredCouponDtoFixture {
             "COFFEE",
             "REGISTERED",
             null);
+    }
+
+    public static RegisterCouponCodeRequest 쿠폰_코드_등록_요청(String couponCode) {
+        return new RegisterCouponCodeRequest(couponCode);
     }
 }
