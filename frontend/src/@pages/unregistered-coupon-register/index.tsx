@@ -12,34 +12,24 @@ const UnregisteredCouponCodeProxyPage = () => {
   // @TODO: null 처리
   const { unregisteredCoupon } = useFetchUnregisteredCouponByCode(couponCode);
 
-  if (couponCode === null) {
+  if (!unregisteredCoupon) {
     return <NotFoundPage />;
   }
 
-  if (unregisteredCoupon === undefined) {
-    return <NotFoundPage />;
-  }
-
-  const { unregisteredCouponStatus } = unregisteredCoupon;
-
-  if (unregisteredCouponStatus === 'ISSUED') {
-    return (
-      <IssuedUnregisteredCouponPage
-        unregisteredCoupon={unregisteredCoupon}
-        couponCode={couponCode}
-      />
-    );
-  }
-
-  if (unregisteredCouponStatus === 'REGISTERED') {
-    return <RegisteredCouponPage />;
-  }
-
-  if (unregisteredCouponStatus === 'EXPIRED') {
-    return <ExpiredUnregisteredCouponPage />;
-  }
-
-  return <NotFoundPage />;
+  return (
+    <>
+      {unregisteredCoupon.unregisteredCouponStatus === 'ISSUED' && (
+        <IssuedUnregisteredCouponPage
+          unregisteredCoupon={unregisteredCoupon}
+          couponCode={couponCode}
+        />
+      )}
+      {unregisteredCoupon.unregisteredCouponStatus === 'REGISTERED' && <RegisteredCouponPage />}
+      {unregisteredCoupon.unregisteredCouponStatus === 'EXPIRED' && (
+        <ExpiredUnregisteredCouponPage />
+      )}
+    </>
+  );
 };
 
 export default UnregisteredCouponCodeProxyPage;

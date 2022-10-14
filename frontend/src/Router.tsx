@@ -14,9 +14,7 @@ const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
 const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
 const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
-const UnregisteredCouponCodeProxyPage = lazy(
-  () => import('@/@pages/unregistered-coupon-register/UnregisteredCouponCodeProxyPage')
-);
+const UnregisteredCouponCodeProxyPage = lazy(() => import('@/@pages/unregistered-coupon-register'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
