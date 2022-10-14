@@ -15,7 +15,7 @@ interface IconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Icon = (props: IconProps) => {
-  const { iconName, hasCursor = true, size = '24', color = '#ffffff', ...rest } = props;
+  const { iconName, hasCursor = true, size = '24', color, ...rest } = props;
 
   const IconComponent = Icons[iconName];
 
@@ -35,6 +35,10 @@ const Styled = {
       width: ${size}px;
       height: ${size}px;
       cursor: ${hasCursor && 'pointer'};
+
+      & * {
+        fill: ${color ? 'currentColor' : ''};
+      }
     `}
   `,
 };

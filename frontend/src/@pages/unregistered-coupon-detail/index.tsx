@@ -1,7 +1,5 @@
 import PageTemplate from '@/@components/@shared/PageTemplate';
 
-import * as Styled from './style';
-
 const UnregisteredCouponDetail = () => {
   // const { unregisteredCoupon } = useFetchUnregisteredCoupon(1);
 
