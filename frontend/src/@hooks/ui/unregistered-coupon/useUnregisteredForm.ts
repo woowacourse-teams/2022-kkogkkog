@@ -1,3 +1,4 @@
+import { r } from 'msw/lib/glossary-58eca5a8';
 import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +30,15 @@ export const useUnregisteredForm = () => {
       return;
     }
 
-    if (count < 1 || count > 5) {
+    if (count > 5) {
+      displayMessage('쿠폰의 수는 5개를 초과할 수 없어요', true);
+
+      return;
+    }
+
+    if (count < 1) {
+      displayMessage('쿠폰의 수는 1개보다 적을 수 없어요', true);
+
       return;
     }
 

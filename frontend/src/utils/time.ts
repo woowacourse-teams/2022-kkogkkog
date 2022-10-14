@@ -82,3 +82,25 @@ export const sortByTime = (targetDateA: string, targetDateB: string): number => 
 
   return Number(`${yearA}${monthA}${dayA}`) - Number(`${yearB}${monthB}${dayB}`);
 };
+
+export const computeExpiredTimeByPeriodMS = (
+  startTime: YYYYMMDDhhmmss,
+  expirationPeriodMS: number
+) => {
+  const startTimeMS = new Date(startTime).getTime();
+
+  const expiredTimeMS = startTimeMS + expirationPeriodMS;
+
+  return expiredTimeMS;
+};
+
+export const computeDayHourMinSecByMS = (ms: number) => {
+  const seconds = ms / 1000;
+
+  const day = Math.floor(seconds / 86400);
+  const hour = Math.floor((seconds % 86400) / 3600);
+  const min = Math.floor(((seconds % 86400) % 3600) / 60);
+  const sec = Math.floor(seconds % 60);
+
+  return { day, hour, min, sec };
+};
