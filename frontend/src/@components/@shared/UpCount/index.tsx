@@ -13,7 +13,7 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
 
   const [count, setCount] = useState(0);
 
-  const reqId = useRef<number | null>(null);
+  const rAFId = useRef<number | null>(null);
 
   useEffect(() => {
     const animationHandler = (progress = 0) => {
@@ -24,12 +24,12 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
       }
     };
 
-    reqId.current = requestAnimationFrame(() => animationHandler(0));
+    rAFId.current = requestAnimationFrame(() => animationHandler(0));
   }, [duration, limit]);
 
   useEffect(() => {
-    if (Math.ceil(count) === limit && reqId.current) {
-      cancelAnimationFrame(reqId.current);
+    if (Math.ceil(count) === limit && rAFId.current) {
+      cancelAnimationFrame(rAFId.current);
     }
   }, [count, limit]);
 
