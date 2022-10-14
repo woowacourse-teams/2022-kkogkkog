@@ -64,17 +64,9 @@ const CouponAcceptPage = () => {
   };
 
   return (
-    <PageTemplate title='쿠폰' hasHeader={false}>
+    <PageTemplate.ExtendedStyleHeader title='쿠폰 확정하기'>
       <Styled.Root>
         <Styled.Top>
-          <Position position='absolute' top='20px' left='20px'>
-            <Icon
-              iconName='arrow'
-              size='20'
-              color={theme.colors.primary_400}
-              onClick={() => navigate(-1)}
-            />
-          </Position>
           <Styled.ProfileImage src={member?.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
             <strong>
@@ -110,7 +102,7 @@ const CouponAcceptPage = () => {
           </Position>
         </Styled.Main>
       </Styled.Root>
-    </PageTemplate>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 

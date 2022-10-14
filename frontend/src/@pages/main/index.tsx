@@ -51,7 +51,7 @@ const MainPage = () => {
   }, [navigate]);
 
   return (
-    <PageTemplate.LandingPage title='꼭꼭'>
+    <PageTemplate.ExtendedStyleHeader title='꼭꼭'>
       <Styled.Root>
         <Styled.CreateCouponContainer>
           <div>
@@ -166,7 +166,7 @@ const MainPage = () => {
           </Styled.UnRegisteredCouponSection>
         </Styled.ListContainer>
       </Styled.Root>
-    </PageTemplate.LandingPage>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 

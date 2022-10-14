@@ -47,7 +47,7 @@ const Header = (props: HeaderProps) => {
           />
         )}
       </Styled.Logo>
-      <Styled.Title>{title}</Styled.Title>
+      <Styled.Title>{!isMainPage && title}</Styled.Title>
       <Styled.Profile>
         <Position
           css={css`

@@ -1,7 +1,6 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
-import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import useInput from '@/@hooks/@common/useInput';
@@ -12,7 +11,6 @@ import { useChangeCouponStatus } from '@/@hooks/business/coupon';
 import useCouponPartner from '@/@hooks/ui/coupon/useCouponPartner';
 import NotFoundPage from '@/@pages/404';
 import { couponTypeTextMapper } from '@/constants/coupon';
-import theme from '@/styles/theme';
 import { YYYYMMDD } from '@/types/utils';
 import { getTodayDate, isBeforeToday } from '@/utils/time';
 import { isOverMaxLength } from '@/utils/validations';
@@ -73,17 +71,9 @@ const CouponRequestPage = () => {
   };
 
   return (
-    <PageTemplate title='쿠폰' hasHeader={false}>
+    <PageTemplate.ExtendedStyleHeader title='쿠폰 요청하기'>
       <Styled.Root>
         <Styled.Top>
-          <Position position='absolute' top='20px' left='20px'>
-            <Icon
-              iconName='arrow'
-              size='20'
-              color={theme.colors.primary_400}
-              onClick={() => navigate(-1)}
-            />
-          </Position>
           <Styled.ProfileImage src={member.imageUrl} alt='프로필' width={51} height={51} />
           <Styled.SummaryMessage>
             <strong>
@@ -125,7 +115,7 @@ const CouponRequestPage = () => {
           </Position>
         </Styled.Main>
       </Styled.Root>
-    </PageTemplate>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 
