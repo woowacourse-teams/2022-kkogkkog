@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
-import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
@@ -10,7 +9,6 @@ import { useRegisteredUnregisteredCoupon } from '@/@hooks/business/unregistered-
 import { couponTypeTextMapper } from '@/constants/coupon';
 import { PATH } from '@/Router';
 import { unregisteredCouponCodeStorage } from '@/storage/session';
-import theme from '@/styles/theme';
 import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
 import * as Styled from './style';
