@@ -6,13 +6,15 @@ import Loading from '@/@components/@shared/Loading';
 import OnlyNumberDynamicRouting from '@/@components/@shared/OnlyNumberDynamicRouting';
 import UnregisteredCouponCreate from '@/@pages/unregistered-coupon-list/create';
 
+import ErrorBoundaryWithHooks from './@components/@shared/ErrorBoundary';
 import { useFetchMe } from './@hooks/@queries/user';
 
 const NotFoundPage = lazy(() => import('@/@pages/404'));
 const CouponListPage = lazy(() => import('@/@pages/coupon-list'));
 const CouponCreatePage = lazy(() => import('@/@pages/coupon-list/create'));
-// const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
-// const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
+const UnRegisteredCouponList = lazy(() => import('@/@pages/unregistered-coupon-list'));
+const UnregisteredCouponDetail = lazy(() => import('@/@pages/unregistered-coupon-detail'));
+const UnregisteredCouponCodeProxyPage = lazy(() => import('@/@pages/unregistered-coupon-register'));
 const UserHistoryPage = lazy(() => import('@/@pages/history'));
 const JoinPage = lazy(() => import('@/@pages/join'));
 const LandingPage = lazy(() => import('@/@pages/landing'));
@@ -27,7 +29,7 @@ const LoginPage = lazy(() => import('@/@pages/profile/login'));
 const ProfileEditPage = lazy(() => import('@/@pages/profile/edit'));
 const OAuthRedirect = lazy(() => import('@/@pages/oauth-redirect'));
 const SlackDownloadRedirect = lazy(() => import('@/@pages/slack-download-redirect'));
-// const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
+const CouponCreateSelectPage = lazy(() => import('@/@pages/coupon-create-select'));
 
 export const PATH = {
   MAIN: '/',
@@ -39,7 +41,7 @@ export const PATH = {
   UNREGISTERED_COUPON_CREATE: '/unregistered-coupon-list/create',
   UNREGISTERED_COUPON_LIST: '/unregistered-coupon-list',
   UNREGISTERED_COUPON_DETAIL: '/unregistered-coupon-list/:unregisteredCouponId',
-  UNREGISTERED_COUPON_REGISTER: '/unregistered-coupon-list/register/:couponCode',
+  UNREGISTERED_COUPON_REGISTER: '/unregistered-coupon-list/register',
   COUPON_CREATE_SELECT: '/coupon-create-select',
   LOGIN: '/login',
   SLACK_LOGIN_REDIRECT: '/login/redirect',
@@ -74,6 +76,9 @@ export const DYNAMIC_PATH = {
   UNREGISTERED_COUPON_DETAIL(couponCode: string): string {
     return `${PATH.UNREGISTERED_COUPON_LIST}/${couponCode}`;
   },
+  UNREGISTERED_COUPON_REGISTER(couponCode: string): string {
+    return `${PATH.UNREGISTERED_COUPON_REGISTER}?couponCode=${couponCode}`;
+  },
 };
 
 const Router = () => {
@@ -81,7 +86,16 @@ const Router = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path={PATH.LANDING} element={<LandingPage />} />
-        {/* <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} /> */}
+        <Route path={PATH.UNREGISTERED_COUPON_DETAIL} element={<UnregisteredCouponDetail />} />
+        <Route
+          path={PATH.UNREGISTERED_COUPON_REGISTER}
+          element={
+            // get 실패 이후에, reset 기능이 필요없는 fallback 에러가 필요함.
+            <ErrorBoundaryWithHooks fallback={NotFoundPage}>
+              <UnregisteredCouponCodeProxyPage />
+            </ErrorBoundaryWithHooks>
+          }
+        />
         <Route element={<PublicRoute />}>
           <Route path={PATH.LOGIN} element={<LoginPage />} />
           <Route path={PATH.SIGNUP} element={<JoinPage />} />
@@ -94,10 +108,10 @@ const Router = () => {
           <Route path={PATH.MAIN} element={<MainPage />} />
           <Route path={PATH.SENT_COUPON_LIST} element={<CouponListPage />} />
           <Route path={PATH.RECEIVED_COUPON_LIST} element={<CouponListPage />} />
-          {/* <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} /> */}
+          <Route path={PATH.COUPON_CREATE_SELECT} element={<CouponCreateSelectPage />} />
           <Route path={PATH.COUPON_CREATE} element={<CouponCreatePage />} />
           <Route path={PATH.UNREGISTERED_COUPON_CREATE} element={<UnregisteredCouponCreate />} />
-          {/* <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} /> */}
+          <Route path={PATH.UNREGISTERED_COUPON_LIST} element={<UnRegisteredCouponList />} />
           {/* @TODO: Skeleton */}
           <Route
             path={PATH.COUPON_DETAIL}

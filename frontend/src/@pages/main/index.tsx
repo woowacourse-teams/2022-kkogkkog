@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -11,7 +12,7 @@ import HorizontalCouponList from '@/@components/coupon/CouponList/horizontal';
 import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList, useFetchReservationList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
-import { filterOptionsSessionStorage } from '@/storage/session';
+import { filterOptionsSessionStorage, unregisteredCouponCodeStorage } from '@/storage/session';
 import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
@@ -37,6 +38,18 @@ const MainPage = () => {
     filterOptionsSessionStorage.set('전체');
   };
 
+  useEffect(() => {
+    const couponCode = unregisteredCouponCodeStorage.get();
+
+    if (couponCode) {
+      if (window.confirm('쿠폰을 받으러 갈까요?')) {
+        navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_REGISTER(couponCode));
+      }
+
+      unregisteredCouponCodeStorage.remove();
+    }
+  }, [navigate]);
+
   return (
     <PageTemplate.LandingPage title='꼭꼭'>
       <Styled.Root>
@@ -51,7 +64,7 @@ const MainPage = () => {
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
           </Styled.AdditionalExplanation>
           <Link
-            to={PATH.COUPON_CREATE}
+            to={PATH.COUPON_CREATE_SELECT}
             css={css`
               margin-top: 30px;
             `}
@@ -139,7 +152,7 @@ const MainPage = () => {
             </CustomSuspense>
           </div>
 
-          {/* <Styled.UnRegisteredCouponSection>
+          <Styled.UnRegisteredCouponSection>
             <Styled.ListTitle>
               <span>미등록 쿠폰</span>
             </Styled.ListTitle>
@@ -150,7 +163,7 @@ const MainPage = () => {
                 </Button>
               </Link>
             </Styled.UnRegisteredCouponSectionInner>
-          </Styled.UnRegisteredCouponSection> */}
+          </Styled.UnRegisteredCouponSection>
         </Styled.ListContainer>
       </Styled.Root>
     </PageTemplate.LandingPage>

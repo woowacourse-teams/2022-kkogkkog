@@ -5,6 +5,7 @@ const SESSION_KEY = {
   filterOptions: 'filterOptions',
   unregisteredFilterOptions: 'unregisteredFilterOptions',
   prevUrl: 'prevUrl',
+  unregisteredCouponCode: 'unregisteredCouponCode',
 };
 
 class SessionStorage<T extends string> {
@@ -19,6 +20,10 @@ class SessionStorage<T extends string> {
   set(value: T) {
     sessionStorage.setItem(this.key, value);
   }
+
+  remove() {
+    sessionStorage.removeItem(this.key);
+  }
 }
 
 export const filterOptionsSessionStorage = new SessionStorage<FilterOption>(
@@ -30,3 +35,5 @@ export const unregisteredFilterOptionsSessionStorage = new SessionStorage<Unregi
 );
 
 export const prevUrlSessionStorage = new SessionStorage(SESSION_KEY.prevUrl);
+
+export const unregisteredCouponCodeStorage = new SessionStorage(SESSION_KEY.unregisteredCouponCode);

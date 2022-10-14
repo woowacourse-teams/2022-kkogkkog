@@ -62,7 +62,7 @@ export const useAuthenticateForm = (props: UseAuthenticateFormProps = {}) => {
       await googleSignup({ nickname, accessToken: signupToken });
     }
 
-    navigate(PATH.MAIN);
+    navigate(PATH.MAIN, { replace: true });
   };
 
   // const onSubmitLoginForm: FormEventHandler<HTMLFormElement> = async e => {
