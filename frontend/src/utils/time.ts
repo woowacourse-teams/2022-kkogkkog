@@ -83,7 +83,10 @@ export const sortByTime = (targetDateA: string, targetDateB: string): number => 
   return Number(`${yearA}${monthA}${dayA}`) - Number(`${yearB}${monthB}${dayB}`);
 };
 
-export const computeExpiredTime = (startTime: YYYYMMDDhhmmss, expirationPeriodMS: number) => {
+export const computeExpiredTimeByPeriodMS = (
+  startTime: YYYYMMDDhhmmss,
+  expirationPeriodMS: number
+) => {
   const startTimeMS = new Date(startTime).getTime();
 
   const expiredTimeMS = startTimeMS + expirationPeriodMS;
