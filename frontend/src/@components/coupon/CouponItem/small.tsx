@@ -39,5 +39,5 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 export default SmallCouponItem;
 
 SmallCouponItem.Skeleton = function Skeleton() {
-  return <Placeholder width='140px' height='117px' />;
+  return <Placeholder width='140px' height='132px' />;
 };
