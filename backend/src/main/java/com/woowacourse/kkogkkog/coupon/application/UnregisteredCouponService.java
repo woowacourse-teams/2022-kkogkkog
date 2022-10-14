@@ -1,9 +1,9 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponNotFoundException;
@@ -32,19 +32,28 @@ public class UnregisteredCouponService {
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse findById(Long memberId, Long unregisteredCouponId) {
+    public List<UnregisteredCouponResponse> findAllBySender(Long memberId, String unregisteredCouponStatus) {
+        Member sender = memberRepository.get(memberId);
+        UnregisteredCouponStatus status = UnregisteredCouponStatus.valueOf(unregisteredCouponStatus);
+        return unregisteredCouponRepository.findAllBySender(sender, status).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public UnregisteredCouponResponse findById(Long memberId, Long unregisteredCouponId) {
         Member member = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.get(unregisteredCouponId);
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
-        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+        return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
     @Transactional(readOnly = true)
-    public UnregisteredCouponDetailResponse findByCouponCode(String couponCode) {
+    public UnregisteredCouponResponse findByCouponCode(String couponCode) {
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
-        return UnregisteredCouponDetailResponse.of(unregisteredCoupon);
+        return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
     public List<UnregisteredCouponResponse> save(UnregisteredCouponSaveRequest request) {

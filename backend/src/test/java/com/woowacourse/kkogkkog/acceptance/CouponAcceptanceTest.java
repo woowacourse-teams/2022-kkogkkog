@@ -375,4 +375,9 @@ public class CouponAcceptanceTest extends AcceptanceTest {
             data);
         return response.as(CouponsResponse.class);
     }
+
+    static CouponResponse 쿠폰코드로_쿠폰_생성을_요청하고(String token, Object data) {
+        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons/code", token, data);
+        return response.as(CouponResponse.class);
+    }
 }
