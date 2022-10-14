@@ -11,6 +11,7 @@ import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.RE
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -59,7 +60,7 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
         String receiverToken = 회원가입을_하고(LEO.getMember());
         UnregisteredCouponsResponse unregisteredCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(4));
         String couponCode = unregisteredCouponsResponse.getData().get(0).getCouponCode();
-        쿠폰코드로_쿠폰_생성을_요청하고(receiverToken, couponCode);
+        쿠폰코드로_쿠폰_생성을_요청하고(receiverToken, 쿠폰_코드_등록_요청(couponCode));
 
         final var extract = 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(senderToken, REGISTERED);
 
