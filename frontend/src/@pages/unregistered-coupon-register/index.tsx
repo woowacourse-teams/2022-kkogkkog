@@ -9,7 +9,6 @@ import RegisteredCouponPage from './RegisteredRegisteredCouponPage';
 const UnregisteredCouponCodeProxyPage = () => {
   const couponCode = useGetSearchParam('couponCode') ?? '';
 
-  // @TODO: null 처리
   const { unregisteredCoupon } = useFetchUnregisteredCouponByCode(couponCode);
 
   if (!unregisteredCoupon) {
