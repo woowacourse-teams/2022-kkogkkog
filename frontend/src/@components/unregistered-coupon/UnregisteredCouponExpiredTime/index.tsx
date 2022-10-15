@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import DownCount from '@/@components/@shared/DownCount';
 import UpCount from '@/@components/@shared/UpCount';
 import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
@@ -11,12 +9,11 @@ import * as Styled from './style';
 interface UnregisteredCouponExpiredTimeProps {
   createdTime: YYYYMMDDhhmmss;
 }
+
 const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps) => {
   const { createdTime } = props;
 
-  const expiredTimeMS = computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD);
-
-  const [remainingTime] = useState(expiredTimeMS - Date.now());
+  const remainingTime = computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD) - Date.now();
 
   const { day, hour, min } = computeDayHourMinSecByMS(remainingTime);
 
