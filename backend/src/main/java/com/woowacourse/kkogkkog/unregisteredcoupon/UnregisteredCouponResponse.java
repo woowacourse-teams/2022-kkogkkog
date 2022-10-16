@@ -1,9 +1,9 @@
-package com.woowacourse.kkogkkog.coupon.application.dto;
+package com.woowacourse.kkogkkog.unregisteredcoupon;
 
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.REGISTERED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus.REGISTERED;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

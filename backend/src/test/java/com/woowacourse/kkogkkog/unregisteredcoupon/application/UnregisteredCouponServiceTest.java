@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.coupon.application;
+package com.woowacourse.kkogkkog.unregisteredcoupon.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
@@ -10,19 +10,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
-import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.application.ApplicationTest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;

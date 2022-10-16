@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.unregisteredcoupon;
 
 public enum UnregisteredCouponEventType {
 

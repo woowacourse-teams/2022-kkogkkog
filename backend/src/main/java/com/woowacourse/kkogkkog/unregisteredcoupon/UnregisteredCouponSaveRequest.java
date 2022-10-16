@@ -1,13 +1,10 @@
-package com.woowacourse.kkogkkog.coupon.application.dto;
+package com.woowacourse.kkogkkog.unregisteredcoupon;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import lombok.Getter;
 
 @Getter

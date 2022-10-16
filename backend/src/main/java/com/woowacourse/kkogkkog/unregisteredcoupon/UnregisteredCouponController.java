@@ -1,8 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.presentation;
+package com.woowacourse.kkogkkog.unregisteredcoupon;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
-import com.woowacourse.kkogkkog.coupon.application.UnregisteredCouponService;
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.coupon.exception;
+package com.woowacourse.kkogkkog.unregisteredcoupon;
 
 import com.woowacourse.kkogkkog.common.exception.NotFoundException;
 
