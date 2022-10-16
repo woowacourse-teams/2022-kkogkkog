@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.List;

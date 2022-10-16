@@ -1,11 +1,12 @@
-package com.woowacourse.kkogkkog.unregisteredcoupon;
+package com.woowacourse.kkogkkog.unregisteredcoupon.domain;
 
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.REGISTER;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponQuantityExcessException;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;

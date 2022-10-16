@@ -7,7 +7,7 @@ import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invo
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithTokenAndQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus.REGISTERED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.REGISTERED;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
@@ -16,9 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponResponse;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponsResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.Map;

@@ -2,7 +2,6 @@ package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.acceptance.UnregisteredCouponAcceptanceTest.미등록_쿠폰_생성을_요청하고;
-import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithTokenAndQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
@@ -22,7 +21,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponsResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDateTime;

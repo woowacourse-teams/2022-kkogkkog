@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.presentation.dto;
+package com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto;
 
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;

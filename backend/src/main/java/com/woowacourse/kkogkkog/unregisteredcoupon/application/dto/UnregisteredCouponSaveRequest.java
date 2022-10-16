@@ -1,7 +1,8 @@
-package com.woowacourse.kkogkkog.unregisteredcoupon;
+package com.woowacourse.kkogkkog.unregisteredcoupon.application.dto;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

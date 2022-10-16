@@ -1,7 +1,14 @@
-package com.woowacourse.kkogkkog.unregisteredcoupon;
+package com.woowacourse.kkogkkog.unregisteredcoupon.application;
 
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotAccessibleException;
+import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

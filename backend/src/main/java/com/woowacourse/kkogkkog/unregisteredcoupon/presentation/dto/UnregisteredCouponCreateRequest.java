@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.presentation.dto;
+package com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto;
 
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponSaveRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;

@@ -1,16 +1,14 @@
 package com.woowacourse.kkogkkog.unregisteredcoupon.domain;
 
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponEventType.REGISTER;
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponEventType.EXPIRE;
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus.REGISTERED;
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus.EXPIRED;
-import static com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus.ISSUED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.EXPIRE;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.REGISTERED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.EXPIRED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.ISSUED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponEventType;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

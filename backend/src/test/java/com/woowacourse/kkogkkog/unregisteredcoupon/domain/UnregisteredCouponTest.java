@@ -8,10 +8,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponQuantityExcessException;
+import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.unregisteredcoupon.UnregisteredCouponStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

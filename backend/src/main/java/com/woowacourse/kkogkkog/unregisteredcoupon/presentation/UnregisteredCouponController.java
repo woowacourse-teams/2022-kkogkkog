@@ -1,8 +1,10 @@
-package com.woowacourse.kkogkkog.unregisteredcoupon;
+package com.woowacourse.kkogkkog.unregisteredcoupon.presentation;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponCreateRequest;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponCreateRequest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponsResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
+import com.woowacourse.kkogkkog.unregisteredcoupon.application.UnregisteredCouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
