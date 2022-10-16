@@ -10,6 +10,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -81,12 +82,18 @@ public class UnregisteredCouponService {
         if (unregisteredCoupon.isNotSender(member)) {
             throw new UnregisteredCouponNotAccessibleException();
         }
+        if (REGISTERED.equals(unregisteredCoupon.getUnregisteredCouponStatus())) {
+            return UnregisteredCouponResponse.of(findCouponUnregisteredCoupon(unregisteredCoupon));
+        }
         return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
     @Transactional(readOnly = true)
     public UnregisteredCouponResponse findByCouponCode(String couponCode) {
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode);
+        if (REGISTERED.equals(unregisteredCoupon.getUnregisteredCouponStatus())) {
+            return UnregisteredCouponResponse.of(findCouponUnregisteredCoupon(unregisteredCoupon));
+        }
         return UnregisteredCouponResponse.of(unregisteredCoupon);
     }
 
@@ -118,6 +125,11 @@ public class UnregisteredCouponService {
             throw new UnregisteredCouponNotAccessibleException();
         }
         unregisteredCouponRepository.delete(unregisteredCoupon);
+    }
+
+    private CouponUnregisteredCoupon findCouponUnregisteredCoupon(UnregisteredCoupon unregisteredCoupon) {
+        return couponUnregisteredCouponRepository.findByUnregisteredCoupon(unregisteredCoupon)
+            .orElseThrow(CouponNotFoundException::new);
     }
 
     private UnregisteredCoupon findUnregisteredCoupon(String couponCode) {
