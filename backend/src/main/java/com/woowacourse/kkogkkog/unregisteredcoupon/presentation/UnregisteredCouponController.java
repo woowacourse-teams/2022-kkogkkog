@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.unregisteredcoupon.presentation;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponCreateRequest;
 import com.woowacourse.kkogkkog.unregisteredcoupon.presentation.dto.UnregisteredCouponsResponse;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;

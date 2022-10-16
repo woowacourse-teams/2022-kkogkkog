@@ -2,12 +2,15 @@ package com.woowacourse.kkogkkog.documentation;
 
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentRequest;
 import static com.woowacourse.kkogkkog.documentation.support.ApiDocumentUtils.getDocumentResponse;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_생성_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.수령한_미등록_COFFEE_쿠폰_응답;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -54,6 +57,32 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
         perform
             .andDo(print())
             .andDo(document("unregistered-coupon-create",
+                getDocumentRequest(),
+                getDocumentResponse()));
+    }
+
+
+    @Test
+    void 쿠폰_코드_등록_API() throws Exception {
+        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
+        given(unregisteredCouponService.saveByCouponCode(any(), any())).willReturn(
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)));
+
+        String couponCode = "쿠폰코드";
+        ResultActions perform = mockMvc.perform(
+            post("/api/v2/coupons/code")
+                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
+                .content(objectMapper.writeValueAsString(쿠폰_코드_등록_요청(couponCode)))
+                .contentType(MediaType.APPLICATION_JSON));
+
+        perform.andExpect(status().isCreated())
+            .andExpect(
+                content().string(objectMapper.writeValueAsString(
+                    COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))));
+
+        perform
+            .andDo(print())
+            .andDo(document("coupon-create-code",
                 getDocumentRequest(),
                 getDocumentResponse()));
     }

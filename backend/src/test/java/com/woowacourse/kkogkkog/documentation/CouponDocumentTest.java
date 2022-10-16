@@ -66,31 +66,6 @@ class CouponDocumentTest extends DocumentTest {
     }
 
     @Test
-    void 쿠폰_코드_등록_API() throws Exception {
-        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        given(couponService.saveByCouponCode(any(), any())).willReturn(
-            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)));
-
-        String couponCode = "쿠폰코드";
-        ResultActions perform = mockMvc.perform(
-            post("/api/v2/coupons/code")
-                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(쿠폰_코드_등록_요청(couponCode)))
-                .contentType(MediaType.APPLICATION_JSON));
-
-        perform.andExpect(status().isCreated())
-            .andExpect(
-                content().string(objectMapper.writeValueAsString(
-                    COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)))));
-
-        perform
-            .andDo(print())
-            .andDo(document("coupon-create-code",
-                getDocumentRequest(),
-                getDocumentResponse()));
-    }
-
-    @Test
     void 보낸_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.findAllBySender(any())).willReturn(List.of(

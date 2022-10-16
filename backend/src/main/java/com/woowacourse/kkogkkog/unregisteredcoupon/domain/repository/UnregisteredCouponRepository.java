@@ -1,6 +1,8 @@
-package com.woowacourse.kkogkkog.unregisteredcoupon.domain;
+package com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository;
 
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotFoundException;
 import java.util.List;
 import java.util.Optional;

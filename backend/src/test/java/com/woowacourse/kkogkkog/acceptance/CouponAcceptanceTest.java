@@ -50,23 +50,6 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 미등록_쿠폰으로_쿠폰_생성을_할_수_있다() {
-        String senderToken = 회원가입을_하고(JEONG.getMember());
-        String receiverToken = 회원가입을_하고(AUTHOR.getMember());
-        UnregisteredCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
-            미등록_COFFEE_쿠폰_생성_요청(1));
-        String couponCode = response.getData().get(0).getCouponCode();
-
-        var extract = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
-
-        CouponResponse actual = extract.as(CouponResponse.class);
-        assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
-            () -> assertThat(actual.getId()).isNotNull()
-        );
-    }
-
-    @Test
     void 회원의_보낸쿠폰을_조회를_할_수_있다() {
         회원가입을_하고(LEO.getMember());
         회원가입을_하고(AUTHOR.getMember());
@@ -334,10 +317,6 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         return invokePostWithToken("/api/v2/coupons", token, data);
     }
 
-    static ExtractableResponse<Response> 쿠폰코드로_쿠폰_생성을_요청한다(String token, Object data) {
-        return invokePostWithToken("/api/v2/coupons/code", token, data);
-    }
-
     static ExtractableResponse<Response> 회원의_보낸쿠폰_목록들을_조회한다(String token) {
         return invokeGetWithToken("/api/v2/coupons/sent", token);
     }
@@ -374,10 +353,5 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token,
             data);
         return response.as(CouponsResponse.class);
-    }
-
-    static CouponResponse 쿠폰코드로_쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons/code", token, data);
-        return response.as(CouponResponse.class);
     }
 }

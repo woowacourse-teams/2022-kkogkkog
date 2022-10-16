@@ -3,20 +3,27 @@ package com.woowacourse.kkogkkog.unregisteredcoupon.application;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
+import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.미등록_COFFEE_쿠폰_저장_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
+import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
+import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -46,6 +53,9 @@ public class UnregisteredCouponServiceTest {
 
     @Autowired
     private CouponRepository couponRepository;
+
+    @Autowired
+    private CouponHistoryRepository couponHistoryRepository;
 
     @Autowired
     private UnregisteredCouponRepository unregisteredCouponRepository;
@@ -79,6 +89,47 @@ public class UnregisteredCouponServiceTest {
 
             assertThatThrownBy(() -> unregisteredCouponService.save(request))
                 .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("saveByCouponCode 메서드는")
+    class SaveByCouponCode {
+
+        private Member sender;
+        private Member receiver;
+        private UnregisteredCoupon unregisteredCoupon;
+
+        @BeforeEach
+        void setUp() {
+            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
+            sender = memberRepository.save(SENDER.getMember(workspace));
+            receiver = memberRepository.save(RECEIVER.getMember(workspace));
+            unregisteredCoupon = unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+        }
+
+        @Test
+        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 생성된 쿠폰을 반환한다.")
+        void success() {
+            RegisterCouponCodeRequest request = 쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode());
+
+            CouponResponse couponResponse = unregisteredCouponService.saveByCouponCode(receiver.getId(), request);
+
+            Coupon coupon = unregisteredCoupon.getCoupon();
+            assertThat(couponResponse.getId()).isEqualTo(coupon.getId());
+        }
+
+        @Test
+        @DisplayName("쿠폰을 생성할 때, 쿠폰 사용 내역을 기록한다.")
+        void success_couponSave() {
+            RegisterCouponCodeRequest request = 쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode());
+
+            CouponResponse response = unregisteredCouponService.saveByCouponCode(receiver.getId(), request);
+
+            Long couponId = response.getId();
+            List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
+                couponId);
+            assertThat(memberHistories).hasSize(1);
         }
     }
 
