@@ -42,11 +42,6 @@ public class UnregisteredCouponResponse {
     }
 
     public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
-        Coupon coupon = unregisteredCoupon.getCoupon();
-        if (REGISTERED.equals(unregisteredCoupon.getUnregisteredCouponStatus())) {
-            Member receiver = coupon.getReceiver();
-            return toResponse(unregisteredCoupon, CouponMemberResponse.of(receiver), coupon.getId());
-        }
         return toResponse(unregisteredCoupon, null, null);
     }
 

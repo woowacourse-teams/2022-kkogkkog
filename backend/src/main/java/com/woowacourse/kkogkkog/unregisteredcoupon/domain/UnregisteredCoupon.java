@@ -46,10 +46,6 @@ public class UnregisteredCoupon extends BaseEntity {
     @JoinColumn(name = "sender_member_id", nullable = false)
     private Member sender;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "coupon_id")
-    private Coupon coupon;
-
     @Column(nullable = false)
     private String couponTag;
 
@@ -106,26 +102,16 @@ public class UnregisteredCoupon extends BaseEntity {
         }
     }
 
-    public Coupon registerCoupon(Member receiver) {
-        changeStatus(REGISTER);
-        updateCoupon(toCoupon(receiver));
-        return this.coupon;
-    }
-
-    private Coupon toCoupon(Member receiver) {
+    public Coupon toCoupon(Member receiver) {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
 
-    private void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
+    public void changeStatus(UnregisteredCouponEventType unregisteredCouponEventType) {
         updateUnregisteredCouponStatus(unregisteredCouponStatus.handle(unregisteredCouponEventType));
     }
 
     public boolean isNotSender(Member member) {
         return sender != member;
-    }
-
-    private void updateCoupon(Coupon coupon) {
-        this.coupon = coupon;
     }
 
     private void updateUnregisteredCouponStatus(UnregisteredCouponStatus unregisteredCouponStatus) {

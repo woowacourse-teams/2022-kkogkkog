@@ -1,15 +1,16 @@
 package com.woowacourse.kkogkkog.unregisteredcoupon.domain;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.REGISTERED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
-import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponQuantityExcessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -59,20 +60,19 @@ public class UnregisteredCouponTest {
     }
 
     @Nested
-    @DisplayName("registerCoupon 매서드는")
-    class RegisterCoupon {
+    @DisplayName("changeStatus 메서드는")
+    class ChangeStatus {
 
         @Test
-        @DisplayName("받는 사람을 받으면 등록 처리 후 쿠폰을 연결한다.")
+        @DisplayName("미등록 쿠폰 이벤트를 받으면 상태를 변경한다.")
         void success() {
             Member sender = SENDER.getMember();
-            Member receiver = RECEIVER.getMember();
             UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
 
-            unregisteredCoupon.registerCoupon(receiver);
+            unregisteredCoupon.changeStatus(REGISTER);
 
             UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
-            assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
+            assertThat(actual).isEqualTo(REGISTERED);
         }
     }
 }

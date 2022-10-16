@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.unregisteredcoupon.application;
 
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.REGISTER;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
@@ -11,9 +13,11 @@ import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.CouponUnregisteredCouponRepository;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotAccessibleException;
 import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotFoundException;
 import java.util.List;
@@ -29,6 +33,7 @@ public class UnregisteredCouponService {
 
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponRepository couponRepository;
+    private final CouponUnregisteredCouponRepository couponUnregisteredCouponRepository;
     private final MemberRepository memberRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
@@ -79,7 +84,9 @@ public class UnregisteredCouponService {
     public CouponResponse saveByCouponCode(Long memberId, RegisterCouponCodeRequest couponCode) {
         Member receiver = memberRepository.get(memberId);
         UnregisteredCoupon unregisteredCoupon = findUnregisteredCoupon(couponCode.getCouponCode());
-        Coupon coupon = couponRepository.save(unregisteredCoupon.registerCoupon(receiver));
+        unregisteredCoupon.changeStatus(REGISTER);
+        Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
+        couponUnregisteredCouponRepository.save(new CouponUnregisteredCoupon(coupon, unregisteredCoupon));
         saveCouponHistory(CouponHistory.ofNewByCouponCode(coupon));
         return CouponResponse.of(coupon);
     }
