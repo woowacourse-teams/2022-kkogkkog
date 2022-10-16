@@ -5,6 +5,7 @@ import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCou
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -43,6 +44,12 @@ public class UnregisteredCouponResponse {
 
     public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
         return toResponse(unregisteredCoupon, null, null);
+    }
+
+    public static UnregisteredCouponResponse of(CouponUnregisteredCoupon couponUnregisteredCoupon) {
+        UnregisteredCoupon unregisteredCoupon = couponUnregisteredCoupon.getUnregisteredCoupon();
+        Coupon coupon = couponUnregisteredCoupon.getCoupon();
+        return toResponse(unregisteredCoupon, CouponMemberResponse.of(coupon.getReceiver()), coupon.getId());
     }
 
     private static UnregisteredCouponResponse toResponse(UnregisteredCoupon unregisteredCoupon, CouponMemberResponse receiver, Long couponId) {

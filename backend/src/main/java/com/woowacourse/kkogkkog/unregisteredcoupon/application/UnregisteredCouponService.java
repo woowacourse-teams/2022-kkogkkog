@@ -1,6 +1,9 @@
 package com.woowacourse.kkogkkog.unregisteredcoupon.application;
 
 import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.EXPIRED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.ISSUED;
+import static com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus.REGISTERED;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
@@ -41,7 +44,14 @@ public class UnregisteredCouponService {
     @Transactional(readOnly = true)
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
         Member sender = memberRepository.get(memberId);
+        List<UnregisteredCouponResponse> responses = findAllBySenderWhereIssuedOrExpired(sender);
+        responses.addAll(findAllBySenderWhereRegistered(sender));
+        return responses;
+    }
+
+    private List<UnregisteredCouponResponse> findAllBySenderWhereIssuedOrExpired(Member sender) {
         return unregisteredCouponRepository.findAllBySender(sender).stream()
+            .filter(it -> ISSUED.equals(it.getUnregisteredCouponStatus()) || EXPIRED.equals(it.getUnregisteredCouponStatus()))
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -50,7 +60,16 @@ public class UnregisteredCouponService {
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId, String unregisteredCouponStatus) {
         Member sender = memberRepository.get(memberId);
         UnregisteredCouponStatus status = UnregisteredCouponStatus.valueOf(unregisteredCouponStatus);
+        if (REGISTERED.equals(status)) {
+            return findAllBySenderWhereRegistered(sender);
+        }
         return unregisteredCouponRepository.findAllBySender(sender, status).stream()
+            .map(UnregisteredCouponResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    private List<UnregisteredCouponResponse> findAllBySenderWhereRegistered(Member sender) {
+        return couponUnregisteredCouponRepository.findAllByCouponSender(sender).stream()
             .map(UnregisteredCouponResponse::of)
             .collect(Collectors.toList());
     }

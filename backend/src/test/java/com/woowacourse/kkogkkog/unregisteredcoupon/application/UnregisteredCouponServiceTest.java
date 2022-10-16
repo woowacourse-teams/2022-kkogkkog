@@ -179,19 +179,19 @@ public class UnregisteredCouponServiceTest {
             );
         }
 
-        @Disabled
         @Test
         @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
         void success_where_registered() {
             UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
-            Coupon coupon = couponRepository.save(unregisteredCoupon.toCoupon(receiver));
+            CouponResponse couponResponse = unregisteredCouponService.saveByCouponCode(receiver.getId(),
+                쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode()));
 
             List<UnregisteredCouponResponse> responses = unregisteredCouponService.findAllBySender(sender.getId(),
                 UnregisteredCouponStatus.REGISTERED.name());
 
             UnregisteredCouponResponse actual = responses.get(0);
             assertAll(
-                () -> assertThat(actual.getCouponId()).isEqualTo(coupon.getId()),
+                () -> assertThat(actual.getCouponId()).isEqualTo(couponResponse.getId()),
                 () -> assertThat(actual.getReceiver().getId()).isEqualTo(receiver.getId())
             );
         }
