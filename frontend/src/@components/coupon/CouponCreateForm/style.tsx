@@ -11,10 +11,10 @@ export const FormRoot = styled.form`
   }
 `;
 
-export const FindUserContainer = styled.div`
+export const FindUserContainer = styled.section`
   position: relative;
 
-  & > div:first-of-type {
+  & > label {
     font-size: 14px;
     font-weight: 600;
 
@@ -35,7 +35,7 @@ export const AnotherCouponCreatePageLink = (theme: Theme) => css`
   cursor: pointer;
 `;
 
-export const FindUserInput = styled.div`
+export const FindUserInput = styled.button`
   width: 100%;
   min-height: 50px;
 
@@ -59,7 +59,7 @@ export const FindUserInput = styled.div`
   `}
 `;
 
-export const SelectedUserListContainer = styled.div`
+export const SelectedUserListContainer = styled.ul`
   flex: 1;
 
   display: flex;
@@ -73,7 +73,7 @@ export const SelectedUserListContainer = styled.div`
   `}
 `;
 
-export const SelectedUserContainer = styled.div`
+export const SelectedUserContainer = styled.li`
   margin-right: 10px;
 
   padding: 6px 9px;
