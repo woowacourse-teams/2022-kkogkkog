@@ -27,15 +27,16 @@ export const useCreateUnregisteredCoupon = () => {
   return { createUnregisteredCoupon };
 };
 
-export const useRegisteredUnregisteredCoupon = ({
-  couponCode,
-}: RegisterUnregisteredCouponRequest) => {
-  const { mutateAsync } = useRegisteredUnregisteredCouponMutation({
-    couponCode,
-  });
+export const useRegisteredUnregisteredCoupon = () => {
+  const { displayMessage } = useToast();
+  const { mutateAsync } = useRegisteredUnregisteredCouponMutation();
 
   const registerUnregisteredCoupon = (body: RegisterUnregisteredCouponRequest) => {
-    return mutateAsync(body);
+    return mutateAsync(body, {
+      onSuccess() {
+        displayMessage('쿠폰이 등록되었습니다.', false);
+      },
+    });
   };
 
   return {
