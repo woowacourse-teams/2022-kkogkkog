@@ -6,7 +6,7 @@ import {
 import { useToast } from '../@common/useToast';
 import {
   useCreateUnregisteredCouponMutation,
-  useRegisteredUnregisteredCouponMutation,
+  useRegisteredUnregisteredCouponMutation as useRegisterUnregisteredCouponMutation,
 } from '../@queries/unregistered-coupon';
 
 export const useCreateUnregisteredCoupon = () => {
@@ -27,9 +27,9 @@ export const useCreateUnregisteredCoupon = () => {
   return { createUnregisteredCoupon };
 };
 
-export const useRegisteredUnregisteredCoupon = () => {
+export const useRegisterUnregisteredCoupon = () => {
   const { displayMessage } = useToast();
-  const { mutateAsync } = useRegisteredUnregisteredCouponMutation();
+  const { mutateAsync } = useRegisterUnregisteredCouponMutation();
 
   const registerUnregisteredCoupon = (body: RegisterUnregisteredCouponRequest) => {
     return mutateAsync(body, {
