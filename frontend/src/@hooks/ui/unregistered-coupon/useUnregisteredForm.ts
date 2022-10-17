@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
+import { createUnregisteredCoupon } from '@/apis/unregistered-coupon';
 import { PATH } from '@/Router';
 import {
   COUPON_ENG_TYPE,
@@ -66,23 +67,22 @@ export const useUnregisteredForm = () => {
       return;
     }
 
-    // submitAction
-    // const coupons = await createCoupon({
-    //   receiverIds: receiverList.map(({ id }) => id),
-    //   couponTag,
-    //   couponMessage,
-    //   couponType,
-    // });
+    await createUnregisteredCoupon({
+      quantity: couponCount,
+      couponTag,
+      couponMessage,
+      couponType,
+    });
 
-    if (couponCount === 1) {
-      // 미등록 쿠폰 조회 페이지로
-      // navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
-      navigate(PATH.MAIN);
+    // if (couponCount === 1) {
+    //   // 미등록 쿠폰 조회 페이지로
+    //   // navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
+    //   navigate(PATH.MAIN);
 
-      return;
-    }
+    //   return;
+    // }
 
-    navigate(PATH.MAIN);
+    navigate(PATH.UNREGISTERED_COUPON_LIST);
   };
 
   return {

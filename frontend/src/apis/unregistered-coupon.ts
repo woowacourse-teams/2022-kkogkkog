@@ -1,4 +1,5 @@
 import {
+  CreateUnregisteredCouponRequest,
   RegisterUnregisteredCouponRequest,
   UnregisteredCouponListByStatusRequest,
   UnregisteredCouponListResponse,
@@ -23,16 +24,22 @@ export const getUnregisteredCouponById = async (id: number) => {
   return data;
 };
 
+export const createUnregisteredCoupon = async (body: CreateUnregisteredCouponRequest) => {
+  const { data } = await client.post<UnregisteredCouponListResponse>('/coupons/unregistered', body);
+
+  return data;
+};
+
 export const getUnregisteredCouponByCode = async (couponCode: string) => {
   const { data } = await client.get<UnregisteredCouponResponse>(
-    `/coupons/unregistered?couponCode=${couponCode}`
+    `/coupons/unregistered/code?couponCode=${couponCode}`
   );
 
   return data;
 };
 
 export const registerUnregisteredCoupon = async (body: RegisterUnregisteredCouponRequest) => {
-  const { data } = await client.post<UnregisteredCouponResponse>('coupons/code', body);
+  const { data } = await client.post<UnregisteredCouponResponse>('/coupons/code', body);
 
   return data;
 };
