@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CouponController {
 
     private final CouponService couponService;
-    private final LazyCouponService lazyCouponService;
 
     @GetMapping("/sent")
     public ResponseEntity<CouponsResponse> showSend(@LoginMemberId Long loginMemberId) {
@@ -76,13 +75,6 @@ public class CouponController {
         List<CouponResponse> responses = couponService.save(
             request.toCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new CouponsResponse(responses));
-    }
-
-    @PostMapping("/code")
-    public ResponseEntity<CouponResponse> registerCouponCode(@LoginMemberId Long loginMemberId,
-                                                           @RequestBody RegisterCouponCodeRequest request) {
-        CouponResponse couponResponse = lazyCouponService.saveByCouponCode(loginMemberId, request);
-        return ResponseEntity.created(null).body(couponResponse);
     }
 
     @PutMapping("/{couponId}/event")

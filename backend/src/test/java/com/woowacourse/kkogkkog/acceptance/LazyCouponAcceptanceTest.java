@@ -121,45 +121,41 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 미등록_쿠폰_생성을_요청한다(String token, Object data) {
-        return invokePostWithToken("/api/v2/coupons/lazy", token, data);
+        return invokePostWithToken("/api/v2/lazy-coupons", token, data);
     }
 
     public static LazyCouponsResponse 미등록_쿠폰_생성을_요청하고(String token, Object data) {
-        final var response = invokePostWithToken("/api/v2/coupons/lazy",
+        final var response = invokePostWithToken("/api/v2/lazy-coupons",
             token, data);
         return response.as(LazyCouponsResponse.class);
     }
 
     static CouponResponse 쿠폰코드로_쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons/code", token, data);
+        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/lazy-coupons/register", token, data);
         return response.as(CouponResponse.class);
     }
 
 
     static ExtractableResponse<Response> 쿠폰코드로_쿠폰_생성을_요청한다(String token, Object data) {
-        return invokePostWithToken("/api/v2/coupons/code", token, data);
-    }
-
-    static ExtractableResponse<Response> 회원의_미동록_쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/v2/coupons/lazy", token);
+        return invokePostWithToken("/api/v2/lazy-coupons/register", token, data);
     }
 
     static ExtractableResponse<Response> 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(String token, LazyCouponStatus status) {
-        return invokeGetWithTokenAndQueryParams("/api/v2/coupons/lazy/status", token,
+        return invokeGetWithTokenAndQueryParams("/api/v2/lazy-coupons/status", token,
             Map.of("type", status.toString()));
     }
 
     static ExtractableResponse<Response> 아이디로_회원의_단일_미등록_쿠폰_상세정보를_조회한다(String token,
                                                                        Long lazyCouponId) {
-        return invokeGetWithToken("/api/v2/coupons/lazy/" + lazyCouponId, token);
+        return invokeGetWithToken("/api/v2/lazy-coupons/" + lazyCouponId, token);
     }
 
     static ExtractableResponse<Response> 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(String couponCode) {
-        return invokeGetWithQueryParams("/api/v2/coupons/lazy/code",
+        return invokeGetWithQueryParams("/api/v2/lazy-coupons/code",
             Map.of("couponCode", couponCode));
     }
 
     static ExtractableResponse<Response> 회원의_미등록_쿠폰을_삭제한다(String token, Long lazyCouponId) {
-        return invokeDeleteWithToken("/api/v2/coupons/lazy/" + lazyCouponId, token);
+        return invokeDeleteWithToken("/api/v2/lazy-coupons/" + lazyCouponId, token);
     }
 }

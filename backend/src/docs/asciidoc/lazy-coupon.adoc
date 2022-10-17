@@ -8,6 +8,9 @@
 === 미등록 쿠폰 생성
 operation::lazy-coupon-create[snippets='http-request,http-response']
 
+=== 미등록 쿠폰 수령
+operation::coupon-create-code[snippets='http-request,http-response']
+
 === 나의 미등록 쿠폰 상태별 조회
 operation::lazy-coupon-show-status[snippets='http-request,http-response']
 

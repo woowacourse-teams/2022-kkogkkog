@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.lazycoupon.presentation;
 
 import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.lazycoupon.presentation.dto.LazyCouponCreateRequest;
 import com.woowacourse.kkogkkog.lazycoupon.presentation.dto.LazyCouponsResponse;
 import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponResponse;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v2/coupons/lazy")
+@RequestMapping("/api/v2/lazy-coupons")
 public class LazyCouponController {
 
     private final LazyCouponService lazyCouponService;
@@ -53,6 +55,13 @@ public class LazyCouponController {
         List<LazyCouponResponse> responses = lazyCouponService.save(
             request.toLazyCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new LazyCouponsResponse(responses));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<CouponResponse> registerCouponCode(@LoginMemberId Long loginMemberId,
+                                                             @RequestBody RegisterCouponCodeRequest request) {
+        CouponResponse couponResponse = lazyCouponService.saveByCouponCode(loginMemberId, request);
+        return ResponseEntity.created(null).body(couponResponse);
     }
 
     @DeleteMapping("/{lazyCouponId}")

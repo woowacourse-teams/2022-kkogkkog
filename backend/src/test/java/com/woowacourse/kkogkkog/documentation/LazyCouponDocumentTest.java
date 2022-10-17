@@ -44,7 +44,7 @@ class LazyCouponDocumentTest extends DocumentTest {
         ));
 
         ResultActions perform = mockMvc.perform(
-            post("/api/v2/coupons/lazy")
+            post("/api/v2/lazy-coupons")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .content(objectMapper.writeValueAsString(미등록_COFFEE_쿠폰_생성_요청(1)))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -70,7 +70,7 @@ class LazyCouponDocumentTest extends DocumentTest {
 
         String couponCode = "쿠폰코드";
         ResultActions perform = mockMvc.perform(
-            post("/api/v2/coupons/code")
+            post("/api/v2/lazy-coupons/register")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .content(objectMapper.writeValueAsString(쿠폰_코드_등록_요청(couponCode)))
                 .contentType(MediaType.APPLICATION_JSON));
@@ -97,7 +97,7 @@ class LazyCouponDocumentTest extends DocumentTest {
                 수령한_미등록_COFFEE_쿠폰_응답(2L, 2L, sender, receiver)));
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/lazy/status")
+            get("/api/v2/lazy-coupons/status")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .param("type", "REGISTERED"));
 
@@ -122,7 +122,7 @@ class LazyCouponDocumentTest extends DocumentTest {
         );
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/lazy/1")
+            get("/api/v2/lazy-coupons/1")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
@@ -145,7 +145,7 @@ class LazyCouponDocumentTest extends DocumentTest {
         );
 
         ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/lazy/code")
+            get("/api/v2/lazy-coupons/code")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
                 .param("couponCode", COUPON_CODE));
 
@@ -166,7 +166,7 @@ class LazyCouponDocumentTest extends DocumentTest {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         ResultActions perform = mockMvc.perform(
-            delete("/api/v2/coupons/lazy/1")
+            delete("/api/v2/lazy-coupons/1")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk());
