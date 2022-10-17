@@ -9,6 +9,7 @@ import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFF
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_내역_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_이벤트_요청;
+import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -65,7 +66,7 @@ class CouponDocumentTest extends DocumentTest {
     }
 
     @Test
-    void 코드_쿠폰_생성_API() throws Exception {
+    void 쿠폰_코드_등록_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.saveByCouponCode(any(), any())).willReturn(
             COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L)));
@@ -74,7 +75,7 @@ class CouponDocumentTest extends DocumentTest {
         ResultActions perform = mockMvc.perform(
             post("/api/v2/coupons/code")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN)
-                .content(objectMapper.writeValueAsString(couponCode))
+                .content(objectMapper.writeValueAsString(쿠폰_코드_등록_요청(couponCode)))
                 .contentType(MediaType.APPLICATION_JSON));
 
         perform.andExpect(status().isCreated())
