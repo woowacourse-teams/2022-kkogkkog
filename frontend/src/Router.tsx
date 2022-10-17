@@ -73,8 +73,8 @@ export const DYNAMIC_PATH = {
   COUPON_DECLINE(id: number | string): string {
     return `${PATH.COUPON_LIST}/${id}/decline`;
   },
-  UNREGISTERED_COUPON_DETAIL(couponCode: string): string {
-    return `${PATH.UNREGISTERED_COUPON_LIST}/${couponCode}`;
+  UNREGISTERED_COUPON_DETAIL(id: number | string): string {
+    return `${PATH.UNREGISTERED_COUPON_LIST}/${id}`;
   },
   UNREGISTERED_COUPON_REGISTER(couponCode: string): string {
     return `${PATH.UNREGISTERED_COUPON_REGISTER}?couponCode=${couponCode}`;

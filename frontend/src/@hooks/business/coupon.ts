@@ -90,7 +90,7 @@ export const useCreateCoupon = () => {
       },
     });
 
-    return data.data;
+    return data;
   };
 
   return { createCoupon };
