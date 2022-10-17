@@ -91,7 +91,7 @@ const ToastProvider = (props: React.PropsWithChildren) => {
       {ReactDOM.createPortal(
         <>
           {isShow === true && (
-            <Styled.ShowUpRoot>
+            <Styled.ShowUpRoot role='status' aria-live='polite'>
               <ToastMessage message={message} isError={isError} onClickToast={onClickToast} />
             </Styled.ShowUpRoot>
           )}
