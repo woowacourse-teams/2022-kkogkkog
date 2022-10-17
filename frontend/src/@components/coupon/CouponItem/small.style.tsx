@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ hasCursor?: boolean }>`
+export const Root = styled.button<{ hasCursor?: boolean }>`
   width: 140px;
   height: 132px;
 

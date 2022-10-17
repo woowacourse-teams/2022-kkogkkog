@@ -41,6 +41,7 @@ export const Message = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: left;
 `;
 
 export const MeetingDate = styled.span<{ couponStatus: COUPON_STATUS }>`

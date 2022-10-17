@@ -6,7 +6,7 @@ export const Root = styled.div`
   flex-direction: column;
   align-items: center;
 
-  & > div + div {
+  & > * + * {
     margin-top: 20px;
   }
 `;
