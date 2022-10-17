@@ -2,6 +2,7 @@ package com.woowacourse.kkogkkog.unregisteredcoupon.application.dto;
 
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +27,10 @@ public class UnregisteredCouponSaveRequest {
         this.couponType = couponType;
     }
 
-    public List<UnregisteredCoupon> toEntities(Member sender) {
+    public List<CouponUnregisteredCoupon> toEntities(Member sender) {
         return IntStream.range(0, quantity)
-            .mapToObj(it -> UnregisteredCoupon.of(sender, couponTag, couponMessage,
-                CouponType.valueOf(couponType)))
+            .mapToObj(it -> new CouponUnregisteredCoupon(null, UnregisteredCoupon.of(sender, couponTag, couponMessage,
+                CouponType.valueOf(couponType))))
             .collect(Collectors.toList());
     }
 }

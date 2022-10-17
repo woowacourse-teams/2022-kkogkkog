@@ -67,7 +67,7 @@ public class UnregisteredCouponTest {
         @DisplayName("미등록 쿠폰 이벤트를 받으면 상태를 변경한다.")
         void success() {
             Member sender = SENDER.getMember();
-            UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
+            UnregisteredCoupon unregisteredCoupon = COFFEE.getCouponUnregisteredCoupon(sender).getUnregisteredCoupon();
 
             unregisteredCoupon.changeStatus(REGISTER);
 

@@ -42,13 +42,12 @@ public class UnregisteredCouponResponse {
         this.createdTime = createdTime;
     }
 
-    public static UnregisteredCouponResponse of(UnregisteredCoupon unregisteredCoupon) {
-        return toResponse(unregisteredCoupon, null, null);
-    }
-
     public static UnregisteredCouponResponse of(CouponUnregisteredCoupon couponUnregisteredCoupon) {
         UnregisteredCoupon unregisteredCoupon = couponUnregisteredCoupon.getUnregisteredCoupon();
         Coupon coupon = couponUnregisteredCoupon.getCoupon();
+        if (coupon == null) {
+            return toResponse(unregisteredCoupon, null, null);
+        }
         return toResponse(unregisteredCoupon, CouponMemberResponse.of(coupon.getReceiver()), coupon.getId());
     }
 

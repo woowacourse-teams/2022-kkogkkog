@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
@@ -47,8 +48,8 @@ public enum CouponFixture {
             couponState);
     }
 
-    public UnregisteredCoupon getUnregisteredCoupon(Member sender) {
-        return UnregisteredCoupon.of(sender, couponTag, couponMessage, couponType);
+    public CouponUnregisteredCoupon getCouponUnregisteredCoupon(Member sender) {
+        return new CouponUnregisteredCoupon(null, UnregisteredCoupon.of(sender, couponTag, couponMessage, couponType));
     }
 
     public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {

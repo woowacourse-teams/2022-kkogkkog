@@ -16,10 +16,9 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
-import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponResponse;
 import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredCouponSaveRequest;
-import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
@@ -33,7 +32,6 @@ import com.woowacourse.kkogkkog.support.application.ApplicationTest;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -106,7 +104,8 @@ public class UnregisteredCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            unregisteredCoupon = unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
+            CouponUnregisteredCoupon couponUnregisteredCoupon = unregisteredCouponRepository.save(COFFEE.getCouponUnregisteredCoupon(sender));
+            unregisteredCoupon = couponUnregisteredCoupon.getUnregisteredCoupon();
         }
 
         @Test
@@ -145,8 +144,8 @@ public class UnregisteredCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(AUTHOR.getMember(workspace));
-            unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
-            unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
+            unregisteredCouponRepository.save(COFFEE.getCouponUnregisteredCoupon(sender));
+            unregisteredCouponRepository.save(COFFEE.getCouponUnregisteredCoupon(sender));
         }
 
         @Test
@@ -167,7 +166,8 @@ public class UnregisteredCouponServiceTest {
         @Test
         @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
         void success_where_registered() {
-            UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(COFFEE.getUnregisteredCoupon(sender));
+            UnregisteredCoupon unregisteredCoupon = unregisteredCouponRepository.save(COFFEE.getCouponUnregisteredCoupon(sender))
+                .getUnregisteredCoupon();
             CouponResponse couponResponse = unregisteredCouponService.saveByCouponCode(receiver.getId(),
                 쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode()));
 
