@@ -6,10 +6,7 @@ import {
   getUnregisteredCouponListByStatus,
   registerUnregisteredCoupon,
 } from '@/apis/unregistered-coupon';
-import {
-  RegisterUnregisteredCouponRequest,
-  UnregisteredCouponListByStatusRequest,
-} from '@/types/unregistered-coupon/remote';
+import { UnregisteredCouponListByStatusRequest } from '@/types/unregistered-coupon/remote';
 
 import { getUnregisteredCouponByCode } from '../../apis/unregistered-coupon';
 import { useLoading } from '../@common/useLoading';
@@ -90,7 +87,7 @@ export const useCreateUnregisteredCouponMutation = () => {
   });
 };
 
-export const useRegisteredUnregisteredCouponMutation = () => {
+export const useRegisterUnregisteredCouponMutation = () => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 

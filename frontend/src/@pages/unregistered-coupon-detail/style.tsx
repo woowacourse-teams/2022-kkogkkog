@@ -64,22 +64,6 @@ export const SubSectionTitle = styled.span`
   `}
 `;
 
-export const CodeContainer = styled.div`
-  min-height: 150px;
-  margin-top: 10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 14px;
-  border-radius: 20px;
-
-  ${({ theme }) => css`
-    background-color: ${theme.colors.background_3};
-  `}
-`;
-
 export const DescriptionContainer = styled.div`
   min-height: 100px;
 
@@ -96,21 +80,6 @@ export const DescriptionContainer = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.background_3};
   `}
-`;
-
-export const FinishButtonInner = styled.div`
-  width: 100%;
-  text-align: right;
-  font-size: 12px;
-  margin-top: 16px;
-
-  ${({ theme }) => css`
-    color: ${theme.colors.grey_200};
-  `}
-
-  & > button {
-    text-decoration: underline;
-  }
 `;
 
 export const ExtendedButton = css`

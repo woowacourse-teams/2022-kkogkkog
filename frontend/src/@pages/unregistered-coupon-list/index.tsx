@@ -31,8 +31,8 @@ const UnregisteredCouponList = () => {
     unregisteredFilterOptionsSessionStorage.set(status);
   };
 
-  const onClickUnregisteredCouponItem = ({ couponCode }: UnregisteredCouponResponse) => {
-    navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode));
+  const onClickUnregisteredCouponItem = ({ id }: UnregisteredCouponResponse) => {
+    navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(id));
   };
 
   const onClickRegisteredCouponItem = ({ couponId }: UnregisteredCouponResponse) => {
