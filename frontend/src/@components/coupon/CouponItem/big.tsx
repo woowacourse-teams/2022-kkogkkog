@@ -38,7 +38,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
           </Styled.Member>
         </Styled.Top>
         <Styled.Message>{couponMessage}</Styled.Message>
-        <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
+        <Styled.Hashtag aria-label={`hashtag ${couponTag}`}>#{couponTag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
   );
