@@ -26,7 +26,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
     <Styled.Root hasCursor={!!onClick} onClick={onClick}>
       <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
-      <img src={thumbnail} alt='쿠폰' width={50} height={50} />
+      <img src={thumbnail.src} alt={thumbnail.alt} width={50} height={50} />
 
       <Styled.TextContainer>
         <Styled.Preposition>{isSent ? 'To.' : 'From.'} </Styled.Preposition>

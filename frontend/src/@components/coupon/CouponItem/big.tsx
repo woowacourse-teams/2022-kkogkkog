@@ -28,7 +28,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
         <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
         <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
+          <img src={thumbnail.src} alt={thumbnail.alt} width={44} height={44} />
         </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>

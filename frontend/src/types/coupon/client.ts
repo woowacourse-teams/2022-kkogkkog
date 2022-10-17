@@ -27,10 +27,10 @@ export const couponHashtags = [
   '잘했어요!',
 ] as const;
 
-export const THUMBNAIL: { [x: string]: string } = {
-  COFFEE: coffeeImage,
-  DRINK: beerImage,
-  MEAL: mealImage,
+export const THUMBNAIL = {
+  COFFEE: { src: coffeeImage, alt: '커피 쿠폰' },
+  DRINK: { src: beerImage, alt: '술 쿠폰' },
+  MEAL: { src: mealImage, alt: '식사 쿠폰' },
 } as const;
 
 export type COUPON_ENG_TYPE = typeof couponTypeCollection[number]['engType'];
