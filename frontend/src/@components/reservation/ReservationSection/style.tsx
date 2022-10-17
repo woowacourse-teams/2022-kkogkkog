@@ -12,7 +12,7 @@ export const Root = styled.div`
 
 export const NoneContentsContainer = styled.div`
   width: 100%;
-  height: 200px;
+  height: 320px;
 
   display: flex;
   flex-direction: column;

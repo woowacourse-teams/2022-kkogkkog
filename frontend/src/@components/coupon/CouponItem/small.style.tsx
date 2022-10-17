@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 export const Root = styled.div<{ hasCursor?: boolean }>`
   width: 140px;
+  height: 132px;
 
   display: flex;
   justify-content: center;

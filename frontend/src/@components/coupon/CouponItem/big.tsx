@@ -75,7 +75,7 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
 };
 
 BigCouponItem.Skeleton = function Skeleton() {
-  return <Placeholder aspectRatio='3/1' />;
+  return <Placeholder width='100%' maxWidth='340px' height='120px' />;
 };
 
 export default BigCouponItem;

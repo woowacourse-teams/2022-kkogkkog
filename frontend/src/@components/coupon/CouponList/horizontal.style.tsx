@@ -14,6 +14,7 @@ export const SlideRoot = styled.div`
 
 export const TextContainer = styled.div<{ fontSize?: string }>`
   width: 100%;
+  height: 132px; // 쿠폰이 있는 상황과 height가 동일해야 한다.
 
   display: flex;
   flex-direction: column;

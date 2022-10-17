@@ -1,3 +1,4 @@
+import CustomSuspense from '@/@components/@shared/CustomSuspense';
 import BigCouponItem from '@/@components/coupon/CouponItem/big';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useFetchCouponListByStatus } from '@/@hooks/@queries/coupon';
@@ -12,18 +13,24 @@ interface AcceptedCouponListSectionProps {
 const AcceptedCouponListSection = (props: AcceptedCouponListSectionProps) => {
   const { couponListType, onClickCouponItem } = props;
 
-  const { couponListByStatus: acceptedCouponList } = useFetchCouponListByStatus({
-    couponListType,
-    body: { type: 'ACCEPTED' },
-  });
+  const { couponListByStatus: acceptedCouponList, isLoading: isAcceptedCouponListLoading } =
+    useFetchCouponListByStatus({
+      couponListType,
+      body: { type: 'ACCEPTED' },
+    });
 
   return (
     <Styled.VerticalListContainer>
-      <VerticalCouponList
-        couponList={acceptedCouponList}
-        CouponItem={BigCouponItem}
-        onClickCouponItem={onClickCouponItem}
-      />
+      <CustomSuspense
+        isLoading={isAcceptedCouponListLoading}
+        fallback={<VerticalCouponList.Skeleton CouponItemSkeleton={BigCouponItem.Skeleton} />}
+      >
+        <VerticalCouponList
+          couponList={acceptedCouponList}
+          CouponItem={BigCouponItem}
+          onClickCouponItem={onClickCouponItem}
+        />
+      </CustomSuspense>
     </Styled.VerticalListContainer>
   );
 };
