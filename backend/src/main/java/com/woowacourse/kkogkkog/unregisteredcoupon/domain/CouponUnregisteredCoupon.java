@@ -31,7 +31,7 @@ public class CouponUnregisteredCoupon {
     private Coupon coupon;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "unregistered_coupon_id")
+    @JoinColumn(name = "unregistered_coupon_id", nullable = false)
     private UnregisteredCoupon unregisteredCoupon;
 
     public CouponUnregisteredCoupon(Long id, Coupon coupon, UnregisteredCoupon unregisteredCoupon) {
@@ -50,9 +50,10 @@ public class CouponUnregisteredCoupon {
         }
     }
 
-    public void registerCoupon(Member receiver) {
+    public Coupon registerCoupon(Member receiver) {
         unregisteredCoupon.changeStatus(REGISTER);
         updateCoupon(unregisteredCoupon.toCoupon(receiver));
+        return this.coupon;
     }
 
     public void updateCoupon(Coupon coupon) {
