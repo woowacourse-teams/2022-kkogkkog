@@ -1,4 +1,5 @@
-import DownCount from '@/@components/@shared/DownCount';
+import { useEffect, useRef, useState } from 'react';
+
 import UpCount from '@/@components/@shared/UpCount';
 import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
 import { YYYYMMDDhhmmss } from '@/types/utils';
@@ -13,9 +14,35 @@ interface UnregisteredCouponExpiredTimeProps {
 const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps) => {
   const { createdTime } = props;
 
-  const remainingTime = computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD) - Date.now();
+  const [remainingTime, setRemainingTime] = useState(
+    computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD) - Date.now()
+  );
 
-  const { day, hour, min } = computeDayHourMinSecByMS(remainingTime);
+  const rAFId = useRef<number | null>(null);
+
+  const remainingTimeSetter = (prevSecond: number, timestamp: number) => {
+    const currentSecond = Math.floor(timestamp / 1000);
+
+    if (prevSecond < currentSecond) {
+      setRemainingTime(prev => prev - 1000);
+    }
+
+    if (remainingTime > 0) {
+      requestAnimationFrame(timestamp => remainingTimeSetter(currentSecond, timestamp));
+    }
+  };
+
+  useEffect(() => {
+    rAFId.current = requestAnimationFrame(timestamp => remainingTimeSetter(0, timestamp));
+  }, []);
+
+  useEffect(() => {
+    if (Math.floor(remainingTime) === 0 && rAFId.current) {
+      cancelAnimationFrame(rAFId.current);
+    }
+  }, [remainingTime]);
+
+  const { day, hour, min, sec } = computeDayHourMinSecByMS(remainingTime);
 
   return (
     <Styled.Root>
@@ -28,9 +55,7 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
       <UpCount limit={min} duration={3000}>
         분
       </UpCount>
-      <DownCount start={remainingTime} decreaseNumber={1000}>
-        초
-      </DownCount>
+      <div>{sec}초</div>
     </Styled.Root>
   );
 };

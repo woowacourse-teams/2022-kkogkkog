@@ -15,15 +15,15 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
 
   const rAFId = useRef<number | null>(null);
 
+  const animationHandler = (progress = 0) => {
+    setCount(limit * easyOutExpo(progress));
+
+    if (progress <= 1) {
+      requestAnimationFrame(timestamp => animationHandler(timestamp / duration));
+    }
+  };
+
   useEffect(() => {
-    const animationHandler = (progress = 0) => {
-      setCount(limit * easyOutExpo(progress));
-
-      if (progress <= 1) {
-        requestAnimationFrame(timestamp => animationHandler(timestamp / duration));
-      }
-    };
-
     rAFId.current = requestAnimationFrame(() => animationHandler(0));
   }, [duration, limit]);
 
