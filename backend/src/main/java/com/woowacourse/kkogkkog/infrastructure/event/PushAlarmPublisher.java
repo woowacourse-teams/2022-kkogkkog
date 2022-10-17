@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class PushAlarmPublisher {
 
-    private static final String WOOWACOURSE_ID = "TFELTJB7V";
-
     private final ApplicationEventPublisher publisher;
     private final WoowacourseUserRepository woowacourseUserRepository;
 
