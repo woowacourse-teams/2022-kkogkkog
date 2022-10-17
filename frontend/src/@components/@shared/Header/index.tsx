@@ -49,24 +49,21 @@ const Header = (props: HeaderProps) => {
       </Styled.Logo>
       <Styled.Title>{!isMainPage && title}</Styled.Title>
       <Styled.Profile>
-        <Position
-          css={css`
-            display: flex;
-            align-items: center;
-          `}
-        >
-          {me && (
-            <Link to={PATH.USER_HISTORY}>
-              <Icon iconName='notification' size='26' color={'transparent'} />
-            </Link>
-          )}
-
-          {me && me?.unReadCount !== 0 && (
-            <Position position='absolute' top='0' right='0'>
-              <Styled.Bell />
-            </Position>
-          )}
-        </Position>
+        {me && (
+          <Link
+            to={PATH.USER_HISTORY}
+            css={css`
+              position: relative;
+            `}
+          >
+            <Icon iconName='notification' size='26' color={'transparent'} />
+            {me?.unReadCount !== 0 && (
+              <Position position='absolute' top='0' right='0'>
+                <Styled.Bell />
+              </Position>
+            )}
+          </Link>
+        )}
         <Link
           to={PATH.PROFILE}
           css={css`
