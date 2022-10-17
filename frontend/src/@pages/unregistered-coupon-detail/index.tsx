@@ -1,18 +1,12 @@
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
-import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
-import { useFetchUnregisteredCoupon } from '@/@hooks/@queries/unregistered-coupon';
-import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
-import { computeExpiredTime } from '@/utils/time';
-
-import * as Styled from './style';
 
 const UnregisteredCouponDetail = () => {
-  const { unregisteredCoupon } = useFetchUnregisteredCoupon(1);
+  // const { unregisteredCoupon } = useFetchUnregisteredCoupon(1);
 
-  if (!unregisteredCoupon) {
-    return <div>hi</div>;
-  }
+  // if (!unregisteredCoupon) {
+  // return <div>hi</div>;
+  // }
 
   // const { couponType, couponMessage, couponCode, createdTime } = unregisteredCoupon;
 
@@ -20,6 +14,7 @@ const UnregisteredCouponDetail = () => {
 
   return (
     <PageTemplate title='미등록 쿠폰 조회'>
+      <UnregisteredCouponExpiredTime createdTime='2022-10-10T15:02:00' />
       {/* <Styled.Root>
         <Styled.Top>
           <UnregisteredCouponExpiredTime createdTime={createdTime} />

@@ -1,10 +1,8 @@
-import { r } from 'msw/lib/glossary-58eca5a8';
 import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { useCreateUnregisteredCouponMutation } from '@/@hooks/@queries/unregistered-coupon';
 import { useCreateUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import {
@@ -81,8 +79,6 @@ export const useUnregisteredForm = () => {
       navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(unregisteredCouponList[0].id), {
         replace: true,
       });
-
-      return;
     }
 
     navigate(PATH.UNREGISTERED_COUPON_LIST);
