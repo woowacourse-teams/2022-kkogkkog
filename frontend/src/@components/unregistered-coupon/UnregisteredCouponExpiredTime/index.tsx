@@ -20,24 +20,33 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
 
   const rAFId = useRef<number | null>(null);
 
-  const remainingTimeSetter = (prevSecond: number, timestamp: number) => {
-    const currentSecond = Math.floor(timestamp / 1000);
-
-    if (prevSecond < currentSecond) {
-      setRemainingTime(prev => prev - 1000);
-    }
-
-    if (remainingTime > 0) {
-      requestAnimationFrame(timestamp => remainingTimeSetter(currentSecond, timestamp));
-    }
-  };
-
   useEffect(() => {
+    const remainingTimeSetter = (prevSecond: number, timestamp: number) => {
+      const currentSecond = Math.floor(timestamp / 1000);
+
+      if (prevSecond < currentSecond) {
+        setRemainingTime(prev => prev - 1000);
+      }
+
+      if (remainingTime / 1000 - currentSecond > 0) {
+        // 줄어들 시간이 없는 경우
+        requestAnimationFrame(timestamp => remainingTimeSetter(currentSecond, timestamp));
+      }
+    };
+
     rAFId.current = requestAnimationFrame(timestamp => remainingTimeSetter(0, timestamp));
   }, []);
 
   useEffect(() => {
-    if (Math.floor(remainingTime) === 0 && rAFId.current) {
+    return () => {
+      if (rAFId.current) {
+        cancelAnimationFrame(rAFId.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (Math.floor(remainingTime) < 0 && rAFId.current) {
       cancelAnimationFrame(rAFId.current);
     }
   }, [remainingTime]);
@@ -46,16 +55,22 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
 
   return (
     <Styled.Root>
-      <UpCount limit={day} duration={3000}>
-        일
-      </UpCount>
-      <UpCount limit={hour} duration={3000}>
-        시간
-      </UpCount>
-      <UpCount limit={min} duration={3000}>
-        분
-      </UpCount>
-      <div>{sec}초</div>
+      {remainingTime > 0 ? (
+        <>
+          <UpCount limit={day} duration={3000}>
+            일
+          </UpCount>
+          <UpCount limit={hour} duration={3000}>
+            시간
+          </UpCount>
+          <UpCount limit={min} duration={3000}>
+            분
+          </UpCount>
+          <div>{sec}초</div>
+        </>
+      ) : (
+        <div>받을 수 있는 기간이 지났어요 !</div>
+      )}
     </Styled.Root>
   );
 };

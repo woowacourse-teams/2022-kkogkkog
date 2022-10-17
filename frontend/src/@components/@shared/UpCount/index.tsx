@@ -15,17 +15,25 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
 
   const rAFId = useRef<number | null>(null);
 
-  const animationHandler = (progress = 0) => {
-    setCount(limit * easyOutExpo(progress));
+  useEffect(() => {
+    const animationHandler = (progress = 0) => {
+      setCount(limit * easyOutExpo(progress));
 
-    if (progress <= 1) {
-      requestAnimationFrame(timestamp => animationHandler(timestamp / duration));
-    }
-  };
+      if (progress <= 1) {
+        requestAnimationFrame(timestamp => animationHandler(timestamp / duration));
+      }
+    };
+
+    rAFId.current = requestAnimationFrame(() => animationHandler(0));
+  }, []);
 
   useEffect(() => {
-    rAFId.current = requestAnimationFrame(() => animationHandler(0));
-  }, [duration, limit]);
+    return () => {
+      if (rAFId.current) {
+        cancelAnimationFrame(rAFId.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (Math.ceil(count) === limit && rAFId.current) {
@@ -35,7 +43,7 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
 
   return (
     <div className={className}>
-      {Math.ceil(count)}
+      {count < limit ? Math.ceil(count) : limit}
       {children}
     </div>
   );

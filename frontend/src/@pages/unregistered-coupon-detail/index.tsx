@@ -1,4 +1,5 @@
 import PageTemplate from '@/@components/@shared/PageTemplate';
+import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 
 const UnregisteredCouponDetail = () => {
   // const { unregisteredCoupon } = useFetchUnregisteredCoupon(1);
@@ -13,6 +14,7 @@ const UnregisteredCouponDetail = () => {
 
   return (
     <PageTemplate title='미등록 쿠폰 조회'>
+      <UnregisteredCouponExpiredTime createdTime='2022-10-10T15:02:00' />
       {/* <Styled.Root>
         <Styled.Top>
           <UnregisteredCouponExpiredTime createdTime={createdTime} />
