@@ -8,7 +8,7 @@ import * as Styled from './style';
 
 interface UserSearchFormProps {
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
 }
 
 const UserSearchForm = (props: UserSearchFormProps) => {
@@ -40,6 +40,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
         label='누구에게 주고 싶나요?'
         placeholder='🔍 유저 검색'
         onChange={onChangeSearchInput}
+        autoFocus={true}
       />
 
       <Styled.SearchContainer>
@@ -56,7 +57,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 interface UserSearchResultProps {
   searchedUserList: UserResponse[] | undefined;
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
 }
 
 const UserSearchResult = (props: UserSearchResultProps) => {
