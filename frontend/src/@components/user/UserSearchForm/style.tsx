@@ -99,7 +99,9 @@ export const TextContainer = styled.div`
   `}
 `;
 
-export const SearchedUser = styled.div<{ isSelected: boolean }>`
+export const SearchedUser = styled.button<{ isSelected: boolean }>`
+  width: 100%;
+
   display: flex;
   align-items: center;
 

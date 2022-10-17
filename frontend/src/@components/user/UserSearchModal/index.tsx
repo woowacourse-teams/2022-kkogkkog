@@ -8,7 +8,7 @@ import UserSearchForm from '../UserSearchForm';
 
 interface UserSearchModalProps {
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
   closeModal: () => void;
 }
 
