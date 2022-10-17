@@ -4,6 +4,7 @@ import com.woowacourse.kkogkkog.infrastructure.application.WoowacoursePushAlarmC
 import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUserResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUsersResponse;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
@@ -36,9 +37,9 @@ public class WoowacourseUserRepositoryImpl implements WoowacourseUserRepository 
     }
 
     @Override
-    public String getUserId(String email) {
+    public Optional<String> getUserId(String email) {
         checkCache();
-        return cache.get(email);
+        return Optional.ofNullable(cache.get(email));
     }
 
     private void checkCache() {

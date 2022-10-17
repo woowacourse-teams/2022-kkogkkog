@@ -18,6 +18,7 @@ import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture;
 import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ class PushAlarmPublisherTest {
 
             String userId = "userId";
             given(woowacourseUserRepository.contains(anyString())).willReturn(true);
-            given(woowacourseUserRepository.getUserId(anyString())).willReturn(userId);
+            given(woowacourseUserRepository.getUserId(anyString())).willReturn(Optional.of(userId));
 
             //when
             pushAlarmPublisher.publishEvent(couponHistory);

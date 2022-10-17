@@ -1,6 +1,7 @@
 package com.woowacourse.kkogkkog.acceptance.support;
 
 import com.woowacourse.kkogkkog.infrastructure.domain.WoowacourseUserRepository;
+import java.util.Optional;
 
 public class FakeWoowacourseUserRepositoryImpl implements WoowacourseUserRepository {
 
@@ -10,7 +11,7 @@ public class FakeWoowacourseUserRepositoryImpl implements WoowacourseUserReposit
     }
 
     @Override
-    public String getUserId(String email) {
-        return "userId";
+    public Optional<String> getUserId(String email) {
+        return Optional.of("userId");
     }
 }
