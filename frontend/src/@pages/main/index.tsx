@@ -55,11 +55,11 @@ const MainPage = () => {
     <PageTemplate.ExtendedStyleHeader title='꼭꼭'>
       <Styled.Root>
         <Styled.CreateCouponContainer>
-          <div>
+          <h3>
             <Styled.ExtraBold>꼭꼭</Styled.ExtraBold>으로
             <br />
             당신의 마음을 전달해보세요!
-          </div>
+          </h3>
 
           <Styled.AdditionalExplanation>
             시간을 보내고 싶어하는 사람들이 있을지 모릅니다.
@@ -91,7 +91,7 @@ const MainPage = () => {
 
         <Styled.FullListContainer>
           <Styled.FullListTitle>
-            <span>예정된 약속</span>
+            <h3>예정된 약속</h3>
           </Styled.FullListTitle>
 
           <CustomSuspense
@@ -103,9 +103,9 @@ const MainPage = () => {
         </Styled.FullListContainer>
 
         <Styled.ListContainer>
-          <div>
+          <section>
             <Styled.ListTitle>
-              <span>받은 쿠폰</span>
+              <h2>받은 쿠폰</h2>
               <Link
                 to={PATH.RECEIVED_COUPON_LIST}
                 css={Styled.ExtendedLink}
@@ -126,11 +126,11 @@ const MainPage = () => {
                 onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
-          </div>
+          </section>
 
-          <div>
+          <section>
             <Styled.ListTitle>
-              <span>보낸 쿠폰</span>
+              <h2>보낸 쿠폰</h2>
               <Link
                 to={PATH.SENT_COUPON_LIST}
                 css={Styled.ExtendedLink}
@@ -151,11 +151,11 @@ const MainPage = () => {
                 onClickCouponItem={onClickCouponItem}
               />
             </CustomSuspense>
-          </div>
+          </section>
 
           <Styled.UnRegisteredCouponSection>
             <Styled.ListTitle>
-              <span>미등록 쿠폰</span>
+              <h2>미등록 쿠폰</h2>
             </Styled.ListTitle>
             <Styled.UnRegisteredCouponSectionInner>
               <Link to={PATH.UNREGISTERED_COUPON_LIST}>

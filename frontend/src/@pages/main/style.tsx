@@ -7,7 +7,7 @@ export const Root = styled.div`
   border-radius: 4px;
 `;
 
-export const CreateCouponContainer = styled.div`
+export const CreateCouponContainer = styled.section`
   display: flex;
 
   flex-direction: column;
@@ -28,14 +28,14 @@ export const ExtraBold = styled.span`
   font-weight: 700;
 `;
 
-export const AdditionalExplanation = styled.div`
+export const AdditionalExplanation = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.primary_400};
 
   margin-top: 10px;
 `;
 
-export const FullListContainer = styled.div`
+export const FullListContainer = styled.section`
   padding: 32px 16px 16px 16px;
 
   display: flex;
@@ -64,7 +64,7 @@ export const ListTitle = styled.div`
   display: flex;
   justify-content: space-between;
 
-  & > span {
+  & > h2 {
     font-weight: 600;
   }
 `;
