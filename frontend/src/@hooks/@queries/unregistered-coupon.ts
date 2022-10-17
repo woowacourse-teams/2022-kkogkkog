@@ -90,9 +90,7 @@ export const useCreateUnregisteredCouponMutation = () => {
   });
 };
 
-export const useRegisteredUnregisteredCouponMutation = ({
-  couponCode,
-}: RegisterUnregisteredCouponRequest) => {
+export const useRegisteredUnregisteredCouponMutation = () => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 
