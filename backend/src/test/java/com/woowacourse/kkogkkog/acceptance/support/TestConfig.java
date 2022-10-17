@@ -11,6 +11,6 @@ public class TestConfig {
     @Bean
     @Primary
     public WoowacourseUserRepository woowacourseUserRepository() {
-        return new WoowacourseUserRepositoryTestImpl();
+        return new FakeWoowacourseUserRepositoryImpl();
     }
 }

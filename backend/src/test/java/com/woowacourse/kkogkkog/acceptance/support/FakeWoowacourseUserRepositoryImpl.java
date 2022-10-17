@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.acceptance.support;
 
 import com.woowacourse.kkogkkog.infrastructure.domain.WoowacourseUserRepository;
 
-public class WoowacourseUserRepositoryTestImpl implements WoowacourseUserRepository {
+public class FakeWoowacourseUserRepositoryImpl implements WoowacourseUserRepository {
 
     @Override
     public boolean contains(String email) {
