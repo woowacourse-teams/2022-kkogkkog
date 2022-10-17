@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+export const Root = styled.ul`
   display: flex;
 
   overflow-x: scroll;
@@ -42,7 +42,7 @@ export const NoneContentsContainer = styled.div`
   }
 `;
 
-export const DateContainer = styled.div`
+export const DateContainer = styled.li`
   width: 350px;
   height: 320px;
 

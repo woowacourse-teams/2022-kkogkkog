@@ -24,8 +24,9 @@ export const CreateCouponContainer = styled.section`
   border-radius: 0 0 50px 50px;
 `;
 
-export const ExtraBold = styled.span`
+export const ExtraBold = styled.h1`
   font-weight: 700;
+  display: inline-block;
 `;
 
 export const AdditionalExplanation = styled.p`
@@ -47,7 +48,7 @@ export const FullListTitle = styled.div`
   display: flex;
   justify-content: space-between;
 
-  & > span {
+  & > h3 {
     font-weight: 600;
   }
 `;
