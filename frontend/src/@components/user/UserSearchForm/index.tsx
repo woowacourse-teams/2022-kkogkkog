@@ -43,13 +43,11 @@ const UserSearchForm = (props: UserSearchFormProps) => {
         autoFocus={true}
       />
 
-      <Styled.SearchContainer>
-        <UserSearchResult
-          searchedUserList={searchedUserList}
-          currentReceiverList={currentReceiverList}
-          onSelectReceiver={onSelectReceiver}
-        />
-      </Styled.SearchContainer>
+      <UserSearchResult
+        searchedUserList={searchedUserList}
+        currentReceiverList={currentReceiverList}
+        onSelectReceiver={onSelectReceiver}
+      />
     </Styled.Root>
   );
 };
@@ -72,19 +70,28 @@ const UserSearchResult = (props: UserSearchResultProps) => {
   }
 
   return (
-    <>
-      {searchedUserList.map(user => (
-        <Styled.SearchedUser
-          key={user.id}
-          isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
-          onClick={onSelectReceiver(user)}
-        >
-          <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
-          <span>{user.nickname}&nbsp;</span>
-          <Styled.Email>({user.email})</Styled.Email>
-        </Styled.SearchedUser>
-      ))}
-    </>
+    <Styled.SearchedUserContainer>
+      {searchedUserList.map(user => {
+        const isSelected = currentReceiverList.some(receiver => receiver.id === user.id);
+
+        const ariaLabel = isSelected
+          ? '이미 선택되어 있는 유저입니다. 클릭하여 선택을 해제할 수 있습니다.'
+          : '선택되지 않은 유저입니다. 클릭하여 선택할 수 있습니다.';
+
+        return (
+          <Styled.SearchedUser
+            key={user.id}
+            isSelected={isSelected}
+            onClick={onSelectReceiver(user)}
+            aria-label={ariaLabel}
+          >
+            <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
+            <span>{user.nickname}&nbsp;</span>
+            <Styled.Email>({user.email})</Styled.Email>
+          </Styled.SearchedUser>
+        );
+      })}
+    </Styled.SearchedUserContainer>
   );
 };
 

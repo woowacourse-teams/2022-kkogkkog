@@ -58,7 +58,7 @@ export const CloseButton = styled.div`
   cursor: pointer;
 `;
 
-export const SearchContainer = styled.div`
+export const SearchedUserContainer = styled.div`
   width: 100%;
 
   height: fit-content;
