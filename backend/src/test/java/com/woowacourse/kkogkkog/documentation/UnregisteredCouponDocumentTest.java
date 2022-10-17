@@ -88,30 +88,6 @@ class UnregisteredCouponDocumentTest extends DocumentTest {
     }
 
     @Test
-    void 나의_미등록_쿠폰_조회_API() throws Exception {
-        given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
-        Member sender = SENDER.getMember(1L);
-        given(unregisteredCouponService.findAllBySender(any())).willReturn(
-            List.of(미등록_COFFEE_쿠폰_응답(1L, sender), 미등록_COFFEE_쿠폰_응답(2L, sender)));
-
-        ResultActions perform = mockMvc.perform(
-            get("/api/v2/coupons/unregistered")
-                .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
-
-        perform.andExpect(status().isOk())
-            .andExpect(
-                content().string(objectMapper.writeValueAsString(new UnregisteredCouponsResponse(
-                    List.of(미등록_COFFEE_쿠폰_응답(1L, sender),
-                        미등록_COFFEE_쿠폰_응답(2L, sender))))));
-
-        perform
-            .andDo(print())
-            .andDo(document("unregistered-coupon-showAll",
-                getDocumentRequest(),
-                getDocumentResponse()));
-    }
-
-    @Test
     void 나의_미등록_쿠폰_상태별_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         Member sender = SENDER.getMember(1L);

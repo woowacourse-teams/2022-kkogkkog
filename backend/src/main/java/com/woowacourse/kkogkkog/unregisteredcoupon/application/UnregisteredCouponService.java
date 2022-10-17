@@ -43,21 +43,6 @@ public class UnregisteredCouponService {
     private final PushAlarmPublisher pushAlarmPublisher;
 
     @Transactional(readOnly = true)
-    public List<UnregisteredCouponResponse> findAllBySender(Long memberId) {
-        Member sender = memberRepository.get(memberId);
-        List<UnregisteredCouponResponse> responses = findAllBySenderWhereIssuedOrExpired(sender);
-        responses.addAll(findAllBySenderWhereRegistered(sender));
-        return responses;
-    }
-
-    private List<UnregisteredCouponResponse> findAllBySenderWhereIssuedOrExpired(Member sender) {
-        return unregisteredCouponRepository.findAllBySender(sender).stream()
-            .filter(it -> ISSUED.equals(it.getUnregisteredCouponStatus()) || EXPIRED.equals(it.getUnregisteredCouponStatus()))
-            .map(UnregisteredCouponResponse::of)
-            .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
     public List<UnregisteredCouponResponse> findAllBySender(Long memberId, String unregisteredCouponStatus) {
         Member sender = memberRepository.get(memberId);
         UnregisteredCouponStatus status = UnregisteredCouponStatus.valueOf(unregisteredCouponStatus);

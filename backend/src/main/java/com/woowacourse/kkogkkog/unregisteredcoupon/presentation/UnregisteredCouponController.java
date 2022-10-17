@@ -26,22 +26,17 @@ public class UnregisteredCouponController {
 
     private final UnregisteredCouponService unregisteredCouponService;
 
-    @GetMapping
-    public ResponseEntity<UnregisteredCouponsResponse> showAll(@LoginMemberId Long loginMemberId) {
-        List<UnregisteredCouponResponse> unregisteredCoupons = unregisteredCouponService.findAllBySender(
-            loginMemberId);
-        return ResponseEntity.ok(new UnregisteredCouponsResponse(unregisteredCoupons));
-    }
-
     @GetMapping("/status")
-    public ResponseEntity<UnregisteredCouponsResponse> showAll(@LoginMemberId Long loginMemberId, @RequestParam("type") String status) {
-        List<UnregisteredCouponResponse> unregisteredCoupons = unregisteredCouponService.findAllBySender(loginMemberId, status);
+    public ResponseEntity<UnregisteredCouponsResponse> showAll(@LoginMemberId Long loginMemberId,
+                                                               @RequestParam("type") String status) {
+        List<UnregisteredCouponResponse> unregisteredCoupons = unregisteredCouponService.findAllBySender(loginMemberId,
+            status);
         return ResponseEntity.ok(new UnregisteredCouponsResponse(unregisteredCoupons));
     }
 
     @GetMapping("/{unregisteredCouponId}")
     public ResponseEntity<UnregisteredCouponResponse> showById(@LoginMemberId Long loginMemberId,
-                                                                 @PathVariable Long unregisteredCouponId) {
+                                                               @PathVariable Long unregisteredCouponId) {
         UnregisteredCouponResponse response = unregisteredCouponService.findById(
             loginMemberId, unregisteredCouponId);
         return ResponseEntity.ok(response);

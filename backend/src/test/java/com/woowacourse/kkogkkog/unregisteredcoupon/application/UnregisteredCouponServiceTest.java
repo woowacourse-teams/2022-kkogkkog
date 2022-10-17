@@ -150,21 +150,6 @@ public class UnregisteredCouponServiceTest {
         }
 
         @Test
-        @DisplayName("보낸 사람의 ID를 통해, 해당 ID로 발급한 미등록 쿠폰 리스트를 반환한다.")
-        void success() {
-            List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(
-                sender.getId());
-
-            List<Long> actualIds = actual.stream()
-                .map(it -> it.getSender().getId())
-                .collect(Collectors.toList());
-            assertAll(
-                () -> assertThat(actual).hasSize(2),
-                () -> assertThat(actualIds).containsOnly(sender.getId())
-            );
-        }
-
-        @Test
         @DisplayName("보낸 사람의 ID와 미등록 쿠폰의 상태를 통해, 보낸 사람의 해당 상태 미등록 쿠폰들을 반환한다.")
         void success_where_status() {
             List<UnregisteredCouponResponse> actual = unregisteredCouponService.findAllBySender(sender.getId(),

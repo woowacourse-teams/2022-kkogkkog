@@ -59,20 +59,6 @@ public class UnregisteredCouponAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 회원의_미등록_쿠폰_조회를_할_수_있다() {
-        String senderToken = 회원가입을_하고(JEONG.getMember());
-        미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(2));
-
-        final var extract = 회원의_미동록_쿠폰_목록들을_조회한다(senderToken);
-
-        UnregisteredCouponsResponse actual = extract.as(UnregisteredCouponsResponse.class);
-        assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(actual.getData()).hasSize(2)
-        );
-    }
-
-    @Test
     void 회원은_미등록_쿠폰을_상태에_따라_조회할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
         String receiverToken = 회원가입을_하고(LEO.getMember());
