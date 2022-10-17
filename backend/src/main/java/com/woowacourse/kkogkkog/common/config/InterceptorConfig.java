@@ -30,8 +30,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
             .addPathPatterns("/api/v2/coupons/*/event")
             .addPathPatterns("/api/v2/coupons/*/event/*")
             .addPathPatterns("/api/v2/coupons/*/status")
-            .addPathPatterns("/api/v2/coupons/unregistered")
-            .addPathPatterns("/api/v2/coupons/unregistered/*")
-            .excludePathPatterns("/api/v2/coupons/unregistered/code");
+            .addPathPatterns("/api/v2/coupons/lazy")
+            .addPathPatterns("/api/v2/coupons/lazy/*")
+            .excludePathPatterns("/api/v2/coupons/lazy/code");
     }
 }

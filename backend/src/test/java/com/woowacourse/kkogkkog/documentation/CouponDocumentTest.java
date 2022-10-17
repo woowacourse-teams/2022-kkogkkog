@@ -9,7 +9,6 @@ import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFF
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_내역_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상세_응답;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_이벤트_요청;
-import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;

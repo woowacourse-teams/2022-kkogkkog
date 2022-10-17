@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.kkogkkog.auth.application.AuthService;
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.unregisteredcoupon.application.UnregisteredCouponService;
+import com.woowacourse.kkogkkog.lazycoupon.application.LazyCouponService;
 import com.woowacourse.kkogkkog.member.application.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +38,7 @@ public abstract class DocumentTest {
     protected CouponService couponService;
 
     @MockBean
-    protected UnregisteredCouponService unregisteredCouponService;
+    protected LazyCouponService lazyCouponService;
 
     @MockBean
     protected MemberService memberService;
