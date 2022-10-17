@@ -5,7 +5,6 @@ import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.infrastructure.event.PushAlarmPublisher;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -15,7 +14,6 @@ import com.woowacourse.kkogkkog.unregisteredcoupon.application.dto.UnregisteredC
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.CouponUnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCoupon;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.UnregisteredCouponStatus;
-import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.CouponUnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.unregisteredcoupon.exception.UnregisteredCouponNotFoundException;
 import java.util.List;
@@ -31,7 +29,6 @@ public class UnregisteredCouponService {
 
     private final UnregisteredCouponRepository unregisteredCouponRepository;
     private final CouponRepository couponRepository;
-    private final CouponUnregisteredCouponRepository couponUnregisteredCouponRepository;
     private final MemberRepository memberRepository;
     private final CouponHistoryRepository couponHistoryRepository;
     private final PushAlarmPublisher pushAlarmPublisher;
