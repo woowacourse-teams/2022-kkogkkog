@@ -1,16 +1,42 @@
-import { RegisterUnregisteredCouponRequest } from '@/types/unregistered-coupon/remote';
+import {
+  CreateUnregisteredCouponRequest,
+  RegisterUnregisteredCouponRequest,
+} from '@/types/unregistered-coupon/remote';
 
-import { useRegisteredUnregisteredCouponMutation } from '../@queries/unregistered-coupon';
+import { useToast } from '../@common/useToast';
+import {
+  useCreateUnregisteredCouponMutation,
+  useRegisterUnregisteredCouponMutation,
+} from '../@queries/unregistered-coupon';
 
-export const useRegisteredUnregisteredCoupon = ({
-  couponCode,
-}: RegisterUnregisteredCouponRequest) => {
-  const { mutateAsync } = useRegisteredUnregisteredCouponMutation({
-    couponCode,
-  });
+export const useCreateUnregisteredCoupon = () => {
+  const { displayMessage } = useToast();
+
+  const { mutateAsync } = useCreateUnregisteredCouponMutation();
+
+  const createUnregisteredCoupon = async (body: CreateUnregisteredCouponRequest) => {
+    const { data } = await mutateAsync(body, {
+      onSuccess() {
+        displayMessage('쿠폰을 생성했어요', false);
+      },
+    });
+
+    return data;
+  };
+
+  return { createUnregisteredCoupon };
+};
+
+export const useRegisterUnregisteredCoupon = () => {
+  const { displayMessage } = useToast();
+  const { mutateAsync } = useRegisterUnregisteredCouponMutation();
 
   const registerUnregisteredCoupon = (body: RegisterUnregisteredCouponRequest) => {
-    return mutateAsync(body);
+    return mutateAsync(body, {
+      onSuccess() {
+        displayMessage('쿠폰이 등록되었습니다.', false);
+      },
+    });
   };
 
   return {

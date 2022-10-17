@@ -25,7 +25,15 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
     };
 
     rAFId.current = requestAnimationFrame(() => animationHandler(0));
-  }, [duration, limit]);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (rAFId.current) {
+        cancelAnimationFrame(rAFId.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (Math.ceil(count) === limit && rAFId.current) {
@@ -35,7 +43,7 @@ const UpCount = (props: PropsWithChildren<UpCountProps>) => {
 
   return (
     <div className={className}>
-      {Math.ceil(count)}
+      {count < limit ? Math.ceil(count) : limit}
       {children}
     </div>
   );

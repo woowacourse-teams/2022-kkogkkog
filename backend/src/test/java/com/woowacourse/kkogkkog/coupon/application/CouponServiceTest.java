@@ -27,6 +27,7 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
+import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;

@@ -28,7 +28,7 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
   const copyUrl = (e: MouseEvent<HTMLButtonElement>) => {
     try {
       clipboardCopy(
-        `${window.location.origin}${DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(couponCode)}`
+        `${window.location.origin}${DYNAMIC_PATH.UNREGISTERED_COUPON_REGISTER(couponCode)}`
       );
       displayMessage('링크가 복사되었어요!', false);
     } catch (e) {

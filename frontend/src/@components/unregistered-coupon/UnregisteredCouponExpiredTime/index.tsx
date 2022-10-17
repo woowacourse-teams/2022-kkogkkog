@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import DownCount from '@/@components/@shared/DownCount';
 import UpCount from '@/@components/@shared/UpCount';
 import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
 import { YYYYMMDDhhmmss } from '@/types/utils';
@@ -11,29 +10,68 @@ import * as Styled from './style';
 interface UnregisteredCouponExpiredTimeProps {
   createdTime: YYYYMMDDhhmmss;
 }
+
 const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps) => {
   const { createdTime } = props;
 
-  const expiredTimeMS = computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD);
+  const [remainingTime, setRemainingTime] = useState(
+    computeExpiredTimeByPeriodMS(createdTime, EXPIRATION_PERIOD) - Date.now()
+  );
 
-  const [remainingTime] = useState(expiredTimeMS - Date.now());
+  const rAFId = useRef<number | null>(null);
 
-  const { day, hour, min } = computeDayHourMinSecByMS(remainingTime);
+  useEffect(() => {
+    const remainingTimeSetter = (prevSecond: number, timestamp: number) => {
+      const currentSecond = Math.floor(timestamp / 1000);
+
+      if (prevSecond < currentSecond) {
+        setRemainingTime(prev => prev - 1000);
+      }
+
+      if (remainingTime / 1000 - currentSecond > 0) {
+        // 줄어들 시간이 없는 경우
+        requestAnimationFrame(timestamp => remainingTimeSetter(currentSecond, timestamp));
+      }
+    };
+
+    rAFId.current = requestAnimationFrame(timestamp => remainingTimeSetter(0, timestamp));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (rAFId.current) {
+        cancelAnimationFrame(rAFId.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (Math.floor(remainingTime) < 0 && rAFId.current) {
+      cancelAnimationFrame(rAFId.current);
+    }
+  }, [remainingTime]);
+
+  const { day, hour, min, sec } = computeDayHourMinSecByMS(remainingTime);
 
   return (
     <Styled.Root>
-      <UpCount limit={day} duration={3000}>
-        일
-      </UpCount>
-      <UpCount limit={hour} duration={3000}>
-        시간
-      </UpCount>
-      <UpCount limit={min} duration={3000}>
-        분
-      </UpCount>
-      <DownCount start={remainingTime} decreaseNumber={1000}>
-        초
-      </DownCount>
+      {remainingTime > 0 && (
+        <Styled.TimeContainer>
+          <UpCount limit={day} duration={3000}>
+            일
+          </UpCount>
+          <UpCount limit={hour} duration={3000}>
+            시간
+          </UpCount>
+          <UpCount limit={min} duration={3000}>
+            분
+          </UpCount>
+          <div>{sec}초</div>
+        </Styled.TimeContainer>
+      )}
+      <Styled.Text>
+        {remainingTime > 0 ? '이 지나기 전에 요청해보세요!' : '받을 수 있는 기간이 지났어요 !'}
+      </Styled.Text>
     </Styled.Root>
   );
 };

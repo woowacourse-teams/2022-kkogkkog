@@ -55,8 +55,11 @@ export const getReceivedCouponListByStatus = async ({
   return data;
 };
 
-export const createCoupon = (body: CreateCouponRequest) =>
-  client.post<CreateCouponListResponse>('/coupons', body);
+export const createCoupon = async (body: CreateCouponRequest) => {
+  const { data } = await client.post<CreateCouponListResponse>('/coupons', body);
+
+  return data;
+};
 
 export const changeCouponStatus = ({
   couponId,

@@ -13,6 +13,7 @@ import ReservationSection from '@/@components/reservation/ReservationSection';
 import { useFetchCouponList, useFetchReservationList } from '@/@hooks/@queries/coupon';
 import { DYNAMIC_PATH, PATH } from '@/Router';
 import { filterOptionsSessionStorage, unregisteredCouponCodeStorage } from '@/storage/session';
+import theme from '@/styles/theme';
 import { Coupon } from '@/types/coupon/client';
 
 import * as Styled from './style';
@@ -81,7 +82,7 @@ const MainPage = () => {
                     transform: translateY(50%);
                   `}
                 >
-                  <Icon iconName='plus' size='32' />
+                  <Icon iconName='plus' size='32' color={theme.colors.white_100} />
                 </Position>
               </Button>
             </Position>

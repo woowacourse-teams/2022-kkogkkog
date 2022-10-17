@@ -42,6 +42,7 @@ export const useFetchCoupon = (id: number) => {
 export const useFetchReservationList = () => {
   const { data, isLoading } = useQuery([QUERY_KEY.reservationList], () => getReservationList(), {
     staleTime: 10000,
+    suspense: false,
   });
 
   return {
@@ -55,6 +56,7 @@ export const useFetchCouponList = ({ couponListType }: { couponListType: COUPON_
 
   const { data, isLoading } = useQuery([QUERY_KEY.couponList, couponListType], () => fetcher(), {
     staleTime: 10000,
+    suspense: false,
   });
 
   const openCouponList = (data?.data ?? []).filter(
@@ -83,6 +85,7 @@ export const useFetchCouponListByStatus = ({
     () => fetcher(body),
     {
       staleTime: 10000,
+      suspense: false,
     }
   );
 

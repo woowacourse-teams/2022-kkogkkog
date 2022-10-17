@@ -28,3 +28,10 @@ export interface UnregisteredCouponResponse {
 export interface RegisterUnregisteredCouponRequest {
   couponCode: string;
 }
+
+export interface CreateUnregisteredCouponRequest {
+  quantity: number;
+  couponTag: COUPON_HASHTAGS;
+  couponMessage: string;
+  couponType: COUPON_ENG_TYPE;
+}

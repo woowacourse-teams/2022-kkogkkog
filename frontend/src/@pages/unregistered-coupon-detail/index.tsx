@@ -1,26 +1,28 @@
+import { useParams } from 'react-router-dom';
+
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
-import { useFetchUnregisteredCoupon } from '@/@hooks/@queries/unregistered-coupon';
-import { EXPIRATION_PERIOD } from '@/constants/unregisteredCoupon';
-import { computeExpiredTime } from '@/utils/time';
+import { useFetchUnregisteredCouponById } from '@/@hooks/@queries/unregistered-coupon';
+import NotFoundPage from '@/@pages/404';
+import { couponTypeTextMapper } from '@/constants/coupon';
 
 import * as Styled from './style';
 
 const UnregisteredCouponDetail = () => {
-  const { unregisteredCoupon } = useFetchUnregisteredCoupon(1);
+  const { unregisteredCouponId } = useParams();
+
+  const { unregisteredCoupon } = useFetchUnregisteredCouponById(Number(unregisteredCouponId));
 
   if (!unregisteredCoupon) {
-    return <div>hi</div>;
+    return <NotFoundPage />;
   }
 
-  // const { couponType, couponMessage, couponCode, createdTime } = unregisteredCoupon;
-
-  // const expiredTimeSeconds = computeExpiredTime(createdTime, EXPIRATION_PERIOD);
+  const { couponMessage, createdTime } = unregisteredCoupon;
 
   return (
-    <PageTemplate title='미등록 쿠폰 조회'>
-      {/* <Styled.Root>
+    <PageTemplate.ExtendedStyleHeader title='미등록 쿠폰'>
+      <Styled.Root>
         <Styled.Top>
           <UnregisteredCouponExpiredTime createdTime={createdTime} />
         </Styled.Top>
@@ -29,16 +31,12 @@ const UnregisteredCouponDetail = () => {
             <UnregisteredCouponItem {...unregisteredCoupon} />
           </Styled.CouponInner>
           <Styled.SubSection>
-            <Styled.SubSectionTitle>미등록 쿠폰 코드</Styled.SubSectionTitle>
-            <Styled.CodeContainer>{couponCode}</Styled.CodeContainer>
-          </Styled.SubSection>
-          <Styled.SubSection>
             <Styled.SubSectionTitle>쿠폰 메시지</Styled.SubSectionTitle>
             <Styled.DescriptionContainer>{couponMessage}</Styled.DescriptionContainer>
           </Styled.SubSection>
         </Styled.Main>
-      </Styled.Root> */}
-    </PageTemplate>
+      </Styled.Root>
+    </PageTemplate.ExtendedStyleHeader>
   );
 };
 

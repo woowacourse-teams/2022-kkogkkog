@@ -1,16 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
-import Icon from '@/@components/@shared/Icon';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
+import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import { useFetchMe } from '@/@hooks/@queries/user';
-import { useRegisteredUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
-import { couponTypeTextMapper } from '@/constants/coupon';
+import { useRegisterUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
 import { PATH } from '@/Router';
 import { unregisteredCouponCodeStorage } from '@/storage/session';
-import theme from '@/styles/theme';
 import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
 
 import * as Styled from './style';
@@ -23,18 +21,20 @@ interface IssuedUnregisteredCouponPageProps {
 const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) => {
   const { unregisteredCoupon, couponCode } = props;
 
-  const { sender, couponMessage, couponType } = unregisteredCoupon;
+  const { couponMessage, createdTime } = unregisteredCoupon;
 
   const navigate = useNavigate();
 
   const { me } = useFetchMe();
 
-  const { registerUnregisteredCoupon } = useRegisteredUnregisteredCoupon({ couponCode });
+  const { registerUnregisteredCoupon } = useRegisterUnregisteredCoupon();
 
   const onClickRegisterButton = () => {
     if (me) {
       registerUnregisteredCoupon({ couponCode });
       navigate(PATH.MAIN);
+
+      return;
     }
 
     if (window.confirm('쿠폰을 등록하려면 로그인이 필요합니다. 로그인하시겠아요?')) {
@@ -47,15 +47,7 @@ const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) 
     <PageTemplate title='쿠폰' hasHeader={false}>
       <Styled.Root>
         <Styled.Top>
-          <Styled.ProfileImage src={sender.imageUrl} alt='프로필' width={51} height={51} />
-          <Styled.SummaryMessage>
-            <strong>
-              {sender.nickname}
-              {'님이'} 보낸
-            </strong>
-            &nbsp;
-            {couponTypeTextMapper[couponType]} 쿠폰
-          </Styled.SummaryMessage>
+          <UnregisteredCouponExpiredTime createdTime={createdTime} />
         </Styled.Top>
         <Styled.Main>
           <Styled.CouponInner>

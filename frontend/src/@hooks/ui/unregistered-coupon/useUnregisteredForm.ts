@@ -1,10 +1,10 @@
-import { r } from 'msw/lib/glossary-58eca5a8';
 import { FormEventHandler, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useInput from '@/@hooks/@common/useInput';
 import { useToast } from '@/@hooks/@common/useToast';
-import { PATH } from '@/Router';
+import { useCreateUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import {
   COUPON_ENG_TYPE,
   COUPON_HASHTAGS,
@@ -24,6 +24,8 @@ export const useUnregisteredForm = () => {
   const [couponMessage, onChangeCouponMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 50),
   ]);
+
+  const { createUnregisteredCoupon } = useCreateUnregisteredCoupon();
 
   const onClickCouponCountUpdateButton = (count: number) => () => {
     if (isNaN(count)) {
@@ -66,23 +68,20 @@ export const useUnregisteredForm = () => {
       return;
     }
 
-    // submitAction
-    // const coupons = await createCoupon({
-    //   receiverIds: receiverList.map(({ id }) => id),
-    //   couponTag,
-    //   couponMessage,
-    //   couponType,
-    // });
+    const unregisteredCouponList = await createUnregisteredCoupon({
+      quantity: couponCount,
+      couponTag,
+      couponMessage,
+      couponType,
+    });
 
-    if (couponCount === 1) {
-      // 미등록 쿠폰 조회 페이지로
-      // navigate(DYNAMIC_PATH.COUPON_DETAIL(coupons[0].id), { replace: true });
-      navigate(PATH.MAIN);
-
-      return;
+    if (unregisteredCouponList.length === 1) {
+      navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(unregisteredCouponList[0].id), {
+        replace: true,
+      });
     }
 
-    navigate(PATH.MAIN);
+    navigate(PATH.UNREGISTERED_COUPON_LIST);
   };
 
   return {

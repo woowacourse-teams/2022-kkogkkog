@@ -9,8 +9,6 @@ import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponEventRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
-import com.woowacourse.kkogkkog.lazycoupon.application.LazyCouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
