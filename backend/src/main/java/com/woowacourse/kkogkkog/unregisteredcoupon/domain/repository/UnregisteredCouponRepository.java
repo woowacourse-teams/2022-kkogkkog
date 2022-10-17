@@ -22,7 +22,8 @@ public interface UnregisteredCouponRepository extends JpaRepository<CouponUnregi
         + "FROM CouponUnregisteredCoupon cuc "
         + "JOIN FETCH cuc.unregisteredCoupon uc "
         + "JOIN FETCH uc.sender "
-        + "WHERE uc.sender = :member AND uc.unregisteredCouponStatus = :status")
+        + "WHERE uc.sender = :member AND uc.unregisteredCouponStatus = :status "
+        + "ORDER BY cuc.id DESC")
     List<CouponUnregisteredCoupon> findAllBySender(@Param("member") Member member,
                                                    @Param("status") UnregisteredCouponStatus status);
 }
