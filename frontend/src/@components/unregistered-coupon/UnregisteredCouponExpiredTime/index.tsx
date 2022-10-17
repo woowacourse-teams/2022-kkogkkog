@@ -55,8 +55,8 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
 
   return (
     <Styled.Root>
-      {remainingTime > 0 ? (
-        <>
+      {remainingTime > 0 && (
+        <Styled.TimeContainer>
           <UpCount limit={day} duration={3000}>
             일
           </UpCount>
@@ -67,10 +67,11 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
             분
           </UpCount>
           <div>{sec}초</div>
-        </>
-      ) : (
-        <div>받을 수 있는 기간이 지났어요 !</div>
+        </Styled.TimeContainer>
       )}
+      <Styled.Text>
+        {remainingTime > 0 ? '이 지나기 전에 요청해보세요!' : '받을 수 있는 기간이 지났어요 !'}
+      </Styled.Text>
     </Styled.Root>
   );
 };
