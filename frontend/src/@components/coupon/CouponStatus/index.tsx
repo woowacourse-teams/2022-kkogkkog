@@ -23,7 +23,7 @@ const couponStatusMapper = (
 
 interface CouponStatusProps {
   status: 'REQUESTED' | 'READY' | 'ACCEPTED' | 'FINISHED';
-  meetingDate: COUPON_MEETING_DATE | null;
+  meetingDate?: COUPON_MEETING_DATE | null;
   isSent: boolean;
 }
 
