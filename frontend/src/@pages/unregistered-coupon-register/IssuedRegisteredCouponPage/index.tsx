@@ -5,6 +5,7 @@ import PageTemplate from '@/@components/@shared/PageTemplate';
 import Position from '@/@components/@shared/Position';
 import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
+import { useToast } from '@/@hooks/@common/useToast';
 import { useFetchMe } from '@/@hooks/@queries/user';
 import { useRegisterUnregisteredCoupon } from '@/@hooks/business/unregistered-coupon';
 import { PATH } from '@/Router';
@@ -21,15 +22,22 @@ interface IssuedUnregisteredCouponPageProps {
 const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) => {
   const { unregisteredCoupon, couponCode } = props;
 
-  const { couponMessage, createdTime } = unregisteredCoupon;
+  const { couponMessage, createdTime, sender } = unregisteredCoupon;
 
   const navigate = useNavigate();
 
+  const { displayMessage } = useToast();
   const { me } = useFetchMe();
 
   const { registerUnregisteredCoupon } = useRegisterUnregisteredCoupon();
 
   const onClickRegisterButton = async () => {
+    if (sender.id === me?.id) {
+      displayMessage(`이 쿠폰은 ${me.nickname}님이 발급한 쿠폰이에요!`, true);
+
+      return;
+    }
+
     if (me) {
       await registerUnregisteredCoupon({ couponCode });
 
