@@ -2,7 +2,6 @@ package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.AuthAcceptanceTest.회원가입을_하고;
 import static com.woowacourse.kkogkkog.acceptance.UnregisteredCouponAcceptanceTest.미등록_쿠폰_생성을_요청하고;
-import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGet;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithToken;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithTokenAndQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePostWithToken;
@@ -20,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.UnregisteredCouponsResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -340,7 +339,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     static ExtractableResponse<Response> 회원의_보낸쿠폰_목록들을_조회한다(String token) {
-        return invokeGetWithToken("/api/v2/coupons/sent", token);
+        return invokeGetWithToken("/api/v2/coupons/sent?size=10&page=0", token);
     }
 
     static ExtractableResponse<Response> 회원의_받은쿠폰_목록들을_조회한다(String token) {
@@ -372,8 +371,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
     }
 
     static CouponsResponse 쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token,
-            data);
+        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/coupons", token, data);
         return response.as(CouponsResponse.class);
     }
 
