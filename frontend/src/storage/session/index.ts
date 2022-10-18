@@ -31,7 +31,7 @@ export const filterOptionsSessionStorage = new SessionStorage<FilterOption>(
 );
 
 export const unregisteredFilterOptionsSessionStorage = new SessionStorage<UnregisteredFilterOption>(
-  SESSION_KEY.filterOptions
+  SESSION_KEY.unregisteredFilterOptions
 );
 
 export const prevUrlSessionStorage = new SessionStorage(SESSION_KEY.prevUrl);
