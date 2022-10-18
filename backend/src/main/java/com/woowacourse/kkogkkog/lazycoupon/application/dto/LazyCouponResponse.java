@@ -1,5 +1,7 @@
 package com.woowacourse.kkogkkog.lazycoupon.application.dto;
 
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.REGISTERED;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
@@ -43,10 +45,10 @@ public class LazyCouponResponse {
     public static LazyCouponResponse of(CouponLazyCoupon couponLazyCoupon) {
         LazyCoupon lazyCoupon = couponLazyCoupon.getLazyCoupon();
         Coupon coupon = couponLazyCoupon.getCoupon();
-        if (coupon == null) {
-            return toResponse(lazyCoupon, null, null);
+        if (REGISTERED.equals(lazyCoupon.getLazyCouponStatus())) {
+            return toResponse(lazyCoupon, CouponMemberResponse.of(coupon.getReceiver()), coupon.getId());
         }
-        return toResponse(lazyCoupon, CouponMemberResponse.of(coupon.getReceiver()), coupon.getId());
+        return toResponse(lazyCoupon, null, null);
     }
 
     private static LazyCouponResponse toResponse(LazyCoupon lazyCoupon, CouponMemberResponse receiver, Long couponId) {
