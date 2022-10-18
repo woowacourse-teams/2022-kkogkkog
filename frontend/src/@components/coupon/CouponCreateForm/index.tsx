@@ -23,9 +23,9 @@ interface CouponCreateFormProps {
   currentCouponType: COUPON_ENG_TYPE;
   currentCouponTag: COUPON_HASHTAGS;
   currentCouponMessage: string;
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
-  onSelectCouponType: (type: COUPON_ENG_TYPE) => MouseEventHandler<HTMLLIElement>;
-  onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => MouseEventHandler<HTMLLIElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
+  onSelectCouponType: (type: COUPON_ENG_TYPE) => MouseEventHandler<HTMLButtonElement>;
+  onSelectCouponTag: (hashtag: COUPON_HASHTAGS) => MouseEventHandler<HTMLButtonElement>;
   onChangeCouponMessage: ChangeEventHandler<HTMLTextAreaElement>;
   onSubmitCouponCreateForm: FormEventHandler<HTMLFormElement>;
 }
@@ -49,16 +49,19 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
 
   return (
     <Styled.FormRoot onSubmit={onSubmitCouponCreateForm}>
-      <Styled.FindUserContainer>
-        <div>누구에게 보내시나요 ?</div>
-        <Styled.FindUserInput onClick={openModal}>
+      <Styled.FindUserContainer
+        aria-label='유저 검색 섹션. 활성화하려면 엔터를 눌러주세요'
+        tabIndex={0}
+      >
+        <label htmlFor='find-user-input'>누구에게 보내시나요 ?</label>
+        <Styled.FindUserInput id='find-user-input' type='button' onClick={openModal}>
           {currentReceiverList.length === 0 && <span>유저를 찾아보세요</span>}
 
           {currentReceiverList.length !== 0 && (
             <Styled.SelectedUserListContainer>
               {currentReceiverList.map(receiver => (
-                <Styled.SelectedUserContainer key={receiver.id}>
-                  <span>{receiver.nickname}</span>
+                <Styled.SelectedUserContainer key={receiver.id} tabIndex={0}>
+                  {receiver.nickname}
                 </Styled.SelectedUserContainer>
               ))}
             </Styled.SelectedUserListContainer>
@@ -80,25 +83,25 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
       )}
 
       <SelectInput label='어떤 쿠폰인가요 ?'>
-        {couponTypeCollection.map(({ engType }) => (
-          <Styled.TypeOption
-            key={engType}
-            isSelected={engType === currentCouponType}
-            onClick={onSelectCouponType(engType)}
-          >
-            <img src={THUMBNAIL[engType]} alt='쿠폰 종류' width={50} height={50} />
+        {couponTypeCollection.map(({ engType, koreanType }) => (
+          <Styled.TypeOption key={engType} isSelected={engType === currentCouponType}>
+            <button type='button' onClick={onSelectCouponType(engType)}>
+              <img src={THUMBNAIL[engType]} alt={koreanType} width={50} height={50} />
+            </button>
           </Styled.TypeOption>
         ))}
       </SelectInput>
 
       <SelectInput.VerticalView label='당신의 마음을 선택해주세요 !'>
         {couponHashtags.map(hashtag => (
-          <Styled.FeelOption
-            key={hashtag}
-            isSelected={hashtag === currentCouponTag}
-            onClick={onSelectCouponTag(hashtag)}
-          >
-            #{hashtag}
+          <Styled.FeelOption key={hashtag} isSelected={hashtag === currentCouponTag}>
+            <button
+              type='button'
+              onClick={onSelectCouponTag(hashtag)}
+              aria-label={`해시태그${hashtag}`}
+            >
+              #{hashtag}
+            </button>
           </Styled.FeelOption>
         ))}
       </SelectInput.VerticalView>
