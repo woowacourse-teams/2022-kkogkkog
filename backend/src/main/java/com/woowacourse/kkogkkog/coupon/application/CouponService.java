@@ -1,11 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
-import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.*;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
@@ -27,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,37 +51,37 @@ public class CouponService {
     }
 
     @Transactional(readOnly = true)
-    public List<CouponResponse> findAllBySender(Long memberId) {
+    public CouponsResponse findAllBySender(Long memberId, Pageable pageable) {
         Member member = memberRepository.get(memberId);
-        return couponRepository.findAllBySender(member).stream()
-            .map(CouponResponse::of)
-            .collect(Collectors.toList());
+        Slice<Coupon> coupons = couponRepository.findAllBySender(member, pageable);
+
+        return CouponsResponse.createSliceDto(coupons);
     }
 
     @Transactional(readOnly = true)
-    public List<CouponResponse> findAllBySender(Long memberId, String couponStatus) {
+    public CouponsResponse findAllBySender(Long memberId, String couponStatus, Pageable pageable) {
         Member member = memberRepository.get(memberId);
-        return couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus)).stream()
-            .map(CouponResponse::of)
-            .collect(Collectors.toList());
+        Slice<Coupon> coupons = couponRepository.findAllBySender(member, CouponStatus.valueOf(couponStatus), pageable);
+
+        return CouponsResponse.createSliceDto(coupons);
     }
 
     @Transactional(readOnly = true)
-    public List<CouponResponse> findAllByReceiver(Long memberId) {
+    public CouponsResponse findAllByReceiver(Long memberId, Pageable pageable) {
         Member member = memberRepository.get(memberId);
-        return couponRepository.findAllByReceiver(member).stream()
-            .map(CouponResponse::of)
-            .collect(Collectors.toList());
+        Slice<Coupon> coupons = couponRepository.findAllByReceiver(member, pageable);
+
+        return CouponsResponse.createSliceDto(coupons);
     }
 
     @Transactional(readOnly = true)
-    public List<CouponResponse> findAllByReceiver(Long memberId,
-                                                  String couponStatus) {
+    public CouponsResponse findAllByReceiver(Long memberId,
+                                             String couponStatus,
+                                             Pageable pageable) {
         Member member = memberRepository.get(memberId);
-        return couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus))
-            .stream()
-            .map(CouponResponse::of)
-            .collect(Collectors.toList());
+        Slice<Coupon> coupons = couponRepository.findAllByReceiver(member, CouponStatus.valueOf(couponStatus), pageable);
+
+        return CouponsResponse.createSliceDto(coupons);
     }
 
     public List<CouponResponse> save(CouponSaveRequest request) {
