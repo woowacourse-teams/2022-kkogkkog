@@ -74,9 +74,7 @@ const UserSearchResult = (props: UserSearchResultProps) => {
       {searchedUserList.map(user => {
         const isSelected = currentReceiverList.some(receiver => receiver.id === user.id);
 
-        const ariaLabel = isSelected
-          ? '이미 선택되어 있는 유저입니다. 클릭하여 선택을 해제할 수 있습니다.'
-          : '선택되지 않은 유저입니다. 클릭하여 선택할 수 있습니다.';
+        const ariaLabel = isSelected ? `${user.nickname} 선택 해제` : `${user.nickname} 선택`;
 
         return (
           <Styled.SearchedUser
