@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 export const Root = styled.div`
   min-height: 250px;
+
+  padding: 8px 0;
 `;
 
 export const SelectedUserListContainer = styled.div`

@@ -7,8 +7,8 @@ export const UserSearchModal = (theme: Theme) => css`
 
 export const CloseButton = styled.button`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
 
   border-radius: 20px;
 `;
