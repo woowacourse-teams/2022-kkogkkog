@@ -1,4 +1,4 @@
-import { Coupon, COUPON_EVENT, COUPON_STATUS, CouponHistory } from '@/types/coupon/client';
+import { Coupon, COUPON_EVENT, COUPON_STATUS } from '@/types/coupon/client';
 import { CouponDetailResponse } from '@/types/coupon/remote';
 import { YYYYMMDDhhmmss } from '@/types/utils';
 

@@ -1,9 +1,14 @@
 import { rest } from 'msw';
 
 import { BASE_URL } from '@/apis';
-import coupons,  from '@/mocks/fixtures/coupon';
+import coupons from '@/mocks/fixtures/coupon';
 import { COUPON_STATUS } from '@/types/coupon/client';
-import { ChangeCouponStatusRequest, CouponDetailResponse, CreateCouponRequest } from '@/types/coupon/remote';
+import {
+  ChangeCouponStatusRequest,
+  CouponDetailResponse,
+  CreateCouponRequest,
+} from '@/types/coupon/remote';
+import { YYYYMMDDhhmmss } from '@/types/utils';
 
 export const couponHandler = [
   rest.get(`${BASE_URL}/coupons/accept`, (req, res, ctx) => {
@@ -43,6 +48,8 @@ export const couponHandler = [
 
     try {
       const coupon = coupons.findCoupon(couponId as string);
+
+      console.log(coupon);
 
       return res(ctx.status(200), ctx.json(coupon));
     } catch ({ message }) {
@@ -116,7 +123,7 @@ export const couponHandler = [
     }
   }),
 
-  rest.post<ChangeCouponStatusRequest>(`${BASE_URL}/coupons/:couponId/event`, (req, res, ctx) => {
+  rest.put<ChangeCouponStatusRequest>(`${BASE_URL}/coupons/:couponId/event`, (req, res, ctx) => {
     const {
       body: { couponEvent, meetingDate },
       params: { couponId },
@@ -129,14 +136,24 @@ export const couponHandler = [
 
       const couponStatus = coupons.getStatusAfterEvent(couponEvent);
 
+      if (couponStatus === 'READY') {
+        return {
+          ...coupon,
+          couponStatus,
+          meetingDate: null,
+        };
+      }
+
       return {
         ...coupon,
         couponStatus,
-        meetingDate: meetingDate ? `${meetingDate}T10:10:10` : null,
+        meetingDate: meetingDate
+          ? `${meetingDate}T10:10:10`
+          : `${coupon.meetingDate as YYYYMMDDhhmmss}T10:10:10`,
       };
     });
 
-    coupons.updateFixture([...coupons.current, ...newCouponList]);
+    coupons.updateFixture(newCouponList);
 
     return res(ctx.status(200), ctx.json({ data: newCouponList }));
   }),
