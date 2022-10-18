@@ -12,7 +12,7 @@ export const Root = styled.div`
   }
 `;
 
-export const SelectContainer = styled.section`
+export const SelectContainer = styled.ul`
   overflow-x: scroll;
 
   padding: 10px;
@@ -35,7 +35,7 @@ export const SelectContainer = styled.section`
   }
 `;
 
-export const SelectVerticalContainer = styled.section`
+export const SelectVerticalContainer = styled.ul`
   padding: 10px;
 
   display: flex;
