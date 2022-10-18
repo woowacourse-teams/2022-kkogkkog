@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.LockModeType;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -28,30 +31,33 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
         + "JOIN FETCH c.sender "
         + "WHERE c.sender = :member "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<Coupon> findAllBySender(@Param("member") Member member);
+    Slice<Coupon> findAllBySender(@Param("member") Member member, Pageable pageable);
 
     @Query("SELECT c "
         + "FROM Coupon c "
         + "JOIN FETCH c.sender "
         + "WHERE c.sender = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<Coupon> findAllBySender(@Param("member") Member member,
-                                 @Param("status") CouponStatus couponStatus);
+    Slice<Coupon> findAllBySender(@Param("member") Member member,
+                                  @Param("status") CouponStatus couponStatus,
+                                  Pageable pageable);
 
     @Query("SELECT c "
         + "FROM Coupon c "
         + "JOIN FETCH c.receiver "
         + "WHERE c.receiver = :member "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<Coupon> findAllByReceiver(@Param("member") Member member);
+    Slice<Coupon> findAllByReceiver(@Param("member") Member member,
+                                    Pageable pageable);
 
     @Query("SELECT c "
         + "FROM Coupon c "
         + "JOIN FETCH c.receiver "
         + "WHERE c.receiver = :member AND c.couponState.couponStatus = :status "
         + "ORDER BY c.couponState.meetingDate DESC")
-    List<Coupon> findAllByReceiver(@Param("member") Member member,
-                                   @Param("status") CouponStatus couponStatus);
+    Slice<Coupon> findAllByReceiver(@Param("member") Member member,
+                                    @Param("status") CouponStatus couponStatus,
+                                    Pageable pageable);
 
     @Query("SELECT c "
         + "FROM Coupon c "

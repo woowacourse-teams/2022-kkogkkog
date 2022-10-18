@@ -27,6 +27,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 
 @RepositoryTest
 @DisplayName("CouponRepository의")
@@ -70,7 +72,7 @@ class CouponRepositoryTest {
             entityManager.flush();
             entityManager.clear();
 
-            List<Coupon> actual = couponRepository.findAllBySender(sender);
+            Slice<Coupon> actual = couponRepository.findAllBySender(sender, PageRequest.of(0, 5));
             assertThat(actual).hasSize(2);
         }
 
@@ -87,8 +89,8 @@ class CouponRepositoryTest {
             entityManager.flush();
             entityManager.clear();
 
-            List<Coupon> actual = couponRepository.findAllBySender(sender,
-                CouponStatus.REQUESTED);
+            Slice<Coupon> actual = couponRepository.findAllBySender(sender,
+                CouponStatus.REQUESTED, PageRequest.of(0, 5));
             assertThat(actual).hasSize(1);
         }
 
@@ -100,7 +102,7 @@ class CouponRepositoryTest {
             couponRepository.save(COFFEE.getCoupon(receiver, sender));
             couponRepository.flush();
 
-            List<Coupon> actual = couponRepository.findAllByReceiver(receiver);
+            Slice<Coupon> actual = couponRepository.findAllByReceiver(receiver, PageRequest.of(0, 5));
             assertThat(actual).hasSize(1);
         }
 
@@ -117,8 +119,8 @@ class CouponRepositoryTest {
             couponRepository.flush();
             entityManager.clear();
 
-            List<Coupon> actual = couponRepository.findAllByReceiver(receiver,
-                CouponStatus.REQUESTED);
+            Slice<Coupon> actual = couponRepository.findAllByReceiver(receiver,
+                CouponStatus.REQUESTED, PageRequest.of(0, 5));
             assertThat(actual).hasSize(1);
         }
     }
