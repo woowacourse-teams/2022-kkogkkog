@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FormEventHandler, KeyboardEvent, MouseEventHandler } from 'react';
+import { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from '@/@components/@shared/Button';
@@ -60,8 +60,8 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
           {currentReceiverList.length !== 0 && (
             <Styled.SelectedUserListContainer>
               {currentReceiverList.map(receiver => (
-                <Styled.SelectedUserContainer key={receiver.id}>
-                  <span>{receiver.nickname}</span>
+                <Styled.SelectedUserContainer key={receiver.id} tabIndex={0}>
+                  {receiver.nickname}
                 </Styled.SelectedUserContainer>
               ))}
             </Styled.SelectedUserListContainer>
@@ -95,7 +95,11 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
       <SelectInput.VerticalView label='당신의 마음을 선택해주세요 !'>
         {couponHashtags.map(hashtag => (
           <Styled.FeelOption key={hashtag} isSelected={hashtag === currentCouponTag}>
-            <button type='button' onClick={onSelectCouponTag(hashtag)}>
+            <button
+              type='button'
+              onClick={onSelectCouponTag(hashtag)}
+              aria-label={`해시태그${hashtag}`}
+            >
               #{hashtag}
             </button>
           </Styled.FeelOption>
