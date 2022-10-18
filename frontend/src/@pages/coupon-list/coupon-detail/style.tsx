@@ -60,7 +60,7 @@ export const SubSection = styled.section`
 export const SubSectionTitle = styled.span`
   font-weight: 600;
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_200};
+    color: ${theme.colors.dark_grey_200};
   `}
 `;
 

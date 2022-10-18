@@ -50,7 +50,7 @@ export const Main = styled.main`
 export const SectionTitle = styled.div`
   margin-bottom: 30px;
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_200};
+    color: ${theme.colors.dark_grey_200};
   `}
 `;
 
@@ -58,7 +58,7 @@ export const Description = styled.div`
   font-size: 14px;
   margin-bottom: 16px;
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_200};
+    color: ${theme.colors.dark_grey_200};
   `}
 `;
 
@@ -116,7 +116,7 @@ export const TextareaContainer = styled.div`
   & > label {
     display: inline-block;
 
-    color: ${({ theme }) => theme.colors.drak_grey_200};
+    color: ${({ theme }) => theme.colors.dark_grey_200};
     font-weight: 600;
     font-size: 14px;
 
