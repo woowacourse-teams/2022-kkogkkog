@@ -23,8 +23,11 @@ public class WoowacourseUserRepositoryImpl implements WoowacourseUserRepository 
         Map<String, String> responseMap = new ConcurrentHashMap<>();
         WoowacourseUsersResponse response = woowacoursePushAlarmClient.requestUsers();
         for (WoowacourseUserResponse member : response.getMembers()) {
-            String email = member.getProfile().getEmail();
             String userId = member.getId();
+            String email = member.getProfile().getEmail();
+            if (email == null) {
+                continue;
+            }
             responseMap.put(email, userId);
         }
         cache = responseMap;
