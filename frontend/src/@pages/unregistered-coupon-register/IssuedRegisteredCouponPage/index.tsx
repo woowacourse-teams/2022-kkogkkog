@@ -60,7 +60,7 @@ const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) 
         </Styled.Top>
         <Styled.Main>
           <Styled.CouponInner>
-            <UnregisteredCouponItem.Preview {...unregisteredCoupon} />
+            <UnregisteredCouponItem.Receiver {...unregisteredCoupon} />
           </Styled.CouponInner>
           <Styled.SubSection>
             <Styled.SubSectionTitle>쿠폰 메시지</Styled.SubSectionTitle>
