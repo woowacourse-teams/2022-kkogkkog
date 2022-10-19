@@ -95,6 +95,10 @@ export const useRegisterUnregisteredCouponMutation = () => {
   return useMutation(registerUnregisteredCoupon, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.unregisteredCoupon]);
+      queryClient.invalidateQueries([QUERY_KEY.unregisteredCouponListByStatus, QUERY_KEY.ISSUED]);
+      // @TODO: Key를 전역적으로 공유하고, import해서 사용하기
+      queryClient.invalidateQueries(['couponList', 'sent']);
+      queryClient.invalidateQueries(['couponListByStatus', 'sent', 'READY']);
     },
     onMutate() {
       showLoading();

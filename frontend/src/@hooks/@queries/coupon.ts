@@ -27,6 +27,11 @@ const QUERY_KEY = {
   /** SUB KEY */
   sent: 'sent',
   received: 'received',
+
+  REQUESTED: 'REQUESTED',
+  READY: 'READY',
+  ACCEPTED: 'ACCEPTED',
+  FINISHED: 'FINISHED',
 };
 
 export const useFetchCoupon = (id: number) => {
