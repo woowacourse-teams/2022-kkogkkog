@@ -19,8 +19,8 @@ const ReservationSection = (props: ReservationSectionProps) => {
     return (
       <Styled.NoneContentsContainer>
         <Icon iconName='hand' hasCursor={false} size='36' color={theme.colors.primary_400} />
-        <p>아직 예정된 약속이 없어요!</p>
-        <p>약속을 기다리는 사람에게 신청해볼까요 ?</p>
+        <Styled.NonContentsText1>아직 예정된 약속이 없어요!</Styled.NonContentsText1>
+        <Styled.NonContentsText2>약속을 기다리는 사람에게 신청해볼까요 ?</Styled.NonContentsText2>
       </Styled.NoneContentsContainer>
     );
   }

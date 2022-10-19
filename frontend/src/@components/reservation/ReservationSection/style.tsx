@@ -20,22 +20,22 @@ export const NoneContentsContainer = styled.div`
   align-items: center;
 
   gap: 10px;
+`;
 
-  & > p:nth-of-type(1) {
-    font-size: 18px;
+export const NonContentsText1 = styled.p`
+  font-size: 18px;
 
-    ${({ theme }) => css`
-      color: ${theme.colors.dark_grey_200};
-    `}
-  }
+  ${({ theme }) => css`
+    color: ${theme.colors.dark_grey_200};
+  `}
+`;
 
-  & > p:nth-of-type(2) {
-    font-size: 14px;
+export const NonContentsText2 = styled.p`
+  font-size: 14px;
 
-    ${({ theme }) => css`
-      color: ${theme.colors.grey_100};
-    `}
-  }
+  ${({ theme }) => css`
+    color: ${theme.colors.grey_100};
+  `}
 `;
 
 export const DateContainer = styled.li`
