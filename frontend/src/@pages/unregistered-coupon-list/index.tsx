@@ -28,6 +28,7 @@ const UnregisteredCouponList = () => {
 
   const onClickFilterButton = (status: UnregisteredFilterOption) => {
     changeStatus(status);
+
     unregisteredFilterOptionsSessionStorage.set(status);
   };
 
