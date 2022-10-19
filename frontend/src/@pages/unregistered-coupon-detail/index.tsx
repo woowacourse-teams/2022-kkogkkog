@@ -1,8 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Button from '@/@components/@shared/Button';
 import PageTemplate from '@/@components/@shared/PageTemplate';
-import Position from '@/@components/@shared/Position';
 import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/UnregisteredCouponExpiredTime';
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import { useFetchUnregisteredCouponById } from '@/@hooks/@queries/unregistered-coupon';
@@ -54,13 +52,10 @@ const UnregisteredCouponDetail = () => {
             <Styled.SubSectionTitle>쿠폰 메시지</Styled.SubSectionTitle>
             <Styled.DescriptionContainer>{couponMessage}</Styled.DescriptionContainer>
           </Styled.SubSection>
+          <Styled.FinishButtonInner>
+            <button onClick={onClickDeleteButton}>쿠폰을 삭제하시겠습니까?</button>
+          </Styled.FinishButtonInner>
         </Styled.Main>
-
-        <Position position='fixed' bottom='0' right='0' css={Styled.ExtendedPosition}>
-          <Button onClick={onClickDeleteButton} css={Styled.ExtendedButton}>
-            쿠폰 삭제하기
-          </Button>
-        </Position>
       </Styled.Root>
     </PageTemplate.ExtendedStyleHeader>
   );
