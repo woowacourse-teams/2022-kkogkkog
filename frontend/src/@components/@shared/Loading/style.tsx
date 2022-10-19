@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
 export const Root = styled.div`
-  font-size: 40px;
-
   animation: rotateY 1.5s infinite;
 
   @keyframes rotateY {
