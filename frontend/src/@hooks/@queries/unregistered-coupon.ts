@@ -2,6 +2,7 @@ import { useQueryClient } from 'react-query';
 
 import {
   createUnregisteredCoupon,
+  deleteUnregisteredCoupon,
   getUnregisteredCouponById,
   getUnregisteredCouponListByStatus,
   registerUnregisteredCoupon,
@@ -94,6 +95,24 @@ export const useRegisterUnregisteredCouponMutation = () => {
   return useMutation(registerUnregisteredCoupon, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.unregisteredCoupon]);
+    },
+    onMutate() {
+      showLoading();
+    },
+    onSettled() {
+      hideLoading();
+    },
+  });
+};
+
+export const useDeleteUnregisteredCouponMutation = (id: number) => {
+  const queryClient = useQueryClient();
+  const { showLoading, hideLoading } = useLoading();
+
+  return useMutation(deleteUnregisteredCoupon, {
+    onSuccess() {
+      queryClient.invalidateQueries([QUERY_KEY.unregisteredCouponListByStatus, QUERY_KEY.ISSUED]);
+      queryClient.removeQueries([QUERY_KEY.unregisteredCoupon, id]);
     },
     onMutate() {
       showLoading();

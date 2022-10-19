@@ -7,7 +7,7 @@ import { RegisterUnregisteredCouponRequest } from '@/types/unregistered-coupon/r
 import unregisteredCouponMock from '../fixtures/unregistered-coupon';
 
 export const unregisteredCouponHandler = [
-  rest.get(`${BASE_URL}/coupons/unregistered/status`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/lazy-coupons/status`, (req, res, ctx) => {
     const type = req.url.searchParams.get('type') as UNREGISTERED_COUPON_STATUS;
 
     return res(
@@ -16,7 +16,7 @@ export const unregisteredCouponHandler = [
     );
   }),
 
-  rest.get(`${BASE_URL}/coupons/unregistered/:unregisteredCouponId`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/lazy-coupons/:unregisteredCouponId`, (req, res, ctx) => {
     const {
       params: { unregisteredCouponId },
     } = req;
@@ -31,7 +31,7 @@ export const unregisteredCouponHandler = [
   }),
 
   // @TODO: coupon/:couponId 가 먼저 인식되는 현상 해결
-  rest.get(`${BASE_URL}/coupons/unregistered`, (req, res, ctx) => {
+  rest.get(`${BASE_URL}/lazy-coupons`, (req, res, ctx) => {
     const couponCode = req.url.searchParams.get('couponCode');
 
     if (!couponCode) {
@@ -47,27 +47,49 @@ export const unregisteredCouponHandler = [
     }
   }),
 
-  rest.post<RegisterUnregisteredCouponRequest>(`${BASE_URL}/coupons/code`, (req, res, ctx) => {
-    const {
-      body: { couponCode },
-    } = req;
+  rest.post<RegisterUnregisteredCouponRequest>(
+    `${BASE_URL}/lazy-coupons/register`,
+    (req, res, ctx) => {
+      const {
+        body: { couponCode },
+      } = req;
 
-    try {
-      const coupon = unregisteredCouponMock.findUnregisteredCouponByCode(couponCode);
+      try {
+        const coupon = unregisteredCouponMock.findUnregisteredCouponByCode(couponCode);
 
-      if (coupon.unregisteredCouponStatus !== 'ISSUED') {
-        return res(ctx.status(400), ctx.json({ message: '유효하지 않은 쿠폰입니다.' }));
+        if (coupon.unregisteredCouponStatus !== 'ISSUED') {
+          return res(ctx.status(400), ctx.json({ message: '유효하지 않은 쿠폰입니다.' }));
+        }
+
+        unregisteredCouponMock.current = unregisteredCouponMock.current.map(coupon =>
+          coupon.unregisteredCouponStatus === 'ISSUED'
+            ? { ...coupon, unregisteredCouponStatus: 'REGISTERED' }
+            : coupon
+        );
+
+        return res(ctx.status(200), ctx.json(coupon));
+      } catch ({ message }) {
+        return res(ctx.status(400), ctx.json({ message }));
       }
-
-      unregisteredCouponMock.current = unregisteredCouponMock.current.map(coupon =>
-        coupon.unregisteredCouponStatus === 'ISSUED'
-          ? { ...coupon, unregisteredCouponStatus: 'REGISTERED' }
-          : coupon
-      );
-
-      return res(ctx.status(200), ctx.json(coupon));
-    } catch ({ message }) {
-      return res(ctx.status(400), ctx.json({ message }));
     }
-  }),
+  ),
+
+  rest.delete<RegisterUnregisteredCouponRequest>(
+    `${BASE_URL}/lazy-coupons/:unregisteredCouponId`,
+    (req, res, ctx) => {
+      const {
+        params: { unregisteredCouponId },
+      } = req;
+
+      try {
+        const unregisteredCouponIdAsNumber = Number(unregisteredCouponId);
+
+        unregisteredCouponMock.deleteUnregisteredCoupon(unregisteredCouponIdAsNumber);
+
+        return res(ctx.status(200));
+      } catch ({ message }) {
+        return res(ctx.status(400), ctx.json({ message }));
+      }
+    }
+  ),
 ];

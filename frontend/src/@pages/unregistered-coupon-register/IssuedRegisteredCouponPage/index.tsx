@@ -29,9 +29,10 @@ const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) 
 
   const { registerUnregisteredCoupon } = useRegisterUnregisteredCoupon();
 
-  const onClickRegisterButton = () => {
+  const onClickRegisterButton = async () => {
     if (me) {
-      registerUnregisteredCoupon({ couponCode });
+      await registerUnregisteredCoupon({ couponCode });
+
       navigate(PATH.MAIN);
 
       return;
