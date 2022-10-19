@@ -5,6 +5,7 @@ import { UNREGISTERED_COUPON_STATUS } from '@/types/unregistered-coupon/client';
 import { RegisterUnregisteredCouponRequest } from '@/types/unregistered-coupon/remote';
 
 import unregisteredCouponMock from '../fixtures/unregistered-coupon';
+import { CreateUnregisteredCouponRequest } from './../../types/unregistered-coupon/remote';
 
 export const unregisteredCouponHandler = [
   rest.get(`${BASE_URL}/lazy-coupons/status`, (req, res, ctx) => {
@@ -92,4 +93,22 @@ export const unregisteredCouponHandler = [
       }
     }
   ),
+
+  rest.post<CreateUnregisteredCouponRequest>(`${BASE_URL}/lazy-coupons`, (req, res, ctx) => {
+    const { body } = req;
+
+    try {
+      const unregisteredCoupons = [...new Array(body.quantity)].map((_, idx) => {
+        const id = unregisteredCouponMock.current.length + idx + 1;
+
+        return unregisteredCouponMock.createUnregisteredCoupon({ id, body });
+      });
+
+      unregisteredCouponMock.addUnregisteredCoupon(unregisteredCoupons);
+
+      return res(ctx.status(200), ctx.json({ data: unregisteredCoupons }));
+    } catch ({ message }) {
+      return res(ctx.status(400), ctx.json({ message }));
+    }
+  }),
 ];
