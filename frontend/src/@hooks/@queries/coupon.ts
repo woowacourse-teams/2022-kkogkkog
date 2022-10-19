@@ -151,3 +151,22 @@ export const useChangeCouponStatusMutation = (id: number) => {
     },
   });
 };
+
+/** invalidateQueries */
+
+export const useCouponInvalidationOnRegisterCoupon = () => {
+  const queryClient = useQueryClient();
+
+  const invalidateReceivedCouponList = () => {
+    queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.received]);
+    queryClient.invalidateQueries([
+      QUERY_KEY.couponListByStatus,
+      QUERY_KEY.received,
+      QUERY_KEY.READY,
+    ]);
+  };
+
+  return {
+    invalidateReceivedCouponList,
+  };
+};
