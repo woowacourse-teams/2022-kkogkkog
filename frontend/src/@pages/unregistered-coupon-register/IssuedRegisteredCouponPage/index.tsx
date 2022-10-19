@@ -22,14 +22,14 @@ interface IssuedUnregisteredCouponPageProps {
 const IssuedUnregisteredCouponPage = (props: IssuedUnregisteredCouponPageProps) => {
   const { unregisteredCoupon, couponCode } = props;
 
-  const { couponMessage, createdTime, sender } = unregisteredCoupon;
+  const { id, couponMessage, createdTime, sender } = unregisteredCoupon;
 
   const navigate = useNavigate();
 
   const { displayMessage } = useToast();
   const { me } = useFetchMe();
 
-  const { registerUnregisteredCoupon } = useRegisterUnregisteredCoupon();
+  const { registerUnregisteredCoupon } = useRegisterUnregisteredCoupon(id);
 
   const onClickRegisterButton = async () => {
     if (sender.id === me?.id) {

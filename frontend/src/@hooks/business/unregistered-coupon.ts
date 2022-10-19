@@ -28,9 +28,9 @@ export const useCreateUnregisteredCoupon = () => {
   return { createUnregisteredCoupon };
 };
 
-export const useRegisterUnregisteredCoupon = () => {
+export const useRegisterUnregisteredCoupon = (id: number) => {
   const { displayMessage } = useToast();
-  const { mutateAsync } = useRegisterUnregisteredCouponMutation();
+  const { mutateAsync } = useRegisterUnregisteredCouponMutation(id);
 
   const registerUnregisteredCoupon = (body: RegisterUnregisteredCouponRequest) => {
     return mutateAsync(body, {
