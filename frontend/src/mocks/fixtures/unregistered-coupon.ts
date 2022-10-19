@@ -62,6 +62,7 @@ export default {
 
     return unregisteredCouponList;
   },
+
   findUnregisteredCoupon(unregisteredCouponId: number) {
     const coupon = this.current.find(({ id }) => id === unregisteredCouponId);
 
@@ -80,5 +81,11 @@ export default {
     }
 
     return coupon;
+  },
+
+  deleteUnregisteredCoupon(unregisteredCouponId: number) {
+    const newUnregisteredCouponList = this.current.filter(({ id }) => id !== unregisteredCouponId);
+
+    this.current = newUnregisteredCouponList;
   },
 };
