@@ -4,7 +4,7 @@ export const Root = styled.div`
   & > label {
     display: inline-block;
 
-    color: ${({ theme }) => theme.colors.drak_grey_200};
+    color: ${({ theme }) => theme.colors.dark_grey_200};
     font-weight: 600;
     font-size: 14px;
 

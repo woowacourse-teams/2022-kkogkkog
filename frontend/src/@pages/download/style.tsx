@@ -21,7 +21,7 @@ export const Description = styled.p`
   margin-bottom: 20px;
 
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_100};
+    color: ${theme.colors.dark_grey_100};
   `}
 `;
 

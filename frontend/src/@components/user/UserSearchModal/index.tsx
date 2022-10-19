@@ -34,7 +34,7 @@ const UserSearchModal = (props: UserSearchModalProps) => {
       css={Styled.UserSearchModal}
     >
       <Styled.CloseButton type='button' onClick={onCloseModal}>
-        <Icon iconName='close' size='18' color={theme.colors.drak_grey_200} />
+        <Icon iconName='close' size='18' color={theme.colors.dark_grey_200} />
       </Styled.CloseButton>
       <UserSearchForm
         currentReceiverList={currentReceiverList}

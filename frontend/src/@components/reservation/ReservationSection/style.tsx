@@ -29,7 +29,7 @@ export const NoneContentsContainer = styled.div`
     font-size: 18px;
 
     ${({ theme }) => css`
-      color: ${theme.colors.drak_grey_200};
+      color: ${theme.colors.dark_grey_200};
     `}
   }
 

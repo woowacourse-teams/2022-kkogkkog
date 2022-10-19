@@ -5,7 +5,6 @@ import UnregisteredCouponExpiredTime from '@/@components/unregistered-coupon/Unr
 import UnregisteredCouponItem from '@/@components/unregistered-coupon/UnregisteredCouponItem';
 import { useFetchUnregisteredCouponById } from '@/@hooks/@queries/unregistered-coupon';
 import NotFoundPage from '@/@pages/404';
-import { couponTypeTextMapper } from '@/constants/coupon';
 
 import * as Styled from './style';
 
