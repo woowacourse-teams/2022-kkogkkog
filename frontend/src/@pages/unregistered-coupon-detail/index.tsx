@@ -20,7 +20,7 @@ const UnregisteredCouponDetail = () => {
 
   const { unregisteredCoupon } = useFetchUnregisteredCouponById(Number(unregisteredCouponId));
 
-  const { deleteUnregisteredCoupon } = useDeleteUnregisteredCoupon();
+  const { deleteUnregisteredCoupon } = useDeleteUnregisteredCoupon(Number(unregisteredCouponId));
 
   if (!unregisteredCoupon) {
     return <NotFoundPage />;
@@ -33,9 +33,7 @@ const UnregisteredCouponDetail = () => {
       return;
     }
 
-    const unregisteredCouponIdAsNumber = Number(unregisteredCouponId);
-
-    await deleteUnregisteredCoupon(unregisteredCouponIdAsNumber);
+    await deleteUnregisteredCoupon();
 
     navigate(PATH.UNREGISTERED_COUPON_LIST, { replace: true });
 

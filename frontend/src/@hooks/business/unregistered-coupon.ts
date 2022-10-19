@@ -45,11 +45,11 @@ export const useRegisterUnregisteredCoupon = () => {
   };
 };
 
-export const useDeleteUnregisteredCoupon = () => {
+export const useDeleteUnregisteredCoupon = (id: number) => {
   const { displayMessage } = useToast();
-  const { mutateAsync } = useDeleteUnregisteredCouponMutation();
+  const { mutateAsync } = useDeleteUnregisteredCouponMutation(id);
 
-  const deleteUnregisteredCoupon = (id: number) => {
+  const deleteUnregisteredCoupon = () => {
     return mutateAsync(id, {
       onSuccess() {
         displayMessage('쿠폰이 삭제되었습니다.', false);

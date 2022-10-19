@@ -105,14 +105,14 @@ export const useRegisterUnregisteredCouponMutation = () => {
   });
 };
 
-export const useDeleteUnregisteredCouponMutation = () => {
+export const useDeleteUnregisteredCouponMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
 
   return useMutation(deleteUnregisteredCoupon, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.unregisteredCouponListByStatus, QUERY_KEY.ISSUED]);
-      queryClient.removeQueries([QUERY_KEY.unregisteredCoupon]);
+      queryClient.removeQueries([QUERY_KEY.unregisteredCoupon, id]);
     },
     onMutate() {
       showLoading();
