@@ -37,7 +37,7 @@ const UnregisteredCouponDetail = () => {
 
     await deleteUnregisteredCoupon(unregisteredCouponIdAsNumber);
 
-    navigate(PATH.UNREGISTERED_COUPON_LIST);
+    navigate(PATH.UNREGISTERED_COUPON_LIST, { replace: true });
 
     unregisteredFilterOptionsSessionStorage.set('미등록');
   };
