@@ -22,6 +22,6 @@ public class WoowacoursePushAlarmListener {
         }
         String hostMemberUserId = pushAlarmEvent.getHostMemberUserId();
         String message = pushAlarmEvent.getMessage();
-        woowacoursePushAlarmClient.requestPushAlarm(hostMemberUserId, message);
+//        woowacoursePushAlarmClient.requestPushAlarm(hostMemberUserId, message);
     }
 }

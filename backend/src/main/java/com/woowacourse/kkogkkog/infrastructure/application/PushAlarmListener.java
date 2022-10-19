@@ -23,6 +23,6 @@ public class PushAlarmListener {
         String accessToken = pushAlarmEvent.getBotAccessToken();
         String hostMemberId = pushAlarmEvent.getHostMemberId();
         String message = pushAlarmEvent.getMessage();
-        slackClient.requestPushAlarm(accessToken, hostMemberId, message);
+//        slackClient.requestPushAlarm(accessToken, hostMemberId, message);
     }
 }

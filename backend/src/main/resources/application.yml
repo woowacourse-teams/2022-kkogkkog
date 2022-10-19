@@ -1,18 +1,29 @@
 spring:
-  config.activate.on-profile: default
+#  config.activate.on-profile: default
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
         show_sql: true
         format_sql: true
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url : jdbc:mysql://43.201.94.90:8080/replication?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+    username: master
+    password: password
+#  datasource:
+#    master:
+#      username: replication
+#      password: password
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://43.201.94.90:8080/replication?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+#    slave1:
+#      username: slave1
+#      password: password
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://52.79.140.217:8080/replication?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
   flyway:
     enabled: false
 
