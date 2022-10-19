@@ -6,12 +6,12 @@ import UnregisteredCouponStatus from '@/@components/unregistered-coupon/Unregist
 import { useToast } from '@/@hooks/@common/useToast';
 import { DYNAMIC_PATH } from '@/Router';
 import { THUMBNAIL } from '@/types/coupon/client';
-import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
+import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 import clipboardCopy from '@/utils/clipboardCopy';
 
 import * as Styled from './style';
 
-export interface UnregisteredCouponItemProps extends UnregisteredCouponResponse {
+export interface UnregisteredCouponItemProps extends UnregisteredCoupon {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
@@ -72,7 +72,7 @@ UnregisteredCouponItem.Skeleton = function Skeleton() {
 };
 
 interface UnregisteredCouponItemPreviewProps
-  extends Pick<UnregisteredCouponResponse, 'couponTag' | 'couponMessage' | 'couponType'> {
+  extends Pick<UnregisteredCoupon, 'couponTag' | 'couponMessage' | 'couponType'> {
   className?: string;
 }
 
