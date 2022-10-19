@@ -21,11 +21,7 @@ export const NoneContentsContainer = styled.div`
 
   gap: 10px;
 
-  & > h2 {
-    font-size: 50px;
-  }
-
-  & > h3 {
+  & > p:nth-of-type(1) {
     font-size: 18px;
 
     ${({ theme }) => css`
@@ -33,7 +29,7 @@ export const NoneContentsContainer = styled.div`
     `}
   }
 
-  & > h4 {
+  & > p:nth-of-type(2) {
     font-size: 14px;
 
     ${({ theme }) => css`
