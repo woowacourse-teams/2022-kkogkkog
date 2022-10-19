@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { COUPON_STATUS } from '@/types/coupon/client';
 
-export const Root = styled.div<{ hasCursor?: boolean }>`
+export const Root = styled.div`
   width: 100%;
 
   max-width: 340px;
@@ -23,12 +23,6 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
   ${({ theme }) => css`
     background-color: ${theme.colors.white_100};
   `}
-
-  ${({ hasCursor = true }) =>
-    hasCursor &&
-    css`
-      cursor: pointer;
-    `}
 `;
 
 export const Top = styled.div`

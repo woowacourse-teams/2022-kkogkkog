@@ -9,7 +9,7 @@ import * as Styled from './small.style';
 
 export interface SmallCouponItemProps extends Coupon {
   className?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const SmallCouponItem = (props: SmallCouponItemProps) => {
@@ -23,7 +23,7 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
   const { isSent, member } = useCouponPartner(coupon);
 
   return (
-    <Styled.Root as={onClick ? undefined : 'div'} hasCursor={!!onClick} onClick={onClick}>
+    <Styled.Root as={onClick && 'button'} onClick={onClick}>
       <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
       <img src={thumbnail.src} alt={thumbnail.alt} width={50} height={50} />
