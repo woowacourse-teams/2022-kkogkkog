@@ -6,9 +6,7 @@ export const Root = styled.div`
   flex-direction: column;
   align-items: center;
 
-  & > * + * {
-    margin-top: 20px;
-  }
+  gap: 20px;
 `;
 
 export const TextContainer = styled.div<{ fontSize?: string }>`
