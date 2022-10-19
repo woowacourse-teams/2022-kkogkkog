@@ -22,10 +22,10 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const { isSent, member } = useCouponPartner(coupon);
 
-  const rootElementType = onClick && 'button';
+  const rootElementTag = onClick && 'button';
 
   return (
-    <Styled.Root as={rootElementType} className={className} onClick={onClick}>
+    <Styled.Root as={rootElementTag} className={className} onClick={onClick}>
       <Styled.CouponPropertyContainer>
         <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 

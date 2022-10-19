@@ -22,10 +22,10 @@ const SmallCouponItem = (props: SmallCouponItemProps) => {
 
   const { isSent, member } = useCouponPartner(coupon);
 
-  const rootElementType = onClick && 'button';
+  const rootElementTag = onClick && 'button';
 
   return (
-    <Styled.Root as={rootElementType} onClick={onClick}>
+    <Styled.Root as={rootElementTag} onClick={onClick}>
       <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
       <img src={thumbnail.src} alt={thumbnail.alt} width={50} height={50} />
