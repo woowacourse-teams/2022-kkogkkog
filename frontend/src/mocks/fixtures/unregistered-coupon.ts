@@ -90,6 +90,8 @@ export default {
     const newUnregisteredCouponList = this.current.filter(({ id }) => id !== unregisteredCouponId);
 
     this.current = newUnregisteredCouponList;
+  },
+
   createUnregisteredCoupon({ id, body }: { id: number; body: CreateUnregisteredCouponRequest }) {
     const { couponMessage, couponTag, couponType } = body;
 
