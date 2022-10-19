@@ -19,10 +19,7 @@ export const SelectContainer = styled.ul`
 
   display: flex;
   align-items: center;
-
-  & > li + li {
-    margin-left: 10px;
-  }
+  gap: 10px;
 
   & > li {
     cursor: pointer;

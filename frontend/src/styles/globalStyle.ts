@@ -28,6 +28,10 @@ const globalStyle = css`
     list-style: none;
   }
 
+  li {
+    list-style: none;
+  }
+
   button {
     cursor: pointer;
     border: 0;

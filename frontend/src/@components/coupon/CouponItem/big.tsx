@@ -22,13 +22,15 @@ const BigCouponItem = (props: BigCouponItemProps) => {
 
   const { isSent, member } = useCouponPartner(coupon);
 
+  const rootElementTag = onClick && 'button';
+
   return (
-    <Styled.Root className={className} hasCursor={!!onClick} onClick={onClick}>
+    <Styled.Root as={rootElementTag} className={className} onClick={onClick}>
       <Styled.CouponPropertyContainer>
         <CouponStatus status={couponStatus} meetingDate={meetingDate} isSent={isSent} />
 
         <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
+          <img src={thumbnail.src} alt={thumbnail.alt} width={44} height={44} />
         </Styled.ImageInner>
       </Styled.CouponPropertyContainer>
       <Styled.TextContainer>
@@ -38,7 +40,7 @@ const BigCouponItem = (props: BigCouponItemProps) => {
           </Styled.Member>
         </Styled.Top>
         <Styled.Message>{couponMessage}</Styled.Message>
-        <Styled.Hashtag>#{couponTag}</Styled.Hashtag>
+        <Styled.Hashtag aria-label={`hashtag ${couponTag}`}>#{couponTag}</Styled.Hashtag>
       </Styled.TextContainer>
     </Styled.Root>
   );

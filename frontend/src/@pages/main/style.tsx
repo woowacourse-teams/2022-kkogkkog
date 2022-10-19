@@ -7,7 +7,7 @@ export const Root = styled.div`
   border-radius: 4px;
 `;
 
-export const CreateCouponContainer = styled.div`
+export const CreateCouponContainer = styled.section`
   display: flex;
 
   flex-direction: column;
@@ -24,18 +24,19 @@ export const CreateCouponContainer = styled.div`
   border-radius: 0 0 50px 50px;
 `;
 
-export const ExtraBold = styled.span`
+export const ExtraBold = styled.h1`
   font-weight: 700;
+  display: inline-block;
 `;
 
-export const AdditionalExplanation = styled.div`
+export const AdditionalExplanation = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.primary_400};
 
   margin-top: 10px;
 `;
 
-export const FullListContainer = styled.div`
+export const FullListContainer = styled.section`
   padding: 32px 16px 16px 16px;
 
   display: flex;
@@ -47,7 +48,7 @@ export const FullListTitle = styled.div`
   display: flex;
   justify-content: space-between;
 
-  & > span {
+  & > h3 {
     font-weight: 600;
   }
 `;
@@ -64,7 +65,7 @@ export const ListTitle = styled.div`
   display: flex;
   justify-content: space-between;
 
-  & > span {
+  & > h2 {
     font-weight: 600;
   }
 `;

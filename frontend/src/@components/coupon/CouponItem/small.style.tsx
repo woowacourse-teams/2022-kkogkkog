@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div<{ hasCursor?: boolean }>`
+export const Root = styled.div`
   width: 140px;
   height: 132px;
 
@@ -16,12 +16,6 @@ export const Root = styled.div<{ hasCursor?: boolean }>`
   padding: 12px;
 
   gap: 10px;
-
-  ${({ hasCursor = true }) =>
-    hasCursor &&
-    css`
-      cursor: pointer;
-    `}
 `;
 
 export const TextContainer = styled.div`
