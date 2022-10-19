@@ -84,12 +84,15 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
 
       <SelectInput label='어떤 쿠폰인가요 ?'>
         {couponTypeCollection.map(({ engType }) => (
-          <Styled.TypeOption
-            key={engType}
-            isSelected={engType === currentCouponType}
-            onClick={onSelectCouponType(engType)}
-          >
-            <img src={THUMBNAIL[engType].src} alt={THUMBNAIL[engType].alt} width={50} height={50} />
+          <Styled.TypeOption key={engType} isSelected={engType === currentCouponType}>
+            <button type='button' onClick={onSelectCouponType(engType)}>
+              <img
+                src={THUMBNAIL[engType].src}
+                alt={THUMBNAIL[engType].alt}
+                width={50}
+                height={50}
+              />
+            </button>
           </Styled.TypeOption>
         ))}
       </SelectInput>
