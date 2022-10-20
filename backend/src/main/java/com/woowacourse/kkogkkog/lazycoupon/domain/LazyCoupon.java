@@ -27,7 +27,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE lazy_coupon c SET c.deleted = true WHERE c.id=?")
+@SQLDelete(sql = "UPDATE unregistered_coupon c SET c.deleted = true WHERE c.id=?")
 @Getter
 public class LazyCoupon extends BaseEntity {
 
