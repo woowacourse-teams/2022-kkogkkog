@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface LazyCouponRepository extends JpaRepository<CouponLazyCoupon, Long> {
+public interface CouponLazyCouponRepository extends JpaRepository<CouponLazyCoupon, Long> {
 
     Optional<CouponLazyCoupon> findByLazyCouponId(Long id);
 
