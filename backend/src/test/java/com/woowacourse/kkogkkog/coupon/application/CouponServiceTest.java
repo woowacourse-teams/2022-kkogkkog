@@ -9,7 +9,6 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECE
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
-import static com.woowacourse.kkogkkog.support.fixture.dto.UnregisteredCouponDtoFixture.쿠폰_코드_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,19 +25,14 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.CouponState;
 import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCoupon;
-import com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
-import com.woowacourse.kkogkkog.coupon.domain.repository.UnregisteredCouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.support.application.ApplicationTest;
-import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -64,9 +58,6 @@ class CouponServiceTest {
     private CouponHistoryRepository couponHistoryRepository;
     @Autowired
     private WorkspaceRepository workspaceRepository;
-
-    @Autowired
-    private UnregisteredCouponRepository unregisteredCouponRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -105,47 +96,6 @@ class CouponServiceTest {
                 CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver1.getId())));
 
             Long couponId = response.get(0).getId();
-            List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
-                couponId);
-            assertThat(memberHistories).hasSize(1);
-        }
-    }
-
-    @Nested
-    @DisplayName("saveByCouponCode 메서드는")
-    class SaveByCouponCode {
-
-        private Member sender;
-        private Member receiver;
-        private UnregisteredCoupon unregisteredCoupon;
-
-        @BeforeEach
-        void setUp() {
-            Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
-            sender = memberRepository.save(SENDER.getMember(workspace));
-            receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            unregisteredCoupon = unregisteredCouponRepository.save(CouponFixture.COFFEE.getUnregisteredCoupon(sender));
-        }
-
-        @Test
-        @DisplayName("쿠폰코드와 받는 사람을 받으면 쿠폰을 생성하고, 생성된 쿠폰을 반환한다.")
-        void success() {
-            RegisterCouponCodeRequest request = 쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode());
-
-            CouponResponse couponResponse = couponService.saveByCouponCode(receiver.getId(), request);
-
-            Coupon coupon = unregisteredCoupon.getCoupon();
-            assertThat(couponResponse.getId()).isEqualTo(coupon.getId());
-        }
-
-        @Test
-        @DisplayName("쿠폰을 생성할 때, 쿠폰 사용 내역을 기록한다.")
-        void success_couponSave() {
-            RegisterCouponCodeRequest request = 쿠폰_코드_등록_요청(unregisteredCoupon.getCouponCode());
-
-            CouponResponse response = couponService.saveByCouponCode(receiver.getId(), request);
-
-            Long couponId = response.getId();
             List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
                 couponId);
             assertThat(memberHistories).hasSize(1);

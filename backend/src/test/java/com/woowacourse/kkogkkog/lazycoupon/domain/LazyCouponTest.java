@@ -1,19 +1,21 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.lazycoupon.domain;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
-import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.REGISTERED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.kkogkkog.coupon.exception.UnregisteredCouponQuantityExcessException;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.lazycoupon.exception.LazyCouponQuantityExcessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class UnregisteredCouponTest {
+public class LazyCouponTest {
 
     @Nested
     @DisplayName("정적 팩토리 메서드는")
@@ -24,10 +26,10 @@ public class UnregisteredCouponTest {
         void success() {
             Member sender = SENDER.getMember();
 
-            UnregisteredCoupon unregisteredCoupon = UnregisteredCoupon.of(sender, "고마워요!",
+            LazyCoupon lazyCoupon = LazyCoupon.of(sender, "고마워요!",
                 "커피쿠폰입니다.", CouponType.COFFEE);
 
-            assertThat(unregisteredCoupon.getCouponCode()).isNotEmpty();
+            assertThat(lazyCoupon.getCouponCode()).isNotEmpty();
         }
     }
 
@@ -39,39 +41,38 @@ public class UnregisteredCouponTest {
         @DisplayName("발급 할 수 있는 수량인지 검사한다.")
         void success() {
             assertThatNoException()
-                .isThrownBy(() -> UnregisteredCoupon.validateQuantity(5));
+                .isThrownBy(() -> LazyCoupon.validateQuantity(5));
         }
 
         @Test
         @DisplayName("수량이 최댓값 초과이면 예외를 던진다.")
         void fail_over() {
-            assertThatThrownBy(() -> UnregisteredCoupon.validateQuantity(6))
-                .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
+            assertThatThrownBy(() -> LazyCoupon.validateQuantity(6))
+                .isInstanceOf(LazyCouponQuantityExcessException.class);
         }
 
         @Test
         @DisplayName("수량이 최솟값 미만이면 예외를 던진다.")
         void fail_under() {
-            assertThatThrownBy(() -> UnregisteredCoupon.validateQuantity(0))
-                .isInstanceOf(UnregisteredCouponQuantityExcessException.class);
+            assertThatThrownBy(() -> LazyCoupon.validateQuantity(0))
+                .isInstanceOf(LazyCouponQuantityExcessException.class);
         }
     }
 
     @Nested
-    @DisplayName("registerCoupon 매서드는")
-    class RegisterCoupon {
+    @DisplayName("changeStatus 메서드는")
+    class ChangeStatus {
 
         @Test
-        @DisplayName("받는 사람을 받으면 등록 처리 후 쿠폰을 연결한다.")
+        @DisplayName("미등록 쿠폰 이벤트를 받으면 상태를 변경한다.")
         void success() {
             Member sender = SENDER.getMember();
-            Member receiver = RECEIVER.getMember();
-            UnregisteredCoupon unregisteredCoupon = COFFEE.getUnregisteredCoupon(sender);
+            LazyCoupon lazyCoupon = COFFEE.getCouponLazyCoupon(sender).getLazyCoupon();
 
-            unregisteredCoupon.registerCoupon(receiver);
+            lazyCoupon.changeStatus(REGISTER);
 
-            UnregisteredCouponStatus actual = unregisteredCoupon.getUnregisteredCouponStatus();
-            assertThat(actual).isEqualTo(UnregisteredCouponStatus.REGISTERED);
+            LazyCouponStatus actual = lazyCoupon.getLazyCouponStatus();
+            assertThat(actual).isEqualTo(REGISTERED);
         }
     }
 }

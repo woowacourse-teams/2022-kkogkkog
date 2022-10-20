@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.presentation.dto;
+package com.woowacourse.kkogkkog.lazycoupon.presentation.dto;
 
-import com.woowacourse.kkogkkog.coupon.application.dto.UnregisteredCouponSaveRequest;
+import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponSaveRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UnregisteredCouponCreateRequest {
+public class LazyCouponCreateRequest {
 
     private Integer quantity;
     private String couponTag;
@@ -20,16 +20,16 @@ public class UnregisteredCouponCreateRequest {
     @NotBlank(message = "쿠폰 타입을 입력해주세요")
     private String couponType;
 
-    public UnregisteredCouponCreateRequest(Integer quantity, String couponTag, String couponMessage,
-                                           String couponType) {
+    public LazyCouponCreateRequest(Integer quantity, String couponTag, String couponMessage,
+                                   String couponType) {
         this.quantity = quantity;
         this.couponTag = couponTag;
         this.couponMessage = couponMessage;
         this.couponType = couponType;
     }
 
-    public UnregisteredCouponSaveRequest toUnregisteredCouponSaveRequest(Long senderId) {
-        return new UnregisteredCouponSaveRequest(
+    public LazyCouponSaveRequest toLazyCouponSaveRequest(Long senderId) {
+        return new LazyCouponSaveRequest(
             senderId,
             quantity,
             couponTag,

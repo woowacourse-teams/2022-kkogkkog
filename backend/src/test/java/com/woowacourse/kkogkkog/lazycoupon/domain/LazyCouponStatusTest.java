@@ -1,10 +1,10 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.lazycoupon.domain;
 
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.REGISTER;
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponEventType.EXPIRE;
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.REGISTERED;
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.EXPIRED;
-import static com.woowacourse.kkogkkog.coupon.domain.UnregisteredCouponStatus.ISSUED;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.REGISTER;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.EXPIRE;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.REGISTERED;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.EXPIRED;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.ISSUED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -13,8 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("UnregisteredCouponStatus 클래스의")
-class UnregisteredCouponStatusTest {
+@DisplayName("LazyCouponStatus 클래스의")
+class LazyCouponStatusTest {
 
     @Nested
     @DisplayName("상태가 ISSUED일 때")
@@ -23,9 +23,9 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, REGISTERED 반환한다.")
         void success_register() {
-            UnregisteredCouponStatus status = ISSUED;
+            LazyCouponStatus status = ISSUED;
 
-            UnregisteredCouponStatus actual = status.handle(REGISTER);
+            LazyCouponStatus actual = status.handle(REGISTER);
 
             assertThat(actual).isEqualTo(REGISTERED);
         }
@@ -33,9 +33,9 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, EXPIRED를 반환한다.")
         void success_expire() {
-            UnregisteredCouponStatus status = ISSUED;
+            LazyCouponStatus status = ISSUED;
 
-            UnregisteredCouponStatus actual = status.handle(UnregisteredCouponEventType.EXPIRE);
+            LazyCouponStatus actual = status.handle(LazyCouponEventType.EXPIRE);
 
             assertThat(actual).isEqualTo(EXPIRED);
         }
@@ -48,7 +48,7 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_register() {
-            UnregisteredCouponStatus status = REGISTERED;
+            LazyCouponStatus status = REGISTERED;
 
             assertThatThrownBy(() -> status.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
@@ -57,7 +57,7 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_expire() {
-            UnregisteredCouponStatus status = REGISTERED;
+            LazyCouponStatus status = REGISTERED;
 
             assertThatThrownBy(() -> status.handle(EXPIRE))
                 .isInstanceOf(InvalidRequestException.class);
@@ -71,7 +71,7 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_register() {
-            UnregisteredCouponStatus status = EXPIRED;
+            LazyCouponStatus status = EXPIRED;
 
             assertThatThrownBy(() -> status.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
@@ -80,7 +80,7 @@ class UnregisteredCouponStatusTest {
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_expire() {
-            UnregisteredCouponStatus status = EXPIRED;
+            LazyCouponStatus status = EXPIRED;
 
             assertThatThrownBy(() -> status.handle(EXPIRE))
                 .isInstanceOf(InvalidRequestException.class);

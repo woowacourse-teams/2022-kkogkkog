@@ -77,13 +77,6 @@ public class CouponController {
         return ResponseEntity.created(null).body(new CouponsResponse(responses, false));
     }
 
-    @PostMapping("/code")
-    public ResponseEntity<CouponResponse> registerCouponCode(@LoginMemberId Long loginMemberId,
-                                                             @RequestBody RegisterCouponCodeRequest request) {
-        CouponResponse couponResponse = couponService.saveByCouponCode(loginMemberId, request);
-        return ResponseEntity.created(null).body(couponResponse);
-    }
-
     @PutMapping("/{couponId}/event")
     public ResponseEntity<Void> update(@LoginMemberId Long loginMemberId,
                                        @PathVariable Long couponId,
