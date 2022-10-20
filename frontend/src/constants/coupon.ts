@@ -9,6 +9,7 @@ export const couponTypeTextMapper: Record<COUPON_ENG_TYPE, COUPON_KOREAN_TYPE> =
 };
 
 export const couponEventTextMapper: Record<COUPON_EVENT, string> = {
+  RECEIVE: '쿠폰을 받았어요.',
   INIT: '쿠폰을 보냈어요.',
   REQUEST: '쿠폰 사용을 요청했어요.',
   CANCEL: '쿠폰 사용을 취소했어요.',
