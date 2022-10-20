@@ -156,13 +156,11 @@ const MainPage = () => {
 
           <Styled.UnRegisteredCouponSection>
             <Styled.ListTitle>
-              <h2>미등록 쿠폰</h2>
+              <h2>링크로 보낸 쿠폰</h2>
             </Styled.ListTitle>
             <Styled.UnRegisteredCouponSectionInner>
               <Link to={PATH.UNREGISTERED_COUPON_LIST}>
-                <Button css={Styled.ExtendedUnRegisteredCouponMoreButton}>
-                  미등록 쿠폰 조회하기
-                </Button>
+                <Button css={Styled.ExtendedUnRegisteredCouponMoreButton}>조회하기</Button>
               </Link>
             </Styled.UnRegisteredCouponSectionInner>
           </Styled.UnRegisteredCouponSection>

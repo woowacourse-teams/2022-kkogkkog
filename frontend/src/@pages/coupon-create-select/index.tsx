@@ -11,10 +11,10 @@ const CouponCreateSelectPage = () => {
       <Styled.Root>
         <Styled.Container>
           <Link to={PATH.COUPON_CREATE} css={Styled.LinkButton}>
-            쿠폰 보내러가기
+            꼭꼭 회원에게 쿠폰 보내기
           </Link>
           <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.LinkButton}>
-            미등록 쿠폰 보내러가기
+            링크로 쿠폰 보내기
           </Link>
         </Styled.Container>
       </Styled.Root>
