@@ -1,12 +1,12 @@
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
 import { useFetchUnregisteredCouponListByStatus } from '@/@hooks/@queries/unregistered-coupon';
 import { Styled } from '@/@pages/coupon-list';
-import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
+import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
 import UnregisteredCouponItem from '../../UnregisteredCouponItem';
 
 interface UnregisteredCouponListSectionProps {
-  onClickCouponItem: (coupon: UnregisteredCouponResponse) => void;
+  onClickCouponItem: (coupon: UnregisteredCoupon) => void;
 }
 
 const UnregisteredCouponListSection = (props: UnregisteredCouponListSectionProps) => {

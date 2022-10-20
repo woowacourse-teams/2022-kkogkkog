@@ -6,12 +6,12 @@ import UnregisteredCouponStatus from '@/@components/unregistered-coupon/Unregist
 import { useToast } from '@/@hooks/@common/useToast';
 import { DYNAMIC_PATH } from '@/Router';
 import { THUMBNAIL } from '@/types/coupon/client';
-import { UnregisteredCouponResponse } from '@/types/unregistered-coupon/remote';
+import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 import clipboardCopy from '@/utils/clipboardCopy';
 
 import * as Styled from './style';
 
-export interface UnregisteredCouponItemProps extends UnregisteredCouponResponse {
+export interface UnregisteredCouponItemProps extends UnregisteredCoupon {
   className?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
@@ -71,12 +71,17 @@ UnregisteredCouponItem.Skeleton = function Skeleton() {
   return <Placeholder aspectRatio='3/1' />;
 };
 
+interface UnregisteredCouponItemPreviewProps
+  extends Pick<UnregisteredCoupon, 'couponTag' | 'couponMessage' | 'couponType'> {
+  className?: string;
+}
+
 UnregisteredCouponItem.Preview = function UnregisteredCouponItem(
-  props: UnregisteredCouponItemProps
+  props: UnregisteredCouponItemPreviewProps
 ) {
   const { ...coupon } = props;
 
-  const { receiver, couponTag, couponMessage, thumbnail } = {
+  const { couponTag, couponMessage, thumbnail } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
@@ -92,7 +97,7 @@ UnregisteredCouponItem.Preview = function UnregisteredCouponItem(
         <Styled.TextContainer>
           <Styled.Top>
             <Styled.Member>
-              <Styled.English>To</Styled.English> {receiver?.nickname ?? '?'}
+              <Styled.English>To</Styled.English> ?
             </Styled.Member>
           </Styled.Top>
           <Styled.Message>{couponMessage}</Styled.Message>

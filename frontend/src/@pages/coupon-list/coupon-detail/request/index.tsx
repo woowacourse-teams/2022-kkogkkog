@@ -26,6 +26,7 @@ const CouponRequestPage = () => {
   const todayDate = getTodayDate();
 
   const [meetingDate, onChangeMeetingDate] = useInput<YYYYMMDD>(todayDate, [isBeforeToday]);
+
   const [meetingMessage, onChangeMeetingMessage] = useInput('', [
     (value: string) => isOverMaxLength(value, 200),
   ]);
