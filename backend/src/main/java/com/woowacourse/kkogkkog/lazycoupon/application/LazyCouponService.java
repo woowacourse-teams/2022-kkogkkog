@@ -1,5 +1,8 @@
 package com.woowacourse.kkogkkog.lazycoupon.application;
 
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.EXPIRE;
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.ISSUED;
+
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
@@ -37,9 +40,19 @@ public class LazyCouponService {
     public List<LazyCouponResponse> findAllBySender(Long memberId, String lazyCouponStatus) {
         Member sender = memberRepository.get(memberId);
         LazyCouponStatus status = LazyCouponStatus.valueOf(lazyCouponStatus);
-        return couponLazyCouponRepository.findAllBySender(sender, status).stream()
+        List<CouponLazyCoupon> couponLazyCoupons = couponLazyCouponRepository.findAllBySender(sender, status);
+        if (ISSUED.equals(status)) {
+            expireCouponLazyCoupons(couponLazyCoupons);
+        }
+        return couponLazyCoupons.stream()
             .map(LazyCouponResponse::of)
             .collect(Collectors.toList());
+    }
+
+    private void expireCouponLazyCoupons(List<CouponLazyCoupon> couponLazyCoupons) {
+        for (CouponLazyCoupon couponLazyCoupon : couponLazyCoupons) {
+            expireLazyCoupon(couponLazyCoupon.getLazyCoupon());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -82,13 +95,21 @@ public class LazyCouponService {
     }
 
     private CouponLazyCoupon findLazyCoupon(Long id) {
-        return couponLazyCouponRepository.findByLazyCouponId(id)
+        CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.findByLazyCouponId(id)
             .orElseThrow(LazyCouponNotFoundException::new);
+        expireLazyCoupon(couponLazyCoupon.getLazyCoupon());
+        return couponLazyCoupon;
     }
 
     private CouponLazyCoupon findLazyCoupon(String couponCode) {
-        return couponLazyCouponRepository.findByLazyCouponCouponCode(couponCode)
+        CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.findByLazyCouponCouponCode(couponCode)
             .orElseThrow(LazyCouponNotFoundException::new);
+        expireLazyCoupon(couponLazyCoupon.getLazyCoupon());
+        return couponLazyCoupon;
+    }
+
+    private void expireLazyCoupon(LazyCoupon lazyCoupon) {
+        lazyCoupon.changeStatus(EXPIRE);
     }
 
     private void saveCouponHistory(CouponHistory couponHistory) {
