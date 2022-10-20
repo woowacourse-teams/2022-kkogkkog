@@ -45,7 +45,7 @@ public class LazyCouponService {
     @Transactional(readOnly = true)
     public LazyCouponResponse findById(Long memberId, Long lazyCouponId) {
         Member member = memberRepository.get(memberId);
-        CouponLazyCoupon couponLazyCoupon = lazyCouponRepository.get(lazyCouponId);
+        CouponLazyCoupon couponLazyCoupon = findLazyCoupon(lazyCouponId);
         couponLazyCoupon.validateSender(member);
         return LazyCouponResponse.of(couponLazyCoupon);
     }
@@ -76,10 +76,14 @@ public class LazyCouponService {
 
     public void delete(Long memberId, Long lazyCouponId) {
         Member member = memberRepository.get(memberId);
-        CouponLazyCoupon couponLazyCoupon = lazyCouponRepository.get(
-            lazyCouponId);
+        CouponLazyCoupon couponLazyCoupon = findLazyCoupon(lazyCouponId);
         couponLazyCoupon.validateSender(member);
         lazyCouponRepository.delete(couponLazyCoupon);
+    }
+
+    private CouponLazyCoupon findLazyCoupon(Long id) {
+        return lazyCouponRepository.findByLazyCouponId(id)
+            .orElseThrow(LazyCouponNotFoundException::new);
     }
 
     private CouponLazyCoupon findLazyCoupon(String couponCode) {
