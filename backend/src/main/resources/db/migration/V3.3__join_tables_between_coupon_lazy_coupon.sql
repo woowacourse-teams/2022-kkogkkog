@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `coupon_lazy_coupon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ALTER TABLE `unregistered_coupon`
-DROP `coupon_id`;
+DROP COLUMN `coupon_id`;
