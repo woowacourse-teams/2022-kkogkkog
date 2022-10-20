@@ -43,7 +43,7 @@ const UnregisteredCouponList = () => {
       return;
     }
 
-    navigate(DYNAMIC_PATH.COUPON_DECLINE(couponId));
+    navigate(DYNAMIC_PATH.COUPON_DETAIL(couponId));
   };
 
   const onClickExpiredCouponItem = () => {
