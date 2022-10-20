@@ -11,6 +11,7 @@ import { UnregisteredCouponListByStatusRequest } from '@/types/unregistered-coup
 
 import { getUnregisteredCouponByCode } from '../../apis/unregistered-coupon';
 import { useLoading } from '../@common/useLoading';
+import { useCouponInvalidationOnRegisterUnregisteredCoupon } from './coupon';
 import { useMutation, useQuery } from './utils';
 
 const QUERY_KEY = {
@@ -88,13 +89,17 @@ export const useCreateUnregisteredCouponMutation = () => {
   });
 };
 
-export const useRegisterUnregisteredCouponMutation = () => {
+export const useRegisterUnregisteredCouponMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoading();
+  const { invalidateReceivedCouponList } = useCouponInvalidationOnRegisterUnregisteredCoupon();
 
   return useMutation(registerUnregisteredCoupon, {
     onSuccess() {
-      queryClient.invalidateQueries([QUERY_KEY.unregisteredCoupon]);
+      queryClient.invalidateQueries([QUERY_KEY.unregisteredCoupon, id]);
+      queryClient.invalidateQueries([QUERY_KEY.unregisteredCouponListByStatus, QUERY_KEY.ISSUED]);
+
+      invalidateReceivedCouponList();
     },
     onMutate() {
       showLoading();

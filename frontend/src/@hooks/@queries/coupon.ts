@@ -27,6 +27,11 @@ const QUERY_KEY = {
   /** SUB KEY */
   sent: 'sent',
   received: 'received',
+
+  REQUESTED: 'REQUESTED',
+  READY: 'READY',
+  ACCEPTED: 'ACCEPTED',
+  FINISHED: 'FINISHED',
 };
 
 export const useFetchCoupon = (id: number) => {
@@ -145,4 +150,23 @@ export const useChangeCouponStatusMutation = (id: number) => {
       hideLoading();
     },
   });
+};
+
+/** invalidateQueries */
+
+export const useCouponInvalidationOnRegisterUnregisteredCoupon = () => {
+  const queryClient = useQueryClient();
+
+  const invalidateReceivedCouponList = () => {
+    queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.received]);
+    queryClient.invalidateQueries([
+      QUERY_KEY.couponListByStatus,
+      QUERY_KEY.received,
+      QUERY_KEY.READY,
+    ]);
+  };
+
+  return {
+    invalidateReceivedCouponList,
+  };
 };

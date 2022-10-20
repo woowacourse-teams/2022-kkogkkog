@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+import Icon from '@/@components/@shared/Icon';
 import ListFilter from '@/@components/@shared/ListFilter';
 import PageTemplate from '@/@components/@shared/PageTemplate';
 import VerticalCouponList from '@/@components/coupon/CouponList/vertical';
@@ -9,8 +10,9 @@ import ExpiredCouponListSection from '@/@components/unregistered-coupon/Unregist
 import RegisteredCouponListSection from '@/@components/unregistered-coupon/UnregisteredCouponListSection/RegisteredCouponListSection';
 import UnregisteredCouponListSection from '@/@components/unregistered-coupon/UnregisteredCouponListSection/UnregisteredCouponListSection';
 import { useStatus } from '@/@hooks/@common/useStatus';
-import { DYNAMIC_PATH } from '@/Router';
+import { DYNAMIC_PATH, PATH } from '@/Router';
 import { unregisteredFilterOptionsSessionStorage } from '@/storage/session';
+import theme from '@/styles/theme';
 import { UnregisteredCoupon } from '@/types/unregistered-coupon/client';
 
 import * as Styled from './style';
@@ -71,6 +73,11 @@ const UnregisteredCouponList = () => {
             )}
           </Styled.Container>
         </Suspense>
+        <Styled.LinkInner>
+          <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.ExtendedLink}>
+            <Icon iconName='plus' size='37' color={theme.colors.primary_400} />
+          </Link>
+        </Styled.LinkInner>
       </Styled.Root>
     </PageTemplate>
   );
