@@ -16,12 +16,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Table(name = "unregistered_coupon")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Where(clause = "deleted = false")
