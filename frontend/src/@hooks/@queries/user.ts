@@ -27,19 +27,20 @@ const QUERY_KEY = {
 
 /** Query */
 export const useFetchMe = () => {
-  const { data, isLoading, remove, isError } = useQuery([QUERY_KEY.me], getMe, {
+  const { data, isLoading, isError } = useQuery([QUERY_KEY.me], getMe, {
     suspense: false,
     refetchOnWindowFocus: false,
     staleTime: 10000,
     useErrorBoundary: false,
   });
+  const queryClient = useQueryClient();
 
   const logout = () => {
     client.defaults.headers['Authorization'] = '';
 
     localStorage.removeItem('user-token');
 
-    remove();
+    queryClient.clear();
   };
 
   return {
