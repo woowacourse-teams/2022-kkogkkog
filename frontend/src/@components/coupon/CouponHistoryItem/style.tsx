@@ -11,7 +11,7 @@ export const Root = styled.div`
   padding: 20px 0;
 
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_200};
+    color: ${theme.colors.dark_grey_200};
   `}
 `;
 

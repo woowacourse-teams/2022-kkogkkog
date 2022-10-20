@@ -79,9 +79,11 @@ export const useUnregisteredForm = () => {
       navigate(DYNAMIC_PATH.UNREGISTERED_COUPON_DETAIL(unregisteredCouponList[0].id), {
         replace: true,
       });
+
+      return;
     }
 
-    navigate(PATH.UNREGISTERED_COUPON_LIST);
+    navigate(PATH.UNREGISTERED_COUPON_LIST, { replace: true });
   };
 
   return {

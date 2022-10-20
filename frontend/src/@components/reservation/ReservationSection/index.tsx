@@ -19,8 +19,8 @@ const ReservationSection = (props: ReservationSectionProps) => {
     return (
       <Styled.NoneContentsContainer>
         <Icon iconName='hand' hasCursor={false} size='36' color={theme.colors.primary_400} />
-        <h3>아직 예정된 약속이 없어요!</h3>
-        <h4>약속을 기다리는 사람에게 신청해볼까요 ?</h4>
+        <Styled.NonContentsText1>아직 예정된 약속이 없어요!</Styled.NonContentsText1>
+        <Styled.NonContentsText2>약속을 기다리는 사람에게 신청해볼까요 ?</Styled.NonContentsText2>
       </Styled.NoneContentsContainer>
     );
   }
@@ -37,9 +37,7 @@ const ReservationSection = (props: ReservationSectionProps) => {
         return (
           <Styled.DateContainer key={meetingDate}>
             <Styled.DateTitle>
-              <div>
-                {dateText}({day})
-              </div>
+              <div>{`${dateText}(${day})`}</div>
               <div>{dDay > 0 ? `D-${dDay}` : 'D-Day'}</div>
             </Styled.DateTitle>
             <ReservationList reservatedCouponList={reservatedCouponList} />

@@ -6,6 +6,7 @@ import {
 import { useToast } from '../@common/useToast';
 import {
   useCreateUnregisteredCouponMutation,
+  useDeleteUnregisteredCouponMutation,
   useRegisterUnregisteredCouponMutation,
 } from '../@queries/unregistered-coupon';
 
@@ -27,9 +28,9 @@ export const useCreateUnregisteredCoupon = () => {
   return { createUnregisteredCoupon };
 };
 
-export const useRegisterUnregisteredCoupon = () => {
+export const useRegisterUnregisteredCoupon = (id: number) => {
   const { displayMessage } = useToast();
-  const { mutateAsync } = useRegisterUnregisteredCouponMutation();
+  const { mutateAsync } = useRegisterUnregisteredCouponMutation(id);
 
   const registerUnregisteredCoupon = (body: RegisterUnregisteredCouponRequest) => {
     return mutateAsync(body, {
@@ -41,5 +42,22 @@ export const useRegisterUnregisteredCoupon = () => {
 
   return {
     registerUnregisteredCoupon,
+  };
+};
+
+export const useDeleteUnregisteredCoupon = (id: number) => {
+  const { displayMessage } = useToast();
+  const { mutateAsync } = useDeleteUnregisteredCouponMutation(id);
+
+  const deleteUnregisteredCoupon = () => {
+    return mutateAsync(id, {
+      onSuccess() {
+        displayMessage('쿠폰이 삭제되었습니다.', false);
+      },
+    });
+  };
+
+  return {
+    deleteUnregisteredCoupon,
   };
 };

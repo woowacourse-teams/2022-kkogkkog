@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
+import com.woowacourse.kkogkkog.infrastructure.dto.WoowacourseUsersResponse;
 import com.woowacourse.kkogkkog.infrastructure.dto.PushAlarmRequest;
 import com.woowacourse.kkogkkog.infrastructure.exception.WoowacoursePostMessageRequestFailedException;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -43,9 +43,22 @@ public class WoowacoursePushAlarmClient {
         checkErrorStatusCode(response, userId, message);
     }
 
+    public WoowacourseUsersResponse requestUsers() {
+        return messageClient
+            .get()
+            .uri(uriBuilder -> uriBuilder.path("/api/users").build())
+            .headers(httpHeaders -> httpHeaders.set(HttpHeaders.AUTHORIZATION, this.token))
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(WoowacourseUsersResponse.class)
+            .blockOptional()
+            .orElseThrow(() -> new RuntimeException("우아한테크코스 통합 알림봇에 문제가 있습니다."));
+    }
+
     private ResponseSpec requestToPushAlarmServer(String userId, String message) {
         return messageClient
             .post()
+            .uri(uriBuilder -> uriBuilder.path("/api/send").build())
             .headers(httpHeaders -> httpHeaders.set(HttpHeaders.AUTHORIZATION, this.token))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(PushAlarmRequest.of(userId, message))
@@ -55,7 +68,7 @@ public class WoowacoursePushAlarmClient {
     private void checkErrorStatusCode(ResponseSpec response, String userId, String message) {
         try {
             response.onStatus(HttpStatus::isError,
-                status -> throwPostMessageFailedException(userId, message, status))
+                    status -> throwPostMessageFailedException(userId, message, status))
                 .toBodilessEntity()
                 .blockOptional();
         } catch (WoowacoursePostMessageRequestFailedException e) {

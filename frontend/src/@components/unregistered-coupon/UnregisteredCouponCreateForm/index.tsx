@@ -64,7 +64,7 @@ const UnregisteredCouponCreateForm = (props: UnregisteredCouponCreateFormProps) 
             isSelected={engType === currentCouponType}
             onClick={onSelectCouponType(engType)}
           >
-            <img src={THUMBNAIL[engType]} alt='쿠폰 종류' width={50} height={50} />
+            <img src={THUMBNAIL[engType].src} alt={THUMBNAIL[engType].alt} width={50} height={50} />
           </Styled.TypeOption>
         ))}
       </SelectInput>

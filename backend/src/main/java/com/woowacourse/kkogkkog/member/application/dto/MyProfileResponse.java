@@ -45,4 +45,17 @@ public class MyProfileResponse {
             unreadHistoryCount
         );
     }
+
+    public static MyProfileResponse withNoWorkspace(Member member, Long unreadHistoryCount) {
+        return new MyProfileResponse(
+            member.getId(),
+            null,
+            null,
+            null,
+            member.getNickname(),
+            member.getEmail(),
+            member.getImageUrl(),
+            unreadHistoryCount
+        );
+    }
 }

@@ -23,7 +23,7 @@ function Modal(props: PropsWithChildren<ModalProps>) {
   };
 
   return ReactDOM.createPortal(
-    <Dimmed position={position} onClick={onClickDimmed}>
+    <Dimmed role='dialog' position={position} onClick={onClickDimmed}>
       <Styled.Root position={position} animation={animation}>
         {children}
       </Styled.Root>

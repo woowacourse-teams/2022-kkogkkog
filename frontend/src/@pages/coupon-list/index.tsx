@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Suspense } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
@@ -105,7 +104,7 @@ export const Styled = {
     border-radius: 4px;
     padding: 20px 0;
   `,
-  ListFilterContainer: styled.div`
+  ListFilterContainer: styled.nav`
     padding: 0 20px;
   `,
   Container: styled.div`
@@ -125,7 +124,7 @@ export const Styled = {
       bottom: 16px;
     }
   `,
-  VerticalListContainer: styled.div`
+  VerticalListContainer: styled.section`
     padding: 20px 10px;
   `,
   HorizonListContainer: styled.div`

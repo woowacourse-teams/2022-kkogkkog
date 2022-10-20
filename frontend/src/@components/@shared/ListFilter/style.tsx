@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+export const Root = styled.ul`
   display: flex;
   justify-content: center;
   flex-wrap: no-wrap;
@@ -11,14 +11,16 @@ export const Root = styled.div`
   gap: 10px;
 `;
 
-export const FilterButton = styled.button<{ isFocus?: boolean; horizontalScroll?: boolean }>`
+export const FilterList = styled.li`
   max-width: 120px;
-
   aspect-ratio: 1/1;
-
-  padding: 5px;
-
   flex: 1;
+`;
+
+export const FilterButton = styled.button<{ isFocus?: boolean; horizontalScroll?: boolean }>`
+  width: 100%;
+  height: 100%;
+  padding: 5px;
 
   border-radius: 20px;
 

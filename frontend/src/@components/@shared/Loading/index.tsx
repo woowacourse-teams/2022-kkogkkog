@@ -10,7 +10,7 @@ function Loading() {
   return ReactDOM.createPortal(
     <Dimmed>
       <Styled.Root>
-        <img src={logoImage} alt='로고' width={36} height={36} />
+        <img src={logoImage} alt='로고' width={60} height={60} />
       </Styled.Root>
     </Dimmed>,
     document.querySelector('#root') as Element

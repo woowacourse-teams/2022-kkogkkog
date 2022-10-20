@@ -1,4 +1,7 @@
 import { UNREGISTERED_COUPON_STATUS } from '@/types/unregistered-coupon/client';
+import { CreateUnregisteredCouponRequest } from '@/types/unregistered-coupon/remote';
+
+import { Valueof } from './../../types/utils';
 
 export default {
   current: [
@@ -62,6 +65,7 @@ export default {
 
     return unregisteredCouponList;
   },
+
   findUnregisteredCoupon(unregisteredCouponId: number) {
     const coupon = this.current.find(({ id }) => id === unregisteredCouponId);
 
@@ -80,5 +84,36 @@ export default {
     }
 
     return coupon;
+  },
+
+  deleteUnregisteredCoupon(unregisteredCouponId: number) {
+    const newUnregisteredCouponList = this.current.filter(({ id }) => id !== unregisteredCouponId);
+
+    this.current = newUnregisteredCouponList;
+  },
+
+  createUnregisteredCoupon({ id, body }: { id: number; body: CreateUnregisteredCouponRequest }) {
+    const { couponMessage, couponTag, couponType } = body;
+
+    return {
+      id,
+      couponCode: `asdfghjkqwertyui${id}`,
+      couponId: null,
+      sender: {
+        id: 1,
+        nickname: '시지프',
+        imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
+      },
+      receiver: null,
+      unregisteredCouponStatus: 'ISSUED',
+      createdTime: '2022-10-12T14:32:22',
+      couponTag,
+      couponMessage,
+      couponType,
+    };
+  },
+
+  addUnregisteredCoupon(unregisteredCoupon: Valueof<typeof this.current>[]) {
+    this.current = [...this.current, ...unregisteredCoupon];
   },
 };

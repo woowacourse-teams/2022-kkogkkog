@@ -11,7 +11,7 @@ export const Root = styled.div<{ isShowLabel?: boolean }>`
   & > label {
     display: inline-block;
 
-    color: ${({ theme }) => theme.colors.drak_grey_200};
+    color: ${({ theme }) => theme.colors.dark_grey_200};
     font-size: 14px;
     font-weight: 600;
 

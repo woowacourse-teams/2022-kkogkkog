@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Root = styled.div`
+export const Root = styled.ul`
   display: flex;
 
   overflow-x: scroll;
@@ -20,29 +20,25 @@ export const NoneContentsContainer = styled.div`
   align-items: center;
 
   gap: 10px;
-
-  & > h2 {
-    font-size: 50px;
-  }
-
-  & > h3 {
-    font-size: 18px;
-
-    ${({ theme }) => css`
-      color: ${theme.colors.drak_grey_200};
-    `}
-  }
-
-  & > h4 {
-    font-size: 14px;
-
-    ${({ theme }) => css`
-      color: ${theme.colors.grey_100};
-    `}
-  }
 `;
 
-export const DateContainer = styled.div`
+export const NonContentsText1 = styled.p`
+  font-size: 18px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.dark_grey_200};
+  `}
+`;
+
+export const NonContentsText2 = styled.p`
+  font-size: 14px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.grey_100};
+  `}
+`;
+
+export const DateContainer = styled.li`
   width: 350px;
   height: 320px;
 

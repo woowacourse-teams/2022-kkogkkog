@@ -14,13 +14,14 @@ const ListFilter = <T extends string>(props: ListFilterProps<T>) => {
   return (
     <Styled.Root>
       {options.map(option => (
-        <Styled.FilterButton
-          key={option}
-          isFocus={status === option}
-          onClick={() => onClickFilterButton(option)}
-        >
-          {option}
-        </Styled.FilterButton>
+        <Styled.FilterList key={option}>
+          <Styled.FilterButton
+            isFocus={status === option}
+            onClick={() => onClickFilterButton(option)}
+          >
+            {option}
+          </Styled.FilterButton>
+        </Styled.FilterList>
       ))}
     </Styled.Root>
   );

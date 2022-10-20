@@ -17,8 +17,8 @@ const colors = {
   grey_200: '#8B8B8B',
   grey_100: '#A5A5A5',
 
-  drak_grey_200: '#242424',
-  drak_grey_100: '#3D3D3D',
+  dark_grey_200: '#242424',
+  dark_grey_100: '#3D3D3D',
 
   green_500: '#51D230',
 

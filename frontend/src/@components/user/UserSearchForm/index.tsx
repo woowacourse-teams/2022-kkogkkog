@@ -8,7 +8,7 @@ import * as Styled from './style';
 
 interface UserSearchFormProps {
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
 }
 
 const UserSearchForm = (props: UserSearchFormProps) => {
@@ -40,15 +40,14 @@ const UserSearchForm = (props: UserSearchFormProps) => {
         label='누구에게 주고 싶나요?'
         placeholder='🔍 유저 검색'
         onChange={onChangeSearchInput}
+        autoFocus={true}
       />
 
-      <Styled.SearchContainer>
-        <UserSearchResult
-          searchedUserList={searchedUserList}
-          currentReceiverList={currentReceiverList}
-          onSelectReceiver={onSelectReceiver}
-        />
-      </Styled.SearchContainer>
+      <UserSearchResult
+        searchedUserList={searchedUserList}
+        currentReceiverList={currentReceiverList}
+        onSelectReceiver={onSelectReceiver}
+      />
     </Styled.Root>
   );
 };
@@ -56,7 +55,7 @@ const UserSearchForm = (props: UserSearchFormProps) => {
 interface UserSearchResultProps {
   searchedUserList: UserResponse[] | undefined;
   currentReceiverList: UserResponse[];
-  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLDivElement>;
+  onSelectReceiver: (user: UserResponse) => MouseEventHandler<HTMLButtonElement>;
 }
 
 const UserSearchResult = (props: UserSearchResultProps) => {
@@ -71,19 +70,26 @@ const UserSearchResult = (props: UserSearchResultProps) => {
   }
 
   return (
-    <>
-      {searchedUserList.map(user => (
-        <Styled.SearchedUser
-          key={user.id}
-          isSelected={currentReceiverList.some(receiver => receiver.id === user.id)}
-          onClick={onSelectReceiver(user)}
-        >
-          <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
-          <span>{user.nickname}&nbsp;</span>
-          <Styled.Email>({user.email})</Styled.Email>
-        </Styled.SearchedUser>
-      ))}
-    </>
+    <Styled.SearchedUserContainer>
+      {searchedUserList.map(user => {
+        const isSelected = currentReceiverList.some(receiver => receiver.id === user.id);
+
+        const ariaLabel = isSelected ? `${user.nickname} 선택 해제` : `${user.nickname} 선택`;
+
+        return (
+          <Styled.SearchedUser
+            key={user.id}
+            isSelected={isSelected}
+            onClick={onSelectReceiver(user)}
+            aria-label={ariaLabel}
+          >
+            <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
+            <span>{user.nickname}&nbsp;</span>
+            <Styled.Email>({user.email})</Styled.Email>
+          </Styled.SearchedUser>
+        );
+      })}
+    </Styled.SearchedUserContainer>
   );
 };
 

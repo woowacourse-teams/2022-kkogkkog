@@ -103,6 +103,9 @@ public class MemberService {
         Long unreadHistoryCount = memberHistoryRepository
             .countByHostMemberAndIsReadFalse(findMember);
 
+        if (findMember.getUserId() == null) {
+            return MyProfileResponse.withNoWorkspace(findMember, unreadHistoryCount);
+        }
         return MyProfileResponse.of(findMember, unreadHistoryCount);
     }
 

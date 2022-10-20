@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 export const Root = styled.div`
   min-height: 250px;
+
+  padding: 8px 0;
 `;
 
 export const SelectedUserListContainer = styled.div`
@@ -58,7 +60,7 @@ export const CloseButton = styled.div`
   cursor: pointer;
 `;
 
-export const SearchContainer = styled.div`
+export const SearchedUserContainer = styled.div`
   width: 100%;
 
   height: fit-content;
@@ -99,7 +101,9 @@ export const TextContainer = styled.div`
   `}
 `;
 
-export const SearchedUser = styled.div<{ isSelected: boolean }>`
+export const SearchedUser = styled.button<{ isSelected: boolean }>`
+  width: 100%;
+
   display: flex;
   align-items: center;
 

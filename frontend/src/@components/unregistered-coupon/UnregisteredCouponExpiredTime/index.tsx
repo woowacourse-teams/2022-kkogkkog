@@ -70,7 +70,7 @@ const UnregisteredCouponExpiredTime = (props: UnregisteredCouponExpiredTimeProps
         </Styled.TimeContainer>
       )}
       <Styled.Text>
-        {remainingTime > 0 ? '이 지나기 전에 요청해보세요!' : '받을 수 있는 기간이 지났어요 !'}
+        {remainingTime > 0 ? '후에 쿠폰이 만료됩니다!' : '받을 수 있는 기간이 지났어요 !'}
       </Styled.Text>
     </Styled.Root>
   );

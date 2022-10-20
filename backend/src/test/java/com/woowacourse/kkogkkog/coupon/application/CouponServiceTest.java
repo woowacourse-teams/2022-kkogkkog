@@ -18,6 +18,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponDetailResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponHistoryResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
+import com.woowacourse.kkogkkog.coupon.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
@@ -27,7 +28,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
-import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
@@ -42,6 +42,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 @ApplicationTest
 @DisplayName("CouponService의")
@@ -123,13 +124,13 @@ class CouponServiceTest {
         @Test
         @DisplayName("보낸 사람의 ID를 통해, 해당 ID로 보낸 쿠폰 리스트를 반환한다.")
         void success() {
-            List<CouponResponse> actual = couponService.findAllBySender(sender.getId());
+            CouponsResponse actual = couponService.findAllBySender(sender.getId(), PageRequest.of(0, 5));
 
-            List<Long> actualIds = actual.stream()
+            List<Long> actualIds = actual.getData().stream()
                 .map(it -> it.getSender().getId())
                 .collect(Collectors.toList());
             assertAll(
-                () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actual.getData()).hasSize(2),
                 () -> assertThat(actualIds).containsOnly(sender.getId())
             );
         }
@@ -137,14 +138,14 @@ class CouponServiceTest {
         @Test
         @DisplayName("보낸 사람의 ID와 쿠폰의 상태를 통해, 해당 ID로 보낸 쿠폰 리스트 중 상태가 일치하는 리스트를 반환한다.")
         void success_withStatus() {
-            List<CouponResponse> actual = couponService.findAllBySender(sender.getId(),
-                CouponStatus.REQUESTED.name());
+            CouponsResponse actual = couponService.findAllBySender(sender.getId(),
+                CouponStatus.REQUESTED.name(), PageRequest.of(0, 5));
 
-            List<Long> actualIds = actual.stream()
+            List<Long> actualIds = actual.getData().stream()
                 .map(it -> it.getSender().getId())
                 .collect(Collectors.toList());
             assertAll(
-                () -> assertThat(actual).hasSize(1),
+                () -> assertThat(actual.getData()).hasSize(1),
                 () -> assertThat(actualIds).containsOnly(sender.getId())
             );
         }
@@ -172,14 +173,14 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID를 통해, 해당 ID로 받은 쿠폰 리스트를 반환한다.")
         void success() {
-            List<CouponResponse> actual = couponService.findAllByReceiver(
-                receiver.getId());
+            CouponsResponse actual = couponService.findAllByReceiver(
+                receiver.getId(), PageRequest.of(0, 5));
 
-            List<Long> actualIds = actual.stream()
+            List<Long> actualIds = actual.getData().stream()
                 .map(it -> it.getReceiver().getId())
                 .collect(Collectors.toList());
             assertAll(
-                () -> assertThat(actual).hasSize(2),
+                () -> assertThat(actual.getData()).hasSize(2),
                 () -> assertThat(actualIds).containsOnly(receiver.getId())
             );
         }
@@ -187,14 +188,14 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID와 쿠폰의 상태를 통해, 해당 ID로 보낸 쿠폰 리스트 중 상태가 일치하는 리스트를 반환한다.")
         void success_withStatus() {
-            List<CouponResponse> actual = couponService.findAllByReceiver(receiver.getId(),
-                CouponStatus.REQUESTED.name());
+            CouponsResponse actual = couponService.findAllByReceiver(receiver.getId(),
+                CouponStatus.REQUESTED.name(), PageRequest.of(0, 5));
 
-            List<Long> actualIds = actual.stream()
+            List<Long> actualIds = actual.getData().stream()
                 .map(it -> it.getReceiver().getId())
                 .collect(Collectors.toList());
             assertAll(
-                () -> assertThat(actual).hasSize(1),
+                () -> assertThat(actual.getData()).hasSize(1),
                 () -> assertThat(actualIds).containsOnly(receiver.getId())
             );
         }

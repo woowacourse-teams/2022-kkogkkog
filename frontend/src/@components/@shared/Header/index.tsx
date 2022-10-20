@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Icon from '@/@components/@shared/Icon';
 import Position from '@/@components/@shared/Position';
@@ -18,55 +18,34 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { title = '', className } = props;
 
-  const navigate = useNavigate();
-
   const isMainPage = useLocation().pathname === PATH.MAIN;
 
   const { me } = useFetchMe();
 
-  const onClickGoBack = () => {
-    navigate(-1);
-  };
-
   return (
     <Styled.Root className={className}>
       <Styled.Logo>
-        {isMainPage ? (
-          <Link to={PATH.LANDING}>
-            <img src={logoImage} alt='로고' width={36} height={36} />
-          </Link>
-        ) : (
-          <Icon
-            iconName='arrow'
-            size='30'
-            color={theme.colors.primary_400}
-            onClick={onClickGoBack}
-            css={css`
-              padding: 5px;
-            `}
-          />
-        )}
+        <Link to={PATH.MAIN}>
+          <img src={logoImage} alt='로고' width={36} height={36} />
+        </Link>
       </Styled.Logo>
       <Styled.Title>{!isMainPage && title}</Styled.Title>
       <Styled.Profile>
-        <Position
-          css={css`
-            display: flex;
-            align-items: center;
-          `}
-        >
-          {me && (
-            <Link to={PATH.USER_HISTORY}>
-              <Icon iconName='notification' size='26' color={'transparent'} />
-            </Link>
-          )}
-
-          {me && me?.unReadCount !== 0 && (
-            <Position position='absolute' top='0' right='0'>
-              <Styled.Bell />
-            </Position>
-          )}
-        </Position>
+        {me && (
+          <Link
+            to={PATH.USER_HISTORY}
+            css={css`
+              position: relative;
+            `}
+          >
+            <Icon iconName='notification' size='26' color={'transparent'} />
+            {me?.unReadCount !== 0 && (
+              <Position position='absolute' top='0' right='0'>
+                <Styled.Bell />
+              </Position>
+            )}
+          </Link>
+        )}
         <Link
           to={PATH.PROFILE}
           css={css`

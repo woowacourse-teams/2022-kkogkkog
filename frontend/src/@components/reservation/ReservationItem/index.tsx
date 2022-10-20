@@ -19,21 +19,19 @@ const ReservationItem = (props: ReservationItemProps) => {
   const { member } = useCouponPartner(reservatedCoupon);
 
   return (
-    <Position>
-      <Styled.Root>
-        <Styled.Bar />
-        <Styled.ImageContainer>
-          <img src={member.imageUrl} alt='프로필' width={40} height={40} />
-        </Styled.ImageContainer>
-        <Styled.TextContainer>{member.nickname}님과의 약속</Styled.TextContainer>
+    <Styled.Root>
+      <Styled.Bar />
+      <Styled.ImageContainer>
+        <img src={member.imageUrl} alt='프로필' width={40} height={40} />
+      </Styled.ImageContainer>
+      <Styled.TextContainer>{`${member.nickname}님과의 약속`}</Styled.TextContainer>
 
-        <Position position='absolute' right='10px'>
-          <Link to={DYNAMIC_PATH.COUPON_DETAIL(id)} css={Styled.LinkButton}>
-            쿠폰보기
-          </Link>
-        </Position>
-      </Styled.Root>
-    </Position>
+      <Position position='absolute' right='10px'>
+        <Link to={DYNAMIC_PATH.COUPON_DETAIL(id)} css={Styled.LinkButton}>
+          쿠폰보기
+        </Link>
+      </Position>
+    </Styled.Root>
   );
 };
 

@@ -60,7 +60,7 @@ export const SubSection = styled.section`
 export const SubSectionTitle = styled.span`
   font-weight: 600;
   ${({ theme }) => css`
-    color: ${theme.colors.drak_grey_200};
+    color: ${theme.colors.dark_grey_200};
   `}
 `;
 
@@ -80,6 +80,21 @@ export const DescriptionContainer = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.background_3};
   `}
+`;
+
+export const FinishButtonInner = styled.div`
+  width: 100%;
+  text-align: right;
+  font-size: 12px;
+  margin-top: 16px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.grey_200};
+  `}
+
+  & > button {
+    text-decoration: underline;
+  }
 `;
 
 export const ExtendedButton = css`

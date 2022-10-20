@@ -4,7 +4,7 @@ export const Root = styled.div`
   & > label {
     display: inline-block;
 
-    color: ${({ theme }) => theme.colors.drak_grey_200};
+    color: ${({ theme }) => theme.colors.dark_grey_200};
     font-weight: 600;
     font-size: 14px;
 
@@ -19,10 +19,7 @@ export const SelectContainer = styled.ul`
 
   display: flex;
   align-items: center;
-
-  & > li + li {
-    margin-left: 10px;
-  }
+  gap: 10px;
 
   & > li {
     cursor: pointer;

@@ -12,7 +12,7 @@ const SelectInput = (props: PropsWithChildren<SelectInputProps>) => {
   return (
     <Styled.Root>
       <label>{label}</label>
-      <Styled.SelectContainer>{children}</Styled.SelectContainer>
+      <Styled.SelectContainer tabIndex={0}>{children}</Styled.SelectContainer>
     </Styled.Root>
   );
 };
@@ -23,7 +23,7 @@ SelectInput.VerticalView = function VerticalView(props: PropsWithChildren<Select
   return (
     <Styled.Root>
       <label>{label}</label>
-      <Styled.SelectVerticalContainer>{children}</Styled.SelectVerticalContainer>
+      <Styled.SelectVerticalContainer tabIndex={0}>{children}</Styled.SelectVerticalContainer>
     </Styled.Root>
   );
 };
