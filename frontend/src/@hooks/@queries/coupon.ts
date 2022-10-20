@@ -154,7 +154,7 @@ export const useChangeCouponStatusMutation = (id: number) => {
 
 /** invalidateQueries */
 
-export const useCouponInvalidationOnRegisterCoupon = () => {
+export const useCouponInvalidationOnRegisterUnregisteredCoupon = () => {
   const queryClient = useQueryClient();
 
   const invalidateReceivedCouponList = () => {
