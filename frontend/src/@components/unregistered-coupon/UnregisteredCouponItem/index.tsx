@@ -20,7 +20,7 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
   const { className, onClick, ...coupon } = props;
   const { displayMessage } = useToast();
 
-  const { receiver, couponTag, unregisteredCouponStatus, couponMessage, thumbnail, couponCode } = {
+  const { receiver, couponTag, lazyCouponStatus, couponMessage, thumbnail, couponCode } = {
     ...coupon,
     thumbnail: THUMBNAIL[coupon.couponType],
   };
@@ -40,7 +40,7 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
     <Styled.Root>
       <Styled.Coupon className={className} hasCursor={!!onClick} onClick={onClick}>
         <Styled.CouponPropertyContainer>
-          <UnregisteredCouponStatus status={unregisteredCouponStatus} />
+          <UnregisteredCouponStatus status={lazyCouponStatus} />
           <Styled.ImageInner>
             <img src={thumbnail.src} alt={thumbnail.alt} width={44} height={44} />
           </Styled.ImageInner>
@@ -56,7 +56,7 @@ const UnregisteredCouponItem = (props: UnregisteredCouponItemProps) => {
         </Styled.TextContainer>
       </Styled.Coupon>
 
-      {unregisteredCouponStatus === 'ISSUED' && (
+      {lazyCouponStatus === 'ISSUED' && (
         <Styled.CopyButton type='button' onClick={copyUrl}>
           <Icon iconName='copy' />
         </Styled.CopyButton>
