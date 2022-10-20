@@ -51,7 +51,7 @@ const UnregisteredCouponList = () => {
   };
 
   return (
-    <PageTemplate title='미등록 쿠폰'>
+    <PageTemplate title='링크로 보낸 쿠폰'>
       <Styled.Root>
         <Styled.ListFilterContainer>
           <ListFilter<UnregisteredFilterOption>

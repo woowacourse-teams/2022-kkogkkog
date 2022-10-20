@@ -1,4 +1,4 @@
-import { css, Theme } from '@emotion/react';
+import { type Theme, css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const FormRoot = styled.form`
@@ -15,6 +15,8 @@ export const FindUserContainer = styled.section`
   position: relative;
 
   & > label {
+    display: inline-block;
+
     font-size: 14px;
     font-weight: 600;
 

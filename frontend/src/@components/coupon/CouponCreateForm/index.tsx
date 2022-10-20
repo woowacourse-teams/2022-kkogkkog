@@ -70,7 +70,7 @@ const CouponCreateForm = (props: CouponCreateFormProps) => {
           <span>🔍</span>
         </Styled.FindUserInput>
         <Link to={PATH.UNREGISTERED_COUPON_CREATE} css={Styled.AnotherCouponCreatePageLink} replace>
-          미등록 쿠폰 생성하기
+          링크로 쿠폰 보내러가기
         </Link>
       </Styled.FindUserContainer>
 
