@@ -16,6 +16,6 @@ export interface UnregisteredCoupon {
   couponTag: COUPON_HASHTAGS;
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
-  unregisteredCouponStatus: UNREGISTERED_COUPON_STATUS;
+  lazyCouponStatus: UNREGISTERED_COUPON_STATUS;
   createdTime: YYYYMMDDhhmmss;
 }

@@ -17,16 +17,14 @@ const UnregisteredCouponCodeProxyPage = () => {
 
   return (
     <>
-      {unregisteredCoupon.unregisteredCouponStatus === 'ISSUED' && (
+      {unregisteredCoupon.lazyCouponStatus === 'ISSUED' && (
         <IssuedUnregisteredCouponPage
           unregisteredCoupon={unregisteredCoupon}
           couponCode={couponCode}
         />
       )}
-      {unregisteredCoupon.unregisteredCouponStatus === 'REGISTERED' && <RegisteredCouponPage />}
-      {unregisteredCoupon.unregisteredCouponStatus === 'EXPIRED' && (
-        <ExpiredUnregisteredCouponPage />
-      )}
+      {unregisteredCoupon.lazyCouponStatus === 'REGISTERED' && <RegisteredCouponPage />}
+      {unregisteredCoupon.lazyCouponStatus === 'EXPIRED' && <ExpiredUnregisteredCouponPage />}
     </>
   );
 };

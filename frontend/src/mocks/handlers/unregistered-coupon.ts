@@ -58,13 +58,13 @@ export const unregisteredCouponHandler = [
       try {
         const coupon = unregisteredCouponMock.findUnregisteredCouponByCode(couponCode);
 
-        if (coupon.unregisteredCouponStatus !== 'ISSUED') {
+        if (coupon.lazyCouponStatus !== 'ISSUED') {
           return res(ctx.status(400), ctx.json({ message: '유효하지 않은 쿠폰입니다.' }));
         }
 
         unregisteredCouponMock.current = unregisteredCouponMock.current.map(coupon =>
-          coupon.unregisteredCouponStatus === 'ISSUED'
-            ? { ...coupon, unregisteredCouponStatus: 'REGISTERED' }
+          coupon.lazyCouponStatus === 'ISSUED'
+            ? { ...coupon, lazyCouponStatus: 'REGISTERED' }
             : coupon
         );
 

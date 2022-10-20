@@ -18,7 +18,7 @@ export default {
       couponTag: '즐코!',
       couponMessage: '하하하',
       couponType: 'COFFEE',
-      unregisteredCouponStatus: 'ISSUED',
+      lazyCouponStatus: 'ISSUED',
       createdTime: '2022-10-12T14:32:22',
     },
     {
@@ -38,7 +38,7 @@ export default {
       couponTag: '즐코!',
       couponMessage: '하하하',
       couponType: 'COFFEE',
-      unregisteredCouponStatus: 'REGISTERED',
+      lazyCouponStatus: 'REGISTERED',
       createdTime: '2022-10-12T14:32:22',
     },
     {
@@ -54,13 +54,13 @@ export default {
       couponTag: '즐코!',
       couponMessage: '하하하',
       couponType: 'COFFEE',
-      unregisteredCouponStatus: 'EXPIRED',
+      lazyCouponStatus: 'EXPIRED',
       createdTime: '2022-10-12T14:32:22',
     },
   ],
   findUnregisteredCouponListByStatus(status: UNREGISTERED_COUPON_STATUS) {
     const unregisteredCouponList = this.current.filter(
-      ({ unregisteredCouponStatus }) => unregisteredCouponStatus === status
+      ({ lazyCouponStatus }) => lazyCouponStatus === status
     );
 
     return unregisteredCouponList;
@@ -105,7 +105,7 @@ export default {
         imageUrl: 'https://avatars.githubusercontent.com/u/24906022?s=48&v=4',
       },
       receiver: null,
-      unregisteredCouponStatus: 'ISSUED',
+      lazyCouponStatus: 'ISSUED',
       createdTime: '2022-10-12T14:32:22',
       couponTag,
       couponMessage,
