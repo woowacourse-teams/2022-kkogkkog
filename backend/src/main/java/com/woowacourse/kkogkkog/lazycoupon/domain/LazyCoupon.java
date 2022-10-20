@@ -1,10 +1,13 @@
 package com.woowacourse.kkogkkog.lazycoupon.domain;
 
+import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.EXPIRE;
+
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.lazycoupon.exception.LazyCouponQuantityExcessException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +36,7 @@ public class LazyCoupon extends BaseEntity {
 
     private static final int MINIMUM_QUANTITY = 0;
     private static final int MAXIMUM_QUANTITY = 5;
+    private static final int EXPIRED_DAYS = 7;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,7 +110,24 @@ public class LazyCoupon extends BaseEntity {
     }
 
     public void changeStatus(LazyCouponEventType lazyCouponEventType) {
+        if (shouldNotBeExpired(lazyCouponEventType)) {
+            return;
+        }
         updateLazyCouponStatus(lazyCouponStatus.handle(lazyCouponEventType));
+    }
+
+    private boolean shouldNotBeExpired(LazyCouponEventType lazyCouponEventType) {
+        return EXPIRE.equals(lazyCouponEventType) && isNotExpired(getLazyCouponExpirationStrategy());
+    }
+
+    private ExpirationStrategy getLazyCouponExpirationStrategy() {
+        return (createdTime) -> {
+            LocalDateTime expiredTime = createdTime.plusDays(EXPIRED_DAYS);
+            return expiredTime.isAfter(LocalDateTime.now());
+        };
+    }
+    public boolean isNotExpired(ExpirationStrategy strategy) {
+        return strategy.isNotExpired(getCreatedTime());
     }
 
     public boolean isNotSender(Member member) {

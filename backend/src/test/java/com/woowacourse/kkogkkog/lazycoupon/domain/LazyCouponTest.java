@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.lazycoupon.exception.LazyCouponQuantityExcessException;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -73,6 +74,37 @@ public class LazyCouponTest {
 
             LazyCouponStatus actual = lazyCoupon.getLazyCouponStatus();
             assertThat(actual).isEqualTo(REGISTERED);
+        }
+    }
+    @Nested
+    @DisplayName("isNotExpired 메서드는")
+    class IsNotExpired {
+
+        @Test
+        @DisplayName("만료 시간이 현재 시간보다 나중이면 true를 반환한다.")
+        void success_true() {
+            Member sender = SENDER.getMember();
+            LazyCoupon lazyCoupon = COFFEE.getCouponLazyCoupon(sender).getLazyCoupon();
+            ExpirationStrategy strategy = (createdTime) -> {
+                LocalDateTime expiredTime = createdTime.plusDays(7);
+                return expiredTime.isAfter(LocalDateTime.now());
+            };
+
+            boolean actual = lazyCoupon.isNotExpired(strategy);
+
+            assertThat(actual).isTrue();
+        }
+
+        @Test
+        @DisplayName("만료 시간이 현재 시간보다 이전이면 false를 반환한다.")
+        void success_false() {
+            Member sender = SENDER.getMember();
+            LazyCoupon lazyCoupon = COFFEE.getCouponLazyCoupon(sender).getLazyCoupon();
+            ExpirationStrategy strategy = (createdTime) -> createdTime.isAfter(LocalDateTime.now());
+
+            boolean actual = lazyCoupon.isNotExpired(strategy);
+
+            assertThat(actual).isFalse();
         }
     }
 }
