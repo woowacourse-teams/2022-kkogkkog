@@ -21,7 +21,7 @@ import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponSaveRequest
 import com.woowacourse.kkogkkog.lazycoupon.domain.CouponLazyCoupon;
 import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCoupon;
 import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus;
-import com.woowacourse.kkogkkog.lazycoupon.domain.repository.LazyCouponRepository;
+import com.woowacourse.kkogkkog.lazycoupon.domain.repository.CouponLazyCouponRepository;
 import com.woowacourse.kkogkkog.lazycoupon.exception.LazyCouponQuantityExcessException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -53,7 +53,7 @@ public class LazyCouponServiceTest {
     private CouponHistoryRepository couponHistoryRepository;
 
     @Autowired
-    private LazyCouponRepository lazyCouponRepository;
+    private CouponLazyCouponRepository couponLazyCouponRepository;
 
     @Nested
     @DisplayName("save 메서드는")
@@ -100,7 +100,7 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            CouponLazyCoupon couponLazyCoupon = lazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
             lazyCoupon = couponLazyCoupon.getLazyCoupon();
         }
 
@@ -140,8 +140,8 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(AUTHOR.getMember(workspace));
-            lazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
-            lazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
         }
 
         @Test
@@ -162,7 +162,7 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
         void success_where_registered() {
-            LazyCoupon lazyCoupon = lazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender))
+            LazyCoupon lazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender))
                 .getLazyCoupon();
             CouponResponse couponResponse = lazyCouponService.saveByCouponCode(receiver.getId(),
                 쿠폰_코드_등록_요청(lazyCoupon.getCouponCode()));
@@ -253,7 +253,7 @@ public class LazyCouponServiceTest {
 
             lazyCouponService.delete(sender.getId(), lazyCouponId);
 
-            Boolean isPresent = lazyCouponRepository.findById(lazyCouponId)
+            Boolean isPresent = couponLazyCouponRepository.findById(lazyCouponId)
                 .isPresent();
             assertThat(isPresent).isFalse();
         }

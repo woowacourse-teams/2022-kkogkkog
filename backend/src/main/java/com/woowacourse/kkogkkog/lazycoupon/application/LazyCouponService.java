@@ -14,7 +14,7 @@ import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponResponse;
 import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponSaveRequest;
 import com.woowacourse.kkogkkog.lazycoupon.domain.CouponLazyCoupon;
 import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCoupon;
-import com.woowacourse.kkogkkog.lazycoupon.domain.repository.LazyCouponRepository;
+import com.woowacourse.kkogkkog.lazycoupon.domain.repository.CouponLazyCouponRepository;
 import com.woowacourse.kkogkkog.lazycoupon.exception.LazyCouponNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LazyCouponService {
 
-    private final LazyCouponRepository lazyCouponRepository;
+    private final CouponLazyCouponRepository couponLazyCouponRepository;
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
     private final CouponHistoryRepository couponHistoryRepository;
@@ -37,7 +37,7 @@ public class LazyCouponService {
     public List<LazyCouponResponse> findAllBySender(Long memberId, String lazyCouponStatus) {
         Member sender = memberRepository.get(memberId);
         LazyCouponStatus status = LazyCouponStatus.valueOf(lazyCouponStatus);
-        return lazyCouponRepository.findAllBySender(sender, status).stream()
+        return couponLazyCouponRepository.findAllBySender(sender, status).stream()
             .map(LazyCouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -45,7 +45,7 @@ public class LazyCouponService {
     @Transactional(readOnly = true)
     public LazyCouponResponse findById(Long memberId, Long lazyCouponId) {
         Member member = memberRepository.get(memberId);
-        CouponLazyCoupon couponLazyCoupon = lazyCouponRepository.get(lazyCouponId);
+        CouponLazyCoupon couponLazyCoupon = findLazyCoupon(lazyCouponId);
         couponLazyCoupon.validateSender(member);
         return LazyCouponResponse.of(couponLazyCoupon);
     }
@@ -61,7 +61,7 @@ public class LazyCouponService {
         LazyCoupon.validateQuantity(quantity);
         Member sender = memberRepository.get(request.getSenderId());
         List<CouponLazyCoupon> lazyCoupons = request.toEntities(sender);
-        return lazyCouponRepository.saveAll(lazyCoupons).stream()
+        return couponLazyCouponRepository.saveAll(lazyCoupons).stream()
             .map(LazyCouponResponse::of)
             .collect(Collectors.toList());
     }
@@ -76,14 +76,18 @@ public class LazyCouponService {
 
     public void delete(Long memberId, Long lazyCouponId) {
         Member member = memberRepository.get(memberId);
-        CouponLazyCoupon couponLazyCoupon = lazyCouponRepository.get(
-            lazyCouponId);
+        CouponLazyCoupon couponLazyCoupon = findLazyCoupon(lazyCouponId);
         couponLazyCoupon.validateSender(member);
-        lazyCouponRepository.delete(couponLazyCoupon);
+        couponLazyCouponRepository.delete(couponLazyCoupon);
+    }
+
+    private CouponLazyCoupon findLazyCoupon(Long id) {
+        return couponLazyCouponRepository.findByLazyCouponId(id)
+            .orElseThrow(LazyCouponNotFoundException::new);
     }
 
     private CouponLazyCoupon findLazyCoupon(String couponCode) {
-        return lazyCouponRepository.findByLazyCouponCouponCode(couponCode)
+        return couponLazyCouponRepository.findByLazyCouponCouponCode(couponCode)
             .orElseThrow(LazyCouponNotFoundException::new);
     }
 
