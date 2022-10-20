@@ -56,7 +56,7 @@ public class LazyCoupon extends BaseEntity {
     private CouponType couponType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "unregistered_coupon_status")
     private LazyCouponStatus lazyCouponStatus;
 
     @Column(nullable = false)
