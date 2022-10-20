@@ -22,6 +22,7 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const { reservationList, isLoading: isAcceptedCouponListLoading } = useFetchReservationList();
+
   const { openCouponList: receivedOpenCouponList, isLoading: isReceivedCouponListLoading } =
     useFetchCouponList({
       couponListType: 'received',
