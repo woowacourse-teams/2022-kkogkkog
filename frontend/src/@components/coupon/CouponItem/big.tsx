@@ -59,10 +59,10 @@ BigCouponItem.Preview = function Preview(props: BigCouponItemPreviewProps) {
   };
 
   return (
-    <Styled.Root className={className} hasCursor={false}>
+    <Styled.Root className={className}>
       <Styled.ImageContainer>
         <Styled.ImageInner>
-          <img src={thumbnail} alt='쿠폰' width={44} height={44} />
+          <img src={thumbnail.src} alt='쿠폰' width={44} height={44} />
         </Styled.ImageInner>
       </Styled.ImageContainer>
       <Styled.TextContainer>
