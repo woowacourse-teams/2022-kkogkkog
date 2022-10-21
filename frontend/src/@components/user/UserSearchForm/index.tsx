@@ -85,7 +85,7 @@ const UserSearchResult = (props: UserSearchResultProps) => {
           >
             <Styled.ProfileImage src={user.imageUrl} width='24' alt='프사' />
             <span>{user.nickname}&nbsp;</span>
-            <Styled.Email>({user.email})</Styled.Email>
+            {/* <Styled.Email>({user.email})</Styled.Email> */}
           </Styled.SearchedUser>
         );
       })}
