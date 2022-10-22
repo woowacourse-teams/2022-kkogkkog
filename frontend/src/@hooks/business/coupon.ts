@@ -3,6 +3,7 @@ import { useChangeCouponStatusMutation, useCreateCouponMutation } from '@/@hooks
 import { CreateCouponRequest } from '@/types/coupon/remote';
 import { YYYYMMDD } from '@/types/utils';
 
+// mutate의 역할을 제한하여 반환하는 기능. useQuery 내부에서 데이터를 가공해주는 것과 같은 논리로 이것도 Mutation에 올리는 것도 한 가지 방법이라고 생각합니다.
 export const useChangeCouponStatus = ({ couponId }: { couponId: number }) => {
   const { displayMessage } = useToast();
 
@@ -78,6 +79,7 @@ export const useChangeCouponStatus = ({ couponId }: { couponId: number }) => {
   };
 };
 
+// displayMessage가 모든 요청에 발생한다면 Mutation단으로 올리고, 아니라면 컴포넌트 단에서 처리.
 export const useCreateCoupon = () => {
   const { displayMessage } = useToast();
 

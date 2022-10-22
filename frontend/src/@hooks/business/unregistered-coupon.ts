@@ -10,6 +10,7 @@ import {
   useRegisterUnregisteredCouponMutation,
 } from '../@queries/unregistered-coupon';
 
+// displayMessage가 모든 요청에 발생한다면 Mutation단으로 올리고, 아니라면 컴포넌트 단에서 처리.
 export const useCreateUnregisteredCoupon = () => {
   const { displayMessage } = useToast();
 
@@ -28,6 +29,7 @@ export const useCreateUnregisteredCoupon = () => {
   return { createUnregisteredCoupon };
 };
 
+// displayMessage가 모든 요청에 발생한다면 Mutation단으로 올리고, 아니라면 컴포넌트 단에서 처리.
 export const useRegisterUnregisteredCoupon = (id: number) => {
   const { displayMessage } = useToast();
   const { mutateAsync } = useRegisterUnregisteredCouponMutation(id);
@@ -45,6 +47,7 @@ export const useRegisterUnregisteredCoupon = (id: number) => {
   };
 };
 
+// displayMessage가 모든 요청에 발생한다면 Mutation단으로 올리고, 아니라면 컴포넌트 단에서 처리.
 export const useDeleteUnregisteredCoupon = (id: number) => {
   const { displayMessage } = useToast();
   const { mutateAsync } = useDeleteUnregisteredCouponMutation(id);

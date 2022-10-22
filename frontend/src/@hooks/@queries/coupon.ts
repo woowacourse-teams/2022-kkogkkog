@@ -13,7 +13,9 @@ import {
 } from '@/apis/coupon';
 import { COUPON_LIST_TYPE } from '@/types/coupon/client';
 import { CouponListByStatusRequest } from '@/types/coupon/remote';
+import { YYYYMMDD } from '@/types/utils';
 
+import { useToast } from '../@common/useToast';
 import { useFetchMe } from './user';
 import { useMutation, useQuery } from './utils';
 
@@ -104,11 +106,14 @@ export const useFetchCouponListByStatus = ({
 
 export const useCreateCouponMutation = () => {
   const queryClient = useQueryClient();
-  const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(createCoupon, {
+  const { showLoading, hideLoading } = useLoading();
+  const { displayMessage } = useToast();
+
+  const { mutateAsync } = useMutation(createCoupon, {
     onSuccess() {
       queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
+      displayMessage('쿠폰을 생성했어요', false); // 모든 컴포넌트에 이것이 사용되는가? yes -> 이곳에 정의 / no -> 컴포넌트 단에서 후처리
     },
     onMutate() {
       showLoading();
@@ -117,19 +122,25 @@ export const useCreateCouponMutation = () => {
       hideLoading();
     },
   });
+
+  // 로직이 없는 경우 mutateAsync를 이름만 바꾸어 보내준다.
+  return { createCoupon: mutateAsync };
 };
 
-export const useChangeCouponStatusMutation = (id: number) => {
+export const useChangeCouponStatusMutation = (couponId: number) => {
   const queryClient = useQueryClient();
-  const { coupon } = useFetchCoupon(id);
-  const { me } = useFetchMe();
-  const { showLoading, hideLoading } = useLoading();
 
-  return useMutation(changeCouponStatus, {
+  const { coupon } = useFetchCoupon(couponId);
+  const { me } = useFetchMe();
+
+  const { showLoading, hideLoading } = useLoading();
+  const { displayMessage } = useToast();
+
+  const { mutateAsync } = useMutation(changeCouponStatus, {
     onSuccess() {
       const isSent = coupon?.sender.id === me?.id;
 
-      queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
+      queryClient.invalidateQueries([QUERY_KEY.coupon, couponId]);
 
       if (isSent) {
         queryClient.invalidateQueries([QUERY_KEY.reservationList]);
@@ -150,6 +161,76 @@ export const useChangeCouponStatusMutation = (id: number) => {
       hideLoading();
     },
   });
+
+  const cancelCoupon = () => {
+    return mutateAsync(
+      { couponId, body: { couponEvent: 'CANCEL' } },
+      {
+        onSuccess() {
+          displayMessage('쿠폰 사용을 취소했어요', false);
+        },
+      }
+    );
+  };
+
+  const requestCoupon = ({
+    meetingDate,
+    meetingMessage,
+  }: {
+    meetingDate: YYYYMMDD;
+    meetingMessage: string;
+  }) => {
+    return mutateAsync(
+      { couponId, body: { couponEvent: 'REQUEST', meetingDate, meetingMessage } },
+      {
+        onSuccess() {
+          displayMessage('쿠폰 사용을 요청했어요', false);
+        },
+      }
+    );
+  };
+
+  const finishCoupon = () => {
+    return mutateAsync(
+      { couponId, body: { couponEvent: 'FINISH' } },
+      {
+        onSuccess() {
+          displayMessage('쿠폰 사용을 완료했어요', false);
+        },
+      }
+    );
+  };
+
+  const acceptCoupon = ({ meetingMessage }: { meetingMessage: string }) => {
+    return mutateAsync(
+      { couponId, body: { couponEvent: 'ACCEPT', meetingMessage } },
+      {
+        onSuccess() {
+          displayMessage('쿠폰 사용을 승인했어요', false);
+        },
+      }
+    );
+  };
+
+  const declineCoupon = ({ meetingMessage }: { meetingMessage: string }) => {
+    return mutateAsync(
+      { couponId, body: { couponEvent: 'DECLINE', meetingMessage } },
+      {
+        onSuccess() {
+          displayMessage('쿠폰 사용을 거절했어요', false);
+        },
+      }
+    );
+  };
+
+  // mutate 사용 방식을 제한하여 반환한다.
+  return {
+    cancelCoupon,
+    requestCoupon,
+    finishCoupon,
+    acceptCoupon,
+    declineCoupon,
+  };
 };
 
 /** invalidateQueries */
