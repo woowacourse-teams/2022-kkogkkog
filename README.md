@@ -30,3 +30,21 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------:
 | <img src="https://avatars.githubusercontent.com/u/24906022?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/78349600?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/75936123?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/73531614?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/48710213?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/76774809?v=4" width=200px alt="_">
 |                          프론트엔드                         |                          프론트엔드                         |                           백엔드                           |                           백엔드                           |                           백엔드                           |                           백엔드                          
+
+## 🎯 사용 기술
+
+### Frontend
+![frontend](https://user-images.githubusercontent.com/76774809/197915536-fbc8726e-2093-47ba-9cb0-c76b671accb1.png)
+
+### Backend
+![backend](https://user-images.githubusercontent.com/76774809/197915562-d62457b8-1b92-4122-9ff6-2222b0ccca48.png)
+
+### Infrastructure
+![infra](https://user-images.githubusercontent.com/76774809/197915578-2ef286c5-1cdb-4787-8a7a-67f341b84f9b.png)
+
+### CI/CD
+![ci:cd](https://user-images.githubusercontent.com/76774809/197915712-c10fdc70-903b-43f5-9d7c-7787759b57ed.png)
+
+
+
+
