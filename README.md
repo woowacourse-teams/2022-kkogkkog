@@ -25,7 +25,7 @@
 [4차 데모 영상](https://youtu.be/6jtsyPbm8CM)
 
 ## 기능 소개
-<img width="1201" alt="스크린샷 2022-10-26 10 53 19" src="https://user-images.githubusercontent.com/76774809/197916101-cdc098b6-f4dc-4351-80e6-86cfef7e8a12.png">       
+<img width="1201" alt="스크린샷 2022-10-26 10 53 19" src="https://user-images.githubusercontent.com/76774809/197916634-5ae11239-d07e-4d20-9fdd-00913bcb5ae0.png">  
 
 ## 🎯 사용 기술
 
