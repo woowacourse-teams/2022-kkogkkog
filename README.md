@@ -24,12 +24,8 @@
 [3차 데모 영상](https://youtu.be/N5IB9lCsjbI)  
 [4차 데모 영상](https://youtu.be/6jtsyPbm8CM)
 
-## 🧑🏻‍💻 팀원 소개
-
-|            [시지프](https://github.com/euijinkk)             |            [준찌](https://github.com/juunzzi)             |             [아서](https://github.com/Hyunta)             |             [정](https://github.com/bugoverdose)             |              [루키](https://github.com/Wishoon)               |             [레오](https://github.com/DWL21)
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------:
-| <img src="https://avatars.githubusercontent.com/u/24906022?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/78349600?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/75936123?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/73531614?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/48710213?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/76774809?v=4" width=200px alt="_">
-|                          프론트엔드                         |                          프론트엔드                         |                           백엔드                           |                           백엔드                           |                           백엔드                           |                           백엔드                          
+## 기능 소개
+<img width="1201" alt="스크린샷 2022-10-26 10 53 19" src="https://user-images.githubusercontent.com/76774809/197916101-cdc098b6-f4dc-4351-80e6-86cfef7e8a12.png">       
 
 ## 🎯 사용 기술
 
@@ -43,8 +39,13 @@
 ![infra](https://user-images.githubusercontent.com/76774809/197915578-2ef286c5-1cdb-4787-8a7a-67f341b84f9b.png)
 
 ### CI/CD
-![ci:cd](https://user-images.githubusercontent.com/76774809/197915712-c10fdc70-903b-43f5-9d7c-7787759b57ed.png)
+![ci:cd](https://user-images.githubusercontent.com/76774809/197916408-938508b9-5273-4b21-b4d3-874079a590d9.png)
 
+## 🧑🏻‍💻 팀원 소개
 
+|            [시지프](https://github.com/euijinkk)             |            [준찌](https://github.com/juunzzi)             |             [아서](https://github.com/Hyunta)             |             [정](https://github.com/bugoverdose)             |              [루키](https://github.com/Wishoon)               |             [레오](https://github.com/DWL21)
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------:
+| <img src="https://avatars.githubusercontent.com/u/24906022?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/78349600?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/75936123?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/73531614?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/48710213?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/76774809?v=4" width=200px alt="_">
+|                          프론트엔드                         |                          프론트엔드                         |                           백엔드                           |                           백엔드                           |                           백엔드                           |                           백엔드                   
 
 
