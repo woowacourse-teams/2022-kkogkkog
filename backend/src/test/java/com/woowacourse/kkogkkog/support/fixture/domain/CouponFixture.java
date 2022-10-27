@@ -9,34 +9,26 @@ import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
 
-public enum CouponFixture {
+public class CouponFixture {
 
-    COFFEE("고마워요!", "커피쿠폰입니다.", CouponType.COFFEE);
+    private static final String COUPON_TAG = "고마워요";
+    private static final String COUPON_MESSAGE = "커피쿠폰 메시지";
+    private static final CouponType COUPON_TYPE = CouponType.COFFEE;
 
-    private String couponTag;
-    private String couponMessage;
-    private CouponType couponType;
-
-    CouponFixture(final String couponTag, final String couponMessage, final CouponType couponType) {
-        this.couponTag = couponTag;
-        this.couponMessage = couponMessage;
-        this.couponType = couponType;
+    public static Coupon createCoupon(Member sender, Member receiver) {
+        return new Coupon(sender, receiver, COUPON_TAG, COUPON_MESSAGE, COUPON_TYPE);
     }
 
-    public Coupon getCoupon(Member sender, Member receiver) {
-        return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
+    public static Coupon createCoupon(Member sender, Member receiver, CouponState couponState) {
+        return new Coupon(null, sender, receiver, COUPON_MESSAGE, COUPON_TAG, COUPON_TYPE, couponState);
     }
 
-    public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {
-        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType, couponState);
-    }
-
-    public Coupon getRequestedCoupon(Member sender, Member receiver) {
-        return new Coupon(null, sender, receiver, couponTag, couponMessage, couponType,
+    public static Coupon createRequestedCoupon(Member sender, Member receiver) {
+        return new Coupon(null, sender, receiver, COUPON_TAG, COUPON_MESSAGE, COUPON_TYPE,
             new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(7)));
     }
 
-    public CouponLazyCoupon getCouponLazyCoupon(Member sender) {
-        return new CouponLazyCoupon(null, LazyCoupon.of(sender, couponTag, couponMessage, couponType));
+    public static CouponLazyCoupon createCouponLazyCoupon(Member sender) {
+        return new CouponLazyCoupon(null, LazyCoupon.of(sender, COUPON_TAG, COUPON_MESSAGE, COUPON_TYPE));
     }
 }

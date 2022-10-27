@@ -1,5 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.event;
 
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -14,7 +15,6 @@ import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.infrastructure.domain.WoowacourseUserRepository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
-import com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture;
 import com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture;
 import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import java.time.LocalDateTime;
@@ -49,7 +49,7 @@ class PushAlarmPublisherTest {
             Workspace workspace = null;
             Member arthur = MemberFixture.AUTHOR.getMember(1L, workspace);
             Member jeong = MemberFixture.JEONG.getMember(2L, workspace);
-            Coupon coupon = CouponFixture.COFFEE.getCoupon(arthur, jeong);
+            Coupon coupon = createCoupon(arthur, jeong);
             CouponEvent couponEvent = new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now());
             CouponHistory couponHistory = CouponHistory.of(arthur, coupon, couponEvent, "message");
 
@@ -74,7 +74,7 @@ class PushAlarmPublisherTest {
             Workspace workspace = null;
             Member arthur = MemberFixture.AUTHOR.getMember(1L, workspace);
             Member jeong = MemberFixture.JEONG.getMember(2L, workspace);
-            Coupon coupon = CouponFixture.COFFEE.getCoupon(arthur, jeong);
+            Coupon coupon = createCoupon(arthur, jeong);
             CouponEvent couponEvent = new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now());
             CouponHistory couponHistory = CouponHistory.of(arthur, coupon, couponEvent, "message");
 
@@ -96,7 +96,7 @@ class PushAlarmPublisherTest {
             Workspace workspace = WorkspaceFixture.KKOGKKOG.getWorkspace();
             Member arthur = MemberFixture.AUTHOR.getMember(1L, workspace);
             Member jeong = MemberFixture.JEONG.getMember(2L, workspace);
-            Coupon coupon = CouponFixture.COFFEE.getCoupon(arthur, jeong);
+            Coupon coupon = createCoupon(arthur, jeong);
             CouponEvent couponEvent = new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now());
             CouponHistory couponHistory = CouponHistory.of(arthur, coupon, couponEvent, "message");
 

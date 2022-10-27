@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상태_변경_요청;
 
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
@@ -69,7 +69,7 @@ public class PushAlarmListenerTest {
         @Test
         @DisplayName("쿠폰 상태를 변경할 때, 슬랙 푸시 알림을 보낸다.")
         void success_couponUpdate() {
-            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createCoupon(sender, receiver));
             CouponStatusRequest couponStatusRequest = 쿠폰_상태_변경_요청(
                 receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null);
 

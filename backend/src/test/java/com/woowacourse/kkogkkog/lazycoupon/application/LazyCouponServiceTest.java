@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.lazycoupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCouponLazyCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
@@ -100,7 +100,7 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
             lazyCoupon = couponLazyCoupon.getLazyCoupon();
         }
 
@@ -140,8 +140,8 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(AUTHOR.getMember(workspace));
-            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
-            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
         }
 
         @Test
@@ -162,7 +162,7 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
         void success_where_registered() {
-            LazyCoupon lazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender))
+            LazyCoupon lazyCoupon = couponLazyCouponRepository.save(createCouponLazyCoupon(sender))
                 .getLazyCoupon();
             CouponResponse couponResponse = lazyCouponService.saveByCouponCode(receiver.getId(),
                 쿠폰_코드_등록_요청(lazyCoupon.getCouponCode()));

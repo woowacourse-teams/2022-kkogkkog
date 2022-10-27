@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.lazycoupon.domain;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCouponLazyCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
 import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponEventType.REGISTER;
 import static com.woowacourse.kkogkkog.lazycoupon.domain.LazyCouponStatus.REGISTERED;
@@ -67,7 +67,7 @@ public class LazyCouponTest {
         @DisplayName("미등록 쿠폰 이벤트를 받으면 상태를 변경한다.")
         void success() {
             Member sender = SENDER.getMember();
-            LazyCoupon lazyCoupon = COFFEE.getCouponLazyCoupon(sender).getLazyCoupon();
+            LazyCoupon lazyCoupon = createCouponLazyCoupon(sender).getLazyCoupon();
 
             lazyCoupon.changeStatus(REGISTER);
 

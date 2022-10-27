@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +28,7 @@ class CouponTest {
         void fail_sameSenderAndReceiver() {
             Member member = ROOKIE.getMember();
 
-            assertThatThrownBy(() -> COFFEE.getCoupon(member, member))
+            assertThatThrownBy(() -> createCoupon(member, member))
                 .isInstanceOf(SameSenderReceiverException.class);
         }
     }
@@ -44,7 +43,7 @@ class CouponTest {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
 
-            Coupon coffee = COFFEE.getCoupon(sender, receiver);
+            Coupon coffee = createCoupon(sender, receiver);
 
             assertDoesNotThrow(() -> coffee.changeState(new CouponEvent(FINISH, null), sender));
         }
@@ -60,7 +59,7 @@ class CouponTest {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
 
-            Coupon coffee = COFFEE.getCoupon(sender, receiver);
+            Coupon coffee = createCoupon(sender, receiver);
 
             Member actual = coffee.getOppositeMember(sender);
             assertThat(actual).isEqualTo(receiver);
@@ -76,7 +75,7 @@ class CouponTest {
         void success_true() {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
-            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+            Coupon coupon = createCoupon(sender, receiver);
 
             Boolean actual = coupon.isSenderOrReceiver(receiver);
 
@@ -88,7 +87,7 @@ class CouponTest {
         void success_false() {
             Member sender = SENDER.getMember();
             Member receiver = RECEIVER.getMember();
-            Coupon coupon = COFFEE.getCoupon(sender, receiver);
+            Coupon coupon = createCoupon(sender, receiver);
 
             Member receiver2 = RECEIVER2.getMember();
             Boolean actual = coupon.isSenderOrReceiver(receiver2);

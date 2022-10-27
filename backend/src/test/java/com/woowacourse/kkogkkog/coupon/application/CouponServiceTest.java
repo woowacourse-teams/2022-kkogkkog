@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
@@ -114,8 +114,8 @@ class CouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver));
-            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(createCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createCoupon(sender, receiver));
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
@@ -163,8 +163,8 @@ class CouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(LEO.getMember(workspace));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver));
-            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            couponRepository.save(createCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createCoupon(sender, receiver));
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
@@ -270,15 +270,15 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
         void success_sender() {
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.READY, null)));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(2))));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(1))));
 
             List<AcceptedCouponResponse> extract = couponService.findAcceptedCoupons(sender.getId());
@@ -290,7 +290,7 @@ class CouponServiceTest {
         @DisplayName("받은 사람의 ID를 받으면, 당일 잡힌 약속 목록을 조회할 수 있다.")
         void success_todayMeeting() {
             couponRepository.save(
-                COFFEE.getCoupon(sender, receiver, new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
+                createCoupon(sender, receiver, new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
 
             List<AcceptedCouponResponse> actual = couponService.findAcceptedCoupons(sender.getId());
 
@@ -300,15 +300,15 @@ class CouponServiceTest {
         @Test
         @DisplayName("보낸 사람의 ID를 받으면, 조회날짜를 기준으로 미팅이 확정된 쿠폰들을 조회한다.")
         void success_receiver() {
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.READY, null)));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(2))));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now())));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
-            couponRepository.save(COFFEE.getCoupon(sender, receiver,
+            couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(1))));
 
             List<AcceptedCouponResponse> extract = couponService.findAcceptedCoupons(receiver.getId());

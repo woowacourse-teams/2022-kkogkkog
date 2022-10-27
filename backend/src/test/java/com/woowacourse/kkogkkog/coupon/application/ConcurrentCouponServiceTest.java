@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.coupon.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.ACCEPT;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createRequestedCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
@@ -70,7 +70,7 @@ class ConcurrentCouponServiceTest {
         @Test
         @DisplayName("동일한 쿠폰에 대해 동시에 복수의 수정 요청이 들어와도 베타락을 통해 순차적으로 처리한다.")
         void exclusiveLockToPreventLostUpdate() throws Exception {
-            Coupon coupon = couponRepository.save(COFFEE.getRequestedCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createRequestedCoupon(sender, receiver));
             final var executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
             Future<Boolean> cancelRequest = executor.submit(
                 () -> runAndCheckSuccess(receiver, coupon, CANCEL));

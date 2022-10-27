@@ -36,7 +36,7 @@
 //        Workspace workspace = workspaces.save(KKOGKKOG.getWorkspace());
 //        Member sender = members.save(JEONG.getMember(workspace));
 //        Member receiver = members.save(LEO.getMember(workspace));
-//        Coupon coupon = COFFEE.getCoupon(sender, receiver);
+//        Coupon coupon = COFFEEgetCoupon(sender, receiver);
 //
 //        MemberHistory initHistory = toMemberHistory(receiver, sender, coupon, new CouponEvent(
 //            CouponEventType.INIT, null));
