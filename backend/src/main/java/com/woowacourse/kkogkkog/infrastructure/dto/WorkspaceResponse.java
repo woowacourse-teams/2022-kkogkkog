@@ -20,7 +20,6 @@ public class WorkspaceResponse {
     }
 
     public static WorkspaceResponse of(Workspace workspace) {
-        return new WorkspaceResponse(workspace.getWorkspaceId(), workspace.getName(),
-            workspace.getAccessToken());
+        return new WorkspaceResponse(workspace.getWorkspaceId(), workspace.getName(), workspace.getAccessToken());
     }
 }

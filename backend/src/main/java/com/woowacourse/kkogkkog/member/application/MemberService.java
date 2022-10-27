@@ -36,8 +36,7 @@ public class MemberService {
 
     public boolean existsMember(SlackUserInfo userInfo) {
         String email = userInfo.getEmail();
-        return memberRepository.findByEmail(email)
-            .isPresent();
+        return memberRepository.findByEmail(email).isPresent();
     }
 
     public Long save(SlackUserInfo userInfo, Workspace workspace, String nickname) {
@@ -45,19 +44,15 @@ public class MemberService {
         String email = userInfo.getEmail();
         String imageUrl = userInfo.getPicture();
 
-        Member newMember = memberRepository.save(
-            new Member(userId, workspace, new Nickname(nickname), email, imageUrl));
-        workspaceUserRepository.save(
-            new WorkspaceUser(newMember, userId, workspace, nickname, email, imageUrl));
-        return newMember.getId();
+        Member member = memberRepository.save(new Member(userId, workspace, new Nickname(nickname), email, imageUrl));
+        workspaceUserRepository.save(new WorkspaceUser(member, userId, workspace, nickname, email, imageUrl));
+        return member.getId();
     }
 
     public Long save(GoogleUserDto userDto, String nickname) {
         String email = userDto.getEmail();
         String imageUrl = userDto.getPicture();
-        Member savedMember = memberRepository.save(
-            new Member(nickname, email, imageUrl)
-        );
+        Member savedMember = memberRepository.save(new Member(nickname, email, imageUrl));
         return savedMember.getId();
     }
 
@@ -91,17 +86,15 @@ public class MemberService {
         existingMember.updateMainSlackUserId(userInfo.getUserId());
         existingMember.updateImageURL(userInfo.getPicture());
         existingMember.updateWorkspace(workspace);
-        workspaceUserRepository.save(
-            new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
-                userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
+        workspaceUserRepository.save(new WorkspaceUser(null, existingMember, userInfo.getUserId(), workspace,
+            userInfo.getName(), userInfo.getEmail(), userInfo.getPicture()));
         return new MemberUpdateResponse(existingMember.getId(), false);
     }
 
     @Transactional(readOnly = true)
     public MyProfileResponse findById(Long memberId) {
         Member findMember = memberRepository.get(memberId);
-        Long unreadHistoryCount = memberHistoryRepository
-            .countByHostMemberAndIsReadFalse(findMember);
+        Long unreadHistoryCount = memberHistoryRepository.countByHostMemberAndIsReadFalse(findMember);
 
         if (findMember.getUserId() == null) {
             return MyProfileResponse.withNoWorkspace(findMember, unreadHistoryCount);
@@ -124,7 +117,6 @@ public class MemberService {
     @Transactional(readOnly = true)
     public List<MemberResponse> findByNickname(String searchName) {
         List<Member> members = memberRepository.findByNickname(searchName);
-
         return members.stream()
             .map(MemberResponse::of)
             .collect(Collectors.toList());
@@ -149,9 +141,8 @@ public class MemberService {
     }
 
     public void updateAllIsReadMemberHistories(Long memberId) {
-        Member foundMember = memberRepository.get(memberId);
-        List<CouponHistory> couponHistories = memberHistoryRepository
-            .findAllByHostMemberOrderByCreatedTimeDesc(foundMember);
+        Member member = memberRepository.get(memberId);
+        List<CouponHistory> couponHistories = memberHistoryRepository.findAllByHostMemberOrderByCreatedTimeDesc(member);
         for (CouponHistory couponHistory : couponHistories) {
             couponHistory.updateIsRead();
         }

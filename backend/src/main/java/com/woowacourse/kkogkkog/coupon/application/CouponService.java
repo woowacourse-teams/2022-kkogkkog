@@ -40,8 +40,7 @@ public class CouponService {
         if (!coupon.isSenderOrReceiver(member)) {
             throw new CouponNotAccessibleException();
         }
-        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
-            couponId);
+        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
         return CouponDetailResponse.of(coupon, couponHistories);
     }
 

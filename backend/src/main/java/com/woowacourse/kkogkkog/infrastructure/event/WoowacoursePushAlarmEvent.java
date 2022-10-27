@@ -20,8 +20,7 @@ public class WoowacoursePushAlarmEvent {
     }
 
     public static WoowacoursePushAlarmEvent of(String userId, CouponHistory couponHistory) {
-        return new WoowacoursePushAlarmEvent(userId, couponHistory.toNoticeMessage(),
-            couponHistory.getCouponEventType());
+        return new WoowacoursePushAlarmEvent(userId, couponHistory.toNoticeMessage(), couponHistory.getCouponEventType());
     }
 
     public boolean shouldNotSendPushAlarm() {

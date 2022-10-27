@@ -29,11 +29,6 @@ public class LazyCouponCreateRequest {
     }
 
     public LazyCouponSaveRequest toLazyCouponSaveRequest(Long senderId) {
-        return new LazyCouponSaveRequest(
-            senderId,
-            quantity,
-            couponTag,
-            couponMessage,
-            couponType);
+        return new LazyCouponSaveRequest(senderId, quantity, couponTag, couponMessage, couponType);
     }
 }
