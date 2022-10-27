@@ -32,8 +32,8 @@ public class CouponDtoFixture {
     public static CouponResponse COFFEE_쿠폰_응답(Long couponId, Member sender, Member receiver) {
         return new CouponResponse(
             couponId,
-            toCouponMemberResponse(sender),
-            toCouponMemberResponse(receiver),
+            CouponMemberResponse.of(sender),
+            CouponMemberResponse.of(receiver),
             COUPON_TAG,
             COUPON_MESSAGE,
             COUPON_TYPE,
@@ -47,8 +47,8 @@ public class CouponDtoFixture {
                                                 CouponHistoryResponse couponHistoryResponse) {
         return new CouponDetailResponse(
             couponId,
-            toCouponMemberResponse(sender),
-            toCouponMemberResponse(receiver),
+            CouponMemberResponse.of(sender),
+            CouponMemberResponse.of(receiver),
             COUPON_TAG,
             COUPON_MESSAGE,
             COUPON_TYPE,
@@ -86,9 +86,5 @@ public class CouponDtoFixture {
                                                   LocalDateTime meetingDate,
                                                   String meetingMessage) {
         return new CouponStatusRequest(memberId, couponId, CouponEventType.of(eventType), meetingDate, meetingMessage);
-    }
-
-    private static CouponMemberResponse toCouponMemberResponse(Member sender) {
-        return new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl());
     }
 }
