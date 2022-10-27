@@ -209,16 +209,16 @@ public class CouponAcceptanceTest extends AcceptanceTest {
         회원가입을_하고(LEO.getMember());
         String secondReceiverToken = 회원가입을_하고(AUTHOR.getMember());
         String senderToken = 회원가입을_하고(JEONG.getMember());
-        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken,
-            COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
+        CouponsResponse couponsResponse = 쿠폰_생성을_요청하고(senderToken, COFFEE_쿠폰_생성_요청(List.of(1L, 2L)));
         Long couponId = couponsResponse.getData().get(1).getId();
-        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId, 쿠폰_이벤트_요청("REQUEST", LocalDateTime.now().plusDays(1), "쿠폰 사용 요청 메시지"));
+        쿠폰_이벤트_요청을_한다(secondReceiverToken, couponId,
+            쿠폰_이벤트_요청("REQUEST", LocalDateTime.now().plusDays(1), "쿠폰 사용 요청 메시지"));
 
         final var response = 보낸쿠폰의_상태별로_목록을_조회한다(senderToken, CouponStatus.REQUESTED);
         CouponsResponse responseBody = response.as(CouponsResponse.class);
         assertAll(
             () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(responseBody.getData().size()).isEqualTo(1)
+            () -> assertThat(responseBody.getData()).hasSize(1)
         );
     }
 
@@ -237,7 +237,7 @@ public class CouponAcceptanceTest extends AcceptanceTest {
 
         assertAll(
             () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(responseBody.getData().size()).isEqualTo(1)
+            () -> assertThat(responseBody.getData()).hasSize(1)
         );
     }
 
