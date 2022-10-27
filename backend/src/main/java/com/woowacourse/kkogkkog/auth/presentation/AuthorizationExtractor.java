@@ -5,24 +5,30 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthorizationExtractor {
 
-    public static final String AUTHORIZATION = "Authorization";
-    public static String BEARER_TYPE = "Bearer";
-    public static final String ACCESS_TOKEN_TYPE = AuthorizationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER_TYPE = "Bearer".toLowerCase();
 
-    public static String extract(HttpServletRequest request) {
+    public static String extractBearerToken(HttpServletRequest request) {
         Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
         while (headers.hasMoreElements()) {
-            String value = headers.nextElement();
-            if ((value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase()))) {
-                String authHeaderValue = value.substring(BEARER_TYPE.length()).trim();
-                request.setAttribute(ACCESS_TOKEN_TYPE, value.substring(0, BEARER_TYPE.length()).trim());
-                int commaIndex = authHeaderValue.indexOf(',');
-                if (commaIndex > 0) {
-                    authHeaderValue = authHeaderValue.substring(0, commaIndex);
-                }
-                return authHeaderValue;
+            String header = headers.nextElement();
+            if (isBearerScheme(header)) {
+                return extractSingleBearerToken(header);
             }
         }
         return null;
+    }
+
+    private static boolean isBearerScheme(String value) {
+        return value.toLowerCase().startsWith(BEARER_TYPE);
+    }
+
+    private static String extractSingleBearerToken(String header) {
+        String headerValue = header.substring(BEARER_TYPE.length()).trim();
+        int commaIndex = headerValue.indexOf(',');
+        if (commaIndex > 0) {
+            headerValue = headerValue.substring(0, commaIndex);
+        }
+        return headerValue;
     }
 }

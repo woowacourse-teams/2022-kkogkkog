@@ -24,7 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String token = AuthorizationExtractor.extract(request);
+        String token = AuthorizationExtractor.extractBearerToken(request);
         try {
             String payload = jwtTokenProvider.getValidatedPayload(token);
             request.setAttribute(PAYLOAD, payload);
