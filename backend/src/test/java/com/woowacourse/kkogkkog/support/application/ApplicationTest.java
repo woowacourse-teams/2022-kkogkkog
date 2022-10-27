@@ -19,5 +19,4 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(DataClearExtension.class)
 @Import(TestConfig.class)
 public @interface ApplicationTest {
-
 }

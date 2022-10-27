@@ -88,12 +88,9 @@ class GoogleClientTest {
     }
 
     private GoogleClient buildMockGoogleClient(MockWebServer mockWebServer) {
-        String mockWebClientURI = String.format("http://%s:%s",
-            mockWebServer.getHostName(), mockWebServer.getPort());
-
-        return new GoogleClient("clientId", "clientSecret", mockWebClientURI, mockWebClientURI,
-            mockWebClientURI, WebClient.create());
-
+        String mockClientURI = String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort());
+        WebClient webClient = WebClient.create();
+        return new GoogleClient("clientId", "clientSecret", mockClientURI, mockClientURI, mockClientURI, webClient);
     }
 
     private void setUpError(MockWebServer mockWebServer, String responseBody) {

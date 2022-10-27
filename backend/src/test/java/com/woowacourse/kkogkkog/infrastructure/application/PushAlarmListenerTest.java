@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상태_변경_요청;
 
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
@@ -31,12 +31,16 @@ public class PushAlarmListenerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private CouponService couponService;
+
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
     @Autowired
     private CouponRepository couponRepository;
+
     @MockBean
     private SlackClient slackClient;
 
@@ -58,8 +62,7 @@ public class PushAlarmListenerTest {
         @Test
         @DisplayName("쿠폰을 생성할 때, 슬랙 푸시 알림을 보낸다.")
         void success_couponSave() {
-            couponService.save(
-                CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
+            couponService.save(CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
             Mockito.verify(slackClient, Mockito.timeout(1000))
                 .requestPushAlarm(workspace.getAccessToken(), receiver.getUserId(),
@@ -69,7 +72,7 @@ public class PushAlarmListenerTest {
         @Test
         @DisplayName("쿠폰 상태를 변경할 때, 슬랙 푸시 알림을 보낸다.")
         void success_couponUpdate() {
-            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createCoupon(sender, receiver));
             CouponStatusRequest couponStatusRequest = 쿠폰_상태_변경_요청(
                 receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null);
 

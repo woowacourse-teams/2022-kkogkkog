@@ -48,17 +48,15 @@ class AuthServiceTest extends ServiceTest {
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
             WorkspaceResponse workspaceResponse = WorkspaceResponse.of(KKOGKKOG.getWorkspace());
-            given(slackClient.requestAccessToken(AUTHORIZATION_CODE))
-                .willReturn(USER_ACCESS_TOKEN);
-            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN))
-                .willReturn(
-                    new SlackUserInfo(
-                        memberResponse.getUserId(),
-                        workspaceResponse.getWorkspaceId(),
-                        workspaceResponse.getWorkspaceName(),
-                        memberResponse.getNickname(),
-                        memberResponse.getEmail(),
-                        memberResponse.getImageUrl()));
+            given(slackClient.requestAccessToken(AUTHORIZATION_CODE)).willReturn(USER_ACCESS_TOKEN);
+            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN)).willReturn(
+                new SlackUserInfo(
+                    memberResponse.getUserId(),
+                    workspaceResponse.getWorkspaceId(),
+                    workspaceResponse.getWorkspaceName(),
+                    memberResponse.getNickname(),
+                    memberResponse.getEmail(),
+                    memberResponse.getImageUrl()));
 
             TokenResponse tokenResponse = authService.login(AUTHORIZATION_CODE);
 
@@ -71,9 +69,8 @@ class AuthServiceTest extends ServiceTest {
             given(slackClient.requestAccessToken("invalid_code"))
                 .willThrow(new AccessTokenRetrievalFailedException());
 
-            assertThatThrownBy(
-                () -> authService.login("invalid_code")
-            ).isInstanceOf(AccessTokenRetrievalFailedException.class);
+            assertThatThrownBy(() -> authService.login("invalid_code"))
+                .isInstanceOf(AccessTokenRetrievalFailedException.class);
         }
     }
 
@@ -85,14 +82,12 @@ class AuthServiceTest extends ServiceTest {
         @DisplayName("신규 회원이 가입을 하면, 토큰과 isNew를 true로 반환한다.")
         void success_newMember() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
-            given(googleClient.requestAccessToken(AUTHORIZATION_CODE))
-                .willReturn(USER_ACCESS_TOKEN);
-            given(googleClient.requestUserInfo(USER_ACCESS_TOKEN))
-                .willReturn(
-                    new GoogleUserDto(
-                        memberResponse.getNickname(),
-                        memberResponse.getEmail(),
-                        memberResponse.getImageUrl()));
+            given(googleClient.requestAccessToken(AUTHORIZATION_CODE)).willReturn(USER_ACCESS_TOKEN);
+            given(googleClient.requestUserInfo(USER_ACCESS_TOKEN)).willReturn(
+                new GoogleUserDto(
+                    memberResponse.getNickname(),
+                    memberResponse.getEmail(),
+                    memberResponse.getImageUrl()));
             TokenResponse tokenResponse = authService.loginGoogle(AUTHORIZATION_CODE);
 
             assertThat(tokenResponse.getIsNew()).isTrue();
@@ -108,10 +103,8 @@ class AuthServiceTest extends ServiceTest {
                 memberResponse.getImageUrl());
             memberService.save(userInfo, "닉네임");
 
-            given(googleClient.requestAccessToken(AUTHORIZATION_CODE))
-                .willReturn(USER_ACCESS_TOKEN);
-            given(googleClient.requestUserInfo(USER_ACCESS_TOKEN))
-                .willReturn(userInfo);
+            given(googleClient.requestAccessToken(AUTHORIZATION_CODE)).willReturn(USER_ACCESS_TOKEN);
+            given(googleClient.requestUserInfo(USER_ACCESS_TOKEN)).willReturn(userInfo);
             TokenResponse tokenResponse = authService.loginGoogle(AUTHORIZATION_CODE);
 
             assertThat(tokenResponse.getIsNew()).isFalse();
@@ -120,12 +113,10 @@ class AuthServiceTest extends ServiceTest {
         @Test
         @DisplayName("올바르지 않은 임시 코드를 입력하면, 예외를 던진다")
         void fail_invalidCode() {
-            given(googleClient.requestAccessToken("invalid_code"))
-                .willThrow(new AccessTokenRetrievalFailedException());
+            given(googleClient.requestAccessToken("invalid_code")).willThrow(new AccessTokenRetrievalFailedException());
 
-            assertThatThrownBy(
-                () -> authService.loginGoogle("invalid_code")
-            ).isInstanceOf(AccessTokenRetrievalFailedException.class);
+            assertThatThrownBy(() -> authService.loginGoogle("invalid_code"))
+                .isInstanceOf(AccessTokenRetrievalFailedException.class);
         }
     }
 
@@ -155,24 +146,21 @@ class AuthServiceTest extends ServiceTest {
         void success() {
             MemberResponse memberResponse = MemberResponse.of(ROOKIE.getMember());
             WorkspaceResponse workspaceResponse = WorkspaceResponse.of(KKOGKKOG.getWorkspace());
-            given(slackClient.requestAccessToken(AUTHORIZATION_CODE))
-                .willReturn(USER_ACCESS_TOKEN);
-            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN))
-                .willReturn(
-                    new SlackUserInfo(
-                        memberResponse.getUserId(),
-                        workspaceResponse.getWorkspaceId(),
-                        workspaceResponse.getWorkspaceName(),
-                        memberResponse.getNickname(),
-                        memberResponse.getEmail(),
-                        memberResponse.getImageUrl()));
+            given(slackClient.requestAccessToken(AUTHORIZATION_CODE)).willReturn(USER_ACCESS_TOKEN);
+            given(slackClient.requestUserInfo(USER_ACCESS_TOKEN)).willReturn(
+                new SlackUserInfo(
+                    memberResponse.getUserId(),
+                    workspaceResponse.getWorkspaceId(),
+                    workspaceResponse.getWorkspaceName(),
+                    memberResponse.getNickname(),
+                    memberResponse.getEmail(),
+                    memberResponse.getImageUrl()));
             authService.login(AUTHORIZATION_CODE);
 
-            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
-                .willReturn(new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, BOT_ACCESS_TOKEN));
+            given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE)).willReturn(
+                new WorkspaceResponse(WORKSPACE_ID, WORKSPACE_NAME, BOT_ACCESS_TOKEN));
 
-            assertThatNoException()
-                .isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
+            assertThatNoException().isThrownBy(() -> authService.installSlackApp(AUTHORIZATION_CODE));
         }
     }
 }

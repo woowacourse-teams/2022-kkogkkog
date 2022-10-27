@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.lazycoupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCouponLazyCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
-import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.RegisterCouponCodeRequest;
 import com.woowacourse.kkogkkog.lazycoupon.application.dto.LazyCouponResponse;
@@ -100,7 +99,7 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(SENDER.getMember(workspace));
             receiver = memberRepository.save(RECEIVER.getMember(workspace));
-            CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            CouponLazyCoupon couponLazyCoupon = couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
             lazyCoupon = couponLazyCoupon.getLazyCoupon();
         }
 
@@ -122,8 +121,7 @@ public class LazyCouponServiceTest {
             CouponResponse response = lazyCouponService.saveByCouponCode(receiver.getId(), request);
 
             Long couponId = response.getId();
-            List<CouponHistory> memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
-                couponId);
+            final var memberHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
             assertThat(memberHistories).hasSize(1);
         }
     }
@@ -140,8 +138,8 @@ public class LazyCouponServiceTest {
             Workspace workspace = workspaceRepository.save(KKOGKKOG.getWorkspace());
             sender = memberRepository.save(JEONG.getMember(workspace));
             receiver = memberRepository.save(AUTHOR.getMember(workspace));
-            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
-            couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
+            couponLazyCouponRepository.save(createCouponLazyCoupon(sender));
         }
 
         @Test
@@ -162,14 +160,11 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("REGISTERED 상태의 미등록 쿠폰 조회를 요청하면, 수령한 쿠폰 아이디와 받은 사람 정보도 반환한다.")
         void success_where_registered() {
-            LazyCoupon lazyCoupon = couponLazyCouponRepository.save(COFFEE.getCouponLazyCoupon(sender))
-                .getLazyCoupon();
+            LazyCoupon lazyCoupon = couponLazyCouponRepository.save(createCouponLazyCoupon(sender)).getLazyCoupon();
             CouponResponse couponResponse = lazyCouponService.saveByCouponCode(receiver.getId(),
                 쿠폰_코드_등록_요청(lazyCoupon.getCouponCode()));
 
-            List<LazyCouponResponse> responses = lazyCouponService.findAllBySender(sender.getId(),
-                LazyCouponStatus.REGISTERED.name());
-
+            final var responses = lazyCouponService.findAllBySender(sender.getId(), LazyCouponStatus.REGISTERED.name());
             LazyCouponResponse actual = responses.get(0);
             assertAll(
                 () -> assertThat(actual.getCouponId()).isEqualTo(couponResponse.getId()),
@@ -193,11 +188,10 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("미등록 쿠폰 아이디를 받으면, 상세 정보를 반환한다.")
         void success() {
-            List<LazyCouponResponse> response = lazyCouponService.save(
-                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
+            List<LazyCouponResponse> response = lazyCouponService.save(미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             Long lazyCouponId = response.get(0).getId();
 
-            var actual = lazyCouponService.findById(sender.getId(), lazyCouponId);
+            final var actual = lazyCouponService.findById(sender.getId(), lazyCouponId);
 
             Long id = actual.getSender().getId();
             String lazyCouponStatus = actual.getLazyCouponStatus();
@@ -222,11 +216,10 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("쿠폰코드를 받으면, 미등록 쿠폰의 상세 정보를 반환한다.")
         void success() {
-            List<LazyCouponResponse> response = lazyCouponService.save(
-                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
+            List<LazyCouponResponse> response = lazyCouponService.save(미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             String couponCode = response.get(0).getCouponCode();
 
-            var actual = lazyCouponService.findByCouponCode(couponCode);
+            final var actual = lazyCouponService.findByCouponCode(couponCode);
 
             assertThat(actual.getCouponCode()).isEqualTo(couponCode);
         }
@@ -247,14 +240,12 @@ public class LazyCouponServiceTest {
         @Test
         @DisplayName("쿠폰코드를 받으면, 미등록 쿠폰을 논리적 삭제한다.")
         void success() {
-            List<LazyCouponResponse> response = lazyCouponService.save(
-                미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
+            List<LazyCouponResponse> response = lazyCouponService.save(미등록_COFFEE_쿠폰_저장_요청(sender.getId(), 1));
             Long lazyCouponId = response.get(0).getId();
 
             lazyCouponService.delete(sender.getId(), lazyCouponId);
 
-            Boolean isPresent = couponLazyCouponRepository.findById(lazyCouponId)
-                .isPresent();
+            Boolean isPresent = couponLazyCouponRepository.findById(lazyCouponId).isPresent();
             assertThat(isPresent).isFalse();
         }
     }

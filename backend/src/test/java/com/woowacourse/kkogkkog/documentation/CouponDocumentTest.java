@@ -43,8 +43,7 @@ class CouponDocumentTest extends DocumentTest {
     void 쿠폰_생성_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.save(any())).willReturn(List.of(
-            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))
-        ));
+            COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))));
 
         ResultActions perform = mockMvc.perform(
             post("/api/v2/coupons")
@@ -68,16 +67,14 @@ class CouponDocumentTest extends DocumentTest {
     void 보낸_쿠폰_조회_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(couponService.findAllBySender(any(), any())).willReturn(new CouponsResponse(
-            List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))), false
-        ));
+            List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))), false));
 
         ResultActions perform = mockMvc.perform(
             get("/api/v2/coupons/sent")
                 .header(HttpHeaders.AUTHORIZATION, BEARER_TOKEN));
 
         perform.andExpect(status().isOk())
-            .andExpect(
-                content().string(objectMapper.writeValueAsString(new CouponsResponse(
+            .andExpect(content().string(objectMapper.writeValueAsString(new CouponsResponse(
                     List.of(COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L), AUTHOR.getMember(2L))), false))));
 
         perform
