@@ -26,8 +26,7 @@ public class LazyCouponTest {
         void success() {
             Member sender = SENDER.getMember();
 
-            LazyCoupon lazyCoupon = LazyCoupon.of(sender, "고마워요!",
-                "커피쿠폰입니다.", CouponType.COFFEE);
+            LazyCoupon lazyCoupon = LazyCoupon.of(sender, "고마워요!", "커피쿠폰입니다.", CouponType.COFFEE);
 
             assertThat(lazyCoupon.getCouponCode()).isNotEmpty();
         }

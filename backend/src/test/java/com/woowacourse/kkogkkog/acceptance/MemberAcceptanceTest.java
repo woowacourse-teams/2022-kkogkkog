@@ -39,7 +39,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         회원가입을_하고(rookie);
         회원가입을_하고(author);
 
-        ExtractableResponse<Response> extract = 전체_사용자_조회를_요청한다();
+        final var extract = 전체_사용자_조회를_요청한다();
         List<MemberResponse> members = extract.body().jsonPath()
             .getList("data", MemberResponse.class);
         MembersResponse membersResponse = new MembersResponse(members);
@@ -58,7 +58,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String rookieAccessToken = 회원가입을_하고(rookie);
         회원가입을_하고(AUTHOR.getMember(workspace));
 
-        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
+        final var extract = 본인_정보_조회를_요청한다(rookieAccessToken);
         MyProfileResponse memberResponse = extract.as(MyProfileResponse.class);
 
         assertAll(
@@ -74,7 +74,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
-        ExtractableResponse<Response> extract = 알림함을_확인한다(arthurAccessToken);
+        final var extract = 알림함을_확인한다(arthurAccessToken);
 
         MemberHistoriesResponse memberHistoriesResponse = extract.as(MemberHistoriesResponse.class);
         assertAll(
@@ -89,7 +89,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
-        ExtractableResponse<Response> extract = 알림을_체크한다(1L, arthurAccessToken);
+        final var extract = 알림을_체크한다(1L, arthurAccessToken);
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
@@ -99,7 +99,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String arthurAccessToken = 회원가입을_하고(JEONG.getMember());
         쿠폰_생성을_요청하고(rookieAccessToken, COFFEE_쿠폰_생성_요청(List.of(2L)));
 
-        ExtractableResponse<Response> extract = 나의_알림을_체크한다(arthurAccessToken);
+        final var extract = 나의_알림을_체크한다(arthurAccessToken);
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
@@ -109,7 +109,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
         String rookieAccessToken = 회원가입을_하고(ROOKIE.getMember());
         프로필_수정을_성공하고(newNickname, rookieAccessToken);
 
-        ExtractableResponse<Response> extract = 본인_정보_조회를_요청한다(rookieAccessToken);
+        final var extract = 본인_정보_조회를_요청한다(rookieAccessToken);
 
         String actual = extract.as(MyProfileResponse.class).getNickname();
         assertThat(actual).isEqualTo(newNickname);

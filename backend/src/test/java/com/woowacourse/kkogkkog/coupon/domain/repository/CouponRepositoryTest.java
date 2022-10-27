@@ -39,8 +39,10 @@ class CouponRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
     @Autowired
     private CouponRepository couponRepository;
 
@@ -113,14 +115,12 @@ class CouponRepositoryTest {
             couponRepository.save(createCoupon(sender, receiver));
             Coupon coupon = createCoupon(sender, receiver);
             couponRepository.save(coupon);
-            coupon.changeState(
-                new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1L)),
-                receiver);
+            coupon.changeState(new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1L)), receiver);
             couponRepository.flush();
             entityManager.clear();
 
-            Slice<Coupon> actual = couponRepository.findAllByReceiver(receiver,
-                CouponStatus.REQUESTED, PageRequest.of(0, 5));
+            Slice<Coupon> actual = couponRepository.findAllByReceiver(
+                receiver, CouponStatus.REQUESTED, PageRequest.of(0, 5));
             assertThat(actual).hasSize(1);
         }
     }
@@ -144,7 +144,6 @@ class CouponRepositoryTest {
         @DisplayName("현재 시간 이후의 같은 상태의 쿠폰들을 조회한다.")
         @Test
         void acceptedCouponsAfterCurrentTime() {
-            // given
             couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().plusDays(1))));
             couponRepository.save(createCoupon(sender, receiver2,
@@ -155,30 +154,25 @@ class CouponRepositoryTest {
             couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.FINISHED, LocalDateTime.now().plusDays(2))));
 
-            // when
             LocalDateTime now = LocalDate.now().atStartOfDay();
             List<Coupon> actual = couponRepository.
                 findAllByMemberAndCouponStatusOrderByMeetingDate(sender, now, CouponStatus.ACCEPTED);
 
-            // then
             assertThat(actual).hasSize(2);
         }
 
         @DisplayName("현재 시간 이전의 쿠폰들은 조회되지 않는다.")
         @Test
         void couponsBeforeTheCurrentTime() {
-            // given
             couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().minusDays(1))));
             couponRepository.save(createCoupon(sender, receiver,
                 new CouponState(CouponStatus.ACCEPTED, LocalDateTime.now().minusDays(2))));
 
-            // when
             LocalDateTime now = LocalDate.now().atStartOfDay();
             List<Coupon> actual = couponRepository.
                 findAllByMemberAndCouponStatusOrderByMeetingDate(sender, now, CouponStatus.ACCEPTED);
 
-            // then
             assertThat(actual).hasSize(0);
         }
     }

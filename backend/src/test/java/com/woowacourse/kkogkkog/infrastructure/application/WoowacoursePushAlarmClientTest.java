@@ -73,10 +73,8 @@ class WoowacoursePushAlarmClientTest {
     }
 
     private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
-        String mockWebClientURI = String.format("http://%s:%s",
-            mockWebServer.getHostName(), mockWebServer.getPort());
-        return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI,
-            WebClient.create());
+        String mockWebClientURI = String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort());
+        return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI, WebClient.create());
     }
 
     private void setUpResponseWithUser(MockWebServer mockWebServer, HttpStatus statusCode)

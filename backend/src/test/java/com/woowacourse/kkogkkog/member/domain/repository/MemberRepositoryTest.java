@@ -23,6 +23,7 @@ class MemberRepositoryTest {
 
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
     @Autowired
     private MemberRepository memberRepository;
 

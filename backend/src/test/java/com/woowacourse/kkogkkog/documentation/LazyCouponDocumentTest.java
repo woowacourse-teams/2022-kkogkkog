@@ -40,8 +40,7 @@ class LazyCouponDocumentTest extends DocumentTest {
     void 미등록_쿠폰_생성_API() throws Exception {
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(lazyCouponService.save(any())).willReturn(List.of(
-            미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L))
-        ));
+            미등록_COFFEE_쿠폰_응답(1L, ROOKIE.getMember(1L))));
 
         ResultActions perform = mockMvc.perform(
             post("/api/v2/lazy-coupons")

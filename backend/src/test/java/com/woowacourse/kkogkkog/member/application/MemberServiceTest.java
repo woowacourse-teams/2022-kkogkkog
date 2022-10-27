@@ -1,7 +1,6 @@
 package com.woowacourse.kkogkkog.member.application;
 
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
-import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.SENDER;
@@ -10,16 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.kkogkkog.member.presentation.dto.MembersResponse;
-import com.woowacourse.kkogkkog.support.application.ServiceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.MemberUpdateResponse;
 import com.woowacourse.kkogkkog.coupon.application.CouponService;
-import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
-import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.member.application.dto.MemberHistoryResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MemberNicknameUpdateRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberResponse;
 import com.woowacourse.kkogkkog.member.application.dto.MyProfileResponse;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -27,6 +22,9 @@ import com.woowacourse.kkogkkog.member.domain.WorkspaceUser;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceRepository;
 import com.woowacourse.kkogkkog.member.domain.repository.WorkspaceUserRepository;
+import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
+import com.woowacourse.kkogkkog.support.application.ServiceTest;
+import com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
@@ -70,12 +68,10 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("가입되지 않은 이메일 정보를 받으면 신규 회원과 워크스페이스 계정을 저장한다.")
         void initialSignUp() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키", "rookie@gmail.com", "image");
             Long id = memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
             Optional<Member> savedMember = memberRepository.findByEmail("rookie@gmail.com");
-            Optional<WorkspaceUser> savedWorkspaceUser = workspaceUserRepository.findByUserId(
-                "URookie");
+            Optional<WorkspaceUser> savedWorkspaceUser = workspaceUserRepository.findByUserId("URookie");
 
             assertAll(
                 () -> assertThat(id).isNotNull(),
@@ -87,8 +83,7 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("가입된 워크스페이스 계정 정보를 받으면, 해당 회원의 Id와 회원가입 여부를 참으로 반환한다.")
         void signIn() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키", "rookie@gmail.com", "image");
             memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
             MemberUpdateResponse response = memberService.update(slackUserInfo, workspace);
 
@@ -101,16 +96,14 @@ class MemberServiceTest extends ServiceTest {
         @Test
         @DisplayName("미가입된 워크스페이스 계정 정보와 가입된 회원의 이메일을 받으면, 해당 회원에 연관된 워크스페이스 계정을 저장한다.")
         void memberIntegration() {
-            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키",
-                "rookie@gmail.com", "image");
-            SlackUserInfo slackUserInfo2 = new SlackUserInfo("URookie2", null, null, "루키",
-                "rookie@gmail.com", "image2");
+            SlackUserInfo slackUserInfo = new SlackUserInfo("URookie", null, null, "루키", "rookie@gmail.com", "image");
+            SlackUserInfo slackUserInfo2 = new SlackUserInfo("URookie2", null, null, "루키", "rookie@gmail.com",
+                "image2");
 
             memberService.save(slackUserInfo, workspace, slackUserInfo.getName());
             MemberUpdateResponse response = memberService.update(slackUserInfo2, workspace);
             Member savedMember = memberRepository.findByEmail("rookie@gmail.com").get();
-            Optional<WorkspaceUser> integratedWorkspaceUser = workspaceUserRepository.findByUserId(
-                "URookie2");
+            Optional<WorkspaceUser> integratedWorkspaceUser = workspaceUserRepository.findByUserId("URookie2");
 
             assertAll(
                 () -> assertThat(response.getId()).isNotNull(),

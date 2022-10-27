@@ -2,7 +2,6 @@ package com.woowacourse.kkogkkog.acceptance;
 
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokeGetWithQueryParams;
 import static com.woowacourse.kkogkkog.acceptance.support.AcceptanceContext.invokePost;
-import static com.woowacourse.kkogkkog.acceptance.MemberAcceptanceTest.프로필_수정을_성공한다;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.ROOKIE;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,13 +10,12 @@ import static org.mockito.BDDMockito.given;
 
 import com.woowacourse.kkogkkog.acceptance.support.AcceptanceTest;
 import com.woowacourse.kkogkkog.auth.application.dto.TokenResponse;
-import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
-import com.woowacourse.kkogkkog.member.domain.Member;
+import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
 import com.woowacourse.kkogkkog.infrastructure.dto.SlackUserInfo;
 import com.woowacourse.kkogkkog.infrastructure.dto.WorkspaceResponse;
-import com.woowacourse.kkogkkog.auth.presentation.dto.InstallSlackAppRequest;
+import com.woowacourse.kkogkkog.member.application.dto.MemberCreateResponse;
+import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.presentation.dto.MemberCreateRequest;
-import com.woowacourse.kkogkkog.member.presentation.dto.MemberUpdateMeRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.HashMap;
@@ -53,15 +51,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Test
     void 슬랙_앱을_등록할_수_있다() {
         회원가입을_하고(ROOKIE.getMember(KKOGKKOG.getWorkspace()));
-        ExtractableResponse<Response> extract = 슬랙_앱을_설치한다();
+        final var extract = 슬랙_앱을_설치한다();
 
         assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    public static String 회원가입_및_닉네임을_수정하고(Member member) {
-        String accessToken = 회원가입을_하고(member);
-        프로필_수정을_성공한다(accessToken, new MemberUpdateMeRequest(member.getNickname()));
-        return accessToken;
     }
 
     public static String 회원가입을_하고(Member member) {
@@ -74,7 +66,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 member.getEmail(),
                 member.getImageUrl()));
 
-        ExtractableResponse<Response> response = 회원가입을_요청한다(
+        final var response = 회원가입을_요청한다(
             new MemberCreateRequest(USER_ACCESS_TOKEN, member.getNickname()));
         return response.as(MemberCreateResponse.class).getAccessToken();
     }
@@ -93,17 +85,15 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("code", AUTHORIZATION_CODE);
-        ExtractableResponse<Response> extract = invokeGetWithQueryParams("/api/v2/login/token",
-            queryParams);
+        final var response = invokeGetWithQueryParams("/api/v2/login/token", queryParams);
 
-        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
-        return extract.as(TokenResponse.class);
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        return response.as(TokenResponse.class);
     }
 
     private ExtractableResponse<Response> 슬랙_앱을_설치한다() {
         given(slackClient.requestBotAccessToken(AUTHORIZATION_CODE))
             .willReturn(WorkspaceResponse.of(KKOGKKOG.getWorkspace()));
-
         return invokePost("/api/v2/install/bot", new InstallSlackAppRequest(AUTHORIZATION_CODE));
     }
 

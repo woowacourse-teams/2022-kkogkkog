@@ -31,11 +31,11 @@ class MemberHistoryTest {
             Member leo = LEO.getMember(workspace);
             Coupon coupon = createCoupon(leo, jeong);
 
-            CouponHistory couponHistory = new CouponHistory(1L, leo, jeong,
-                coupon, CouponEventType.INIT, null, "메세지");
+            CouponHistory couponHistory = new CouponHistory(1L, leo, jeong, coupon, CouponEventType.INIT, null, "메세지");
 
             String actual = couponHistory.toNoticeMessage();
-            String expected = String.format("`%s` 님이 `%s` 쿠폰을 *보냈어요*\uD83D\uDC4B", jeong.getNickname(), COFFEE.getDisplayName());
+            String expected = String.format("`%s` 님이 `%s` 쿠폰을 *보냈어요*\uD83D\uDC4B",
+                jeong.getNickname(), COFFEE.getDisplayName());
 
             assertThat(actual).isEqualTo(expected);
         }
