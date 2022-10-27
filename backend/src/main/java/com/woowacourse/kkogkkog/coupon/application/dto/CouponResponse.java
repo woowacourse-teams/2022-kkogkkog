@@ -41,14 +41,13 @@ public class CouponResponse {
         this.createdTime = createdTime;
     }
 
-    // Todo. 디미터 법칙 위반
     public static CouponResponse of(Coupon coupon) {
         Member sender = coupon.getSender();
         Member receiver = coupon.getReceiver();
         return new CouponResponse(
             coupon.getId(),
-            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            new CouponMemberResponse(receiver.getId(), receiver.getNickname(), receiver.getImageUrl()),
+            CouponMemberResponse.of(sender),
+            CouponMemberResponse.of(receiver),
             coupon.getCouponTag(),
             coupon.getCouponMessage(),
             coupon.getCouponType().name(),
