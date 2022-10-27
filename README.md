@@ -19,10 +19,8 @@
 <img width="543" alt="스크린샷 2022-08-18 21 55 17" src="https://user-images.githubusercontent.com/76774809/185399941-57c83d9c-6605-4aef-9ccd-ca7b28da6be5.png">
 
 더 많은 이야기를 보고싶다면?  
-[1차 데모 영상](https://youtu.be/AD5pNHNMyrA)  
-[2차 데모 영상](https://youtu.be/QVOQI4lYX6Y)  
-[3차 데모 영상](https://youtu.be/N5IB9lCsjbI)  
-[4차 데모 영상](https://youtu.be/6jtsyPbm8CM)
+[최종 데모데이](https://sites.google.com/woowahan.com/woowacourse-demo-4th/프로젝트/꼭꼭)  
+[꼭꼭 탐구일지](https://github.com/woowacourse-teams/2022-kkogkkog/wiki/%EA%BC%AD%EA%BC%AD%EC%9D%98-%ED%83%90%EA%B5%AC%EC%9D%BC%EC%A7%80)  
 
 ## 기능 소개
 <img width="1201" alt="스크린샷 2022-10-26 10 53 19" src="https://user-images.githubusercontent.com/76774809/197916634-5ae11239-d07e-4d20-9fdd-00913bcb5ae0.png">  
@@ -48,4 +46,8 @@
 | <img src="https://avatars.githubusercontent.com/u/24906022?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/78349600?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/75936123?v=4" width=200px alt="_"/> | <img src="https://avatars.githubusercontent.com/u/73531614?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/48710213?v=4" width=200px alt="_"> | <img src="https://avatars.githubusercontent.com/u/76774809?v=4" width=200px alt="_">
 |                          프론트엔드                         |                          프론트엔드                         |                           백엔드                           |                           백엔드                           |                           백엔드                           |                           백엔드                   
 
-
+## 데모 영상
+[![1차 데모](http://img.youtube.com/vi/AD5pNHNMyrA/0.jpg)](https://youtu.be/AD5pNHNMyrA)
+[![2차 데모](http://img.youtube.com/vi/QVOQI4lYX6Y/0.jpg)](https://youtu.be/QVOQI4lYX6Y)
+[![3차 데모](http://img.youtube.com/vi/N5IB9lCsjbI/0.jpg)](https://youtu.be/N5IB9lCsjbI)
+[![4차 데모](http://img.youtube.com/vi/6jtsyPbm8CM/0.jpg)](https://youtu.be/6jtsyPbm8CM)
