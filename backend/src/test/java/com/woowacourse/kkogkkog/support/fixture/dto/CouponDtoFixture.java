@@ -7,6 +7,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
 import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponCreateRequest;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.CouponEventRequest;
@@ -16,35 +17,27 @@ import java.util.List;
 
 public class CouponDtoFixture {
 
+    private static final String COUPON_TAG = "고마워요";
+    private static final String COUPON_MESSAGE = "쿠폰에 대한 메시지";
+    private static final String COUPON_TYPE = CouponType.COFFEE.name();
+
     public static CouponCreateRequest COFFEE_쿠폰_생성_요청(List<Long> receiverIds) {
-        return new CouponCreateRequest(
-            receiverIds,
-            "고마워요",
-            "쿠폰에 대한 설명을 작성했어요",
-            "COFFEE"
-        );
+        return new CouponCreateRequest(receiverIds, COUPON_TAG, COUPON_MESSAGE, COUPON_TYPE);
     }
 
     public static CouponSaveRequest COFFEE_쿠폰_저장_요청(Long senderId, List<Long> receiverIds) {
-        return new CouponSaveRequest(
-            senderId,
-            receiverIds,
-            "고마워요",
-            "쿠폰에 대한 설명을 작성했어요",
-            "COFFEE"
-        );
+        return new CouponSaveRequest(senderId, receiverIds, COUPON_TAG, COUPON_MESSAGE, COUPON_TYPE);
     }
 
     public static CouponResponse COFFEE_쿠폰_응답(Long couponId, Member sender, Member receiver) {
         return new CouponResponse(
             couponId,
-            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            new CouponMemberResponse(receiver.getId(), receiver.getNickname(),
-                receiver.getImageUrl()),
-            "고마워요",
-            "쿠폰에 대한 메시지",
-            "COFFEE",
-            "READY",
+            toCouponMemberResponse(sender),
+            toCouponMemberResponse(receiver),
+            COUPON_TAG,
+            COUPON_MESSAGE,
+            COUPON_TYPE,
+            CouponStatus.READY.name(),
             null,
             null
         );
@@ -54,13 +47,12 @@ public class CouponDtoFixture {
                                                 CouponHistoryResponse couponHistoryResponse) {
         return new CouponDetailResponse(
             couponId,
-            new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl()),
-            new CouponMemberResponse(receiver.getId(), receiver.getNickname(),
-                receiver.getImageUrl()),
-            "고마워요",
-            "쿠폰에 대한 메시지",
-            "COFFEE",
-            "READY",
+            toCouponMemberResponse(sender),
+            toCouponMemberResponse(receiver),
+            COUPON_TAG,
+            COUPON_MESSAGE,
+            COUPON_TYPE,
+            CouponStatus.READY.name(),
             null,
             List.of(couponHistoryResponse)
         );
@@ -83,18 +75,9 @@ public class CouponDtoFixture {
                                                LocalDateTime meetingDate,
                                                String meetingMessage) {
         if (meetingDate == null) {
-            return new CouponEventRequest(
-                request,
-                null,
-                meetingMessage
-            );
+            return new CouponEventRequest(request, null, meetingMessage);
         }
-
-        return new CouponEventRequest(
-            request,
-            meetingDate.toLocalDate(),
-            meetingMessage
-        );
+        return new CouponEventRequest(request, meetingDate.toLocalDate(), meetingMessage);
     }
 
     public static CouponStatusRequest 쿠폰_상태_변경_요청(Long memberId,
@@ -102,22 +85,10 @@ public class CouponDtoFixture {
                                                   String eventType,
                                                   LocalDateTime meetingDate,
                                                   String meetingMessage) {
-        if (meetingDate == null) {
-            return new CouponStatusRequest(
-                memberId,
-                couponId,
-                CouponEventType.of(eventType),
-                null,
-                meetingMessage
-            );
-        }
+        return new CouponStatusRequest(memberId, couponId, CouponEventType.of(eventType), meetingDate, meetingMessage);
+    }
 
-        return new CouponStatusRequest(
-            memberId,
-            couponId,
-            CouponEventType.of(eventType),
-            meetingDate,
-            meetingMessage
-        );
+    private static CouponMemberResponse toCouponMemberResponse(Member sender) {
+        return new CouponMemberResponse(sender.getId(), sender.getNickname(), sender.getImageUrl());
     }
 }
