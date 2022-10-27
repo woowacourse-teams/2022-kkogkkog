@@ -23,9 +23,7 @@ class LazyCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, REGISTERED 반환한다.")
         void success_register() {
-            LazyCouponStatus status = ISSUED;
-
-            LazyCouponStatus actual = status.handle(REGISTER);
+            LazyCouponStatus actual = ISSUED.handle(REGISTER);
 
             assertThat(actual).isEqualTo(REGISTERED);
         }
@@ -33,9 +31,7 @@ class LazyCouponStatusTest {
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, EXPIRED를 반환한다.")
         void success_expire() {
-            LazyCouponStatus status = ISSUED;
-
-            LazyCouponStatus actual = status.handle(LazyCouponEventType.EXPIRE);
+            LazyCouponStatus actual = ISSUED.handle(LazyCouponEventType.EXPIRE);
 
             assertThat(actual).isEqualTo(EXPIRED);
         }
@@ -48,18 +44,14 @@ class LazyCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_register() {
-            LazyCouponStatus status = REGISTERED;
-
-            assertThatThrownBy(() -> status.handle(REGISTER))
+            assertThatThrownBy(() -> REGISTERED.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_expire() {
-            LazyCouponStatus status = REGISTERED;
-
-            assertThatThrownBy(() -> status.handle(EXPIRE))
+            assertThatThrownBy(() -> REGISTERED.handle(EXPIRE))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
@@ -71,18 +63,14 @@ class LazyCouponStatusTest {
         @Test
         @DisplayName("REGISTER 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_register() {
-            LazyCouponStatus status = EXPIRED;
-
-            assertThatThrownBy(() -> status.handle(REGISTER))
+            assertThatThrownBy(() -> EXPIRED.handle(REGISTER))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("EXPIRE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_expire() {
-            LazyCouponStatus status = EXPIRED;
-
-            assertThatThrownBy(() -> status.handle(EXPIRE))
+            assertThatThrownBy(() -> EXPIRED.handle(EXPIRE))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }

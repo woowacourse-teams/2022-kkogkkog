@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.COFFEE;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상태_변경_요청;
 import static org.mockito.BDDMockito.anyString;
@@ -38,14 +38,19 @@ public class WoowacoursePushAlarmListenerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private CouponService couponService;
+
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
     @Autowired
     private CouponRepository couponRepository;
+
     @MockBean
     private WoowacoursePushAlarmClient woowacoursePushAlarmClient;
+
     @MockBean
     private WoowacourseUserRepository woowacourseUserRepository;
 
@@ -66,32 +71,26 @@ public class WoowacoursePushAlarmListenerTest {
         @Test
         @DisplayName("우테코 회원의 쿠폰을 생성할 때, woowacourse 워크스페이스로 슬랙 푸시 알림을 보낸다.")
         void success_couponSave() {
-            //given
             given(woowacourseUserRepository.contains(anyString())).willReturn(true);
             given(woowacourseUserRepository.getUserId(anyString())).willReturn(Optional.of("userId"));
 
-            //when
             couponService.save(COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
-            //then
-            verify(woowacoursePushAlarmClient, timeout(50))
+            verify(woowacoursePushAlarmClient, timeout(100))
                 .requestPushAlarm(anyString(), anyString());
         }
 
         @Test
         @DisplayName("쿠폰 상태를 변경할 때, woowacourse 워크스페이스로 슬랙 푸시 알림을 보낸다.")
         void success_couponUpdate() {
-            //given
-            Coupon coupon = couponRepository.save(COFFEE.getCoupon(sender, receiver));
+            Coupon coupon = couponRepository.save(createCoupon(sender, receiver));
             given(woowacourseUserRepository.contains(anyString())).willReturn(true);
             given(woowacourseUserRepository.getUserId(anyString())).willReturn(Optional.of("userId"));
 
-            //when
             couponService.updateStatus(
                 쿠폰_상태_변경_요청(receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null));
 
-            //then
-            verify(woowacoursePushAlarmClient, timeout(50))
+            verify(woowacoursePushAlarmClient, timeout(100))
                 .requestPushAlarm(anyString(), anyString());
         }
     }

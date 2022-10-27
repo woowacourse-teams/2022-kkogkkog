@@ -36,9 +36,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("FINISH 이벤트를 받으면, FINISHED를 반환한다.")
         void success_finish() {
-            CouponStatus status = READY;
-
-            CouponStatus actual = status.handle(FINISH);
+            CouponStatus actual = READY.handle(FINISH);
 
             assertThat(actual).isEqualTo(FINISHED);
         }
@@ -46,27 +44,21 @@ class CouponStatusTest {
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_cancel() {
-            CouponStatus status = READY;
-
-            assertThatThrownBy(() -> status.handle(CANCEL))
+            assertThatThrownBy(() -> READY.handle(CANCEL))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("DECLINE 이벤틀르 받으면, 예외를 발생시킨다.")
         void fail_decline() {
-            CouponStatus status = READY;
-
-            assertThatThrownBy(() -> status.handle(DECLINE))
+            assertThatThrownBy(() -> READY.handle(DECLINE))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_accept() {
-            CouponStatus status = READY;
-
-            assertThatThrownBy(() -> status.handle(ACCEPT))
+            assertThatThrownBy(() -> READY.handle(ACCEPT))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
@@ -78,9 +70,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, READY를 반환한다.")
         void success_cancel() {
-            CouponStatus status = REQUESTED;
-
-            CouponStatus actual = status.handle(CANCEL);
+            CouponStatus actual = REQUESTED.handle(CANCEL);
 
             assertThat(actual).isEqualTo(READY);
         }
@@ -88,9 +78,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("DECLINE 이벤트를 받으면, READY를 반환한다.")
         void success_decline() {
-            CouponStatus status = REQUESTED;
-
-            CouponStatus actual = status.handle(DECLINE);
+            CouponStatus actual = REQUESTED.handle(DECLINE);
 
             assertThat(actual).isEqualTo(READY);
         }
@@ -98,9 +86,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, ACCEPTED를 반환한다.")
         void success_accept() {
-            CouponStatus status = REQUESTED;
-
-            CouponStatus actual = status.handle(ACCEPT);
+            CouponStatus actual = REQUESTED.handle(ACCEPT);
 
             assertThat(actual).isEqualTo(ACCEPTED);
         }
@@ -108,9 +94,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("FINISH 이벤트를 받으면, FINISHED를 반환한다.")
         void success_finish() {
-            CouponStatus status = REQUESTED;
-
-            CouponStatus actual = status.handle(FINISH);
+            CouponStatus actual = REQUESTED.handle(FINISH);
 
             assertThat(actual).isEqualTo(FINISHED);
         }
@@ -118,9 +102,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("REQUEST 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_request() {
-            CouponStatus status = REQUESTED;
-
-            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
+            assertThatThrownBy(() -> REQUESTED.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
@@ -132,9 +114,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, READY를 반환한다.")
         void success_cancel() {
-            CouponStatus status = ACCEPTED;
-
-            CouponStatus actual = status.handle(CANCEL);
+            CouponStatus actual = ACCEPTED.handle(CANCEL);
 
             assertThat(actual).isEqualTo(READY);
         }
@@ -142,9 +122,7 @@ class CouponStatusTest {
         @Test
         @DisplayName("FINISH 이벤트를 받으면, FINISHED를 반환한다.")
         void success_finish() {
-            CouponStatus status = ACCEPTED;
-
-            CouponStatus actual = status.handle(FINISH);
+            CouponStatus actual = ACCEPTED.handle(FINISH);
 
             assertThat(actual).isEqualTo(FINISHED);
         }
@@ -152,27 +130,21 @@ class CouponStatusTest {
         @Test
         @DisplayName("REQUEST 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_request() {
-            CouponStatus status = ACCEPTED;
-
-            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
+            assertThatThrownBy(() -> ACCEPTED.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("DECLINE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_decline() {
-            CouponStatus status = ACCEPTED;
-
-            assertThatThrownBy(() -> status.handle(DECLINE))
+            assertThatThrownBy(() -> ACCEPTED.handle(DECLINE))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_accept() {
-            CouponStatus status = ACCEPTED;
-
-            assertThatThrownBy(() -> status.handle(ACCEPT))
+            assertThatThrownBy(() -> ACCEPTED.handle(ACCEPT))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
@@ -184,45 +156,35 @@ class CouponStatusTest {
         @Test
         @DisplayName("REQUEST 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_request() {
-            CouponStatus status = FINISHED;
-
-            assertThatThrownBy(() -> status.handle(CouponEventType.REQUEST))
+            assertThatThrownBy(() -> FINISHED.handle(CouponEventType.REQUEST))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("CANCEL 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_cancel() {
-            CouponStatus status = FINISHED;
-
-            assertThatThrownBy(() -> status.handle(CANCEL))
+            assertThatThrownBy(() -> FINISHED.handle(CANCEL))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("DECLINE 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_decline() {
-            CouponStatus status = FINISHED;
-
-            assertThatThrownBy(() -> status.handle(DECLINE))
+            assertThatThrownBy(() -> FINISHED.handle(DECLINE))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("ACCEPT 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_accept() {
-            CouponStatus status = FINISHED;
-
-            assertThatThrownBy(() -> status.handle(ACCEPT))
+            assertThatThrownBy(() -> FINISHED.handle(ACCEPT))
                 .isInstanceOf(InvalidRequestException.class);
         }
 
         @Test
         @DisplayName("FINISH 이벤트를 받으면, 예외를 발생시킨다.")
         void fail_finish() {
-            CouponStatus status = FINISHED;
-
-            assertThatThrownBy(() -> status.handle(FINISH))
+            assertThatThrownBy(() -> FINISHED.handle(FINISH))
                 .isInstanceOf(InvalidRequestException.class);
         }
     }

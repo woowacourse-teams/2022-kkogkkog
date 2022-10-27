@@ -122,8 +122,7 @@ class SlackClientTest {
         SlackClient slackClient = buildMockSlackClient(mockWebServer);
 
         WorkspaceResponse actual = slackClient.requestBotAccessToken("code");
-        WorkspaceResponse expected = new WorkspaceResponse(TEAM_ID, "워크스페이스명",
-            BOT_ACCESS_TOKEN);
+        WorkspaceResponse expected = new WorkspaceResponse(TEAM_ID, "워크스페이스명", BOT_ACCESS_TOKEN);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
@@ -154,10 +153,9 @@ class SlackClientTest {
     }
 
     private SlackClient buildMockSlackClient(MockWebServer mockWebServer) {
-        String mockWebClientURI = String.format("http://%s:%s",
-            mockWebServer.getHostName(), mockWebServer.getPort());
-        return new SlackClient("clientId", "secretId", mockWebClientURI, mockWebClientURI,
-            mockWebClientURI, mockWebClientURI, mockWebClientURI, mockWebClientURI, WebClient.create());
+        String mockClientURI = String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort());
+        return new SlackClient("clientId", "secretId", mockClientURI, mockClientURI,
+            mockClientURI, mockClientURI, mockClientURI, mockClientURI, WebClient.create());
     }
 
     private void setUpResponse(MockWebServer mockWebServer, String responseBody) {

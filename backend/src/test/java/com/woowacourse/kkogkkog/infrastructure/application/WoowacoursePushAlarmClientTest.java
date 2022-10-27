@@ -73,19 +73,17 @@ class WoowacoursePushAlarmClientTest {
     }
 
     private WoowacoursePushAlarmClient buildMockClient(MockWebServer mockWebServer) {
-        String mockWebClientURI = String.format("http://%s:%s",
-            mockWebServer.getHostName(), mockWebServer.getPort());
-        return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI,
-            WebClient.create());
+        String mockWebClientURI = String.format("http://%s:%s", mockWebServer.getHostName(), mockWebServer.getPort());
+        return new WoowacoursePushAlarmClient(REQUEST_PUSH_ALARM_ACCESS_TOKEN, mockWebClientURI, WebClient.create());
     }
 
     private void setUpResponseWithUser(MockWebServer mockWebServer, HttpStatus statusCode)
         throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        var profileResponse = new WoowacourseProfileResponse("email1");
-        var userResponse1 = new WoowacourseUserResponse("id1", profileResponse);
-        var userResponse2 = new WoowacourseUserResponse("id2", profileResponse);
-        var usersResponse = new WoowacourseUsersResponse(List.of(userResponse1, userResponse2));
+        final var profileResponse = new WoowacourseProfileResponse("email1");
+        final var userResponse1 = new WoowacourseUserResponse("id1", profileResponse);
+        final var userResponse2 = new WoowacourseUserResponse("id2", profileResponse);
+        final var usersResponse = new WoowacourseUsersResponse(List.of(userResponse1, userResponse2));
 
         String body = objectMapper.writeValueAsString(usersResponse);
         mockWebServer.enqueue(new MockResponse()

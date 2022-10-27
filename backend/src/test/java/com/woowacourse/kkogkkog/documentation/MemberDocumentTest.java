@@ -39,11 +39,8 @@ public class MemberDocumentTest extends DocumentTest {
     void 회원_전체를_조회할_수_있다() throws Exception {
         // given
         List<MemberResponse> membersResponse = List.of(
-            new MemberResponse(1L, "User1", "user_nickname1", "email1@gmail.com",
-                "image"),
-            new MemberResponse(2L, "User2", "user_nickname2", "email2@gmail.com",
-                "image")
-        );
+            new MemberResponse(1L, "User1", "user_nickname1", "email1@gmail.com", "image"),
+            new MemberResponse(2L, "User2", "user_nickname2", "email2@gmail.com", "image"));
         given(memberService.findAll()).willReturn(membersResponse);
 
         // when
@@ -121,8 +118,7 @@ public class MemberDocumentTest extends DocumentTest {
     void 나의_기록들을_조회할_수_있다() throws Exception {
         // given
         List<MemberHistoryResponse> historiesResponse = List.of(
-            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false,
-                LocalDateTime.now()));
+            new MemberHistoryResponse(1L, "루키", "image", 1L, "COFFEE", "INIT", null, false, LocalDateTime.now()));
 
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
         given(memberService.findHistoryById(any())).willReturn(historiesResponse);
@@ -216,8 +212,7 @@ public class MemberDocumentTest extends DocumentTest {
     @Test
     void 나의_닉네임_수정을_요청할_수_있다() throws Exception {
         // given
-        MemberUpdateMeRequest memberUpdateMeRequest = new MemberUpdateMeRequest(
-            "새로운_닉네임");
+        MemberUpdateMeRequest memberUpdateMeRequest = new MemberUpdateMeRequest("새로운_닉네임");
         given(jwtTokenProvider.getValidatedPayload(any())).willReturn("1");
 
         // when

@@ -32,11 +32,11 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     @Test
     void 미등록_쿠폰_생성을_할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
-        final var extract = 미등록_쿠폰_생성을_요청한다(senderToken, 미등록_COFFEE_쿠폰_생성_요청(5));
+        final var response = 미등록_쿠폰_생성을_요청한다(senderToken, 미등록_COFFEE_쿠폰_생성_요청(5));
 
-        LazyCouponsResponse actual = extract.as(LazyCouponsResponse.class);
+        LazyCouponsResponse actual = response.as(LazyCouponsResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
+            () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
             () -> assertThat(actual.getData()).hasSize(5)
         );
     }
@@ -45,15 +45,14 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     void 미등록_쿠폰으로_쿠폰_생성을_할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
         String receiverToken = 회원가입을_하고(AUTHOR.getMember());
-        LazyCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
-            미등록_COFFEE_쿠폰_생성_요청(1));
-        String couponCode = response.getData().get(0).getCouponCode();
+        LazyCouponsResponse lazyCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(1));
+        String couponCode = lazyCouponsResponse.getData().get(0).getCouponCode();
 
-        var extract = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
+        final var response = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
 
-        CouponResponse actual = extract.as(CouponResponse.class);
+        CouponResponse actual = response.as(CouponResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
+            () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
             () -> assertThat(actual.getId()).isNotNull()
         );
     }
@@ -66,27 +65,25 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
         String couponCode = lazyCouponsResponse.getData().get(0).getCouponCode();
         쿠폰코드로_쿠폰_생성을_요청하고(receiverToken, 쿠폰_코드_등록_요청(couponCode));
 
-        final var extract = 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(senderToken, REGISTERED);
-
-        LazyCouponsResponse response = extract.as(LazyCouponsResponse.class);
+        final var response = 회원의_미동록_쿠폰_목록들을_상태별로_조회한다(senderToken, REGISTERED);
+        LazyCouponsResponse responseBody = response.as(LazyCouponsResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
-            () -> assertThat(response.getData()).hasSize(1)
+            () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(responseBody.getData()).hasSize(1)
         );
     }
 
     @Test
     void 단일_미등록_쿠폰을_아이디로_상세_조회할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
-        LazyCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
-            미등록_COFFEE_쿠폰_생성_요청(1));
-        Long lazyCouponId = response.getData().get(0).getId();
+        LazyCouponsResponse lazyCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(1));
+        Long lazyCouponId = lazyCouponsResponse.getData().get(0).getId();
 
-        final var extract = 아이디로_회원의_단일_미등록_쿠폰_상세정보를_조회한다(senderToken, lazyCouponId);
+        final var response = 아이디로_회원의_단일_미등록_쿠폰_상세정보를_조회한다(senderToken, lazyCouponId);
 
-        LazyCouponResponse actual = extract.as(LazyCouponResponse.class);
+        LazyCouponResponse actual = response.as(LazyCouponResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(actual.getId()).isEqualTo(lazyCouponId)
         );
     }
@@ -94,16 +91,14 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     @Test
     void 단일_미등록_쿠폰을_쿠폰코드로_상세_조회할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
-        LazyCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
-            미등록_COFFEE_쿠폰_생성_요청(1));
-        String couponCode = response.getData().get(0).getCouponCode();
+        LazyCouponsResponse lazyCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(1));
+        String couponCode = lazyCouponsResponse.getData().get(0).getCouponCode();
 
-        final var extract = 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(couponCode);
+        final var response = 쿠폰코드로_단일_미등록_쿠폰_상세정보를_조회한다(couponCode);
 
-        LazyCouponResponse actual = extract.as(
-            LazyCouponResponse.class);
+        LazyCouponResponse actual = response.as(LazyCouponResponse.class);
         assertAll(
-            () -> assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value()),
+            () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
             () -> assertThat(actual.getCouponCode()).isEqualTo(couponCode)
         );
     }
@@ -111,13 +106,12 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     @Test
     void 회원은_미등록_쿠폰을_삭제할_수_있다() {
         String senderToken = 회원가입을_하고(JEONG.getMember());
-        LazyCouponsResponse response = 미등록_쿠폰_생성을_요청하고(senderToken,
-            미등록_COFFEE_쿠폰_생성_요청(1));
-        Long lazyCouponId = response.getData().get(0).getId();
+        LazyCouponsResponse lazyCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(1));
+        Long lazyCouponId = lazyCouponsResponse.getData().get(0).getId();
 
-        final var extract = 회원의_미등록_쿠폰을_삭제한다(senderToken, lazyCouponId);
+        final var response = 회원의_미등록_쿠폰을_삭제한다(senderToken, lazyCouponId);
 
-        assertThat(extract.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     static ExtractableResponse<Response> 미등록_쿠폰_생성을_요청한다(String token, Object data) {
@@ -125,13 +119,12 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
     }
 
     public static LazyCouponsResponse 미등록_쿠폰_생성을_요청하고(String token, Object data) {
-        final var response = invokePostWithToken("/api/v2/lazy-coupons",
-            token, data);
+        final var response = invokePostWithToken("/api/v2/lazy-coupons", token, data);
         return response.as(LazyCouponsResponse.class);
     }
 
     static CouponResponse 쿠폰코드로_쿠폰_생성을_요청하고(String token, Object data) {
-        ExtractableResponse<Response> response = invokePostWithToken("/api/v2/lazy-coupons/register", token, data);
+        final var response = invokePostWithToken("/api/v2/lazy-coupons/register", token, data);
         return response.as(CouponResponse.class);
     }
 
