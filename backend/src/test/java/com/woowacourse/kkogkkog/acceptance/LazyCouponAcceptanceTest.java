@@ -48,7 +48,7 @@ public class LazyCouponAcceptanceTest extends AcceptanceTest {
         LazyCouponsResponse lazyCouponsResponse = 미등록_쿠폰_생성을_요청하고(senderToken, 미등록_COFFEE_쿠폰_생성_요청(1));
         String couponCode = lazyCouponsResponse.getData().get(0).getCouponCode();
 
-        var response = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
+        final var response = 쿠폰코드로_쿠폰_생성을_요청한다(receiverToken, 쿠폰_코드_등록_요청(couponCode));
 
         CouponResponse actual = response.as(CouponResponse.class);
         assertAll(
