@@ -16,7 +16,9 @@
 
 지금 꼭꼭에서 생각나는 사람에게 쿠폰을 보내보세요😃
 
-<img width="543" alt="스크린샷 2022-08-18 21 55 17" src="https://user-images.githubusercontent.com/76774809/185399941-57c83d9c-6605-4aef-9ccd-ca7b28da6be5.png">
+<a href="https://kkogkkog.com">
+  <img width="543" alt="스크린샷 2022-08-18 21 55 17" src="https://user-images.githubusercontent.com/76774809/185399941-57c83d9c-6605-4aef-9ccd-ca7b28da6be5.png">
+</a>
 
 더 많은 이야기를 보고싶다면?  
 [최종 데모데이](https://sites.google.com/woowahan.com/woowacourse-demo-4th/프로젝트/꼭꼭)  
