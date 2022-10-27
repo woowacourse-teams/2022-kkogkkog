@@ -1,4 +1,4 @@
-package com.woowacourse.kkogkkog.common.config;
+package com.woowacourse.kkogkkog.auth.config;
 
 import com.woowacourse.kkogkkog.auth.support.JwtTokenProvider;
 import com.woowacourse.kkogkkog.auth.presentation.LoginInterceptor;
