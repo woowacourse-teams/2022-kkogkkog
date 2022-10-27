@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.domain.repository;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotFoundException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;

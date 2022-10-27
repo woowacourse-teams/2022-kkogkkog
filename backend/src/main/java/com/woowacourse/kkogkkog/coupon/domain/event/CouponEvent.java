@@ -1,8 +1,8 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.event;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.DECLINE;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.CANCEL;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.DECLINE;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.REQUEST;
 
 import java.time.LocalDateTime;
 import java.util.List;

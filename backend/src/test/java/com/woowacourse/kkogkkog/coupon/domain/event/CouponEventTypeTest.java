@@ -1,9 +1,9 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.event;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.DECLINE;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.CANCEL;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.DECLINE;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.FINISH;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.REQUEST;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.kkogkkog.common.exception.ForbiddenException;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.presentation.dto;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

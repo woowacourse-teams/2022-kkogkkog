@@ -10,7 +10,7 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;

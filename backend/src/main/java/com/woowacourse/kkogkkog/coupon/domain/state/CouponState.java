@@ -1,5 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.state;
 
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

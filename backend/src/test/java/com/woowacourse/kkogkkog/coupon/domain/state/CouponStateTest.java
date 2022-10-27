@@ -1,17 +1,19 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.state;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.ACCEPT;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.DECLINE;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.ACCEPTED;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.FINISHED;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.READY;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponStatus.REQUESTED;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.ACCEPT;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.CANCEL;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.DECLINE;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.FINISH;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus.ACCEPTED;
+import static com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus.FINISHED;
+import static com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus.READY;
+import static com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus.REQUESTED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

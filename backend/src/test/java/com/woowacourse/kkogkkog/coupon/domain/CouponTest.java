@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.FINISH;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.FINISH;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER2;
@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;

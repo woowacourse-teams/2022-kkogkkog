@@ -1,8 +1,8 @@
 package com.woowacourse.kkogkkog.support.fixture.domain;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponState;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.lazycoupon.domain.CouponLazyCoupon;
 import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCoupon;

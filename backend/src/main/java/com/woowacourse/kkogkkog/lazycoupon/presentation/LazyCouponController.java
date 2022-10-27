@@ -66,5 +66,4 @@ public class LazyCouponController {
         lazyCouponService.delete(loginMemberId, lazyCouponId);
         return ResponseEntity.ok().build();
     }
-
 }
