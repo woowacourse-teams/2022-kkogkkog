@@ -11,19 +11,11 @@ import java.time.LocalDateTime;
 
 public enum CouponFixture {
 
-    COFFEE("고마워요!", "커피쿠폰입니다.", CouponType.COFFEE),
-
-    // State 에 대한 Coupon
-    ACCEPTED_COUPON("쿠폰 테그", "쿠폰 메시지");
+    COFFEE("고마워요!", "커피쿠폰입니다.", CouponType.COFFEE);
 
     private String couponTag;
     private String couponMessage;
     private CouponType couponType;
-
-    CouponFixture(final String couponTag, final String couponMessage) {
-        this.couponTag = couponTag;
-        this.couponMessage = couponMessage;
-    }
 
     CouponFixture(final String couponTag, final String couponMessage, final CouponType couponType) {
         this.couponTag = couponTag;
@@ -35,24 +27,16 @@ public enum CouponFixture {
         return new Coupon(sender, receiver, couponTag, couponMessage, couponType);
     }
 
+    public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {
+        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType, couponState);
+    }
+
     public Coupon getRequestedCoupon(Member sender, Member receiver) {
         return new Coupon(null, sender, receiver, couponTag, couponMessage, couponType,
             new CouponState(CouponStatus.REQUESTED, LocalDateTime.now().plusDays(7)));
     }
 
-    public Coupon getCoupon(Member sender,
-                            Member receiver,
-                            CouponType couponType,
-                            CouponState couponState) {
-        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType,
-            couponState);
-    }
-
     public CouponLazyCoupon getCouponLazyCoupon(Member sender) {
         return new CouponLazyCoupon(null, LazyCoupon.of(sender, couponTag, couponMessage, couponType));
-    }
-
-    public Coupon getCoupon(Member sender, Member receiver, CouponState couponState) {
-        return new Coupon(null, sender, receiver, couponMessage, couponTag, couponType, couponState);
     }
 }
