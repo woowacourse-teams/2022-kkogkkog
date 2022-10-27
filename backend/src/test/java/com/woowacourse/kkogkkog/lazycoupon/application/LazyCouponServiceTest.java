@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.lazycoupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCouponLazyCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCouponLazyCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;

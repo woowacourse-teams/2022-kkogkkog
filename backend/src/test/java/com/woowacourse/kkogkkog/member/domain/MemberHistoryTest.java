@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.member.domain;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponType.COFFEE;
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.RECEIVER;

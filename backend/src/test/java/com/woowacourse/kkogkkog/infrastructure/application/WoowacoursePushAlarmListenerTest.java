@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.COFFEE_쿠폰_저장_요청;
 import static com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture.쿠폰_상태_변경_요청;
 import static org.mockito.BDDMockito.anyString;

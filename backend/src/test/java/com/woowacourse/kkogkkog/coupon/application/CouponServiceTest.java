@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.AUTHOR;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;

@@ -9,7 +9,7 @@ import com.woowacourse.kkogkkog.lazycoupon.domain.LazyCoupon;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.time.LocalDateTime;
 
-public class CouponFixture {
+public class CouponFactory {
 
     private static final String COUPON_TAG = "고마워요";
     private static final String COUPON_MESSAGE = "커피쿠폰 메시지";

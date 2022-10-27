@@ -2,7 +2,7 @@ package com.woowacourse.kkogkkog.coupon.application;
 
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.ACCEPT;
 import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createRequestedCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createRequestedCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
 import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.KKOGKKOG;

@@ -1,6 +1,6 @@
 package com.woowacourse.kkogkkog.infrastructure.event;
 
-import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFixture.createCoupon;
+import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createCoupon;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
