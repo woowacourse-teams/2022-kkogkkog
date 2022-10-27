@@ -1,7 +1,8 @@
-package com.woowacourse.kkogkkog.common.presentation;
+package com.woowacourse.kkogkkog.auth.presentation;
 
 import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PAYLOAD;
 
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
