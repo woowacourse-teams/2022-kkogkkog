@@ -76,7 +76,7 @@ public class WoowacoursePushAlarmListenerTest {
 
             couponService.save(COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
 
-            verify(woowacoursePushAlarmClient, timeout(50))
+            verify(woowacoursePushAlarmClient, timeout(100))
                 .requestPushAlarm(anyString(), anyString());
         }
 
@@ -90,7 +90,7 @@ public class WoowacoursePushAlarmListenerTest {
             couponService.updateStatus(
                 쿠폰_상태_변경_요청(receiver.getId(), coupon.getId(), "REQUEST", LocalDateTime.now(), null));
 
-            verify(woowacoursePushAlarmClient, timeout(50))
+            verify(woowacoursePushAlarmClient, timeout(100))
                 .requestPushAlarm(anyString(), anyString());
         }
     }
