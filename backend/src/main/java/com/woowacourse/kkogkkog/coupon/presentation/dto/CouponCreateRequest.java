@@ -36,11 +36,6 @@ public class CouponCreateRequest {
     }
 
     public CouponSaveRequest toCouponSaveRequest(Long senderId) {
-        return new CouponSaveRequest(
-            senderId,
-            receiverIds,
-            couponTag,
-            couponMessage,
-            couponType);
+        return new CouponSaveRequest(senderId, receiverIds, couponTag, couponMessage, couponType);
     }
 }

@@ -1,6 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.domain;
 
 import com.woowacourse.kkogkkog.common.domain.BaseEntity;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
 import com.woowacourse.kkogkkog.coupon.exception.SameSenderReceiverException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import javax.persistence.Column;

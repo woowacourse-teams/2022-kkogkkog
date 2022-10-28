@@ -84,15 +84,13 @@ public class LazyCoupon extends BaseEntity {
                       String couponMessage,
                       CouponType couponType,
                       LazyCouponStatus lazyCouponStatus) {
-        this(null, couponCode, sender, couponTag, couponMessage, couponType,
-            lazyCouponStatus);
+        this(null, couponCode, sender, couponTag, couponMessage, couponType, lazyCouponStatus);
     }
 
     public static LazyCoupon of(Member sender, String couponTag, String couponMessage,
                                 CouponType couponType) {
         UUID uuid = UUID.randomUUID();
-        return new LazyCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType,
-            LazyCouponStatus.ISSUED);
+        return new LazyCoupon(uuid.toString(), sender, couponTag, couponMessage, couponType, LazyCouponStatus.ISSUED);
     }
 
     public static void validateQuantity(int quantity) {

@@ -1,7 +1,7 @@
 package com.woowacourse.kkogkkog.coupon.application;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.ACCEPT;
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.CANCEL;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.ACCEPT;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.CANCEL;
 import static com.woowacourse.kkogkkog.support.fixture.domain.CouponFactory.createRequestedCoupon;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.JEONG;
 import static com.woowacourse.kkogkkog.support.fixture.domain.MemberFixture.LEO;
@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponStatusRequest;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;

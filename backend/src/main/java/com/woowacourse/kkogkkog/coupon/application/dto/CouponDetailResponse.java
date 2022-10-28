@@ -47,16 +47,8 @@ public class CouponDetailResponse {
                                           final List<CouponHistory> couponHistories) {
         return new CouponDetailResponse(
             coupon.getId(),
-            new CouponMemberResponse(
-                coupon.getSender().getId(),
-                coupon.getSender().getNickname(),
-                coupon.getSender().getImageUrl()
-            ),
-            new CouponMemberResponse(
-                coupon.getReceiver().getId(),
-                coupon.getReceiver().getNickname(),
-                coupon.getReceiver().getImageUrl()
-            ),
+            CouponMemberResponse.of(coupon.getSender()),
+            CouponMemberResponse.of(coupon.getReceiver()),
             coupon.getCouponTag(),
             coupon.getCouponMessage(),
             coupon.getCouponType().name(),

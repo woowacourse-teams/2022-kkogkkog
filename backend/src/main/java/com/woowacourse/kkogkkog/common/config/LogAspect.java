@@ -53,8 +53,7 @@ public class LogAspect {
 
     private String paramMapToString(Map<String, String[]> paraStringMap) {
         return paraStringMap.entrySet().stream()
-            .map(entry -> String.format("%s : %s",
-                entry.getKey(), Arrays.toString(entry.getValue())))
+            .map(entry -> String.format("%s : %s", entry.getKey(), Arrays.toString(entry.getValue())))
             .collect(Collectors.joining(", "));
     }
 }

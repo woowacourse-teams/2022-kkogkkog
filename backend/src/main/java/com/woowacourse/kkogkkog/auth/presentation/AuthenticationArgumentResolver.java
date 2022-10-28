@@ -1,7 +1,8 @@
-package com.woowacourse.kkogkkog.common.presentation;
+package com.woowacourse.kkogkkog.auth.presentation;
 
 import static org.hibernate.validator.internal.metadata.core.ConstraintHelper.PAYLOAD;
 
+import com.woowacourse.kkogkkog.common.presentation.LoginMemberId;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -17,8 +18,10 @@ public class AuthenticationArgumentResolver implements HandlerMethodArgumentReso
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(MethodParameter parameter,
+                                  ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest,
+                                  WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String payload = (String) request.getAttribute(PAYLOAD);
         return Long.valueOf(payload);

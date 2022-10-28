@@ -29,8 +29,8 @@ public class LazyCouponSaveRequest {
 
     public List<CouponLazyCoupon> toEntities(Member sender) {
         return IntStream.range(0, quantity)
-            .mapToObj(it -> new CouponLazyCoupon(null, LazyCoupon.of(sender, couponTag, couponMessage,
-                CouponType.valueOf(couponType))))
+            .mapToObj(it -> new CouponLazyCoupon(null,
+                LazyCoupon.of(sender, couponTag, couponMessage, CouponType.valueOf(couponType))))
             .collect(Collectors.toList());
     }
 }

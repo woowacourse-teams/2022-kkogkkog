@@ -1,9 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import java.time.LocalDateTime;
-import java.util.prefs.PreferencesFactory;
 import lombok.Getter;
 
 @Getter

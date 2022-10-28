@@ -1,10 +1,8 @@
 package com.woowacourse.kkogkkog.coupon.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;

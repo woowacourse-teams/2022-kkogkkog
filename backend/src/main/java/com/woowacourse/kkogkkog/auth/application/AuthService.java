@@ -51,8 +51,7 @@ public class AuthService {
         Workspace workspace = getWorkspace(userInfo);
         if (memberService.existsMember(userInfo)) {
             MemberUpdateResponse memberUpdateResponse = memberService.update(userInfo, workspace);
-            return new TokenResponse(
-                jwtTokenProvider.createToken(memberUpdateResponse.getId().toString()), false);
+            return new TokenResponse(jwtTokenProvider.createToken(memberUpdateResponse.getId().toString()), false);
         }
         return new TokenResponse(accessToken, true);
     }
@@ -62,9 +61,7 @@ public class AuthService {
         GoogleUserDto userDto = googleClient.requestUserInfo(accessToken);
 
         Optional<Member> member = memberService.findByEmail(userDto.getEmail());
-        return member.map(it -> new TokenResponse(
-                jwtTokenProvider.createToken(it.getId().toString()),
-                false))
+        return member.map(it -> new TokenResponse(jwtTokenProvider.createToken(it.getId().toString()), false))
             .orElseGet(() -> new TokenResponse(accessToken, true));
     }
 
@@ -79,8 +76,7 @@ public class AuthService {
             existingWorkspace.updateName(userInfo.getTeamName());
             return existingWorkspace;
         }
-        return workspaceRepository.save(
-            new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
+        return workspaceRepository.save(new Workspace(null, userInfo.getTeamId(), userInfo.getTeamName(), null));
     }
 
     public void installSlackApp(String code) {

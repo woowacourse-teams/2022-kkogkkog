@@ -24,7 +24,7 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponMeetingData;
 import com.woowacourse.kkogkkog.coupon.application.dto.AcceptedCouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponMemberResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponsResponse;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.presentation.dto.AcceptedCouponsResponse;
 import com.woowacourse.kkogkkog.documentation.support.DocumentTest;
 import java.time.LocalDateTime;

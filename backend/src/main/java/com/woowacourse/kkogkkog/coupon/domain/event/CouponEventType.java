@@ -1,7 +1,8 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.event;
 
 import com.woowacourse.kkogkkog.common.exception.ForbiddenException;
 import com.woowacourse.kkogkkog.common.exception.InvalidRequestException;
+import com.woowacourse.kkogkkog.coupon.domain.CouponType;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import java.util.function.BiConsumer;
 

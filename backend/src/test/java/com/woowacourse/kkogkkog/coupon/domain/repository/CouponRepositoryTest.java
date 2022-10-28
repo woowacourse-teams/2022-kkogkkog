@@ -8,10 +8,10 @@ import static com.woowacourse.kkogkkog.support.fixture.domain.WorkspaceFixture.K
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEventType;
-import com.woowacourse.kkogkkog.coupon.domain.CouponState;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
 import com.woowacourse.kkogkkog.member.domain.repository.MemberRepository;

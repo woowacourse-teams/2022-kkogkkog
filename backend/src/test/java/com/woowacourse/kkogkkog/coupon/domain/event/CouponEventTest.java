@@ -1,6 +1,6 @@
-package com.woowacourse.kkogkkog.coupon.domain;
+package com.woowacourse.kkogkkog.coupon.domain.event;
 
-import static com.woowacourse.kkogkkog.coupon.domain.CouponEventType.REQUEST;
+import static com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType.REQUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

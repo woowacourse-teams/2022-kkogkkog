@@ -2,9 +2,9 @@ package com.woowacourse.kkogkkog.coupon.application;
 
 import com.woowacourse.kkogkkog.coupon.application.dto.*;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
-import com.woowacourse.kkogkkog.coupon.domain.CouponEvent;
+import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
-import com.woowacourse.kkogkkog.coupon.domain.CouponStatus;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
@@ -40,8 +40,7 @@ public class CouponService {
         if (!coupon.isSenderOrReceiver(member)) {
             throw new CouponNotAccessibleException();
         }
-        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(
-            couponId);
+        List<CouponHistory> couponHistories = couponHistoryRepository.findAllByCouponIdOrderByCreatedTimeDesc(couponId);
         return CouponDetailResponse.of(coupon, couponHistories);
     }
 

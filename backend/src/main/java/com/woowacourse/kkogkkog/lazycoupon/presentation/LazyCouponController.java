@@ -29,31 +29,27 @@ public class LazyCouponController {
     @GetMapping("/status")
     public ResponseEntity<LazyCouponsResponse> showAll(@LoginMemberId Long loginMemberId,
                                                        @RequestParam("type") String status) {
-        List<LazyCouponResponse> lazyCoupons = lazyCouponService.findAllBySender(loginMemberId,
-            status);
+        List<LazyCouponResponse> lazyCoupons = lazyCouponService.findAllBySender(loginMemberId, status);
         return ResponseEntity.ok(new LazyCouponsResponse(lazyCoupons));
     }
 
     @GetMapping("/{lazyCouponId}")
     public ResponseEntity<LazyCouponResponse> showById(@LoginMemberId Long loginMemberId,
                                                        @PathVariable Long lazyCouponId) {
-        LazyCouponResponse response = lazyCouponService.findById(
-            loginMemberId, lazyCouponId);
+        LazyCouponResponse response = lazyCouponService.findById(loginMemberId, lazyCouponId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/code")
     public ResponseEntity<LazyCouponResponse> showByCouponCode(@RequestParam String couponCode) {
-        LazyCouponResponse response = lazyCouponService.findByCouponCode(
-            couponCode);
+        LazyCouponResponse response = lazyCouponService.findByCouponCode(couponCode);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<LazyCouponsResponse> save(@LoginMemberId Long loginMemberId,
                                                     @RequestBody LazyCouponCreateRequest request) {
-        List<LazyCouponResponse> responses = lazyCouponService.save(
-            request.toLazyCouponSaveRequest(loginMemberId));
+        List<LazyCouponResponse> responses = lazyCouponService.save(request.toLazyCouponSaveRequest(loginMemberId));
         return ResponseEntity.created(null).body(new LazyCouponsResponse(responses));
     }
 
@@ -70,5 +66,4 @@ public class LazyCouponController {
         lazyCouponService.delete(loginMemberId, lazyCouponId);
         return ResponseEntity.ok().build();
     }
-
 }

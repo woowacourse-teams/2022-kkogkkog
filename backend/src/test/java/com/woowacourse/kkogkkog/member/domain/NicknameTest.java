@@ -39,18 +39,4 @@ class NicknameTest {
                 .isInstanceOf(InvalidRequestException.class);
         }
     }
-
-    @Nested
-    @DisplayName("ofRandom 정적 팩토리 메서드는")
-    class OfRandom {
-
-        @Test
-        @DisplayName("'형용사동물명'이라는 형식의 닉네임을 생성한다.")
-        void success() {
-            Nickname nickname = Nickname.ofRandom();
-            String actual = nickname.getValue();
-
-            assertThat(actual).matches("^[가-힣a-zA-Z0-9]{1,6}$");
-        }
-    }
 }
