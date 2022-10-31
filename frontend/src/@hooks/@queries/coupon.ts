@@ -128,20 +128,13 @@ export const useChangeCouponStatusMutation = (id: number) => {
   return useMutation(changeCouponStatus, {
     onSuccess() {
       const isSent = coupon?.sender.id === me?.id;
+      const couponListTypeKey = isSent ? QUERY_KEY.sent : QUERY_KEY.received;
 
       queryClient.invalidateQueries([QUERY_KEY.coupon, id]);
-
-      if (isSent) {
-        queryClient.invalidateQueries([QUERY_KEY.reservationList]);
-        queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.sent]);
-        queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.sent]);
-
-        return;
-      }
-
       queryClient.invalidateQueries([QUERY_KEY.reservationList]);
-      queryClient.invalidateQueries([QUERY_KEY.couponList, QUERY_KEY.received]);
-      queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, QUERY_KEY.received]);
+
+      queryClient.invalidateQueries([QUERY_KEY.couponList, couponListTypeKey]);
+      queryClient.invalidateQueries([QUERY_KEY.couponListByStatus, couponListTypeKey]);
     },
     onMutate() {
       showLoading();
