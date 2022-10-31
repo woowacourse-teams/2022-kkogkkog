@@ -23,7 +23,7 @@ const QUERY_KEY = {
   me: 'me',
   userList: 'userList',
   userHistoryList: 'userHistoryList',
-};
+} as const;
 
 /** Query */
 export const useFetchMe = () => {

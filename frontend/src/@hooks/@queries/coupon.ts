@@ -32,7 +32,7 @@ const QUERY_KEY = {
   READY: 'READY',
   ACCEPTED: 'ACCEPTED',
   FINISHED: 'FINISHED',
-};
+} as const;
 
 export const useFetchCoupon = (id: number) => {
   const { data } = useQuery([QUERY_KEY.coupon, id], () => getCoupon(id), {

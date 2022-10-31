@@ -21,7 +21,7 @@ const QUERY_KEY = {
   ISSUED: 'ISSUED',
   REGISTERED: 'REGISTERED',
   EXPIRED: 'EXPIRED',
-};
+} as const;
 
 export const useFetchUnregisteredCouponById = (id: number) => {
   const { data, isLoading } = useQuery(
