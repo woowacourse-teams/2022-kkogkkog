@@ -190,8 +190,6 @@ class CouponServiceTest {
         @Test
         @DisplayName("받은 사람의 ID와 쿠폰의 상태를 통해, 해당 ID로 보낸 쿠폰 리스트 중 상태가 일치하는 리스트를 반환한다.")
         void success_withStatus() {
-            List<Coupon> all = couponRepository.findAll();
-            System.out.println("all = " + all);
             CouponsResponse actual = couponService.findAllByReceiver(receiver.getId(),
                 CouponStatus.REQUESTED.name(), PageRequest.of(0, 5));
 
