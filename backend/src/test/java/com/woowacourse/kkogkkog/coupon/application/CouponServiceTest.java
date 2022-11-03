@@ -20,13 +20,13 @@ import com.woowacourse.kkogkkog.coupon.application.dto.CouponResponse;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponSaveRequest;
 import com.woowacourse.kkogkkog.coupon.application.dto.CouponsResponse;
 import com.woowacourse.kkogkkog.coupon.domain.Coupon;
+import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
 import com.woowacourse.kkogkkog.coupon.domain.event.CouponEvent;
 import com.woowacourse.kkogkkog.coupon.domain.event.CouponEventType;
-import com.woowacourse.kkogkkog.coupon.domain.CouponHistory;
-import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
-import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponHistoryRepository;
 import com.woowacourse.kkogkkog.coupon.domain.repository.CouponRepository;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponState;
+import com.woowacourse.kkogkkog.coupon.domain.state.CouponStatus;
 import com.woowacourse.kkogkkog.coupon.exception.CouponNotAccessibleException;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.domain.Workspace;
@@ -119,6 +119,7 @@ class CouponServiceTest {
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
+            couponRepository.save(coupon);
         }
 
         @Test
@@ -168,6 +169,7 @@ class CouponServiceTest {
             coupon.changeState(
                 new CouponEvent(CouponEventType.REQUEST, LocalDateTime.now().plusDays(1)),
                 receiver);
+            couponRepository.save(coupon);
         }
 
         @Test
