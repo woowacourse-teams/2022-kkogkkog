@@ -8,15 +8,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@Transactional
+@SpringBootTest
 @ExtendWith(DataClearExtension.class)
 @Import(TestConfig.class)
 public @interface ApplicationTest {
+
 }
