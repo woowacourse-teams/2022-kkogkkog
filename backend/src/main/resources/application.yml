@@ -15,6 +15,7 @@ spring:
     password:
     hikari:
       maximum-pool-size: 10
+      connection-timeout: 3000
   flyway:
     enabled: false
 
