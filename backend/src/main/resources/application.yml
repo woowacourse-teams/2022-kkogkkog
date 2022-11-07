@@ -13,8 +13,12 @@ spring:
     url: jdbc:h2:mem:kkogkkog-test;MODE=MYSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 3000
   flyway:
     enabled: false
+
 
 logging:
   level:
@@ -43,4 +47,10 @@ security:
     client-secret: "111111-111111111-11111111"
     redirect:
       login: "http://localhost:3000/login/google/redirect"
+
+server:
+  tomcat:
+    threads:
+      max: 10
+    accept-count: 10
 
