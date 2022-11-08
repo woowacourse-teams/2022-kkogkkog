@@ -1,4 +1,4 @@
-import { YYYYMMDD } from '@/types/utils';
+import { AddPropertyInUnion, YYYYMMDD } from '@/types/utils';
 
 import {
   Coupon,
@@ -42,11 +42,6 @@ export type SentCouponListResponse = CouponListResponse;
 export type ReceivedCouponListResponse = CouponListResponse;
 export type SentCouponListByStatusResponse = CouponListResponse;
 export type ReceivedCouponListByStatusResponse = CouponListResponse;
-
-type AddPropertyInUnion<
-  T extends Record<PropertyKey, unknown>,
-  K extends Record<PropertyKey, unknown>
-> = T extends unknown ? T & K : never;
 
 export type CouponDetailResponse = AddPropertyInUnion<Coupon, { couponHistories: CouponHistory[] }>;
 

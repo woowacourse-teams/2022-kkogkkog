@@ -20,6 +20,11 @@ export type Elementof<T extends readonly unknown[]> = T[number];
 
 export type Valueof<T extends Record<PropertyKey, unknown>> = T[keyof T];
 
+export type AddPropertyInUnion<
+  T extends Record<PropertyKey, unknown>,
+  K extends Record<PropertyKey, unknown>
+> = T extends unknown ? T & K : never;
+
 export type YYYYMMDD = `${string}-${string}-${string}`;
 export type YYYYMMDD_KR = `${string}년 ${string}월 ${string}일`;
 export type YYYYMMDDhhmmss = `${YYYYMMDD}T${string}:${string}:${string}`;
