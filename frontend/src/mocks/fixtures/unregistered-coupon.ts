@@ -1,7 +1,7 @@
 import { UNREGISTERED_COUPON_STATUS } from '@/types/unregistered-coupon/client';
 import { CreateUnregisteredCouponRequest } from '@/types/unregistered-coupon/remote';
 
-import { Valueof } from './../../types/utils';
+import { Elementof } from './../../types/utils';
 
 export default {
   current: [
@@ -113,7 +113,7 @@ export default {
     };
   },
 
-  addUnregisteredCoupon(unregisteredCoupon: Valueof<typeof this.current>[]) {
+  addUnregisteredCoupon(unregisteredCoupon: Elementof<typeof this.current>[]) {
     this.current = [...this.current, ...unregisteredCoupon];
   },
 };
