@@ -22,7 +22,12 @@ export const couponEvent = [
   'FINISH',
 ] as const;
 
-export const couponStatus = ['REQUESTED', 'READY', 'ACCEPTED', 'FINISHED'] as const;
+export const couponStatus = {
+  REQUESTED: 'REQUESTED',
+  READY: 'READY',
+  ACCEPTED: 'ACCEPTED',
+  FINISHED: 'FINISHED',
+} as const;
 
 export const couponHashtags = [
   '고마워요',
@@ -50,21 +55,28 @@ export type COUPON_HASHTAGS = typeof couponHashtags[number];
 
 export type COUPON_EVENT = typeof couponEvent[number];
 
-export type COUPON_STATUS = typeof couponStatus[number];
+export type COUPON_STATUS = typeof couponStatus[keyof typeof couponStatus];
+export type COUPON_STATUS_WITH_MEETINGDATE = Exclude<COUPON_STATUS, 'READY'>;
 
 export type COUPON_MEETING_DATE = YYYYMMDDhhmmss;
 
-export interface Coupon {
+export type CouponCase<T extends COUPON_STATUS> = {
   id: number;
   sender: Member;
   receiver: Member;
   couponTag: string;
   couponMessage: string;
   couponType: COUPON_ENG_TYPE;
-  couponStatus: COUPON_STATUS;
-  meetingDate: COUPON_MEETING_DATE | null;
+  couponStatus: T;
+  meetingDate: T extends COUPON_STATUS_WITH_MEETINGDATE ? COUPON_MEETING_DATE : null;
   createdTime: YYYYMMDDhhmmss;
-}
+};
+
+export type Coupon =
+  | CouponCase<'ACCEPTED'>
+  | CouponCase<'FINISHED'>
+  | CouponCase<'READY'>
+  | CouponCase<'REQUESTED'>;
 
 export interface CouponHistory {
   id: number;

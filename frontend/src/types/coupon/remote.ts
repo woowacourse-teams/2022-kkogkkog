@@ -1,4 +1,4 @@
-import { YYYYMMDD } from '@/types/utils';
+import { AddPropertyInUnion, YYYYMMDD } from '@/types/utils';
 
 import {
   Coupon,
@@ -43,9 +43,7 @@ export type ReceivedCouponListResponse = CouponListResponse;
 export type SentCouponListByStatusResponse = CouponListResponse;
 export type ReceivedCouponListByStatusResponse = CouponListResponse;
 
-export interface CouponDetailResponse extends Coupon {
-  couponHistories: CouponHistory[];
-}
+export type CouponDetailResponse = AddPropertyInUnion<Coupon, { couponHistories: CouponHistory[] }>;
 
 export interface ReservationListResponse {
   data: Reservation[];
