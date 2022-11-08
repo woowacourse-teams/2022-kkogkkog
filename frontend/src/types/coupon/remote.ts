@@ -43,9 +43,12 @@ export type ReceivedCouponListResponse = CouponListResponse;
 export type SentCouponListByStatusResponse = CouponListResponse;
 export type ReceivedCouponListByStatusResponse = CouponListResponse;
 
-export interface CouponDetailResponse extends Coupon {
-  couponHistories: CouponHistory[];
-}
+type AddPropertyInUnion<
+  T extends Record<PropertyKey, unknown>,
+  K extends Record<PropertyKey, unknown>
+> = T extends unknown ? T & K : never;
+
+export type CouponDetailResponse = AddPropertyInUnion<Coupon, { couponHistories: CouponHistory[] }>;
 
 export interface ReservationListResponse {
   data: Reservation[];
