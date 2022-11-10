@@ -38,7 +38,7 @@
 ![backend](https://user-images.githubusercontent.com/76774809/197915562-d62457b8-1b92-4122-9ff6-2222b0ccca48.png)
 
 ### Infrastructure
-![infra](https://user-images.githubusercontent.com/76774809/197915578-2ef286c5-1cdb-4787-8a7a-67f341b84f9b.png)
+![infra](https://user-images.githubusercontent.com/73531614/200893249-5b9f1cca-b7c7-497c-a229-55a6eea7d982.png)
 
 ### CI/CD
 ![ci:cd](https://user-images.githubusercontent.com/76774809/197916408-938508b9-5273-4b21-b4d3-874079a590d9.png)
