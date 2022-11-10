@@ -53,4 +53,4 @@ server:
     threads:
       max: 10
     accept-count: 10
-
+  shutdown: graceful
