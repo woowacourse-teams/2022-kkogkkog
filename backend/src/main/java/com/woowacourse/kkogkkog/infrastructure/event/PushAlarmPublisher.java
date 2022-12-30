@@ -5,6 +5,7 @@ import com.woowacourse.kkogkkog.infrastructure.domain.WoowacourseUserRepository;
 import com.woowacourse.kkogkkog.member.domain.Member;
 import com.woowacourse.kkogkkog.member.exception.MemberNotFoundException;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +19,7 @@ public class PushAlarmPublisher {
         this.publisher = publisher;
         this.woowacourseUserRepository = woowacourseUserRepository;
     }
-
+    @Async
     public void publishEvent(CouponHistory couponHistory) {
         Member hostMember = couponHistory.getHostMember();
 

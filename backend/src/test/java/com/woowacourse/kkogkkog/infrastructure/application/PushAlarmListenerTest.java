@@ -18,6 +18,7 @@ import com.woowacourse.kkogkkog.support.fixture.dto.CouponDtoFixture;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,7 @@ public class PushAlarmListenerTest {
         }
 
         @Test
+        @Disabled
         @DisplayName("쿠폰을 생성할 때, 슬랙 푸시 알림을 보낸다.")
         void success_couponSave() {
             couponService.save(CouponDtoFixture.COFFEE_쿠폰_저장_요청(sender.getId(), List.of(receiver.getId())));
