@@ -77,16 +77,6 @@ asciidoctor {
     dependsOn test
 }
 
-processResources.dependsOn('copySecret')
-
-task copySecret(type: Copy) {
-    from 'src/main/resources/backend-secret/application-prod.yml'
-    into 'src/main/resources'
-
-    from 'src/main/resources/backend-secret/application-dev.yml'
-    into 'src/main/resources'
-}
-
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     from file("${asciidoctor.outputDir}")
